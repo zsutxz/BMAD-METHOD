@@ -6,6 +6,8 @@ Join in on the [Community Discussion Forum](https://github.com/bmadcode/BMAD-MET
 
 Also check out [Part 1 on the BMad Code YouTube channel](https://youtu.be/JbhiLUY_V2U) - feel free to comment, like, and subscribe also for future videos and updates.
 
+Bonus - check the prompts folder for a set of Google Gemini Gems to use with this workflow! Optional and a totally different fun experience.
+
 ## Overview
 
 The BMad Method is a revolutionary approach to software development that leverages AI-driven processes to accelerate and enhance the entire product development lifecycle. This template provides a structured framework that guides you through generating all necessary artifacts to build a complete application with AI assistance.
