@@ -8,6 +8,8 @@ Also check out [Part 1 on the BMad Code YouTube channel](https://youtu.be/JbhiLU
 
 Bonus - check the prompts folder for a set of Google Gemini Gems to use with this workflow! Optional and a totally different fun experience.
 
+Note: Depending on which tool you use - the prompts folder should be set to be ignored my your LLM codebase indexing (ie with cursor add them to cursorindexingignore) along with the story files potentially.
+
 ## Overview
 
 The BMad Method is a revolutionary approach to software development that leverages AI-driven processes to accelerate and enhance the entire product development lifecycle. This template provides a structured framework that guides you through generating all necessary artifacts to build a complete application with AI assistance.
