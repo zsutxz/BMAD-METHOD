@@ -1,4 +1,4 @@
-# Prompt to Generate the Granular Stories
+# Prompt 8: Optional IDE Generate the Granular Stories from a single file of stories
 
 Depending on which LLM and IDE you are using, you might want to split up your stories file if it is too large for the LLM to handle and you are using a lower context model to keep cost down or remain under free usage tiers. This is not a difficult task for LLM and does not require thought or deep research whatsoever.
 

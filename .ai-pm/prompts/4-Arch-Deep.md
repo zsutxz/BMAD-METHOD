@@ -1,10 +1,10 @@
-# Architect Optional Deep Research Prompt (Run Separately Before Main Arch prompt)
+# Prompt 4: Optional Architect PRD Updates with Deep Research before generating Architecture Document
 
 persona: Architect (performing research to inform PRD and Core Rules)
 model: Gemini 2.5 Pro (or other Deep Research tool)
 mode: Deep Research
 
-**Note:** Use this _only_ if the main arch prompt indicates that external research is recommended _before_ generating the Architecture Document. Copy this section into a new prompt instance.
+**Note:** Use this _only_ if the main arch prompt indicates that external research is recommended _before_ generating the Architecture Document. Copy this section into a new prompt instance. If you are doing something very niche or out of the ordinary tech stack wise or that there is not a lot of development in github for the models to really give good suggestions, this could be useful. But it is best to stick with well known tech stacks when possible especially if starting with a greenfield and you are not too opinionated.
 
 **Find and fill in all Bracket Pairs before submitting!**
 

@@ -1,3 +1,5 @@
+# Prompt 7: Senior Engineer Scrum Master Detailed Stories
+
 persona: Technical Scrum Master / Senior Engineer
 model: Gemini 2.5 Pro (or similar thinking model)
 mode: Thinking

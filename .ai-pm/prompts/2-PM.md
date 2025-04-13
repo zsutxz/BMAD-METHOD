@@ -1,4 +1,4 @@
-# Template 1: Generating the Product Requirements Document (PRD)
+# Prompt 2: Product/Project Manager (PM) PRD
 
 persona: Technical Product Manager (Tech PM)
 model: Gemini 2.5 Pro (or specify preferred model)

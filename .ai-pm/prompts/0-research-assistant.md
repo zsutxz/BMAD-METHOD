@@ -1,7 +1,8 @@
-# External Context Gathering Pre Brainstorming (Optional - Deep Research Prompt)
+# Prompt 0: Market Research Assistant BA
 
 persona: Research Assistant (BA)
-model: Gemini 2.5 Pro Deep Research (or Similar from OpenAI or others)
+model: Gemini 2.5 Pro Deep Research (or Similar from OpenAI, Perplexity or others)
+mode: Deep Research
 
 **Note:** Use this prompt _only_ if you need broad external information _before_ defining the specific product idea. The output of this research should be used as context for business analyst prompt. Use the _same specific product concept_ here as you plan to use in the business analyst prompt
 

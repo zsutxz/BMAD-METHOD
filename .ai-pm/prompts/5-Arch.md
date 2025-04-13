@@ -1,4 +1,4 @@
-# Architect Prompt
+# Prompt 5: Architect Architecture Document
 
 persona: Architect
 model: Gemini 2.5 Pro (or similar thinking capable)

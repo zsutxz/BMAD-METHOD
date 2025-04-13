@@ -1,7 +1,8 @@
-# Prompt: Project Brief Generation
+# Prompt 1: Business Analyst (BA) Brainstorm Project Brief
 
 persona: Business Analyst (BA)
 model: Gemini 2.5 (or other thinking model)
+mode: Thinking
 
 **Note:** Use this prompt to brainstorm and define the specific product idea and MVP scope. If you ran Prompt 0 (Deep Research), provide its output as context below.
 
