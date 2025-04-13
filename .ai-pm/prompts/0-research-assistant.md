@@ -5,6 +5,8 @@ model: Gemini 2.5 Pro Deep Research (or Similar from OpenAI or others)
 
 **Note:** Use this prompt _only_ if you need broad external information _before_ defining the specific product idea. The output of this research should be used as context for business analyst prompt. Use the _same specific product concept_ here as you plan to use in the business analyst prompt
 
+**Find and fill in all Bracket Pairs before submitting!**
+
 ## Prompt Follows:
 
 ### Role

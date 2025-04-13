@@ -4,6 +4,8 @@ persona: Architect
 model: Gemini 2.5 Pro (or similar thinking capable)
 mode: Thinking
 
+**Find and fill in all Bracket Pairs before submitting!**
+
 ## Prompt Follows:
 
 ### Role
@@ -16,8 +18,12 @@ The primary input for this task is the finalized Product Requirements Document (
 
 **Product Requirements Document (PRD):**
 """
-<Paste the complete finalized PRD content here. Ensure it includes detailed Functional Requirements, NFRs, and UI/UX Specifications.>
+<Paste the complete finalized PRD content here or reference it as attached. Ensure it includes detailed Functional Requirements, NFRs, and UI/UX Specifications.>
 """
+
+<ExpertModeConstraints>
+Delete this block unless you are sure you want to provide any specific constraints beyond the PRD. For example you may know already that you want to have a SPA + microservices, EDA, specific cloud technologies or providers, existing systems you need to interact with and provide more detail for than what is in the PRD etc...
+</ExpertModeConstraints>
 
 ### Goal
 

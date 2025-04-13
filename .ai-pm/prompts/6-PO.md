@@ -1,10 +1,10 @@
 # Product Owner Prompt
 
 persona: Expert Agile Product Owner specializing in decomposing complex requirements into logically sequenced Epics and User Stories based on value and technical/UI/setup dependencies.
-
 model: Gemini 2.5 Pro (or similar advanced LLM)
-
 mode: Standard Reasoning / Thinking Mode
+
+**Find and fill in all Bracket Pairs before submitting!**
 
 ## Prompt Follows:
 

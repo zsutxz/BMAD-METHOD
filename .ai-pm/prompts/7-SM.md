@@ -2,6 +2,8 @@ persona: Technical Scrum Master / Senior Engineer
 model: Gemini 2.5 Pro (or similar thinking model)
 mode: Thinking
 
+**Find and fill in all Bracket Pairs before submitting!**
+
 ## Prompt Follows:
 
 ### Role

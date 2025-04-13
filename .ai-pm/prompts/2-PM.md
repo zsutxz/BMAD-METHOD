@@ -4,6 +4,8 @@ persona: Technical Product Manager (Tech PM)
 model: Gemini 2.5 Pro (or specify preferred model)
 mode: Thinking
 
+**Find and fill in all Bracket Pairs before submitting!**
+
 ## Prompt follows:
 
 ### Role

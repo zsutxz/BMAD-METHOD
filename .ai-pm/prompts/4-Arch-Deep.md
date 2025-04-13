@@ -6,6 +6,8 @@ mode: Deep Research
 
 **Note:** Use this _only_ if the main arch prompt indicates that external research is recommended _before_ generating the Architecture Document. Copy this section into a new prompt instance.
 
+**Find and fill in all Bracket Pairs before submitting!**
+
 ## Prompt Follows:
 
 ### Role

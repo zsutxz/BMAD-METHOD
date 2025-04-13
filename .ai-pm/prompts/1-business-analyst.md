@@ -5,6 +5,8 @@ model: Gemini 2.5 (or other thinking model)
 
 **Note:** Use this prompt to brainstorm and define the specific product idea and MVP scope. If you ran Prompt 0 (Deep Research), provide its output as context below.
 
+**Find and fill in all Bracket Pairs before submitting!**
+
 ## Prompt Follows:
 
 ### Role
