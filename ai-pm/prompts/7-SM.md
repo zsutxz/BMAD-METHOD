@@ -42,7 +42,7 @@ Your task is to generate a complete, detailed stories.md file for the AI coding 
 
 ### Output Format
 
-Generate a single Markdown file named stories.md (e.g., `STORY-123.md`) containing the following sections for each story - the story files all need to go into the .ai-pm/1-ToDo/ folder at the root of the project:
+Generate a single Markdown file named stories.md (e.g., `STORY-123.md`) containing the following sections for each story - the story files all need to go into the ai-pm/1-ToDo/ folder at the root of the project:
 
 1.  **Story ID:** `<Story_ID>`
 2.  **Epic ID:** `<Epic_ID>`

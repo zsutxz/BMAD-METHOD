@@ -6,9 +6,11 @@ Join in on the [Community Discussion Forum](https://github.com/bmadcode/BMAD-MET
 
 Also check out [Part 1 on the BMad Code YouTube channel](https://youtu.be/JbhiLUY_V2U) - feel free to comment, like, and subscribe also for future videos and updates.
 
-Bonus - check the prompts folder for a set of Google Gemini Gems to use with this workflow! Optional and a totally different fun experience.
+**Super Quick TLDR:** These are [the prompts](./ai-pm/prompts/) you have been searching for!
 
-Note: Depending on which tool you use - the prompts folder should be set to be ignored my your LLM codebase indexing (ie with cursor add them to cursorindexingignore) along with the story files potentially.
+**Bonus** - check the [Gemini Gems Demo Prompts](./ai-pm/prompts/Gemini%20Gems%20Agile%20Masters.md) for a set of Google Gemini Gems to use with this workflow! Optional and a totally different fun experience.
+
+Note: Depending on which tool you use - the [[prompts folder]](./ai-pm/prompts/) should be set to be ignored my your LLM codebase indexing (ie with cursor add them to .cursorindexingignore - cline and roo may differ).
 
 ## Overview
 
@@ -45,7 +47,7 @@ The BMad Method follows a structured workflow:
 
 ## Prompt Sequence
 
-The `.ai-pm/prompts` folder contains carefully crafted prompts for each phase of development.
+The `ai-pm/prompts` folder contains carefully crafted prompts for each phase of development.
 This is for the most broadly ambitious project MVP - see the simplified prompts
 
 1. **Research Assistant: Analysis** (`0-research-assistant.md`): Optional deep research on your product concept
@@ -74,7 +76,7 @@ Recommend checking out this video series starting with [Part 1 on the BMad Code 
 But the **Quick and Dirt**y is:
 
 1. Clone this project
-2. Start with the first prompt in `.ai-pm/prompts/0-research-assistant.md` (or skip to 1 if research isn't needed)
+2. Start with the first prompt in `ai-pm/prompts/0-research-assistant.md` (or skip to 1 if research isn't needed)
 3. Follow each prompt in sequence, providing output from previous steps as context to the new prompt when indicated in the current prompt
 4. Once all stories are drafted by the final prompts of the SM, move generated stories through the Kanban folders as they are implemented - meaning drag the first story to InProgress, start a Agent chat and direct it to that story. Optionally, use the sample workflow (coming soon) to automate (I prefer the manual nature of dragging each item).
 5. Track progress until all stories are in the `3-Done` folder
@@ -87,7 +89,7 @@ If you have a subscription to one of those or even free tier access to the best 
 
 Similar idea if you use the optional UX prompt, take advantage of free tier V0 or similar products to past in the produce prompt to quick start complex UI's.
 
-Either way, ensure you are adding all of the artifacts to the .ai-pm folder (or another folder of your choice) for your new project.
+Either way, ensure you are adding all of the artifacts to the ai-pm folder (or another folder of your choice) for your new project.
 
 ## Future Enhancements
 

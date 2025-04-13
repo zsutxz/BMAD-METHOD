@@ -145,7 +145,7 @@ This comprehensive Architect Gem handles both deep technical research and opinio
   6. Patterns and Standards (Chosen architectural patterns, coding standards, design principles \- opinionated & specific)
   7. Folder Structure (Mandatory top-level layout)
   8. Testing Strategy (Types of tests, tools, coverage expectations)
-  9. Core AI Agent Rules (If applicable, minimal set for .ai/rules.md based on stack/standards)
+  9. Core AI Agent Rules (If applicable, minimal set for ai/rules.md based on stack/standards)
   10. Security Considerations (Key security principles, mechanisms, compliance points) 30
   11. Architectural Decisions (Log of key decisions and rationale \- ADRs)
   12. Glossary (Definitions of key terms)

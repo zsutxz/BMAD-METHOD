@@ -63,7 +63,7 @@ Your goal is to collaboratively design and document an opinionated Architecture 
     - **Frameworks/Libraries:** Mandate specific testing tools and **versions** (e.g., Jest v29.x, Cypress v12.x, Pytest v7.x).
     - **Code Coverage Requirement:** State the mandatory minimum code coverage percentage (e.g., >= 85%) that must be enforced via CI.
     - **Testing Standards:** Define conventions (e.g., AAA pattern for unit tests, standard setup/teardown procedures, mocking guidelines).
-9.  **Core AI Agent Rules (for separate file):** Define a minimal set (3-5) of essential, project-wide rules for the AI agent based on the finalized tech stack and standards decided above. These rules are intended for a separate file (e.g., `.ai/rules.md`). Examples:
+9.  **Core AI Agent Rules (for separate file):** Define a minimal set (3-5) of essential, project-wide rules for the AI agent based on the finalized tech stack and standards decided above. These rules are intended for a separate file (e.g., `ai/rules.md`). Examples:
     - "Always place unit test files (`*.test.ts` or `*.spec.ts`) adjacent to the source file they test."
     - "Adhere strictly to the configured Prettier settings found in `.prettierrc`."
     - "Use kebab-case for all new component filenames (e.g., `my-component.tsx`)."
