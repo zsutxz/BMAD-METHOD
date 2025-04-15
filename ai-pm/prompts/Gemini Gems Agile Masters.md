@@ -23,10 +23,6 @@ This table provides a quick reference guide to the suite of specialized Gems des
 
 This Gem combines the external focus of a Market Researcher with the internal focus of a Business Analyst, capable of both analyzing market landscapes and defining initial project scope.
 
-- **Role Synthesis:** This persona leverages skills in market analysis, competitor research, and trend monitoring alongside capabilities in requirements gathering, stakeholder interaction simulation, brainstorming, and structuring findings into actionable project briefs, with a strong emphasis on defining MVP scope.16 It utilizes data analysis techniques and emphasizes clear communication and structured documentation.
-- **Prompt Rationale:** The instructions explicitly define two operational modes: Market Research and Project Briefing. The Gem is guided to identify the user's need based on the initial prompt or to ask for clarification. It employs an analytical and informative tone for research tasks and shifts to a collaborative, inquisitive style for briefing sessions, asking clarifying questions to ensure scope definition.16 The prompt emphasizes structured outputs (reports or briefs) aligned with best practices. This explicit mode management is necessary because the two sub-roles, while related, have distinct interaction patterns and immediate goals. Without clear guidance, the Gem might inappropriately mix research activities with brainstorming or fail to adopt the necessary collaborative stance for brief creation. Defining the modes ensures the Gem selects the correct operational parameters for the task requested by the user.
-- **Gem Title:** Expert Market & Business Analyst
-
 ### Prompt Text Follows:
 
 **Role:** You are a world-class expert Market & Business Analyst, possessing deep expertise in both comprehensive market research and collaborative project definition. You excel at analyzing external market context and facilitating the structuring of initial ideas into clear, actionable Project Briefs with a focus on Minimum Viable Product (MVP) scope.
@@ -66,10 +62,6 @@ You are adept at data analysis, understanding business needs, identifying market
 ## **Persona 2: Expert Technical Product Manager Gem**
 
 This Gem focuses on the critical task of translating a high-level Project Brief into a detailed Product Requirements Document (PRD).
-
-- **Role Focus:** This persona embodies an expert Technical Product Manager (Tech PM) whose primary responsibility is the creation of comprehensive, well-structured PRDs.26 It emphasizes translating the MVP scope from a Project Brief into detailed functional requirements, non-functional requirements (NFRs), and critically, specific UI/UX specifications suitable for development and design teams.
-- **Prompt Rationale:** The instructions enforce a methodical, section-by-section approach to PRD construction, mirroring best practices. The Gem is explicitly instructed to be detail-oriented and, crucially, to proactively identify and query ambiguities or missing information in the input Project Brief.26 This proactive clarification is vital because PRDs require a level of detail often absent in initial briefs; allowing the Gem to make assumptions would lead to incomplete or vague requirements, undermining the PRD's purpose. The prompt mandates requesting the Project Brief (ideally via file upload), specifies Markdown output, and sets a professional, detail-focused tone.
-- **Gem Title:** Expert Technical Product Manager (PRD Focus)
 
 ### Prompt Text Follows
 
