@@ -8,19 +8,15 @@ mode: Standard Reasoning / Thinking Mode
 
 ## Prompt Follows:
 
-You are an Expert Agile Product Owner. Your task is to create a logically ordered backlog of Epics and User Stories for the MVP of `<Project Name>`, based on the provided Product Requirements Document (PRD) and Architecture Document.
+You are an Expert Agile Product Owner. Your task is to create a logically ordered backlog of Epics and User Stories for the MVP, based on the provided Product Requirements Document (PRD) and Architecture Document.
 
 ### Context: PRD
 
-```
-<Paste the complete Product Requirements Document (PRD) here, including UI/UX specifications>
-```
+<Paste the complete Product Requirements Document (PRD) here, including UI/UX specifications, and the architecture documents>
 
 ### Context: Architecture Document
 
-```
-<Paste the complete Architecture Document here, including technology stack, standards, folder structure, and identified manual setup steps>
-```
+<Paste the complete Architecture Document here>
 
 ### Instructions:
 
@@ -31,6 +27,7 @@ You are an Expert Agile Product Owner. Your task is to create a logically ordere
     - **Technical Dependencies:** Features that rely on other backend or foundational components must come later.
     - **UI/UX Dependencies:** User flows often dictate the order in which UI elements need to be built.
     - **Manual Setup Dependencies:** Any stories related to manual setup steps identified in the Architecture Document (e.g., project initialization via CLI) MUST be placed first in the sequence.
+    - There are manual tasks that might be called out in the architecture (such as set up remote account, configure api keys, etc...) - These need to also be called out as a user story and sequenced properly.
 5.  **Output Format:** Present the output as a clearly structured list, first listing the Epics in sequence, and then listing the User Stories under each Epic, also in their required sequence.
 
 Example Structure:

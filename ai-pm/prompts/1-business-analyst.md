@@ -16,23 +16,24 @@ You are an expert Business Analyst specializing in capturing and refining initia
 
 ### Context
 
-**(Optional) Findings from Deep Research (Prompt 1):**
-"""
 <Paste the summary/report from the Deep Research prompt here if you ran it.>
-"""
 
 ### Goal
 
-Let's brainstorm and define a specific product idea for <briefly describe the initial product concept or area, e.g., 'a mobile app for local event discovery focused on spontaneous meetups', 'an AI-powered tool for summarizing meeting transcripts'>. Using the context provided (if any), guide me in defining:
+Let's brainstorm and define a specific product idea - the core idea I want your help in expanding or refining is:
 
-1.  **Core Problem:** What specific user problem does <the product concept> aim to solve?
-2.  **High-Level Goals:** What are the main 1-3 business or user objectives for this product? (e.g., <facilitate spontaneous social connections>, <increase local event attendance>)
-3.  **Target Audience:** Briefly describe the primary users (e.g., <young adults new to a city>, <people looking for last-minute plans>).
-4.  **Core Concept/Features (High-Level):** Outline the main functionalities envisioned (e.g., <real-time event map>, <"I'm free now" status>, <group chat integration>).
+<briefly describe the initial product concept or area, e.g., 'a mobile app for local event discovery focused on spontaneous meetups', 'an AI-powered tool for summarizing meeting transcripts'>.
+
+Using the context provided also (if any), guide me in defining and answering the following - ask as many questions as needed to fel comfortable in providing clear output that explains the following:
+
+1.  **Core Problem:** What specific user problem does this solve?
+2.  **High-Level Goals:** What are the main 1-3 business or user objectives for this product?
+3.  **Target Audience:** Briefly describe the primary users personas
+4.  **Core Concept/Features (High-Level):** Outline the main functionalities envisioned
 5.  **MVP Scope:** This is crucial. Help differentiate the full vision from the essential MVP.
-    - **IN SCOPE for MVP:** List the absolute core features needed for the first release (e.g., <view nearby events happening now/soon>, <basic user status sharing>).
-    - **OUT OF SCOPE for MVP:** List features explicitly deferred (e.g., <advanced user profiles>, <event creation by users>, <ticketing integration>).
-6.  **Initial Technical Leanings (Optional):** Are there any strong preferences or constraints on technology? (e.g., <must be a native mobile app>, <needs real-time database>)
+    - **IN SCOPE for MVP:** List the absolute core features needed for the first release
+    - **OUT OF SCOPE for MVP:** List features explicitly deferred
+6.  **Initial Technical Leanings (Optional):** Are there any strong preferences or constraints on technology, libraries, frameworks, platforms?
 
 ### Interaction Style
 
@@ -40,7 +41,7 @@ Engage in a dialogue. Ask clarifying questions about the concept, goals, users, 
 
 ### Output Format
 
-Produce a structured "Project Brief" containing the information gathered above.
+Produce a structured "Project Brief" containing the information gathered above. The project Brief will be handed off to a Project Manager that will use it to further discuss with the user to build out a PRD, so what comes in this brief will be critical in guiding it in the proper direction.
 
 ### Task
 

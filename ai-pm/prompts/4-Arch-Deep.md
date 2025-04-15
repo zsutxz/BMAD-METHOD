@@ -6,7 +6,7 @@ mode: Deep Research
 
 **Note:** Use this _only_ if the main arch prompt indicates that external research is recommended _before_ generating the Architecture Document. Copy this section into a new prompt instance. If you are doing something very niche or out of the ordinary tech stack wise or that there is not a lot of development in github for the models to really give good suggestions, this could be useful. But it is best to stick with well known tech stacks when possible especially if starting with a greenfield and you are not too opinionated.
 
-**Find and fill in all Bracket Pairs before submitting!**
+**Find and fill in the specifics for the deep research prompt!**
 
 ## Prompt Follows:
 
@@ -52,7 +52,7 @@ You would typically run this prompt _before_ the main Architecture Document gene
 - **Integration Feasibility:** Investigating external system APIs or integration patterns.
 - **Core AI Rule Investigation:** Researching established best practices, common linting/formatting rules, or effective AI directives for the anticipated technology stack to inform the Core AI Agent Rules definition.
 
-**Do not run this prompt** if the PRD is well-defined and relies on established technologies, patterns, and standards familiar to the team.
+**Do not run this prompt** if the PRD is well-defined and relies on established technologies, patterns, and standards the architect ai can handle or you can guide.
 
 ### Output Format
 

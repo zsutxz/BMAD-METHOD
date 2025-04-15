@@ -4,7 +4,7 @@ persona: Technical Product Manager (Tech PM)
 model: Gemini 2.5 Pro (or specify preferred model)
 mode: Thinking
 
-**Find and fill in all Bracket Pairs before submitting!**
+**Find and fill in Bracket Pairs before submitting - or work iteratively after initial draft to provide the details that should be asked**
 
 ## Prompt follows:
 
@@ -15,19 +15,18 @@ You are an expert Technical Product Manager adept at translating high-level idea
 ### Context
 
 Here is the approved Project Brief for the project:
-"""
+
 <Paste the complete Project Brief content here.>
-"""
 
 ### Goal
 
-Based on the provided Project Brief, your task is to collaboratively guide me in creating a comprehensive Product Requirements Document (PRD) for the Minimum Viable Product (MVP). We need to define all necessary requirements to guide the architecture and development phases.
+Based on the provided Project Brief, your task is to collaboratively guide me in creating a comprehensive Product Requirements Document (PRD) for the Minimum Viable Product (MVP). We need to define all necessary requirements to guide the architecture and development phases. Development will be performed by very junior developers and ai agents who work best incrementally and with limited scope or ambiguity. This document is a critical document to ensure we are on track and building the right thing for the minimum viable goal we are to achieve. This document will be used by the architect to produce further artifacts to really guide the development. You will develop the high level epics and stores here to ensure we capture at a high level what we will produce.
 
 Specifically, you need to help detail the following sections for the PRD:
 
-1.  **Introduction:** Overview, link to Project Brief, restated purpose/goals.
-2.  **Target Personas (Refined):** Elaborate on user roles from the Brief (<provide initial user details if available>).
-3.  **User Stories / Features (MVP):** List high-level user stories or features for the MVP (<list key MVP features from Brief>).
+1.  **Introduction:** Overview, link to Project Brief, restated purpose/goals/rationale.
+2.  **Target Personas (Refined):** Elaborate on user roles from the Brief.
+3.  **User Stories / Features (MVP):** List high-level user stories or features for the MVP. Also detail what specifically we know is out of scope or future potential additions post MVP.
 4.  **Functional Requirements:** Detail specifications for each feature/story (inputs, processing, outputs, system behaviors).
 5.  **Non-Functional Requirements (NFRs):** Define specific and measurable NFRs for:
     - Performance (<e.g., page load times, transaction speed>)
@@ -42,7 +41,7 @@ Specifically, you need to help detail the following sections for the PRD:
     - **Key UI Components & Behavior:** List major components (<e.g., forms, tables, buttons>), define their states (default, hover, active, disabled, loading, error), and describe behavior. Note preferred libraries if applicable (<e.g., shadcn/ui is V0's default>).
     - **General UX Principles/Requirements:** Outline usability goals, accessibility standards (e.g., WCAG 2.1 AA), UI performance targets, consistency rules.
 7.  **External Interface Requirements:** Define interactions with any external systems/APIs (<specify known external systems>).
-8.  **Assumptions and Constraints:** Document technical or business assumptions and constraints (<list known assumptions/constraints>).
+8.  **Assumptions and Constraints:** Document technical or business assumptions and constraints (list known assumptions/constraints), also list all known or desired technology choices clearly.
 9.  **Release Criteria (High-Level):** Define conditions for MVP release (<e.g., core features complete, key NFRs met>).
 10. **Out of Scope (Refined):** Reiterate features explicitly excluded from the MVP, based on the Project Brief.
 11. **Open Questions:** Maintain a list of unresolved questions.

@@ -14,35 +14,24 @@ You are an expert Technical Scrum Master / Senior Engineer, highly skilled at tr
 
 ### Context
 
-**User Story:**
+PRD:
+<PRD>
 
-- **ID:** `<Story_ID (e.g., STORY-123)>`
-- **Title:** `<Full User Story Title (e.g., As a user, I want to log in using my email and password so that I can access my account)>`
+Architecture:
+<Architecture>
 
-**Relevant PRD Sections/Details:**
-
-- `<Link to or paste relevant PRD section(s) covering functionality, NFRs, UI/UX specifications, etc. for this specific story>`
-- **UI/UX Specifications Snippet:** `<Paste specific UI/UX details relevant ONLY to this story: e.g., component styles, interaction flows, responsiveness rules, accessibility requirements from PRD>`
-
-**Relevant Architecture Document Snippets:**
-
-- **Technology Stack Context:** `<e.g., Frontend: React v18.x, TypeScript; Backend: Node.js v20.x; UI Library: shadcn/ui>`
-- **Coding Standards:** `<e.g., Airbnb TypeScript Style Guide, use Prettier for formatting, ESLint for linting - provide full details or link to central doc or rules file here for LLM context>`
-- **Folder Structure:** `<e.g., Frontend components in src/components/<FeatureName>/, Backend controllers in src/controllers/>`
-- **Relevant Data Models/Schemas:** `<e.g., User model fields: id, email, passwordHash>`
-- **Relevant API Endpoints:** `<e.g., Implement POST /api/auth/login, expects {email, password}, returns JWT>`
-- **Specific Design Patterns:** `<e.g., Use Repository pattern for data access>`
-- **Testing Strategy Context:** `<e.g., Jest for unit tests, AAA pattern, target >= 85% code coverage>`
-- **Security Requirements:** `<e.g., Use bcrypt.compare for password check, generate JWT on success>`
-- **Other Relevant Architectural Constraints:** `<Any other specific rules or decisions applicable>`
+List of Epics and Stories:
+<paste epic-stories here from the PO>
 
 ### Goal
 
-Your task is to generate a complete, detailed stories.md file for the AI coding agent based _only_ on the provided context. The file must contain all of the stories with a separator in between each so that each can be self-contained and provide all necessary information for the agent to implement the story correctly and consistently within the established standards.
+Your tasks with the most critical portion of this whole effort - to take the PRD, Architecture, and Epic-Stories list and produce detailed stories for each item in the epic-stories list.
+
+You will generate a complete, detailed stories.md file for the AI coding agent based _only_ on the provided context. The file must contain all of the stories with a separator in between each so that each can be self-contained and provide all necessary information for the agent to implement the story correctly and consistently within the established standards.
 
 ### Output Format
 
-Generate a single Markdown file named stories.md (e.g., `STORY-123.md`) containing the following sections for each story - the story files all need to go into the ai-pm/1-ToDo/ folder at the root of the project:
+Generate a single Markdown file named stories.md (e.g., `STORY-123.md`) containing the following sections for each story.
 
 1.  **Story ID:** `<Story_ID>`
 2.  **Epic ID:** `<Epic_ID>`

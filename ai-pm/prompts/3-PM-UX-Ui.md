@@ -20,11 +20,8 @@ You are an expert UI/UX specialist and prompt engineer, skilled at translating d
 ### Context
 
 Here is the finalized Product Requirements Document (PRD) for the project. Pay close attention to **Section 6: UI/UX Specifications**.
-"""
-<Paste the complete finalized PRD content here.>
-"""
 
-Assume the target component/page to be generated is: **<Specify the target component or page name, e.g., "User Login Form", "Dashboard Sidebar", "Task List Item">**
+<Paste the complete finalized PRD content here.>
 
 ### Goal
 
@@ -56,8 +53,8 @@ Your process should be:
 
 ### Output Format
 
-Generate a single block of text representing the final, optimized prompt ready to be copied and pasted into V0 for the specified target component/page. If clarifying questions are needed first, output _only_ the questions.
+Generate a single block of text representing the final, optimized prompt ready to be copied and pasted into V0 for the specified target UX/UI. If clarifying questions are needed first, output _only_ the questions.
 
 ### Task
 
-Analyze the provided PRD for the target component/page: **<Re-specify the target component or page name here>**. Ask clarifying questions if needed. If the PRD is sufficient, generate the optimized V0 prompt.
+Analyze the provided PRD for the target UX/UI needed for MVP. Ask clarifying questions if needed. If the PRD is sufficient, generate the optimized V0 prompt.
