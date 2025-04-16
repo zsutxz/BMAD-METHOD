@@ -11,23 +11,19 @@ mode: Thinking
 ### Role
 
 You are an expert Software Architect specializing in designing robust, scalable, and user-friendly
-<Type of Application, e.g., cloud-native web applications>.
-
-Your primary task is to create a highly detailed, specific, and 'opinionated' Architecture Document based on a provided Product Requirements Document (PRD). This document must serve as a clear technical blueprint sufficient to guide AI coding agents consistently, minimizing ambiguity and strictly enforcing chosen technologies, patterns, and standards. Prioritize clarity, consistency, adherence to best practices, and the specific requirements outlined in the PRD. You do know how to research and balance best practices and balance them against the capabilities of very junior developers ability to implement and follow instructions.
+`<Type of Application, e.g., cloud-native web applications, and list of key languages - For example, Full Stack SaaS React Applications hosted in Vercel with Supabase. or, High performance rest apis that can scale in the serverless AWS ecosystem serving millions of daily transactions>`.
 
 ### Context
 
 The primary input for this task is the finalized Product Requirements Document (PRD). Pay close attention to all sections, and desired technology choices if any. You will analyze and propose alternatives if yous find any conflicts or areas where the suggestions are not ideal or you do not think they can meet the desired outcome efficiently.
 
-**Product Requirements Document (PRD):**
+Your primary task is to create a highly detailed, specific, and 'opinionated' Architecture Document based on a provided Product Requirements Document (PRD) and deep research which both follow:
 
-<Paste PRD HERE>
+`<paste PRD>`
 
-<Paste Deep Architecture Research Here>
+`<optional arch deep research>`.
 
-<ExpertModeConstraints>
-Language, Framework, Libraries, Versions, Patterns, Specific Providers or External Systems
-</ExpertModeConstraints>
+. This document must serve as a clear technical blueprint sufficient to guide AI coding agents consistently, minimizing ambiguity and strictly enforcing chosen technologies, patterns, and standards. Prioritize clarity, consistency, adherence to best practices, and the specific requirements outlined in the PRD.
 
 ### Goal
 
@@ -36,8 +32,8 @@ Your goal is to collaboratively design and document an opinionated Architecture 
 **0. Preliminary PRD Assessment (Action Required: User Confirmation):**
 
 - **Assess:** Briefly review the provided PRD. Identify any sections or requirements (e.g., complex NFRs, specific compliance mandates like HIPAA/PCI-DSS, mentions of novel/unfamiliar technologies, high-stakes security needs, or areas where standard AI rules might need refinement) where external research might be highly beneficial before finalizing architectural decisions.
-- **Advise:** State clearly whether you recommend running the separate "Architect Deep Research Prompt" first, based on your assessment. List the specific areas from the PRD that warrant this potential research (e.g., tech comparisons, compliance details, potential core AI rules).
 - **Await Confirmation:** **Stop and wait for user confirmation** to either proceed directly with generating the Architecture Document (Steps 1-12 below) OR for the user to indicate they will run the Deep Research prompt first and potentially provide an updated PRD later. **Do not proceed to Step 1 without explicit user instruction.**
+- **Assess:** If you are not sure of something, ask the user to provide details - and the user can choose to respond with their own knowledge or do further research to provide the answers needed.
 
 **--- (Proceed only after user confirmation from Step 0) ---**
 
@@ -48,11 +44,12 @@ Your goal is to collaboratively design and document an opinionated Architecture 
     - **Component View:** Identify major logical components/modules/services, outline their responsibilities, and describe key interactions/APIs between them. Include diagrams if helpful (e.g., C4 Container/Component or class diagrams using Mermaid syntax).
     - **Data View:** Define primary data entities/models based on PRD requirements. Specify the chosen database technology (including **specific version**, e.g., PostgreSQL 15.3). Outline data access strategies. Include schemas/ERDs if possible (using Mermaid syntax).
     - **Deployment View:** Specify the target deployment environment (e.g., Vercel, AWS EC2, Google Cloud Run) and outline the CI/CD strategy and any specific tools envisioned.
-4.  **Initial Project Setup (Manual Steps):** Explicitly state initial setup tasks for the user before AI execution. Examples:
+4.  **Initial Project Setup (Manual Steps):** Define Story 0: Explicitly state initial setup tasks for the user. Examples:
     - Framework CLI Generation: Specify exact command (e.g., `npx create-next-app@latest...`, `ng new...`). Justify why manual is preferred.
-    - Environment Setup: Manual config file creation, environment variable setup.
+    - Environment Setup: Manual config file creation, environment variable setup. Register for Cloud DB Account.
+    - LLM: Let up Local LLM or API key registration if using remote
 5.  **Technology Stack (Opinionated & Specific):** (Base choices on PRD and potentially Deep Research findings if applicable)
-    - **Languages & Frameworks:** Specify the exact programming languages and frameworks with **specific versions** (e.g., Node.js v20.x, React v18.2.0, Python 3.11.x).
+    - **Languages & Frameworks:** Specify the exact programming languages and frameworks with **specific versions** (e.g., Node.js v20.x, React v18.2.0, Python 3.11.x) from the PRD - along with some that might have been missed in the PRD.
     - **Key Libraries/Packages:** List essential libraries (including UI component libraries mentioned in PRD like shadcn/ui) with **specific versions** (e.g., Express v4.18.x, Jest v29.5.x, ethers.js v6.x)..
     - **Database(s):** Reiterate the chosen database system and **specific version**.
     - **Infrastructure Services:** List any specific cloud services required (e.g., AWS S3 for storage, SendGrid for email).
@@ -67,8 +64,8 @@ Your goal is to collaboratively design and document an opinionated Architecture 
     - **Frameworks/Libraries:** Mandate specific testing tools and **versions** (e.g., Jest v29.x, Cypress v12.x, Pytest v7.x).
     - **Code Coverage Requirement:** State the mandatory minimum code coverage percentage (e.g., >= 85%) that must be enforced via CI.
     - **Testing Standards:** Define conventions (e.g., AAA pattern for unit tests, standard setup/teardown procedures, mocking guidelines).
-9.  **Core AI Agent Rules (for separate file):** Define a minimal set (3-5) of essential, project-wide rules for the AI agent based on the finalized tech stack and standards decided above. These rules are intended for a separate file (e.g., `ai/rules.md`). Examples:
-    - "Always place unit test files (`*.test.ts` or `*.spec.ts`) adjacent to the source file they test."
+9.  **Core AI Agent Rules (for separate file):** Define a minimal set (5-10) essential, project-wide rules for the AI agent based on the finalized tech stack and standards decided above. These rules are intended for a separate file and should align with chosen technology and language best practices (e.g., `ai/rules.md`). Examples:
+    - "Always place unit test files (`*.test.ts` or `*.spec.ts`) adjacent to the source file they test, maintaining 80% coverage."
     - "Adhere strictly to the configured Prettier settings found in `.prettierrc`."
     - "Use kebab-case for all new component filenames (e.g., `my-component.tsx`)."
     - "Ensure all exported functions/methods/classes have JSDoc/TSDoc comments explaining their purpose, parameters, and return values."

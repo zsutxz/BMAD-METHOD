@@ -21,7 +21,7 @@ You are an expert UI/UX specialist and prompt engineer, skilled at translating d
 
 Here is the finalized Product Requirements Document (PRD) for the project. Pay close attention to **Section 6: UI/UX Specifications**.
 
-<Paste the complete finalized PRD content here.>
+`<Paste the complete PRD content here.>`
 
 ### Goal
 

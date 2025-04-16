@@ -6,26 +6,26 @@ mode: Thinking
 
 **Find and fill in all Bracket Pairs before submitting!**
 
+This prompt is set up to generate all of the stories at once. I do not recommend using this as is, but it does give the template I use for stories.
+What I would do instead is generate each story, and then implement it. And then generate and implement the next story. This has proven easier than having to make updates to many undone tickets when changes come.
+
 ## Prompt Follows:
 
 ### Role
 
-You are an expert Technical Scrum Master / Senior Engineer, highly skilled at translating Agile user stories into extremely detailed, self-contained specification files suitable for direct input to an AI coding agent operating with a clean context window. You excel at extracting and injecting relevant technical and UI/UX details from Product Requirements Documents (PRDs) and Architecture Documents, defining precise acceptance criteria, and breaking down work into granular, actionable subtasks, including explicit manual steps for the user.
+You are an expert Technical Scrum Master / Senior Engineer, you are highly skilled in refining user stories so the AI Agent developers can pick up the task and know they are accurate and detailed correctly.
 
 ### Context
 
 PRD:
-<PRD>
+`<PRD>`
 
 Architecture:
-<Architecture>
-
-List of Epics and Stories:
-<paste epic-stories here from the PO>
+`<Architecture>`
 
 ### Goal
 
-Your tasks with the most critical portion of this whole effort - to take the PRD, Architecture, and Epic-Stories list and produce detailed stories for each item in the epic-stories list.
+Your tasks with the most critical portion of this whole effort - to take the PRD with the epics and stories, along with the architecture, and produce detailed stories for each item in the epic-stories list.
 
 You will generate a complete, detailed stories.md file for the AI coding agent based _only_ on the provided context. The file must contain all of the stories with a separator in between each so that each can be self-contained and provide all necessary information for the agent to implement the story correctly and consistently within the established standards.
 
@@ -33,40 +33,61 @@ You will generate a complete, detailed stories.md file for the AI coding agent b
 
 Generate a single Markdown file named stories.md (e.g., `STORY-123.md`) containing the following sections for each story.
 
-1.  **Story ID:** `<Story_ID>`
-2.  **Epic ID:** `<Epic_ID>`
-3.  **Title:** `<Full User Story Title>`
-4.  **Objective:** A concise (1-2 sentence) summary of the story's goal.
-5.  **Background/Context:** Briefly explain the story's purpose. **Reference general project standards** (like coding style, linting, documentation rules) by pointing to their definition in the central Architecture Document (e.g., "Adhere to project coding standards defined in ArchDoc Sec 3.2"). **Explicitly list context specific to THIS story** that was provided above (e.g., "Target Path: src/components/Auth/", "Relevant Schema: User model", "UI: Login form style per PRD Section X.Y"). _Focus on story-specific details and references to general standards, avoiding verbatim repetition of lengthy general rules._
-6.  **Acceptance Criteria (AC):**
-    - Use the Given/When/Then (GWT) format.
-    - Create specific, testable criteria covering:
-      - Happy path functionality.
-      - Negative paths and error handling (referencing UI/UX specs for error messages/states).
-      - Edge cases.
-      - Adherence to relevant NFRs (e.g., response time, security).
-      - Adherence to UI/UX specifications (e.g., layout, styling, responsiveness).
-      - _Implicitly:_ Adherence to referenced general coding/documentation standards.
-7.  **Subtask Checklist:**
-    - Provide a highly granular, step-by-step checklist for the AI agent.
-    - Break down tasks logically (e.g., file creation, function implementation, UI element coding, state management, API calls, unit test creation, error handling implementation, adding comments _per documentation standards_).
-    - Specify exact file names and paths where necessary, according to the Architecture context.
-    - Include tasks for writing unit tests to meet the specified coverage target, following the defined testing standards (e.g., AAA pattern).
-    - **Crucially, clearly identify any steps the HUMAN USER must perform manually.** Prefix these steps with `MANUAL STEP:` and provide clear, step-by-step instructions (e.g., `MANUAL STEP: Obtain API key from <Service> console.`, `MANUAL STEP: Add the key to the .env file as VARIABLE_NAME.`).
-8.  **Testing Requirements:**
-    - Explicitly state the required test types (e.g., Unit Tests via Jest).
+```markdown story template
+# Story {N}: {Title}
+
+## Story
+
+**As a** {role}\
+**I want** {action}\
+**so that** {benefit}.
+
+## Status
+
+Draft OR In-Progress OR Complete
+
+## Context
+
+{A paragraph explaining the background, current state, and why this story is needed. Include any relevant technical context or business drivers.}
+
+## Estimation
+
+Story Points: {Story Points (1 SP=1 day of Human Development, or 10 minutes of AI development)}
+
+## Acceptance Criteria
+
+1. - [ ] {First criterion - ordered by logical progression}
+2. - [ ] {Second criterion}
+3. - [ ] {Third criterion}
+         {Use - [x] for completed items}
+
+## Subtasks
+
+1. - [ ] {Major Task Group 1}
+   1. - [ ] {Subtask}
+   2. - [ ] {Subtask}
+   3. - [ ] {Subtask}
+2. - [ ] {Major Task Group 2}
+   1. - [ ] {Subtask}
+   2. - [ ] {Subtask}
+   3. - [ ] {Subtask}
+            {Use - [x] for completed items, - [-] for skipped/cancelled items}
+
+## Testing Requirements:\*\*
+
     - Reiterate the required code coverage percentage (e.g., >= 85%).
-    - State that the Definition of Done includes all ACs being met and all specified tests passing (implicitly including adherence to standards).
-9.  **Story Wrap Up (To be filled in AFTER agent execution):**
-    - _Note: This section should be completed by the user/process after the AI agent has finished processing this story file._
-    - **Agent Model Used:** `<Agent Model Name/Version>`
-    - **Agent Credit or Cost:** `<Cost/Credits Consumed>`
-    - **Date/Time Completed:** `<Timestamp>`
-    - **Commit Hash:** `<Git Commit Hash of resulting code>`
-    - **Change Log:**
-      ```
-      <Detail any deviations from the original story specification, architecture, or PRD requirements that occurred during implementation. Note any impacts on other documents or future stories, or necessary follow-up actions here. If no deviations occurred, state 'None'.>
-      ```
+
+## Story Wrap Up (To be filled in AFTER agent execution):\*\*
+
+- **Agent Model Used:** `<Agent Model Name/Version>`
+- **Agent Credit or Cost:** `<Cost/Credits Consumed>`
+- **Date/Time Completed:** `<Timestamp>`
+- **Commit Hash:** `<Git Commit Hash of resulting code>`
+- **Change Log**
+  - change X
+  - change Y
+    ...
+```
 
 ### Interaction Style
 

@@ -8,13 +8,13 @@ Also check out [Part 1 on the BMad Code YouTube channel](https://youtu.be/JbhiLU
 
 **Super Quick TLDR:** These are [the prompts](./ai-pm/prompts/) you have been searching for!
 
-**Bonus** - check the [Gemini Gems Demo Prompts](./ai-pm/prompts/Gemini%20Gems%20Agile%20Masters.md) for a set of Google Gemini Gems to use with this workflow! Optional and a totally different fun experience.
+**Bonus** - check the [Gemini Gems Demo Prompts](./ai-pm/prompts/Gemini%20Gems%20Agile%20Masters.md) for a set of Google Gemini Gems to use with this workflow! Optional and a totally different fun experience. These are still a WIP and I am working on improving them, and welcome feedback - but so far I find them fun to use and very promising!
 
 Note: Depending on which tool you use - the [[prompts folder]](./ai-pm/prompts/) should be set to be ignored my your LLM codebase indexing (ie with cursor add them to .cursorindexingignore - cline and roo may differ).
 
 ## Overview
 
-The BMad Method is a revolutionary approach to software development that leverages AI-driven processes to accelerate and enhance the entire product development lifecycle. This template provides a structured framework that guides you through generating all necessary artifacts to build a complete application with AI assistance.
+The BMad Method is a (not so) revolutionary approach to software development that leverages AI-driven processes to accelerate and enhance the entire product development lifecycle. This template provides a structured framework that guides you through generating all necessary artifacts to build a complete application with AI assistance.
 
 ## What is the BMad Method?
 
@@ -94,8 +94,10 @@ Either way, ensure you are adding all of the artifacts to the ai-pm folder (or a
 ## Future Enhancements
 
 1. BMad Method Tool
-2. Optional Jira Integration
-3. Optional Trello Integration
+2. Improved Gems
+3. MCP Version if wanting to do fulling within the IDE
+4. Optional Jira Integration
+5. Optional Trello Integration
 
 ## Contributing
 
