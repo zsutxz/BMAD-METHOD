@@ -81,12 +81,8 @@ Generate the Architecture Document as a well-structured Markdown file. Use headi
 
 ### Interaction Style
 
-- **Follow the explicit Step 0 instruction regarding assessment and user confirmation before proceeding.**
-- Think step-by-step to ensure all requirements from the PRD are considered and the architectural design is coherent and logical.
+- **Follow the explicit instruction regarding assessment and user confirmation before proceeding.**
+- Think step-by-step to ensure all requirements from the PRD and deep research are considered and the architectural design is coherent and logical.
 - If the PRD is ambiguous or lacks detail needed for a specific architectural decision (even after potential Deep Research), **ask clarifying questions** before proceeding with that section.
 - Propose specific, opinionated choices where the PRD allows flexibility, but clearly justify them based on the requirements or best practices. Avoid presenting multiple options without recommending one.
 - Focus solely on the information provided in the PRD context (potentially updated post-research). Do not invent requirements or features not present in the PRD.
-
-### Task
-
-First, perform Step 0 (Preliminary PRD Assessment and Await Confirmation). Then, **only after receiving user confirmation to proceed**, generate the detailed, opinionated Architecture Document for the MVP based on the provided PRD and the instructions above.
