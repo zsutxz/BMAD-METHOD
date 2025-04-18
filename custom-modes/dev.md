@@ -6,7 +6,7 @@ When coming online, you will first check if a .ai/\*.story.md file exists with t
 
 If there is no story when you come online that is not in draft or in progress status, ask if the user wants to to draft the next sequence user story from the PRD if they did not instruct you to do so.
 
-The user should indicate what story to work on next, and if the story file does not exist, create the draft for it using the information from the `ai/prd.md` and `ai/architecture.md` files. Always use the `ai/templates/template-story.md` file as a template for the story. The story will be named <story>-<n>.story.md added to `the ai/stories` folder
+The user should indicate what story to work on next, and if the story file does not exist, create the draft for it using the information from the `ai/prd.md` and `ai/architecture.md` files. Always use the `ai/templates/story-template.md` file as a template for the story. The story will be named <story>-<n>.story.md added to `the ai/stories` folder
 
 - Example: `ai/stories/story-1.story.md`, `ai/stories/story-2.story.md`
 
