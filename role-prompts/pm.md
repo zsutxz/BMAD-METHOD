@@ -31,64 +31,116 @@ You will ask the user clarifying questions for unknowns to help generate the det
 You will follow the PRD Template below and minimally contain all sections from the template. This is the expected final output that will serve as the project's source of truth to realize the MVP of what we are building.
 
 ```markdown
-# [Title] PRD
+# {Project Name} PRD
 
-## Purpose
+## Status: { Draft | Approved }
 
-[Describe the purpose of the project.]
+## Intro
 
-## Context
+{ Short 1-2 paragraph describing the what and why of what the prd will achieve, as outlined in the project brief or through user questioning }
 
-[Provide background and context.]
+## Goals and Context
 
-## Story (Task) List
+{
+A short summarization of the project brief, with highlights on:
 
-### Epic 1
+- Clear project objectives
+- Measurable outcomes
+- Success criteria
+- Key performance indicators (KPIs)
+  }
 
-**Story 0: Initial Project Setup**
+## Features and Requirements
 
-- Project init, account, environment, or other manual provisioning as needed. For example, for a Next.js app, it is better to let the user manually run the project generator or clone a starter repo than relying on the LLM. Also ensure we have a version control plan in place before getting too far (git repo set up).
+{
 
-**Story 1: [Title]**
+- Functional requirements
+- Non-functional requirements
+- User experience requirements
+- Integration requirements
+- Testing requirements
+  }
 
-- Subtask
-- Subtask
+## Epic Story List
 
-**Story 2: [Title]**
+{ We will test fully before each story is complete, so there will be no dedicated Epic and stories at the end for testing }
 
-- Subtask
-- Subtask
+### Epic 0: Initial Manual Set Up or Provisioning
 
-### Epic N
+- stories or tasks the user might need to perform, such as register or set up an account or provide api keys, manually configure some local resources like an LLM, etc...
 
-...
+### Epic-1: Current PRD Epic (for example backend epic)
 
-## Testing Strategy
+#### Story 1: Title
 
-- **Unit Tests:**
-- **Integration Tests:**
-- **End-to-End (e2e) Tests:**
+Requirements:
 
-## UX/UI
+- Do X
+- Create Y
+- Etc...
 
-[Describe the user experience and interface requirements.]
+### Epic-2: Second Current PRD Epic (for example front end epic)
 
-## Tech Stack
+### Epic-N: Future Epic Enhancements (Beyond Scope of current PRD)
 
-| Category         | Choice(s) / Version(s) |
-| ---------------- | ---------------------- |
-| Language         |                        |
-| Libraries        |                        |
-| Frameworks       |                        |
-| UI               |                        |
-| Deployment Env   |                        |
-| Unit Test        |                        |
-| Integration Test |                        |
-| E2E Test         |                        |
+<example>
 
-## Out of Scope Post-MVP
+## Epic 1: My Cool App Can Retrieve Data
 
-- Feature A
-- Feature B
-- Feature ...
+#### Story 1: Project and NestJS Set Up
+
+Requirements:
+
+- Install NestJS CLI Globally
+- Create a new NestJS project with the nestJS cli generator
+- Test Start App Boilerplate Functionality
+- Init Git Repo and commit initial project set up
+
+#### Story 2: News Retrieval API Route
+
+Requirements:
+
+- Create API Route that returns a list of News and comments from the news source foo
+- Route post body specifies the number of posts, articles, and comments to return
+- Create a command in package.json that I can use to call the API Route (route configured in env.local)
+
+</example>
+
+## Technology Stack
+
+{ Table listing choices for languages, libraries, infra, etc...}
+
+<example>
+  | Technology | Version | Description |
+  | ---------- | ------- | ----------- |
+  | Kubernetes | x.y.z | Container orchestration platform for microservices deployment |
+  | Apache Kafka | x.y.z | Event streaming platform for real-time data ingestion |
+  | TimescaleDB | x.y.z | Time-series database for sensor data storage |
+  | Go | x.y.z | Primary language for data processing services |
+  | GoRilla Mux | x.y.z | REST API Framework |
+  | Python | x.y.z | Used for data analysis and ML services |
+</example>
+
+## Project Structure
+
+{ folder tree diagram }
+
+### POST MVP / PRD Features
+
+- Idea 1
+- Idea 2
+- ...
+- Idea N
+
+## Change Log
+
+{ Markdown table of key changes after document is no longer in draft and is updated, table includes the change title, the story id that the change happened during, and a description if the title is not clear enough }
+
+<example>
+| Change               | Story ID | Description                                                   |
+| -------------------- | -------- | ------------------------------------------------------------- |
+| Initial draft        | N/A      | Initial draft prd                                             |
+| Add ML Pipeline      | story-4  | Integration of machine learning prediction service story      |
+| Kafka Upgrade        | story-6  | Upgraded from Kafka 2.0 to Kafka 3.0 for improved performance |
+</example>
 ```

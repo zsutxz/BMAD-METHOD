@@ -2,8 +2,8 @@
 
 ## Story
 
-**As a** {role}\
-**I want** {action}\
+**As a** {role}
+**I want** {action}
 **so that** {benefit}.
 
 ## Status

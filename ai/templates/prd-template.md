@@ -1,14 +1,15 @@
-# 1. Title: {PRD for {project}}
+# {Project Name} PRD
 
 ## Status: { Draft | Approved }
 
 ## Intro
 
-{ Short 1-2 paragraph describing the what and why of what the prd will achieve}
+{ Short 1-2 paragraph describing the what and why of what the prd will achieve, as outlined in the project brief or through user questioning }
 
-## Goals
+## Goals and Context
 
 {
+A short summarization of the project brief, with highlights on:
 
 - Clear project objectives
 - Measurable outcomes
@@ -18,46 +19,65 @@
 
 ## Features and Requirements
 
+{
+
 - Functional requirements
 - Non-functional requirements
 - User experience requirements
 - Integration requirements
-- Compliance requirements
+- Testing requirements
+  }
 
-## Epic List
+## Epic Story List
+
+{ We will test fully before each story is complete, so there will be no dedicated Epic and stories at the end for testing }
+
+### Epic 0: Initial Manual Set Up or Provisioning
+
+- stories or tasks the user might need to perform, such as register or set up an account or provide api keys, manually configure some local resources like an LLM, etc...
 
 ### Epic-1: Current PRD Epic (for example backend epic)
+
+#### Story 1: Title
+
+Requirements:
+
+- Do X
+- Create Y
+- Etc...
 
 ### Epic-2: Second Current PRD Epic (for example front end epic)
 
 ### Epic-N: Future Epic Enhancements (Beyond Scope of current PRD)
 
-## Epic 1: Story List
-
 <example>
 
-- Story 1: Project and NestJS Configuration
-  Status: {''|'InProgress'|'Complete'}
-  Requirements:
+## Epic 1: My Cool App Can Retrieve Data
 
-  - Install NestJS CLI Globally
-  - Create a new NestJS project with the nestJS cli generator
-  - Test Start App Boilerplate Functionality
-  - Init Git Repo and commit initial project set up
+#### Story 1: Project and NestJS Set Up
 
-- Story 2: News Retrieval API Route
-  Status: {''|'InProgress'|'Complete'}
-  Requirements:
-  - Create API Route that returns a list of News and comments from the news source foo
-  - Route post body specifies the number of posts, articles, and comments to return
-  - Create a command in package.json that I can use to call the API Route (route configured in env.local)
-    </example>
+Requirements:
+
+- Install NestJS CLI Globally
+- Create a new NestJS project with the nestJS cli generator
+- Test Start App Boilerplate Functionality
+- Init Git Repo and commit initial project set up
+
+#### Story 2: News Retrieval API Route
+
+Requirements:
+
+- Create API Route that returns a list of News and comments from the news source foo
+- Route post body specifies the number of posts, articles, and comments to return
+- Create a command in package.json that I can use to call the API Route (route configured in env.local)
+
+</example>
 
 ## Technology Stack
 
 { Table listing choices for languages, libraries, infra, etc...}
 
-  <example>
+<example>
   | Technology | Version | Description |
   | ---------- | ------- | ----------- |
   | Kubernetes | x.y.z | Container orchestration platform for microservices deployment |
@@ -66,35 +86,6 @@
   | Go | x.y.z | Primary language for data processing services |
   | GoRilla Mux | x.y.z | REST API Framework |
   | Python | x.y.z | Used for data analysis and ML services |
-  </example>
-
-## Reference
-
-{ Mermaid Diagrams for models tables, visual aids as needed, citations and external urls }
-
-## Data Models, API Specs, Schemas, etc...
-
-{ As needed - may not be exhaustive - but key ideas that need to be retained and followed into the architecture and stories }
-
-<example>
-### Sensor Reading Schema
-
-```json
-{
-  "sensor_id": "string",
-  "timestamp": "datetime",
-  "readings": {
-    "temperature": "float",
-    "pressure": "float",
-    "humidity": "float"
-  },
-  "metadata": {
-    "location": "string",
-    "calibration_date": "datetime"
-  }
-}
-```
-
 </example>
 
 ## Project Structure
@@ -103,24 +94,16 @@
 
 <example>
 
-````
-// Start of Selection
-```text
-src/
-├── services/
-│   ├── gateway/        # Sensor data ingestion
-│   ├── processor/      # Data processing and validation
-│   ├── analytics/      # Data analysis and ML
-│   └── notifier/       # Alert and notification system
-├── deploy/
-│   ├── kubernetes/     # K8s manifests
-│   └── terraform/      # Infrastructure as Code
-└── docs/
-    ├── api/           # API documentation
-    └── schemas/       # Data schemas
-````
+{ folder tree diagram }
 
 </example>
+
+### POST MVP / PRD Features
+
+- Idea 1
+- Idea 2
+- ...
+- Idea N
 
 ## Change Log
 
