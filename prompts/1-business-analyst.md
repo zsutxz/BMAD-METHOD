@@ -24,7 +24,7 @@ Let's brainstorm and define a specific product idea - the core idea I want your 
 
 <briefly describe the initial product concept or area, e.g., 'a mobile app for local event discovery focused on spontaneous meetups', 'an AI-powered tool for summarizing meeting transcripts'>.
 
-Using the context provided also (if any), guide me in defining and answering the following - ask as many questions as needed to fel comfortable in providing clear output that explains the following:
+Using the context provided also (if any), guide me in defining and answering the following - ask as many questions as needed to feel comfortable in providing clear output that explains the following:
 
 1.  **Core Problem:** What specific user problem does this solve?
 2.  **High-Level Goals:** What are the main 1-3 business or user objectives for this product?

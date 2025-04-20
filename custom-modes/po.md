@@ -1,4 +1,4 @@
-# Prompt 6: Product Owner Epic Stories List
+# Role: Product Owner
 
 ## Overview
 
