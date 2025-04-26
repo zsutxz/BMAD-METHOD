@@ -51,6 +51,15 @@ The BMad Method is a comprehensive, step-by-step approach that transforms a prod
 
 Other IDEs do not yet seem to have the exact same way of creating custom modes - but you can still use this methodology through rules, plan/act modes, and using the mode prompts as a prompt to start a new chat session.
 
+## Project Setup
+
+If you are going to use the full workflow including the dev working on one story at a time and making story drafts - you will want to add to your project folder:
+/ai/
+/ai/stories/
+/ai/templates/story-template.md
+
+- The other templates are embedded in the custom mode prompts so are not necessary to copy over.
+
 ### Workflow
 
 The BMad Method follows a structured workflow:
