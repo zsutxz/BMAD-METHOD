@@ -1,4 +1,4 @@
-# Contributing to this project
+it c # Contributing to this project
 
 Thank you for considering contributing to this project! This document outlines the process for contributing and some guidelines to follow.
 

@@ -195,7 +195,10 @@ sequenceDiagram
 
 ## Testing Requirements and Framework
 
-### Patterns and Standards (Opinionated & Specific)
+- Unit Testing Standards <examples>Use Jest, 80% coverage, unit test files in line with the file they are testing</examples>
+- Integration Testing <examples>Retained in a separate tests folder outside of src. Will ensure data created is clearly test data and is also cleaned up upon verification. Etc...<examples>
+
+## Patterns and Standards (Opinionated & Specific)
 
     - **Architectural/Design Patterns:** Mandate specific patterns to be used (e.g., Repository Pattern for data access, MVC/MVVM for structure, CQRS if applicable). .
 
@@ -205,7 +208,7 @@ sequenceDiagram
 
     - **Error Handling Strategy:** Outline the standard approach for logging errors, propagating exceptions, and formatting error responses.
 
-### Initial Project Setup (Manual Steps)
+## Initial Project Setup (Manual Steps)
 
 Define Story 0: Explicitly state initial setup tasks for the user. Expand on what was in the PRD if it was present already if not sufficient, or else just repeat it. Examples:
 
