@@ -1,6 +1,12 @@
-# The BMad Code Method for Pairing Human-Agentic Workflow for Product Realization and Software Development
+# The BMad Code Method
 
-**Breakthrough Method Agile-Ai Driven-Development (BMAD-METHOD)**
+This method outlines how to create and pairing with Custom Agile Persona Agents to follow the **Breakthrough Method Agile-Ai Driven-Development (B.M.A.D. Method)**
+
+## Quick note about previous repo that this replaces
+
+This method is a full replacement and enhancement to what was hinted at and partially described in the custom-agents-rules-generator [this repo](https://github.com/bmadcode/cursor-custom-agents-rules-generator). This is now more tailored to being generic and working with any IDE (not just cursor specific) and the custom rule used to generate rules is no longer needed in Cursor anyways as of 0.49x (And the other IDE's now support auto rule generation also) and with custom agents and agile artifacts, rules become less necessary. Rules that apply to general standards can be build into your developer agents. For example, you can expand the dev persona agent herein to be a typescript dev agent, or a python dev agent, or even a ui dev agent - all with the best practices you want it to follow baked in! By having multiple dev types, you can have specialized devs with the rules in their context primed for what they will be working on - instead of overall bloated rules that do not apply to every task at hand. This is all optional, but you can start to see why this replaces the detailed rules based workflows.
+
+Where IDE rules will still apply, is for fine tuning quick one off rules as you are going if you find the agent making many mistakes in certain ways. In the future you can craft this adherance into your agile artifacts and stories, or the custom mode configurations!
 
 Join in on the [Community Discussion Forum](https://github.com/bmadcode/BMAD-METHOD/discussions), help contribute, evolve, and advance the ideas laid out here. This is IDE Agnostic, works great with Cursor, Cline, RooCode, CoPilot etc...! If it has an intelligent agent, this will help you tame it and keep the good vibes flowing!
 
