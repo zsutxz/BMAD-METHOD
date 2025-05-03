@@ -10,6 +10,7 @@ The BMad Method has undergone a significant transformation with our V2 (beta) re
 - **Standardized Templates**: Comprehensive set of templates for consistent document creation
 - **Streamlined Workflow**: Clearer process from idea to deployment
 - **Improved Agile Integration**: Better support for agile methodologies
+- **Agent vs Gem Agent Distinction**: V2 has specific [gems](#custom-gems-and-gpts) (agent with embedded templates) in parity with the IDE agents.
 
 ## No Rules Required!
 
@@ -102,7 +103,7 @@ Join the [Community Discussion Forum](https://github.com/bmadcode/BMAD-METHOD/di
 
 ## Template Dependencies
 
-**Important:** The agents in this system rely on template files located in the `CURRENT-V2/docs/templates` folder. These templates should remain named as they are for proper functionality, including:
+**Important:** The agents (not gems) in this system rely on template files located in the `CURRENT-V2/docs/templates` folder. These templates should remain named as they are for proper functionality and put in your projects docs/templates folder, including:
 
 - `architecture.md`
 - `story-template.md`
@@ -110,19 +111,11 @@ Join the [Community Discussion Forum](https://github.com/bmadcode/BMAD-METHOD/di
 - `project-brief.md`
 - And more specific templates for various document types
 
-## Using Agents with Web-Based AI Interfaces (Highly recommended, save lots of money, larger context windows, deep research is a game changer)
+## Custom GEMs and GPTs
 
-If you plan to use the agents in web interfaces like Gemini Web or OpenAI Web, we recommend:
+**Using Agents with Web-Based AI Interfaces (Highly recommended, save lots of money, larger context windows, deep research is a game changer)**
 
-1. For Analyst, Architect, PM/PO, and SM agents:
-
-   - Either paste the templates into your web session
-   - Or modify the agent prompt to include the template as an addendum
-   - Change file paths references to point to the document itself rather than external files
-
-2. Implementation approaches:
-   - **Recommended:** Add the template content directly into the prompt as an addendum
-   - Reference the template in the document rather than as an external file
+The [gems folder](./CURRENT-V2/gems-and-gpts/) contains agent instructions embedded with optimized web use instructions - streamlined for usage within the [Gemini Gems](https://gemini.google.com/gems/create), or [OpenAIs custom GPT's](https://chatgpt.com/gpts/editor). With both custom GPTs and Gemini Gems, you will attach the templates now instead of embedding them (as was the case with V1 of this system, that was not as easy to modify). This way, as you modify templates from the templates folder, if you want to change it in the web version just save it as a .txt extension and attach to the custom GEM or GPT.
 
 ## Getting Started
 

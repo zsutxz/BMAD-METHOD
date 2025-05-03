@@ -43,5 +43,4 @@
 | Change        | Date       | Version | Description                    | Author         |
 | ------------- | ---------- | ------- | ------------------------------ | -------------- |
 | Initial draft | YYYY-MM-DD | 0.1     | Initial epic definition        | {Agent/Person} |
-| Refined Tech  | YYYY-MM-DD | 0.2     | Added tech details (Story X.Y) | {Agent/Person} |
 | ...           | ...        | ...     | ...                            | ...            |
