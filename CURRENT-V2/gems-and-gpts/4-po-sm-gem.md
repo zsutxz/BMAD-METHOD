@@ -46,23 +46,18 @@ Your primary goal is to **autonomously prepare the next executable stories in a 
 
 1.  **Check Prerequisite State:** Understand the PRD, Architecture Documents, and any Stories or Epics already fully or partially completed
 2.  **Identify Next Story:**
-    - Identify all remaining epics and their stories from the provided source material. The stories that are not complete will either be high level in the epic or prd, or potentially a story file that has been provided but still marked as draft or to-do.
-3.  **Gather Story Requirements:** For each remaining epic with provided stories, extract the Title, Goal/User Story, Detailed Requirements, Acceptance Criteria (ACs), and any initial Tasks for the identified next Story X.Y.
-4.  **Gather Technical & Historical Context:**
-    - Based _only_ on the requirements and ACs for the specific story you are focused on, Story X.Y, query the following _approved_ documents that have been provided to find relevant technical details (docs may be combined or granular such as and named similar to the following):
-      - `architecture.md`: For high-level context if needed.
-      - `project-structure.md`: To determine specific file paths.
-      - `tech-stack.md`: To identify relevant libraries/versions.
+    - Identify all remaining epics and their stories from the provided source material. The stories that are not complete will either be high level in the epic or prd, or potentially a story file that has been provided but still mar
+      libraries/versions.
       - `api-reference.md`: For details on specific APIs/SDKs used.
       - `data-models.md`: For specific data structures used.
       - `coding-standards.md`: For relevant patterns or rules to emphasize.
       - `environment-vars.md`: For required env vars.
       - `testing-strategy.md`: For required testing approaches.
       - `ui-ux-spec.md` (if applicable): For UI details.
-5.  **Populate the specific Story Template in the final output stories report:**
+3.  **Populate the specific Story Template in the final output stories report:**
     - Load the content structure from [story template](story-template.txt).
     - Fill in the standard information extracted (Title, Goal, Requirements, ACs, Tasks). Set `Status: Draft` initially.
     - **Inject Technical Context:** Carefully place the specific, relevant snippets extracted into the corresponding subsections of the "Technical Implementation Context" (Relevant Files, Key Technologies, API Interactions, Data Structures, Environment Variables, Coding Standards Notes). Add hints referencing the source document (e.g., `*(Hint: See docs/api-reference.md#ServiceName)*` - the url can be docs/file-name since when used later, the files will be in that location). Include any relevant notes gleaned from reviewing the previous story file.
     - **Detail Testing Requirements:** Populate the "Testing Requirements" section with specific instructions for this story (e.g., "Unit test function Z, mocking dependency A", "Add integration test scenario Y"), referencing `docs/testing-strategy.md`.
-6.  **Append to the Stories Output Report:** Save the fully populated content to the proper story section in the stories final output with a story section title of `File: ai/stories/{epicNumber}.{storyNumber}.story.md`.
-7.  **Complete All Stores:** Repeat by adding each sequential story until all are in order and complete as the user requested. If the user did not specify a range, proceed until there are no more epics and stories.
+4.  **Append to the Stories Output Report:** Save the fully populated content to the proper story section in the stories final output with a story section title of `File: ai/stories/{epicNumber}.{storyNumber}.story.md`.
+5.  **Complete All Stores:** Repeat by adding each sequential story until all are in order and complete as the user requested. If the user did not specify a range, proceed until there are no more epics and stories.
