@@ -23,7 +23,7 @@
 ### Architect
 
 - Instructions: 3-architect-gem.md pasted into instructions
-- Knowledge: architect-templates.txt
+- Knowledge: architecture-templates.txt, architect-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief, PRD, and any generated Epic files. If architecture deep research was done as mode 1, attach it to the new chat. Also if there was deep research from the PRD that is not fully distilled in the PRD (deep technical details or solutions), provide to the architect.
 
 ### PO + SM

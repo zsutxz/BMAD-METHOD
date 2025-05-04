@@ -11,6 +11,8 @@ The BMad Method has undergone a significant transformation with our V2 (beta) re
 - **Streamlined Workflow**: Clearer process from idea to deployment
 - **Improved Agile Integration**: Better support for agile methodologies
 - **Agent vs Gem Agent Distinction**: V2 has specific [gems](#custom-gems-and-gpts) (agent with embedded templates) in parity with the IDE agents.
+- **Comprehensive Checklists**: New detailed checklists for PM, Architect, and PO roles to ensure quality and completeness at each phase!
+- **Multi-Mode Agents**: Each agent now operates in distinct modes tailored to different project phases or complexity levels - allowing flexibility to match your project needs and knowledge level
 
 ## No Rules Required!
 
@@ -20,6 +22,15 @@ One of the biggest advantages of the BMad Method is that it doesn't require cust
 2. **Maximum Flexibility**: Still compatible with rules-based systems like Claude or Cursor if you prefer that approach
 
 This flexibility allows you to choose the implementation that works best for your workflow while maintaining consistent quality across your project.
+
+## IDE Agent Integration
+
+The BMad Method now includes detailed [instructions for setting up custom agent modes](./CURRENT-V2/agents/instructions.md) in various IDEs. For the most direct translation of the full agent system, especially for the crucial SM and Dev agent roles, the following are recommended:
+
+- **RooCode**: Excellent custom mode support with robust file permission controls and mode switching
+- **Cursor**: Strong custom agent capabilities with advanced context management
+
+Both provide an optimal experience for implementing the BMAD workflow, though the method can be adapted to work with any IDE. See the full [instructions file](./CURRENT-V2/agents/instructions.md) for details on configuring each supported IDE.
 
 ## What is the BMad Method?
 
@@ -56,11 +67,31 @@ Join the [Community Discussion Forum](https://github.com/bmadcode/BMAD-METHOD/di
 
 ### Analyst (Business Analyst (BA), Research Assistant (RA), Brainstorming Coach)
 
-The Analyst agent is a versatile entry point into the BMad Method, operating in three distinct modes: Brainstorming Coach, Deep Research, and Project Briefing. It helps transform initial ideas or vague concepts into well-defined project briefs through creative ideation techniques, market analysis, or structured requirement gathering. In Brainstorming mode, it uses proven techniques like SCAMPER and "What if" scenarios to expand possibilities. The Deep Research mode generates comprehensive research prompts to explore market needs, competitors, and target users. Finally, the Project Briefing mode collaboratively builds a structured brief document with a dedicated PM Agent Handoff Prompt section that provides strategic guidance for the next phase. This agent is ideal for users who need help refining their vision before moving to detailed product definition.
+The Analyst agent is a versatile entry point into the BMad Method, operating in three distinct modes to help transform initial ideas or vague concepts into well-defined project briefs through creative ideation techniques, market analysis, or structured requirement gathering. This agent is ideal for users who need help refining their vision before moving to detailed product definition.
+
+#### Brainstorming Coach Mode
+
+This mode uses proven brainstorming techniques like SCAMPER and "What if" scenarios to expand possibilities. The agent guides users through structured ideation frameworks, encourages divergent thinking, and helps challenge assumptions that might be limiting creativity.
+
+#### Deep Research Mode
+
+This mode generates comprehensive research prompts to explore market needs, competitors, and target users. It focuses on executing deep research into market conditions, industry trends, competitive landscape, and user needs to inform the project direction.
+
+#### Project Briefing Mode
+
+This mode collaboratively builds a structured brief document with a dedicated PM Agent Handoff Prompt section that provides strategic guidance for the next phase. It leverages research findings and user input to create a well-defined project brief that serves as the foundation for product development.
 
 ### Product Manager (PM)
 
-The Product Manager agent excels at transforming high-level project briefs or initial ideas into comprehensive product specifications and actionable development plans. As a scope refinement specialist, the PM actively challenges assumptions about what features are truly necessary for the MVP, seeking opportunities to reduce complexity while ensuring perfect alignment with core business goals. The PM creates three key artifacts: a detailed Product Requirements Document (PRD) outlining goals, functional and non-functional requirements; a set of epic definitions that break down the work into independently deployable chunks; and an Initial Architect Prompt that captures critical technical decisions. Throughout the process, the PM engages in multiple rounds of scope refinement—first during initial scoping discussions, then after drafting the PRD, and finally after creating epics—always framing conversations around time, cost, and quality tradeoffs. The PM also identifies deployment considerations and testing requirements (if valued by stakeholders), ensuring each epic builds logically on previous ones with Epic 1 containing all necessary infrastructure setup. This agent is essential for users who need to translate their vision into a practical, well-structured development plan with appropriate scope for an MVP.
+The Product Manager agent excels at transforming high-level project briefs or initial ideas into comprehensive product specifications and actionable development plans. As a scope refinement specialist, the PM actively challenges assumptions about what features are truly necessary for the MVP, seeking opportunities to reduce complexity while ensuring perfect alignment with core business goals.
+
+#### Mode 1: Initial Product Definition
+
+In this mode, the PM creates the core product definition documents for the MVP from scratch. The agent produces three key artifacts: a detailed Product Requirements Document (PRD) outlining goals, functional and non-functional requirements; a set of epic definitions that break down the work into independently deployable chunks; and an Initial Architect Prompt that captures critical technical decisions. Throughout the process, the PM engages in multiple rounds of scope refinement—first during initial scoping discussions, then after drafting the PRD, and finally after creating epics—always framing conversations around time, cost, and quality tradeoffs. The PM also identifies deployment considerations and testing requirements, ensuring each epic builds logically on previous ones with Epic 1 containing all necessary infrastructure setup.
+
+#### Mode 2: Product Refinement & Advisory
+
+In this mode, which activates when a PRD already exists and is approved, the PM serves as an ongoing product advisor to provide clarification on existing requirements, facilitate modifications as the product evolves, assess the impact of proposed changes, manage scope adjustments, and maintain consistent, up-to-date product documentation throughout the development process.
 
 ### Architect
 
@@ -81,6 +112,8 @@ In this mode, the Architect designs and documents the complete technical archite
 This mode provides ongoing technical guidance throughout the project, explaining concepts, suggesting updates to artifacts, and managing technical direction changes. The Architect assesses change impacts across the project, recommends minimally disruptive approaches for course corrections, identifies technical debt, and ensures all significant decisions are properly documented. The agent uses clear Mermaid diagrams to visually represent system structure and interactions when beneficial for clarity.
 
 ### Product Owner (PO)
+
+The Product Owner agent serves as the validation and quality assurance checkpoint for the entire MVP plan before development begins. Using a comprehensive validation checklist, the PO agent systematically reviews all project artifacts to ensure they are complete, well-structured, and properly aligned. The PO agent verifies proper project setup and initialization steps, validates infrastructure and deployment sequencing, confirms all external dependencies are properly addressed, delineates user versus agent responsibilities, ensures features are correctly sequenced with dependencies managed, validates that all MVP goals from the PRD are addressed in epics/stories, and checks that all technical requirements are satisfied. The agent also evaluates risk management strategies, documentation completeness, and verifies that post-MVP considerations are properly handled. This systematic validation process helps catch potential issues early, ensuring the development phase proceeds smoothly.
 
 ### Scrum Master (SM)
 
