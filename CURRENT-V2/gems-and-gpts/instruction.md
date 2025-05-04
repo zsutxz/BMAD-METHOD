@@ -29,9 +29,9 @@
 ### PO + SM
 
 - Instructions: 4-po-sm-gem.md pasted into instructions
-- Knowledge: story-template.txt
+- Knowledge: story-template.txt, po-checklist.txt
 - This is optional as a Gem - unlike the workflow within the IDE, using this will generate all remaining stories as one output, instead generating each story when its ready to be worked on through completion. There is ONE main use case for this beyond the obvious generating the artifacts to work on one at a time.
   - The output of this can easily be passed to a new chat with this PO + SM gem or custom GPT and asked to deeply think or analyze through all of the extensive details to spot potential issues gaps, or inconsistences. I have not done this as I prefer to just generate and build 1 story at a time - so the utility of this I have not fully exhausted - but its an interesting idea.
-- Knowledge: story-template.txt
+- Knowledge: story-template.txt, po-checklist.txt
 - During chat: Recommend starting chat by providing all possible artifacts output from previous stages - if a file limit is hit, you can attach as a folder in thinking mode for 2.5 pro - or combine documents. The SM needs latest versions of `prd.md`, `architecture.md`, the _technically enriched_ `epicN.md...` files, and relevant reference documents the architecture references, provided after initial PM/Architect collaboration and refinement.
 - The IDE version (agents folder) of the SM works on producing 1 story at a time for the dev to work on. This version is a bit different in that it will produce a single document with all remaining stories fully fleshed out at once, which then can be worked on still one on one in the IDE.
