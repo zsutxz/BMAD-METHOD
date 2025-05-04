@@ -17,7 +17,7 @@
 ### Product Manager (PM)
 
 - Instructions: 2-pm-gem.md pasted into instructions
-- Knowledge: prd.txt, epicN.txt, ui-ux-spec.txt
+- Knowledge: prd.txt, epicN.txt, ui-ux-spec.txt, pm-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief.
 
 ### Architect
