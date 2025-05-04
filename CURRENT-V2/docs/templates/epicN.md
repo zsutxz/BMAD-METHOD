@@ -59,7 +59,5 @@
 
 ## Change Log
 
-| Change        | Date       | Version | Description             | Author         |
-| ------------- | ---------- | ------- | ----------------------- | -------------- |
-| Initial draft | YYYY-MM-DD | 0.1     | Initial epic definition | {Agent/Person} |
-| ...           | ...        | ...     | ...                     | ...            |
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |

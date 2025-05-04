@@ -88,5 +88,43 @@
 
 | Change        | Date       | Version | Description                  | Author         |
 | ------------- | ---------- | ------- | ---------------------------- | -------------- |
-| Initial draft | YYYY-MM-DD | 0.1     | Initial draft based on brief | {Agent/Person} |
-| ...           | ...        | ...     | ...                          | ...            |
+
+## Initial Architect Prompt
+
+{Provide a comprehensive summary of technical infrastructure decisions, constraints, and considerations for the Architect to reference when designing the system architecture. Include:}
+
+### Technical Infrastructure
+
+- **Starter Project/Template:** {Information about any starter projects, templates, or existing codebases that should be used}
+- **Hosting/Cloud Provider:** {Specified cloud platform (AWS, Azure, GCP, etc.) or hosting requirements}
+- **Frontend Platform:** {Framework/library preferences or requirements (React, Angular, Vue, etc.)}
+- **Backend Platform:** {Framework/language preferences or requirements (Node.js, Python/Django, etc.)}
+- **Database Requirements:** {Relational, NoSQL, specific products or services preferred}
+
+### Technical Constraints
+
+- {List any technical constraints that impact architecture decisions}
+- {Include any mandatory technologies, services, or platforms}
+- {Note any integration requirements with specific technical implications}
+
+### Deployment Considerations
+
+- {Deployment frequency expectations}
+- {CI/CD requirements}
+- {Environment requirements (dev, staging, production)}
+
+### Local Development & Testing Requirements
+
+{Include this section only if the user has indicated these capabilities are important. If not applicable based on user preferences, you may remove this section.}
+
+- {Requirements for local development environment}
+- {Expectations for command-line testing capabilities}
+- {Needs for testing across different environments}
+- {Utility scripts or tools that should be provided}
+- {Any specific testability requirements for components}
+
+### Other Technical Considerations
+
+- {Security requirements with technical implications}
+- {Scalability needs with architectural impact}
+- {Any other technical context the Architect should consider}
