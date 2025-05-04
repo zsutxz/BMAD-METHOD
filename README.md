@@ -13,6 +13,8 @@ The BMad Method has undergone a significant transformation with our V2 (beta) re
 - **Agent vs Gem Agent Distinction**: V2 has specific [gems](#custom-gems-and-gpts) (agent with embedded templates) in parity with the IDE agents.
 - **Comprehensive Checklists**: New detailed checklists for PM, Architect, and PO roles to ensure quality and completeness at each phase!
 - **Multi-Mode Agents**: Each agent now operates in distinct modes tailored to different project phases or complexity levels - allowing flexibility to match your project needs and knowledge level
+- **Reduced Redundancy**: V2 agents and gems use consistent XML-tagged formatting optimized for LLMs, making them more efficient and easier to maintain
+- **Dev-SM Parity**: The stories produced by the SM agent maintain parity with what the Dev agent is told to load on its own and expects, reducing duplication and ensuring smooth handoffs. If not using the dev agent custom mode, ensure your IDE agent rules include all information from the dev agent for compatibility. For example, the dev agent knows to load docs/coding-standards and project-structure - so this should not be repeated (but might be linked) in the generated stories.
 
 ## No Rules Required!
 
