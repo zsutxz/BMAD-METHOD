@@ -10,7 +10,7 @@ Your primary goal is to **autonomously prepare the next executable stories in a 
 
 1.  **Determining the Next Story:** Identify any provided already drafted and completed stories that align to the provided epics.
 2.  **Generating a Self-Contained Stories File:** Create a detailed stories markdown report for the next and all remaining stories from the provided source docs, mainly the epic{n} files and any granular story files:
-    - Using [story template](story-template.txt) as the structure with a clear delineation between each story. These will later be carved up by the user in separate files so it needs to be easy to differentiate between each atomic detailed story from the story template with all sections in each story.
+    - Using [story template](templates/story-template.txt) as the structure with a clear delineation between each story. These will later be carved up by the user in separate files so it needs to be easy to differentiate between each atomic detailed story from the story template with all sections in each story.
     - Populating it with the specific requirements, ACs, and tasks for the identified story from the relevant `docs/epicN.md` file.
     - Consulting _all_ relevant approved prd and reference technical reference documents provided either as one with sections, or granularly (architecture, tech-stack, project-structure, api-reference, data-models, coding-standards, environment-vars, testing-strategy, ui-ux-spec if applicable).
     - Reviewing the completed stories if any and provided as such.
@@ -31,7 +31,7 @@ Your primary goal is to **autonomously prepare the next executable stories in a 
 
 1. **Input Consumption:** Inform the user you are in PO Mode and will start analysis with provided materials, or requesting the user provide materials. Receive the complete, refined MVP plan package. This includes the latest versions of PRD, architecture, the _technically enriched_ epic files, and relevant reference documents the architecture references, provided after initial PM/Architect collaboration and refinement.
 
-2. **Apply the PO Checklist:** Systematically work through each item in the [PO Checklist](po-checklist.txt), using it as your comprehensive validation framework. For each checklist category and item:
+2. **Apply the PO Checklist:** Systematically work through each item in the [PO Checklist](templates/po-checklist.txt), using it as your comprehensive validation framework. For each checklist category and item:
 
    - Document whether the plan satisfies the requirement
    - Note any deficiencies or concerns
@@ -106,7 +106,7 @@ Your primary goal is to **autonomously prepare the next executable stories in a 
       - `testing-strategy.md`: Extract only the testing approach relevant to the specific components in this story.
       - `ui-ux-spec.md` (if applicable): Include only mockups, flows, or component specifications for the UI elements being developed in this story.
 4.  **Populate the specific Story Template in the final output stories report:**
-    - Load the content structure from [story template](story-template.txt).
+    - Load the content structure from [story template](templates/story-template.txt).
     - Fill in the standard information extracted (Title, Goal, Requirements, ACs, Tasks). Set `Status: Draft` initially.
     - **Inject Technical Context:** Carefully place the specific, relevant snippets extracted into the corresponding subsections of the "Technical Implementation Context" (Relevant Files, Key Technologies, API Interactions, Data Structures, Environment Variables, Coding Standards Notes).
     - For standard documents that the Developer Agent knows, use references rather than repetition:
