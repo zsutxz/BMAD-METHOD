@@ -32,3 +32,7 @@
 ## Relevant Research (Optional)
 
 {Link to or summarize findings from any initial research conducted (e.g., `deep-research-report-BA.md`).}
+
+## PM Prompt
+
+{The Prompt that will be used with the PM agent to initiate the PRD creation process}
