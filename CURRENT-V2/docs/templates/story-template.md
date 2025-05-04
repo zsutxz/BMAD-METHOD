@@ -22,40 +22,38 @@
 
 ## Technical Implementation Context
 
-**Guidance:** Use the following details for implementation. Refer to the linked `docs/` files for broader context if needed.
+**Guidance:** Use the following details for implementation. Developer agent is expected to follow project standards in `docs/coding-standards.md` and understand the project structure in `docs/project-structure.md`. Only story-specific details are included below.
 
 - **Relevant Files:**
 
   - Files to Create: {e.g., `src/services/s3-service.ts`, `test/unit/services/s3-service.test.ts`}
   - Files to Modify: {e.g., `lib/hacker-news-briefing-stack.ts`, `src/common/types.ts`}
-  - _(Hint: See `docs/project-structure.md` for overall layout)_
 
 - **Key Technologies:**
 
-  - {e.g., TypeScript, Node.js 22.x, AWS CDK (`aws-s3` construct), AWS SDK v3 (`@aws-sdk/client-s3`), Jest}
-  - {If a UI story, mention specific frontend libraries/framework features (e.g., React Hooks, Vuex store, CSS Modules)}
-  - _(Hint: See `docs/tech-stack.md` for full list)_
+  - {Include only technologies directly used in this specific story, not the entire tech stack}
+  - {If a UI story, mention specific frontend libraries/framework features needed for this story}
 
 - **API Interactions / SDK Usage:**
 
-  - {e.g., "Use `@aws-sdk/client-s3`: `S3Client`, `GetObjectCommand`, `PutObjectCommand`.", "Handle `NoSuchKey` error specifically for `GetObjectCommand`."}
-  - _(Hint: See `docs/api-reference.md` for details on external APIs and SDKs)_
+  - {Include only the specific API endpoints or services relevant to this story}
+  - {e.g., "Use `@aws-sdk/client-s3`: `S3Client`, `GetObjectCommand`, `PutObjectCommand`"}
 
-- **UI/UX Notes:** ONLY IF THIS IS A UI Focused Epic or Story
+- **UI/UX Notes:** {ONLY IF THIS IS A UI Focused Epic or Story - include only relevant mockups/flows}
 
 - **Data Structures:**
 
-  - {e.g., "Define/Use `AppState` interface in `src/common/types.ts`: `{ processedStoryIds: string[] }`.", "Handle JSON parsing/stringifying for state."}
-  - _(Hint: See `docs/data-models.md` for key project data structures)_
+  - {Include only the specific data models/entities used in this story, not all models}
+  - {e.g., "Define/Use `AppState` interface: `{ processedStoryIds: string[] }`"}
 
 - **Environment Variables:**
 
+  - {Include only the specific environment variables needed for this story}
   - {e.g., `S3_BUCKET_NAME` (Read via `config.ts` or passed to CDK)}
-  - _(Hint: See `docs/environment-vars.md` for all variables)_
 
 - **Coding Standards Notes:**
-  - {e.g., "Use `async/await` for all S3 calls.", "Implement error logging using `console.error`.", "Follow `kebab-case` for filenames, `PascalCase` for interfaces."}
-  - _(Hint: See `docs/coding-standards.md` for full standards)_
+  - {Include only story-specific exceptions or particularly relevant patterns}
+  - {Reference general coding standards with "Follow standards in `docs/coding-standards.md`"}
 
 ## Tasks / Subtasks
 
@@ -68,12 +66,11 @@
 
 ## Testing Requirements
 
-**Guidance:** Verify implementation against the ACs using the following tests.
+**Guidance:** Verify implementation against the ACs using the following tests. Follow general testing approach in `docs/testing-strategy.md`.
 
-- **Unit Tests:** {e.g., "Write unit tests for `src/services/s3-service.ts`. Mock `S3Client` and its commands (`GetObjectCommand`, `PutObjectCommand`). Test successful read/write, JSON parsing/stringifying, and `NoSuchKey` error handling."}
-- **Integration Tests:** {e.g., "No specific integration tests required for _just_ this story's module, but it will be covered later in `test/integration/fetch-flow.test.ts`."}
-- **Manual/CLI Verification:** {e.g., "Not applicable directly, but functionality tested via `npm run fetch-stories` later."}
-- _(Hint: See `docs/testing-strategy.md` for the overall approach)_
+- **Unit Tests:** {Include only specific testing requirements for this story, not the general testing strategy}
+- **Integration Tests:** {Only if needed for this specific story}
+- **Manual/CLI Verification:** {Only if specific verification steps are needed for this story}
 
 ## Story Wrap Up (Agent Populates After Execution)
 
