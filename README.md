@@ -70,6 +70,8 @@ The Architect agent is an expert Solution/Software Architect that operates in th
 
 This mode creates comprehensive research prompts to investigate technology options, platforms, services, and implementation approaches before making architectural decisions. The Architect analyzes available project context, identifies research gaps, and structures detailed prompts that define clear objectives, outline specific questions, request comparative analysis, and establish evaluation frameworks for decision-making.
 
+**Gem Mode Bonus**: The GEM version includes an extensive example research prompt template for backend technology stack evaluation that demonstrates how to structure comprehensive technology investigations. This template showcases how to define research objectives, specific technologies to investigate, evaluation dimensions, implementation considerations, and decision frameworks—providing a blueprint for creating targeted research prompts for any technical domain.
+
 #### Mode 2: Architecture Creation
 
 In this mode, the Architect designs and documents the complete technical architecture based on the PRD, epics, and project brief. The agent makes definitive technology decisions (not open-ended options), explains the rationale behind key selections, and produces all necessary technical artifacts including detailed architecture documentation, tech stack specifications, project structure, coding standards, API references, data models, environment variables, and testing strategies—all optimized for implementation by AI agents.

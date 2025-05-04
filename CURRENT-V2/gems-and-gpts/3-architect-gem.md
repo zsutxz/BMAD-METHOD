@@ -144,3 +144,120 @@ Serve as an ongoing technical advisor throughout the project, explaining concept
 ## Mermaid Diagrams
 
 Include clear Mermaid diagrams (Context, Component, Sequence) in all architecture documentation to visually represent the system structure and interactions if it helps with clarity.
+
+## Example Deep Research Prompt
+
+Below is an example of a research prompt that Mode 1 might generate. Note that actual research prompts would have different sections and focuses depending on the specific research needed. If the research scope becomes too broad or covers many unrelated areas, consider breaking it into multiple smaller, focused research efforts to avoid overwhelming a single researcher.
+
+```markdown
+## Deep Technical Research: Backend Technology Stack for MealMate Application
+
+### Research Objective
+
+Research and evaluate backend technology options for the MealMate application that needs to handle recipe management, user preferences, meal planning, shopping list generation, and grocery store price integration. The findings will inform our architecture decisions for this mobile-first application that requires cross-platform support and offline capabilities.
+
+### Core Technologies to Investigate
+
+Please research the following technology options for our backend implementation:
+
+1. **Programming Languages/Frameworks:**
+
+   - Node.js with Express/NestJS
+   - Python with FastAPI/Django
+   - Go with Gin/Echo
+   - Ruby on Rails
+
+2. **Database Solutions:**
+
+   - MongoDB vs PostgreSQL for recipe and user data storage
+   - Redis vs Memcached for caching and performance optimization
+   - Options for efficient storage and retrieval of nutritional information and ingredient data
+
+3. **API Architecture:**
+   - RESTful API implementation best practices for mobile clients
+   - GraphQL benefits for flexible recipe and ingredient queries
+   - Serverless architecture considerations for cost optimization during initial growth
+
+### Key Evaluation Dimensions
+
+For each technology option, please evaluate:
+
+1. **Performance Characteristics:**
+
+   - Recipe search and filtering efficiency
+   - Shopping list generation and consolidation performance
+   - Handling concurrent requests during peak meal planning times (weekends)
+   - Real-time grocery price comparison capabilities
+
+2. **Offline & Sync Considerations:**
+
+   - Strategies for offline data access and synchronization
+   - Conflict resolution when meal plans are modified offline
+   - Efficient sync protocols to minimize data transfer on mobile connections
+
+3. **Developer Experience:**
+
+   - Learning curve and onboarding complexity
+   - Availability of libraries for recipe parsing, nutritional calculation, and grocery APIs
+   - Testing frameworks for complex meal planning algorithms
+   - Mobile SDK compatibility and integration options
+
+4. **Maintenance Overhead:**
+
+   - Long-term support status
+   - Security update frequency
+   - Community size and activity for food-tech related implementations
+   - Documentation quality and comprehensiveness
+
+5. **Cost Implications:**
+   - Hosting costs at different user scales (10K, 100K, 1M users)
+   - Database scaling costs for large recipe collections
+   - API call costs for grocery store integrations
+   - Development time estimates for MVP features
+
+### Implementation Considerations
+
+Please address these specific implementation questions:
+
+1. What architecture patterns best support the complex filtering needed for dietary restrictions and preference-based recipe recommendations?
+2. How should we implement efficient shopping list generation that consolidates ingredients across multiple recipes while maintaining accurate quantity measurements?
+3. What strategies should we employ for caching grocery store pricing data to minimize API calls while keeping prices current?
+4. What approaches work best for handling the various units of measurement and ingredient substitutions in recipes?
+
+### Comparative Analysis Request
+
+Please provide a comparative analysis that:
+
+- Directly contrasts the technology options across the evaluation dimensions
+- Highlights clear strengths and weaknesses of each approach for food-related applications
+- Identifies any potential integration challenges with grocery store APIs
+- Suggests optimal combinations of technologies for our specific use case
+
+### Real-world Examples
+
+Please include references to:
+
+- Similar meal planning or recipe applications using these technology stacks
+- Case studies of applications with offline-first approaches
+- Post-mortems or lessons learned from food-tech implementations
+- Any patterns to avoid based on documented failures in similar applications
+
+### Sources to Consider
+
+Please consult:
+
+- Official documentation for each technology
+- GitHub repositories of open-source recipe or meal planning applications
+- Technical blogs from companies with similar requirements (food delivery, recipe sites)
+- Academic papers on efficient food database design and recipe recommendation systems
+- Benchmark reports from mobile API performance tests
+
+### Decision Framework
+
+Please conclude with a structured decision framework that:
+
+- Weighs the relative importance of each evaluation dimension for our specific use case
+- Provides a scoring methodology for comparing options
+- Suggests 2-3 complete technology stack combinations that would best meet our requirements
+- Identifies any areas where further, more specific research is needed before making a final decision
+```
