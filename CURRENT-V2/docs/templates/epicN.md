@@ -2,6 +2,23 @@
 
 **Goal:** {State the overall goal this epic aims to achieve, linking back to the PRD goals.}
 
+**Deployability:** {Explain how this epic builds on previous epics and what makes it independently deployable. For Epic 1, describe how it establishes the foundation for future epics.}
+
+## Epic-Specific Technical Context
+
+{For Epic 1, include necessary setup requirements such as project scaffolding, infrastructure setup, third-party accounts, or other prerequisites. For subsequent epics, describe any new technical components being introduced and how they build upon the foundation established in earlier epics.}
+
+## Local Testability & Command-Line Access
+
+{If the user has indicated this is important, describe how the functionality in this epic can be tested locally and/or through command-line tools. Include:}
+
+- **Local Development:** {How can developers run and test this functionality in their local environment?}
+- **Command-Line Testing:** {What utility scripts or commands should be provided for testing the functionality?}
+- **Environment Testing:** {How can the functionality be tested across different environments (local, dev, staging, production)?}
+- **Testing Prerequisites:** {What needs to be set up or available to enable effective testing?}
+
+{If this section is not applicable based on user preferences, you may remove it.}
+
 ## Story List
 
 {List all stories within this epic. Repeat the structure below for each story.}
@@ -20,6 +37,7 @@
 - **Tasks (Optional Initial Breakdown):**
   - [ ] {High-level task 1}
   - [ ] {High-level task 2}
+- **Dependencies:** {List any dependencies on other stories or epics. Note if this story builds on functionality from previous epics.}
 
 ---
 
@@ -33,6 +51,7 @@
   - AC2: {...}
 - **Tasks (Optional Initial Breakdown):**
   - [ ] {...}
+- **Dependencies:** {List dependencies, if any}
 
 ---
 

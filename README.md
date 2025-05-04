@@ -60,6 +60,8 @@ The Analyst agent is a versatile entry point into the BMad Method, operating in 
 
 ### Product Manager (PM)
 
+The Product Manager agent excels at transforming high-level project briefs or initial ideas into comprehensive product specifications and actionable development plans. As a scope refinement specialist, the PM actively challenges assumptions about what features are truly necessary for the MVP, seeking opportunities to reduce complexity while ensuring perfect alignment with core business goals. The PM creates three key artifacts: a detailed Product Requirements Document (PRD) outlining goals, functional and non-functional requirements; a set of epic definitions that break down the work into independently deployable chunks; and an Initial Architect Prompt that captures critical technical decisions. Throughout the process, the PM engages in multiple rounds of scope refinement—first during initial scoping discussions, then after drafting the PRD, and finally after creating epics—always framing conversations around time, cost, and quality tradeoffs. The PM also identifies deployment considerations and testing requirements (if valued by stakeholders), ensuring each epic builds logically on previous ones with Epic 1 containing all necessary infrastructure setup. This agent is essential for users who need to translate their vision into a practical, well-structured development plan with appropriate scope for an MVP.
+
 ### Product Owner (PO)
 
 ## Scrum Master (SM)
