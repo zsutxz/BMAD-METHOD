@@ -97,6 +97,8 @@ This mode generates comprehensive research prompts to explore market needs, comp
 
 This mode collaboratively builds a structured brief document with a dedicated PM Agent Handoff Prompt section that provides strategic guidance for the next phase. It leverages research findings and user input to create a well-defined project brief that serves as the foundation for product development.
 
+With the final V2 release, this mode is like magic - working with you as a partner coach and brainstorming master - helping you find the idea in that nugget of a vision - especially when using in Gemini 2.5 pro thinking. As a bonus, you can even take your output eventual project brief and use it as a basis for another round of brainstorming to further refine before handing to the PM (this was a happy accident I discovered that worked out really well).
+
 ### Product Manager (PM)
 
 The Product Manager agent excels at transforming high-level project briefs or initial ideas into comprehensive product specifications and actionable development plans. As a scope refinement specialist, the PM actively challenges assumptions about what features are truly necessary for the MVP, seeking opportunities to reduce complexity while ensuring perfect alignment with core business goals.
@@ -104,6 +106,8 @@ The Product Manager agent excels at transforming high-level project briefs or in
 #### Mode 1: Initial Product Definition
 
 In this mode, the PM creates the core product definition documents for the MVP from scratch. The agent produces three key artifacts: a detailed Product Requirements Document (PRD) outlining goals, functional and non-functional requirements; a set of epic definitions that break down the work into independently deployable chunks; and an Initial Architect Prompt that captures critical technical decisions. Throughout the process, the PM engages in multiple rounds of scope refinement—first during initial scoping discussions, then after drafting the PRD, and finally after creating epics—always framing conversations around time, cost, and quality tradeoffs. The PM also identifies deployment considerations and testing requirements, ensuring each epic builds logically on previous ones with Epic 1 containing all necessary infrastructure setup.
+
+This mode is now like magic when operating within Google Gemini 2.5 Pro thinking - it stops confirms and explains every choice and description so clearly it makes the process painless and will guide you every step of the way. Please enjoy the final V2 release!
 
 #### Mode 2: Product Refinement & Advisory
 
@@ -123,6 +127,8 @@ This mode creates comprehensive research prompts to investigate technology optio
 
 In this mode, the Architect designs and documents the complete technical architecture based on the PRD, epics, and project brief. The agent makes definitive technology decisions (not open-ended options), explains the rationale behind key selections, and produces all necessary technical artifacts including detailed architecture documentation, tech stack specifications, project structure, coding standards, API references, data models, environment variables, and testing strategies—all optimized for implementation by AI agents.
 
+This mode is now like magic when operating within Google Gemini 2.5 Pro thinking - it stops confirms and explains every choice and description so clearly it makes the process painless and will guide you every step of the way. Please enjoy the final V2 release!
+
 #### Mode 3: Master Architect Advisory
 
 This mode provides ongoing technical guidance throughout the project, explaining concepts, suggesting updates to artifacts, and managing technical direction changes. The Architect assesses change impacts across the project, recommends minimally disruptive approaches for course corrections, identifies technical debt, and ensures all significant decisions are properly documented. The agent uses clear Mermaid diagrams to visually represent system structure and interactions when beneficial for clarity.
@@ -133,7 +139,25 @@ The Product Owner agent serves as the validation and quality assurance checkpoin
 
 ### Scrum Master (SM)
 
+The Scrum Master agent serves as the technical bridge between approved plans and executable development tasks. As an expert Technical Scrum Master/Senior Engineer, this agent systematically identifies the next logical story to implement based on dependencies and prerequisites, extracting only the necessary technical context from reference documents to create self-contained story files. The SM operates in a process-driven workflow that includes checking prerequisite states, gathering relevant requirements and technical context, populating standardized story templates, validating story completeness against a checklist, and marking stories as ready for development. This agent flags missing or contradictory information as blockers, focuses on providing adequate context without over-specifying implementation details, and ensures each story contains specific testing requirements and acceptance criteria.
+
+### PO-SM (Gem) Combined
+
+The PO-SM Gem agent is a dual-mode specialist that operates in two distinct capacities:
+
+#### PO Mode (Plan Validator)
+
+In Product Owner mode, this agent conducts comprehensive validation of the complete MVP plan before development starts. The agent systematically works through a detailed checklist to verify foundational implementation logic, technical sequence viability, and PRD alignment. It evaluates proper initialization steps, infrastructure sequencing, user vs. agent action appropriateness, and external dependency management. The agent makes a definitive "Go/No-Go" decision, either approving the plan or providing specific, actionable feedback for addressing deficiencies.
+
+The PO mode within the IDE (Agent folder) version is the main agent that generates a project root `docs/_index.ts`, or updates it if needed as more docs are created - a great V2 addition that will allow future agents a directory to discover all the great docs you produce for your repo, and link to from the main repo. This is the future of agent knowledge of how to work within your repo as it grows and future agents evolve.
+
+#### SM Mode (Story Generator)
+
+Once the plan is approved, the agent transitions to Scrum Master mode, where it identifies remaining stories, gathers technical context, and generates comprehensive story files following standard templates. In this mode, the agent extracts only story-specific information from reference documents, populates templates with appropriate details, and formats each story with clear section titles and boundaries. The agent can generate a complete report of all remaining stories organized in logical sequence based on dependencies.
+
 ### Dev Agent (Dev)
+
+The Developer agent is an expert software developer implementing requirements from assigned story files. This agent focuses exclusively on story implementation while following project standards, working sequentially through tasks defined in the story file. The Dev agent adheres strictly to coding standards and project structure without needing these repeated in each story, implements tests according to project testing strategy, and reports progress by updating story status. The agent operates with focused autonomy, asking questions only when genuinely blocked by ambiguity, attempting to resolve issues using available documentation first. Upon completion of all tasks and verification that tests pass, the Dev agent marks the story for review and awaits feedback before deployment.
 
 ## Step-by-Step Process
 
