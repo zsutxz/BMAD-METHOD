@@ -28,7 +28,6 @@
 
 -   **User Story / Goal:** As a developer, I want to establish the environment configuration mechanism using `.env` files, so that secrets and settings (like output paths) can be managed outside of version control, following boilerplate conventions.
 -   **Detailed Requirements:**
-    -   Add a production dependency for loading `.env` files (e.g., `dotenv`). Run `npm install dotenv --save-prod` (or similar library).
     -   Verify the `.env.example` file exists (from boilerplate).
     -   Add an initial configuration variable `OUTPUT_DIR_PATH=./output` to `.env.example`.
     -   Create the `.env` file locally by copying `.env.example`. Populate `OUTPUT_DIR_PATH` if needed (can keep default).
@@ -36,7 +35,7 @@
     -   The utility should export the loaded configuration values (initially just `OUTPUT_DIR_PATH`).
     -   Ensure the `.env` file is listed in `.gitignore` and is not committed.
 -   **Acceptance Criteria (ACs):**
-    -   AC1: The chosen `.env` library (e.g., `dotenv`) is listed under `dependencies` in `package.json` and `package-lock.json` is updated.
+    -   AC1: Handle `.env` files with native node 22 support, no need for `dotenv`
     -   AC2: The `.env.example` file exists, is tracked by git, and contains the line `OUTPUT_DIR_PATH=./output`.
     -   AC3: The `.env` file exists locally but is NOT tracked by git.
     -   AC4: A configuration module (`src/config.ts` or similar) exists and successfully loads the `OUTPUT_DIR_PATH` value from `.env` when the application starts.

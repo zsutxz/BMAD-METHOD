@@ -1,8 +1,22 @@
 # The BMad Code Method
 
-## Major Update: V2 (beta) Release
+## Major Update: V2 Final Release
 
 The BMad Method has undergone a significant transformation with our V2 (beta) release! The previous implementation (still available in the `LEGACY-V1` folder) has been replaced by a drastically improved workflow and agent system in the `CURRENT-V2` folder.
+
+## 🔥 Full Demonstration Walkthrough 🔥
+
+**See it in action!** The [`V2-FULL-DEMO-WALKTHROUGH`](./V2-FULL-DEMO-WALKTHROUGH/) folder contains a complete end-to-end demonstration of the BMad Method V2 in action. This isn't just documentation—it's proof of how remarkably effective and powerful Vibe-CEO'ing with the BMAD Method is!
+
+The walkthrough includes:
+
+- **Full Gemini chat transcripts** for every phase of the process
+- **All output artifacts** that flow between agents
+- **Detailed commentary** on the interactive process
+
+What makes this demo exceptional is seeing how the agents work in **interactive phases**, pausing at key decision points for human input rather than dumping massive documents at once. No other AI development methodology provides this level of collaborative workflow with documented results where the agent works with you step by step.
+
+[Explore the demo](./V2-FULL-DEMO-WALKTHROUGH/) and see how this transforms software development from ideation to implementation-ready agent stories and tasks.
 
 ## What's New in V2?
 

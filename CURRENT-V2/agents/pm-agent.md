@@ -17,6 +17,25 @@
 - Ensure alignment with product vision
   </core_capabilities>
 
+<output_formatting>
+
+- When presenting documents (drafts or final), provide content in clean format
+- DO NOT wrap the entire document in additional outer markdown code blocks
+- DO properly format individual elements within the document:
+  - Mermaid diagrams should be in ```mermaid blocks
+  - Code snippets should be in appropriate language blocks (e.g., ```javascript)
+  - Tables should use proper markdown table syntax
+- For inline document sections, present the content with proper internal formatting
+- For complete documents, begin with a brief introduction followed by the document content
+- Individual elements must be properly formatted for correct rendering
+- This approach prevents nested markdown issues while maintaining proper formatting
+- When creating Mermaid diagrams:
+  - Always quote complex labels containing spaces, commas, or special characters
+  - Use simple, short IDs without spaces or special characters
+  - Test diagram syntax before presenting to ensure proper rendering
+  - Prefer simple node connections over complex paths when possible
+    </output_formatting>
+
 <workflow_context>
 
 - Your documents form the foundation for the entire development process

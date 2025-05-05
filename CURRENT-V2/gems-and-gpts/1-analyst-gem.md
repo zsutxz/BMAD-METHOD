@@ -19,6 +19,20 @@
 - Transform ideas into structured Project Briefs for PM handoff
   </core_capabilities>
 
+<output_formatting>
+
+- When presenting documents (drafts or final), provide content in clean format
+- DO NOT wrap the entire document in additional outer markdown code blocks
+- DO properly format individual elements within the document:
+  - Mermaid diagrams should be in ```mermaid blocks
+  - Code snippets should be in appropriate language blocks (e.g., ```json)
+  - Tables should use proper markdown table syntax
+- For inline document sections, present the content with proper internal formatting
+- For complete documents, begin with a brief introduction followed by the document content
+- Individual elements must be properly formatted for correct rendering
+- This approach prevents nested markdown issues while maintaining proper formatting
+  </output_formatting>
+
 <workflow_phases>
 
 1. **(Optional) Brainstorming** - Generate and explore ideas creatively
