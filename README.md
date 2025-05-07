@@ -1,8 +1,16 @@
-# The BMad Code Method
+# The BMAD-Method (Breakthrough Method of Agile (ai-driven) Development)
 
 ## Major Update: V2 Final Release
 
 The BMad Method has undergone a significant transformation with our V2 (beta) release! The previous implementation (still available in the `LEGACY-V1` folder) has been replaced by a drastically improved workflow and agent system in the `CURRENT-V2` folder.
+
+NOTE V1 will be removed soon and V2 will be the main mode going forward.
+
+## Custom Modes and Welcome Contributions
+
+So many great suggestions and ideas coming from the community - please feel free to PR any suggested custom agent mode's for either Gems/GPTs or the IDE (or both) to help expand the pantheon of our AI team of helpers :)
+
+The Custom Agents follow this [great way to format rules](https://docs.windsurf.com/windsurf/memories#best-practices) to keep them optimized for LLMs (and this guidance matches official sonnet, openAI, and Gemini prompting guides) and are proven to work well in Cursor, Windsurf, VSCode (+ Client, Roo, CoPilot)
 
 ## 🔥 Full Demonstration Walkthrough 🔥
 
