@@ -6,7 +6,7 @@ The BMad Method has undergone a significant transformation with our V2 (beta) re
 
 ## 🔥 Full Demonstration Walkthrough 🔥
 
-**See it in action!** The [`V2-FULL-DEMO-WALKTHROUGH`](./V2-FULL-DEMO-WALKTHROUGH/demo.md) folder contains a complete end-to-end demonstration of the BMad Method V2 in action. This isn't just documentation—it's proof of how remarkably effective and powerful Vibe-CEO'ing with the BMAD Method is!
+**See it in action!** [Video Walkthrough](https://youtu.be/p0barbrWgQA?si=PD1RyWNVDpdF3QJf) - The [`V2-FULL-DEMO-WALKTHROUGH`](./V2-FULL-DEMO-WALKTHROUGH/demo.md) folder contains a complete end-to-end demonstration of the BMad Method V2 in action. This isn't just documentation—it's proof of how remarkably effective and powerful Vibe-CEO'ing with the BMAD Method is!
 
 The walkthrough includes:
 
