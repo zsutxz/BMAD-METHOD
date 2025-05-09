@@ -13,18 +13,21 @@
 - Instructions: 1-analyst-gem.md pasted into instructions
 - Knowledge: templates/project-brief.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode + optional mode 1 deep research attached.
+- Message to start with - "hello"
 
 ### Product Manager (PM)
 
 - Instructions: 2-pm-gem.md pasted into instructions
 - Knowledge: templates/prd.txt, templates/epicN.txt, templates/ui-ux-spec.txt, templates/pm-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief.
+- Message to start with - "please reference and respond to the PM Prompt for us to begin", "there is a prompt for you in the attached for us to get started so that we can work towards creating the PRD and epics"
 
 ### Architect
 
 - Instructions: 3-architect-gem.md pasted into instructions
 - Knowledge: templates/architecture-templates.txt, templates/architect-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief, PRD, and any generated Epic files. If architecture deep research was done as mode 1, attach it to the new chat. Also if there was deep research from the PRD that is not fully distilled in the PRD (deep technical details or solutions), provide to the architect.
+- Message to start with - "the prompt to respond to is in the draft-prd at the end in a section called 'Initial Architect Prompt' and we are in architecture creation mode - all prd and epics planned by the pm are attached"
 
 ### PO + SM
 
@@ -34,3 +37,4 @@
   - The output of this can easily be passed to a new chat with this PO + SM gem or custom GPT and asked to deeply think or analyze through all of the extensive details to spot potential issues gaps, or inconsistences. I have not done this as I prefer to just generate and build 1 story at a time - so the utility of this I have not fully exhausted - but its an interesting idea.
 - During chat: Recommend starting chat by providing all possible artifacts output from previous stages - if a file limit is hit, you can attach as a folder in thinking mode for 2.5 pro - or combine documents. The SM needs latest versions of `prd.md`, `architecture.md`, the _technically enriched_ `epicN.md...` files, and relevant reference documents the architecture references, provided after initial PM/Architect collaboration and refinement.
 - The IDE version (agents folder) of the SM works on producing 1 story at a time for the dev to work on. This version is a bit different in that it will produce a single document with all remaining stories fully fleshed out at once, which then can be worked on still one on one in the IDE.
+- Message to start with - "OK `PO MODE` - ignore from the documents any initial architect prompts instruction sections" followed by "proceed to `SM MODE`. and lets create the stories for epic 1"
