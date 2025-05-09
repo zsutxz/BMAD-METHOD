@@ -1,0 +1,1 @@
+The lean ide agents are a bit smaller and more granular in scope to optimize for in IDE limitations and reduction of scope overhead. Specifically these were created for Windsurf max size limitation - but will probably also be helpful for Cursor and CoPilot.

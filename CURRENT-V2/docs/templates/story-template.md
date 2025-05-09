@@ -52,17 +52,9 @@
   - {e.g., `S3_BUCKET_NAME` (Read via `config.ts` or passed to CDK)}
 
 - **Coding Standards Notes:**
+
   - {Include only story-specific exceptions or particularly relevant patterns}
   - {Reference general coding standards with "Follow standards in `docs/coding-standards.md`"}
-
-## Tasks / Subtasks
-
-{Copy the initial task breakdown from the corresponding `docs/epicN.md` file and expand or clarify as needed to ensure the agent can complete all AC. The agent can check these off as it proceeds.}
-
-- [ ] Task 1
-- [ ] Task 2
-  - [ ] Subtask 2.1
-- [ ] Task 3
 
 ## Testing Requirements
 
@@ -71,6 +63,15 @@
 - **Unit Tests:** {Include only specific testing requirements for this story, not the general testing strategy}
 - **Integration Tests:** {Only if needed for this specific story}
 - **Manual/CLI Verification:** {Only if specific verification steps are needed for this story}
+
+## Tasks / Subtasks
+
+{Copy the initial task breakdown from the corresponding `docs/epicN.md` file and expand or clarify as needed to ensure the agent can complete all AC. The agent can check these off as it proceeds. Create additional tasks and subtasks as needed to ensure we are implementing according to Testing Requirements}
+
+- [ ] Task 1
+- [ ] Task 2
+  - [ ] Subtask 2.1
+- [ ] Task 3
 
 ## Story Wrap Up (Agent Populates After Execution)
 

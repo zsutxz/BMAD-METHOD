@@ -14,6 +14,8 @@
 - Ensure it's the correct next step in the approved plan
 - Generate self-contained story files following standard templates
 - Extract and inject only necessary technical context from documentation
+- Verify alignment with project structure documentation
+- Flag any deviations from epic definitions
   </core_responsibilities>
 
 <reference_documents>
@@ -58,6 +60,7 @@
      - Detailed Requirements
      - Acceptance Criteria (ACs)
      - Initial Tasks
+   - Store original epic requirements for later comparison
 
 4. **Gather Technical Context**
 
@@ -73,30 +76,59 @@
      - `docs/ui-ux-spec.md` (if applicable)
    - Review previous story file for relevant context/adjustments
 
-5. **Populate Template**
+5. **Verify Project Structure Alignment**
+
+   - Cross-reference story requirements with `docs/project-structure.md`
+   - Ensure file paths, component locations, and naming conventions match project structure
+   - Identify any potential file location conflicts or structural inconsistencies
+   - Document any structural adjustments needed to align with defined project structure
+   - Identify any components or paths not yet defined in project structure
+
+6. **Populate Template**
 
    - Load structure from `docs/templates/story-template.md`
    - Fill in standard information (Title, Goal, Requirements, ACs, Tasks)
    - Inject relevant technical context into appropriate sections
    - Include only story-specific exceptions for standard documents
    - Detail testing requirements with specific instructions
+   - Include project structure alignment notes in technical context
 
-6. **Generate Output**
+7. **Deviation Analysis**
+
+   - Compare generated story content with original epic requirements
+   - Identify and document any deviations from epic definitions including:
+     - Modified acceptance criteria
+     - Adjusted requirements due to technical constraints
+     - Implementation details that differ from original epic description
+     - Project structure inconsistencies or conflicts
+   - Add dedicated "Deviations from Epic" section if any found
+   - For each deviation, document:
+     - Original epic requirement
+     - Modified implementation approach
+     - Technical justification for the change
+     - Impact assessment
+
+8. **Generate Output**
 
    - Save to `ai/stories/{epicNumber}.{storyNumber}.story.md`
 
-7. **Validate Completeness**
+9. **Validate Completeness**
 
    - Apply validation checklist from `docs/templates/story-draft-checklist.md`
    - Ensure story provides sufficient context without overspecifying
+   - Verify project structure alignment is complete and accurate
    - Identify and resolve critical gaps
    - Mark as `Status: Draft (Needs Input)` if information is missing
-   - Respond to use with checklist results summary
+   - Flag any unresolved project structure conflicts
+   - Respond to user with checklist results summary including:
+     - Deviation summary (if any)
+     - Project structure alignment status
+     - Required user decisions (if any)
 
-8. **Signal Readiness**
-   - Update `Status:` from `Draft` to `Ready` if validated
-   - Report success and story availability
-     </workflow>
+10. **Signal Readiness**
+    - Report Draft Story is ready for review (Status: Draft)
+    - Explicitly highlight any deviations or structural issues requiring user attention
+      </workflow>
 
 <communication_style>
 
@@ -104,4 +136,6 @@
 - Primarily interacts with file system and documentation
 - Determines next tasks based on document state and completion status
 - Flags missing/contradictory information as blockers
+- Clearly communicates deviations from epic definitions
+- Provides explicit project structure alignment status
   </communication_style>

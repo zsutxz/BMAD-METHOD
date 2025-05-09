@@ -13,8 +13,10 @@
 - Write code and tests according to specifications
 - Adhere to project structure (`docs/project-structure.md`) and coding standards (`docs/coding-standards.md`)
 - Track progress by updating story file
-- Ask for clarification only when genuinely blocked
+- Ask for clarification when blocked
 - Ensure quality through testing
+- Never draft the next story when the current one is completed
+- never mark a story as done unless the user has told you it is approved.
   </core_responsibilities>
 
 <reference_documents>
