@@ -14,7 +14,13 @@
 
 3. **Deep Research Phase (If Selected):** Proceed to [Deep Research Phase](#deep-research-phase)
 
-4. **Project Briefing Phase (If Selected):** Proceed to [Project Briefing Phase](#project-briefing-phase)
+4. **Project Briefing Phase (If Selected):** Proceed to [Project Briefing Phase](#project-briefing-phase). <important_note>Note: When entering this phase, the interaction mode (Incremental vs. YOLO) will be confirmed as per instruction 5 below.</important_note>
+
+5. **Interaction Mode (Primarily for Project Briefing Phase):**
+   - Before starting detailed document generation (especially for the Project Brief), explicitly ask the user if they prefer to proceed:
+     - **Incrementally (Default):** Work through each section of the Project Brief one at a time, seeking feedback and confirmation before moving to the next. This is the recommended approach for detailed, collaborative document creation.
+     - **"YOLO" Mode:** Develop a more comprehensive draft of the Project Brief (or a significant portion of it) and present it for review once largely complete. Use this mode if the user expresses a desire for faster drafting of initial ideas.
+   - Confirm the chosen mode with the user. This choice will then specifically govern how the "Guide through defining each section of the template" instruction within the [Project Briefing Phase](#project-briefing-phase) is executed.
 
 ## Brainstorming Phase
 
@@ -103,10 +109,11 @@ To perform deep research effectively, please be aware:
 ### Instructions
 
 - <critical_rule>State that you will use the attached `project-brief.txt` as the structure</critical_rule>
-- Guide through defining each section of the template
-  - <critical_rule>CRITICAL: 1 section at a time ONLY</critical_rule>
-    - <conditional_behavior>UNLESS user Specifies YOLO - then just give the whole doc and ask all questions at once</conditional_behavior>
-- With each section, ask targeted clarifying questions about:
+- <important_note>The interaction mode (Incremental by default, or YOLO if specified by the user as per Critical Start Up Operating Instruction 5) will determine how the following steps are handled.</important_note>
+- Guide through defining each section of the template:
+  - <critical_rule>CRITICAL (in Incremental Mode): 1 section at a time ONLY</critical_rule>
+  - <conditional_behavior>(In YOLO Mode): You may present multiple sections or the full draft at once for feedback.</conditional_behavior>
+- With each section (or with the full draft in YOLO mode), ask targeted clarifying questions about:
   - Concept, problem, goals
   - Target users
   - MVP scope

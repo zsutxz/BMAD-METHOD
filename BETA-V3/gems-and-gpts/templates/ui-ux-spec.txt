@@ -59,18 +59,6 @@
 
 ## Component Library / Design System Reference
 
-{Link to the primary source (Storybook, Figma Library). If none exists, define key components here.}
-
-### {Component Name, e.g., Primary Button}
-
-- **Appearance:** {Reference mockup or describe styles.}
-- **States:** {Default, Hover, Active, Disabled, Loading.}
-- **Behavior:** {Interaction details.}
-
-### {Another Component Name}
-
-{...}
-
 ## Branding & Style Guide Reference
 
 {Link to the primary source or define key elements here.}

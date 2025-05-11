@@ -151,7 +151,7 @@ BMad News DiCaster is a web application that generates daily podcasts and newsle
   - Testing in the Vercel environment should ensure that the application functions correctly after deployment.
   - This includes testing the serverless function pipeline, webhooks, and any Vercel-specific configurations.
 
-## Epic Overview (MVP / Current Version)
+## Epic Overview
 
 - **Epic 1: Project Setup and Initial UI**
   - Goal: Deploy the starter template with an initial, generated UI and configure the project.

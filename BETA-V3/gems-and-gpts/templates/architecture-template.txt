@@ -1,0 +1,407 @@
+# {Project Name} Architecture Document
+
+## Table of Contents
+
+{ Update this if sections and subsections are added or removed }
+
+- [Technical Summary](#technical-summary)
+- [High-Level Overview](#high-level-overview)
+- [Component View](#component-view)
+  - [Architectural / Design Patterns Adopted](#architectural--design-patterns-adopted)
+- [API Reference](#api-reference)
+  - [External APIs Consumed](#external-apis-consumed)
+  - [{Another External Service Name} API](#another-external-service-name-api)
+  - [Internal APIs Provided (If Applicable)](#internal-apis-provided-if-applicable)
+- [Data Models](#data-models)
+  - [Core Application Entities / Domain Objects](#core-application-entities--domain-objects)
+  - [API Payload Schemas (If distinct)](#api-payload-schemas-if-distinct)
+  - [Database Schemas (If applicable)](#database-schemas-if-applicable)
+  - [State File Schemas (If applicable)](#state-file-schemas-if-applicable)
+- [Core Workflow / Sequence Diagrams](#core-workflow--sequence-diagrams)
+- [Definitive Tech Stack Selections](#definitive-tech-stack-selections)
+- [Infrastructure and Deployment Overview](#infrastructure-and-deployment-overview)
+- [Error Handling Strategy](#error-handling-strategy)
+- [Environment Vars Templates](#environment-vars-templates)
+  - [Configuration Loading Mechanism](#configuration-loading-mechanism)
+  - [Required Variables](#required-variables)
+  - [Env Var Notes](#env-var-notes)
+- [Security Best Practices](#security-best-practices)
+- [Testing Strategy](#testing-strategy)
+  - [Overall Philosophy & Goals](#overall-philosophy--goals)
+  - [Testing Levels](#testing-levels)
+  - [Specialized Testing Types (Add section as needed)](#specialized-testing-types-add-section-as-needed)
+  - [Test Data Management](#test-data-management)
+- [Key Reference Documents](#key-reference-documents)
+- [Change Log](#change-log)
+
+## Technical Summary
+
+{ Provide a brief paragraph overview of the system's architecture, key components, technology choices, and architectural patterns used. Reference the goals from the PRD. }
+
+## High-Level Overview
+
+{ Describe the main architectural style (e.g., Monolith, Microservices, Serverless, Event-Driven). Explain the primary user interaction or data flow at a conceptual level. }
+
+{ Insert high-level mermaid system context or interaction diagram here - e.g., Mermaid Class C4 Models Layer 1 and 2 }
+
+## Component View
+
+{ Describe the major logical components or services of the system and their responsibilities. Explain how they collaborate. }
+
+- Component A: {Description of responsibility}
+
+{Insert component diagram here if it helps - e.g., using Mermaid graph TD or C4 Model Container/Component Diagram}
+
+- Component N...: {Description of responsibility}
+
+{ Insert component diagram here if it helps - e.g., using Mermaid graph TD or C4 Model Container/Component Diagram }
+
+### Architectural / Design Patterns Adopted
+
+{ List the key high-level patterns chosen in the architecture document. These foundational patterns should be established early as they guide component design, interactions, and technology choices. }
+
+- **Pattern 1:** {e.g., Serverless, Event-Driven, Microservices, CQRS} - _Rationale/Reference:_ {Briefly why, or link to a more detailed explanation if needed}
+- **Pattern 2:** {e.g., Dependency Injection, Repository Pattern, Module Pattern} - _Rationale/Reference:_ {...}
+- **Pattern N:** {...}
+
+## API Reference
+
+### External APIs Consumed
+
+{Repeat this section for each external API the system interacts with.}
+
+#### {External Service Name} API
+
+- **Purpose:** {Why does the system use this API?}
+- **Base URL(s):**
+  - Production: `{URL}`
+  - Staging/Dev: `{URL}`
+- **Authentication:** {Describe method - e.g., API Key in Header (Header Name: `X-API-Key`), OAuth 2.0 Client Credentials, Basic Auth. Reference `docs/environment-vars.md` for key names.}
+- **Key Endpoints Used:**
+  - **`{HTTP Method} {/path/to/endpoint}`:**
+    - Description: {What does this endpoint do?}
+    - Request Parameters: {Query params, path params}
+    - Request Body Schema: {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if the schema is exceptionally large or complex.}
+    - Example Request: `{Code block}`
+    - Success Response Schema (Code: `200 OK`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
+    - Error Response Schema(s) (Codes: `4xx`, `5xx`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
+    - Example Response: `{Code block}`
+  - **`{HTTP Method} {/another/endpoint}`:** {...}
+- **Rate Limits:** {If known}
+- **Link to Official Docs:** {URL}
+
+### {Another External Service Name} API
+
+{...}
+
+### Internal APIs Provided (If Applicable)
+
+{If the system exposes its own APIs (e.g., in a microservices architecture or for a UI frontend). Repeat for each API.}
+
+#### {Internal API / Service Name} API
+
+- **Purpose:** {What service does this API provide?}
+- **Base URL(s):** {e.g., `/api/v1/...`}
+- **Authentication/Authorization:** {Describe how access is controlled.}
+- **Endpoints:**
+  - **`{HTTP Method} {/path/to/endpoint}`:**
+    - Description: {What does this endpoint do?}
+    - Request Parameters: {...}
+    - Request Body Schema: {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
+    - Success Response Schema (Code: `200 OK`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
+    - Error Response Schema(s) (Codes: `4xx`, `5xx`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
+  - **`{HTTP Method} {/another/endpoint}`:** {...}
+
+## Data Models
+
+### Core Application Entities / Domain Objects
+
+{Define the main objects/concepts the application works with. Repeat subsection for each key entity.}
+
+#### {Entity Name, e.g., User, Order, Product}
+
+- **Description:** {What does this entity represent?}
+- **Schema / Interface Definition:**
+  ```typescript
+  // Example using TypeScript Interface
+  export interface {EntityName} {
+    id: string; // {Description, e.g., Unique identifier}
+    propertyName: string; // {Description}
+    optionalProperty?: number; // {Description}
+    // ... other properties
+  }
+  ```
+  _(Alternatively, use JSON Schema, class definitions, or other relevant format)_
+- **Validation Rules:** {List any specific validation rules beyond basic types - e.g., max length, format, range.}
+
+#### {Another Entity Name}
+
+{...}
+
+### API Payload Schemas (If distinct)
+
+{Define schemas here only if they are distinct from core entities AND not fully detailed under the API endpoint definitions in the API Reference section. Prefer detailing request/response schemas directly with their APIs where possible. This section is for complex, reusable payload structures that might be used across multiple internal APIs or differ significantly from core persisted entities.}
+
+#### {API Endpoint / Purpose, e.g., Create Order Request}
+
+- **Schema / Interface Definition:**
+  ```typescript
+  // Example
+  export interface CreateOrderRequest {
+    customerId: string;
+    items: { productId: string; quantity: number }[];
+    // ...
+  }
+  ```
+
+#### {Another API Payload}
+
+{...}
+
+### Database Schemas (If applicable)
+
+{If using a database, define table structures or document database schemas.}
+
+#### {Table / Collection Name}
+
+- **Purpose:** {What data does this table store?}
+- **Schema Definition:**
+  ```sql
+  -- Example SQL
+  CREATE TABLE {TableName} (
+    id VARCHAR(36) PRIMARY KEY,
+    column_name VARCHAR(255) NOT NULL,
+    numeric_column DECIMAL(10, 2),
+    -- ... other columns, indexes, constraints
+  );
+  ```
+  _(Alternatively, use ORM model definitions, NoSQL document structure, etc.)_
+
+#### {Another Table / Collection Name}
+
+{...}
+
+### State File Schemas (If applicable)
+
+{If the application uses files for persisting state.}
+
+#### {State File Name / Purpose, e.g., processed_items.json}
+
+- **Purpose:** {What state does this file track?}
+- **Format:** {e.g., JSON}
+- **Schema Definition:**
+  ```json
+  {
+    "type": "object",
+    "properties": {
+      "processedIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of IDs that have been processed."
+      }
+      // ... other state properties
+    },
+    "required": ["processedIds"]
+  }
+  ```
+
+## Core Workflow / Sequence Diagrams
+
+{ Illustrate key or complex workflows using mermaid sequence diagrams. Can have high level tying the full project together, and also smaller epic level sequence diagrams. }
+
+## Definitive Tech Stack Selections
+
+{ This section outlines the definitive technology choices for the project. These selections should be made after a thorough understanding of the project's requirements, components, data models, and core workflows. The Architect Agent should guide the user through these decisions, ensuring each choice is justified and recorded accurately in the table below.
+
+Key decisions to discuss and finalize here, which will then be expanded upon and formally documented in the detailed stack table below, include considerations such as:
+
+- Preferred Starter Template Frontend: { Url to template or starter, if used }
+- Preferred Starter Template Backend: { Url to template or starter, if used }
+- Primary Language(s) & Version(s): {e.g., TypeScript 5.x, Python 3.11}
+- Primary Runtime(s) & Version(s): {e.g., Node.js 22.x}
+
+Must be definitive selections; do not list open-ended choices (e.g., for web scraping, pick one tool, not two). Specify versions or clearly state "Latest," but be cautious with "Latest" if dependency issues are a concern. }
+
+| Category             | Technology              | Version / Details | Description / Purpose                   | Justification (Optional) |
+| :------------------- | :---------------------- | :---------------- | :-------------------------------------- | :----------------------- |
+| **Languages**        | {e.g., TypeScript}      | {e.g., 5.x}       | {Primary language for backend/frontend} | {Why this language?}     |
+|                      | {e.g., Python}          | {e.g., 3.11}      | {Used for data processing, ML}          | {...}                    |
+| **Runtime**          | {e.g., Node.js}         | {e.g., 22.x}      | {Server-side execution environment}     | {...}                    |
+| **Frameworks**       | {e.g., NestJS}          | {e.g., 10.x}      | {Backend API framework}                 | {Why this framework?}    |
+|                      | {e.g., React}           | {e.g., 18.x}      | {Frontend UI library}                   | {...}                    |
+| **Databases**        | {e.g., PostgreSQL}      | {e.g., 15}        | {Primary relational data store}         | {...}                    |
+|                      | {e.g., Redis}           | {e.g., 7.x}       | {Caching, session storage}              | {...}                    |
+| **Cloud Platform**   | {e.g., AWS}             | {N/A}             | {Primary cloud provider}                | {...}                    |
+| **Cloud Services**   | {e.g., AWS Lambda}      | {N/A}             | {Serverless compute}                    | {...}                    |
+|                      | {e.g., AWS S3}          | {N/A}             | {Object storage for assets/state}       | {...}                    |
+|                      | {e.g., AWS EventBridge} | {N/A}             | {Event bus / scheduled tasks}           | {...}                    |
+| **Infrastructure**   | {e.g., AWS CDK}         | {e.g., Latest}    | {Infrastructure as Code tool}           | {...}                    |
+|                      | {e.g., Docker}          | {e.g., Latest}    | {Containerization}                      | {...}                    |
+| **UI Libraries**     | {e.g., Material UI}     | {e.g., 5.x}       | {React component library}               | {...}                    |
+| **State Management** | {e.g., Redux Toolkit}   | {e.g., Latest}    | {Frontend state management}             | {...}                    |
+| **Testing**          | {e.g., Jest}            | {e.g., Latest}    | {Unit/Integration testing framework}    | {...}                    |
+|                      | {e.g., Playwright}      | {e.g., Latest}    | {End-to-end testing framework}          | {...}                    |
+| **CI/CD**            | {e.g., GitHub Actions}  | {N/A}             | {Continuous Integration/Deployment}     | {...}                    |
+| **Other Tools**      | {e.g., LangChain.js}    | {e.g., Latest}    | {LLM interaction library}               | {...}                    |
+|                      | {e.g., Cheerio}         | {e.g., Latest}    | {HTML parsing/scraping}                 | {...}                    |
+
+## Infrastructure and Deployment Overview
+
+- Cloud Provider(s): {e.g., AWS, Azure, GCP, On-premise}
+- Core Services Used: {List key managed services - e.g., Lambda, S3, Kubernetes Engine, RDS, Kafka}
+- Infrastructure as Code (IaC): {Tool used - e.g., AWS CDK, Terraform...} - Location: {Link to IaC code repo/directory}
+- Deployment Strategy: {e.g., CI/CD pipeline, Manual deployment steps, Blue/Green, Canary} - Tools: {e.g., Jenkins, GitHub Actions, GitLab CI}
+- Environments: {List environments - e.g., Development, Staging, Production}
+
+## Error Handling Strategy
+
+- **General Approach:** {e.g., Use exceptions, return error codes/tuples, specific error types.}
+- **Logging:**
+  - Library/Method: {e.g., `console.log/error`, Python `logging` module, dedicated logging library}
+  - Format: {e.g., JSON, plain text}
+  - Levels: {e.g., DEBUG, INFO, WARN, ERROR}
+  - Context: {What contextual information should be included?}
+- **Specific Handling Patterns:**
+  - External API Calls: {e.g., Use `try/catch`, check response codes, implement retries with backoff for transient errors?}
+  - Input Validation: {Where and how is input validated?}
+  - Graceful Degradation vs. Critical Failure: {Define criteria for when to continue vs. halt.}
+
+## Environment Vars Templates
+
+### Configuration Loading Mechanism
+
+{Describe how environment variables are loaded into the application.}
+
+- **Local Development:** {e.g., Using `.env` file with `dotenv` library.}
+- **Deployment (e.g., AWS Lambda, Kubernetes):** {e.g., Set via Lambda function configuration, Kubernetes Secrets/ConfigMaps.}
+
+### Required Variables
+
+{List all environment variables used by the application.}
+
+| Variable Name        | Description                                     | Example / Default Value               | Required? (Yes/No) | Sensitive? (Yes/No) |
+| :------------------- | :---------------------------------------------- | :------------------------------------ | :----------------- | :------------------ |
+| `NODE_ENV`           | Runtime environment                             | `development` / `production`          | Yes                | No                  |
+| `PORT`               | Port the application listens on (if applicable) | `8080`                                | No                 | No                  |
+| `DATABASE_URL`       | Connection string for the primary database      | `postgresql://user:pass@host:port/db` | Yes                | Yes                 |
+| `EXTERNAL_API_KEY`   | API Key for {External Service Name}             | `sk_...`                              | Yes                | Yes                 |
+| `S3_BUCKET_NAME`     | Name of the S3 bucket for {Purpose}             | `my-app-data-bucket-...`              | Yes                | No                  |
+| `FEATURE_FLAG_X`     | Enables/disables experimental feature X         | `false`                               | No                 | No                  |
+| `{ANOTHER_VARIABLE}` | {Description}                                   | {Example}                             | {Yes/No}           | {Yes/No}            |
+| ...                  | ...                                             | ...                                   | ...                | ...                 |
+
+### Env Var Notes
+
+- **Secrets Management:** {Explain how sensitive variables (API Keys, passwords) should be handled, especially in production (e.g., "Use AWS Secrets Manager", "Inject via CI/CD pipeline").}
+- **`.env.example`:** {Mention that an `.env.example` file should be maintained in the repository with placeholder values for developers.}
+- **Validation:** {Is there code that validates the presence or format of these variables at startup?}
+
+## Security Best Practices
+
+{Outline key security considerations relevant to the codebase.}
+
+- Input Sanitization/Validation: {...}
+- Secrets Management: {How are secrets handled in code? Reference `docs/environment-vars.md` regarding storage.}
+- Dependency Security: {Policy on checking for vulnerable dependencies.}
+- Authentication/Authorization Checks: {Where should these be enforced?}
+- {Other relevant practices...}
+
+## Testing Strategy
+
+## Overall Philosophy & Goals
+
+{Describe the high-level approach. e.g., "Follow the Testing Pyramid/Trophy principle.", "Automate extensively.", "Focus on testing business logic and key integrations.", "Ensure tests run efficiently in CI/CD."}
+
+- Goal 1: {e.g., Achieve X% code coverage for critical modules.}
+- Goal 2: {e.g., Prevent regressions in core functionality.}
+- Goal 3: {e.g., Enable confident refactoring.}
+
+## Testing Levels
+
+### Unit Tests
+
+#### EXAMPLE:
+
+- **Scope:** Test individual functions, methods, or components in isolation. Focus on business logic, calculations, and conditional paths within a single module.
+- **Tools:** {e.g., Jest, Pytest, Go testing package, JUnit, NUnit}
+- **Mocking/Stubbing:** {How are dependencies mocked? e.g., Jest mocks, Mockito, Go interfaces}
+- **Location:** {e.g., `test/unit/`, adhering to the structure in `docs/project-structure.md` or alongside source files (`*.test.ts`)}
+- **Expectations:** {e.g., Should cover all significant logic paths. Fast execution.}
+
+### Integration Tests
+
+#### EXAMPLE:
+
+- **Scope:** Verify the interaction and collaboration between multiple internal components or modules. Test the flow of data and control within a specific feature or workflow slice. May involve mocking external APIs or databases, or using test containers.
+- **Tools:** {e.g., Jest, Pytest, Go testing package, Testcontainers, Supertest (for APIs)}
+- **Location:** {e.g., `test/integration/`, adhering to the structure in `docs/project-structure.md`}
+- **Expectations:** {e.g., Focus on module boundaries and contracts. Slower than unit tests.}
+
+### End-to-End (E2E) / Acceptance Tests
+
+#### EXAMPLE:
+
+- **Scope:** Test the entire system flow from an end-user perspective. Interact with the application through its external interfaces (UI or API). Validate complete user journeys or business processes against real or near-real dependencies.
+- **Tools:** {e.g., Playwright, Cypress, Selenium (for UI); Postman/Newman, K6 (for API)}
+- **Environment:** {Run against deployed environments (e.g., Staging) or a locally composed setup (Docker Compose).}
+- **Location:** {e.g., `test/e2e/`, adhering to the structure in `docs/project-structure.md`}
+- **Expectations:** {Cover critical user paths. Slower, potentially flaky, run less frequently (e.g., pre-release, nightly).}
+
+### Manual / Exploratory Testing (Optional)
+
+#### EXAMPLE:
+
+- **Scope:** {Where is manual testing still required? e.g., Exploratory testing for usability, testing complex edge cases.}
+- **Process:** {How is it performed and tracked?}
+
+### Specialized Testing Types (Add section as needed)
+
+### Performance Testing
+
+#### EXAMPLE:
+
+- **Scope & Goals:** {What needs performance testing? What are the targets (latency, throughput)?}
+- **Tools:** {e.g., K6, JMeter, Locust}
+
+### Security Testing
+
+#### EXAMPLE:
+
+- **Scope & Goals:** {e.g., Dependency scanning, SAST, DAST, penetration testing requirements.}
+- **Tools:** {e.g., Snyk, OWASP ZAP, Dependabot}
+
+### Accessibility Testing (UI)
+
+#### EXAMPLE:
+
+- **Scope & Goals:** {Target WCAG level, key areas.}
+- **Tools:** {e.g., Axe, Lighthouse, manual checks}
+
+### Visual Regression Testing (UI)
+
+#### EXAMPLE:
+
+- **Scope & Goals:** {Prevent unintended visual changes.}
+- **Tools:** {e.g., Percy, Applitools Eyes, Playwright visual comparisons}
+
+### Test Data Management
+
+#### EXAMPLE:
+
+{How is test data generated, managed, and reset for different testing levels?}
+
+## Key Reference Documents
+
+See docs/index.md
+- docs/front-end-architecture.md {If applicable, for detailed frontend technical design}
+
+## Change Log
+
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |
+
+## Epic Story updates
+
+{ Upon completion of all sections, any changes needed for epics or stories will be listed here }
