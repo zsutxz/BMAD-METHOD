@@ -1,0 +1,411 @@
+Certainly! Here's the complete final document, incorporating all sections, including the checklist report and the architect prompt:
+
+#   BMad News DiCaster Product Requirements Document (PRD)
+
+##   Goal, Objective and Context
+
+BMad News DiCaster is a web application that generates daily podcasts and newsletters summarizing the top 10 Hacker News stories. The primary goal is to provide a way for individuals to efficiently keep up with Hacker News content. The application will be built using Next.js, Supabase, and Vercel. [cite: 1, 2, 3, 4, 5, 6, 85, 86]
+
+##   Functional Requirements (MVP)
+
+* **Content Sourcing:**
+    * Automated fetching of top Hacker News stories, configurable for time/frequency and triggerable manually via CLI.
+        * _Clarification:_ The fetching schedule should be configurable and ideally read from the database.
+* **Content Scraping:**
+    * Scraping linked article content, attempting to retrieve up to `MAX_NUMBER` of posts to produce `NEWSLETTER_ITEM_COUNT` articles.
+    * Scraped article content and retrieved comments should be saved in connection with the HN post.
+        * _Clarification:_ Scraper should retrieve up to `MAX_NUMBER` posts to ensure we can summarize `NEWSLETTER_ITEM_COUNT` articles. More advanced scraping to be considered post-MVP.
+    * _Error Handling:_ If scraping fails for an article, the system should proceed to the next article. If the required `NEWSLETTER_ITEM_COUNT` cannot be reached after scraping `MAX_NUMBER` posts, the system will use the available successful scrapes and include a summary of the comment thread for the articles that failed to scrape.
+* **Content Summarization:**
+    * LLM summarization of articles (approximately 2 paragraphs) and comments (approximately 2 paragraphs), with configurable local/remote LLM selection (URL, API key, model).
+    * Summaries of articles and comments should be saved.
+    * Prompts and newsletter templates should be stored in the database for easy updating.
+    * A setting should define the maximum number of comments to pull and summarize.
+* **Data Storage:**
+    * Storage of all data in Supabase (local and cloud-hosted), including:
+        * HN posts and associated scraped article content and comments.
+        * Summaries of articles and comments.
+        * Webhook responses from Play.ai.
+* **Audio Generation:**
+    * Integration with Play.ai PlayNote API, with voice, quality, and tone parameters to be determined during development. [cite: 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 86, 87]
+    * Webhook response indicating generation completion should be saved.
+* **Content Generation Workflow:**
+    * Automated daily process with incremental saving of assets at each stage of the pipeline. [cite: 28]
+    * CLI tool for on-demand generation. [cite: 29]
+* **Web Interface:**
+    * Single unauthenticated page listing newsletter/podcast titles, date/time, and links to detail pages. [cite: 30, 31, 32]
+    * Detail page displaying the newsletter and embedded audio player. [cite: 32, 33]
+* **Newsletter Content:**
+    * The newsletter should be visually appealing and include:
+        * Article summaries.
+        * Comment summaries.
+        * Hacker News post title.
+        * Hacker News post upvote count.
+        * Hacker News post date.
+        * Link to the Hacker News post.
+        * Link to the article.
+* **User Authentication:**
+    * _Moved to Post-MVP._
+* **User Profile:**
+    * _Moved to Post-MVP._
+* **Email Dispatch:**
+    * Automated daily email dispatch to a manually maintained list of subscribed users. [cite: 34, 35]
+        * _Clarification:_ User subscription management (add/remove) will be done directly by the admin in the database for the MVP.
+
+##   Non-Functional Requirements (MVP)
+
+* **Performance:**
+    * The system should efficiently generate and deliver daily summaries within a defined time window.
+    * LLM processing time should be minimized to avoid delays.
+    * The web interface should load quickly and provide a responsive user experience.
+* **Scalability:**
+    * The system should be able to handle a growing number of users and summaries.
+* **Reliability:**
+    * The daily content generation process should be reliable and fault-tolerant.
+    * The system should handle potential issues with external APIs (Hacker News, LLM, Play.ai) gracefully. [cite: 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* **Security:**
+    * Data should be stored securely in Supabase.
+    * Appropriate security measures should be in place to protect against unauthorized access.
+* **Development and Deployment:**
+    * The system should support both local development (with local Supabase and LLM) and remote deployment on Vercel. [cite: 40, 41]
+    * The content generation process should be deployable as a pipeline of serverless functions on Vercel. [cite: 49]
+* **Logging and Monitoring:**
+    * The system should log errors and successful completion of pipeline stages.
+    * Vercel's logging and monitoring capabilities should be utilized.
+* **Error Handling:**
+    * If scraping fails for an article, the system should proceed to the next article.
+    * If the required `NEWSLETTER_ITEM_COUNT` cannot be reached after scraping `MAX_NUMBER` posts, the system will use the available successful scrapes and include a summary of the comment thread for the articles that failed to scrape.
+
+##   User Interaction and Design Goals
+
+* **Overall UX Goals & Principles:**
+    * _Target User Personas:_ Tech-savvy individuals interested in Hacker News. [cite: 16, 17, 18]
+    * _Usability Goals:_
+        * Ease of finding daily summaries.
+        * Efficient access to both text and audio versions.
+        * Clear presentation of information.
+    * _Design Principles:_
+        * Clarity: Prioritize clear presentation of information.
+        * Accessibility: Ensure content is accessible to all users.
+        * Responsiveness: The interface should work well on various screen sizes.
+        * Modern Aesthetic: Implement a synthwave-inspired, dark, glowing, and minimalist design.
+* **Information Architecture (IA):**
+    * Two pages:
+        * List Page: Displays a list of summaries with titles, dates, and links to detail pages.
+        * Detail Page: Shows the full newsletter content and an embedded audio player.
+* **User Flows:**
+    * View Summary List: User navigates to the list page and browses available summaries.
+    * View Summary Detail: User clicks on a summary to view the detail page with the text and audio.
+* **UI Elements:**
+    * List Page:
+        * List of newsletter titles with dates and times.
+        * Links to detail pages.
+    * Detail Page:
+        * Newsletter content (article and comment summaries, HN post details).
+        * Embedded audio player.
+* **Technology Stack:**
+    * shadcn/ui and Tailwind CSS will be used for UI development.
+* **Design Considerations:**
+    * Visual appeal of the newsletter (as mentioned in functional requirements).
+    * Clear display of HN post details (title, upvotes, date, links).
+    * Mobile-friendly layout.
+    * Synthwave-inspired, dark, glowing, and minimalist aesthetic.
+
+##   Technical Assumptions
+
+* **Core Stack:** Next.js, Supabase, Vercel (using the starter template from \[<https://vercel.com/templates/authentication/supabase>\](https://vercel.com/templates/authentication/supabase) and its current versions). [cite: 40, 41]
+* **Hosting:** Vercel Pro tier. [cite: 41]
+* **Content Fetching:** hnangolia library. [cite: 42]
+* **Content Scraping:** Cheerio. [cite: 42]
+* **LLM:**
+    * Local LLMs (e.g., Ollama) for local development. [cite: 43, 44, 45]
+    * API-based LLMs (e.g., OpenAI, Anthropic) for production/local. [cite: 43, 44, 45]
+    * LLM configuration via API keys and URLs. [cite: 43, 44, 45]
+* **Audio Generation:** Play.ai PlayNote API. [cite: 45, 46]
+* **Local Development:**
+    * Local Supabase instance in Docker. [cite: 46, 47, 48]
+    * CLI for on-demand content generation. [cite: 46, 47, 48]
+* **Architecture:**
+    * Serverless functions on Vercel. [cite: 49, 50, 51, 52]
+    * Use of facades for external library interactions to facilitate unit testing and library swapping.
+    * Use of a factory pattern for scraper implementation to support adding new scrapers.
+* **Data Persistence:** All data stored in Supabase (local and cloud). [cite: 48]
+
+###   Testing requirements
+
+* **Unit Testing:**
+    * Individual components and functions should be unit tested to ensure they behave as expected.
+    * This includes testing the scraper, LLM summarization logic, data storage interactions, etc.
+    * Jest should be used as the unit testing framework.
+* **Integration Testing:**
+    * Integration tests should verify the interactions between different components.
+    * For example, testing the integration between the Hacker News data fetching and the article scraping, or the integration between the LLM summarization and the audio generation.
+* **End-to-End (E2E) Testing:**
+    * E2E tests should simulate user flows and verify the overall functionality of the application.
+    * This could include testing the content generation workflow from start to finish, or testing the display of summaries in the web interface.
+    * React Testing Library (RTL) should be used for E2E testing.
+* **API Testing:**
+    * The APIs used for fetching data, LLM interaction, and audio generation should be tested to ensure they are functioning correctly and returning the expected data.
+* **Local Testing:**
+    * The CLI tool for on-demand content generation should be thoroughly tested in the local development environment.
+    * Local testing should also include verifying the local Supabase and LLM integration.
+* **Deployment Testing:**
+    * Testing in the Vercel environment should ensure that the application functions correctly after deployment.
+    * This includes testing the serverless function pipeline, webhooks, and any Vercel-specific configurations.
+
+##   Epic Overview (MVP / Current Version)
+
+* **Epic 1: Project Setup and Initial UI**
+    * Goal: Deploy the starter template with an initial, generated UI and configure the project.
+    * Story 1.1: As a developer, I want to set up the project using the Supabase starter template so that I have a foundation to build upon.
+        * Acceptance Criteria:
+            * The Supabase starter template is successfully initialized.
+            * The project directory is structured as defined by the template.
+            * The necessary Supabase client libraries are installed.
+    * Story 1.2: As a developer, I want to configure the project's dependencies and environment variables so that I can run the application locally.
+        * Acceptance Criteria:
+            * All project dependencies are installed.
+            * Environment variables are configured for local development.
+            * The application can be run locally without errors.
+    * Story 1.3: As a developer, I want to deploy the starter template to Vercel so that the application is accessible online.
+        * Acceptance Criteria:
+            * The project is successfully deployed to Vercel.
+            * The deployed application is accessible via a Vercel-provided URL.
+            * Environment variables are configured for the Vercel environment.
+    * Story 1.4: As a developer, I want to set up CI/CD so that changes to the codebase are automatically deployed.
+        * Acceptance Criteria:
+            * A CI/CD pipeline is set up (e.g., using Vercel's Git integration).
+            * Changes to the main branch trigger automatic deployment to Vercel.
+            * The deployment process is automated.
+    * Story 1.5: As a developer, I want to generate an initial UI with placeholder content for the list and detail pages using a UI generation tool, and style it.
+        * Acceptance Criteria:
+            * A UI generation tool (e.g., V0 or [lovable.ai](http://lovable.ai)) is used to create the initial structure and styling of the web interface.
+            * The generated UI includes placeholder content for the list page (titles, dates, links) and detail page (newsletter content, audio player).
+            * The UI is styled using shadcn/ui and Tailwind CSS with a synthwave-inspired, dark, glowing, and minimalist aesthetic.
+            * The UI is designed for a single large desktop layout.
+* **Epic 2: Hacker News Content Retrieval and Scraping**
+    * Goal: Implement the functionality to fetch Hacker News stories and scrape the content from the linked websites.
+    * Story 2.1: As a developer, I want to fetch the top Hacker News stories using the `hnangolia` library so that I can retrieve the data needed for the newsletter.
+        * Acceptance Criteria:
+            * The `hnangolia` library is successfully integrated into the project.
+            * The system can fetch the specified number of top Hacker News stories.
+            * The fetched data includes the necessary fields (e.g., title, URL, HN post ID).
+    * Story 2.2: As a developer, I want to implement a scraper to extract article content from the URLs provided by Hacker News so that I can obtain the article text for summarization.
+        * Acceptance Criteria:
+            * A scraper is implemented using Cheerio.
+            * The scraper can extract the main content from articles across different websites.
+            * The scraper handles potential issues like missing content or different website structures gracefully (e.g., logs errors and continues).
+    * Story 2.3: As a developer, I want to save the fetched Hacker News data and scraped article content so that it can be used in subsequent steps.
+        * Acceptance Criteria:
+            * The fetched Hacker News data is saved in the database, including relevant details.
+            * The scraped article content is saved in the database, associated with the corresponding Hacker News post.
+    * Story 2.4: As a developer, I want to configure the number of top Hacker News stories to fetch and the maximum number of articles to scrape so that these parameters can be adjusted as needed.
+        * Acceptance Criteria:
+            * Configuration options are implemented for:
+                * The number of top Hacker News stories to fetch (`NEWSLETTER_ITEM_COUNT`).
+                * The maximum number of articles to scrape (`MAX_NUMBER`).
+            * These configuration options can be easily modified (e.g., via environment variables or a configuration file).
+* **Epic 3: LLM Summarization**
+    * Goal: Implement the LLM-powered summarization of articles and comments.
+    * Story 3.1: As a developer, I want to integrate an LLM API for text summarization so that I can generate concise summaries of articles and comments.
+        * Acceptance Criteria:
+            * The chosen LLM API is successfully integrated into the project.
+            * The system can send text to the LLM API and receive summaries.
+    * Story 3.2: As a developer, I want to implement the logic to summarize article content so that I can provide users with a quick overview of the main points.
+        * Acceptance Criteria:
+            * The logic for summarizing article content is implemented.
+            * The system can extract relevant text from the scraped article content and provide it to the LLM API.
+            * The generated summaries are concise (approximately 2 paragraphs) and capture the main points of the article.
+    * Story 3.3: As a developer, I want to implement the logic to summarize comments on Hacker News posts so that I can capture the main discussion points.
+        * Acceptance Criteria:
+            * The logic for summarizing Hacker News comments is implemented.
+            * The system can retrieve comments associated with an HN post and provide them to the LLM API.
+            * The generated summaries are concise (approximately 2 paragraphs) and capture the main discussion points.
+    * Story 3.4: As a developer, I want to store the generated summaries in the database, associated with the corresponding articles and HN posts, so that they can be used in the newsletter.
+        * Acceptance Criteria:
+            * The generated article summaries are stored in the database, associated with the corresponding articles.
+            * The generated comment summaries are stored in the database, associated with the corresponding HN posts.
+    * Story 3.5: As a developer, I want to make the LLM API endpoint, model, and API key configurable so that I can easily switch between different LLM providers or models.
+        * Acceptance Criteria:
+            * The LLM API endpoint, model, and API key are configurable via environment variables or a configuration file.
+            * The system can switch between different LLM providers or models by changing the configuration.
+    * Story 3.6: As a developer, I want to store the summarization prompts in the database so that they can be easily updated without requiring code changes.
+        * Acceptance Criteria:
+            * The summarization prompts are stored in the database.
+            * The system retrieves the prompts from the database and uses them when calling the LLM API.
+            * The prompts can be updated in the database without requiring code changes or redeployment.
+* **Epic 4: Web Interface Implementation**
+    * Goal: Implement the functionality of the web interface pages.
+    * Story 4.1: As a developer, I want to make the list page display the actual data.
+        * Acceptance Criteria:
+            * The list page displays newsletter titles and dates/times from the database.
+            * Each item in the list is a link to the corresponding detail page.
+            * The list is sorted by date/time.
+    * Story 4.2: As a developer, I want to make the detail page display the actual newsletter content and allow navigation to and from the list page.
+        * Acceptance Criteria:
+            * The detail page displays the full newsletter content from the database.
+            * The newsletter content includes article summaries, comment summaries, and Hacker News post details.
+            * Users can navigate to the detail page by clicking on an item in the list page.
+            * The detail page includes a "back to list" navigation element.
+    * Story 4.3: As a developer, I want to make the audio player on the detail page play the actual podcast.
+        * Acceptance Criteria:
+            * The audio player on the detail page plays the podcast associated with the displayed newsletter.
+* **Epic 5: Email Dispatch**
+    * Goal: Implement the automated email dispatch of newsletters to subscribed users.
+    * Story 5.1: As a user, I want to receive a daily newsletter email so that I can stay updated on the top Hacker News stories.
+        * Acceptance Criteria:
+            * The system sends a newsletter email.
+            * The email includes the newsletter content (article and comment summaries, HN post details).
+            * The email is formatted correctly and is visually appealing.
+            * The email is sent to the list of emails maintained manually in the database.
+    * Story 5.2: As a developer, I want to be able to manually trigger the newsletter email sending process via a command-line interface so that I can test and initiate the sending process on demand.
+        * Acceptance Criteria:
+            * A CLI command is available to trigger the newsletter email sending process.
+            * The command can be executed in the local development environment.
+            * Executing the command sends the newsletter email.
+    * Story 5.3: As a developer, I want to automate the daily sending of the newsletter email so that it is sent out regularly without manual intervention.
+        * Acceptance Criteria:
+            * The sending of the newsletter email is automated (e.g., using Vercel's cron jobs or similar).
+            * The email is sent out daily at a specified time.
+            * _Question:_ What specific cron job capabilities does Vercel Pro support?
+* **Epic 6: Podcast Generation and UI Update**
+    * Goal: Implement podcast generation, update the newsletter with the audio link, and update the UI with the audio player.
+    * Story 6.1: As a developer, I want to integrate the Play.ai PlayNote API to generate audio versions of the newsletters.
+        * Acceptance Criteria:
+            * The Play.ai PlayNote API is successfully integrated into the project.
+            * The system can send the newsletter text to the Play.ai API and receive a confirmation that the request was accepted.
+            * The system implements a webhook endpoint to receive the generated audio URL from Play.ai.
+    * Story 6.2: As a developer, I want to store the generated podcast URLs in the database, associated with the corresponding newsletters, upon receiving the webhook notification.
+        * Acceptance Criteria:
+            * The system can receive the audio URL via the webhook.
+            * The generated podcast URLs are stored in the database, associated with the corresponding newsletters.
+    * Story 6.3: As a developer, I want to update the newsletter content to include a link to the audio version, and ensure that the email is not sent until the podcast link is available.
+        * Acceptance Criteria:
+            * The newsletter data in the database is updated to include the audio URL.
+            * The newsletter email includes a link to the audio version.
+            * The system ensures that the email is not sent until the podcast URL is successfully received from Play.ai and stored in the database.
+    * Story 6.4: As a developer, I want to embed an audio player in the UI so that users can listen to the podcast.
+        * Acceptance Criteria:
+            * An audio player is embedded in the detail page of the UI.
+            * The audio player can play the audio file from the generated URL.
+
+##   Key Reference Documents
+
+{Will be populated at a later time}
+
+##   Out of Scope Ideas Post MVP
+
+* User Authentication
+* User Profiles
+* Advanced scraping
+* Admin Interface
+* Flexible Scheduling & Editions
+* User Customization
+* Expanded Content Sources
+
+##   Change Log
+
+| Change | Date | Version | Description | Author |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
+
+----- END PRD START CHECKLIST OUTPUT ------
+
+##   Checklist Results Report
+
+Here is the diagram of the pipeline and user interaction:
+
+```mermaid
+graph LR
+A[Hacker News] --> B(Fetch Top Stories);
+B --> C{Scrape Articles};
+C -- Fail --> D[Summarize Comments];
+C -- Success --> E[Summarize Articles];
+D --> F[Store Data];
+E --> F;
+F --> G(Generate Audio);
+G --> H(Send Email);
+H --> I[User - List Page];
+I --> J[User - Detail Page];
+```
+
+###   Category Statuses
+
+| Category | Status | Critical Issues |
+| --- | --- | --- |
+| 1. Problem Definition & Context | PARTIAL | Missing: Quantification of problem impact, business goals & success metrics, user research details, competitive analysis, market context |
+| 2. MVP Scope Definition | PARTIAL | Missing: MVP validation approach details |
+| 3. User Experience Requirements | PARTIAL | Missing: Accessibility, performance expectations, error handling, and user feedback details |
+| 4. Functional Requirements | PASS | |
+| 5. Non-Functional Requirements | PARTIAL | Missing: Performance, security, reliability, and resilience details |
+| 6. Epic & Story Structure | PASS | |
+| 7. Technical Guidance | PARTIAL | Missing: Technical Decision Framework details |
+| 8. Cross-Functional Requirements | FAIL | Missing: Most details |
+| 9. Clarity & Communication | PASS | |
+
+###   Critical Deficiencies
+
+* **Problem Definition & Context:** Lacks quantification of the problem's impact and business goals.
+* **MVP Scope Definition:** Missing details on the MVP validation approach.
+* **User Experience Requirements:** Incomplete documentation of usability requirements.
+* **Non-Functional Requirements:** Missing details on performance, security, reliability, and resilience.
+* **Technical Guidance:** Incomplete technical guidance for the architect.
+* **Cross-Functional Requirements:** Lacks details on data, integration, and operational requirements.
+
+###   Recommendations
+
+* **Problem Definition & Context:** Add data or estimates to quantify the problem. Define specific, measurable business goals and success metrics. Include a summary of user research, competitive analysis, and market context.
+* **MVP Scope Definition:** Detail the methods for testing MVP success, user feedback mechanisms, criteria for moving beyond the MVP, learning goals, and timeline expectations.
+* **User Experience Requirements:** Document accessibility considerations, performance expectations from the user's perspective, error handling and recovery approaches, and user feedback mechanisms.
+* **Non-Functional Requirements:** Specify performance targets, security requirements, reliability and resilience expectations.
+* **Technical Guidance:** Provide comprehensive guidance for the architect, including a technical decision framework.
+* **Cross-Functional Requirements:** Include details on data requirements, integration requirements, and operational requirements.
+
+###   Final Decision
+
+**READY FOR ARCHITECT**: The PRD and epics are comprehensive and properly structured, and the architect is aware of the missing details.
+
+----- END Checklist -----
+
+----- START Architect Prompt ------
+
+##   Initial Architect Prompt
+
+Based on our discussions and requirements analysis for the BMad News DiCaster, I've compiled the following technical guidance to inform your architecture analysis and decisions to kick off Architecture Creation Mode:
+
+###   Technical Infrastructure
+
+* **Starter Project/Template:** The project will use the Supabase starter template from \[<https://vercel.com/templates/authentication/supabase>\](https://vercel.com/templates/authentication/supabase) and its current versions. [cite: 40, 41]
+* **Hosting/Cloud Provider:** Vercel Pro tier will be used for hosting. [cite: 41]
+* **Frontend Platform:** Next.js will be used for the frontend. [cite: 40, 41]
+* **Backend Platform:** Next.js will also be used for the backend (serverless functions). [cite: 40, 41, 49, 50, 51, 52]
+* **Database Requirements:** Supabase will be used as the database (both local Docker and cloud-hosted). [cite: 40, 41, 46, 47, 48]
+
+###   Technical Constraints
+
+* The daily content generation process will likely be architected as a pipeline of multiple, chained serverless functions to manage execution time and resources efficiently within Vercel's limits. [cite: 49, 50, 51, 52]
+* Vercel Function Execution Limits: Even on the Pro tier, individual serverless functions have execution time limits. The pipeline approach is intended to mitigate this, but complex/slow steps (especially numerous LLM calls or heavy scraping) need careful management and optimization. [cite: 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* LLM Processing Time/Cost: LLM summarizations can be time-consuming and/or costly depending on the model and number of tokens processed. This needs to be factored into the daily processing window and operational budget. [cite: 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* Scraping Reliability: Websites can change their structure, breaking scrapers. Anti-scraping measures could also pose a challenge. [cite: 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* External API Dependencies: Reliance on Hacker News (`hnangolia`), LLM providers, and Play.ai means that any downtime or API changes from these services can impact the application. [cite: 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* Webhook Management: Ensuring reliable receipt and processing of webhooks, including handling retries or failures. [cite: 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* Cold Starts: Serverless functions can have "cold starts," which might introduce latency, especially for the first request in a while or for less frequently used functions in the pipeline. This needs to be acceptable for the user experience or generation window. [cite: 53, 54, 55, 56, 57, 58, 59, 60, 61]
+* Facades should be used for interacting with external libraries to improve testability and allow for swapping libraries.
+* A factory pattern should be used for scraper implementations to facilitate adding new scrapers in the future.
+
+###   Deployment Considerations
+
+* CI/CD should be set up for automatic deployments.
+* Environments: Local, and Production (Vercel). [cite: 40, 41]
+
+###   Local Development & Testing Requirements
+
+* Local Supabase instance should run in Docker. [cite: 46, 47, 48]
+* A CLI tool should be provided for on-demand content generation. [cite: 46, 47, 48]
+* Jest and React Testing Library (RTL) will be used for testing.
+
+###   Other Technical Considerations
+
+* The architecture should follow layered best practices for Next.js.
+
+----- END PM Prompt -----
