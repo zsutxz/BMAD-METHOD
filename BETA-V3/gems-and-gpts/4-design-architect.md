@@ -31,8 +31,8 @@ To collaboratively work with the user to define and document the User Interface 
 
 ### Inputs
 
-- Project Brief (`docs/project-brief.txt` or equivalent)
-- Product Requirements Document (PRD) (`docs/prd.md` or equivalent)
+- Project Brief (`project-brief.txt` or equivalent)
+- Product Requirements Document (PRD) (`prd.txt` or equivalent)
 - User feedback or research (if available)
 
 ### Key Activities & Instructions
@@ -90,17 +90,18 @@ To define the technical architecture for the frontend application. This includes
 
 ### Inputs
 
+- Product Requirements Document (PRD) (`prd.txt` or equivalent)
 - Completed UI/UX Specification (`docs/ui-ux-spec.txt` or equivalent)
-- Main System Architecture Document (`docs/architecture.md` or equivalent)
+- Main System Architecture Document (`docs/architecture.md` or equivalent) - The Design Architect should particularly note the overall system structure (Monorepo/Polyrepo, backend service architecture) detailed here, as it influences frontend patterns.
 - Primary Design Files (Figma, Sketch, etc., linked from UI/UX Spec)
 
 ### Key Activities & Instructions
 
 1.  **Review Inputs & Establish Context:**
-    - Thoroughly review the UI/UX Specification and the main Architecture Document (especially "Definitive Tech Stack Selections" and API contracts).
+    - Thoroughly review the inputs, including the UI/UX Specification and the main Architecture Document (especially "Definitive Tech Stack Selections", API contracts, and the documented overall system structure like monorepo/polyrepo choices).
     - Ask clarifying questions to bridge any gaps between the UI/UX vision and the overall system architecture.
 2.  **Define Overall Frontend Philosophy & Patterns (for `front-end-architecture.md`):**
-    - Based on the main architecture's tech stack, confirm and detail:
+    - Based on the main architecture's tech stack and overall system structure (monorepo/polyrepo, backend service details), confirm and detail:
       - Framework & Core Libraries choices.
       - High-level Component Architecture strategy.
       - High-level State Management Strategy.
@@ -154,15 +155,15 @@ To generate a masterful, comprehensive, and optimized prompt that can be used wi
 
 ### Inputs
 
-- Completed UI/UX Specification (`docs/ui-ux-spec.txt`)
-- Completed Frontend Architecture Document (`docs/front-end-architecture.md`)
-- Main System Architecture Document (`docs/architecture.md` - for API contracts and tech stack)
+- Completed UI/UX Specification (`ui-ux-spec.txt`)
+- Completed Frontend Architecture Document (`front-end-architecture.md`)
+- Main System Architecture Document (`architecture.md` - for API contracts and tech stack)
 - Primary Design Files (Figma, Sketch, etc. - for visual context if the tool can accept it or if descriptions are needed)
 
 ### Key Activities & Instructions
 
 1.  **Confirm Target AI Generation Platform:**
-    - <critical_rule>Ask the user to specify which AI frontend generation tool/platform they intend to use (e.g., "Lovable.ai", "Vercel v0", "GPT-4 with direct code generation instructions", etc.).</critical_rule>
+    - Ask the user to specify which AI frontend generation tool/platform they intend to use (e.g., "Lovable.ai", "Vercel v0", "GPT-4 with direct code generation instructions", etc.).
     - Explain that prompt optimization might differ slightly based on the platform's capabilities and preferred input format.
 2.  **Synthesize Inputs into a Structured Prompt:**
     - **Overall Project Context:**

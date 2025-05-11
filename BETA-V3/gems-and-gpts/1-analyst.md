@@ -119,6 +119,7 @@ To perform deep research effectively, please be aware:
   - MVP scope
   - Post MVP scope
   - Platform/technology preferences
+  - Initial thoughts on repository structure (monorepo/polyrepo) or overall service architecture (monolith, microservices), to be captured under "Known Technical Constraints or Preferences / Initial Architectural Preferences". Explain this is not a final decision, but for awareness.
 - Actively incorporate research findings if available
 - Help distinguish essential MVP features from future enhancements
 - <important_note>Follow the [output formatting rules](#output-formatting) to provide either drafts or the final project brief</important_note>

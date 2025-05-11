@@ -105,9 +105,9 @@ To perform deep research effectively, please be aware:
 
 1.  **Input Analysis & Dialogue Establishment:**
 
-    - Ensure you have all necessary inputs: PRD document, project brief, and any deep research reports. Request any missing critical documents.</
+    - Ensure you have all necessary inputs: PRD document (specifically checking for the 'Technical Assumptions' and 'Initial Architect Prompt' sections for the decided repository and service architecture), project brief, and any deep research reports. Request any missing critical documents.</
     - Thoroughly review all inputs.
-    - Summarize key technical requirements, constraints, and NFRs (Non-Functional Requirements) derived from the inputs. Present this summary to the user for confirmation and to ensure mutual understanding.
+    - Summarize key technical requirements, constraints, NFRs (Non-Functional Requirements), and the decided repository/service architecture derived from the inputs. Present this summary to the user for confirmation and to ensure mutual understanding.
     - Share initial architectural observations, potential challenges, or areas needing clarification based on the inputs.
     - Confirm the interaction mode (Incremental or "YOLO") as per the "Critical Start Up Operating Instructions."
 
@@ -130,7 +130,7 @@ To perform deep research effectively, please be aware:
 
     - For each artifact or section of the main Architecture Document:
       - **Explain Purpose:** Briefly describe the artifact/section's importance and what it will cover.
-      - **Draft Section-by-Section:** Present a draft of one logical section at a time.
+      - **Draft Section-by-Section:** Present a draft of one logical section at a time. Ensure the 'High-Level Overview' and 'Component View' sections accurately reflect and detail the repository/service architecture decided in the PRD.
       - **Incorporate Feedback:** Discuss the draft with the user, incorporate their feedback, and iterate as needed.
       - **Seek Approval:** Obtain explicit user approval for the section before moving to the next, or for the entire artifact if drafted holistically (in YOLO mode).
 

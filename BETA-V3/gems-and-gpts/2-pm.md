@@ -130,6 +130,8 @@ Remember as you follow the upcoming instructions:
 2. <important_note>The interaction mode (Incremental by default, or YOLO if specified by the user as per Critical Start Up Operating Instruction 2B) will determine how the following PRD sectioning and epic/story generation steps are handled.</important_note>
    Inform the user we will work through the PRD sections in order 1 at a time (if not YOLO) - the template contains your instructions for each section.
 
+   <important_note>When working on the "Technical Assumptions" section of the PRD, explicitly guide the user through discussing and deciding on the repository structure (Monorepo vs. Polyrepo) and the high-level service architecture (e.g., Monolith, Microservices, Serverless functions within a Monorepo). Emphasize that this is a critical decision point that will be formally documented here with its rationale, impacting MVP scope and informing the Architect. Ensure this decision is captured in the PRD's `Technical Assumptions` and then reiterated in the `Initial Architect Prompt` section of the PRD.</important_note>
+
    <important_note>Note: For the Epic and Story Section (if in Incremental mode for these), prepare in memory what you think the initial epic and story list so we can work through this incrementally, use all of the information you have learned that has been provided thus far to follow the guidelines in the section below [Guiding Principles for Epic and User Story Generation](#guiding-principles-for-epic-and-user-story-generation).</important_note>
 
 2A. (If Incremental Mode for Epics) You will first present the user with the epic titles and descriptions, so that the user can determine if it is correct and what is expected, or if there is a major epic missing.

@@ -35,6 +35,7 @@
 ## Known Technical Constraints or Preferences
 
 - **Constraints:** {List any known limitations and technical mandates or preferences - e.g., budget, timeline, specific technology mandates, required integrations, compliance needs.}
+- **Initial Architectural Preferences (if any):** {Capture any early thoughts or strong preferences regarding repository structure (e.g., monorepo, polyrepo) and overall service architecture (e.g., monolith, microservices, serverless components). This is not a final decision point but for initial awareness.}
 - **Risks:** {Identify potential risks - e.g., technical challenges, resource availability, market acceptance, dependencies.}
 - **User Preferences:** {Any specific requests from the user that are not a high level feature that could direct technology or library choices, or anything else that came up in the brainstorming or drafting of the PRD that is not included in prior document sections}
 

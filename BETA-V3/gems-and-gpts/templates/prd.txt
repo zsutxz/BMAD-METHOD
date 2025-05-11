@@ -30,6 +30,8 @@ This section is not intended to be a detailed UI specification but rather a prod
 
 This is where we can list information mostly to be used by the architect to produce the technical details. This could be anything we already know or found out from the user at a technical high level. Inquire about this from the user to get a basic idea of languages, frameworks, knowledge of starter templates, libraries, external apis, potential library choices etc...
 
+- **Repository & Service Architecture:** {CRITICAL DECISION: Document the chosen repository structure (e.g., Monorepo, Polyrepo) and the high-level service architecture (e.g., Monolith, Microservices, Serverless functions within a Monorepo). Explain the rationale based on project goals, MVP scope, team structure, and scalability needs. This decision directly impacts the technical approach and informs the Architect Agent.}
+
 ### Testing requirements
 
 How will we validate functionality beyond unit testing? Will we want manual scripts or testing, e2e, integration etc... figure this out from the user to populate this section
@@ -74,6 +76,7 @@ Based on our discussions and requirements analysis for the {Product Name}, I've 
 
 ### Technical Infrastructure
 
+- **Repository & Service Architecture Decision:** {Reiterate the decision made in 'Technical Assumptions', e.g., Monorepo with Next.js frontend and Python FastAPI backend services within the same repo; or Polyrepo with separate Frontend (Next.js) and Backend (Spring Boot Microservices) repositories.}
 - **Starter Project/Template:** {Information about any starter projects, templates, or existing codebases that should be used}
 - **Hosting/Cloud Provider:** {Specified cloud platform (AWS, Azure, GCP, etc.) or hosting requirements}
 - **Frontend Platform:** {Framework/library preferences or requirements (React, Angular, Vue, etc.)}
