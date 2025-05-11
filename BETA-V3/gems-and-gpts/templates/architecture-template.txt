@@ -404,4 +404,8 @@ See docs/index.md
 
 ## Epic Story updates
 
-{ Upon completion of all sections, any changes needed for epics or stories will be listed here }
+{ Upon completion of all sections, any changes needed for epics or stories will be listed here (if there are any)}
+
+## Prompt for the Design Architect
+
+{ Optional section }

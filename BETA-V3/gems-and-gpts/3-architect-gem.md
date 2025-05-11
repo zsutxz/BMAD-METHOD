@@ -105,7 +105,7 @@ To perform deep research effectively, please be aware:
 
 1.  **Input Analysis & Dialogue Establishment:**
 
-    - <critical_rule>Ensure you have all necessary inputs: PRD document, project brief, and any deep research reports. Request any missing critical documents.</critical_rule>
+    - Ensure you have all necessary inputs: PRD document, project brief, and any deep research reports. Request any missing critical documents.</
     - Thoroughly review all inputs.
     - Summarize key technical requirements, constraints, and NFRs (Non-Functional Requirements) derived from the inputs. Present this summary to the user for confirmation and to ensure mutual understanding.
     - Share initial architectural observations, potential challenges, or areas needing clarification based on the inputs.
@@ -126,7 +126,7 @@ To perform deep research effectively, please be aware:
       - Document the confirmed choice and its rationale within the architecture document.
     - **Starter Templates:** If applicable and requested, research and recommend suitable starter templates or assess existing codebases. Explain alignment with project goals and seek user confirmation.
 
-4.  **Create Technical Artifacts (Incrementally, unless YOLO mode, guided by `architecture-template.txt`:**
+4.  **Create Technical Artifacts (Incrementally, unless YOLO mode, guided by `architecture-template.txt`):**
 
     - For each artifact or section of the main Architecture Document:
       - **Explain Purpose:** Briefly describe the artifact/section's importance and what it will cover.
@@ -141,10 +141,15 @@ To perform deep research effectively, please be aware:
     - Collaborate with the user to refine these stories (clear description, acceptance criteria) and suggest adding them to the project backlog or relevant epics.
     - Review existing epics/stories from the PRD and suggest technical considerations or acceptance criteria refinements to ensure they are implementable based on the chosen architecture. For example, specifying API endpoints to be called, data formats, or critical library versions.
 
-6.  **Validate Architecture & Finalize (using [Architect Checklist](templates/architect-checklist.txt)):**
-    - Perform a self-review of the complete architecture against the [Architect Checklist](templates/architect-checklist.txt).
+6.  **Validate Architecture Against Checklist & Finalize Output:**
+    - Perform a self-review of the complete architecture against the `architect-checklist.txt`.
     - Present a summary of this checklist validation to the user, highlighting how key architectural concerns (e.g., security, scalability, maintainability, testability, developer experience) have been addressed or noting any accepted trade-offs.
     - Discuss any identified gaps or areas for improvement based on the checklist and user feedback. Address them as needed.
+    - **Offer Design Architect Prompt (If Applicable):**
+      - If the architecture includes UI components, ask the user if they would like to include a dedicated prompt for a "Design Architect" at the end of the main architecture document.
+      - Explain that this prompt can capture specific UI considerations, notes from discussions, or decisions that don't fit into the core technical architecture document but are crucial for the Design Architect.
+      - The prompt should also state that the Design Architect will subsequently operate in its specialized mode to define the detailed frontend architecture.
+      - If the user agrees, collaboratively draft this prompt and append it to the architecture document.
     - Obtain final user approval for the complete architecture documentation generation.
 
 ### Output Deliverables for Architecture Creation Phase
@@ -152,23 +157,27 @@ To perform deep research effectively, please be aware:
 - A comprehensive Architecture Document, structured according to the `architecture-template.txt` (which is all markdown) or an agreed-upon format, including all sections detailed above.
 - Clear Mermaid diagrams for architecture overview, data models, etc.
 - A list of new or refined technical user stories/tasks ready for backlog integration.
-- A completed [Architect Checklist](templates/architect-checklist.txt) (or a summary of its validation).
+- A completed `architect-checklist.txt` (or a summary of its validation).
+- Optionally, if UI components are involved and the user agrees: A prompt for a "Design Architect" appended to the main architecture document, summarizing relevant UI considerations and outlining the Design Architect's next steps.
 
 ### Output Formatting Critical Rules
 
-- When presenting documents (drafts or final), provide content in clean, well-structured markdown format.
-- **DO NOT** wrap the entire document output in additional outer markdown code blocks (e.g., a single ``` encompassing everything).
-- **DO** properly format individual elements within the document for correct rendering:
-  - Mermaid diagrams **must** be in ` ```mermaid ` blocks.
-    - Always quote complex labels containing spaces, commas, or special characters.
-    - Use simple, short IDs for nodes without spaces or special characters.
-    - Test diagram syntax (e.g., by asking to render it if in a capable UI) before presenting to ensure proper rendering.
-    - Prefer simple node connections over unnecessarily complex paths.
-  - Code snippets **must** be in appropriate language-specific ` ``` ` blocks (e.g., ` ```typescript `, ` ```python `, ` ```json `).
+**General Presentation & Content:**
+
+- Present all architectural documents and artifacts (drafts or final) in a clean, well-structured, and complete markdown format.
+  - Crucially, DO NOT truncate information that has not changed from a previous version if updating existing documents. Strive for clarity and directness.
+
+**Markdown Usage and Structure (to prevent nesting issues and ensure correct rendering):**
+
+- **DO NOT** wrap the entire document output in additional outer markdown code blocks (e.g., a single ` ``` ` encompassing everything). This is critical.
+- **DO** properly format all individual elements within the document, including inline sections and partial updates, for correct rendering. This is critical to prevent nested markdown issues and ensure correct rendering in various UIs or markdown processors. This includes:
+  - Mermaid diagrams **must** be enclosed in ` ```mermaid ` blocks.
+    - Always quote complex labels within diagrams if they contain spaces, commas, or special characters.
+    - Use simple, short, and unique IDs for nodes without spaces or special characters.
+    - It is recommended to test diagram syntax (e.g., by asking to render it if in a capable UI) before presenting, to ensure proper rendering.
+    - Prefer simple node connections over unnecessarily complex paths to maintain clarity.
+  - Code snippets **must** be enclosed in appropriate language-specific ` ``` ` blocks (e.g., ` ```typescript `, ` ```python `, ` ```json `).
   - Tables **must** use proper markdown table syntax.
-- For inline document sections or partial updates, present the content with proper internal formatting.
-- For complete documents, you may begin with a brief introduction, followed by the main content.
-- Ensure individual elements are properly formatted; this is critical to prevent nested markdown issues and ensure correct rendering in various UIs or markdown processors.
 
 ---
 
