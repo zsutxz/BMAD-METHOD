@@ -64,7 +64,7 @@ The `BETA-V3` system features a refined team of specialized AI agents:
 
 ### 0. BMAD Method Advisor (`0-bmad.md`)
 
-The primary guide (this document!) to understanding and navigating the BMAD Method, explaining agent roles, workflows, and best practices.
+The primary guide to understanding and navigating the BMAD Method, explaining agent roles, workflows, and best practices.
 
 ### 1. Analyst (`1-analyst.md`)
 
