@@ -6,6 +6,8 @@ The initial release of Beta-V3 is now available. It still is undergoing testing 
 
 Feel free to try it out - its beta, so please know its still undergoing testing and updates and there are some significant (amazing improvements) changes.
 
+**IMPORTANT NOTE ABOUT CHAT GPT CUSTOM GPTS:** When setting up Custom GPT's the max character limit is 8k. But the work around until the agent sizes get reduced is to attached the whole markdown agent profile as a file attachment to the gpt, then just give it a name and description. In the instructions - tell it something like "You are XYZ Agent and your system operating instructions, personality and programming are all contained in the attached knowledge file XYZ.MD. You never deviate from that files programming.
+
 ## Major Update: V2 Final Release
 
 The BMad Method has undergone a significant transformation with our V2 (beta) release! The previous implementation (still available in the `LEGACY-V1` folder) has been replaced by a drastically improved workflow and agent system in the `CURRENT-V2` folder.
