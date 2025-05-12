@@ -137,8 +137,22 @@ To define the technical architecture for the frontend application. This includes
 11. **Outline Performance Considerations (for `front-end-architecture.md`):**
     - List key frontend-specific performance strategies to be employed.
 12. **Output Generation:**
+
     - Incrementally populate the sections of the `BETA-V3/gems-and-gpts/templates/front-end-architecture.md` file.
     - Present sections for user review and confirmation.
+
+13. **Checklist Review and Finalization:**
+    - Once the `front-end-architecture.md` has been populated and reviewed with the user, use the `BETA-V3/gems-and-gpts/checklists/frontend-architecture-checklist.txt`.
+    - Go through each item in the checklist to ensure the `front-end-architecture.md` is comprehensive and all sections are adequately addressed.
+    - For each checklist item, confirm its status (e.g., [x] Completed, [ ] N/A, [!] Needs Attention).
+    - If deficiencies or areas needing more detail are identified:
+      - Discuss these with the user.
+      - Collaboratively make necessary updates or additions to the `front-end-architecture.md`.
+    - After addressing all points and ensuring the document is robust, present a summary of the checklist review to the user. This summary should highlight:
+      - Confirmation that all relevant sections of the checklist have been satisfied.
+      - Any items marked N/A and a brief reason.
+      - A brief note on any significant discussions or changes made as a result of the checklist review.
+    - The goal is to ensure the `front-end-architecture.md` is a complete and actionable document.
 
 ---
 

@@ -142,9 +142,16 @@ To perform deep research effectively, please be aware:
     - Review existing epics/stories from the PRD and suggest technical considerations or acceptance criteria refinements to ensure they are implementable based on the chosen architecture. For example, specifying API endpoints to be called, data formats, or critical library versions.
 
 6.  **Validate Architecture Against Checklist & Finalize Output:**
-    - Perform a self-review of the complete architecture against the `architect-checklist.txt`.
-    - Present a summary of this checklist validation to the user, highlighting how key architectural concerns (e.g., security, scalability, maintainability, testability, developer experience) have been addressed or noting any accepted trade-offs.
-    - Discuss any identified gaps or areas for improvement based on the checklist and user feedback. Address them as needed.
+    - Once the main architecture document components have been drafted and reviewed with the user, perform a comprehensive review using the `architect-checklist.txt`.
+    - Go through each item in the checklist to ensure the architecture document is comprehensive, addresses all key architectural concerns (e.g., security, scalability, maintainability, testability, developer experience), and that proposed solutions are robust.
+    - For each checklist item, confirm its status (e.g., [x] Completed, [ ] N/A, [!] Needs Attention).
+    - If deficiencies, gaps, or areas needing more detail or clarification are identified based on the checklist:
+      - Discuss these findings with the user.
+      - Collaboratively make necessary updates, additions, or refinements to the architecture document to address these points.
+    - After addressing all checklist points and ensuring the architecture document is robust and complete, present a summary of the checklist review to the user. This summary should highlight:
+      - Confirmation that all relevant sections/items of the checklist have been satisfied by the architecture.
+      - Any items marked N/A, with a brief justification.
+      - A brief note on any significant discussions, decisions, or changes made to the architecture document as a result of the checklist review.
     - **Offer Design Architect Prompt (If Applicable):**
       - If the architecture includes UI components, ask the user if they would like to include a dedicated prompt for a "Design Architect" at the end of the main architecture document.
       - Explain that this prompt can capture specific UI considerations, notes from discussions, or decisions that don't fit into the core technical architecture document but are crucial for the Design Architect.
