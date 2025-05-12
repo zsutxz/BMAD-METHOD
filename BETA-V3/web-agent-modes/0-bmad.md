@@ -92,8 +92,21 @@ Welcome to the BMAD (Brian Madison) Method! This advisor is here to help you nav
 - **Core Responsibilities & Phases:** The POSM bridges the gap between approved technical plans and executable development tasks, with a strong focus on documentation integrity and organization.
   - **Master Checklist Phase (Default Start):** Meticulously validates the entire MVP plan package and all associated project documentation against the `po-master-checklist.txt`. _Input: All project documents, `po-master-checklist.txt`. Output: A consolidated Master Checklist Report with findings and actionable recommendations for document changes._
   - **Librarian Phase:** Transforms large project documents into smaller, granular, and cross-referenced files within the `docs/` folder. Creates and maintains a central `docs/index.md` as a catalog. This phase is vital for making information accessible for story creation and developer reference. _Input: Updated large project documents. Output: Granular files in `docs/`, an updated `docs/index.md`._
-  - **Story Creator Phase:** Autonomously generates clear, detailed, and executable development story files (using `story-tmpl.txt`) by primarily referencing the granular documentation (via `docs/index.md`) and the PRD/Epics. _Input: `docs/index.md`, granular `docs/` files, PRD, `story-tmpl.txt`. Output: Self-contained story files ready for developer agents._
-- **Key Outputs:** Produces a **Master Checklist Report**, a well-organized and **granular `docs/` directory with an `index.md`**, and **developer-ready story files**.
+  - **Story Creator Phase (can be specialized by IDE agents like `BETA-V3/ide-agent-modes/sm-agent.md`):**
+    This phase focuses on generating clear, detailed, and executable development story files. While the general POSM might autonomously produce these, specialized IDE agents like the **Technical Scrum Master / Story Generator (`BETA-V3/ide-agent-modes/sm-agent.md`)** offer a more in-depth and interactive process:
+    - **Role:** Acts as an expert Technical Scrum Master, bridging approved technical plans (Epics, Architecture) and executable development tasks.
+    - **Process:**
+      1.  **Identifies Next Story:** Scans approved `docs/epic-{n}.md` files and their prerequisites.
+      2.  **Gathers Requirements & Context:** Extracts detailed requirements from the relevant epic. Crucially, it consults `docs/index.md` to discover all relevant ancillary documentation beyond standard references (like `docs/architecture.md`, `docs/front-end-architecture.md`, `docs/tech-stack.md`, `docs/api-reference.md`, `docs/data-models.md`) to build a comprehensive understanding.
+      3.  **Populates Story:** Uses `docs/templates/story-template.md` to structure the story. It generates detailed, sequential tasks and injects precise technical context (e.g., specific data model definitions, API endpoint details, or references) directly into the story.
+      4.  **Deviation Analysis:** Compares the generated story content against the original epic requirements. If any deviations are found (e.g., modified ACs, adjusted requirements due to technical constraints), it documents these with justifications in a dedicated "Deviations from Epic" section.
+    - **User Interaction & Approval (Critical for `sm-agent.md`):**
+      1.  The story is initially saved as `Status: Draft` (e.g., in `ai/stories/{epicNumber}.{storyNumber}.story.md`).
+      2.  The agent then interactively reviews this draft story with **you (the user)**, using a validation checklist (from `docs/checklists/story-draft-checklist.md`). This presentation includes any deviation summaries, project structure alignment notes, and flags any missing information or unresolved conflicts requiring your decisions.
+      3.  **Only after your explicit confirmation** during this review is the story status updated to `Status: Approved` and becomes ready for a developer agent. If issues remain, it stays as `Status: Draft (Needs Input)` with clear indications of what user input is required.
+    - _Input (for `sm-agent.md`): `docs/epic-{n}.md` files, `docs/index.md`, various technical documents (architecture, tech stack, etc.), `docs/templates/story-template.md`, `docs/checklists/story-draft-checklist.md`._
+    - _Output (for `sm-agent.md`): A meticulously prepared story file, validated with the user, and set to `Status: Approved`, ready for development. Also, clear communication of any deviations or issues discussed._
+- **Key Outputs:** Produces a **Master Checklist Report**, a well-organized and **granular `docs/` directory with an `index.md`**, and **developer-ready story files** (which, in the case of agents like `sm-agent.md`, includes user validation).
 - **Operational Note:** The Librarian phase is most effective in an IDE environment with direct file system access.
 
 ### 6. Suggested Order of Agent Engagement (Typical Flow):
@@ -110,7 +123,18 @@ Welcome to the BMAD (Brian Madison) Method! This advisor is here to help you nav
     - _(User or relevant agents like PM, Architect, Design Architect incorporate the recommended changes into the source documents based on the POSM's report.)_
     - **Librarian Phase:** Processes the _updated_ large documents, creating **granular documentation files** within the `docs/` folder and a comprehensive `docs/index.md`.
     - **Story Creator Phase:** Autonomously uses the granular `docs/` files and the PRD/Epics to generate **developer-ready story files**.
-6.  **Developer Agents (e.g., `4-coder.md`, `5-code-reviewer.md` - _details for these specific dev agents to be expanded in their own .md files_):** Implement the solution based on the POSM-generated story files, which contain necessary context from the granular documentation, and under the guidance of the established architectures.
+6.  **Developer Agents (e.g., the IDE-based `dev-agent.md` (see details below from `BETA-V3/ide-agent-modes/dev-agent.md`), and others like `4-coder.md`, `5-code-reviewer.md`):** Implement the solution based on the POSM-generated story files, which contain necessary context from the granular documentation, and under the guidance of the established architectures. These agents typically operate within an IDE environment.
+
+    - **Example: The IDE Developer Agent (`BETA-V3/ide-agent-modes/dev-agent.md`)**
+      - **Role:** An expert software developer focused on implementing requirements from a single assigned story file. It prioritizes clean, testable code and adheres strictly to project standards and architecture.
+      - **Key Operational Aspects for Users to Be Aware Of:**
+        - **Context-Driven:** Before coding, it loads the assigned story, `docs/project-structure.md`, `docs/coding-standards.md`, and `docs/tech-stack.md`. Ensure these documents are accurate and available.
+        - **Strict Standards Adherence:** All code MUST follow `docs/coding-standards.md`. No deviations are permitted without updating this document.
+        - **Dependency Management (User Approval Required):** The agent CANNOT add new external packages or libraries unless explicitly approved by you. If a new dependency is identified as necessary, it will halt implementation of the requiring feature, clearly state the dependency needed, provide a strong justification, and explicitly ask for your approval. Only proceed with adding the dependency IF AND ONLY IF you grant explicit approval.
+        - **Debugging Protocol (`TODO-revert.md`):** When encountering persistent issues requiring temporary code modifications for debugging, the agent logs these changes (file path, description, rationale) in a `TODO-revert.md` file at the project root. All entries in this file MUST be reviewed by you and changes reverted or made permanent (with your approval and adherence to coding standards) before the agent completes the story's Definition of Done (DoD) checklist.
+        - **Checklist Driven:** It uses a `story-dod-checklist.txt` (located at `BETA-V3/checklists/story-dod-checklist.txt`) to ensure all criteria are met before marking a story for review.
+      - **Interaction:** Expect the agent to be focused and technical. It will request clarifications if genuinely blocked by ambiguities or conflicts with its core documentation. Crucially, it will seek your explicit approval for any new dependencies. Before requesting a review, it will present the completed DoD checklist.
+
 7.  **Ongoing Advisory:**
 
     - The **Architect** can be re-engaged in its **Master Architect Advisory** mode for ongoing technical guidance, to address implementation challenges, or evaluate architectural changes.

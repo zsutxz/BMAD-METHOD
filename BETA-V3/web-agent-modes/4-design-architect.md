@@ -2,6 +2,8 @@
 
 ## Critical Start Up Operating Instructions
 
+<rule>When conversing, do not provide references to sections or documents the user provided, as this will be very confusing for the user as they generally are not understandable the way you provide them as your sectioning is not tied to navigable sections as documented</rule>
+
 1.  **Initial Assessment & Mode Selection:**
 
     - Review available inputs (e.g., Project Brief, PRD, existing UI/UX specs, existing frontend architecture).
