@@ -1,14 +1,8 @@
 # Instructions
 
-## Setting up IDE Agents in Cursor
-
-1.  **Open Cursor Settings:** Navigate to the settings/preferences panel in your Cursor IDE.
-2.  **Locate Agent/AI Configuration:** Look for a section related to AI, agents, or custom prompts.
-3.  **Add New Agent Configuration:**
-    - If creating a new agent from scratch, you'll typically define a new prompt or set of instructions.
-    - You might need to specify an "Agent Name" or "Command Trigger".
-    - Paste or write the core instructions for your IDE agent in the designated prompt area.
-4.  **Save and Test:** Save the configuration and test the agent in a new chat or by using its command trigger in a file.
+- [Web Agent Setup](#setting-up-web-mode-agents-in-gemini-gem-or-chatgpt-custom-gpt)
+- [IDE Agent Setup](#ide-agent-setup)
+- [Tasks Setup and Usage](#tasks)
 
 ## Setting up Web-Mode Agents in Gemini Gem or ChatGPT Custom GPT
 
@@ -27,11 +21,13 @@ To set up web-mode agents, please refer to the table below. It outlines the agen
 
 The IDE Agents in V3 have all been optimized to be under 6k total size to be compatible with Windsurf, and generally more optimized for IDE usage! Ensure that you have a docs folder with a templates/ and checklists/ folder inside.
 
-## Cursor
+### Cursor
 
-Cursor will only (at this time) support up to 5 custom agents - so for cursor its highly recommended to use the web version for the agents that can be used there, and save agent custom mode set up in the IDE to the ones that make sense there - at a minimum - dev agent, sm agent. PO Agent is not needed very frequently, so instead there is also a one time prompt you can use from the folder called po-doc-sharding-prompt instead that works just as well and is probably more practical.
+Cursor will only (at this time) support up to 5 custom agents - so for cursor its highly recommended to use the web version for the agents that can be used there, and save agent custom mode set up in the IDE to the ones that make sense there - at a minimum - dev agent, sm agent. I would probably only set up these, as I like to leave room for more specialized custom devs.
 
-### Setting Up Custom Modes in Cursor
+Tasks are introduced in V3, and Workflows are also coming - which will soon allow a more generic agile pro agent to handle most of the prework that multiple agents do now.
+
+#### Setting Up Custom Modes in Cursor
 
 1. **Access Agent Configuration**:
 
@@ -52,9 +48,11 @@ Cursor will only (at this time) support up to 5 custom agents - so for cursor it
    - Control which model each agent uses based on their role
    - Configure what they can and cannot YOLO
 
-## Windsurf
+### Windsurf
 
-### Setting Up Custom Modes in Windsurf
+All V3 Agents have been optimized to be under 6K character limit, great for Windsurf usage now!
+
+#### Setting Up Custom Modes in Windsurf
 
 1. **Access Agent Configuration**:
 
@@ -77,9 +75,9 @@ Cursor will only (at this time) support up to 5 custom agents - so for cursor it
    - Configure each agent with appropriate permissions and capabilities
    - Utilize Windsurf's agentic features to maintain workflow continuity
 
-## RooCode
+### RooCode
 
-### Setting Up Custom Agents in RooCode
+#### Setting Up Custom Agents in RooCode
 
 1. **Custom Modes Configuration**:
 
@@ -102,9 +100,9 @@ Cursor will only (at this time) support up to 5 custom agents - so for cursor it
    - Monitor token and cost usage for each session
    - Optimize model selection based on the complexity of tasks
 
-## Cline
+### Cline
 
-### Setting Up Custom Agents in Cline
+#### Setting Up Custom Agents in Cline
 
 1. **Custom Instructions**:
 
@@ -126,9 +124,9 @@ Cursor will only (at this time) support up to 5 custom agents - so for cursor it
 4. **Model Selection**:
    - Configure Cline to use different models based on the role and task complexity
 
-## GitHub Copilot
+### GitHub Copilot
 
-### Custom Agent Configuration (Coming Soon)
+#### Custom Agent Configuration (Coming Soon)
 
 GitHub Copilot is currently developing its Copilot Extensions system, which will allow for custom agent/mode creation:
 
@@ -147,3 +145,7 @@ GitHub Copilot is currently developing its Copilot Extensions system, which will
    - Full agent customization support is under development
 
 _Note: Full custom mode configuration in GitHub Copilot is still in development. Check GitHub's documentation for the latest updates._
+
+## Tasks
+
+The Tasks can be copied into your project docs/tasks folder, along with the checklists and templates. The tasks are meant to reduce the amount of 1 off IDE agents - you can just drop a task into chat with any agent and it will perform the 1 off task. There will be full workflow + task coming post V3 that will expand on this - but tasks and workflows are a powerful concept that will allow us to build in a lot of capabilities for our agents, without having to bloat their overall programming and context in the IDE - especially useful for tasks that are not used frequently - similar to seldom used ide rules files.

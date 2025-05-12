@@ -1,5 +1,7 @@
 # The BMAD-Method (Breakthrough Method of Agile (ai-driven) Development) - BETA-V3
 
+If you want to jump right in, here are the [Setup Instructions](./instruction.md) For IDE, WEB and Task setup.
+
 ## BETA-V3: Advancing AI-Driven Development
 
 Welcome to **BETA-V3** of the BMAD Method! This version represents a significant evolution, building upon the foundations of V2 and introducing a more refined and comprehensive suite of agents, templates, and processes. The `BETA-V3` folder contains the latest implementation, designed to enhance collaboration, documentation, and the overall efficiency of developing projects with AI.
