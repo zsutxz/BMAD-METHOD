@@ -1,0 +1,345 @@
+# {Project Name} Frontend Architecture Document
+
+## Table of Contents
+
+{ Update this if sections and subsections are added or removed }
+
+- [Introduction](#introduction)
+- [Overall Frontend Philosophy & Patterns](#overall-frontend-philosophy--patterns)
+- [Detailed Frontend Directory Structure](#detailed-frontend-directory-structure)
+- [Component Breakdown & Implementation Details](#component-breakdown--implementation-details)
+  - [Component Naming & Organization](#component-naming--organization)
+  - [Template for Component Specification](#template-for-component-specification)
+- [State Management In-Depth](#state-management-in-depth)
+  - [Store Structure / Slices](#store-structure--slices)
+  - [Key Selectors](#key-selectors)
+  - [Key Actions / Reducers / Thunks](#key-actions--reducers--thunks)
+- [API Interaction Layer](#api-interaction-layer)
+  - [Client/Service Structure](#clientservice-structure)
+  - [Error Handling & Retries (Frontend)](#error-handling--retries-frontend)
+- [Routing Strategy](#routing-strategy)
+  - [Route Definitions](#route-definitions)
+  - [Route Guards / Protection](#route-guards--protection)
+- [Build, Bundling, and Deployment](#build-bundling-and-deployment)
+  - [Build Process & Scripts](#build-process--scripts)
+  - [Key Bundling Optimizations](#key-bundling-optimizations)
+  - [Deployment to CDN/Hosting](#deployment-to-cdnhosting)
+- [Frontend Testing Strategy](#frontend-testing-strategy)
+  - [Component Testing](#component-testing)
+  - [UI Integration/Flow Testing](#ui-integrationflow-testing)
+  - [End-to-End UI Testing Tools & Scope](#end-to-end-ui-testing-tools--scope)
+- [Accessibility (AX) Implementation Details](#accessibility-ax-implementation-details)
+- [Performance Considerations](#performance-considerations)
+- [Change Log](#change-log)
+
+## Introduction
+
+{ This document details the technical architecture specifically for the frontend of {Project Name}. It complements the main {Project Name} Architecture Document and the UI/UX Specification. The goal is to provide a clear blueprint for frontend development, ensuring consistency, maintainability, and alignment with the overall system design and user experience goals. }
+
+- **Link to Main Architecture Document:** {e.g., `docs/architecture.md`} (Note: The overall system architecture, including Monorepo/Polyrepo decisions and backend structure, will influence frontend choices, especially around shared code or API interaction patterns.)
+- **Link to UI/UX Specification:** {e.g., `docs/front-end-spec.md`}
+- **Link to Primary Design Files (Figma, Sketch, etc.):** {From UI/UX Spec}
+- **Link to Deployed Storybook / Component Showcase (if applicable):** {URL}
+
+## Overall Frontend Philosophy & Patterns
+
+{ Describe the core architectural decisions and patterns chosen for the frontend. This should align with the "Definitive Tech Stack Selections" in the main architecture document and consider implications from the overall system architecture (e.g., monorepo vs. polyrepo, backend service structure). }
+
+- **Framework & Core Libraries:** {e.g., React 18.x with Next.js 13.x, Angular 16.x, Vue 3.x with Nuxt.js. Briefly reiterate why these were chosen if not detailed enough in the main arch doc.}
+- **Component Architecture:** {e.g., Atomic Design principles, Presentational vs. Container components, use of specific component libraries like Material UI, Tailwind CSS for styling approach.}
+- **State Management Strategy:** {e.g., Redux Toolkit, Zustand, Vuex, NgRx. Briefly describe the overall approach – global store, feature stores, context API usage. More details in "State Management In-Depth" section.}
+- **Data Flow:** {e.g., Unidirectional data flow, how data is fetched, passed to components, and updated.}
+- **Styling Approach:** {e.g., CSS Modules, Styled Components, SCSS with BEM, Tailwind CSS. Link to configuration if applicable.}
+- **Key Design Patterns Used:** {e.g., Provider pattern, Hooks, Higher-Order Components, Service patterns for API calls.}
+
+## Detailed Frontend Directory Structure
+
+{ Provide an ASCII diagram representing the frontend application\'s specific folder structure (e.g., within `src/` or `app/`). This should elaborate on the frontend part of the main project structure outlined in the architecture document. Highlight conventions for organizing components, pages/views, services, state, styles, assets, etc. }
+
+### EXAMPLE - Not Prescriptive (for a React/Next.js app)
+
+```plaintext
+src/
+├── app/                        # Next.js App Router: Pages/Layouts/Routes
+│   ├── (features)/             # Feature-based routing groups
+│   │   └── dashboard/
+│   │       ├── layout.tsx
+│   │       └── page.tsx
+│   ├── api/                    # API Routes (if using Next.js backend features)
+│   ├── globals.css
+│   └── layout.tsx              # Root layout
+├── components/                 # Shared/Reusable UI Components
+│   ├── ui/                     # Base UI elements (Button, Input, Card - often from a library)
+│   │   ├── Button.tsx
+│   │   └── ...
+│   ├── layout/                 # Layout components (Header, Footer, Sidebar)
+│   │   ├── Header.tsx
+│   │   └── ...
+│   └── (feature-specific)/     # Components specific to a feature but potentially reusable within it
+│       └── user-profile/
+│           └── ProfileCard.tsx
+├── features/                   # Feature-specific logic, hooks, non-global state, services
+│   └── auth/
+│       ├── components/         # Components used only by the auth feature
+│       ├── hooks/              # Feature-specific hooks
+│       ├── services/           # Feature-specific API interactions
+│       └── store.ts            # Feature-specific state slice (if applicable)
+├── hooks/                      # Global/sharable custom hooks
+│   └── useAuth.ts
+├── lib/                        # Utility functions, helpers, constants
+│   └── utils.ts
+├── services/                   # Global API service clients or SDK configurations
+│   └── apiClient.ts
+├── store/                      # Global state management (e.g., Redux store setup)
+│   ├── index.ts
+│   ├── rootReducer.ts
+│   └── (slices)/
+├── styles/                     # Global styles, theme configurations (if not using `globals.css` or similar)
+└── types/                      # Global TypeScript type definitions
+    └── index.ts
+```
+
+### Notes on Frontend Structure:
+
+{ Explain any specific conventions or rationale behind the structure. For example, "Components are co-located with their feature if not globally reusable." }
+
+## Component Breakdown & Implementation Details
+
+{ This section outlines the conventions and templates for defining UI components. While a few globally shared or foundational components (e.g., core UI elements if not from a library, main layout structures) might be specified here upfront to ensure consistency, the detailed specification for most feature-specific components will emerge as user stories are implemented. The key is for the development team (or AI agent) to follow the "Template for Component Specification" below whenever a new component is identified for development. }
+
+### Component Naming & Organization
+
+{ Briefly describe conventions for naming components (e.g., PascalCase, `feature-ComponentName.tsx`). How are components organized on the filesystem (reiterate from directory structure if needed)? Are components grouped by feature, type (UI, layout), etc.? }
+
+### Template for Component Specification
+
+{ For each significant UI component identified from the UI/UX Specification and design files (Figma), provide the following details. Repeat this subsection for each component. The level of detail should be sufficient for an AI agent or developer to implement it with minimal ambiguity. }
+
+#### Component: `{ComponentName}` (e.g., `UserProfileCard`, `ProductDetailsView`)
+
+- **Purpose:** {Briefly describe what this component does and its role in the UI.}
+- **Source File(s):** {e.g., `src/components/user-profile/UserProfileCard.tsx`}
+- **Visual Reference:** {Link to specific Figma frame/component, or Storybook page.}
+- **Props (Properties):**
+  { List each prop the component accepts. }
+  | Prop Name | Type | Required? | Default Value | Description |
+  | :-------------- | :--------------------------- | :-------- | :------------ | :---------------------------------------------- |
+  | `userId` | `string` | Yes | N/A | The ID of the user to display. |
+  | `avatarUrl` | `string` | No | `null` | URL for the user\'s avatar image. |
+  | `onEdit` | `() => void` | No | N/A | Callback function when an edit action is triggered. |
+  | `variant` | `\'compact\' \| \'full\'` | No | `\'full\'` | Controls the display mode of the card. |
+  | `{anotherProp}` | `{type (e.g., number, boolean, customType)}` | {Yes/No} | {If any} | {Description} |
+- **Internal State (if any):**
+  { Describe any significant internal state the component manages. Minor UI state (e.g., `isDropdownOpen`) might not need explicit listing unless complex. }
+  | State Variable | Type | Initial Value | Description |
+  | :-------------- | :--------- | :------------ | :-------------------------------------------- |
+  | `isLoading` | `boolean` | `false` | Tracks if data for the component is loading. |
+  | `{anotherState}`| `{type}` | `{value}` | {Description} |
+- **Key UI Elements / Structure:**
+  { Describe the main visual parts of the component and their general layout. This can be a brief textual description or a very simple pseudo-HTML structure. }
+  ```html
+  <div> <!-- Main card container -->
+    <img> <!-- Avatar -->
+    <h2> <!-- User Name -->
+    <p>  <!-- User Email -->
+    <button> <!-- Edit Button (if applicable) -->
+  </div>
+  ```
+- **Events Handled / Emitted:**
+  - **Handles:** {e.g., `onClick` on the edit button.}
+  - **Emits:** {If the component emits custom events, describe them. e.g., `onFollow: (userId: string) => void`}
+- **Actions Triggered (Side Effects):**
+  - **State Management:** {e.g., "Dispatches `fetchUserDetails(userId)` action on mount." "Calls `userSlice.actions.setUserName(newName)`."}
+  - **API Calls:** {Specify which service/function from the "API Interaction Layer" is called. e.g., "Calls `userService.fetchUser(userId)`." What data is passed? How is the response (success/error) handled? How does it update internal state or global state?}
+- **Styling Notes:**
+  - {Reference to Design System components used (e.g., "Uses `<Button variant=\'primary\'>` from UI library").}
+  - {Key CSS classes to be applied (if using traditional CSS/SCSS/Tailwind directly).}
+  - {Specific responsiveness behavior if not covered globally.}
+- **Accessibility Notes:**
+  - {Specific ARIA attributes needed (e.g., `aria-label`, `role`).}
+  - {Keyboard navigation considerations for this component.}
+
+---
+
+_Repeat the above template for each significant component._
+
+---
+
+## State Management In-Depth
+
+{ This section expands on the State Management strategy chosen and outlined in the main architecture document and the "Overall Frontend Philosophy". It defines the conventions for how state modules should be structured and implemented. While the overall approach and core store setup (if any) are defined here, detailed state slices, selectors, and actions/thunks for specific features will generally be developed emergently as those features are built, adhering to these established patterns. }
+
+- **Chosen Solution:** {e.g., Redux Toolkit, Zustand, Vuex, NgRx - reiterate from main arch doc.}
+- **Rationale (briefly, if not fully covered in main arch doc):** {Why was this solution chosen over alternatives for this specific project?}
+
+### Store Structure / Slices
+
+{ Describe the conventions for organizing the global state (e.g., "Each major feature requiring global state will have its own Redux slice located in `src/features/[featureName]/store.ts`"). A few core, application-wide slices (e.g., for session management, theme) might be defined upfront as examples or foundational pieces. }
+
+- **Core Slice Example (e.g., `sessionSlice`):**
+  - **Purpose:** {Manages user session, authentication status, and basic user profile info accessible globally.}
+  - **State Shape:**
+    ```typescript
+    interface SessionState {
+      currentUser: {
+        id: string;
+        name: string;
+        email: string;
+        roles: string[];
+      } | null;
+      isAuthenticated: boolean;
+      token: string | null;
+      status: "idle" | "loading" | "succeeded" | "failed";
+      error: string | null;
+    }
+    ```
+  - **Key Reducers/Actions:** {Briefly list main actions, e.g., `setSession`, `clearSession`, `authLoading`, `authSuccess`, `authFailure`.}
+- **Feature Slice Template (e.g., `{featureName}Slice`):**
+  - **Purpose:** {To be filled out when a new feature requires its own state slice.}
+  - **State Shape:** {To be defined by the feature.}
+  - **Key Reducers/Actions:** {To be defined by the feature.}
+
+### Key Selectors
+
+{ List important selectors for any core, upfront slices. For emergent feature slices, selectors will be defined with the slice. Conventions for creating selectors should be noted (e.g., use `createSelector` for memoization). }
+
+- **`selectCurrentUser`:** {Returns the `currentUser` object from `sessionSlice`.}
+- **`selectIsAuthenticated`:** {Returns `isAuthenticated` boolean from `sessionSlice`.}
+- **`selectAuthToken`:** {Returns the `token` from `sessionSlice`.}
+
+### Key Actions / Reducers / Thunks
+
+{ Detail more complex actions for core, upfront slices, especially asynchronous thunks or sagas. For emergent feature slices, these will be defined with the slice, following these patterns. }
+
+- **Core Action/Thunk Example: `authenticateUser(credentials: AuthCredentials)`**
+  - **Purpose:** {Handles user login by calling the auth API and updating the `sessionSlice`.}
+  - **Dispatch Flow:**
+    1. Dispatches `sessionSlice.actions.setStatus('loading')`.
+    2. Calls `authService.login(credentials)` (from API Interaction Layer).
+    3. On success: Dispatches `sessionSlice.actions.setSession(response.data)` (which includes user and token) and `sessionSlice.actions.setStatus('succeeded')`.
+    4. On error: Dispatches `sessionSlice.actions.setError(error.message)` and `sessionSlice.actions.setStatus('failed')`.
+- **Feature Action/Thunk Template: `{featureActionName}`**
+  - **Purpose:** {To be filled out for feature-specific async operations.}
+  - **Dispatch Flow:** {To be defined by the feature, following similar patterns.}
+
+## API Interaction Layer
+
+{ Describe how the frontend communicates with the backend APIs defined in the main Architecture Document. The focus here is on establishing the foundational client setup and patterns for creating service abstractions. Specific service functions will often emerge as features are developed. }
+
+### Client/Service Structure
+
+- **HTTP Client Setup:** {e.g., Axios instance, Fetch wrapper. Base URL configuration, default headers (e.g., for Authorization from state), interceptors for request/response handling (e.g., error normalization, token refresh).}
+- **Service Definitions (Example):**
+  - **`userService.ts`:**
+    - **Purpose:** {Handles all API interactions related to users.}
+    - **Functions:**
+      - `fetchUser(userId: string): Promise<User>`
+      - `updateUserProfile(userId: string, data: UserProfileUpdateDto): Promise<User>`
+  - **`productService.ts`:**
+    - **Purpose:** {...}
+    - **Functions:** {...}
+
+### Error Handling & Retries (Frontend)
+
+- **Global Error Handling:** {How are API errors caught and presented to the user globally (e.g., toast notifications)? Is there a global error state?}
+- **Specific Error Handling:** {How might components handle specific API errors for more contextual feedback?}
+- **Retry Logic:** {Is there any client-side retry logic for idempotent requests? If so, how is it configured?}
+
+## Routing Strategy
+
+{ Detail how navigation and routing are handled in the frontend application. }
+
+- **Routing Library:** {e.g., React Router, Next.js App Router, Vue Router, Angular Router.}
+
+### Route Definitions
+
+{ List the main routes of the application and the primary component rendered for each. }
+
+| Path Pattern           | Component/Page                | Protection    | Notes                               |
+| :--------------------- | :---------------------------- | :------------ | :---------------------------------- |
+| `/`                    | `HomePage.tsx`                | Public        |                                     |
+| `/login`               | `LoginPage.tsx`               | Public        | Redirects if already authenticated. |
+| `/dashboard`           | `DashboardPage.tsx`           | Authenticated |                                     |
+| `/products`            | `ProductListPage.tsx`         | Public        |                                     |
+| `/products/:productId` | `ProductDetailsPage.tsx`      | Public        |                                     |
+| `/settings/profile`    | `UserProfileSettingsPage.tsx` | Authenticated |                                     |
+| `{anotherRoute}`       | `{Component}`                 | {Type}        | {Notes}                             |
+
+### Route Guards / Protection
+
+- **Authentication Guard:** {Describe how routes are protected based on authentication status. e.g., A Higher-Order Component, a specific router hook.}
+- **Authorization Guard (if applicable):** {Describe how routes might be protected based on user roles or permissions.}
+
+## Build, Bundling, and Deployment
+
+{ Details specific to the frontend build and deployment process, complementing the "Infrastructure and Deployment Overview" in the main architecture document. }
+
+### Build Process & Scripts
+
+- **Key Build Scripts:** {e.g., `npm run build`, `yarn build`. What do they do? Point to `package.json` scripts.}
+- **Environment Variables Handling during Build:** {How are `process.env` variables (e.g., `NEXT_PUBLIC_API_URL`) managed for different environments (dev, staging, prod)?}
+
+### Key Bundling Optimizations
+
+- **Code Splitting:** {How is it implemented? e.g., Route-based, component-based using dynamic imports.}
+- **Tree Shaking:** {Ensured by build tools?}
+- **Lazy Loading:** {Strategy for lazy loading components, images, or routes.}
+- **Minification & Compression:** {Handled by build tools (e.g., Webpack, Vite, Next.js build)?}
+
+### Deployment to CDN/Hosting
+
+- **Target Platform:** {e.g., Vercel, Netlify, AWS S3/CloudFront, Azure Static Web Apps.}
+- **Deployment Trigger:** {e.g., Git push to main branch via GitHub Actions (referencing main CI/CD).}
+- **Asset Caching Strategy:** {How are static assets cached by the CDN/browser?}
+
+## Frontend Testing Strategy
+
+{ This section elaborates on the "Testing Strategy" from the main architecture document, focusing on frontend-specific aspects. }
+
+- **Link to Main Testing Strategy:** {Reference the main `docs/testing-strategy.md` or architecture doc section.}
+
+### Component Testing
+
+- **Scope:** {Testing individual UI components in isolation (similar to unit tests for components).}
+- **Tools:** {e.g., React Testing Library, Jest, Vitest, Vue Test Utils, Angular Testing Utilities.}
+- **Focus:** {Rendering, props handling, basic interactions, event emission, visual snapshot testing (optional).}
+- **Location:** {e.g., `*.test.tsx` or `*.spec.tsx` alongside components.}
+
+### UI Integration/Flow Testing
+
+- **Scope:** {Testing how multiple components interact to fulfill a small user flow within a page or feature, potentially mocking API calls or state management.}
+- **Tools:** {Same as component testing, but with more complex setups.}
+- **Focus:** {Data flow between components, conditional rendering based on interactions, navigation within a feature.}
+
+### End-to-End UI Testing Tools & Scope
+
+- **Tools:** {Reiterate from main Testing Strategy, e.g., Playwright, Cypress, Selenium.}
+- **Scope (Frontend Focus):** {Define key user journeys that will be covered by E2E UI tests. e.g., User registration, adding item to cart, completing checkout.}
+- **Test Data Management for UI:** {How is consistent test data ensured for UI E2E tests?}
+
+## Accessibility (AX) Implementation Details
+
+{ Based on the AX requirements in the UI/UX Specification, detail how these will be technically implemented. }
+
+- **Semantic HTML:** {Emphasis on using correct HTML5 elements.}
+- **ARIA Implementation:** {Specific ARIA roles, states, and properties for custom/complex components.}
+- **Keyboard Navigation:** {Ensuring all interactive elements are focusable and operable via keyboard.}
+- **Focus Management:** {How is focus managed in modals, dynamic content changes?}
+- **Testing Tools for AX:** {e.g., Axe DevTools, Lighthouse, manual testing procedures.}
+
+## Performance Considerations
+
+{ Highlight frontend-specific performance optimization strategies. }
+
+- **Image Optimization:** {Formats (e.g., WebP), responsive images (`<picture>`, `srcset`), lazy loading.}
+- **Code Splitting & Lazy Loading (reiterate from Build section if needed):** {How it impacts perceived performance.}
+- **Minimizing Re-renders:** {Techniques like `React.memo`, `shouldComponentUpdate`, optimized selectors.}
+- **Debouncing/Throttling:** {For event handlers like search input or window resize.}
+- **Virtualization:** {For long lists or large data sets (e.g., React Virtualized, TanStack Virtual).}
+- **Caching Strategies (Client-Side):** {Use of browser cache, service workers for PWA capabilities (if applicable).}
+- **Performance Monitoring Tools:** {e.g., Lighthouse, WebPageTest, browser DevTools performance tab.}
+
+## Change Log
+
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |
