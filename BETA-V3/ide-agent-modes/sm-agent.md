@@ -23,16 +23,21 @@
 - Story Draft Checklist: `docs/checklists/story-draft-checklist.md`
 - Project Documentation Index: `docs/index.md`
 - Technical References:
-  - Architecture: `docs/architecture.md`
-  - Front End Architecture: `docs/front-end-architecture.md`
-  - Tech Stack: `docs/tech-stack.md`
-  - Project Structure: `docs/project-structure.md`
-  - API Reference: `docs/api-reference.md`
-  - Data Models: `docs/data-models.md`
-  - Coding Standards: `docs/coding-standards.md`
-  - Environment Variables: `docs/environment-vars.md`
-  - Testing Strategy: `docs/testing-strategy.md`
-  - UI/UX Specifications: `docs/ui-ux-spec.md` (if applicable)
+  - General:
+    - Architecture: `docs/architecture.md`
+    - Tech Stack: `docs/tech-stack.md`
+    - Project Structure: `docs/project-structure.md`
+    - API Reference: `docs/api-reference.md`
+    - Data Models: `docs/data-models.md`
+    - Coding Standards: `docs/coding-standards.md`
+    - Environment Variables: `docs/environment-vars.md`
+    - Testing Strategy: `docs/testing-strategy.md`
+  - Front-End Specific (Critical for UI Stories):
+    - Front End Architecture: `docs/front-end-architecture.md`
+    - UI/UX Specifications: `docs/ui-ux-spec.md` (if applicable)
+    - Style Guide: `docs/style-guide.md`
+    - Component Guide: `docs/component-guide.md`
+    - Front-End Coding Standards: `docs/front-end-coding-standards.md`
 
 ## Workflow
 
@@ -73,7 +78,7 @@
       - If the story pertains to Front End UI, also thoroughly read and comprehend `docs/front-end-architecture.md`.
       - Synthesize information from these architectural documents to inform the creation of detailed tasks and subtasks. These architectural documents may themselves reference, or provide the core context for, other specific technical documents like API specifications or data models.
     - **Specific Content Extraction from Standard References & Discovered Ancillary Documents:**
-      - For the explicitly listed standard technical reference documents below AND any relevant ancillary documents discovered via `docs/index.md`, extract exact, relevant sections or content snippets. The information extracted from these documents should complement the architectural understanding. (_Excluding_ full contents of `docs/project-structure.md` and `docs/coding-standards.md` as the Developer Agent has direct access).
+      - For the explicitly listed standard technical reference documents below AND any relevant ancillary documents discovered via `docs/index.md`, extract exact, relevant sections or content snippets. The information extracted from these documents should complement the architectural understanding. (_Excluding_ full contents of `docs/project-structure.md` and general `docs/coding-standards.md` as the Developer Agent has direct access. Specific `docs/front-end-coding-standards.md` details relevant to tasks should be noted if not expected to be universally applied by the Dev Agent).
         - `docs/tech-stack.md`
         - `docs/api-reference.md`
         - `docs/data-models.md`
@@ -96,10 +101,11 @@
 
     - Load structure from `docs/templates/story-template.md`
     - Fill in standard information (Title, Goal, Requirements, ACs).
-    - **Detailed Task Generation:** Based on the comprehension of architectural documents and epic requirements, generate very detailed, sequential tasks and subtasks. Ensure tasks clearly reflect what was specified in prior documentation (epics, architecture).
+    - **Detailed Task Generation:** Based on the comprehension of architectural documents, epic requirements, **and for UI stories, `docs/style-guide.md`, `docs/component-guide.md`, and `docs/front-end-coding-standards.md`,** generate very detailed, sequential tasks and subtasks. Ensure tasks clearly reflect what was specified in prior documentation.
     - **Inject Technical Context:**
-      - Embed the extracted exact content (e.g., specific data model definitions, API endpoint details) or precise references to their location in the relevant sections of the story, or within the tasks themselves. This provides direct guidance to the Developer Agent.
+      - Embed the extracted exact content (e.g., specific data model definitions, API endpoint details, relevant style guide snippets, component usage examples) or precise references to their location in the relevant sections of the story, or within the tasks themselves. This provides direct guidance to the Developer Agent.
       - Example: "Task 3.1: Implement the `User` data model as defined in `docs/data-models.md#User-Model`" or copy the model directly if concise.
+      - **For UI Stories, add a note to the Developer Agent:** "When implementing UI tasks, ensure to consult and adhere to `docs/style-guide.md`, `docs/component-guide.md`, and `docs/front-end-coding-standards.md` for specific guidance on styling, component usage, and coding practices relevant to your tasks."
     - Include only story-specific exceptions for standard documents.
     - Detail testing requirements with specific instructions.
     - Include project structure alignment notes in technical context.

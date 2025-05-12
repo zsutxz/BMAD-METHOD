@@ -107,7 +107,7 @@
       - If 'Yes': Proceed.
       - If 'No' or 'Partially': Advise the user: "Please be aware that the granular documents created in this phase will be based on the current state of the source documents. If pending changes are not yet incorporated, these granular files may not reflect the latest intended information. Do you wish to proceed, or would you prefer to update the source documents first?" Proceed only if the user explicitly agrees to continue with the documents in their current state.
     - **Critical Prerequisite Warning & Mode of Operation:**
-      - State: "This phase is most effective when run in an IDE environment where I have direct file system access to create and update files in your project\'s `docs/` folder, including the `docs/index.md`.
+      - State: "This phase is most effective when run in an IDE environment where I have direct file system access to create and update files in your project's `docs/` folder, including the `docs/index.md`.
     - Confirm receipt of, or help the user identify, the large documents to be processed (e.g., `PRD.md`, `front-end-spec.md`, `architecture.md`). These should typically reside in the `docs/` folder or be explicitly provided.
 
 2.  **Document Decomposition Strategy (Targeted Granulation)**
@@ -144,12 +144,12 @@
         - Clearly explain to the user _which specific sections_ from _which source documents_ will be combined.
         - Provide a preview of how the combined content would look in the proposed granular file.
         - Obtain explicit user confirmation _before_ creating the file with such consolidated content. The user must approve how disparate pieces of information are being brought together.
-      - Format the extracted (and potentially consolidated with approval) content as a self-contained markdown file. Ensure headings are adjusted appropriately (e.g., a H2 in the main doc might become an H1 in the granular file, or content might be presented as lists, tables, or code blocks as appropriate for the granular file\'s purpose).
+      - Format the extracted (and potentially consolidated with approval) content as a self-contained markdown file. Ensure headings are adjusted appropriately (e.g., a H2 in the main doc might become an H1 in the granular file, or content might be presented as lists, tables, or code blocks as appropriate for the granular file's purpose).
       - **If in IDE:** Create the new file in the `docs/` folder with the specified name (e.g., `docs/api-reference.md`) and populate it with the extracted content.
       - **If Web Version:** Present the full proposed filename (e.g., `docs/api-reference.md`) and then its complete content to the user for manual creation. Handle `epic-<n>.md` files iteratively with the user.
 
 4.  **Index File (`docs/index.md`) Management**
-    - **Initial Creation (if `docs/index.md` doesn\'t exist):**
+    - **Initial Creation (if `docs/index.md` doesn't exist):**
       - **If in IDE:** Create an empty `docs/index.md` file.
       - **If Web Version:** Provide the content for a basic `docs/index.md` (e.g., a title like `# Project Documentation Index`).
     - **Updating `docs/index.md` (Iteratively for Processed Files):**
@@ -158,15 +158,14 @@
         - Add an entry to `docs/index.md` that includes:
           - A descriptive title for the link.
           - A relative markdown link to the new granular file (e.g., `[User Personas](./prd-user-personas.md)`).
-          - Optionally, a brief one-sentence description of the file\'s content.
-          - Example: `### Product Requirements Document (PRD)
+          - Optionally, a brief one-sentence description of the file's content.
+          - Example: `### Category Heading
 
-- [Introduction](./prd-introduction.md) - Overall project goals and vision.
-- [User Personas](./prd-user-personas.md) - Detailed descriptions of target user types.`      - **If in IDE:** Directly edit and save the`docs/index.md`file with the new entries.
+- [Link to Granular File](./granular-file-example.md) - Brief description of the file.`      - **If in IDE:** Directly edit and save the`docs/index.md`file with the new entries.
   - **If Web Version:** Present the complete, updated content of`docs/index.md` to the user after each batch of additions, or at an agreed-upon interval.
   - **Final Scan and Indexing of Other `docs/` Folder Contents:**
     - After all targeted granular files have been processed and indexed:
-      - Inform the user: "I will now scan the `docs/` directory for any other relevant documents (e.g., Markdown files) that haven\'t been explicitly processed or indexed yet, to ensure the `index.md` is as comprehensive as possible."
+      - Inform the user: "I will now scan the `docs/` directory for any other relevant documents (e.g., Markdown files) that haven't been explicitly processed or indexed yet, to ensure the `index.md` is as comprehensive as possible."
       - **If in IDE:** List any such files found. For each, ask the user if it should be added to `index.md`, and if so, under what heading or with what description. Then update `index.md` accordingly.
       - **If Web Version:** Ask the user to list any other files in the `docs/` folder they believe should be indexed. For each one they list, discuss its appropriate title, link, and placement in `index.md`, then provide the updated `index.md` content.
     - The goal is to ensure `index.md` catalogs all relevant documents in the `docs/` folder, not just those granulated by the POSM in this phase.

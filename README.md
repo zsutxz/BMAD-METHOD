@@ -1,5 +1,9 @@
 # The BMAD-Method (Breakthrough Method of Agile (ai-driven) Development)
 
+## Beta V3
+
+The initial release of Beta-V3 is now available. It still is undergoing testing and so far, it has solid web agents (for gems and gpts) and a few of the updated ide agents (sm and dev)
+
 ## Major Update: V2 Final Release
 
 The BMad Method has undergone a significant transformation with our V2 (beta) release! The previous implementation (still available in the `LEGACY-V1` folder) has been replaced by a drastically improved workflow and agent system in the `CURRENT-V2` folder.
