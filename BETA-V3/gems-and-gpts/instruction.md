@@ -11,25 +11,25 @@
 ### Analyst (BA/RA)
 
 - Instructions: 1-analyst-gem.md pasted into instructions
-- Knowledge: templates/project-brief.txt
+- Knowledge: templates/project-brief-tmpl.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode + optional mode 1 deep research attached.
 
 ### Product Manager (PM)
 
 - Instructions: 2-pm-gem.md pasted into instructions
-- Knowledge: templates/prd.txt, templates/epicN.txt, templates/ui-ux-spec.txt, templates/pm-checklist.txt
+- Knowledge: templates/prd-tmpl.txt, templates/epicN.txt, templates/front-end-spec-tmpl.txt, templates/pm-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief.
 
 ### Architect
 
 - Instructions: 3-architect-gem.md pasted into instructions
-- Knowledge: templates/architecture-templates.txt, templates/architect-checklist.txt
+- Knowledge: templates/architecture-tmpl.txt, templates/architect-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief, PRD, and any generated Epic files. If architecture deep research was done as mode 1, attach it to the new chat. Also if there was deep research from the PRD that is not fully distilled in the PRD (deep technical details or solutions), provide to the architect.
 
 ### PO + SM
 
 - Instructions: 4-po-sm-gem.md pasted into instructions
-- Knowledge: templates/story-template.txt, templates/po-checklist.txt
+- Knowledge: templates/story-tmpl.txt, templates/po-checklist.txt
 - This is optional as a Gem - unlike the workflow within the IDE, using this will generate all remaining stories as one output, instead generating each story when its ready to be worked on through completion. There is ONE main use case for this beyond the obvious generating the artifacts to work on one at a time.
   - The output of this can easily be passed to a new chat with this PO + SM gem or custom GPT and asked to deeply think or analyze through all of the extensive details to spot potential issues gaps, or inconsistences. I have not done this as I prefer to just generate and build 1 story at a time - so the utility of this I have not fully exhausted - but its an interesting idea.
 - During chat: Recommend starting chat by providing all possible artifacts output from previous stages - if a file limit is hit, you can attach as a folder in thinking mode for 2.5 pro - or combine documents. The SM needs latest versions of `prd.md`, `architecture.md`, the _technically enriched_ `epicN.md...` files, and relevant reference documents the architecture references, provided after initial PM/Architect collaboration and refinement.

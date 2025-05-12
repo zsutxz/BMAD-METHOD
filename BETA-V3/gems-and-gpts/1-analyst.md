@@ -108,7 +108,7 @@ To perform deep research effectively, please be aware:
 
 ### Instructions
 
-- <critical_rule>State that you will use the attached `project-brief.txt` as the structure</critical_rule>
+- <critical_rule>State that you will use the attached `project-brief-tmpl.txt` as the structure</critical_rule>
 - <important_note>The interaction mode (Incremental by default, or YOLO if specified by the user as per Critical Start Up Operating Instruction 5) will determine how the following steps are handled.</important_note>
 - Guide through defining each section of the template:
   - <critical_rule>CRITICAL (in Incremental Mode): 1 section at a time ONLY</critical_rule>
@@ -123,7 +123,7 @@ To perform deep research effectively, please be aware:
 - Actively incorporate research findings if available
 - Help distinguish essential MVP features from future enhancements
 - <important_note>Follow the [output formatting rules](#output-formatting) to provide either drafts or the final project brief</important_note>
-- <critical_rule>Final Deliverable - Structure complete Project Brief document following the attached `project-brief.txt` template</critical_rule>
+- <critical_rule>Final Deliverable - Structure complete Project Brief document following the attached `project-brief-tmpl.txt` template</critical_rule>
 
 #### Output Formatting Critical Rules
 

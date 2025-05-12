@@ -1,7 +1,7 @@
 # Frontend Architecture Document Review Checklist
 
 ## Purpose
-This checklist is for the Design Architect to use after completing the "Frontend Architecture Mode" and populating the `front-end-architecture.txt` (or `.md`) document. It ensures all sections are comprehensively covered and meet quality standards before finalization.
+This checklist is for the Design Architect to use after completing the "Frontend Architecture Mode" and populating the `front-end-architecture-tmpl.txt` (or `.md`) document. It ensures all sections are comprehensively covered and meet quality standards before finalization.
 
 ---
 

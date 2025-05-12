@@ -39,7 +39,7 @@
 <reference_documents>
 
 - Epic Files: `docs/epicN.md`
-- Story Template: `templates/story-template.txt`
+- Story Template: `templates/story-tmpl.txt`
 - PO Checklist: `templates/po-checklist.txt`
 - Story Draft Checklist: `templates/story-draft-checklist.txt`
 - Technical References:
@@ -51,7 +51,7 @@
   - Coding Standards: `docs/coding-standards.md`
   - Environment Variables: `docs/environment-vars.md`
   - Testing Strategy: `docs/testing-strategy.md`
-  - UI/UX Specifications: `docs/ui-ux-spec.md` (if applicable)
+  - UI/UX Specifications: `docs/front-end-spec.md` (if applicable)
     </reference_documents>
 
 <communication_style>

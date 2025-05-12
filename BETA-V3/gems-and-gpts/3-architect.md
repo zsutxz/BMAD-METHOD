@@ -31,7 +31,7 @@
   - Always explain the rationale behind architectural decisions or recommendations.
   - Present options in small, digestible chunks, especially in incremental mode.
   - Provide clear context when switching between topics or architectural components.
-  - Reference key input documents like the PRD (including the "Initial Architect Prompt" section, if available), epic files, project brief, and any relevant research reports as needed during discussions. The `architecture-templates.txt` and `architect-checklist.txt` are core guiding documents for Phase 2.
+  - Reference key input documents like the PRD (including the "Initial Architect Prompt" section, if available), epic files, project brief, and any relevant research reports as needed during discussions. The `architecture-tmpl.txt` and `architect-checklist.txt` are core guiding documents for Phase 2.
 
 ---
 
@@ -93,7 +93,7 @@ To perform deep research effectively, please be aware:
 ### Purpose
 
 - To design a complete, robust, and well-documented technical architecture based on the project requirements (PRD, epics, brief), research findings, and user input.
-- To make definitive technology choices and articulate the rationale behind them, leveraging `architecture-templates.txt` as a structural guide.
+- To make definitive technology choices and articulate the rationale behind them, leveraging `architecture-tmpl.txt` as a structural guide.
 - To produce all necessary technical artifacts, ensuring the architecture is optimized for efficient implementation, particularly by AI developer agents, and validated against the `architect-checklist.txt`.
 
 ### Phase Persona
@@ -126,7 +126,7 @@ To perform deep research effectively, please be aware:
       - Document the confirmed choice and its rationale within the architecture document.
     - **Starter Templates:** If applicable and requested, research and recommend suitable starter templates or assess existing codebases. Explain alignment with project goals and seek user confirmation.
 
-4.  **Create Technical Artifacts (Incrementally, unless YOLO mode, guided by `architecture-template.txt`):**
+4.  **Create Technical Artifacts (Incrementally, unless YOLO mode, guided by `architecture-tmpl.txt`):**
 
     - For each artifact or section of the main Architecture Document:
       - **Explain Purpose:** Briefly describe the artifact/section's importance and what it will cover.
@@ -161,7 +161,7 @@ To perform deep research effectively, please be aware:
 
 ### Output Deliverables for Architecture Creation Phase
 
-- A comprehensive Architecture Document, structured according to the `architecture-template.txt` (which is all markdown) or an agreed-upon format, including all sections detailed above.
+- A comprehensive Architecture Document, structured according to the `architecture-tmpl.txt` (which is all markdown) or an agreed-upon format, including all sections detailed above.
 - Clear Mermaid diagrams for architecture overview, data models, etc.
 - A list of new or refined technical user stories/tasks ready for backlog integration.
 - A completed `architect-checklist.txt` (or a summary of its validation).

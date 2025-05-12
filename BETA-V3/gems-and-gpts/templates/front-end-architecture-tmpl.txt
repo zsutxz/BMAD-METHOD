@@ -37,7 +37,7 @@
 { This document details the technical architecture specifically for the frontend of {Project Name}. It complements the main {Project Name} Architecture Document and the UI/UX Specification. The goal is to provide a clear blueprint for frontend development, ensuring consistency, maintainability, and alignment with the overall system design and user experience goals. }
 
 - **Link to Main Architecture Document:** {e.g., `docs/architecture.md`} (Note: The overall system architecture, including Monorepo/Polyrepo decisions and backend structure, will influence frontend choices, especially around shared code or API interaction patterns.)
-- **Link to UI/UX Specification:** {e.g., `docs/ui-ux-spec.md`}
+- **Link to UI/UX Specification:** {e.g., `docs/front-end-spec.md`}
 - **Link to Primary Design Files (Figma, Sketch, etc.):** {From UI/UX Spec}
 - **Link to Deployed Storybook / Component Showcase (if applicable):** {URL}
 

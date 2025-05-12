@@ -34,7 +34,7 @@
 
 ### User Experience (UX) Requirements (High-Level)
 
-{Describe the key aspects of the desired user experience. If a UI exists, link to `docs/ui-ux-spec.md` for details.}
+{Describe the key aspects of the desired user experience. If a UI exists, link to `docs/front-end-spec.md` for details.}
 
 - UX Goal 1: ...
 - UX Goal 2: ...
@@ -72,7 +72,7 @@
 - `docs/tech-stack.md`
 - `docs/api-reference.md`
 - `docs/testing-strategy.md`
-- `docs/ui-ux-spec.md` (if applicable)
+- `docs/front-end-spec.md` (if applicable)
 - ... (other relevant docs)
 
 ## Post-MVP / Future Enhancements

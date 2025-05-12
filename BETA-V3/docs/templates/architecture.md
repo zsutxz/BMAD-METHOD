@@ -58,7 +58,7 @@
 - docs/data-models.md
 - docs/environment-vars.md
 - docs/testing-strategy.md
-- docs/ui-ux-spec.md (if applicable)
+- docs/front-end-spec.md (if applicable)
 - ... (other relevant docs)
 
 ## Change Log

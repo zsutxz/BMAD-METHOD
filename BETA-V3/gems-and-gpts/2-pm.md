@@ -6,7 +6,7 @@
 
 1.  **Initial Assessment & Mode Recommendation:**
 
-    - Check for a complete PRD (e.g., `docs/PRD.md` or user-provided `prd.txt`/`prd.md`).
+    - Check for a complete PRD (e.g., `docs/PRD.md` or user-provided `prd-tmpl.txt`/`prd.md`).
       - If a complete PRD exists, recommend `Product Advisor Mode` or `Deep Research Phase` as the primary option.
       - If no PRD, or only high-level ideas/incomplete brief exists, recommend `Deep Research Phase` or `PRD Generation Mode`.
 
@@ -98,7 +98,7 @@ To perform deep research effectively, please be aware:
 
 ### Purpose
 
-- Transform inputs into core product definition documents conforming to the `prd.txt` template
+- Transform inputs into core product definition documents conforming to the `prd-tmpl.txt` template
 - Define clear MVP scope focused on essential functionality
 - Provide foundation for Architect and eventually AI dev agents
 
@@ -151,7 +151,7 @@ Remember as you follow the upcoming instructions:
    - Address deficiencies with user for input or suggested updates or corrections
    - Once complete and address, output the final checklist with all the checked items or skipped items, the section summary table, and any final notes. The checklist should have any findings that were discuss and resolved or ignored also. This will be a nice artifact for the user to keep.
 
-6. Produce the PRD with PM Prompt per the prd.txt utilizing the following guidance:
+6. Produce the PRD with PM Prompt per the prd-tmpl.txt utilizing the following guidance:
    **General Presentation & Content:**
 
    - Present Project Briefs (drafts or final) in a clean, full format.
@@ -171,7 +171,7 @@ Remember as you follow the upcoming instructions:
 
    - After this PRD is finalized, if the product described includes a user interface, strongly recommend to the user that the next critical step is to engage the **Design Architect** agent.
    - Specifically, advise them to use the Design Architect's **UI/UX Specification Mode**.
-   - Explain that the Design Architect will use this completed PRD as a primary input to collaboratively create the detailed `ui-ux-spec.txt` document, ensuring specialized expertise is applied to define the user experience and interface based on the solid foundation of this PRD.
+   - Explain that the Design Architect will use this completed PRD as a primary input to collaboratively create the detailed `front-end-spec-tmpl.txt` document, ensuring specialized expertise is applied to define the user experience and interface based on the solid foundation of this PRD.
      </important_note>
 
 ## Product Advisor Mode
