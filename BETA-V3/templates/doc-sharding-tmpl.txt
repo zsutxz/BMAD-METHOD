@@ -1,0 +1,67 @@
+# Document Sharding Plan Template
+
+This plan directs the PO/POSM agent on how to break down large source documents into smaller, granular files during its Librarian Phase. The agent will refer to this plan to identify source documents, the specific sections to extract, and the target filenames for the sharded content.
+
+---
+
+## 1. Source Document: PRD (Project Requirements Document)
+*   **Note to Agent:** Confirm the exact filename of the PRD with the user (e.g., `PRD.md`, `ProjectRequirements.md`).
+
+### 1.1. Epic Granulation
+-   **Instruction:** For each Epic identified within the PRD:
+-   **Source Section(s) to Copy:** The complete text for the Epic, including its main description, goals, and all associated user stories or detailed requirements under that Epic.
+-   **Target File Pattern:** `docs/epic-<id>.md`
+   
+### 1.2. Other Potential PRD Extractions (Examples)
+-   **Source Section(s) to Copy:** "User Personas" (if present and detailed).
+-   **Target File:** `docs/prd-user-personas.md`
+
+---
+
+## 2. Source Document: Main Architecture Document
+*   **Note to Agent:** Confirm the exact filename with the user (e.g., `architecture.md`, `SystemArchitecture.md`).
+
+### 2.1. Core Architecture Granules
+-   **Source Section(s) to Copy:** Section(s) detailing "API Reference", "API Endpoints", or "Service Interfaces".
+-   **Target File:** `docs/api-reference.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Coding Standards", "Development Guidelines", or "Best Practices".
+-   **Target File:** `docs/coding-standards.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Data Models", "Database Schema", "Entity Definitions".
+-   **Target File:** `docs/data-models.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Environment Variables", "Configuration Settings", "Deployment Parameters".
+-   **Target File:** `docs/environment-vars.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Project Structure".
+-   **Target File:** `docs/project-structure.md`
+    -   *Agent Note: If the project involves multiple repositories (not a monorepo), ensure this file clearly describes the structure of each relevant repository or links to sub-files if necessary.*
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Technology Stack", "Key Technologies", "Libraries and Frameworks".
+-   **Target File:** `docs/tech-stack.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Testing Strategy", "Testing Decisions", "QA Processes".
+-   **Target File:** `docs/testing-decisions.md`
+
+---
+
+## 3. Source Document(s): Front-End Specific Documentation
+*   **Note to Agent:** Confirm filenames with the user (e.g., `front-end-architecture.md`, `front-end-spec.md`, `ui-guidelines.md`). Multiple FE documents might exist.
+
+### 3.1. Front-End Granules
+-   **Source Section(s) to Copy:** Section(s) detailing "Front-End Project Structure" (if distinct from the main `project-structure.md`, e.g., for a separate front-end repository or a complex monorepo FE workspace).
+-   **Target File:** `docs/fe-project-structure.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "UI Style Guide", "Brand Guidelines", "Visual Design Specifications".
+-   **Target File:** `docs/style-guide.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Component Library", "Reusable UI Components Guide", "Atomic Design Elements".
+-   **Target File:** `docs/component-guide.md`
+
+-   **Source Section(s) to Copy:** Section(s) detailing "Front-End Coding Standards" (specifically for UI development, e.g., JavaScript/TypeScript style, CSS naming conventions, accessibility best practices for FE).
+-   **Target File:** `docs/front-end-coding-standards.md`
+
+---
+
+CRITICAL: **Index Management:** After creating each granular file, update `docs/index.md` as needed.

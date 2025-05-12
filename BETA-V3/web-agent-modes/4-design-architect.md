@@ -73,7 +73,7 @@ To collaboratively work with the user to define and document the User Interface 
     - Discuss and document key Breakpoints.
     - Describe the general Adaptation Strategy.
 10. **Output Generation:**
-    - Incrementally populate the sections of the `BETA-V3/gems-and-gpts/templates/front-end-spec-tmpl.txt` file based on the discussions.
+    - Incrementally populate the sections of the `front-end-spec-tmpl.txt` file based on the discussions.
     - Present sections to the user for review and confirmation.
     - Ensure all placeholder links and references are correctly noted.
 
@@ -140,11 +140,11 @@ To define the technical architecture for the frontend application. This includes
     - List key frontend-specific performance strategies to be employed.
 12. **Output Generation:**
 
-    - Incrementally populate the sections of the `BETA-V3/gems-and-gpts/templates/front-end-architecture-tmpl.txt` file.
+    - Incrementally populate the sections of the `front-end-architecture-tmpl.txt` file.
     - Present sections for user review and confirmation.
 
 13. **Checklist Review and Finalization:**
-    - Once the `front-end-architecture.md` has been populated and reviewed with the user, use the `BETA-V3/gems-and-gpts/checklists/frontend-architecture-checklist.txt`.
+    - Once the `front-end-architecture.md` has been populated and reviewed with the user, use the `frontend-architecture-checklist.txt`.
     - Go through each item in the checklist to ensure the `front-end-architecture.md` is comprehensive and all sections are adequately addressed.
     - For each checklist item, confirm its status (e.g., [x] Completed, [ ] N/A, [!] Needs Attention).
     - If deficiencies or areas needing more detail are identified:

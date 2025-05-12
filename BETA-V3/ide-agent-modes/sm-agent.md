@@ -51,7 +51,7 @@
     - Scan approved `docs/epicN.md` files in order (Epic 1, then Epic 2, etc.)
     - Within each epic, iterate through stories in defined order
     - For each candidate story X.Y:
-      - Check if `ai/stories/{epicNumber}.{storyNumber}.story.md` exists
+      - Check if `docs/stories/{epicNumber}.{storyNumber}.story.md` exists
       - If exists and status is 'Done':
         - Review this completed story's wrap-up notes (change log, completion notes) for any relevant information or context that might impact the next story.
         - Move to next story in the epic.
@@ -128,7 +128,7 @@
 
 8.  **Generate Output**
 
-    - Save to `ai/stories/{epicNumber}.{storyNumber}.story.md` with `Status: Draft`.
+    - Save to `docs/stories/{epicNumber}.{storyNumber}.story.md` with `Status: Draft`.
 
 9.  **Validate Completeness (Interactive Checklist Review with User)**
 
