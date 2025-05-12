@@ -1,6 +1,6 @@
 # Story {EpicNum}.{StoryNum}: {Short Title Copied from Epic File}
 
-## Status: { Draft | Approved | Done }
+## Status: { Draft | Approved | InProgress | Done }
 
 ## Story
 
