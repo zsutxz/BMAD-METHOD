@@ -2,7 +2,9 @@
 
 ## Beta V3
 
-The initial release of Beta-V3 is now available. It still is undergoing testing and so far, it has solid web agents (for gems and gpts) and a few of the updated ide agents (sm and dev)
+The initial release of Beta-V3 is now available. It still is undergoing testing and so far, it has solid web agents (for gems and gpts) and optimized slimmed down ide agents, and the introduction of ide tasks to handle one of jobs without needing a dedicated agent (helpful with cursor custom mode limit and also helps with windsurf reducing the size to keep ide agent modes below 6k characters).
+
+Feel free to try it out - its beta, so please know its still undergoing testing and updates and there are some significant (amazing improvements) changes.
 
 ## Major Update: V2 Final Release
 
