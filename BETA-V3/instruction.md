@@ -16,6 +16,7 @@ To set up web-mode agents, please refer to the table below. It outlines the agen
 | 3-architect        | `BETA-V3/web-agent-modes/3-architect.md`        | `BETA-V3/templates/architecture-tmpl.txt`, `BETA-V3/checklists/architect-checklist.txt`                                                                                        |
 | 4-design-architect | `BETA-V3/web-agent-modes/4-design-architect.md` | `BETA-V3/templates/front-end-architecture-tmpl.txt`, `BETA-V3/templates/front-end-spec-tmpl.txt`, `BETA-V3/checklists/frontend-architecture-checklist.txt`                     |
 | 5-posm             | `BETA-V3/web-agent-modes/5-posm.md`             | `BETA-V3/checklists/po-master-checklist.txt`, `BETA-V3/templates/story-tmpl.txt`, `BETA-V3/checklists/story-draft-checklist.txt`, `BETA-V3/checklists/story-dod-checklist.txt` |
+| 6-rte              | `BETA-V3/web-agent-modes/6-rte.md`              | `BETA-V3/checklists/rte-checklist.md`                                                                                                                                          |
 
 ## IDE Agent Setup
 

@@ -109,7 +109,18 @@ Welcome to the BMAD (Brian Madison) Method! This advisor is here to help you nav
 - **Key Outputs:** Produces a **Master Checklist Report**, a well-organized and **granular `docs/` directory with an `index.md`**, and **developer-ready story files** (which, in the case of agents like `sm-agent.md`, includes user validation).
 - **Operational Note:** The Librarian phase is most effective in an IDE environment with direct file system access.
 
-### 6. Suggested Order of Agent Engagement (Typical Flow):
+### 6. Handling Major Changes: The RTE-Agent (`6-rte.md`)
+
+- **When to Engage:** The Release Train Engineer (RTE-Agent) is your go-to specialist when a completed or failed story uncovers a significant issue requiring a substantial change in direction, technology, or reveals critical missing requirements.
+- **Core Responsibilities:**
+  - The RTE-Agent uses a checklist (`docs/checklists/rte-checklist.md` for IDE mode, or attached `BETA-V3/checklists/rte-checklist.md` for web mode) to systematically analyze the impact of the change across epics, the PRD, architecture documents, and other artifacts.
+  - It helps evaluate paths forward, including direct adjustments, potential rollbacks, or PRD MVP re-scoping.
+  - Crucially, for most scenarios, the RTE-Agent acts as an "Acting PM/Technical Editor" and will **draft specific proposed updates** to the affected documents and stories.
+- **Key Output:** The **Sprint Change Proposal**, which contains the analysis, the recommended path, and the _drafted changes_ for your approval.
+- **When it Handoffs:** If the analysis determines a fundamental project replan or a major PRD rewrite is necessary, the RTE-Agent will prepare a detailed handoff to the PM or Architect, rather than drafting the entire overhaul itself.
+- **Purpose:** To ensure significant mid-project course corrections are managed effectively, allowing the project to adapt while maintaining focus on an achievable (though potentially revised) MVP.
+
+### 7. Suggested Order of Agent Engagement (Typical Flow):
 
 1.  **Analyst (`1-analyst.md`):** (Optional but highly recommended for new/unclear ideas) Engaged for initial brainstorming, broad market/feasibility research, and culminating in a **Project Brief**.
 2.  **PM (Product Manager) (`2-pm.md`):** Takes the Project Brief (or a clear user idea) to develop a detailed **Product Requirements Document (PRD)**, including Epics and User Stories. May conduct its own focused Deep Research if needed. If a User Interface is involved, the PM will typically recommend engaging the Design Architect next.
@@ -142,7 +153,7 @@ Welcome to the BMAD (Brian Madison) Method! This advisor is here to help you nav
 
     This flow is a general guideline. The BMAD method is iterative, and phases or agents might be revisited as new information emerges or if refinements are needed.
 
-### 7. IDE vs. UI Usage (General Recommendations):
+### 8. IDE vs. UI Usage (General Recommendations):
 
 - **Conceptual & Planning Phases (Analyst, PM, Initial Architect Drafts, Design Architect UI/UX Specification):**
 
@@ -160,6 +171,25 @@ Welcome to the BMAD (Brian Madison) Method! This advisor is here to help you nav
   - **Developer Agents:** Will primarily operate within an IDE context for implementation, testing, and debugging tasks.
 
 - **BMAD Method Files (`*.md` in `gems-and-gpts`):** These are the operational prompts for the agents. Modifying them to customize agent behavior is typically an advanced user/developer action, best performed in an IDE or a capable plain text editor that handles markdown well.
+
+### 9. Leveraging IDE Tasks for Efficiency
+
+For IDE users, the BMAD Method V3 introduces a powerful concept of **Tasks**, located in the `BETA-V3/tasks/` directory. These tasks are self-contained instruction sets designed to perform specific, often one-off jobs that might not warrant a dedicated, persistent agent mode.
+
+**Purpose of IDE Tasks:**
+
+- **Reduce Agent Bloat:** Instead of adding numerous, rarely used instructions to your primary IDE agent modes (like the Dev Agent or SM Agent), tasks provide a lean way to execute specific functions. This is particularly beneficial for IDEs with limits on custom agent complexity or numbers.
+- **On-Demand Functionality:** You can instruct your active IDE agent to perform a task by providing the content of the relevant task file (e.g., `checklist-run-task.md`) as a prompt. The task file contains all the necessary instructions for the agent to complete that specific job.
+- **Versatility:** Any sufficiently capable agent can be asked to execute a task.
+
+**Examples of Task Functionality:**
+
+- Running a chosen checklist against a document (e.g., `checklist-run-task.md`).
+- Generating the next story file based on an epic (e.g., `create-next-story-task.md`).
+- Breaking down (sharding) a large document into smaller, more manageable pieces (e.g., `doc-sharding-task.md`).
+- Indexing key information from a library or set of documents (e.g., `library-indexing-task.md`).
+
+Think of tasks as specialized, callable mini-agents that your main IDE agents can invoke on demand, keeping the primary agent definitions streamlined and focused on their core roles.
 
 ---
 
