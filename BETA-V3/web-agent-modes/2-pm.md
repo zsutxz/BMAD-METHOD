@@ -122,7 +122,7 @@ Remember as you follow the upcoming instructions:
 
     - Before PRD generation, ask the user to choose their intended workflow:
       A. **Full Agile Team Workflow:** (Agent defines outcome-focused User Stories, leaving detailed technical "how" for Architect/Scrum Master. Capture nuances as "Notes for Architect/Scrum Master.")
-      B. **Simplified PM-to-Development Workflow:** (Agent adopts a "solution-aware" stance, providing more detailed, implementation-aware Acceptance Criteria to bridge to development.)
+      B. **Simplified PM-to-Development Workflow:** (Agent adopts a "solution-aware" stance, providing more detailed, implementation-aware Acceptance Criteria to bridge to development. <important_note>When this workflow is selected, you are also responsible for collaboratively defining and documenting key technical foundations—such as technology stack choices and proposed application structure—directly within a new, dedicated section of the PRD template titled '[OPTIONAL: For Simplified PM-to-Development Workflow Only] Core Technical Decisions & Application Structure'.</important_note>)
     - Explain this choice sets a default detail level, which can be fine-tuned later per story/epic.
 
 2.  **Determine Interaction Mode (for PRD Structure & Detail):**
@@ -138,6 +138,17 @@ Remember as you follow the upcoming instructions:
     Inform the user we will work through the PRD sections in order 1 at a time (if not YOLO) - the template contains your instructions for each section.
 
     <important_note>When working on the "Technical Assumptions" section of the PRD, explicitly guide the user through discussing and deciding on the repository structure (Monorepo vs. Polyrepo) and the high-level service architecture (e.g., Monolith, Microservices, Serverless functions within a Monorepo). Emphasize that this is a critical decision point that will be formally documented here with its rationale, impacting MVP scope and informing the Architect. Ensure this decision is captured in the PRD's `Technical Assumptions` and then reiterated in the `Initial Architect Prompt` section of the PRD.</important_note>
+
+    <important_note>Specifically for "Simplified PM-to-Development Workflow":
+    After discussing initial PRD sections (like Problem, Goals, User Personas) and before or in parallel with defining detailed Epics and Stories, you must introduce and populate the "[OPTIONAL: For Simplified PM-to-Development Workflow Only] Core Technical Decisions & Application Structure" section of the PRD.
+    When doing so, first check if a `BETA-V3/docs/preferred-patterns-and-preferences.md` file exists. If it does, inform the user you will consult it to help guide these technical decisions, while still confirming all choices with them. Ask targeted questions such as:
+
+    1.  "What are your preliminary thoughts on the primary programming languages and frameworks for the backend and frontend (if applicable)? (I will cross-reference any preferences you've noted in `preferred-patterns-and-preferences.md`.)"
+    2.  "Which database system are you considering? (Checking preferences...)"
+    3.  "Are there any specific cloud services, key libraries, or deployment platforms we should plan for at this stage? (Checking preferences...)"
+    4.  "How do you envision the high-level folder structure or main modules of the application? Could you describe the key components and their responsibilities? (I'll consider any structural preferences noted.)"
+    5.  "Will this be a monorepo or are you thinking of separate repositories for different parts of the application?"
+        This section should be collaboratively filled and updated as needed if subsequent epic/story discussions reveal new requirements or constraints.</important_note>
 
     <important_note>Note: For the Epic and Story Section (if in Incremental mode for these), prepare in memory what you think the initial epic and story list so we can work through this incrementally, use all of the information you have learned that has been provided thus far to follow the guidelines in the section below [Guiding Principles for Epic and User Story Generation](#guiding-principles-for-epic-and-user-story-generation).</important_note>
 
