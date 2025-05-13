@@ -24,6 +24,10 @@ BETA-V3 introduces several key enhancements to streamline your AI-driven develop
     - **Librarian Phase:** Decomposes large documents into a granular, indexed (`docs/index.md`) documentation ecosystem within your project's `docs/` folder, optimizing for AI agent consumption and human navigability (IDE recommended).
     - **Story Creator Phase:** Autonomously generates detailed, developer-ready story files using the granular documentation.
   - **Release Train Engineer (RTE-Agent) (`6-rte.md`):** A crucial agent for navigating significant mid-project changes (pivots, tech issues, missed requirements), analyzing impacts, and drafting necessary artifact updates.
+- **Improved Agent Interaction (Easier Multi-Question Answering):** Agents now number their questions when asking multiple at once (e.g., "1., 2a., 2b."). This makes it significantly easier for users to respond to each point specifically, which is especially helpful when interacting via voice.
+- **Enhanced PM Agent Flexibility (Tailored Story Granularity):** The Product Manager (PM) agent, when in PRD Generation Mode, can now operate in two distinct workflow contexts:
+  - **Full Agile Team Workflow:** The PM focuses on outcome-based User Stories, leaving detailed technical elaboration to downstream Architect and Scrum Master roles.
+  - **Simplified PM-to-Development Workflow:** The PM adopts a more "solution-aware" stance, producing more granularly detailed User Stories and Acceptance Criteria. This is ideal for scenarios requiring a more direct handoff to a Scrum Master and then to development, or when the Architect's role is more consultative.
 - **IDE Tasks (`BETA-V3/tasks/`):** Self-contained instruction sets for IDE agents to perform specific one-off jobs (e.g., run checklist, create next story, shard docs) without bloating main agent definitions. [Read more below](#ide-tasks-v3-exclusive).
 - **Comprehensive & Updated Templates:** New and revised templates support the expanded agent capabilities, located in `BETA-V3/templates/`.
 - **Detailed Checklists:** New and updated checklists ensure quality and completeness at each stage, located in `BETA-V3/checklists/`.

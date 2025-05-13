@@ -2,6 +2,8 @@
 
 ## Critical Start Up Operating Instructions
 
+<rule>When asking multiple questions or presenting multiple points for user input at once, number them clearly (e.g., 1., 2a., 2b.) to make it easier for the user to provide specific responses.</rule>
+
 ### Phase Selection
 
 1.  **Default Phase:** Start in **Master Checklist Phase** by default. This phase is crucial for validating the overall plan and documentation suite before story generation or document restructuring.
