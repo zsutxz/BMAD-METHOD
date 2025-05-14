@@ -1,0 +1,508 @@
+# BMad DiCaster Product Requirements Document (PRD)
+
+## Goal, Objective and Context
+
+**Goal:** To develop a web application that provides a daily, concise summary of top Hacker News (HN) posts, delivered as a newsletter and accessible via a web interface.
+
+**Objective:** To streamline the consumption of HN content by curating the top stories, providing AI-powered summaries, and offering an optional AI-generated podcast version.
+
+**Context:** Busy professionals and enthusiasts want to stay updated on HN but lack the time to sift through numerous posts and discussions. This application will address this problem by automating the delivery of summarized content.
+
+## Functional Requirements (MVP)
+
+- **HN Content Retrieval & Storage:**
+  - Daily retrieval of the top 30 Hacker News posts and associated comments using the HN Algolia API.
+  - Scraping and storage of up to 10 linked articles per day.
+  - Storage of all retrieved data (posts, comments, articles) with date association.
+- **AI-Powered Summarization:**
+  - AI-powered summarization of the 10 selected articles (2-paragraph summaries).
+  - AI-powered summarization of comments for the 10 selected posts (2-paragraph summaries highlighting interesting interactions).
+  - Configuration for local or remote LLM usage via environment variables, including specifying the LLM API endpoint and any necessary authentication credentials.
+- **Newsletter Generation & Delivery:**
+  - Generation of a daily newsletter in HTML format, including summaries, links to HN posts and articles, and original post dates/times.
+  - Automated delivery of the newsletter to a manually configured list of subscribers in Supabase. The list of emails will be manually populated in the "subscribers" table. Account information for the Nodemailer service (including SMTP server, port, username, and password) will be provided via environment variables.
+- **Podcast Generation & Integration:**
+  - Integration with Play.ht's PlayNote API for AI-generated podcast creation from the newsletter content.
+  - Webhook handler to update the newsletter with the generated podcast link.
+- **Web Interface (MVP):**
+  - Display of current and past newsletters.
+  - Functionality to read the newsletter content within the web page.
+  - Download option for newsletters (in HTML format).
+  - Web player for listening to generated podcasts.
+- **API & Triggering:**
+  - Secure API endpoint (`/api/trigger-workflow`) to manually trigger the daily workflow, secured with API keys passed in the `X-API-Key` header.
+  - CLI command (`node trigger.js`) to manually trigger the daily workflow locally.
+
+## Non-Functional Requirements (MVP)
+
+- **Performance:**
+  - The system should retrieve HN posts and generate the newsletter within a reasonable timeframe (e.g., under 30 minutes) to ensure timely delivery.
+  - The web interface should load quickly (e.g., within 2 seconds) to provide a smooth user experience.
+- **Scalability:**
+  - The system is designed for an initial MVP delivery to 3-5 email subscribers. Scalability beyond this will be considered post-MVP.
+- **Security:**
+  - The API endpoint (`/api/trigger-workflow`) for triggering the daily workflow must be secure, using API keys passed in the `X-API-Key` header.
+  - User data (email addresses) should be stored securely in the Supabase database, with appropriate access controls. No other security measures are required for the MVP.
+- **Reliability:**
+  - No specific uptime or availability requirements are defined for the MVP.
+  - The newsletter generation and delivery process should be robust and handle potential errors gracefully, with logging and retry mechanisms where appropriate.
+  - The system must be executable from a local development environment using Node.js and the Supabase CLI.
+- **Maintainability:**
+  - The codebase should adhere to good quality coding standards, including separation of concerns and following SOLID principles.
+  - The system should employ design patterns like facades and factories to facilitate future expansion.
+  - The system should be built as an event-driven pipeline, leveraging Supabase to capture data at each stage and trigger subsequent functions asynchronously. This approach aims to mitigate potential timeout issues with Vercel hosting.
+  - Key parameters (e.g., API keys, email settings, LLM configuration) should be configurable via environment variables.
+
+## User Interaction and Design Goals
+
+This section captures the high-level vision and goals for the User Experience (UX) to guide the Design Architect.
+
+- **Overall Vision & Experience:**
+  - The desired look and feel is modern and minimalist, with synthwave technical glowing purple vibes.
+  - Users should have a clean and efficient experience when accessing and consuming newsletter content and podcasts.
+- **Key Interaction Paradigms:**
+  - The web interface will primarily involve browsing lists and reading detailed content.
+  - Users will interact with the podcast player using standard playback controls.
+- **Core Screens/Views (Conceptual):**
+  - The MVP will consist of two pages:
+    - A list page (`/newsletters`) to display current and past newsletters, with links to the detail page.
+    - A detail page (`/newsletters/{date}`) to display the selected newsletter content, including:
+      - Download option for the newsletter (in HTML format).
+      - Web player for listening to the generated podcast.
+      - The article laid out for viewing.
+- **Accessibility Aspirations:**
+  - Basic semantic HTML should be used to ensure a degree of screen reader compatibility.
+- **Branding Considerations (High-Level):**
+  - A logo for the application will be provided.
+  - The application will use the name "BMad DiCaster".
+- **Target Devices/Platforms:**
+  - The application will be designed as a mobile-first responsive web app, ensuring it looks good on both mobile and desktop devices. The primary target is modern web browsers (Chrome, Firefox, Safari, Edge).
+
+## Technical Assumptions
+
+This section captures any existing technical information that will guide the development.
+
+- The application will be developed using the Next.js framework for the frontend and Vercel serverless functions for the backend, leveraging the Vercel/Supabase template as a starting point.
+- This implies a monorepo structure, as the frontend (Next.js) and backend (Vercel functions) will reside within the same repository.
+- Frontend development will be in Next.js with React, utilizing Tailwind CSS for styling and theming.
+- Data storage will be handled by Supabase's PostgreSQL database.
+- Separate Supabase instances will be used for development and production environments to ensure data isolation and stability. Supabase CLI will be used for local development.
+- Testing will include unit tests (Jest), integration tests (testing API calls and Supabase interactions), and end-to-end tests (Cypress or Playwright).
+
+## Technology Choices
+
+| Technology         | Version | Purpose              |
+| :----------------- | :------ | :------------------- |
+| Next.js            | Latest  | Frontend Framework   |
+| React              | Latest  | UI Library           |
+| Tailwind CSS       | 3.x     | CSS Framework        |
+| Vercel             | N/A     | Hosting Platform     |
+| Supabase           | N/A     | Backend as a Service |
+| Node.js            | 18.x    | Backend Runtime      |
+| HN Algolia API     | N/A     | HN Data Source       |
+| Play.ht API        | N/A     | Podcast Generation   |
+| Nodemailer         | 6.x     | Email Sending        |
+| Cheerio            | 1.x     | HTML Parsing         |
+| Jest               | 29.x    | Unit Testing         |
+| Cypress/Playwright | Latest  | E2E Testing          |
+
+## Proposed Directory Structure
+
+```
+├── app/                  # Next.js app directory
+│   ├── api/              # API routes
+│   │   └── trigger-workflow.js
+│   ├── newsletters/      # Newsletter list and detail pages
+│   │   ├── [date]/
+│   │   │   └── page.jsx
+│   │   └── page.jsx
+│   ├── layout.jsx        # Root layout
+│   └── page.jsx          # Home page (redirect to /newsletters)
+├── components/           # React components
+│   ├── NewsletterList.jsx
+│   ├── NewsletterDetail.jsx
+│   └── PodcastPlayer.jsx
+├── lib/                  # Utility functions
+│   ├── hn.js             # HN API interactions
+│   ├── scraping.js       # Article scraping
+│   ├── summarization.js  # LLM integration
+│   ├── email.js          # Nodemailer
+│   └── db.js             # Supabase client
+├── public/               # Static assets (logo, etc.)
+├── styles/               # Global CSS (if needed)
+├── .env.local            # Local environment variables
+├── next.config.js        # Next.js config
+├── package.json
+├── tailwind.config.js    # Tailwind CSS config
+└── trigger.js            # CLI trigger script
+```
+
+## Data Models
+
+### Hacker News Post
+
+| Field      | Type     | Description                        |
+| :--------- | :------- | :--------------------------------- |
+| id         | String   | HN Post ID (objectID from Algolia) |
+| title      | String   | Post Title                         |
+| url        | String   | Post URL                           |
+| created_at | DateTime | Post Creation Date/Time            |
+| author     | String   | Post Author                        |
+| date       | Date     | Retrieval Date                     |
+
+### Hacker News Comment
+
+| Field      | Type     | Description                           |
+| :--------- | :------- | :------------------------------------ |
+| id         | String   | HN Comment ID (objectID from Algolia) |
+| text       | String   | Comment Text                          |
+| author     | String   | Comment Author                        |
+| created_at | DateTime | Comment Creation Date/Time            |
+| parent_id  | String   | ID of the parent post/comment         |
+| date       | Date     | Retrieval Date                        |
+| summary    | String   | AI-generated summary                  |
+
+### Article
+
+| Field            | Type   | Description                          |
+| :--------------- | :----- | :----------------------------------- |
+| id               | UUID   | Primary Key                          |
+| post_id          | String | HN Post ID (Foreign Key to hn_posts) |
+| title            | String | Article Title                        |
+| author           | String | Article Author                       |
+| publication_date | Date   | Article Publication Date             |
+| content          | String | Article Content                      |
+| summary          | String | AI-generated summary                 |
+
+### Newsletter
+
+| Field       | Type   | Description                   |
+| :---------- | :----- | :---------------------------- |
+| date        | Date   | Newsletter Date (Primary Key) |
+| content     | String | HTML Newsletter Content       |
+| podcast_url | String | URL of the generated podcast  |
+
+### Subscriber
+
+| Field | Type   | String                         |
+| :---- | :----- | :----------------------------- |
+| email | String | Subscriber Email (Primary Key) |
+
+### Template
+
+| Field   | Type   | Description                                                              |
+| :------ | :----- | :----------------------------------------------------------------------- |
+| type    | String | Template Type (e.g., 'newsletter', 'article_summary', 'comment_summary') |
+| content | String | Template Content (HTML or Prompt)                                        |
+
+## Database Schema
+
+```sql
+CREATE TABLE hn_posts (
+    id VARCHAR(255) PRIMARY KEY,
+    title TEXT,
+    url TEXT,
+    created_at TIMESTAMPTZ,
+    author VARCHAR(255),
+    date DATE NOT NULL
+);
+
+CREATE TABLE hn_comments (
+    id VARCHAR(255) PRIMARY KEY,
+    text TEXT,
+    author VARCHAR(255),
+    created_at TIMESTAMPTZ,
+    parent_id VARCHAR(255),
+    date DATE NOT NULL,
+    summary TEXT
+);
+
+CREATE TABLE articles (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    post_id VARCHAR(255) NOT NULL REFERENCES hn_posts(id),
+    title TEXT,
+    author VARCHAR(255),
+    publication_date DATE,
+    content TEXT,
+    summary TEXT
+);
+
+CREATE TABLE newsletters (
+    date DATE PRIMARY KEY,
+    content TEXT NOT NULL,
+    podcast_url TEXT
+);
+
+CREATE TABLE subscribers (
+    email VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE templates (
+    type VARCHAR(255) PRIMARY KEY,
+    content TEXT NOT NULL
+);
+```
+
+## Epic Overview
+
+- **Epic 1: Project Initialization, Setup, and HN Content Acquisition**
+  - Goal: Establish the foundational project structure, including the Next.js application, Supabase integration, and deployment pipeline, implement the initial API and CLI trigger mechanisms, and implement the functionality to retrieve, process, and store Hacker News posts and comments, providing the necessary data for newsletter generation.
+- **Epic 2: Article Scraping**
+  - Goal: Implement the functionality to scrape and store linked articles from HN posts, enriching the data available for summarization and the newsletter, and ensure this functionality can be triggered via the API and CLI.
+- **Epic 3: AI-Powered Content Summarization**
+  - Goal: Integrate AI summarization capabilities to generate concise summaries of articles and comments, retrieving prompts from the database for flexibility, and ensure this functionality can be triggered via the API and CLI.
+- **Epic 4: Automated Newsletter Creation and Distribution**
+  - Goal: Automate the generation and delivery of the daily newsletter, including a placeholder for the podcast URL and conditional logic with configurable delay/retry parameters (configurable via environment variables) to handle podcast link availability. Ensure this functionality can be triggered via the API and CLI.
+- **Epic 5: Podcast Generation Integration**
+  - Goal: Integrate with the Play.ht's PlayNote API (using webhooks) to generate and incorporate podcast versions of the newsletter, including a webhook to update the newsletter data with the podcast URL in Supabase. Ensure this functionality can be triggered via the API and CLI.
+- **Epic 6: Web Interface Development**
+  - Goal: Develop a user-friendly and mobile-responsive web interface, starting with an initial structure generated by a tool like Vercel v0 and styled with Tailwind CSS using design tokens, to display newsletters and provide access to podcast content.
+
+## Epic and User Stories
+
+**Epic 1: Project Initialization, Setup, and HN Content Acquisition**
+
+- Goal: Establish the foundational project structure, including the Next.js application, Supabase integration, and deployment pipeline, implement the initial API and CLI trigger mechanisms, and implement the functionality to retrieve, process, and store Hacker News posts and comments, providing the necessary data for newsletter generation.
+- Story 1.1: Project Setup
+  - As a developer, I want to set up the Next.js project with Supabase integration and initialize a Git repository, so that I have a functional foundation for building the application.
+  - Acceptance Criteria:
+    1.  The Next.js project is initialized using the Vercel/Supabase template (`npx create-next-app@latest --example with-supabase`).
+    2.  Supabase client libraries are installed (`npm install @supabase/supabase-js`).
+    3.  The Supabase client is initialized with the Supabase URL and Anon Key from environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
+    4.  The project codebase is initialized in a Git repository with a `.gitignore` file.
+- Story 1.2: Deployment Pipeline
+  - As a developer, I want to configure the deployment pipeline to Vercel with separate development and production environments, so that I can easily deploy and update the application.
+  - Acceptance Criteria:
+    1.  The project is successfully linked to a Vercel project using the Vercel CLI (`vercel link`).
+    2.  Separate Vercel projects are set up for development and production environments.
+    3.  Automated deployments are configured for the `main` branch to the production environment.
+    4.  Environment variables are set up for local development (`.env.local`) and Vercel deployments (via the Vercel dashboard) for Supabase URL/Key, API key, and other sensitive configuration.
+- Story 1.3: API and CLI Trigger Mechanisms
+  - As a developer, I want to implement a secure API endpoint and a CLI command to trigger the workflow, so that I can manually trigger the process during development and testing.
+  - Acceptance Criteria:
+    1.  A secure API endpoint (`/api/trigger-workflow`) is created as a Vercel API Route.
+    2.  The API endpoint requires authentication using an API key passed in the `X-API-Key` header.
+    3.  The API endpoint triggers the execution of the main workflow (HN data retrieval).
+    4.  The API endpoint returns a JSON response with a success/failure status code and message.
+    5.  A CLI command (`node trigger.js`) is created using Node.js and a library like `commander` or `yargs` to trigger the workflow locally.
+    6.  The CLI command reads necessary configuration (e.g., Supabase credentials) from environment variables.
+    7.  Both the API endpoint and CLI command log all requests with timestamps, source (API/CLI), and status.
+- Story 1.4: HN Data Retrieval
+  - As a system, I want to retrieve the top 30 Hacker News posts and associated comments daily using the HN Algolia API, and store them in the Supabase database, so that the data is available for summarization and newsletter generation.
+  - Acceptance Criteria:
+    1.  The system retrieves the top 30 Hacker News posts daily using the HN Algolia API (`https://hn.algolia.com/api/v1/search_by_date?tags=front_page`).
+    2.  The system retrieves associated comments for the top 30 posts using the HN Algolia API (using the post's `objectID`).
+    3.  Retrieved data (posts and comments) is stored in the Supabase database in tables named `hn_posts` and `hn_comments`, with appropriate fields (e.g., `title`, `url`, `created_at`, `author` for posts; `text`, `author`, `created_at`, `parent_id` for comments) and a `date` field to associate the data with the retrieval date.
+    4.  This functionality can be triggered via the API endpoint (`/api/trigger-workflow`) and the CLI command (`node trigger.js`).
+    5.  The system logs the start and completion of the retrieval process, including the number of posts/comments retrieved and any errors encountered (e.g., API request failures, database connection errors).
+
+**Epic 2: Article Scraping**
+
+- Goal: Implement the functionality to scrape and store linked articles from HN posts, enriching the data available for summarization and the newsletter, and ensure this functionality can be triggered via the API and CLI.
+- Story 2.1: URL Identification
+  - As a system, I want to identify URLs within the retrieved Hacker News posts, so that I can extract the content of linked articles.
+  - Acceptance Criteria:
+    1.  The system parses the `url` field of each post in the `hn_posts` table.
+    2.  The system filters out any URLs that are not relevant to article scraping (e.g., links to images, videos, or known non-article sites) using a basic filter or a library like `url-parse`.
+    3.  The system limits the number of URLs to be scraped per post to 1, prioritizing the first valid URL.
+- Story 2.2: Article Content Scraping
+  - As a system, I want to scrape the content of the identified article URLs using Cheerio, so that I can provide summaries in the newsletter.
+  - Acceptance Criteria:
+    1.  The system scrapes the content from the identified article URLs using the Cheerio library.
+    2.  The system extracts the following relevant content:
+        - Article title (using `<title>` tag or schema.org metadata)
+        - Article author (if available, using metadata)
+        - Article publication date (if available, using metadata)
+        - Main article text (by identifying and extracting content from `<p>` tags within the main article body, excluding navigation and ads).
+    3.  The system handles potential issues during scraping:
+        - Website errors (e.g., 404 status codes) are logged.
+        - Changes in website structure are handled gracefully (e.g., by providing alternative CSS selectors or logging a warning).
+        - A timeout is implemented for scraping requests.
+- Story 2.3: Scraped Data Storage
+  - As a system, I want to store the scraped article content in the Supabase database, associated with the corresponding Hacker News post, so that it can be used for summarization and newsletter generation.
+  - Acceptance Criteria:
+    1.  The system stores the scraped article content in a table named `articles` in the Supabase database.
+    2.  The `articles` table includes fields for `post_id` (foreign key referencing `hn_posts`), `title`, `author`, `publication_date`, and `content`.
+    3.  The system ensures that the stored data includes all extracted information and is correctly associated with the corresponding Hacker News post.
+- Story 2.4: API/CLI Triggering
+  - As a developer, I want to trigger the article scraping process via the API and CLI, so that I can manually initiate it for testing and debugging.
+  - Acceptance Criteria:
+    1.  The existing API endpoint (`/api/trigger-workflow`) can trigger the article scraping process.
+    2.  The existing CLI command (`node trigger.js`) can trigger the article scraping process locally.
+    3.  The system logs the start and completion of the scraping process, including the number of articles scraped, any errors encountered, and the execution time.
+
+**Epic 3: AI-Powered Content Summarization**
+
+- Goal: Integrate AI summarization capabilities to generate concise summaries of articles and comments, retrieving prompts from the database for flexibility, and ensure this functionality can be triggered via the API and CLI.
+- Story 3.1: LLM Integration
+  - As a system, I want to integrate an AI summarization library or API, so that I can generate concise summaries of articles and comments.
+  - Acceptance Criteria:
+    1.  The system integrates with a suitable AI summarization library (e.g., `langchain` with a local LLM like `Ollama`) or a cloud-based API (e.g., OpenAI API).
+    2.  The LLM or API endpoint and any necessary authentication credentials (API keys) are configurable via environment variables (`LLM_API_URL`, `LLM_API_KEY`).
+    3.  The system implements error handling for LLM/API requests, including retries and fallback mechanisms.
+- Story 3.2: Article Summarization
+  - As a system, I want to retrieve summarization prompts from the database, and then use them to generate 2-paragraph summaries of the scraped articles, so that users can quickly grasp the main content and the prompts can be easily updated.
+  - Acceptance Criteria:
+    1.  The system retrieves the appropriate summarization prompt from a table named `prompts` in the Supabase database, using a query to select the prompt based on `type = 'article_summary'`. The prompt should include placeholders for article title and content.
+    2.  The system generates a 2-paragraph summary (approximately 100-150 words) for each scraped article using the retrieved prompt and the LLM/API.
+    3.  The summaries are accurate, concise, and capture the key information from the article.
+    4.  The generated summaries are stored in the `articles` table in a field named `summary`.
+- Story 3.3: Comment Summarization
+  - As a system, I want to retrieve summarization prompts from the database, and then use them to generate 2-paragraph summaries of the comments for the selected HN posts, so that users can understand the main discussions and the prompts can be easily updated.
+  - Acceptance Criteria:
+    1.  The system retrieves the appropriate summarization prompt from the `prompts` table, using a query to select the prompt based on `type = 'comment_summary'`. The prompt should include placeholders for comment text.
+    2.  The system generates a 2-paragraph summary (approximately 100-150 words) of the comments for each selected HN post using the retrieved prompt and the LLM/API.
+    3.  The summaries highlight interesting interactions and key points from the discussion, focusing on distinct viewpoints and arguments.
+    4.  The generated comment summaries are stored in the `hn_comments` table in a field named `summary`.
+- Story 3.4: API/CLI Triggering and Logging
+  - As a developer, I want to trigger the AI summarization process via the API and CLI, and log all summarization requests, prompts used, and results, so that I can manually initiate it for testing/debugging and monitor the process.
+  - Acceptance Criteria:
+    1.  The existing API endpoint (`/api/trigger-workflow`) can trigger the AI summarization process.
+    2.  The existing CLI command (`node trigger.js`) can trigger the AI summarization process locally.
+    3.  The system logs the following information for each summarization:
+        - Timestamp
+        - Source (API/CLI)
+        - Article title or HN post ID
+        - Summarization prompt used
+        - Generated summary
+        - LLM/API response time
+        - Any errors encountered
+    4.  The system handles partial execution gracefully (i.e., if triggered before Epic 2 is complete, it logs a message and exits).
+
+**Epic 4: Automated Newsletter Creation and Distribution**
+
+- Goal: Automate the generation and delivery of the daily newsletter, including a placeholder for the podcast URL and conditional logic with configurable delay/retry parameters (configurable via environment variables) to handle podcast link availability. Ensure this functionality can be triggered via the API and CLI.
+- Story 4.1: Newsletter Template Retrieval
+  - As a system, I want to retrieve the newsletter template from the database, so that the newsletter's design and structure can be updated without code changes.
+  - Acceptance Criteria:
+    1.  The system retrieves the newsletter template from the `templates` table in the Supabase database, using a query to select the template based on `type = 'newsletter'`. The template is an HTML string with placeholders for article summaries, comment summaries, HN post links, and the podcast URL placeholder (`{{podcast_url}}`).
+- Story 4.2: Newsletter Generation
+  - As a system, I want to generate a daily newsletter in HTML format using the retrieved template and the summarized data, so that users can receive a concise summary of Hacker News content.
+  - Acceptance Criteria:
+    1.  The system generates a newsletter in HTML format using the template retrieved from the `templates` table.
+    2.  The newsletter includes:
+        - Summaries of the top 10 articles from the `articles` table.
+        - Summaries of comments for the top 10 HN posts from the `hn_comments` table.
+        - Links to the original HN posts and articles.
+        - Original post dates/times.
+        - A placeholder for the podcast URL (`{{podcast_url}}`).
+    3.  The generated newsletter is stored in the `newsletters` table with a `date` field.
+- Story 4.3: Newsletter Delivery
+  - As a system, I want to send the generated newsletter to a list of subscribers using Nodemailer, with credentials securely provided via environment variables, so that users receive the daily summary in their inbox.
+  - Acceptance Criteria:
+    1.  The system retrieves the list of subscriber email addresses from the `subscribers` table in the Supabase database.
+    2.  The system sends the HTML newsletter to all active subscribers using Nodemailer.
+    3.  Nodemailer is configured using the following environment variables: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`.
+    4.  The system logs the delivery status (success/failure, timestamp) for each subscriber in a table named `newsletter_logs`.
+    5.  The system implements conditional logic and a configurable delay/retry mechanism (using `EMAIL_DELAY` in milliseconds and `EMAIL_RETRIES` as the number of retries, both from environment variables) to handle podcast link availability before sending the email. If the podcast URL is not available after the delay and retries, the email is sent without the podcast link.
+- Story 4.4: API/CLI Triggering and Logging
+  - As a developer, I want to trigger the newsletter generation and distribution process via the API and CLI, and log all relevant actions, so that I can manually initiate it for testing and debugging, and monitor the process.
+  - Acceptance Criteria:
+    1.  The existing API endpoint (`/api/trigger-workflow`) can trigger the newsletter generation and distribution process.
+    2.  The existing CLI command (`node trigger.js`) can trigger the newsletter generation and distribution process locally.
+    3.  The system logs the following information:
+        - Timestamp
+        - Source (API/CLI)
+        - Newsletter generation start/end times
+        - Number of emails sent successfully/failed
+        - Podcast URL availability status
+        - Email delay/retry attempts
+        - Any errors encountered
+    4.  The system handles partial execution gracefully (i.e., if triggered before Epic 3 is complete, it logs a message and exits).
+
+**Epic 5: Podcast Generation Integration**
+
+- Goal: Integrate with the Play.ht's PlayNote API (using webhooks) to generate and incorporate podcast versions of the newsletter, including a webhook to update the newsletter data with the podcast URL in Supabase. Ensure this functionality can be triggered via the API and CLI.
+- _(Note for Architect: The Play.ht API - [https://docs.play.ai/api-reference/playnote/post](https://docs.play.ai/api-reference/playnote/post) - supports both webhook and polling mechanisms for receiving the podcast URL. We will use the webhook approach for real-time updates and efficiency.)_
+- Story 5.1: Play.ht API Integration
+  - As a system, I want to integrate with the Play.ht's PlayNote API, so that I can generate AI-powered podcast versions of the newsletter content.
+  - Acceptance Criteria:
+    1.  The system integrates with the Play.ht's PlayNote API using webhooks for asynchronous updates.
+    2.  The Play.ht API key and user ID are configured via environment variables (`PLAYHT_API_KEY`, `PLAYHT_USER_ID`).
+    3.  The Play.ht webhook URL is configured via the `PLAYHT_WEBHOOK_URL` environment variable.
+- Story 5.2: Podcast Generation Initiation
+  - As a system, I want to send the newsletter content to the Play.ht API to initiate podcast generation, and receive a job ID or initial response, so that I can track the podcast creation process.
+  - Acceptance Criteria:
+    1.  The system sends the HTML newsletter content to the Play.ht API's `POST /v1/convert` endpoint to generate a podcast.
+    2.  The system receives a JSON response from the Play.ht API containing a `jobId`.
+    3.  The system stores the `jobId` in the `newsletters` table along with the newsletter data.
+- Story 5.3: Webhook Handling
+  - As a system, I want to implement a webhook handler to receive the podcast URL from Play.ht, and update the newsletter data, so that the podcast link can be included in the newsletter and web interface.
+  - Acceptance Criteria:
+    1.  The system implements a webhook handler at the URL specified in the `PLAYHT_WEBHOOK_URL` environment variable.
+    2.  The webhook handler receives a `POST` request from Play.ht with a JSON payload containing the `jobId` and the `audioUrl`.
+    3.  The system extracts the `audioUrl` from the webhook payload.
+    4.  The system updates the `podcast_url` field in the `newsletters` table for the corresponding `jobId`.
+- Story 5.4: API/CLI Triggering and Logging
+  - As a developer, I want to trigger the podcast generation process via the API and CLI, and log all interactions with the Play.ht API, so that I can manually initiate it for testing and debugging, and monitor the process.
+  - Acceptance Criteria:
+    1.  The existing API endpoint (`/api/trigger-workflow`) can trigger the podcast generation process.
+    2.  The existing CLI command (`node trigger.js`) can trigger the podcast generation process locally.
+    3.  The system logs the following information:
+        - Timestamp
+        - Source (API/CLI)
+        - Play.ht API requests (endpoint, payload) and responses (status code, body)
+        - Webhook requests received from Play.ht (payload)
+        - Updates to the `newsletters` table
+        - Any errors encountered
+    4.  The system handles partial execution gracefully (i.e., if triggered before Epic 4 is complete, it logs a message and exits).
+
+**Epic 6: Web Interface Development**
+
+- Goal: Develop a user-friendly and mobile-responsive web interface, starting with an initial structure generated by a tool like Vercel v0 and styled with Tailwind CSS using design tokens, to display newsletters and provide access to podcast content.
+- Story 6.1: Initial UI Structure Generation
+  - As a developer, I want to use a tool like Vercel v0 to generate the initial structure of the web interface, so that I have a basic layout to work with.
+  - Acceptance Criteria:
+    1.  A tool (e.g., Vercel v0) is used to generate the initial HTML/CSS/React component structure for the web interface.
+    2.  The generated structure includes basic layouts for the newsletter list page (`/newsletters`) and detail page (`/newsletters/{date}`), as well as a basic podcast player component.
+    3.  The generated structure incorporates the desired "modern and minimalist, with synthwave technical glowing purple vibes" aesthetic, using initial Tailwind CSS classes.
+- Story 6.2: Newsletter List Page
+  - As a user, I want to see a list of current and past newsletters, so that I can easily browse available content.
+  - Acceptance Criteria:
+    1.  The `/newsletters` page displays a list of newsletters fetched from the `newsletters` table.
+    2.  Each item in the list displays the newsletter title (e.g., "Daily Digest - YYYY-MM-DD") and date.
+    3.  Each item is a link to the corresponding detail page (`/newsletters/{date}`).
+    4.  The list is paginated (e.g., 10 newsletters per page) or provides infinite scrolling.
+    5.  The page is styled using Tailwind CSS, adhering to the project's design tokens.
+- Story 6.3: Newsletter
+  Detail Page
+  _ As a user, I want to be able to read the newsletter content and download it, so that I can conveniently consume the information and access it offline.
+  _ Acceptance Criteria: 1. The `/newsletters/{date}` page displays the full newsletter content from the `newsletters` table. 2. The newsletter content is displayed in a readable format, preserving HTML formatting. 3. A download option (e.g., a button) is provided to download the newsletter in HTML format. 4. The page is styled using Tailwind CSS, adhering to the project's design tokens.
+- Story 6.4: Podcast Player Integration
+  - As a user, I want to listen to generated podcasts within the web interface, so that I can consume the content in audio format.
+  - Acceptance Criteria:
+    1.  The `/newsletters/{date}` page includes a web player component.
+    2.  The web player uses the `podcast_url` from the `newsletters` table as the audio source.
+    3.  The player includes standard playback controls (play, pause, volume, progress bar).
+    4.  The player is styled using Tailwind CSS, adhering to the project's design tokens.
+- Story 6.5: Mobile Responsiveness
+  - As a developer, I want the web interface to be mobile-responsive, so that it is accessible and usable on various devices.
+  - Acceptance Criteria:
+    1.  The layout of both the `/newsletters` and `/newsletters/{date}` pages adapts to different screen sizes and orientations, using Tailwind CSS responsive modifiers.
+    2.  The interface is usable and readable on both desktop and mobile devices, with appropriate font sizes, spacing, and navigation.
+
+## Key Reference Documents
+
+_(This section will be created later, from the sections prior to this being carved up into smaller documents)_
+
+## Out of Scope Ideas Post MVP
+
+- User Authentication and Management
+- Subscription Management
+- Admin Dashboard
+  - Viewing and updating daily podcast settings
+  - Prompt management for summarization
+  - UI for template modification
+- Enhanced Newsletter Customization
+- Additional Content Digests
+  - Configuration and creation of different digests
+  - Support for content sources beyond Hacker News
+- Advanced scraping techniques (e.g., Playwright)
+
+## Change Log
+
+| Change        | Date       | Version | Description                                                                     | Author |
+| :------------ | :--------- | :------ | :------------------------------------------------------------------------------ | :----- |
+| Initial Draft | 2024-07-26 | 0.1     | Initial draft of the Product Requirements Document (YOLO, Simplified PM-to-Dev) | 2-pm   |
+
+-- checklists still follow

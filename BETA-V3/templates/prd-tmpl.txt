@@ -59,6 +59,48 @@ How will we validate functionality beyond unit testing? Will we want manual scri
 
 Anything you and the user agreed it out of scope or can be removed from scope to keep MVP lean. Consider the goals of the PRD and what might be extra gold plating or additional features that could wait until the MVP is completed and delivered to assess functionality and market fit or usage.
 
+## [OPTIONAL: For Simplified PM-to-Development Workflow Only] Core Technical Decisions & Application Structure
+
+{This section is to be populated ONLY if the PM is operating in the 'Simplified PM-to-Development Workflow'. It captures essential technical foundations that would typically be defined by an Architect, allowing for a more direct path to development. This information should be gathered after initial PRD sections (Goals, Users, etc.) are drafted, and ideally before or in parallel with detailed Epic/Story definition, and updated as needed.}
+
+### Technology Stack Selections
+{Collaboratively define the core technologies. Be specific about choices and versions where appropriate.}
+-   **Primary Backend Language/Framework:** {e.g., Python/FastAPI, Node.js/Express, Java/Spring Boot}
+-   **Primary Frontend Language/Framework (if applicable):** {e.g., TypeScript/React (Next.js), JavaScript/Vue.js}
+-   **Database:** {e.g., PostgreSQL, MongoDB, AWS DynamoDB}
+-   **Key Libraries/Services (Backend):** {e.g., Authentication (JWT, OAuth provider), ORM (SQLAlchemy), Caching (Redis)}
+-   **Key Libraries/Services (Frontend, if applicable):** {e.g., UI Component Library (Material-UI, Tailwind CSS + Headless UI), State Management (Redux, Zustand)}
+-   **Deployment Platform/Environment:** {e.g., Docker on AWS ECS, Vercel, Netlify, Kubernetes}
+-   **Version Control System:** {e.g., Git with GitHub/GitLab}
+
+### Proposed Application Structure
+{Describe the high-level organization of the codebase. This might include a simple text-based directory layout, a list of main modules/components, and a brief explanation of how they interact. The goal is to provide a clear starting point for developers.}
+
+Example:
+```
+/
+├── app/                  # Main application source code
+│   ├── api/              # Backend API routes and logic
+│   │   ├── v1/
+│   │   └── models.py
+│   ├── web/              # Frontend components and pages (if monolithic)
+│   │   ├── components/
+│   │   └── pages/
+│   ├── core/             # Shared business logic, utilities
+│   └── main.py           # Application entry point
+├── tests/                # Unit and integration tests
+├── scripts/              # Utility scripts
+├── Dockerfile
+├── requirements.txt
+└── README.md
+```
+-   **Monorepo/Polyrepo:** {Specify if a monorepo or polyrepo structure is envisioned, and briefly why.}
+-   **Key Modules/Components and Responsibilities:**
+    -   {Module 1 Name}: {Brief description of its purpose and key responsibilities}
+    -   {Module 2 Name}: {Brief description of its purpose and key responsibilities}
+    -   ...
+-   **Data Flow Overview (Conceptual):** {Briefly describe how data is expected to flow between major components, e.g., Frontend -> API -> Core Logic -> Database.}
+
 ## Change Log
 
 | Change        | Date       | Version | Description                  | Author         |
@@ -68,7 +110,11 @@ Anything you and the user agreed it out of scope or can be removed from scope to
 
 ## Checklist Results Report
 
------ END Checklist START Architect Prompt ------
+----- END Checklist START Design Architect `UI/UX Specification Mode` Prompt ------
+
+
+
+----- END Design Architect `UI/UX Specification Mode` Prompt START Architect Prompt ------
 
 ## Initial Architect Prompt
 
@@ -111,5 +157,5 @@ Based on our discussions and requirements analysis for the {Product Name}, I've 
 - {Scalability needs with architectural impact}
 - {Any other technical context the Architect should consider}
 
------ END PM Prompt -----
+----- END Architect Prompt -----
 
