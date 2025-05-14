@@ -341,7 +341,7 @@ _(This section will be created later, from the sections prior to this being carv
 
 | Change        | Date       | Version | Description                                        | Author |
 | ------------- | ---------- | ------- | -------------------------------------------------- | ------ |
-| Initial Draft | 2024-07-26 | 0.1     | Initial draft of the Product Requirements Document | 2-pm   |
+| Initial Draft | 2025-05-13 | 0.1     | Initial draft of the Product Requirements Document | 2-pm   |
 
 ----- END PRD START CHECKLIST OUTPUT ------
 
