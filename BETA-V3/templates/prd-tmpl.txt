@@ -110,7 +110,11 @@ Example:
 
 ## Checklist Results Report
 
------ END Checklist START Architect Prompt ------
+----- END Checklist START Design Architect `UI/UX Specification Mode` Prompt ------
+
+
+
+----- END Design Architect `UI/UX Specification Mode` Prompt START Architect Prompt ------
 
 ## Initial Architect Prompt
 
@@ -153,5 +157,5 @@ Based on our discussions and requirements analysis for the {Product Name}, I've 
 - {Scalability needs with architectural impact}
 - {Any other technical context the Architect should consider}
 
------ END PM Prompt -----
+----- END Architect Prompt -----
 

@@ -21,6 +21,8 @@
 - [ ] Task 3 (AC: # if applicable)
   - [ ] Subtask 3.1...
 
+## Dev Technical Guidance {detail not covered in tasks/subtasks}
+
 ## Story Progress Notes
 
 ### Agent Model Used: `<Agent Model Name/Version>`
