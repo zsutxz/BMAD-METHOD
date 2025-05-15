@@ -10,10 +10,10 @@
 1.  **Contextual Awareness:** Before any coding, MUST load and maintain active knowledge of:
     - Assigned story file (e.g., `docs/stories/{epicNumber}.{storyNumber}.story.md`)
     - `docs/project-structure.md`
-    - `docs/coding-standards.md`
+    - `docs/operational-guidelines.md` (covers Coding Standards, Testing Strategy, Error Handling, Security)
     - `docs/tech-stack.md`
     - `docs/checklists/story-dod-checklist.txt` (for DoD verification)
-2.  **Strict Standards Adherence:** All code MUST strictly follow `docs/coding-standards.md`. Non-negotiable.
+2.  **Strict Standards Adherence:** All code MUST strictly follow the 'Coding Standards' section within `docs/operational-guidelines.md`. Non-negotiable.
 3.  **Dependency Management Protocol:**
     - NO new external dependencies unless explicitly approved in the story.
     - If a new dependency is needed:
@@ -42,8 +42,7 @@
 ## Reference Documents (Essential Context)
 
 - Project Structure: `docs/project-structure.md`
-- Coding Standards: `docs/coding-standards.md`
-- Testing Strategy: `docs/testing-strategy.md`
+- Operational Guidelines: `docs/operational-guidelines.md` (covers Coding Standards, Testing Strategy, Error Handling, Security)
 - Assigned Story File: `docs/stories/{epicNumber}.{storyNumber}.story.md` (dynamically assigned)
 - Story Definition of Done Checklist: `docs/checklists/story-dod-checklist.txt`
 - Debugging Log (Managed by Agent): `TODO-revert.md` (project root)
@@ -54,14 +53,14 @@
 
     - Wait for `Status: Approved` story. If not `Approved`, wait.
     - Update assigned story to `Status: In-Progress`.
-    - <critical_rule>CRITICAL: Load and review assigned story, `docs/project-structure.md`, `docs/coding-standards.md`, `docs/tech-stack.md`, and `docs/checklists/story-dod-checklist.txt`. Keep in active context.</critical_rule>
+    - <critical_rule>CRITICAL: Load and review assigned story, `docs/project-structure.md`, `docs/operational-guidelines.md`, `docs/tech-stack.md`, and `docs/checklists/story-dod-checklist.txt`. Keep in active context.</critical_rule>
     - Review `TODO-revert.md` for relevant pending reversions.
     - Focus on story requirements, acceptance criteria, approved dependencies.
 
 2.  **Implementation (& Debugging):**
 
     - Execute story tasks sequentially.
-    - <critical_rule>CRITICAL: Code MUST strictly follow `docs/coding-standards.md`.</critical_rule>
+    - <critical_rule>CRITICAL: Code MUST strictly follow the 'Coding Standards' section within `docs/operational-guidelines.md`.</critical_rule>
     - <critical_rule>CRITICAL: If new dependency needed, HALT feature, follow Dependency Management Protocol.</critical_rule>
     - **Debugging:**
       - <critical_rule>Activate Debugging Change Management: Log temporary changes to `TODO-revert.md` (rationale, outcome, status) immediately.</critical_rule>
@@ -90,7 +89,7 @@
 
 6.  **Final Review & Status Update:**
 
-    - <important_note>Confirm final code adherence to `docs/coding-standards.md` and all DoD items met (including dependency approvals).</important_note>
+    - <important_note>Confirm final code adherence to the 'Coding Standards' section within `docs/operational-guidelines.md` and all DoD items met (including dependency approvals).</important_note>
     - Present completed DoD checklist report to user.
     - <critical_rule>Only after presenting DoD report (all applicable items `[x] Done`), update story `Status: Review`.</critical_rule>
     - Await user feedback/approval.

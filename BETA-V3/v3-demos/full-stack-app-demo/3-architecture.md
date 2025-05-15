@@ -9,37 +9,64 @@ This project includes a significant user interface. A separate Frontend Architec
 
 ## Table of Contents
 
-1.  [Introduction / Preamble](https://www.google.com/search?q=%23introduction--preamble)
-2.  [Table of Contents](https://www.google.com/search?q=%23table-of-contents)
-3.  [Technical Summary](https://www.google.com/search?q=%23technical-summary)
-4.  [High-Level Overview](https://www.google.com/search?q=%23high-level-overview)
-5.  [Component View](https://www.google.com/search?q=%23component-view)
-    - [Architectural / Design Patterns Adopted](https://www.google.com/search?q=%23architectural--design-patterns-adopted)
-6.  [Workflow Orchestration and Status Management](https://www.google.com/search?q=%23workflow-orchestration-and-status-management)
-7.  [Project Structure](https://www.google.com/search?q=%23project-structure)
-    - [Key Directory Descriptions](https://www.google.com/search?q=%23key-directory-descriptions)
-    - [Monorepo Management](https://www.google.com/search?q=%23monorepo-management)
-    - [Notes](https://www.google.com/search?q=%23notes)
-8.  [API Reference](https://www.google.com/search?q=%23api-reference)
-    - [External APIs Consumed](https://www.google.com/search?q=%23external-apis-consumed)
-    - [Internal APIs Provided (by BMad DiCaster)](https://www.google.com/search?q=%23internal-apis-provided-by-bmad-dicaster)
-9.  [Data Models](https://www.google.com/search?q=%23data-models)
-    - [Core Application Entities / Domain Objects](https://www.google.com/search?q=%23core-application-entities--domain-objects)
-    - [Database Schemas (Supabase PostgreSQL)](https://www.google.com/search?q=%23database-schemas-supabase-postgresql)
-10. [Core Workflow / Sequence Diagrams](https://www.google.com/search?q=%23core-workflow--sequence-diagrams)
-    - [1. Daily Workflow Initiation & HN Content Acquisition](https://www.google.com/search?q=%231-daily-workflow-initiation--hn-content-acquisition)
-    - [2. Article Scraping & Summarization Flow](https://www.google.com/search?q=%232-article-scraping--summarization-flow)
-    - [3. Newsletter, Podcast, and Delivery Flow](https://www.google.com/search?q=%233-newsletter-podcast-and-delivery-flow)
-11. [Definitive Tech Stack Selections](https://www.google.com/search?q=%23definitive-tech-stack-selections)
-12. [Infrastructure and Deployment Overview](https://www.google.com/search?q=%23infrastructure-and-deployment-overview)
-13. [Error Handling Strategy](https://www.google.com/search?q=%23error-handling-strategy)
-14. [Coding Standards](https://www.google.com/search?q=%23coding-standards)
-    - [Detailed Language & Framework Conventions](https://www.google.com/search?q=%23detailed-language--framework-conventions)
-15. [Overall Testing Strategy](https://www.google.com/search?q=%23overall-testing-strategy)
-16. [Security Best Practices](https://www.google.com/search?q=%23security-best-practices)
-17. [Key Reference Documents](https://www.google.com/search?q=%23key-reference-documents)
-18. [Change Log](https://www.google.com/search?q=%23change-log)
-19. [Prompt for Design Architect: Frontend Architecture Definition](https://www.google.com/search?q=%23prompt-for-design-architect-frontend-architecture-definition)
+- [Introduction / Preamble](#introduction--preamble)
+- [Technical Summary](#technical-summary)
+- [High-Level Overview](#high-level-overview)
+- [Component View](#component-view)
+  - [Architectural / Design Patterns Adopted](#architectural--design-patterns-adopted)
+- [Workflow Orchestration and Status Management](#workflow-orchestration-and-status-management)
+- [Project Structure](#project-structure)
+  - [Key Directory Descriptions](#key-directory-descriptions)
+  - [Monorepo Management](#monorepo-management)
+  - [Notes](#notes)
+- [API Reference](#api-reference)
+  - [External APIs Consumed](#external-apis-consumed)
+    - [1. Hacker News (HN) Algolia API](#1-hacker-news-hn-algolia-api)
+    - [2. Play.ht API](#2-playht-api)
+    - [3. LLM Provider (Facade for Summarization)](#3-llm-provider-facade-for-summarization)
+    - [4. Nodemailer (Email Delivery Service)](#4-nodemailer-email-delivery-service)
+  - [Internal APIs Provided (by BMad DiCaster)](#internal-apis-provided-by-bmad-dicaster)
+    - [1. Workflow Trigger API](#1-workflow-trigger-api)
+    - [2. Workflow Status API](#2-workflow-status-api)
+    - [3. Play.ht Webhook Receiver](#3-playht-webhook-receiver)
+- [Data Models](#data-models)
+  - [Core Application Entities / Domain Objects](#core-application-entities--domain-objects)
+    - [1. `WorkflowRun`](#1-workflowrun)
+    - [2. `HNPost`](#2-hnpost)
+    - [3. `HNComment`](#3-hncomment)
+    - [4. `ScrapedArticle`](#4-scrapedarticle)
+    - [5. `ArticleSummary`](#5-articlesummary)
+    - [6. `CommentSummary`](#6-commentsummary)
+    - [7. `Newsletter`](#7-newsletter)
+    - [8. `Subscriber`](#8-subscriber)
+    - [9. `SummarizationPrompt`](#9-summarizationprompt)
+    - [10. `NewsletterTemplate`](#10-newslettertemplate)
+  - [Database Schemas (Supabase PostgreSQL)](#database-schemas-supabase-postgresql)
+    - [1. `workflow_runs`](#1-workflow_runs)
+    - [2. `hn_posts`](#2-hn_posts)
+    - [3. `hn_comments`](#3-hn_comments)
+    - [4. `scraped_articles`](#4-scraped_articles)
+    - [5. `article_summaries`](#5-article_summaries)
+    - [6. `comment_summaries`](#6-comment_summaries)
+    - [7. `newsletters`](#7-newsletters)
+    - [8. `subscribers`](#8-subscribers)
+    - [9. `summarization_prompts`](#9-summarization_prompts)
+    - [10. `newsletter_templates`](#10-newsletter_templates)
+- [Core Workflow / Sequence Diagrams](#core-workflow--sequence-diagrams)
+  - [1. Daily Workflow Initiation & HN Content Acquisition](#1-daily-workflow-initiation--hn-content-acquisition)
+  - [2. Article Scraping & Summarization Flow](#2-article-scraping--summarization-flow)
+  - [3. Newsletter, Podcast, and Delivery Flow](#3-newsletter-podcast-and-delivery-flow)
+- [Definitive Tech Stack Selections](#definitive-tech-stack-selections)
+- [Infrastructure and Deployment Overview](#infrastructure-and-deployment-overview)
+- [Error Handling Strategy](#error-handling-strategy)
+- [Coding Standards](#coding-standards)
+  - [Detailed Language & Framework Conventions](#detailed-language--framework-conventions)
+    - [TypeScript/Node.js (Next.js & Supabase Functions) Specifics](#typescriptnodejs-nextjs--supabase-functions-specifics)
+- [Overall Testing Strategy](#overall-testing-strategy)
+- [Security Best Practices](#security-best-practices)
+- [Key Reference Documents](#key-reference-documents)
+- [Change Log](#change-log)
+- [Prompt for Design Architect: Frontend Architecture Definition](#prompt-for-design-architect-frontend-architecture-definition)
 
 ## Technical Summary
 
@@ -271,30 +298,37 @@ The BMad DiCaster application employs an event-driven pipeline for its daily con
 **3. Service Function Responsibilities:**
 
 - Each backend Supabase Function (`HNContentService`, `ArticleScrapingService`, `SummarizationService`, `PodcastGenerationService`, `NewsletterGenerationService`) participating in the workflow **must**:
-  - Be aware of the `workflow_run_id` for the job it is processing.
-  - **Before starting its primary task:** Update the `workflow_runs` table for the current `workflow_run_id` to reflect its `current_step_details`.
-  - **Upon successful completion of its task:** Update relevant data tables and the `workflow_runs.details` JSONB field.
-  - **Upon failure:** Update the `workflow_runs` table to set `status` to 'failed', and populate `error_message` and `current_step_details`.
-  - Utilize the shared `WorkflowTrackerService` for consistent status updates.
-- The `PlayHTWebhookHandlerAPI` updates the `newsletters` table and then the `workflow_runs.details` with podcast status.
+  - Be aware of the `workflow_run_id` for the job it is processing. This ID should be passed along or retrievable based on the triggering event/data.
+  - **Before starting its primary task:** Update the `workflow_runs` table for the current `workflow_run_id` to reflect its `current_step_details` (e.g., "Started scraping article X for workflow Y").
+  - **Upon successful completion of its task:**
+    - Update any relevant data tables (e.g., `scraped_articles`, `article_summaries`).
+    - Update the `workflow_runs.details` JSONB field with relevant output or counters (e.g., increment `articles_scraped_successfully_count`).
+  - **Upon failure:** Update the `workflow_runs` table for the `workflow_run_id` to set `status` to 'failed', and populate `error_message` and `current_step_details` with failure information.
+  - Utilize the shared `WorkflowTrackerService` (see point 5) for consistent status updates.
+- The `PlayHTWebhookHandlerAPI` (Next.js API route) updates the `newsletters` table and then the `workflow_runs.details` with podcast status.
 
 **4. Orchestration and Progression (`CheckWorkflowCompletionService`):**
 
 - A dedicated Supabase Function, `CheckWorkflowCompletionService`, will be scheduled to run periodically (e.g., every 5-10 minutes via Vercel Cron Jobs invoking a dedicated HTTP endpoint for this service, or Supabase's `pg_cron` if preferred for DB-centric scheduling).
 - This service orchestrates progression between major stages by:
   - Querying `workflow_runs` for jobs in intermediate statuses.
-  - Verifying if all prerequisites for the next stage are met (e.g., all summaries done before newsletter generation, podcast ready before delivery).
-  - If conditions are met, it updates `workflow_runs.status` and invokes the appropriate next service, passing the `workflow_run_id`.
+  - Verifying if all prerequisite tasks for the next stage are complete by:
+    - Querying related data tables (e.g., `scraped_articles`, `article_summaries`, `comment_summaries`) based on the `workflow_run_id`.
+    - Checking expected counts against actual completed counts (e.g., all articles intended for summarization have an `article_summaries` entry for the current `workflow_run_id`).
+    - Checking the status of the podcast generation in the `newsletters` table (linked to `workflow_run_id`) before proceeding to email delivery.
+  - If conditions for the next stage are met, it updates the `workflow_runs.status` (e.g., to 'generating_newsletter') and then invokes the appropriate next service (e.g., `NewsletterGenerationService`), passing the `workflow_run_id`.
 
 **5. Shared `WorkflowTrackerService`:**
 
-- A utility service in `supabase/functions/_shared/` will provide standardized methods for backend functions to interact with the `workflow_runs` table.
+- A utility service, `WorkflowTrackerService`, will be created in `supabase/functions/_shared/`.
+- It will provide standardized methods for all backend functions to interact with the `workflow_runs` table (e.g., `updateWorkflowStep()`, `incrementWorkflowDetailCounter()`, `failWorkflow()`, `completeWorkflowStep()`).
+- This promotes consistency in status updates and reduces redundant code.
 
 **6. Podcast Link Before Email Delivery:**
 
-- The `NewsletterGenerationService` initiates podcast creation.
-- The `CheckWorkflowCompletionService` monitors `newsletters.podcast_url` (populated by `PlayHTWebhookHandlerAPI`) or `newsletters.podcast_status`.
-- Email delivery is triggered by `CheckWorkflowCompletionService` once the podcast URL is available, a timeout is reached, or podcast generation fails (as per PRD's delay/retry logic).
+- The `NewsletterGenerationService`, after generating the HTML and initiating podcast creation (via `PodcastGenerationService`), will set the `newsletters.podcast_status` to 'generating'.
+- The `CheckWorkflowCompletionService` (or the `NewsletterGenerationService` itself if designed for polling/delay) will monitor the `newsletters.podcast_url` (populated by the `PlayHTWebhookHandlerAPI`) or `newsletters.podcast_status`.
+- Email delivery is triggered by `CheckWorkflowCompletionService` once the podcast URL is available, a timeout is reached, or podcast generation fails (as per PRD's delay/retry logic). The final delivery status will be updated in `workflow_runs` and `newsletters`.
 
 ## Project Structure
 
@@ -323,9 +357,10 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
 │   ├── typography/             # Example/template components (can be removed)
 │   └── ui/                     # Base UI elements (button.tsx, card.tsx etc.)
 ├── docs/                       # Project documentation
-│   ├── prd.md
+│   ├── prd.md                  # Or prd-incremental-full-agile-mode.txt
 │   ├── architecture.md         # This document
-│   ├── ui-ux-spec.md
+│   ├── ui-ux-spec.md           # Or ui-ux-spec.txt
+│   ├── technical-preferences.md # Or technical-preferences copy.txt
 │   ├── ADR/                    # Architecture Decision Records (to be created as needed)
 │   └── environment-vars.md     # (To be created)
 ├── lib/                        # General utility functions for frontend (e.g., utils.ts from template)
@@ -419,10 +454,46 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
     - Request Parameters: `tags=front_page`
     - Example Request: `curl "http://hn.algolia.com/api/v1/search?tags=front_page"`
     - Post-processing: Application sorts fetched stories by `points` (descending), selects up to top 30.
-    - Success Response Schema (Code: `200 OK`): (Standard Algolia search response containing 'hits' array with story objects).
+    - Success Response Schema (Code: `200 OK`): Standard Algolia search response containing 'hits' array with story objects.
+      ```json
+      {
+        "hits": [
+          {
+            "objectID": "string",
+            "created_at": "string",
+            "title": "string",
+            "url": "string",
+            "author": "string",
+            "points": "number",
+            "story_text": "string",
+            "num_comments": "number",
+            "_tags": ["string"]
+          }
+        ],
+        "nbHits": "number",
+        "page": "number",
+        "nbPages": "number",
+        "hitsPerPage": "number"
+      }
+      ```
   - **`GET /items/{objectID}` (for comments)**
-    - Description: Retrieves a story by `objectID` to get its full comment tree from the `children` field. Called for each selected top story.
-    - Success Response Schema (Code: `200 OK`): (Standard Algolia item response, `children` array contains comment tree).
+    - Description: Retrieves a specific story item by its `objectID` to get its full comment tree from the `children` field. Called for each selected top story.
+    - Success Response Schema (Code: `200 OK`): Standard Algolia item response.
+      ```json
+      {
+        "id": "number",
+        "created_at": "string",
+        "author": "string",
+        "text": "string",
+        "parent_id": "number",
+        "story_id": "number",
+        "children": [
+          {
+            /* nested comment structure */
+          }
+        ]
+      }
+      ```
 - **Rate Limits:** Generous for public use; daily calls are fine.
 - **Link to Official Docs:** [https://hn.algolia.com/api](https://hn.algolia.com/api)
 
@@ -433,11 +504,41 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
 - **Authentication:** API Key (`X-USER-ID` header) and Bearer Token (`Authorization` header). Stored as `PLAYHT_USER_ID` and `PLAYHT_API_KEY`.
 - **Key Endpoints Used:**
   - **`POST /playnotes`**
-    - Description: Initiates text-to-speech conversion.
-    - Request Body: `multipart/form-data` including `sourceFile` (HTML newsletter content), `synthesisStyle` ("podcast"), voice parameters, and `webHookUrl` (pointing to `/api/webhooks/playht` on our Vercel deployment).
-    - **Note on Content Delivery:** MVP uses `sourceFile` (direct upload). Fallback: upload content to Supabase Storage and provide `sourceFileUrl`.
-    - Success Response Schema (Code: `201 Created`): JSON object with `id` (PlayNote ID), `status`, etc.
-- **Webhook Handling:** Our endpoint `/api/webhooks/playht` receives `POST` requests from Play.ht with `id`, `audioUrl`, and `status`.
+    - Description: Initiates the text-to-speech conversion.
+    - Request Headers: `Authorization: Bearer {PLAYHT_API_KEY}`, `X-USER-ID: {PLAYHT_USER_ID}`, `Content-Type: multipart/form-data`, `Accept: application/json`.
+    - Request Body Schema: `multipart/form-data`
+      - `sourceFile`: `string (binary)` (Preferred: HTML newsletter content as file upload.)
+      - `sourceFileUrl`: `string (uri)` (Alternative: URL to hosted newsletter content if `sourceFile` is problematic.)
+      - `synthesisStyle`: `string` (Required, e.g., "podcast")
+      - `voice1`: `string` (Required, Voice ID)
+      - `voice1Name`: `string` (Required)
+      - `voice1Gender`: `string` (Required)
+      - `webHookUrl`: `string (uri)` (Required, e.g., `<YOUR_APP_DOMAIN>/api/webhooks/playht`)
+    - **Note on Content Delivery:** MVP uses `sourceFile`. If issues arise, pivot to `sourceFileUrl` (e.g., content temporarily in Supabase Storage).
+    - Success Response Schema (Code: `201 Created`):
+      ```json
+      {
+        "id": "string",
+        "ownerId": "string",
+        "name": "string",
+        "sourceFileUrl": "string",
+        "audioUrl": "string",
+        "synthesisStyle": "string",
+        "voice1": "string",
+        "voice1Name": "string",
+        "voice1Gender": "string",
+        "webHookUrl": "string",
+        "status": "string",
+        "duration": "number",
+        "requestedAt": "string",
+        "createdAt": "string"
+      }
+      ```
+- **Webhook Handling:** Endpoint `/api/webhooks/playht` receives `POST` from Play.ht.
+  - Request Body Schema (from Play.ht):
+    ```json
+    { "id": "string", "audioUrl": "string", "status": "string" }
+    ```
 - **Rate Limits:** Refer to official Play.ht documentation.
 - **Link to Official Docs:** [https://docs.play.ai/api-reference/playnote/post](https://docs.play.ai/api-reference/playnote/post)
 
@@ -446,10 +547,14 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
 - **Purpose:** To generate summaries for articles and comment threads.
 - **Configuration:** Via environment variables (`LLM_PROVIDER_TYPE`, `OLLAMA_API_URL`, `REMOTE_LLM_API_KEY`, `REMOTE_LLM_API_URL`, `LLM_MODEL_NAME`).
 - **Facade Interface (`LLMFacade` in `supabase/functions/_shared/llm-facade.ts`):**
+
   ```typescript
+  // Located in supabase/functions/_shared/llm-facade.ts
   export interface LLMSummarizationOptions {
-    /* ... */
+    prompt?: string;
+    maxLength?: number;
   }
+
   export interface LLMFacade {
     generateSummary(
       textToSummarize: string,
@@ -457,18 +562,21 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
     ): Promise<string>;
   }
   ```
+
 - **Implementations:**
-  - **Local Ollama Adapter:** HTTP requests to `OLLAMA_API_URL` (e.g., `POST /api/generate` or `/api/chat`).
-  - **Remote LLM API Adapter:** Authenticated HTTP requests to `REMOTE_LLM_API_URL`.
+  - **Local Ollama Adapter:** HTTP requests to `OLLAMA_API_URL`.
+    - Request Body (example for `/api/generate`): `{"model": "string", "prompt": "string", "stream": false}`
+    - Response Body (example): `{"model": "string", "response": "string", ...}`
+  - **Remote LLM API Adapter:** Authenticated HTTP requests to `REMOTE_LLM_API_URL`. Schemas depend on the provider.
 - **Rate Limits:** Provider-dependent.
 - **Link to Official Docs:** Ollama: [https://github.com/ollama/ollama/blob/main/docs/api.md](https://www.google.com/search?q=https://github.com/ollama/ollama/blob/main/docs/api.md)
 
 #### 4\. Nodemailer (Email Delivery Service)
 
 - **Purpose:** To send generated HTML newsletters.
-- **Interaction Type:** Library integration within `NewsletterGenerationService` (Supabase Function) via `NodemailerFacade` in `supabase/functions/_shared/nodemailer-facade.ts`.
-- **Configuration:** Via SMTP environment variables (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, etc.).
-- **Key Operations:** Create transporter, construct email (From, To, Subject, HTML), send email.
+- **Interaction Type:** Library integration within `NewsletterGenerationService` via `NodemailerFacade` in `supabase/functions/_shared/nodemailer-facade.ts`.
+- **Configuration:** Via SMTP environment variables (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`).
+- **Key Operations:** Create transporter, construct email message (From, To, Subject, HTML), send email.
 - **Link to Official Docs:** [https://nodemailer.com/](https://nodemailer.com/)
 
 ### Internal APIs Provided (by BMad DiCaster)
@@ -480,27 +588,50 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
 - **Method:** `POST`
 - **Authentication:** API Key in `X-API-KEY` header (matches `WORKFLOW_TRIGGER_API_KEY` env var).
 - **Request Body:** MVP: Empty or `{}`.
-- **Success Response (`202 Accepted`):** `{"message": "Daily workflow triggered...", "jobId": "<UUID>"}`
-- **Action:** Creates a record in `workflow_runs` and initiates the pipeline.
+- **Success Response (`202 Accepted`):** `{"message": "Daily workflow triggered successfully. Processing will occur asynchronously.", "jobId": "<UUID_of_the_workflow_run>"}`
+- **Error Response:** `400 Bad Request`, `401 Unauthorized`, `500 Internal Server Error`.
+- **Action:** Creates a record in `workflow_runs` table and initiates the pipeline.
 
 #### 2\. Workflow Status API
 
-- **Purpose:** Allow developers/admins to check the status of a workflow run.
+- **Purpose:** Allow developers/admins to check the status of a specific workflow run.
 - **Endpoint Path:** `/api/system/workflow-status/{jobId}` (Next.js API Route Handler)
 - **Method:** `GET`
 - **Authentication:** API Key in `X-API-KEY` header.
-- **Success Response (`200 OK`):** JSON object with `jobId`, `status`, `currentStep`, `details`, etc. (from `workflow_runs` table).
+- **Request Parameters:** `jobId` (Path parameter).
+- **Success Response (`200 OK`):**
+  ```json
+  {
+    "jobId": "<UUID>",
+    "createdAt": "timestamp",
+    "lastUpdatedAt": "timestamp",
+    "status": "string",
+    "currentStep": "string",
+    "errorMessage": "string?",
+    "details": {
+      /* JSONB object with step-specific progress */
+    }
+  }
+  ```
+- **Error Response:** `401 Unauthorized`, `404 Not Found`, `500 Internal Server Error`.
+- **Action:** Retrieves record from `workflow_runs` for the given `jobId`.
 
 #### 3\. Play.ht Webhook Receiver
 
 - **Purpose:** To receive status updates and podcast audio URLs from Play.ht.
 - **Endpoint Path:** `/api/webhooks/playht` (Next.js API Route Handler)
 - **Method:** `POST`
-- **Authentication:** Implement verification (shared secret or signature if Play.ht supports).
-- **Request Body (from Play.ht):** JSON with `id`, `audioUrl`, `status`.
+- **Authentication:** Implement verification (e.g., shared secret token).
+- **Request Body Schema (Expected from Play.ht):**
+  ```json
+  { "id": "string", "audioUrl": "string", "status": "string" }
+  ```
+- **Success Response (`200 OK`):** `{"message": "Webhook received successfully"}`
 - **Action:** Updates `newsletters` and `workflow_runs` tables.
 
 ## Data Models
+
+This section defines the core data structures used within the BMad DiCaster application, including conceptual domain entities and their corresponding database schemas in Supabase PostgreSQL.
 
 ### Core Application Entities / Domain Objects
 
@@ -509,52 +640,52 @@ The BMad DiCaster project is organized as a monorepo, leveraging the Vercel/Supa
 #### 1\. `WorkflowRun`
 
 - **Description:** A single execution of the daily workflow.
-- **Schema:** `id (string UUID)`, `createdAt (string ISO)`, `lastUpdatedAt (string ISO)`, `status (enum string)`, `currentStepDetails (string?)`, `errorMessage (string?)`, `details (object?)`
+- **Schema:** `id (string UUID)`, `createdAt (string ISO)`, `lastUpdatedAt (string ISO)`, `status (enum string: 'pending' | 'fetching_hn' | 'scraping_articles' | 'summarizing_content' | 'generating_podcast' | 'generating_newsletter' | 'delivering_newsletter' | 'completed' | 'failed')`, `currentStepDetails (string?)`, `errorMessage (string?)`, `details (object?: { postsFetched?: number, articlesAttempted?: number, articlesScrapedSuccessfully?: number, summariesGenerated?: number, podcastJobId?: string, podcastStatus?: string, newsletterGeneratedAt?: string, subscribersNotified?: number })`
 
 #### 2\. `HNPost`
 
 - **Description:** A post from Hacker News.
-- **Schema:** `id (string HN_objectID)`, `hnNumericId (number?)`, `title (string)`, `url (string?)`, `author (string)`, `points (number)`, `createdAt (string ISO)`, `retrievedAt (string ISO)`, `numComments (number?)`, `workflowRunId (string UUID?)`
+- **Schema:** `id (string HN_objectID)`, `hnNumericId (number?)`, `title (string)`, `url (string?)`, `author (string)`, `points (number)`, `createdAt (string ISO)`, `retrievedAt (string ISO)`, `hnStoryText (string?)`, `numComments (number?)`, `tags (string[]?)`, `workflowRunId (string UUID?)`
 
 #### 3\. `HNComment`
 
 - **Description:** A comment on an HN post.
-- **Schema:** `id (string HN_commentID)`, `hnPostId (string)`, `parentId (string?)`, `author (string?)`, `text (string HTML)`, `createdAt (string ISO)`
+- **Schema:** `id (string HN_commentID)`, `hnPostId (string)`, `parentId (string?)`, `author (string?)`, `text (string HTML)`, `createdAt (string ISO)`, `retrievedAt (string ISO)`, `children (HNComment[]?)`
 
 #### 4\. `ScrapedArticle`
 
 - **Description:** Content scraped from an article URL.
-- **Schema:** `id (string UUID)`, `hnPostId (string)`, `originalUrl (string)`, `title (string?)`, `mainTextContent (string?)`, `scrapedAt (string ISO)`, `scrapingStatus (enum string)`, `workflowRunId (string UUID?)`
+- **Schema:** `id (string UUID)`, `hnPostId (string)`, `originalUrl (string)`, `resolvedUrl (string?)`, `title (string?)`, `author (string?)`, `publicationDate (string ISO?)`, `mainTextContent (string?)`, `scrapedAt (string ISO)`, `scrapingStatus (enum string: 'pending' | 'success' | 'failed_unreachable' | 'failed_paywall' | 'failed_parsing')`, `errorMessage (string?)`, `workflowRunId (string UUID?)`
 
 #### 5\. `ArticleSummary`
 
 - **Description:** AI-generated summary of a `ScrapedArticle`.
-- **Schema:** `id (string UUID)`, `scrapedArticleId (string UUID)`, `summaryText (string)`, `generatedAt (string ISO)`, `llmModelUsed (string?)`, `workflowRunId (string UUID?)`
+- **Schema:** `id (string UUID)`, `scrapedArticleId (string UUID)`, `summaryText (string)`, `generatedAt (string ISO)`, `llmPromptVersion (string?)`, `llmModelUsed (string?)`, `workflowRunId (string UUID)`
 
 #### 6\. `CommentSummary`
 
 - **Description:** AI-generated summary of comments for an `HNPost`.
-- **Schema:** `id (string UUID)`, `hnPostId (string)`, `summaryText (string)`, `generatedAt (string ISO)`, `llmModelUsed (string?)`, `workflowRunId (string UUID?)`
+- **Schema:** `id (string UUID)`, `hnPostId (string)`, `summaryText (string)`, `generatedAt (string ISO)`, `llmPromptVersion (string?)`, `llmModelUsed (string?)`, `workflowRunId (string UUID)`
 
 #### 7\. `Newsletter`
 
 - **Description:** The daily generated newsletter.
-- **Schema:** `id (string UUID)`, `workflowRunId (string UUID)`, `title (string)`, `generatedAt (string ISO)`, `htmlContent (string)`, `podcastPlayhtJobId (string?)`, `podcastUrl (string?)`, `podcastStatus (enum string?)`, `deliveryStatus (enum string)`, `targetDate (string YYYY-MM-DD)`
+- **Schema:** `id (string UUID)`, `workflowRunId (string UUID)`, `targetDate (string YYYY-MM-DD)`, `title (string)`, `generatedAt (string ISO)`, `htmlContent (string)`, `mjmlTemplateVersion (string?)`, `podcastPlayhtJobId (string?)`, `podcastUrl (string?)`, `podcastStatus (enum string?: 'pending' | 'generating' | 'completed' | 'failed')`, `deliveryStatus (enum string: 'pending' | 'sending' | 'sent' | 'partially_failed' | 'failed')`, `scheduledSendAt (string ISO?)`, `sentAt (string ISO?)`
 
 #### 8\. `Subscriber`
 
 - **Description:** An email subscriber.
-- **Schema:** `id (string UUID)`, `email (string)`, `subscribedAt (string ISO)`, `isActive (boolean)`
+- **Schema:** `id (string UUID)`, `email (string)`, `subscribedAt (string ISO)`, `isActive (boolean)`, `unsubscribedAt (string ISO?)`
 
 #### 9\. `SummarizationPrompt`
 
 - **Description:** Stores prompts for AI summarization.
-- **Schema:** `id (string UUID)`, `promptName (string)`, `promptText (string)`, `version (string)`, `isDefaultArticlePrompt (boolean)`, `isDefaultCommentPrompt (boolean)`
+- **Schema:** `id (string UUID)`, `promptName (string)`, `promptText (string)`, `version (string)`, `createdAt (string ISO)`, `updatedAt (string ISO)`, `isDefaultArticlePrompt (boolean)`, `isDefaultCommentPrompt (boolean)`
 
 #### 10\. `NewsletterTemplate`
 
 - **Description:** HTML/MJML templates for newsletters.
-- **Schema:** `id (string UUID)`, `templateName (string)`, `mjmlContent (string?)`, `htmlContent (string)`, `version (string)`, `isDefault (boolean)`
+- **Schema:** `id (string UUID)`, `templateName (string)`, `mjmlContent (string?)`, `htmlContent (string)`, `version (string)`, `createdAt (string ISO)`, `updatedAt (string ISO)`, `isDefault (boolean)`
 
 ### Database Schemas (Supabase PostgreSQL)
 
@@ -568,8 +699,10 @@ CREATE TABLE public.workflow_runs (
     status TEXT NOT NULL DEFAULT 'pending', -- pending, fetching_hn, scraping_articles, summarizing_content, generating_podcast, generating_newsletter, delivering_newsletter, completed, failed
     current_step_details TEXT NULL,
     error_message TEXT NULL,
-    details JSONB NULL -- {postsFetched, articlesAttempted, articlesScrapedSuccessfully, summariesGenerated, podcastJobId, podcastStatus, newsletterSentAt, subscribersNotified}
+    details JSONB NULL -- {postsFetched, articlesAttempted, articlesScrapedSuccessfully, summariesGenerated, podcastJobId, podcastStatus, newsletterGeneratedAt, subscribersNotified}
 );
+COMMENT ON COLUMN public.workflow_runs.status IS 'Possible values: pending, fetching_hn, scraping_articles, summarizing_content, generating_podcast, generating_newsletter, delivering_newsletter, completed, failed';
+COMMENT ON COLUMN public.workflow_runs.details IS 'Stores step-specific progress or metadata like postsFetched, articlesScraped, podcastJobId, etc.';
 ```
 
 #### 2\. `hn_posts`
@@ -582,13 +715,14 @@ CREATE TABLE public.hn_posts (
     url TEXT NULL,
     author TEXT NULL,
     points INTEGER NOT NULL DEFAULT 0,
-    created_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL, -- HN post creation time
     retrieved_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     hn_story_text TEXT NULL,
     num_comments INTEGER NULL DEFAULT 0,
     tags TEXT[] NULL,
     workflow_run_id UUID NULL REFERENCES public.workflow_runs(id) ON DELETE SET NULL -- The run that fetched this instance of the post
 );
+COMMENT ON COLUMN public.hn_posts.id IS 'Hacker News objectID for the story.';
 ```
 
 #### 3\. `hn_comments`
@@ -599,8 +733,8 @@ CREATE TABLE public.hn_comments (
     hn_post_id TEXT NOT NULL REFERENCES public.hn_posts(id) ON DELETE CASCADE,
     parent_comment_id TEXT NULL REFERENCES public.hn_comments(id) ON DELETE CASCADE,
     author TEXT NULL,
-    comment_text TEXT NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL,
+    comment_text TEXT NOT NULL, -- HTML content of the comment
+    created_at TIMESTAMPTZ NOT NULL, -- HN comment creation time
     retrieved_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX idx_hn_comments_post_id ON public.hn_comments(hn_post_id);
@@ -611,7 +745,7 @@ CREATE INDEX idx_hn_comments_post_id ON public.hn_comments(hn_post_id);
 ```sql
 CREATE TABLE public.scraped_articles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    hn_post_id TEXT NOT NULL REFERENCES public.hn_posts(id) ON DELETE CASCADE, -- Should be unique if one article per post processing for a workflow run
+    hn_post_id TEXT NOT NULL REFERENCES public.hn_posts(id) ON DELETE CASCADE,
     original_url TEXT NOT NULL,
     resolved_url TEXT NULL,
     title TEXT NULL,
@@ -624,6 +758,7 @@ CREATE TABLE public.scraped_articles (
     workflow_run_id UUID NULL REFERENCES public.workflow_runs(id) ON DELETE SET NULL
 );
 CREATE UNIQUE INDEX idx_scraped_articles_hn_post_id_workflow_run_id ON public.scraped_articles(hn_post_id, workflow_run_id);
+COMMENT ON COLUMN public.scraped_articles.scraping_status IS 'Possible values: pending, success, failed_unreachable, failed_paywall, failed_parsing, failed_generic';
 ```
 
 #### 5\. `article_summaries`
@@ -636,9 +771,10 @@ CREATE TABLE public.article_summaries (
     generated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     llm_prompt_version TEXT NULL,
     llm_model_used TEXT NULL,
-    workflow_run_id UUID NOT NULL REFERENCES public.workflow_runs(id) ON DELETE CASCADE -- Summary is specific to a workflow run
+    workflow_run_id UUID NOT NULL REFERENCES public.workflow_runs(id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX idx_article_summaries_scraped_article_id_workflow_run_id ON public.article_summaries(scraped_article_id, workflow_run_id);
+COMMENT ON COLUMN public.article_summaries.llm_prompt_version IS 'Version or identifier of the summarization prompt used.';
 ```
 
 #### 6\. `comment_summaries`
@@ -651,7 +787,7 @@ CREATE TABLE public.comment_summaries (
     generated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     llm_prompt_version TEXT NULL,
     llm_model_used TEXT NULL,
-    workflow_run_id UUID NOT NULL REFERENCES public.workflow_runs(id) ON DELETE CASCADE -- Summary is specific to a workflow run
+    workflow_run_id UUID NOT NULL REFERENCES public.workflow_runs(id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX idx_comment_summaries_hn_post_id_workflow_run_id ON public.comment_summaries(hn_post_id, workflow_run_id);
 ```
@@ -674,6 +810,8 @@ CREATE TABLE public.newsletters (
     scheduled_send_at TIMESTAMPTZ NULL,
     sent_at TIMESTAMPTZ NULL
 );
+CREATE INDEX idx_newsletters_target_date ON public.newsletters(target_date);
+COMMENT ON COLUMN public.newsletters.target_date IS 'The date this newsletter pertains to. Ensures uniqueness.';
 ```
 
 #### 8\. `subscribers`
@@ -686,6 +824,7 @@ CREATE TABLE public.subscribers (
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     unsubscribed_at TIMESTAMPTZ NULL
 );
+CREATE INDEX idx_subscribers_email_active ON public.subscribers(email, is_active);
 ```
 
 #### 9\. `summarization_prompts`
@@ -700,8 +839,9 @@ CREATE TABLE public.summarization_prompts (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     is_default_article_prompt BOOLEAN NOT NULL DEFAULT FALSE,
     is_default_comment_prompt BOOLEAN NOT NULL DEFAULT FALSE
-    -- Note: Logic to enforce single default will be in application layer or via more complex DB constraints/triggers.
 );
+COMMENT ON COLUMN public.summarization_prompts.prompt_name IS 'Unique identifier for the prompt, e.g., article_summary_v2.1';
+-- Application logic will enforce that only one prompt of each type is marked as default.
 ```
 
 #### 10\. `newsletter_templates`
@@ -716,13 +856,17 @@ CREATE TABLE public.newsletter_templates (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     is_default BOOLEAN NOT NULL DEFAULT FALSE
-    -- Note: Logic to enforce single default will be in application layer.
 );
+-- Application logic will enforce that only one template is marked as default.
 ```
 
 ## Core Workflow / Sequence Diagrams
 
+These diagrams illustrate the key sequences of operations in the BMad DiCaster system.
+
 ### 1\. Daily Workflow Initiation & HN Content Acquisition
+
+This diagram shows the manual/API trigger initiating a new workflow run, followed by the fetching of Hacker News posts and comments.
 
 ```mermaid
 sequenceDiagram
@@ -745,6 +889,7 @@ sequenceDiagram
 
     alt Initial Trigger for HN Content Fetch
         WorkflowTracker->>+HNContentService: triggerFetch(workflow_run_id)
+        Note over WorkflowTracker,HNContentService: This could be a direct call or an event insertion that HNContentService picks up.
     else Alternative: Event from WorkflowRunsDB insert
         WorkflowRunsDB-->>EventTrigger1: New workflow_run record
         EventTrigger1->>+HNContentService: Invoke(workflow_run_id, event_payload)
@@ -752,26 +897,33 @@ sequenceDiagram
 
     HNContentService->>+WorkflowTracker: updateWorkflowStep(workflow_run_id, 'fetching_hn_posts', 'fetching_hn')
     WorkflowTracker->>+WorkflowRunsDB: UPDATE workflow_runs (status, current_step_details)
+    WorkflowRunsDB-->>-WorkflowTracker: ack
 
     HNContentService->>+HNAlgoliaAPI: GET /search?tags=front_page
     HNAlgoliaAPI-->>-HNContentService: Front page story items
 
     loop For each story item (up to 30 after sorting by points)
-        HNContentService->>+HNPostsDB: INSERT story (hn_post_id, ..., workflow_run_id)
+        HNContentService->>+HNPostsDB: INSERT story (hn_post_id, title, url, points, created_at, workflow_run_id)
         HNPostsDB-->>EventTrigger1: Notifies: New hn_post inserted
         EventTrigger1-->>ArticleScrapingService: (Async) Trigger ArticleScrapingService(hn_post_id, workflow_run_id)
+        Note right of EventTrigger1: Triggers article scraping (next diagram)
 
         HNContentService->>+HNAlgoliaAPI: GET /items/{story_objectID} (to fetch comments)
         HNAlgoliaAPI-->>-HNContentService: Story details with comments
         loop For each comment
-            HNContentService->>+HNCommentsDB: INSERT comment
+            HNContentService->>+HNCommentsDB: INSERT comment (comment_id, hn_post_id, text, author, created_at)
+            HNCommentsDB-->>-HNContentService: ack
         end
     end
     HNContentService->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id, {posts_fetched: X, comments_fetched: Y})
-    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs (details)
+    WorkflowTracker->>+WorkflowRunsDB: UPDATE workflow_runs (details)
+    WorkflowRunsDB-->>-WorkflowTracker: ack
+    Note over HNContentService: HN Content Service might mark its part for the workflow as 'hn_data_fetched'. The overall workflow status will be managed by CheckWorkflowCompletionService.
 ```
 
 ### 2\. Article Scraping & Summarization Flow
+
+This diagram shows the flow starting from a new HN post being available, leading to article scraping, and then summarization of the article content and HN comments.
 
 ```mermaid
 sequenceDiagram
@@ -789,43 +941,63 @@ sequenceDiagram
 
     EventTrigger1->>+ArticleScrapingService: Invoke(hn_post_id, workflow_run_id, article_url)
     ArticleScrapingService->>+WorkflowTracker: updateWorkflowStep(workflow_run_id, 'scraping_article_for_post_' + hn_post_id, 'scraping_articles')
+    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs (current_step_details)
 
-    ArticleScrapingService->>+ScrapedArticlesDB: INSERT new article (status='pending', workflow_run_id)
+    ArticleScrapingService->>ArticleScrapingService: Identify relevant URL from hn_post (if multiple)
+    ArticleScrapingService->>+ScrapedArticlesDB: INSERT new article (hn_post_id, original_url, status='pending', workflow_run_id)
+    ScrapedArticlesDB-->>-ArticleScrapingService: new_scraped_article_id
 
-    opt Article URL is valid
-        ArticleScrapingService->>ArticleScrapingService: Fetch & Parse HTML with Cheerio
-        ArticleScrapingService->>+ScrapedArticlesDB: UPDATE scraped_articles SET content, status='success'
-    else Scraping fails
-        ArticleScrapingService->>+ScrapedArticlesDB: UPDATE scraped_articles SET status='failed_...'
+    opt Article URL is valid and scrapeable
+        ArticleScrapingService->>ArticleScrapingService: Fetch HTML content from article_url (using Cheerio compatible fetch)
+        ArticleScrapingService->>ArticleScrapingService: Parse HTML with Cheerio, extract title, author, date, main_text
+        ArticleScrapingService->>+ScrapedArticlesDB: UPDATE scraped_articles SET main_text_content, title, author, status='success' WHERE id=new_scraped_article_id
+    else Scraping fails or URL invalid
+        ArticleScrapingService->>+ScrapedArticlesDB: UPDATE scraped_articles SET status='failed_parsing/unreachable', error_message='...' WHERE id=new_scraped_article_id
     end
     ScrapedArticlesDB-->>EventTrigger2: Notifies: New/Updated scraped_article (status='success')
     EventTrigger2-->>SummarizationService: (Async) Trigger SummarizationService(scraped_article_id, workflow_run_id, 'article')
+    Note right of EventTrigger2: Triggers article summarization
 
-    ArticleScrapingService->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id, {articles_attempted_increment: 1, ...})
+    ArticleScrapingService->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id, {articles_attempted_increment: 1, articles_scraped_successfully_increment: (success ? 1:0) })
+    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs (details)
 
+     HNPostsDB (not shown, but data is available) -- "Data for comments" --> SummarizationService
+    Note right of SummarizationService: HN Comments are also summarized for the hn_post_id associated with this workflow_run_id. This might be a separate invocation or part of a broader summarization task for the post.
     SummarizationService->>+WorkflowTracker: updateWorkflowStep(workflow_run_id, 'summarizing_content_for_post_' + hn_post_id, 'summarizing_content')
+    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs (current_step_details)
 
     alt Summarize Article
-        SummarizationService->>SummarizationService: Get article_text
-        SummarizationService->>+PromptsDB: Get article_prompt
-        SummarizationService->>+LLMFacade: generateSummary(article_text, article_prompt)
-        LLMFacade->>+LLMProvider: Request summary
-        LLMProvider-->>-LLMFacade: article_summary
-        SummarizationService->>+SummariesDB: INSERT into article_summaries
+        SummarizationService->>SummarizationService: Get text_content from scraped_articles WHERE id=scraped_article_id
+        SummarizationService->>+PromptsDB: SELECT prompt_text WHERE is_default_article_prompt=TRUE
+        PromptsDB-->>-SummarizationService: article_prompt_text
+        SummarizationService->>+LLMFacade: generateSummary(text_content, {prompt: article_prompt_text})
+        LLMFacade->>+LLMProvider: Request summary (Ollama or Remote API call)
+        LLMProvider-->>-LLMFacade: summary_response
+        LLMFacade-->>-SummarizationService: article_summary_text
+        SummarizationService->>+SummariesDB: INSERT into article_summaries (scraped_article_id, summary_text, workflow_run_id, llm_model_used)
+        SummariesDB-->>-SummarizationService: ack
     end
 
-    alt Summarize Comments (for hn_post_id)
-        SummarizationService->>SummarizationService: Get comment_texts
-        SummarizationService->>+PromptsDB: Get comment_prompt
-        SummarizationService->>+LLMFacade: generateSummary(comment_texts, comment_prompt)
+    alt Summarize Comments (for each relevant hn_post_id in the workflow_run)
+        SummarizationService->>SummarizationService: Get all comments for hn_post_id from hn_comments table
+        SummarizationService->>SummarizationService: Concatenate/prepare comment text
+        SummarizationService->>+PromptsDB: SELECT prompt_text WHERE is_default_comment_prompt=TRUE
+        PromptsDB-->>-SummarizationService: comment_prompt_text
+        SummarizationService->>+LLMFacade: generateSummary(all_comments_text, {prompt: comment_prompt_text})
         LLMFacade->>+LLMProvider: Request summary
-        LLMProvider-->>-LLMFacade: comment_summary
-        SummarizationService->>+SummariesDB: INSERT into comment_summaries
+        LLMProvider-->>-LLMFacade: summary_response
+        LLMFacade-->>-SummarizationService: comment_summary_text
+        SummarizationService->>+SummariesDB: INSERT into comment_summaries (hn_post_id, summary_text, workflow_run_id, llm_model_used)
+        SummariesDB-->>-SummarizationService: ack
     end
-    SummarizationService->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id, {summaries_generated_increment: N})
+    SummarizationService->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id, {summaries_generated_increment: 1_or_2})
+    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs (details)
+    Note over SummarizationService: After all expected summaries for the workflow_run are done, the CheckWorkflowCompletionService will eventually pick this up.
 ```
 
 ### 3\. Newsletter, Podcast, and Delivery Flow
+
+This diagram shows the steps from completed summarization to newsletter generation, podcast creation, webhook handling, and final email delivery. It assumes the `CheckWorkflowCompletionService` has determined that all summaries for a given `workflow_run_id` are ready.
 
 ```mermaid
 sequenceDiagram
@@ -843,117 +1015,243 @@ sequenceDiagram
     participant SubscribersDB as subscribers (DB Table)
     participant ExternalEmailService as Email Service (e.g., Gmail SMTP)
 
-    CheckWorkflowService->>+WorkflowRunsDB: Query runs (status='summarizing_content', all summaries done?)
+    CheckWorkflowService->>+WorkflowRunsDB: Query for runs with status 'summarizing_content' and all summaries complete
     WorkflowRunsDB-->>-CheckWorkflowService: workflow_run_id (ready for newsletter)
 
     CheckWorkflowService->>+WorkflowTracker: updateWorkflowStep(workflow_run_id, 'starting_newsletter_generation', 'generating_newsletter')
+    WorkflowTracker->>+WorkflowRunsDB: UPDATE workflow_runs (status, current_step_details)
+    WorkflowRunsDB-->>-WorkflowTracker: ack
     CheckWorkflowService->>+NewsletterGenService: Invoke(workflow_run_id)
 
-    NewsletterGenService->>+NewsletterTemplatesDB: Get default_template
-    NewsletterGenService->>+SummariesDB: Get summaries for workflow_run_id
-    NewsletterGenService->>NewsletterGenService: Compile HTML newsletter
-    NewsletterGenService->>+NewslettersDB: INSERT newsletter (html_content, podcast_status='pending')
+    NewsletterGenService->>+NewsletterTemplatesDB: SELECT html_content, version WHERE is_default=TRUE
+    NewsletterTemplatesDB-->>-NewsletterGenService: template_html, template_version
+    NewsletterGenService->>+SummariesDB: SELECT article_summaries, comment_summaries WHERE workflow_run_id=...
+    SummariesDB-->>-NewsletterGenService: summaries_data
+    NewsletterGenService->>NewsletterGenService: Compile HTML newsletter using template and summaries_data
+    NewsletterGenService->>+NewslettersDB: INSERT newsletter (workflow_run_id, title, html_content, podcast_status='pending', delivery_status='pending', target_date)
+    NewslettersDB-->>-NewsletterGenService: new_newsletter_id
 
-    NewsletterGenService->>+PodcastGenService: initiatePodcast(newsletter_id, html_content)
-    PodcastGenService->>+PlayHTAPI: POST /playnotes (webHookUrl=...)
+    NewsletterGenService->>+PodcastGenService: initiatePodcast(new_newsletter_id, html_content_for_podcast, workflow_run_id)
+    WorkflowTracker->>+WorkflowRunsDB: updateWorkflowStep(workflow_run_id, 'podcast_generation_initiated', 'generating_podcast')
+    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs
+    PodcastGenService->>+PlayHTAPI: POST /playnotes (sourceFile=html_content, webHookUrl=...)
     PlayHTAPI-->>-PodcastGenService: { playht_job_id, status: 'generating' }
-    PodcastGenService->>+NewslettersDB: UPDATE newsletters SET podcast_playht_job_id, podcast_status='generating'
-    PodcastGenService->>+WorkflowTracker: updateWorkflowStep(workflow_run_id, 'podcast_generation_initiated', 'generating_podcast')
+    PodcastGenService->>+NewslettersDB: UPDATE newsletters SET podcast_playht_job_id, podcast_status='generating' WHERE id=new_newsletter_id
+    NewslettersDB-->>-PodcastGenService: ack
+    Note over NewsletterGenService, PodcastGenService: Newsletter is now generated; podcast is being generated by Play.ht. Email delivery will wait for podcast completion or timeout.
 
-    PlayHTAPI-->>+PlayHTWebhook: POST (status='completed', audioUrl='...')
-    PlayHTWebhook->>+NewslettersDB: UPDATE newsletters SET podcast_url, podcast_status='completed'
-    PlayHTWebhook->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id, {podcast_status: 'completed'})
+    PlayHTAPI-->>+PlayHTWebhook: POST (status='completed', audioUrl='...', id=playht_job_id)
+    PlayHTWebhook->>+NewslettersDB: UPDATE newsletters SET podcast_url, podcast_status='completed' WHERE podcast_playht_job_id=...
+    NewslettersDB-->>-PlayHTWebhook: ack
+    PlayHTWebhook->>+WorkflowTracker: updateWorkflowDetails(workflow_run_id_from_newsletter, {podcast_status: 'completed'})
+    WorkflowTracker->>WorkflowRunsDB: UPDATE workflow_runs (details)
     PlayHTWebhook-->>-PlayHTAPI: HTTP 200 OK
 
-    CheckWorkflowService->>+WorkflowRunsDB: Query runs (status='generating_podcast', podcast_status IN ('completed', 'failed') OR timeout)
+    CheckWorkflowService->>+WorkflowRunsDB: Query for runs with status 'generating_podcast' AND newsletters.podcast_status IN ('completed', 'failed') OR timeout reached
     WorkflowRunsDB-->>-CheckWorkflowService: workflow_run_id (ready for delivery)
 
     CheckWorkflowService->>+WorkflowTracker: updateWorkflowStep(workflow_run_id, 'starting_newsletter_delivery', 'delivering_newsletter')
-    CheckWorkflowService->>+NewsletterGenService: triggerDelivery(newsletter_id)
+    WorkflowTracker->>+WorkflowRunsDB: UPDATE workflow_runs (status, current_step_details)
+    WorkflowRunsDB-->>-WorkflowTracker: ack
+    CheckWorkflowService->>+NewsletterGenService: triggerDelivery(newsletter_id_for_workflow_run)
 
-    NewsletterGenService->>+NewslettersDB: Get newsletter_data (html, podcast_url)
-    NewsletterGenService->>NewsletterGenService: (Embed podcast_url in HTML if available)
-    NewsletterGenService->>+SubscribersDB: Get active_subscribers
-    loop For each subscriber
-        NewsletterGenService->>+NodemailerService: sendEmail(to, subject, html)
+
+    NewsletterGenService->>+NewslettersDB: SELECT html_content, podcast_url WHERE id=newsletter_id
+    NewslettersDB-->>-NewsletterGenService: newsletter_data
+    NewsletterGenService->>NewsletterGenService: (If podcast_url available, embed it in html_content)
+    NewsletterGenService->>+SubscribersDB: SELECT email WHERE is_active=TRUE
+    SubscribersDB-->>-NewsletterGenService: subscriber_emails[]
+
+    loop For each subscriber_email
+        NewsletterGenService->>+NodemailerService: sendEmail(to=subscriber_email, subject=newsletter_title, html=final_html_content)
         NodemailerService->>+ExternalEmailService: SMTP send
+        ExternalEmailService-->>-NodemailerService: delivery_success/failure
+        NodemailerService-->>-NewsletterGenService: status
     end
-    NewsletterGenService->>+NewslettersDB: UPDATE newsletters SET delivery_status='sent', sent_at=now()
-    NewsletterGenService->>+WorkflowTracker: completeWorkflow(workflow_run_id, {delivery_status: 'sent'})
+    NewsletterGenService->>+NewslettersDB: UPDATE newsletters SET delivery_status='sent' (or 'partially_failed'), sent_at=now()
+    NewslettersDB-->>-NewsletterGenService: ack
+    NewsletterGenService->>+WorkflowTracker: completeWorkflow(workflow_run_id, {delivery_status: 'sent', subscribers_notified: X})
+    WorkflowTracker->>+WorkflowRunsDB: UPDATE workflow_runs (status='completed', details)
+    WorkflowRunsDB-->>-WorkflowTracker: ack
 ```
 
 ## Definitive Tech Stack Selections
 
-This section outlines the definitive technology choices for the BMad DiCaster project.
+This section outlines the definitive technology choices for the BMad DiCaster project. These selections are the single source of truth for all technology choices. "Latest" implies the latest stable version available at the time of project setup (2025-05-13); the specific version chosen should be pinned in `package.json` and this document updated accordingly.
 
 - **Preferred Starter Template Frontend & Backend:** Vercel/Supabase Next.js App Router Template ([https://vercel.com/templates/next.js/supabase](https://vercel.com/templates/next.js/supabase))
 
-| Category             | Technology                  | Version / Details           | Description / Purpose                                                     | Justification (Optional, from PRD/User)                      |
-| :------------------- | :-------------------------- | :-------------------------- | :------------------------------------------------------------------------ | :----------------------------------------------------------- |
-| **Languages**        | TypeScript                  | `5.7.2`                     | Primary language for backend/frontend                                     | Strong typing, community support, aligns with Next.js/React  |
-| **Runtime**          | Node.js                     | `22.10.2`                   | Server-side execution environment for Next.js & Supabase Functions        | Compatible with Next.js, Vercel environment                  |
-| **Frameworks**       | Next.js                     | `latest` (e.g., 14.x.x)     | Full-stack React framework                                                | App Router, SSR, API routes, Vercel synergy                  |
-|                      | React                       | `19.0.0`                    | Frontend UI library                                                       | Component-based, declarative                                 |
-| **UI Libraries**     | Tailwind CSS                | `3.4.17`                    | Utility-first CSS framework                                               | Rapid UI development, consistent styling                     |
-|                      | Shadcn UI                   | `latest`                    | React component library (via CLI)                                         | Pre-styled, accessible components, built on Radix & Tailwind |
-| **Databases**        | PostgreSQL                  | (via Supabase)              | Primary relational data store                                             | Provided by Supabase, robust, scalable                       |
-| **Cloud Platform**   | Vercel                      | N/A                         | Hosting platform for Next.js app & Supabase Functions                     | Seamless Next.js/Supabase deployment, Edge Network           |
-| **Cloud Services**   | Supabase Functions          | N/A (via Vercel deploy)     | Serverless compute for backend pipeline & APIs                            | Integrated with Supabase DB, event-driven capabilities       |
-|                      | Supabase Auth               | N/A                         | User authentication and management                                        | Integrated with Supabase, RLS                                |
-|                      | Supabase Storage            | N/A                         | File storage (e.g., for temporary newsletter files if needed for Play.ht) | Integrated with Supabase                                     |
-| **Infrastructure**   | Supabase CLI                | `latest`                    | Local development, migrations, function deployment                        | Official tool for Supabase development                       |
-|                      | Docker                      | `latest` (via Supabase CLI) | Containerization for local Supabase services                              | Local development consistency                                |
-| **State Management** | Zustand                     | `latest`                    | Frontend state management                                                 | Simple, unopinionated, performant for React                  |
-| **Testing**          | React Testing Library (RTL) | `latest`                    | Testing React components                                                  | User-centric testing, works well with Jest                   |
-|                      | Jest                        | `latest`                    | Unit/Integration testing framework for JS/TS                              | Widely used, good support for Next.js/React                  |
-|                      | Playwright                  | `latest`                    | End-to-end testing framework                                              | Modern, reliable, cross-browser                              |
-| **CI/CD**            | GitHub Actions              | N/A                         | Continuous Integration/Deployment                                         | Integration with GitHub, automation of build/deploy/test     |
-| **Other Tools**      | Cheerio                     | `latest`                    | HTML parsing/scraping for articles                                        | Server-side HTML manipulation                                |
-|                      | Nodemailer                  | `latest`                    | Email sending library for newsletters                                     | Robust email sending from Node.js                            |
-|                      | Zod                         | `latest`                    | TypeScript-first schema declaration and validation                        | Data validation for API inputs, environment variables etc.   |
-|                      | `tsx` / `ts-node`           | `latest` (for scripts)      | TypeScript execution for Node.js scripts (e.g. `scripts/`)                | Running TS scripts directly                                  |
-|                      | Prettier                    | `3.3.3`                     | Code formatter                                                            | Consistent code style                                        |
-|                      | ESLint                      | `latest`                    | Linter for TypeScript/JavaScript                                          | Code quality and error prevention                            |
-|                      | Pino                        | `latest`                    | High-performance JSON logger for Node.js                                  | Structured and efficient logging                             |
+| Category             | Technology                  | Version / Details                          | Description / Purpose                                                     | Justification (Optional, from PRD/User)                      |
+| :------------------- | :-------------------------- | :----------------------------------------- | :------------------------------------------------------------------------ | :----------------------------------------------------------- |
+| **Languages**        | TypeScript                  | `5.7.2`                                    | Primary language for backend/frontend                                     | Strong typing, community support, aligns with Next.js/React  |
+| **Runtime**          | Node.js                     | `22.10.2`                                  | Server-side execution environment for Next.js & Supabase Functions        | Compatible with Next.js, Vercel environment                  |
+| **Frameworks**       | Next.js                     | `latest` (e.g., 14.2.3 at time of writing) | Full-stack React framework                                                | App Router, SSR, API routes, Vercel synergy                  |
+|                      | React                       | `19.0.0`                                   | Frontend UI library                                                       | Component-based, declarative                                 |
+| **UI Libraries**     | Tailwind CSS                | `3.4.17`                                   | Utility-first CSS framework                                               | Rapid UI development, consistent styling                     |
+|                      | Shadcn UI                   | `latest` (CLI based)                       | React component library (via CLI)                                         | Pre-styled, accessible components, built on Radix & Tailwind |
+| **Databases**        | PostgreSQL                  | (via Supabase)                             | Primary relational data store                                             | Provided by Supabase, robust, scalable                       |
+| **Cloud Platform**   | Vercel                      | N/A                                        | Hosting platform for Next.js app & Supabase Functions                     | Seamless Next.js/Supabase deployment, Edge Network           |
+| **Cloud Services**   | Supabase Functions          | N/A (via Vercel deploy)                    | Serverless compute for backend pipeline & APIs                            | Integrated with Supabase DB, event-driven capabilities       |
+|                      | Supabase Auth               | N/A                                        | User authentication and management                                        | Integrated with Supabase, RLS                                |
+|                      | Supabase Storage            | N/A                                        | File storage (e.g., for temporary newsletter files if needed for Play.ht) | Integrated with Supabase                                     |
+| **Infrastructure**   | Supabase CLI                | `latest`                                   | Local development, migrations, function deployment                        | Official tool for Supabase development                       |
+|                      | Docker                      | `latest` (via Supabase CLI)                | Containerization for local Supabase services                              | Local development consistency                                |
+| **State Management** | Zustand                     | `latest`                                   | Frontend state management                                                 | Simple, unopinionated, performant for React                  |
+| **Testing**          | React Testing Library (RTL) | `latest`                                   | Testing React components                                                  | User-centric testing, works well with Jest                   |
+|                      | Jest                        | `latest`                                   | Unit/Integration testing framework for JS/TS                              | Widely used, good support for Next.js/React                  |
+|                      | Playwright                  | `latest`                                   | End-to-end testing framework                                              | Modern, reliable, cross-browser                              |
+| **CI/CD**            | GitHub Actions              | N/A                                        | Continuous Integration/Deployment                                         | Integration with GitHub, automation of build/deploy/test     |
+| **Other Tools**      | Cheerio                     | `latest`                                   | HTML parsing/scraping for articles                                        | Server-side HTML manipulation                                |
+|                      | Nodemailer                  | `latest`                                   | Email sending library for newsletters                                     | Robust email sending from Node.js                            |
+|                      | Zod                         | `latest`                                   | TypeScript-first schema declaration and validation                        | Data validation for API inputs, environment variables etc.   |
+|                      | `tsx` / `ts-node`           | `latest` (for scripts)                     | TypeScript execution for Node.js scripts (e.g. `scripts/`)                | Running TS scripts directly                                  |
+|                      | Prettier                    | `3.3.3`                                    | Code formatter                                                            | Consistent code style                                        |
+|                      | ESLint                      | `latest`                                   | Linter for TypeScript/JavaScript                                          | Code quality and error prevention                            |
+|                      | Pino                        | `latest`                                   | High-performance JSON logger for Node.js                                  | Structured and efficient logging                             |
 
 ## Infrastructure and Deployment Overview
 
-- **Cloud Provider(s):** Vercel (for hosting Next.js app and Supabase Functions) and Supabase (managed PostgreSQL, Auth, Storage; runs on underlying cloud like AWS).
-- **Core Services Used:** Vercel (Next.js Hosting, Serverless/Edge Functions, CDN, CI/CD, Cron Jobs), Supabase (PostgreSQL, Auth, Storage, Functions, Database Webhooks).
-- **Infrastructure as Code (IaC):** Supabase Migrations (`supabase/migrations/`) for database schema; Vercel project settings (`vercel.json` if needed).
-- **Deployment Strategy:** GitHub Actions for CI/CD. Frontend (Next.js) via Vercel Git integration. Backend (Supabase Functions) via Supabase CLI within GitHub Actions. Database migrations via Supabase CLI.
-- **Environments:** Local (Next.js dev server, Supabase CLI local stack), Development/Preview (Vercel preview deployments linked to dev Supabase instance), Production (Vercel production deployment linked to prod Supabase instance).
+- **Cloud Provider(s):**
+  - **Vercel:** For hosting the Next.js frontend application, Next.js API routes (including the Play.ht webhook receiver and the workflow trigger API), and Supabase Functions (Edge/Serverless Functions deployed via Supabase CLI and Vercel integration).
+  - **Supabase:** Provides the managed PostgreSQL database, authentication, storage, and the an environment for deploying backend functions. Supabase itself runs on underlying cloud infrastructure (e.g., AWS).
+- **Core Services Used:**
+  - **Vercel:** Next.js Hosting (SSR, SSG, ISR, Edge runtime), Serverless Functions (for Next.js API routes), Edge Functions (for Next.js middleware and potentially some API routes), Global CDN, CI/CD (via GitHub integration), Environment Variables Management, Vercel Cron Jobs (for scheduled triggering of the `/api/system/trigger-workflow` endpoint).
+  - **Supabase:** PostgreSQL Database, Supabase Auth, Supabase Storage (for temporary file hosting if needed for Play.ht, or other static assets), Supabase Functions (backend logic for the event-driven pipeline, deployed via Supabase CLI, runs on Vercel infrastructure), Database Webhooks (using `pg_net` or built-in functionality to trigger Supabase/Vercel functions), Supabase CLI (for local development, migrations, function deployment).
+- **Infrastructure as Code (IaC):**
+  - **Supabase Migrations:** SQL migration files in `supabase/migrations/` define the database schema and are managed by the Supabase CLI. This is the primary IaC for the database.
+  - **Vercel Configuration:** `vercel.json` (if needed for custom configurations beyond what the Vercel dashboard and Next.js provide) and project settings via the Vercel dashboard.
+  - No explicit IaC for Vercel services beyond its declarative nature and Next.js conventions is anticipated for MVP.
+- **Deployment Strategy:**
+  - **Source Control:** GitHub will be used for version control.
+  - **CI/CD Tool:** GitHub Actions (as defined in `/.github/workflows/main.yml`).
+  - **Frontend (Next.js app on Vercel):** Continuous deployment triggered by pushes/merges to the main branch. Preview deployments automatically created for pull requests.
+  - **Backend (Supabase Functions):** Deployed via Supabase CLI commands (e.g., `supabase functions deploy <function_name> --project-ref <your-project-ref>`), run as part of the GitHub Actions workflow.
+  - **Database Migrations (Supabase):** Applied via CI/CD step using `supabase migration up --linked` or Supabase CLI against remote DB.
+- **Environments:**
+  - **Local Development:** Next.js local dev server (`next dev`), local Supabase stack (`supabase start`), local `.env.local`.
+  - **Development/Preview (on Vercel):** Auto-deployed per PR/dev branch push, connected to a **Development Supabase instance**.
+  - **Production (on Vercel):** Deployed from the main branch, connected to a **Production Supabase instance**.
 - **Environment Promotion:** Local -\> Dev/Preview (PR) -\> Production (merge to main).
-- **Rollback Strategy:** Vercel dashboard/CLI for app/function rollbacks; Supabase migrations or Point-in-Time Recovery for database.
+- **Rollback Strategy:** Vercel dashboard/CLI for app/function rollbacks; Supabase migrations (revert migration) or Point-in-Time Recovery for database.
 
 ## Error Handling Strategy
 
-- **General Approach:** Use standard `Error` objects or custom extensions. Supabase Functions catch errors, log via Pino, update `workflow_runs`, and avoid unhandled rejections. Next.js API routes return appropriate HTTP error responses with JSON payloads.
+A robust error handling strategy is essential for the reliability of the BMad DiCaster pipeline. This involves consistent error logging, appropriate retry mechanisms, and clear error propagation. The `workflow_runs` table will be a central piece in tracking errors for entire workflow executions.
+
+- **General Approach:**
+  - Standard JavaScript `Error` objects (or custom extensions of `Error`) will be used for exceptions within TypeScript code.
+  - Each Supabase Function in the pipeline will catch its own errors, log them using Pino, update the `workflow_runs` table with an error status/message (via `WorkflowTrackerService`), and prevent unhandled promise rejections.
+  - Next.js API routes will catch errors, log them, and return appropriate HTTP error responses (e.g., 4xx, 500) with a JSON error payload.
 - **Logging (Pino):**
-  - Library: Pino (`pino`) for structured JSON logging in Supabase Functions and Next.js API routes.
-  - Configuration: Shared Pino logger instance (`supabase/functions/_shared/logger.ts`).
-  - Format: JSON.
-  - Levels: `trace`, `debug`, `info`, `warn`, `error`, `fatal`.
-  - Context: Logs include `timestamp`, `severity`, `workflowRunId`, `service`/`functionName`, `message`, and relevant `details`. **No sensitive data logged.**
+  - **Library/Method:** Pino (`pino`) is the standard logging library for Supabase Functions and Next.js API routes.
+  - **Configuration:** A shared Pino logger instance (e.g., `supabase/functions/_shared/logger.ts`) will be configured for JSON output, ISO timestamps, and environment-aware pretty-printing for development.
+    ```typescript
+    // Example: supabase/functions/_shared/logger.ts
+    import pino from "pino";
+    export const logger = pino({
+      level: process.env.LOG_LEVEL || "info",
+      formatters: { level: (label) => ({ level: label }) },
+      timestamp: pino.stdTimeFunctions.isoTime,
+      ...(process.env.NODE_ENV === "development" && {
+        transport: {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+            translateTime: "SYS:standard",
+            ignore: "pid,hostname",
+          },
+        },
+      }),
+    });
+    ```
+  - **Format:** Structured JSON.
+  - **Levels:** `trace`, `debug`, `info`, `warn`, `error`, `fatal`.
+  - **Context:** Logs must include `timestamp`, `severity`, `workflowRunId` (where applicable), `service` or `functionName`, a clear `message`, and relevant `details` (sanitized). **Sensitive data must NEVER be logged.** Pass error objects directly to Pino: `logger.error({ err: errorInstance, workflowRunId }, "Operation failed");`.
 - **Specific Handling Patterns:**
-  - **External API Calls:** Through facades with timeouts and limited retries (exponential backoff) for transient errors. Standardized custom errors thrown by facades.
-  - **Internal Errors/Business Logic:** Caught within functions; log details, update `workflow_runs` to 'failed'. API routes return generic errors to clients.
-  - **Database Operations:** Critical errors lead to 'failed' workflow status.
-  - **Scraping/Summarization Failures:** Individual item failures are logged and status updated (e.g., `scraped_articles.scraping_status`), but may not halt the entire workflow run if other items succeed.
-  - **Podcast/Delivery Failures:** Logged, status updated in `newsletters` and `workflow_runs`. Newsletter may be sent without podcast after timeout/failure.
-  - **`CheckWorkflowCompletionService`:** Designed for resilience; errors in processing one run should not prevent processing of others or future scheduled runs.
+  - **External API Calls (HN Algolia, Play.ht, LLM Provider):**
+    - **Facades:** Calls made through dedicated facades in `supabase/functions/_shared/`.
+    - **Timeouts:** Implement reasonable connect and read timeouts.
+    - **Retries:** Facades implement limited retries (2-3) with exponential backoff for transient errors (network issues, 5xx errors).
+    - **Error Propagation:** Facades catch, log, and throw standardized custom errors (e.g., `ExternalApiError`) containing contextual information.
+  - **Internal Errors / Business Logic Exceptions (Supabase Functions):**
+    - Use `try...catch`. Critical errors preventing task completion for a `workflow_run_id` must: 1. Log detailed error (Pino). 2. Call `WorkflowTrackerService.failWorkflow(...)`.
+    - Next.js API routes return generic JSON errors (e.g., `{"error": "Internal server error"}`) and appropriate HTTP status codes.
+  - **Database Operations (Supabase):** Critical errors treated as internal errors (log, update `workflow_runs` to 'failed').
+  - **Scraping/Summarization/Podcast/Delivery Failures:** Individual item failures are logged and status updated (e.g., `scraped_articles.scraping_status`). The overall workflow may continue with available data, with partial success noted in `workflow_runs.details`. Systemic failures lead to `workflow_runs.status = 'failed'`.
+  - **`CheckWorkflowCompletionService`:** Must be resilient. Errors processing one `workflow_run_id` should be logged but not prevent processing of other runs or subsequent scheduled invocations.
 
 ## Coding Standards
 
-(As detailed previously, including TypeScript, Node.js, ESLint, Prettier, naming conventions, co-located unit tests `*.test.ts(x)`/`*.spec.ts(x)`, async/await, strict type safety, Pino logging, and specific framework/anti-pattern guidelines.)
+These standards are mandatory for all code generation by AI agents and human developers.
+
+- **Primary Language & Runtime:** TypeScript `5.7.2`, Node.js `22.10.2`.
+- **Style Guide & Linter:** ESLint (configured with Next.js defaults, TypeScript support) and Prettier (`3.3.3`). Configurations in root. Linting/formatting are mandatory.
+- **Naming Conventions:**
+  - Variables & Functions/Methods: `camelCase`
+  - Classes/Types/Interfaces: `PascalCase`
+  - Constants: `UPPER_SNAKE_CASE`
+  - Files (.ts, .tsx): `kebab-case` (e.g., `newsletter-card.tsx`)
+  - Supabase function directories: `kebab-case` (e.g., `hn-content-service`)
+- **File Structure:** Adhere to "Project Structure." Unit tests (`*.test.ts(x)`/`*.spec.ts(x)`) co-located with source files.
+- **Asynchronous Operations:** Always use `async`/`await` for Promises; ensure proper handling.
+- **Type Safety (TypeScript):** Adhere to `tsconfig.json` (`"strict": true`). Avoid `any`; use `unknown` with type narrowing. Shared types in `shared/types/`.
+- **Comments & Documentation:** Explain _why_, not _what_. Use TSDoc for exported members. READMEs for modules/services.
+- **Dependency Management:** Use `npm`. Vet new dependencies. Pin versions or use `^` for non-breaking updates. Resolve `latest` tags to specific versions upon setup.
+- **Environment Variables:** Manage via environment variables (`.env.example` provided). Use Zod for runtime parsing/validation.
+- **Modularity & Reusability:** Break down complexity. Use shared utilities/facades.
+
+### Detailed Language & Framework Conventions
+
+#### TypeScript/Node.js (Next.js & Supabase Functions) Specifics:
+
+- **Immutability:** Prefer immutable data structures (e.g., `Readonly<T>`, `as const`). Follow Zustand patterns for immutable state updates in React.
+- **Functional vs. OOP:** Favor functional constructs for data transformation/utilities. Use classes for services/facades managing state or as per framework (e.g., React functional components with Hooks preferred).
+- **Error Handling Specifics:** `throw new Error('...')` or custom error classes. Ensure `Promise` rejections are `Error` objects.
+- **Null/Undefined Handling:** With `strictNullChecks`, handle explicitly. Avoid `!` non-null assertion; prefer explicit checks, `?.`, `??`.
+- **Module System:** Use ES Modules (`import`/`export`) exclusively.
+- **Logging Specifics (Pino):** Use shared Pino logger. Include context object (`logger.info({ context }, "message")`), especially `workflowRunId`.
+- **Next.js Conventions:** Follow App Router conventions. Use Server Components for data fetching where appropriate. Route Handlers for API endpoints.
+- **Supabase Function Conventions:** `index.ts` as entry. Self-contained or use `_shared/` utilities. Secure client initialization (admin vs. user).
+- **Code Generation Anti-Patterns to Avoid:** Overly nested logic, single-letter variables (except trivial loops), disabling linter/TS errors without cause, bypassing framework security, monolithic functions.
 
 ## Overall Testing Strategy
 
-(As detailed previously, covering Unit Tests with Jest/RTL, Integration Tests, E2E Tests with Playwright, 80% unit test coverage target, specific mocking strategies for facades and external dependencies, and test data management.)
+- **Tools:** Jest (unit/integration), React Testing Library (RTL) (React components), Playwright (E2E). Supabase CLI for local DB/function testing.
+- **Unit Tests:**
+  - **Scope:** Isolate individual functions, methods, classes, React components. Focus on logic, transformations, component rendering.
+  - **Location & Naming:** Co-located with source files (`*.test.ts`, `*.spec.ts`, `*.test.tsx`, `*.spec.tsx`).
+  - **Mocking/Stubbing:** Jest mocks for dependencies. External API Facades are mocked when testing services that use them. Facades themselves are tested by mocking the underlying HTTP client or library's network calls.
+  - **AI Agent Responsibility:** Generate unit tests covering logic paths, props, events, edge cases, error conditions for new/modified code.
+- **Integration Tests:**
+  - **Scope:** Interactions between components/services (e.g., API route -\> service -\> DB).
+  - **Location:** `tests/integration/`.
+  - **Environment:** Local Supabase dev environment. Consider `msw` for mocking HTTP services called by frontend/backend.
+  - **AI Agent Responsibility:** Generate tests for key service interactions or API contracts.
+- **End-to-End (E2E) Tests:**
+  - **Scope:** Validate complete user flows via UI.
+  - **Tool:** Playwright. Location: `tests/e2e/`.
+  - **Key Scenarios (MVP):** View newsletter list, view detail, play podcast, download newsletter.
+  - **AI Agent Responsibility:** Generate E2E test stubs/scripts for critical paths.
+- **Test Coverage:**
+  - **Target:** Aim for **80% unit test coverage** for new business logic and critical components. Quality over quantity.
+  - **Measurement:** Jest coverage reports.
+- **Mocking/Stubbing Strategy (General):** Test one unit at a time. Mock external dependencies for unit tests. For facade unit tests: use the real library but mock its external calls at the library's boundary.
+- **Test Data Management:** Inline mock data for unit tests. Factories/fixtures or `seed.sql` for integration/E2E tests.
 
 ## Security Best Practices
 
-(As detailed previously, including Zod for input validation, output encoding, secrets management via environment variables, dependency security scanning, API key authentication for system APIs, Play.ht webhook verification, Supabase RLS, principle of least privilege, HTTPS, and secure error information disclosure.)
+- **Input Sanitization/Validation:** Zod for all external inputs (API requests, function payloads, external API responses). Validate at component boundaries.
+- **Output Encoding:** Rely on React JSX auto-escaping for frontend. Ensure HTML for newsletters is sanitized if dynamic data is injected outside of a secure templating engine.
+- **Secrets Management:** Via environment variables (Vercel UI, `.env.local`). Never hardcode or log secrets. Access via `process.env`. Use Supabase service role key only in backend functions.
+- **Dependency Security:** Regular `npm audit`. Vet new dependencies.
+- **Authentication/Authorization:**
+  - Workflow Trigger/Status APIs: API Key (`X-API-KEY`).
+  - Play.ht Webhook: Shared secret or signature verification.
+  - Supabase RLS: Enable on tables, define policies (especially for `subscribers` and any data directly queried by frontend).
+- **Principle of Least Privilege:** Scope API keys and database roles narrowly.
+- **API Security (General):** HTTPS (Vercel default). Consider rate limiting for public APIs. Standard HTTP security headers.
+- **Error Handling & Information Disclosure:** Log detailed errors server-side; return generic messages/error IDs to clients.
+- **Regular Security Audits/Testing (Post-MVP):** Consider for future enhancements.
 
 ## Key Reference Documents
 
@@ -969,6 +1267,7 @@ This section outlines the definitive technology choices for the BMad DiCaster pr
 10. **Next.js Documentation:** [https://nextjs.org/docs](https://nextjs.org/docs)
 11. **Vercel Documentation:** [https://vercel.com/docs](https://vercel.com/docs)
 12. **Pino Logging Documentation:** [https://getpino.io/](https://getpino.io/)
+13. **Zod Documentation:** [https://zod.dev/](https://zod.dev/)
 
 ## Change Log
 
@@ -1032,3 +1331,7 @@ You are now tasked with defining the detailed **Frontend Architecture** for the 
 10. **Key Frontend Libraries & Versioning:** Confirm versions from the main tech stack and list any additional frontend-only libraries required.
 
 Your output should be a clean, well-formatted `frontend-architecture.md` document ready for AI developer agents to use for frontend implementation. Adhere to the output formatting guidelines. You are now operating in **Frontend Architecture Mode**.
+
+---
+
+This concludes the BMad DiCaster Architecture Document.
