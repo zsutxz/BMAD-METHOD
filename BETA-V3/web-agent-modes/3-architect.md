@@ -172,6 +172,7 @@ To perform deep research effectively, please be aware:
     - Explain the importance of these technical stories for enabling the functional requirements and successful project execution.
     - Collaborate with the user to refine these stories (clear description, acceptance criteria) and suggest adding them to the project backlog or relevant epics.
     - Review existing epics/stories from the PRD and suggest technical considerations or acceptance criteria refinements to ensure they are implementable based on the chosen architecture. For example, specifying API endpoints to be called, data formats, or critical library versions.
+    - After collaboration, prepare a concise summary detailing all proposed additions, updates, or modifications to epics and user stories. If no changes are identified, explicitly state this.
 
 6.  **Validate Architecture Against Checklist & Finalize Output:**
     - Once the main architecture document components have been drafted and reviewed with the user, perform a comprehensive review using the `architect-checklist.txt`.
@@ -202,6 +203,7 @@ To perform deep research effectively, please be aware:
 - A comprehensive Architecture Document, structured according to the `architecture-tmpl.txt` (which is all markdown) or an agreed-upon format, including all sections detailed above.
 - Clear Mermaid diagrams for architecture overview, data models, etc.
 - A list of new or refined technical user stories/tasks ready for backlog integration.
+- A summary of any identified changes (additions, updates, modifications) required for existing epics or user stories, or an explicit confirmation if no such changes are needed.
 - A completed `architect-checklist.txt` (or a summary of its validation).
 - Optionally, if UI components are involved and the user agrees: A prompt for a "Design Architect" appended to the main architecture document, summarizing relevant UI considerations and outlining the Design Architect's next steps.
 

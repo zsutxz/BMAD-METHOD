@@ -23,14 +23,14 @@
     - Find the highest numbered story file in `docs/stories/`, ensure it is marked done OR alert user.
     - **If a highest story file exists ({lastEpicNum}.{lastStoryNum}.story.md):**
       - Review this file for developer updates/notes.
-      - Check `docs/epic{lastEpicNum}.md` for a story numbered `{lastStoryNum + 1}`.
-        - If this story exists and its prerequisites (defined within `docs/epic{lastEpicNum}.md`) are 'Done': This is the next story.
-        - Else (story not found or prerequisites not met): The next story is the first story in `docs/epic{lastEpicNum + 1}.md` (then `docs/epic{lastEpicNum + 2}.md`, etc.) whose prerequisites are 'Done'.
+      - Check `docs/epic-{lastEpicNum}.md` for a story numbered `{lastStoryNum + 1}`.
+        - If this story exists and its prerequisites (defined within `docs/epic-{lastEpicNum}.md`) are 'Done': This is the next story.
+        - Else (story not found or prerequisites not met): The next story is the first story in `docs/epic-{lastEpicNum + 1}.md` (then `docs/epic-{lastEpicNum + 2}.md`, etc.) whose prerequisites are 'Done'.
     - **If no story files exist in `docs/stories/`:**
-      - The next story is the first story in `docs/epic1.md` (then `docs/epic2.md`, etc.) whose prerequisites are 'Done'.
+      - The next story is the first story in `docs/epic-1.md` (then `docs/epic-2.md`, etc.) whose prerequisites are 'Done'.
     - If no suitable story with 'Done' prerequisites is found, flag as blocked or awaiting prerequisite completion.
 
-2.  **Gather Requirements (from `docs/epicX.md`):**
+2.  **Gather Requirements (from `docs/epic-X.md`):**
 
     - Extract: Title, Goal/User Story, Requirements, ACs, Initial Tasks.
     - Store original epic requirements for later comparison.
@@ -38,23 +38,20 @@
 3.  **Gather Technical Context:**
 
     - **Ancillary Docs:** Consult `docs/index.md` for relevant, unlisted documents. Note any that sound useful.
-    - **Architecture:** Comprehend `docs/architecture.md` (and `docs/front-end-architecture.md` if UI story) for task formulation. These docs may reference others.
-    - **Content Extraction:** From standard refs (`docs/tech-stack.md`, `docs/api-reference.md`, `docs/data-models.md`, `docs/environment-vars.md`, `docs/testing-strategy.md`, `docs/ui-ux-spec.md` if applicable) AND discovered ancillary docs, extract relevant snippets.
-      - (Dev Agent has direct access to full `docs/project-structure.md`, general `docs/coding-standards.md`. Note specific `docs/front-end-coding-standards.md` details if relevant and not universally applied by Dev Agent).
+    - **Architecture:** Comprehend `docs/architecture.md` (and `docs/front-end-architecture.md` if UI story) for task formulation. These docs may reference others in multiple sections, reference those also as needed. `docs/index.md` can help you find specific documents also.
     - Review notes from previous 'Done' story, if applicable.
     - **Discrepancies:** Note inconsistencies with epic or needed technical changes (e.g., to data models, architectural deviations) for "Deviation Analysis."
 
 4.  **Verify Project Structure Alignment:**
 
-    - Cross-reference with `docs/project-structure.md`: check file paths, component locations, naming conventions.
+    - Cross-reference with `docs/project-structure.md` and `docs/front-end-project-structure`: check file paths, component locations, naming conventions.
     - Identify/document structural conflicts, needed adjustments, or undefined components/paths.
 
 5.  **Populate Template (`docs/templates/story-template.md`):**
 
     - Fill: Title, Goal, Requirements, ACs.
-    - **Detailed Tasks:** Generate based on architecture, epic. For UI stories, also use `docs/style-guide.md`, `docs/component-guide.md`, and `docs/front-end-coding-standards.md`.
+    - **Detailed Tasks:** Generate based on architecture, epic, style-guide, component-guide, environment-vars, project-structure, front-end-project-structure, operational-guidelines, tech-stack, data-models, api-reference as needed to fill in details relative to the story for the dev agent when producing tasks, subtasks, or additional notes in the story file for the dumb dev agent. For UI stories, also use `docs/front-end-style-guide.md`, `docs/front-end-component-guide.md`, and `docs/front-end-coding-standards.md`.
     - **Inject Context:** Embed extracted content/snippets or precise references (e.g., "Task: Implement `User` model from `docs/data-models.md#User-Model`" or copy if concise).
-      - **UI Stories Note for Dev Agent:** "Consult `docs/style-guide.md`, `docs/component-guide.md`, and `docs/front-end-coding-standards.md` for UI tasks."
     - Detail testing requirements. Include project structure alignment notes.
     - Prepare noted discrepancies (Step 4) for "Deviation Analysis."
 
@@ -70,7 +67,7 @@
 8.  **Validate (Interactive User Review):**
 
     - Apply `docs/checklists/story-draft-checklist.md` to draft story.
-    - Ensure sufficient context (avoiding full duplication of `docs/project-structure.md` and `docs/coding-standards.md`).
+    - Ensure sufficient context (avoiding full duplication of `docs/project-structure.md` and the 'Coding Standards' section of `docs/operational-guidelines.md`, as the Dev Agent loads the full `operational-guidelines.md`).
     - Verify project structure alignment. Resolve gaps or note for user.
     - If info missing agent can't derive, set `Status: Draft (Needs Input)`. Flag unresolved conflicts.
     - Present checklist summary to user: deviations, structure status, missing info/conflicts.
