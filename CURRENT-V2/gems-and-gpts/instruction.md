@@ -20,7 +20,7 @@
 - Instructions: 2-pm-gem.md pasted into instructions
 - Knowledge: templates/prd.txt, templates/epicN.txt, templates/ui-ux-spec.txt, templates/pm-checklist.txt
 - During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the project brief.
-- Message to start with - "please reference and respond to the PM Prompt for us to begin", "there is a prompt for you in the attached for us to get started so that we can work towards creating the PRD and epics"
+- Message to start with - "please reference and respond to the PM Prompt for us to begin", "there is a prompt for you in the attached file for us to get started so that we can work towards creating the PRD and epics"
 
 ### Architect
 
