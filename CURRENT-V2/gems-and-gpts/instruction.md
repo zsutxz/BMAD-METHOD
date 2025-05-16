@@ -19,14 +19,14 @@
 
 - Instructions: 2-pm-gem.md pasted into instructions
 - Knowledge: templates/prd.txt, templates/epicN.txt, templates/ui-ux-spec.txt, templates/pm-checklist.txt
-- During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief.
+- During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the project brief.
 - Message to start with - "please reference and respond to the PM Prompt for us to begin", "there is a prompt for you in the attached for us to get started so that we can work towards creating the PRD and epics"
 
 ### Architect
 
 - Instructions: 3-architect-gem.md pasted into instructions
 - Knowledge: templates/architecture-templates.txt, templates/architect-checklist.txt
-- During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the product brief, PRD, and any generated Epic files. If architecture deep research was done as mode 1, attach it to the new chat. Also if there was deep research from the PRD that is not fully distilled in the PRD (deep technical details or solutions), provide to the architect.
+- During Chat - Mode 1 - 2.5 Pro Deep Research recommended. Mode 2 2.5 Pro Thinking Mode. Start by also attaching the project brief, PRD, and any generated Epic files. If architecture deep research was done as mode 1, attach it to the new chat. Also if there was deep research from the PRD that is not fully distilled in the PRD (deep technical details or solutions), provide to the architect.
 - Message to start with - "the prompt to respond to is in the draft-prd at the end in a section called 'Initial Architect Prompt' and we are in architecture creation mode - all prd and epics planned by the pm are attached"
 
 ### PO + SM
