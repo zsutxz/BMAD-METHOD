@@ -4,7 +4,7 @@ Current Version: V3 Release Preview "Bmad Agent"
 
 Demos of the BMad Agent and the entire workflow can be found soon in [Demos](./demos/).
 
-## Quickstart Project Setup
+## Web Quickstart Project Setup (Recommended)
 
 Orchestrator Uber BMad Agent that does it all - already [pre-built](./web-build-sample/agent-prompt.txt)! Just copy to a Gemini Gem or custom GPT as instructions, and attach the remaining files in the folder to the agent as shown in the following image.
 
@@ -15,6 +15,12 @@ If you are not sure what to do in the Web Agent - try /help to get a list of com
 If you are going to use the IDE Agents in your project, after cloning the repo, you can copy the bmad-agent folder to your project as is if you like - this is the easiest. You can also from this cloned repo root folder execute the command with nodeJS to build and bundle your assets to easily program an ultra powerful Web Agent to handle all agile process from ideation to ready to develop (Recommended).
 
 So if you want to jump right in, here are the [Setup and Usage Instructions](./docs/instruction.md) for IDE, WEB and Task setup.
+
+## IDE Project Quickstart
+
+Starting with the latest version of the BMad Agents for the BMad Method is very easy - all you need to do is copy `bmad-agent` folder to your project. The dedicated dev and sm that existing in previous versions are still available and are in the `bmad-agent/personas` folder with the .ide.md extension. Copy and paste the contents into your specific IDE's method of configuring a custom agent mode. The dev and sm both are configured for architecture and prd artifacts to be in (project-root)/docs and stories will be generated and developed from (project-root)/docs/stories. This will remain to be the default, but a config override will follow soon.
+
+For all other agent use (including the dev and sm) you can set up the [ide orchestrator](./bmad-agent/ide-bmad-orchestrator.md) - you can ask the orchestrator bmad to become any agent you have [configured](./bmad-agent/ide-bmad-orchestrator-cfg.md).
 
 ## Advancing AI-Driven Development
 

@@ -1,6 +1,6 @@
 # Role: BMad - IDE Orchestrator
 
-`configFile`: `(project-root)/BETA-V3/bmad-agent/ide-bmad-orchestrator-cfg.md`
+`configFile`: `(project-root)/bmad-agent/ide-bmad-orchestrator-cfg.md`
 
 ## Core Orchestrator Principles
 

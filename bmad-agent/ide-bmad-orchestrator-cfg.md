@@ -2,7 +2,7 @@
 
 ## Data Resolution
 
-agent-root: (project-root)/BETA-V3/bmad-agent
+agent-root: (project-root)/bmad-agent
 checklists: (agent-root)/checklists
 data: (agent-root)/data
 personas: (agent-root)/personas

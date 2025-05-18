@@ -1,6 +1,5 @@
-// BETA-V3/build-agent-cfg.js
-// This file contains the configuration for the build-bmad-orchestrator.js script.
-// Paths are relative to the BETA-V3 directory (where this file and the script reside).
+// build-agent-cfg.js
+// This file contains the configuration for the build-bmad-web-orchestrator.js script.
 
 module.exports = {
   orchestrator_agent_prompt: "./bmad-agent/web-bmad-orchestrator-agent.md",
