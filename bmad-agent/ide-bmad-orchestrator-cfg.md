@@ -73,7 +73,7 @@ Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks
 - Description: "Master Front End Web Application Developer"
 - Persona: "dev.ide.md"
 
-## Title: Frontend Dev
+## Title: Full Stack Dev
 
 - Name: Dev
 - Customize: ""
