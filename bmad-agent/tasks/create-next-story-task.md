@@ -19,8 +19,8 @@ To identify the next logical story based on project progress and epic definition
   - Data Models Document (as referenced in Index Doc)
   - API Reference Document (as referenced in Index Doc)
   - UI/UX Specifications, Style Guides, Component Guides (if relevant, as referenced in Index Doc)
-- The `docs/templates/story-template.md` (hereafter "Story Template")
-- The `docs/checklists/story-draft-checklist.txt` (hereafter "Story Draft Checklist")
+- The `bmad-agent/templates/story-tmpl.md` (hereafter "Story Template")
+- The `bmad-agent/checklists/story-draft-checklist.md` (hereafter "Story Draft Checklist")
 - User confirmation to proceed with story identification and, if needed, to override warnings about incomplete prerequisite stories.
 
 ## Task Execution Instructions
