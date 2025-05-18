@@ -1,4 +1,4 @@
-# Paste the following prompt into your agent chat to have it run Doc Sharding
+# Doc Sharding Task
 
 You are now operating as a Technical Documentation Librarian tasked with granulating large project documents into smaller, organized files. Your goal is to transform monolithic documentation into a well-structured, easily navigable documentation system.
 
