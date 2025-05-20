@@ -3,29 +3,31 @@
 
 ## INDEX OF TOPICS
 
-- [BMAD METHOD - CORE PHILOSOPHY](#bmad-method---core-philosophy)
-- [BMAD METHOD - AGILE METHODOLOGIES OVERVIEW](#bmad-method---agile-methodologies-overview)
-  - [CORE PRINCIPLES OF AGILE](#core-principles-of-agile)
-  - [KEY PRACTICES IN AGILE](#key-practices-in-agile)
-  - [BENEFITS OF AGILE](#benefits-of-agile)
-- [BMAD METHOD - ANALOGIES WITH AGILE PRINCIPLES](#bmad-method---analogies-with-agile-principles)
-- [BMAD METHOD - TOOLING AND RESOURCE LOCATIONS](#bmad-method---tooling-and-resource-locations)
-- [BMAD METHOD - COMMUNITY AND CONTRIBUTIONS](#bmad-method---community-and-contributions)
-  - [Licensing](#licensing)
-- [BMAD METHOD - ETHOS & BEST PRACTICES](#bmad-method---ethos--best-practices)
-- [AGENT ROLES](#agent-roles)
-- [NAVIGATING THE BMAD WORKFLOW - INITIAL GUIDANCE](#navigating-the-bmad-workflow---initial-guidance)
-  - [STARTING YOUR PROJECT - ANALYST OR PM?](#starting-your-project---analyst-or-pm)
-  - [UNDERSTANDING EPICS - SINGLE OR MULTIPLE?](#understanding-epics---single-or-multiple)
-- [SUGGESTED ORDER OF AGENT ENGAGEMENT (TYPICAL FLOW)](#suggested-order-of-agent-engagement-typical-flow)
-- [HANDLING MAJOR CHANGES](#handling-major-changes)
-- [IDE VS UI USAGE - GENERAL RECOMMENDATIONS](#ide-vs-ui-usage---general-recommendations)
-  - [CONCEPTUAL AND PLANNING PHASES](#conceptual-and-planning-phases)
-  - [TECHNICAL DESIGN, DOCUMENTATION MANAGEMENT & IMPLEMENTATION PHASES](#technical-design-documentation-management--implementation-phases)
-  - [BMAD METHOD FILES](#bmad-method-files)
-- [LEVERAGING IDE TASKS FOR EFFICIENCY](#leveraging-ide-tasks-for-efficiency)
-  - [PURPOSE OF IDE TASKS](#purpose-of-ide-tasks)
-  - [EXAMPLES OF TASK FUNCTIONALITY](#examples-of-task-functionality)
+- [BMAD Knowledge Base](#bmad-knowledge-base)
+  - [INDEX OF TOPICS](#index-of-topics)
+  - [BMAD METHOD - CORE PHILOSOPHY](#bmad-method---core-philosophy)
+  - [BMAD METHOD - AGILE METHODOLOGIES OVERVIEW](#bmad-method---agile-methodologies-overview)
+    - [CORE PRINCIPLES OF AGILE](#core-principles-of-agile)
+    - [KEY PRACTICES IN AGILE](#key-practices-in-agile)
+    - [BENEFITS OF AGILE](#benefits-of-agile)
+  - [BMAD METHOD - ANALOGIES WITH AGILE PRINCIPLES](#bmad-method---analogies-with-agile-principles)
+  - [BMAD METHOD - TOOLING AND RESOURCE LOCATIONS](#bmad-method---tooling-and-resource-locations)
+  - [BMAD METHOD - COMMUNITY AND CONTRIBUTIONS](#bmad-method---community-and-contributions)
+    - [Licensing](#licensing)
+  - [BMAD METHOD - ETHOS \& BEST PRACTICES](#bmad-method---ethos--best-practices)
+  - [AGENT ROLES AND RESPONSIBILITIES](#agent-roles-and-responsibilities)
+  - [NAVIGATING THE BMAD WORKFLOW - INITIAL GUIDANCE](#navigating-the-bmad-workflow---initial-guidance)
+    - [STARTING YOUR PROJECT - ANALYST OR PM?](#starting-your-project---analyst-or-pm)
+    - [UNDERSTANDING EPICS - SINGLE OR MULTIPLE?](#understanding-epics---single-or-multiple)
+  - [SUGGESTED ORDER OF AGENT ENGAGEMENT (TYPICAL FLOW)](#suggested-order-of-agent-engagement-typical-flow)
+  - [HANDLING MAJOR CHANGES](#handling-major-changes)
+  - [IDE VS UI USAGE - GENERAL RECOMMENDATIONS](#ide-vs-ui-usage---general-recommendations)
+    - [CONCEPTUAL AND PLANNING PHASES](#conceptual-and-planning-phases)
+    - [TECHNICAL DESIGN, DOCUMENTATION MANAGEMENT \& IMPLEMENTATION PHASES](#technical-design-documentation-management--implementation-phases)
+    - [BMAD METHOD FILES](#bmad-method-files)
+  - [LEVERAGING IDE TASKS FOR EFFICIENCY](#leveraging-ide-tasks-for-efficiency)
+    - [PURPOSE OF IDE TASKS](#purpose-of-ide-tasks)
+    - [EXAMPLES OF TASK FUNCTIONALITY](#examples-of-task-functionality)
 
 ## BMAD METHOD - CORE PHILOSOPHY
 
@@ -142,13 +144,13 @@ The BMAD Method thrives on community involvement and collaborative improvement.
   - **Reporting Bugs:** If you find a bug, check existing issues first. If unreported, provide detailed steps to reproduce, along with any relevant logs or screenshots.
   - **Suggesting Features:** Check existing issues and discussions. Explain your feature idea in detail and its potential value.
 - **Contribution Process (Pull Requests):**
-  1.  Fork the repository.
-  2.  Create a new branch for your feature or bugfix (e.g., `feature/your-feature-name`).
-  3.  Make your changes, adhering to existing code style and conventions. Write clear comments for complex logic.
-  4.  Run any tests or linting to ensure quality.
-  5.  Commit your changes with clear, descriptive messages (refer to the project's commit message convention, often found in `docs/commit.md`).
-  6.  Push your branch to your fork.
-  7.  Open a Pull Request against the main branch of the original repository.
+  1. Fork the repository.
+  2. Create a new branch for your feature or bugfix (e.g., `feature/your-feature-name`).
+  3. Make your changes, adhering to existing code style and conventions. Write clear comments for complex logic.
+  4. Run any tests or linting to ensure quality.
+  5. Commit your changes with clear, descriptive messages (refer to the project's commit message convention, often found in `docs/commit.md`).
+  6. Push your branch to your fork.
+  7. Open a Pull Request against the main branch of the original repository.
 - **Code of Conduct:** All participants are expected to abide by the project's Code of Conduct.
 - **Licensing of Contributions:** By contributing, you agree that your contributions will be licensed under the same license as the project (MIT License).
 
@@ -178,7 +180,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 - **EMBRACE_THE_CHAOS:** Pioneering new methods is messy. Adapt and overcome.
 - **ADAPT & EXPERIMENT:** The BMAD Method provides a structure, but feel free to adapt its principles, agent order, or templates to fit your specific project needs and working style. Experiment to find what works best for you. **Define agile the BMad way - or your way!** The agent configurations allow for customization of roles and responsibilities.
 
-## AGENT ROLES
+## AGENT ROLES AND RESPONSIBILITIES
 
 Understanding the distinct roles and responsibilities of each agent is key to effectively navigating the BMAD workflow. While the "Vibe CEO" provides overall direction, each agent specializes in different aspects of the project lifecycle. V3 introduces Orchestrator agents that can embody these roles, with configurations specified in `web-bmad-orchestrator-agent-cfg.md` for web and `ide-bmad-orchestrator-cfg.md` for IDE environments.
 
@@ -261,15 +263,15 @@ Understanding the distinct roles and responsibilities of each agent is key to ef
 
 **NOTE:** This is a general guideline. The BMAD method is iterative; phases/agents might be revisited.
 
-1.  **Analyst** - brainstorm and create a project brief.
-2.  **PM (Product Manager)** - use the brief to produce a PRD with high level epics and stories.
-3.  **Design Architect UX UI Spec for PRD (If project has a UI)** - create the front end UX/UI Specification.
-4.  **Architect** - create the architecture and ensure we can meet the prd requirements technically - with enough specification that the dev agents will work consistently.
-5.  **Design Architect (If project has a UI)** - create the front end architecture and ensure we can meet the prd requirements technically - with enough specification that the dev agents will work consistently.
-6.  **Design Architect (If project has a UI)** - Optionally create a prompt to generate a UI from AI services such as Lovable or V0 from Vercel.
-7.  **PO**: Validate documents are aligned, sequencing makes sense, runs a final master checklist. The PO can also help midstream development replan or course correct if major changes occur.
-8.  **PO or SM**: Generate Stories 1 at a time (or multiple but not recommended) - this is generally done in the IDE after each story is completed by the Developer Agents.
-9.  **Developer Agents**: Implement Stories 1 at a time. You can craft different specialized Developer Agents, or use a generic developer agent. It is recommended to create specialized developer agents and configure them in the `ide-bmad-orchestrator-cfg`.
+1. **Analyst** - brainstorm and create a project brief.
+2. **PM (Product Manager)** - use the brief to produce a PRD with high level epics and stories.
+3. **Design Architect UX UI Spec for PRD (If project has a UI)** - create the front end UX/UI Specification.
+4. **Architect** - create the architecture and ensure we can meet the prd requirements technically - with enough specification that the dev agents will work consistently.
+5. **Design Architect (If project has a UI)** - create the front end architecture and ensure we can meet the prd requirements technically - with enough specification that the dev agents will work consistently.
+6. **Design Architect (If project has a UI)** - Optionally create a prompt to generate a UI from AI services such as Lovable or V0 from Vercel.
+7. **PO**: Validate documents are aligned, sequencing makes sense, runs a final master checklist. The PO can also help midstream development replan or course correct if major changes occur.
+8. **PO or SM**: Generate Stories 1 at a time (or multiple but not recommended) - this is generally done in the IDE after each story is completed by the Developer Agents.
+9. **Developer Agents**: Implement Stories 1 at a time. You can craft different specialized Developer Agents, or use a generic developer agent. It is recommended to create specialized developer agents and configure them in the `ide-bmad-orchestrator-cfg`.
 
 ## HANDLING MAJOR CHANGES
 
