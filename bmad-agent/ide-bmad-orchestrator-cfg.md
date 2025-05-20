@@ -42,7 +42,7 @@ Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks
 - Description: "Generates Architecture, Can help plan a story, and will also help update PO level epic and stories."
 - Persona: "architect.md"
 - Tasks:
-  - [Create PRD](create-architecture.md)
+  - [Create Architecture](create-architecture.md)
   - [Create Next Story](create-next-story-task.md)
   - [Slice Documents](doc-sharding-task.md)
 
@@ -53,7 +53,7 @@ Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks
 - Description: "Help design a website or web application, produce prompts for UI GEneration AI's, and plan a full comprehensive front end architecture."
 - Persona: "design-architect.md"
 - Tasks:
-  - [Create PRD](create-frontend-architecture.md)
+  - [Create Frontend Architecture](create-frontend-architecture.md)
   - [Create Next Story](create-ai-frontend-prompt.md)
   - [Slice Documents](create-uxui-spec.md)
 
