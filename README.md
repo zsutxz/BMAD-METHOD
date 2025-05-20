@@ -22,6 +22,8 @@ Starting with the latest version of the BMad Agents for the BMad Method is very 
 
 For all other agent use (including the dev and sm) you can set up the [ide orchestrator](./bmad-agent/ide-bmad-orchestrator.md) - you can ask the orchestrator bmad to become any agent you have [configured](./bmad-agent/ide-bmad-orchestrator-cfg.md).
 
+[General IDE Custom Mode Setup](./docs/ide-setup.md).
+
 ## Advancing AI-Driven Development
 
 Welcome to the latest and most advanced yet easy to use version of the Web and IDE Agent Agile Workflow! This new version, called BMad Agent, represents a significant evolution that builds but vastly improves upon the foundations of [legacy V2](./legacy-archive/V2/), introducing a more refined and comprehensive suite of agents, templates, checklists, tasks - and the amazing BMad Orchestrator and Knowledge Base agent is now available - a master of every aspect of the method that can become any agent and even handle multiple tasks all within a single massive web context if so desired.
