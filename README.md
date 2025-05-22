@@ -2,11 +2,11 @@
 
 Current Version: V3 Release Preview "Bmad Agent"
 
-Demos of the BMad Agent and the entire workflow can be found soon in [Demos](./demos/).
+Demos of the BMad Agent and the entire workflow can be found soon in [Demos](./demos/v3-output-demo-files/readme.md).
 
 ## Web Quickstart Project Setup (Recommended)
 
-Orchestrator Uber BMad Agent that does it all - already [pre-built](./web-build-sample/agent-prompt.txt)! Just copy to a Gemini Gem or custom GPT as instructions, and attach the remaining files in the folder to the agent as shown in the following image.
+Orchestrator Uber BMad Agent that does it all - already [pre-built](./web-build-sample/agent-prompt.txt)! Just copy to a Gemini Gem or custom GPT as instructions, and attach the remaining files from the web-build-sample folder to the agent as shown in the following image:
 
 ![image info](./docs/images/gem-setup.png)
 
