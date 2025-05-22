@@ -1,8 +1,8 @@
 # The BMAD-Method (Breakthrough Method of Agile (ai-driven) Development)
 
-Current Version: V3 Release Preview "Bmad Agent"
+Current Version: V3 Release of the "Bmad Agent"
 
-Demos of the BMad Agent and the entire workflow can be found soon in [Demos](./demos/v3-output-demo-files/readme.md).
+Demo of the BMad Agent entire workflow output from the web agent can be found in [Demos](./demos/readme).
 
 ## Web Quickstart Project Setup (Recommended)
 
