@@ -2,7 +2,7 @@
 
 Current Version: V3 Release of the "Bmad Agent"
 
-Demo of the BMad Agent entire workflow output from the web agent can be found in [Demos](./demos/readme.md).
+Demo of the BMad Agent entire workflow output from the web agent can be found in [Demos](./demos/readme.md) - and if you want to read a really really reallllly long transcript of me talking to the multiple personality BMad Agent that produced the demo content - you can read the [full transcript](https://gemini.google.com/share/41fb640b63b0) here.
 
 ## Web Quickstart Project Setup (Recommended)
 
