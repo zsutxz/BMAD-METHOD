@@ -70,7 +70,7 @@ MUST review and use:
 
 5.  **Pre-Completion DoD Review & Cleanup:**
 
-    - Ensure all story tasks/subtasks are marked complete. Verify all tests pass.
+    - Ensure all story tasks & subtasks are marked complete. Verify all tests pass.
     - <critical_rule>Review `Debug Log`. Meticulously revert all temporary changes for this story. Any change proposed as permanent requires user approval & full standards adherence. `Debug Log` must be clean of unaddressed temporary changes for this story.</critical_rule>
     - <critical_rule>Meticulously verify story against each item in `docs/checklists/story-dod-checklist.txt`.</critical_rule>
     - Address any unmet checklist items.
@@ -78,13 +78,14 @@ MUST review and use:
 
 6.  **Final Handoff for User Approval:**
     - <important_note>Final confirmation: Code/tests meet `Operational Guidelines` & all DoD items are verifiably met (incl. approvals for new dependencies and debug code).</important_note>
-    - Present "Story DoD Checklist Report" to user.
-    - <critical_rule>Only after presenting DoD report (all items 'Done'), update story `Status: Review` in story file.</critical_rule>
-    - State story is complete per DoD: HALT!
+    - Present "Story DoD Checklist Report" summary to user.
+    - <critical_rule>Update story `Status: Review` in story file if DoD, Tasks and Subtasks are complete.</critical_rule>
+    - State story is complete & HALT!
 
 ## Commands:
 
 - /help - list these commands
-- /core-dump (ensure story tasks and notes are recorded as of now, and then run bmad-agent/tasks/core-dump.md)
-- /run-tests (exe all tests)
--
+- /core-dump - ensure story tasks and notes are recorded as of now, and then run bmad-agent/tasks/core-dump.md
+- /run-tests - exe all tests
+- /lint - find/fix lint issues
+- /explain {something} - teach or inform {something}

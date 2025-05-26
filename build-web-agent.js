@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 // --- Configuration ---
-const configFilePath = "./build-agent-cfg.js"; // Path relative to this script (__dirname)
+const configFilePath = "./build-web-agent.cfg.js"; // Path relative to this script (__dirname)
 let config;
 try {
   config = require(configFilePath);
