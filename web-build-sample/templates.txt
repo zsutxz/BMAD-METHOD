@@ -1237,7 +1237,7 @@ This Project Brief provides the full context for Mealmate. Please start in 'PRD 
 ==================== START: story-tmpl ====================
 # Story {EpicNum}.{StoryNum}: {Short Title Copied from Epic File}
 
-## Status: { Draft | Approved | InProgress | Done }
+## Status: { Draft | Approved | InProgress | Review | Done }
 
 ## Story
 
@@ -1265,6 +1265,7 @@ This Project Brief provides the full context for Mealmate. Please start in 'PRD 
 ### Agent Model Used: `<Agent Model Name/Version>`
 
 ### Completion Notes List
+
 {Any notes about implementation choices, difficulties, or follow-up needed}
 
 ### Change Log

@@ -1,24 +1,22 @@
-# The BMAD-Method (Breakthrough Method of Agile (ai-driven) Development)
+# The BMAD-Method 3.1 (Breakthrough Method of Agile (ai-driven) Development)
 
-Current Version: V3 Release of the "Bmad Agent"
-
-Demo of the BMad Agent entire workflow output from the web agent can be found in [Demos](./demos/readme.md) - and if you want to read a really really reallllly long transcript of me talking to the multiple personality BMad Agent that produced the demo content - you can read the [full transcript](https://gemini.google.com/share/41fb640b63b0) here.
+Demo of the BMad Agent entire workflow output from the web agent can be found in [Demos](./demos/readme.md) - and if you want to read a really long transcript of me talking to the multiple personality BMad Agent that produced the demo content - you can read the [full transcript](https://gemini.google.com/share/41fb640b63b0) here.
 
 ## Web Quickstart Project Setup (Recommended)
 
-Orchestrator Uber BMad Agent that does it all - already [pre-built](./web-build-sample/agent-prompt.txt)! Just copy to a Gemini Gem or custom GPT as instructions, and attach the remaining files from the web-build-sample folder to the agent as shown in the following image:
+Orchestrator Uber BMad Agent that does it all - already pre-compiled in the `./web-build-sample` folder. The contents of agent-prompt.txt should be copy and pasted into the Gemini Gem, or ChatPGT customGPT 'Instructions' field. The remaining files in this folder just need to be attached. Give it a name and save it, and you now have the BMad Agent available to help you brainstorm, research plan and execute on your vision.
 
 ![image info](./docs/images/gem-setup.png)
 
-If you are not sure what to do in the Web Agent - try /help to get a list of commands, and /agents to see what personas BMad can become.
-
-If you are going to use the IDE Agents in your project, after cloning the repo, you can copy the bmad-agent folder to your project as is if you like - this is the easiest. You can also from this cloned repo root folder execute the command with nodeJS to build and bundle your assets to easily program an ultra powerful Web Agent to handle all agile process from ideation to ready to develop (Recommended).
-
-So if you want to jump right in, here are the [Setup and Usage Instructions](./docs/instruction.md) for IDE, WEB and Task setup.
+If you are not sure what to do in the Web Agent - try `/help` to get a list of commands, and `/agents` to see what personas BMad can become.
 
 ## IDE Project Quickstart
 
-Starting with the latest version of the BMad Agents for the BMad Method is very easy - all you need to do is copy `bmad-agent` folder to your project. The dedicated dev and sm that existing in previous versions are still available and are in the `bmad-agent/personas` folder with the .ide.md extension. Copy and paste the contents into your specific IDE's method of configuring a custom agent mode. The dev and sm both are configured for architecture and prd artifacts to be in (project-root)/docs and stories will be generated and developed from (project-root)/docs/stories. This will remain to be the default, but a config override will follow soon.
+After you close the project to your local machine, you can copy the `bmad-agent` folder to your project root. This will put the templates, checklists, and other assets the local agents will need to use the agents from your IDE instead of the Web Agent. Minimally to build your project you will want the sm.ide.md and dev.ide.md so you can draft and build your project incrementally.
+
+Here are the more [Setup and Usage Instructions](./docs/instruction.md) for IDE, WEB and Task setup.
+
+Starting with the latest version of the BMad Agents for the BMad Method is very easy - all you need to do is copy `bmad-agent` folder to your project. The dedicated dev and sm that existing in previous versions are still available and are in the `bmad-agent/personas` folder with the .ide.md extension. Copy and paste the contents into your specific IDE's method of configuring a custom agent mode. The dev and sm both are configured for architecture and prd artifacts to be in (project-root)/docs and stories will be generated and developed in/from your (project-root)/docs/stories.
 
 For all other agent use (including the dev and sm) you can set up the [ide orchestrator](./bmad-agent/ide-bmad-orchestrator.md) - you can ask the orchestrator bmad to become any agent you have [configured](./bmad-agent/ide-bmad-orchestrator-cfg.md).
 
