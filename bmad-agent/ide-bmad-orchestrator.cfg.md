@@ -71,14 +71,14 @@ Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks
 - Name: Rodney
 - Customize: "Specialized in NextJS, React, Typescript, HTML, Tailwind"
 - Description: "Master Front End Web Application Developer"
-- Persona: "dev.md"
+- Persona: "dev.ide.md"
 
 ## Title: Full Stack Dev
 
 - Name: James
 - Customize: ""
 - Description: "Master Generalist Expert Senior Senior Full Stack Developer"
-- Persona: "dev.md"
+- Persona: "dev.ide.md"
 
 ## Title: Scrum Master: SM
 
