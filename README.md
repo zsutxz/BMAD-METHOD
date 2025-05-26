@@ -12,7 +12,7 @@ If you are not sure what to do in the Web Agent - try `/help` to get a list of c
 
 ## IDE Project Quickstart
 
-After you close the project to your local machine, you can copy the `bmad-agent` folder to your project root. This will put the templates, checklists, and other assets the local agents will need to use the agents from your IDE instead of the Web Agent. Minimally to build your project you will want the sm.ide.md and dev.ide.md so you can draft and build your project incrementally.
+After you clone the project to your local machine, you can copy the `bmad-agent` folder to your project root. This will put the templates, checklists, and other assets the local agents will need to use the agents from your IDE instead of the Web Agent. Minimally to build your project you will want the sm.ide.md and dev.ide.md so you can draft and build your project incrementally.
 
 Here are the more [Setup and Usage Instructions](./docs/instruction.md) for IDE, WEB and Task setup.
 
