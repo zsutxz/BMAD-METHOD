@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 // --- Configuration ---
 const configFilePath = "./build-web-agent.cfg.js"; // Path relative to this script (__dirname)
@@ -60,7 +60,6 @@ async function main() {
   }
 
   // 2. Determine and validate asset folder root and build directory
-  const workspaceRoot = path.resolve(__dirname, ".");
 
   const assetFolderRootInput = config.asset_root;
   let assetFolderRoot;
@@ -193,7 +192,7 @@ Discovering source directories in '${assetFolderRoot}' (excluding '${buildDirNam
               `       Conflicting files: '${baseFilenamesSeen[baseName]}' and '${filenameWithExt}'.`
             );
             console.error(
-              `       Please ensure all files in a subdirectory have unique names after removing their last extensions.`
+              "       Please ensure all files in a subdirectory have unique names after removing their last extensions."
             );
             process.exit(1);
           } else {
