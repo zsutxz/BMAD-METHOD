@@ -30,7 +30,7 @@
 
 ## BMAD METHOD - CORE PHILOSOPHY
 
-**STATEMENT:** "Vibe CEO'ing" is about embracing the chaos, thinking like a CEO with unlimited resources and a singular vision, and leveraging AI as your high-powered team to achieve ambitious goals rapidly. The BMAD Method (Breakthrough Method of Agile (ai-driven) Development), currently in its V3 Release Preview "Bmad Agent", elevates "vibe coding" to advanced project planning, providing a structured yet flexible framework to plan, execute, and manage software projects using a team of specialized AI agents.
+**STATEMENT:** "Vibe CEO'ing" is about embracing the chaos, thinking like a CEO with unlimited resources and a singular vision, and leveraging AI as your high-powered team to achieve ambitious goals rapidly. The BMAD Method (Breakthrough Method of Agile (ai-driven) Development), with the integrated "Bmad Agent", elevates "vibe coding" to advanced project planning, providing a structured yet flexible framework to plan, execute, and manage software projects using a team of specialized AI agents.
 
 **DETAILS:**
 
@@ -101,16 +101,18 @@ The BMAD Method, while distinct in its "Vibe CEO'ing" approach with AI, shares f
 Effective use of the BMAD Method relies on understanding where key tools, configurations, and informational resources are located and how they are used. The method is designed to be tool-agnostic in principle, with agent instructions and workflows adaptable to various AI platforms and IDEs.
 
 - **BMAD Knowledge Base:** This document (`bmad-agent/data/bmad-kb.md`) serves as the central repository for understanding the BMAD method, its principles, agent roles, and workflows.
-- **Orchestrator Agents:** A key feature of V3 is the Orchestrator agent (e.g., "BMAD"), a master agent capable of embodying any specialized agent role.
+- **Orchestrator Agents:** A key feature is the Orchestrator agent (AKA "BMAD"), a master agent capable of embodying any specialized agent role.
   - **Web Agent Orchestrator:**
     - **Setup:** Utilizes a Node.js build script (`build-web-agent.js`) configured by `build-web-agent.cfg.js`.
-    - **Process:** Consolidates assets (personas, tasks, templates, checklists, data) from an `asset_root` (e.g., `./bmad-agent/`) into a `build_dir` (e.g., `./bmad-agent/build/`).
+    - **Process:** Consolidates assets (personas, tasks, templates, checklists, data) from an `/bmad-agent` into a `build_dir`, default: `/build/`.
     - **Output:** Produces bundled asset files (e.g., `personas.txt`, `tasks.txt`), an `agent-prompt.txt` (from `orchestrator_agent_prompt`), and an `agent-config.txt` (from `agent_cfg` like `web-bmad-orchestrator-agent.cfg.md`).
     - **Usage:** The `agent-prompt.txt` is used for the main custom web agent instruction set (e.g., Gemini 2.5 Gem or OpenAI Custom GPT), and the other build files are attached as knowledge/files.
   - **IDE Agent Orchestrator (`ide-bmad-orchestrator.md`):**
     - **Setup:** Works without a build step, dynamically loading its configuration.
     - **Configuration (`ide-bmad-orchestrator.cfg.md`):** Contains a `Data Resolution` section (defining base paths for assets like personas, tasks) and `Agent Definitions` (Title, Name, Customize, Persona file, Tasks).
     - **Operation:** Loads its config, lists available personas, and upon user request, embodies the chosen agent by loading its persona file and applying customizations.
+    - The `ide-bmad-orchestrator` file contents can be used as the instructions for a custom agent mode. The agent supports a `/help` command that can help guide the user. The agent relies on the existence in the bmad-agent folder being at the root of the project.
+    - The `ide-bmad-orchestrator` is not recommended for generating stories or doing development. While it CAN become those agents, its HIGHLY recommended to instead use the dedicated dev.ide.md or sm.ide.md as individual dedicated agents. The will use up less context overhead and are going to be used the most frequently.
 - **Standalone IDE Agents:**
   - Optimized for IDE environments (e.g., Windsurf, Cursor), often under 6K characters (e.g., `dev.ide.md`, `sm.ide.md`).
   - Can directly reference and execute tasks.
@@ -284,23 +286,24 @@ Major changes are an inherent part of ambitious projects. The BMAD Method embrac
 
 ## IDE VS UI USAGE - GENERAL RECOMMENDATIONS
 
-The BMAD method can be orchestrated through different interfaces, typically a web UI for higher-level planning and an IDE for development and technical tasks.
+The BMAD method can be orchestrated through different interfaces, typically a web UI for higher-level planning and an IDE for development and detailed developer story generation. The most general recommendation is to do all document generation from the brief, PRD, Architecture, Design Architecture, and potentially UI Prompts. Also use the PO to run the full final checklist to ensure all documents are aligned with various changes. For example, did the architect discover something that requires an update to a epic or story sequence in the PRD? The PO will help you there. Once done, then export the documents to the IDE. If documents have been modified, you can ask the specific proper agents in Gemini or chatGPT to give you the final unredacted complete document. Save these into the docs folder of your project.
 
-### CONCEPTUAL AND PLANNING PHASES
+### CONCEPTUAL, PLANNING PHASES and TECHNICAL DESIGN
 
 - **Interface:** Often best managed via a Web UI (leveraging the **Web Agent Orchestrator** with its bundled assets and `agent-prompt.txt`) or dedicated project management tools where orchestrator agents can guide the process.
 - **Agents Involved:**
   - **Analyst:** Brainstorming, research, and initial project brief creation.
   - **PM (Product Manager):** PRD development, epic and high-level story definition.
+  - **Architect / Design Architect (UI):** Detailed technical design and specification.
+  - **PO:** Checklist runner to make sure all of the documents are aligned.
 - **Activities:** Defining the vision, initial requirements gathering, market analysis, high-level planning. The `web-bmad-orchestrator-agent.md` and its configuration likely support these activities.
 
-### TECHNICAL DESIGN, DOCUMENTATION MANAGEMENT & IMPLEMENTATION PHASES
+### DOCUMENTATION MANAGEMENT & IMPLEMENTATION PHASES
 
 - **Interface:** Primarily within the Integrated Development Environment (IDE), leveraging specialized agents (standalone or via the **IDE Agent Orchestrator** configured with `ide-bmad-orchestrator.cfg.md`).
 - **Agents Involved:**
-  - **Architect / Design Architect (UI):** Detailed technical design and specification.
-  - **POSM Agent:** Ongoing documentation management and organization.
-  - **PO (Product Owner) / SM (Scrum Master):** Detailed story generation, backlog refinement, often directly in the IDE or tools integrated with it.
+  - "**PO or SM or BMad Agent:** Run the doc sharing task to split the large files that have been created (PRD, Architecture etc...) into smaller granular documents that are easier for the SM and Dev Agents to work with.
+  - **SM (Scrum Master):** Detailed story generation, backlog refinement, often directly in the IDE or tools integrated with it.
   - **Developer Agents:** Code implementation for stories, working directly with the codebase in the IDE.
 - **Activities:** Detailed architecture, front-end/back-end design, code development, testing, leveraging IDE tasks (see "LEVERAGING IDE TASKS FOR EFFICIENCY"), using configurations like `ide-bmad-orchestrator.cfg.md`.
 
