@@ -18,6 +18,12 @@
   - [NAVIGATING THE BMAD WORKFLOW - INITIAL GUIDANCE](#navigating-the-bmad-workflow---initial-guidance)
     - [STARTING YOUR PROJECT - ANALYST OR PM?](#starting-your-project---analyst-or-pm)
     - [UNDERSTANDING EPICS - SINGLE OR MULTIPLE?](#understanding-epics---single-or-multiple)
+  - [GETTING STARTED WITH BMAD](#getting-started-with-bmad)
+    - [Initial Project Setup](#initial-project-setup)
+    - [Exporting Artifacts from AI Platforms](#exporting-artifacts-from-ai-platforms)
+    - [Document Sharding](#document-sharding)
+    - [Utilizing Dedicated IDE Agents (SM and Dev)](#utilizing-dedicated-ide-agents-sm-and-dev)
+    - [When to Use the BMAD IDE Orchestrator](#when-to-use-the-bmad-ide-orchestrator)
   - [SUGGESTED ORDER OF AGENT ENGAGEMENT (TYPICAL FLOW)](#suggested-order-of-agent-engagement-typical-flow)
   - [HANDLING MAJOR CHANGES](#handling-major-changes)
   - [IDE VS UI USAGE - GENERAL RECOMMENDATIONS](#ide-vs-ui-usage---general-recommendations)
@@ -259,6 +265,76 @@ Understanding the distinct roles and responsibilities of each agent is key to ef
 - Multiple Epics are common for non-trivial projects or a new MVP (distinct functional areas, user journeys, phased rollout).
 - Single Epic might suit very small MVPs, or post MVP / brownfield new features.
 - The PM helps define and structure epics.
+
+## GETTING STARTED WITH BMAD
+
+This section provides guidance for new users on how to set up their project with the BMAD agent structure and manage artifacts.
+
+### Initial Project Setup
+
+To begin using the BMAD method and its associated agents in your project, you need to integrate the core agent files:
+
+- **Copy `bmad-agent` Folder:** The entire `bmad-agent` folder should be copied into the root directory of your project. This folder contains all the necessary personas, tasks, templates, and configuration files for the BMAD agents to function correctly.
+
+### Exporting Artifacts from AI Platforms
+
+Once an AI agent (like those in Gemini or ChatGPT) has generated a document (e.g., Project Brief, PRD, Architecture Document), you'll need to save it into your project:
+
+- **Gemini:**
+  - After the document is produced, click the `...` (more options) menu typically found near the response.
+  - Select "Copy". The content will be copied as Markdown.
+  - Paste this content into a new `.md` file within your project's `docs` folder (or a similar designated location).
+  - **Passing to a new chat instance:** Gemini's chat interface may not directly support pasting Markdown with full fidelity in all scenarios.
+    - You can paste the raw Markdown content directly.
+    - Alternatively, save the content as a `.txt` file and paste from there.
+    - For sharing or preserving formatting in Google Docs: Create a new Google Doc, right-click, and select "Paste without formatting" if pasting directly, or look for options to import/paste Markdown. Some browser extensions can facilitate Markdown rendering in Google Docs.
+- **ChatGPT:**
+  - ChatGPT generally handles Markdown well. You can copy the generated Markdown output directly.
+  - Paste it into a `.md` file in your project's `docs` folder.
+  - Sharing `.md` files or their content with new ChatGPT instances (e.g., by uploading the file or pasting the text) is typically straightforward.
+
+### Document Sharding
+
+Large documents like PRDs or Architecture Documents can become unwieldy for AI agents to process efficiently, especially in environments with context window limitations. The `doc-sharding-task.md` is designed to break these down:
+
+- **Purpose:** The sharding task splits a large document (e.g., PRD, Architecture, Front-End Architecture) into smaller, more granular sections or individual user stories. This makes it easier for subsequent agents, like the SM (Scrum Master) or Dev Agents, to work with specific parts of the document without needing to process the entire thing.
+- **How to Use:**
+  1.  Ensure the large document you want to shard (e.g., `prd.md`, `architecture.md`) exists in your project's `docs` folder.
+  2.  Instruct your active IDE agent (e.g., PO, SM, or the BMAD Orchestrator embodying one of these roles) to run the `doc-sharding-task.md`.
+  3.  You will typically specify the _source file_ to be sharded. For example: "Run the `doc-sharding-task.md` against `docs/prd.md`."
+  4.  The task will guide the agent to break down the document. The output might be new smaller files or instructions on how the document is logically segmented.
+
+### Utilizing Dedicated IDE Agents (SM and Dev)
+
+While the BMAD IDE Orchestrator can embody any persona, for common and intensive tasks like story generation (SM) and code implementation (Dev), it's highly recommended to use dedicated, specialized agents:
+
+- **Why Dedicated Agents?**
+  - **Context Efficiency:** Dedicated agents (e.g., `sm.ide.md`, `dev.ide.md`) are leaner as their persona files are smaller and more focused. This is crucial in IDEs where context window limits can impact performance and output quality.
+  - **Performance:** Less overhead means faster responses and more focused interactions.
+- **Recommendation:**
+  - Favor using `sm.ide.md` for Scrum Master tasks (like generating the next story).
+  - Favor using `dev.ide.md` (or specialized versions like `dev-frontend.ide.md`) for development tasks.
+- **Creating Your Own Dedicated Agents:**
+  - If your IDE supports more than a few custom agent modes (unlike Cursor's typical limit of 5 without paying for more), you can easily create your own specialized agents.
+  - Take the content of a base persona file (e.g., `bmad-agent/personas/architect.md`).
+  - Optionally, integrate the content of frequently used task files directly into this new persona file.
+  - Save this combined content as a new agent mode in your IDE (e.g., `my-architect.ide.md`). This approach mirrors how the `sm.ide.md` agent is structured.
+
+### When to Use the BMAD IDE Orchestrator
+
+The BMAD IDE Orchestrator (`ide-bmad-orchestrator.md` configured by `ide-bmad-orchestrator.cfg.md`) provides flexibility but might not always be the most efficient choice.
+
+- **Useful Scenarios:**
+  - **Cursor IDE with Agent Limits:** If you're using an IDE like Cursor and frequently need to switch between many different agent personalities (Analyst, PM, Architect, etc.) beyond the typical free limit for custom modes, the Orchestrator allows you to access all configured personas through a single agent slot.
+  - **Unified Experience (Gemini/ChatGPT Parity):** If you prefer to interact with the BMAD agent system in your IDE in the same way you would in a web UI like Gemini (using the BMAD Orchestrator to call upon different specialists), and you are not concerned about context limits or potential costs associated with larger LLM models that can handle the Orchestrator's broader context.
+  - **Access to all Personas:** You want quick access to any of the defined agent personas without setting them up as individual IDE modes.
+- **Potentially Unnecessary / Less Optimal Scenarios:**
+  - **Simple Projects / Feature Additions (Caution Advised):** For very simple projects or when adding a small feature to an existing codebase, you _might_ consider a streamlined flow using the Orchestrator to embody the PM, generate a PRD with epics/stories, and then directly move to development, potentially skipping detailed architecture.
+    - In such cases, the PM persona might be prompted to ask more technical questions to ensure generated stories are sufficiently detailed for developers.
+    - **This is generally NOT recommended** as it deviates from the robust BMAD process and is not yet a fully streamlined or validated path. It risks insufficient planning and lower quality outputs.
+  - **Frequent SM/Dev Tasks:** As mentioned above, for regular story creation and development, dedicated SM and Dev agents are more efficient due to smaller context overhead.
+
+Always consider the trade-offs between the Orchestrator's versatility and the efficiency of dedicated agents, especially concerning your IDE's capabilities and the complexity of your project.
 
 ## SUGGESTED ORDER OF AGENT ENGAGEMENT (TYPICAL FLOW)
 
