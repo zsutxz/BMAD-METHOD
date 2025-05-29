@@ -18,7 +18,7 @@ Here are the more [Setup and Usage Instructions](./docs/instruction.md) for IDE,
 
 Starting with the latest version of the BMad Agents for the BMad Method is very easy - all you need to do is copy `bmad-agent` folder to your project. The dedicated dev and sm that existing in previous versions are still available and are in the `bmad-agent/personas` folder with the .ide.md extension. Copy and paste the contents into your specific IDE's method of configuring a custom agent mode. The dev and sm both are configured for architecture and prd artifacts to be in (project-root)/docs and stories will be generated and developed in/from your (project-root)/docs/stories.
 
-For all other agent use (including the dev and sm) you can set up the [ide orchestrator](bmad-agent/bmad-agent.ide.md) - you can ask the orchestrator bmad to become any agent you have [configured](bmad-agent/bmad-orchestrator.ide.cfg.md).
+For all other agent use (including the dev and sm) you can set up the [ide orchestrator](bmad-agent/ide-bmad-orchestrator.md) - you can ask the orchestrator bmad to become any agent you have [configured](bmad-agent/ide-bmad-orchestrator.cfg.md).
 
 [General IDE Custom Mode Setup](./docs/ide-setup.md).
 
