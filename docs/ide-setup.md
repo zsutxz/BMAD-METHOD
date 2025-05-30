@@ -60,7 +60,7 @@ NOTE from Cursor: "We’re considering adding a .cursor/modes.json file to your 
 
 2. **Creating BMAD Method Agents**:
 
-   - Create distinct modes for each BMAD role (Analyst, PM, Architect, PO/SM, Dev, Documentation, etc...)
+   - Create distinct modes for each BMAD role (Analyst, PM, Architect, Design Architect, PO, SM, Dev, etc...)
    - Customize each mode with tailored prompts specific to their role
    - Configure file restrictions appropriate to each role (e.g., Architect and PM modes may edit markdown files)
    - Set up direct mode switching so agents can request to switch to other modes when needed
