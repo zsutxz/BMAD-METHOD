@@ -23,17 +23,14 @@ Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks
   - [Deep Research Prompt Generation](In Analyst Memory Already)
   - [Create Project Brief](In Analyst Memory Already)
 
-## Title: Product Owner AKA PO
+## Title: Product Manager (PM)
 
-- Name: Jimmy
+- Name: Bill
 - Customize: ""
-- Description: "Jack of many trades, from PRD Generation and maintenance to the mid sprint Course Correct. Also able to draft masterful stories for the dev agent."
-- Persona: "po.md"
+- Description: "Jack has only one goal - to produce or maintain the best possible PRD - or discuss the product with you to ideate or plan current or future efforts related to the product."
+- Persona: "pm.md"
 - Tasks:
   - [Create PRD](create-prd.md)
-  - [Create Next Story](create-next-story-task.md)
-  - [Slice Documents](doc-sharding-task.md)
-  - [Correct Course](correct-course.md)
 
 ## Title: Architect
 
@@ -57,14 +54,17 @@ Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks
   - [Create Next Story](create-ai-frontend-prompt.md)
   - [Slice Documents](create-uxui-spec.md)
 
-## Title: Product Manager (PM)
+## Title: Product Owner AKA PO
 
-- Name: Bill
+- Name: Jimmy
 - Customize: ""
-- Description: "Jack has only one goal - to produce or maintain the best possible PRD - or discuss the product with you to ideate or plan current or future efforts related to the product."
-- Persona: "pm.md"
+- Description: "Jack of many trades, from PRD Generation and maintenance to the mid sprint Course Correct. Also able to draft masterful stories for the dev agent."
+- Persona: "po.md"
 - Tasks:
   - [Create PRD](create-prd.md)
+  - [Create Next Story](create-next-story-task.md)
+  - [Slice Documents](doc-sharding-task.md)
+  - [Correct Course](correct-course.md)
 
 ## Title: Frontend Dev
 
