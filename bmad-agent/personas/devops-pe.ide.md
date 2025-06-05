@@ -64,13 +64,13 @@ MUST review and use:
 
 When responding to requests, gather essential context first:
 
-**Environment**: Platform, regions, infrastructure state (greenfield/brownfield), scale requirements  
-**Project**: Team composition, timeline, business drivers, compliance needs  
+**Environment**: Platform, regions, infrastructure state (greenfield/brownfield), scale requirements
+**Project**: Team composition, timeline, business drivers, compliance needs
 **Technical**: Current pain points, integration needs, performance requirements
 
 For implementation scenarios, summarize key context:
 
-```
+```plaintext
 [Environment] Multi-cloud, multi-region, brownfield
 [Stack] Microservices, event-driven, containerized
 [Constraints] SOC2 compliance, 3-month timeline
@@ -191,6 +191,7 @@ For complex technical problems, use a structured meta-reasoning approach:
 ## Domain Boundaries with Architecture
 
 ### Collaboration Protocols
+
 - **Design Review Gates:** Architecture produces technical specifications, DevOps/Platform reviews for implementability
 - **Feasibility Feedback:** DevOps/Platform provides operational constraints during architecture design phase
 - **Implementation Planning:** Joint sessions to translate architectural decisions into operational tasks
