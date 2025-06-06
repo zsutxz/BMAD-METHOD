@@ -1,10 +1,34 @@
 # Instructions
 
-- [Setting up Web Agent Orchestrator](#setting-up-web-agent-orchestrator)
+> **📚 Note:** This documentation covers both legacy v3 and modern v4 systems. For new projects, use the v4 system with `bmad-core/` resources and the new build CLI.
+
+- [V4 Build System (Recommended)](#v4-build-system-recommended)
+- [Setting up Web Agent Orchestrator (V3 Legacy)](#setting-up-web-agent-orchestrator-v3-legacy)
 - [IDE Agent Setup and Usage](#ide-agent-setup-and-usage)
 - [Tasks Setup and Usage](#tasks)
 
-## Setting up Web Agent Orchestrator
+## V4 Build System (Recommended)
+
+The v4 system uses modular configurations and optimized dependency resolution:
+
+```bash
+# Build all web bundles
+node build/cli.js build:web
+
+# List available agents
+node build/cli.js list:agents
+
+# Build specific bundle
+node build/cli.js build:bundle --name "planning"
+```
+
+**Key Resources:**
+- `bmad-core/`: Portable resources for copying to your projects
+- `agents/`: Individual agent configurations
+- `bundles/`: Bundle configurations for different use cases
+- `dist/`: Optimized build outputs
+
+## Setting up Web Agent Orchestrator (V3 Legacy)
 
 The Agent Orchestrator in V3 utilizes a build script to package various agent assets (personas, tasks, templates, etc.) into a structured format, primarily for use with web-based orchestrator agents that can leverage large context windows. This process involves consolidating files from specified source directories into bundled text files and preparing a main agent prompt.
 

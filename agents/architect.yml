@@ -1,0 +1,30 @@
+# Architect Agent Configuration
+
+agent:
+  name: Fred
+  id: architect
+  version: 1.0.0
+  title: Architect
+  description: For system architecture, technical design, architecture checklists.
+  customize: ''
+dependencies:
+  tasks:
+    - create-architecture
+    - create-infrastructure-architecture
+    - create-next-story-task
+    - doc-sharding-task
+    - create-deep-research-prompt
+  templates:
+    - architecture-tmpl
+    - infrastructure-architecture-tmpl
+  checklists:
+    - architect-checklist
+  data:
+    - technical-preferences
+environments:
+  ide:
+    persona_file: architect
+    command_prefix: '*'
+  web:
+    persona_file: architect
+    command_prefix: /

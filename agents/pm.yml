@@ -1,0 +1,30 @@
+# Product Manager Agent Configuration
+
+agent:
+  name: John
+  id: pm
+  version: 1.0.0
+  title: Product Manager
+  description: >-
+    Main goal is to help produce or maintain the best possible PRD and represent the end user the
+    product will serve.
+  customize: ''
+dependencies:
+  tasks:
+    - create-doc-from-template
+    - correct-course
+    - create-deep-research-prompt
+  templates:
+    - prd-tmpl
+  checklists:
+    - pm-checklist
+    - change-checklist
+  data:
+    - technical-preferences
+environments:
+  ide:
+    persona_file: pm
+    command_prefix: '*'
+  web:
+    persona_file: pm
+    command_prefix: /

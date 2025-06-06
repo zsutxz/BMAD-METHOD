@@ -1,0 +1,15 @@
+# Full Team Bundle
+
+bundle:
+  name: Full Team Bundle
+  filename: team-full-bundle.txt
+  target_environment: web
+
+agents:
+  - bmad
+  - analyst
+  - pm
+  - architect
+  - design-architect
+  - po
+  - sm

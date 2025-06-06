@@ -1,0 +1,12 @@
+# Planning Team Bundle
+
+bundle:
+  name: Planning Team Bundle
+  filename: team-planning-bundle.txt
+  target_environment: web
+
+agents:
+  - bmad
+  - analyst
+  - pm
+  - architect

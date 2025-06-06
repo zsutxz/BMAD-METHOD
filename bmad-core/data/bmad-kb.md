@@ -1,4 +1,3 @@
-==================== START: bmad-kb ====================
 # BMAD Knowledge Base
 
 ## INDEX OF TOPICS
@@ -107,12 +106,12 @@ The BMAD Method, while distinct in its "Vibe CEO'ing" approach with AI, shares f
 
 Effective use of the BMAD Method relies on understanding where key tools, configurations, and informational resources are located and how they are used. The method is designed to be tool-agnostic in principle, with agent instructions and workflows adaptable to various AI platforms and IDEs.
 
-- **BMAD Knowledge Base:** This document (`bmad-agent/data/bmad-kb.md`) serves as the central repository for understanding the BMAD method, its principles, agent roles, and workflows.
+- **BMAD Knowledge Base:** This document (`bmad-core/data/bmad-kb.md`) serves as the central repository for understanding the BMAD method, its principles, agent roles, and workflows.
 - **Orchestrator Agents:** A key feature is the Orchestrator agent (AKA "BMAD"), a master agent capable of embodying any specialized agent role.
   - **Web Agent Orchestrator:**
     - **Setup:** Utilizes a Node.js build script (`build-web-agent.js`) configured by `build-web-agent.cfg.js`.
-    - **Process:** Consolidates assets (personas, tasks, templates, checklists, data) from an `/bmad-agent` into a `build_dir`, default: `/build/`.
-    - **Output:** Produces bundled asset files (e.g., `personas.txt`, `tasks.txt`), an `agent-prompt.txt` (from `orchestrator_agent_prompt`), and an `agent-config.txt` (from `agent_cfg` like `web-bmad-orchestrator-agent.cfg.md`).
+    - **Process:** Consolidates assets (personas, tasks, templates, checklists, data) from an `/bmad-core` into a `build_dir`, default: `/build/`.
+    - **Output:** Produces bundled asset files (e.g., `personas.txt`, `tasks.txt`), an `agent-prompt.txt` (from `orchestrator_agent_prompt`), and an `agent-config.txt` (from `agent_cfg` from the v4 bundle configurations).
     - **Usage:** The `agent-prompt.txt` is used for the main custom web agent instruction set (e.g., Gemini 2.5 Gem or OpenAI Custom GPT), and the other build files are attached as knowledge/files.
   - **IDE Agent Orchestrator (`ide-bmad-orchestrator.md`):**
     - **Setup:** Works without a build step, dynamically loading its configuration.
@@ -433,24 +432,3 @@ Here are some examples of functionalities provided by tasks found in `bmad-agent
 - **`create-deep-research-prompt.md`:** Helps formulate prompts for conducting in-depth research on a topic.
 
 These tasks allow agents to perform complex, multi-step operations by following the detailed instructions within each task file, often leveraging templates and checklists as needed.
-
-==================== END: bmad-kb ====================
-
-
-==================== START: technical-preferences ====================
-# User-Defined Preferred Patterns and Preferences
-
-List out your preferred:
-- technical preferences
-- design patterns
-- languages
-- framework
-- etc... 
-
-Anything you learn or prefer over time to drive future project choices, add them here.
-
-These will be used by the agents when producing PRD and Architectures
-
-==================== END: technical-preferences ====================
-
-
