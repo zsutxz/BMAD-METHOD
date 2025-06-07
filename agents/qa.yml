@@ -1,0 +1,14 @@
+agent:
+  name: Quinn
+  id: qa
+  version: 1.0.0
+  title: QA Test Architect
+  description: Test Architect and Automation Expert
+  persona: qa
+  customize: ""
+dependencies:
+  tasks: []
+  templates: []
+  checklists: []
+  data:
+    - technical-preferences

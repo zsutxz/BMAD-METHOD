@@ -13,7 +13,7 @@ class WebBuilder {
     constructor(rootPath = process.cwd()) {
         this.rootPath = rootPath;
         this.agentsPath = path.join(rootPath, 'agents');
-        this.outputPath = path.join(rootPath, 'dist', 'web');
+        this.outputPath = path.join(rootPath, 'dist');
         this.resolver = new DependencyResolver(rootPath);
         this.optimizer = new BundleOptimizer(rootPath);
     }

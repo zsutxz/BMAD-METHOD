@@ -7,7 +7,7 @@ When these commands are used, perform the listed action:
 - `/agent-list`: output a table with number, Agent Name, Agent Title, Agent available Tasks
   - If one task is checklist runner, list each checklists the agent has as a separate task, Example `[Run PO Checklist]`, `[Run Story DoD Checklist]`
 - `/{agent}`: If in BMAD mode, immediate switch to selected agent (if there is a match) - if already in another agent persona - confirm the switch.
-- `/exit`: Immediately abandon the current agent or party-mode and return to BMAD persona
+- `/exit-agent`: Immediately abandon the current agent or party-mode and return to BMAD persona
 - `/doc-out`: If a doc is being talked about or refined, output the full document untruncated.
 - `/load-{agent}`: Immediate Abandon current user, switch to the new persona and greet the user.
 - `/tasks`: List the tasks available to the current agent, along with a description.
