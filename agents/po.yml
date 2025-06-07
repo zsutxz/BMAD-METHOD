@@ -1,5 +1,3 @@
-# PO Agent Configuration
-
 agent:
   name: Sarah
   id: po
@@ -8,7 +6,8 @@ agent:
   description: >-
     Product Owner helps validate the artifacts are all cohesive with a master checklist, and also
     helps coach significant changes
-  customize: ''
+  persona: po
+  customize: ""
 dependencies:
   tasks:
     - checklist-run-task
@@ -20,10 +19,3 @@ dependencies:
     - po-master-checklist
     - change-checklist
   data: []
-environments:
-  ide:
-    persona_file: po
-    command_prefix: '*'
-  web:
-    persona_file: po
-    command_prefix: /

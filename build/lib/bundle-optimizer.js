@@ -49,7 +49,7 @@ class BundleOptimizer {
         });
 
         // Load and process resources
-        this.loadResources(optimizedBundle, agentDependencies.bundleResources);
+        this.loadResources(optimizedBundle, agentDependencies.bundleResources, agentDependencies.agents);
 
         // Create optimized sections for web output
         if (bundleConfig.target_environment === 'web') {
@@ -65,7 +65,7 @@ class BundleOptimizer {
     /**
      * Load resources from core directory
      */
-    loadResources(bundle, resourceLists) {
+    loadResources(bundle, resourceLists, agentDeps = []) {
         const resourceTypes = ['tasks', 'templates', 'checklists', 'data', 'utils'];
         
         resourceTypes.forEach(type => {
@@ -85,11 +85,13 @@ class BundleOptimizer {
 
         // Load personas for agents
         const personaDir = path.join(this.corePath, 'personas');
-        Object.keys(bundle.agents).forEach(agentId => {
-            const personaContent = this.loadResourceFile(personaDir, agentId);
+        agentDeps.forEach(agentDep => {
+            const agentId = agentDep.agent;
+            const personaName = agentDep.config.persona || agentId;
+            const personaContent = this.loadResourceFile(personaDir, personaName);
             if (personaContent) {
                 bundle.resources.personas[agentId] = {
-                    name: agentId,
+                    name: personaName,
                     content: personaContent,
                     size: personaContent.length
                 };
@@ -202,7 +204,9 @@ class BundleOptimizer {
         content += `${agent.description}\n\n`;
         
         if (persona) {
-            content += `## Agent Persona\n\n${persona.content}\n\n`;
+            content += `==================== START: personas#${agentId} ====================\n`;
+            content += `${persona.content}\n`;
+            content += `==================== END: personas#${agentId} ====================\n\n`;
         }
 
         // Add required resources inline
@@ -210,9 +214,10 @@ class BundleOptimizer {
         resourceTypes.forEach(type => {
             const resources = bundle.resources[type];
             if (Object.keys(resources).length > 0) {
-                content += `## ${type.charAt(0).toUpperCase() + type.slice(1)}\n\n`;
                 Object.entries(resources).forEach(([name, resource]) => {
-                    content += `### ${name}\n\n${resource.content}\n\n`;
+                    content += `==================== START: ${type}#${name} ====================\n`;
+                    content += `${resource.content}\n`;
+                    content += `==================== END: ${type}#${name} ====================\n\n`;
                 });
             }
         });

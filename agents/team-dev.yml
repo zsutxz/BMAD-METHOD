@@ -1,11 +1,10 @@
-# Development Team Bundle
-
 bundle:
   name: Development Team Bundle
-  filename: team-dev-bundle.txt
+  filename: team-dev.txt
   target_environment: web
 
 agents:
   - bmad
   - po
   - sm
+  - dev

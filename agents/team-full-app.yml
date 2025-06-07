@@ -1,8 +1,6 @@
-# Full Team Bundle
-
 bundle:
   name: Full Team Bundle
-  filename: team-full-bundle.txt
+  filename: team-full.txt
   target_environment: web
 
 agents:

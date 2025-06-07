@@ -118,14 +118,14 @@ class WebBuilder {
         }
 
         // Write output files
-        const outputDir = path.join(this.outputPath, 'bundles');
+        const outputDir = path.join(this.outputPath, 'teams');
         this.ensureDirectory(outputDir);
 
         const outputs = [];
 
         // Default to single_file format if not specified
         const outputFormat = bundleConfig.output?.format || 'single_file';
-        const outputFilename = bundleConfig.output?.filename || bundleConfig.filename || `${bundleConfig.name.toLowerCase().replace(/\s+/g, '-')}-bundle.txt`;
+        const outputFilename = bundleConfig.output?.filename || bundleConfig.filename || `${bundleConfig.name.toLowerCase().replace(/\s+/g, '-')}.txt`;
         
         if (outputFormat === 'single_file') {
             // Create single bundle file
@@ -160,7 +160,7 @@ class WebBuilder {
         const outputDir = path.join(this.outputPath, 'agents');
         this.ensureDirectory(outputDir);
 
-        const agentFile = path.join(outputDir, `${agentId}-agent-bundle.txt`);
+        const agentFile = path.join(outputDir, `${agentId}.txt`);
         fs.writeFileSync(agentFile, optimizedBundle.standaloneContent);
 
         return {
@@ -208,7 +208,7 @@ class WebBuilder {
      */
     createOrchestratorFiles(bundle, config) {
         const files = [];
-        const outputDir = path.join(this.outputPath, 'bundles');
+        const outputDir = path.join(this.outputPath, 'teams');
 
         // Create agent-config.txt
         const agentConfigContent = yaml.dump({
@@ -368,7 +368,7 @@ class WebBuilder {
      */
     ensureOutputDirectory() {
         this.ensureDirectory(this.outputPath);
-        this.ensureDirectory(path.join(this.outputPath, 'bundles'));
+        this.ensureDirectory(path.join(this.outputPath, 'teams'));
         this.ensureDirectory(path.join(this.outputPath, 'agents'));
     }
 }

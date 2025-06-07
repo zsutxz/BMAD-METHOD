@@ -1,8 +1,6 @@
-# Planning Team Bundle
-
 bundle:
   name: Planning Team Bundle
-  filename: team-planning-bundle.txt
+  filename: team-backend-planning.txt
   target_environment: web
 
 agents:

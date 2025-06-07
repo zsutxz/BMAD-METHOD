@@ -39,9 +39,6 @@ class DependencyResolver {
         if (rawConfig.dependencies) {
             config.dependencies = rawConfig.dependencies;
         }
-        if (rawConfig.environments) {
-            config.environments = rawConfig.environments;
-        }
         
         // Validate required fields
         this.validateAgentConfig(config, agentId);
@@ -66,9 +63,10 @@ class DependencyResolver {
             throw new Error(`Agent ID mismatch: expected '${agentId}', got '${config.id}'`);
         }
         
-        // Ensure environments exist with defaults
-        if (!config.environments) {
-            config.environments = { web: {}, ide: {} };
+        // Ensure persona exists
+        if (!config.persona) {
+            // Default to agent id if no persona specified
+            config.persona = config.id;
         }
         
         // Ensure dependencies exist with defaults
@@ -87,11 +85,6 @@ class DependencyResolver {
      */
     resolveAgentDependencies(agentId, environment = 'web') {
         const config = this.loadAgentConfig(agentId);
-        
-        // Check if agent is available for this environment
-        if (environment === 'web' && config.environments.web?.available === false) {
-            throw new Error(`Agent '${agentId}' is not available for web environment`);
-        }
 
         const dependencies = {
             agent: agentId,

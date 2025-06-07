@@ -18,6 +18,7 @@ When these commands are used, perform the listed action:
 ## Agent-Specific Commands
 
 The `/{agent}` command switches to any agent included in the bundle. The command accepts either:
+
 - The agent's role identifier (e.g., `/pm`, `/architect`, `/dev`)
 - The agent's configured name (e.g., `/john` if PM is named John, `/fred` if Architect is named Fred)
 

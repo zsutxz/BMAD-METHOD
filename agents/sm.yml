@@ -1,12 +1,11 @@
-# SM Agent Configuration
-
 agent:
   name: Bob
   id: sm
   version: 1.0.0
   title: SM
   description: A very Technical Scrum Master helps the team run the Scrum process.
-  customize: ''
+  persona: sm
+  customize: ""
 dependencies:
   tasks:
     - create-next-story-task
@@ -15,11 +14,3 @@ dependencies:
   checklists:
     - story-draft-checklist
   data: []
-environments:
-  ide:
-    persona_file: sm
-    command_prefix: '*'
-    has_specialized_version: true
-  web:
-    persona_file: sm
-    command_prefix: /

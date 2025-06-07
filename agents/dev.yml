@@ -1,12 +1,11 @@
-# Full Stack Dev Agent Configuration
-
 agent:
   name: James
   id: dev
   version: 1.0.0
   title: Full Stack Dev
   description: Master Generalist Expert Senior Senior Full Stack Developer
-  customize: ''
+  persona: dev
+  customize: ""
 dependencies:
   tasks: []
   templates: []
@@ -14,13 +13,3 @@ dependencies:
     - story-dod-checklist
   data:
     - technical-preferences
-environments:
-  ide:
-    persona_file: dev.ide.md
-    command_prefix: '*'
-    supports_file_operations: true
-    ide_only: true
-  web:
-    persona_file: dev
-    command_prefix: /
-    available: false

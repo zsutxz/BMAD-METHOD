@@ -1,12 +1,11 @@
-# Design Architect Agent Configuration
-
 agent:
   name: Jane
   id: design-architect
   version: 1.0.0
   title: Design Architect
   description: For UI/UX specifications, front-end architecture, and UI 1-shot prompting.
-  customize: ''
+  persona: design-architect
+  customize: ""
 dependencies:
   tasks:
     - create-frontend-architecture
@@ -19,10 +18,3 @@ dependencies:
     - frontend-architecture-checklist
   data:
     - technical-preferences
-environments:
-  ide:
-    persona_file: design-architect
-    command_prefix: '*'
-  web:
-    persona_file: design-architect
-    command_prefix: /
