@@ -322,7 +322,7 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 
 - **{Consider other things that the trained LLM Dev Agent could potentially be random about specific to the chosen language technologies and platforms that it should be reminded of here}**
 
-## Overall Testing Strategy
+## Test Strategy and Standards
 
 {This section outlines the project's comprehensive testing strategy, which all AI-generated and human-written code must adhere to. It complements the testing tools listed in the "Definitive Tech Stack Selections".}
 
