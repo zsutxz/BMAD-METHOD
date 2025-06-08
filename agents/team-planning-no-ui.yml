@@ -1,6 +1,5 @@
 bundle:
-  name: Team No UI Bundle
-  filename: team-backend-planning.txt
+  name: Team Planning No UI
   target_environment: web
 
 agents:
@@ -8,3 +7,4 @@ agents:
   - analyst
   - pm
   - architect
+  - po

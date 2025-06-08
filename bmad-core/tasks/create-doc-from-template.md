@@ -37,11 +37,11 @@ Confirm with the user their preferred interaction style:
 
 ### 4. Template Processing Rules
 
-**CRITICAL: Never display template markup, LLM instructions, or examples to users**
+#### CRITICAL: Never display template markup, LLM instructions, or examples to users
 
 - Replace all {{placeholders}} with actual content
 - Execute all [[LLM: instructions]] internally
-- Process <<REPEAT>> sections as needed
+- Process `<<REPEAT>>` sections as needed
 - Evaluate ^^CONDITION^^ blocks and include only if applicable
 - Use @{examples} for guidance but never output them
 

@@ -12,6 +12,7 @@
     "list:agents": "node tools/cli.js list:agents",
     "analyze:deps": "node tools/cli.js analyze:deps",
     "validate": "node tools/cli.js validate",
+    "install:expansion": "node tools/install-expansion-pack.js",
     "test": "echo \"Tests not yet implemented\" && exit 0"
   },
   "dependencies": {

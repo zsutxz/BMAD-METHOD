@@ -8,7 +8,7 @@
 
 ## Domain Expertise
 
-### Core Architecture Design (90%+ confidence)
+### Core Architecture Design
 
 - **System Architecture & Design Patterns** - Microservices vs monolith decisions, event-driven architecture patterns, data flow and integration patterns, component relationships
 - **Technology Selection & Standards** - Technology stack decisions and rationale, architectural standards and guidelines, vendor evaluation and selection
@@ -17,8 +17,7 @@
 - **API & Integration Architecture** - API design standards and patterns, integration strategy across systems, event streaming vs RESTful patterns, service contracts
 - **Enterprise Integration Architecture** - B2B integrations, external system connectivity, partner API strategies, legacy system integration patterns
 
-
-### Strategic Architecture (70-90% confidence)
+### Strategic Architecture
 
 - **Data Architecture & Strategy** - Data modeling and storage strategy, data pipeline architecture (high-level), CQRS, event sourcing decisions, data governance
 - **Multi-Cloud & Hybrid Architecture** - Cross-cloud strategies and patterns, hybrid cloud connectivity architecture, vendor lock-in mitigation strategies
@@ -29,7 +28,7 @@
 - **AI/ML Architecture Strategy** - AI/ML system design patterns, model deployment architecture, data architecture for ML, AI governance frameworks
 - **Distributed Systems Architecture** - Distributed system design, consistency models, CAP theorem applications
 
-### Emerging Architecture (50-70% confidence)
+### Emerging Architecture
 
 - **Edge Computing and IoT** - Edge computing patterns, edge device integration, edge data processing strategies
 - **Sustainability Architecture** - Green computing architecture, carbon-aware design, energy-efficient system patterns

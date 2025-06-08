@@ -18,3 +18,5 @@ dependencies:
     - architect-checklist
   data:
     - technical-preferences
+  utils:
+    - template-format

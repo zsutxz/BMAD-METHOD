@@ -1,40 +1,81 @@
 # The BMAD-Method V4 (Breakthrough Method of AgileAI Driven Development)
 
-## Getting Started
+## 🚀 Quick Start (No Installation Required!)
 
-### For Web (Gem/Custom GPT)
+### Option 1: Use Pre-built Web Bundles (Easiest)
 
-1. Install Node.js
-2. Run `npm run build` to produce the web output
-3. Choose from the `dist/` folder:
-   - **Team bundles**: Fully self-contained files with multiple agents
-   - **Individual persona bundles**: Single agent files
-   - You only select 1 file for 1 Gem/GPT - either a team or individual.
-   - All Teams include the BMad Agent.
+**No Node.js needed! Just download and use:**
 
-NOTE: BMad Agent KB has not been updated for V4 yet - so its knowledge is not ideal yet.
+1. Go to the [`/web-bundles/`](web-bundles/) folder in this repo
+2. Download a bundle file:
+   - **Team bundles** in [`/web-bundles/teams/`](web-bundles/teams/) - Full agile teams with all roles
+   - **Individual agents** in [`/web-bundles/agents/`](web-bundles/agents/) - Single role agents
+3. Upload to your AI platform:
+   - **Gemini**: Create a new Gem → Upload the bundle file → Start using!
+   - **ChatGPT**: Create a custom GPT → Attach as knowledge → Start using!
 
-#### Setting up your Gem/Custom GPT
+That's it! You're ready to use BMAD agents. 🎉
 
-- **For team builds**: Set the description to: "You are the BMAD Agent. Follow the orchestrator's operating instructions and persona immediately."
-- **For individual builds**: Set the description to: "You are the [Agent Name]. Follow the persona instructions immediately."
-- Configuration for all of these are now done in the root agents folder. You can easily build various team bundles to include only the agents you want or need!
+### Option 2: IDE Agents (Also No Installation)
 
-### For IDE
+For Cursor, Windsurf, or other IDEs:
 
-Copy the entire `bmad-core/` folder to your project root to get started. The `bmad-core/ide-agents` includes all of the individual agents.
+1. Copy the `bmad-core/` folder to your project root
+2. Use agents from `bmad-core/ide-agents/`
+3. Set up slash commands (see examples in `.cursor/` or `.claude/commands/`)
 
-SPECIAL CURSOR, WINDSURF, VSCode and CLAUDE_CODE note (or any ide for that matter): Rules and commands are the key to being able to easily use and switch between agents in the IDE now! You can see examples for cursor, windsurf and claude already, by looking in the .cursor or .claude/commands folder. Set up slash commands as these show and you will be able to use endless custom agents regardless of your choice of IDE or agentic coding partner!
+## What is BMAD?
 
-## Old Versions
+BMAD is a framework that gives you a complete Agile development team powered by AI. Each agent specializes in a specific role:
 
-[Prior Version 1](https://github.com/bmadcode/BMAD-METHOD/tree/V1)
-[Prior Version 2](https://github.com/bmadcode/BMAD-METHOD/tree/V2)
-[Prior Version 3](https://github.com/bmadcode/BMAD-METHOD/tree/V3)
+- **🧠 Business Analyst** - Requirements gathering and project briefs
+- **📋 Product Manager** - PRDs and product planning
+- **👁️ UX Expert** - User experience design and UI specifications
+- **🏗️ Architect** - System design and technical architecture
+- **🔄 Fullstack Architect** - Holistic full-stack system design
+- **🎨 Design Architect** - UI/UX and frontend architecture
+- **✅ Product Owner** - Story validation and backlog management
+- **📝 Scrum Master** - Story generation and sprint planning
+- **💻 Developer** - Code implementation
+- **🧪 QA Engineer** - Testing and quality assurance
 
-## End Matter
+The **BMAD Orchestrator** can transform into any role using slash commands!
 
-Interested in improving the BMAD Method? See the [contributing guidelines](docs/CONTRIBUTING.md).
+## 🛠️ Advanced: Build Custom Bundles
 
-Thank you and enjoy - BMad!
-[License](docs/LICENSE)
+Only needed if you want to customize agents:
+
+1. Clone this repository
+2. Install Node.js and run `npm install`
+3. Modify agents in `/agents/` folder
+4. Run `npm run build`
+5. Find your custom bundles in `/dist/`
+
+### Configuring Custom Agents
+
+- Edit YAML files in `/agents/` to customize behavior
+- Create new team combinations in `team-*.yml` files
+- All configuration is now YAML-based for easy editing
+
+### IDE Slash Commands
+
+For Cursor, Windsurf, VSCode, and Claude Code: Check the `.cursor/` or `.claude/commands/` folders for example slash command setups. These let you quickly switch between agents in your IDE!
+
+## 📚 Documentation
+
+- [Detailed Setup Guide](docs/instruction.md)
+- [IDE Setup Guide](docs/ide-setup.md)
+- [BMAD Knowledge Base](bmad-core/data/bmad-kb.md)
+- [Contributing Guidelines](docs/CONTRIBUTING.md)
+
+## Previous Versions
+
+- [Version 3](https://github.com/bmadcode/BMAD-METHOD/tree/V3)
+- [Version 2](https://github.com/bmadcode/BMAD-METHOD/tree/V2)
+- [Version 1](https://github.com/bmadcode/BMAD-METHOD/tree/V1)
+
+---
+
+Thank you and enjoy! - BMad
+
+[MIT License](docs/LICENSE)

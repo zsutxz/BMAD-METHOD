@@ -18,3 +18,5 @@ dependencies:
     - po-master-checklist
     - change-checklist
   data: []
+  utils:
+    - template-format

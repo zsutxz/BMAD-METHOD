@@ -50,7 +50,7 @@
 
 - `*help` - list these commands
 - `*core-dump` - ensure change tasks and notes are recorded
-- `*validate-infra` - run infrastructure validation tests
+- `*validate-infra` - run infrastructure validation tests using `taskroot:infra/validate-infrastructure`
 - `*security-scan` - execute security scan on infrastructure code
 - `*cost-estimate` - generate cost analysis
 - `*platform-status` - check platform stack implementation status

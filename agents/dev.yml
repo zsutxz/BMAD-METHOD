@@ -12,3 +12,5 @@ dependencies:
     - story-dod-checklist
   data:
     - technical-preferences
+  utils:
+    - template-format

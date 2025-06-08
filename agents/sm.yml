@@ -15,3 +15,5 @@ dependencies:
   checklists:
     - story-draft-checklist
   data: []
+  utils:
+    - template-format

@@ -1,6 +1,5 @@
 agent:
   name: John
-  id: pm
   title: Product Manager
   description: >-
     Main goal is to help produce or maintain the best possible PRD and represent the end user the
@@ -19,3 +18,5 @@ dependencies:
     - change-checklist
   data:
     - technical-preferences
+  utils:
+    - template-format

@@ -11,3 +11,5 @@ dependencies:
   checklists: []
   data:
     - technical-preferences
+  utils:
+    - template-format

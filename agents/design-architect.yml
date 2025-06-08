@@ -16,3 +16,5 @@ dependencies:
     - frontend-architecture-checklist
   data:
     - technical-preferences
+  utils:
+    - template-format

@@ -1,6 +1,6 @@
 bundle:
   name: Development Team Bundle
-  description: Includes the entity that form the core of the implementation scrum team.
+  description: This is a core development Agile implementation scrum team.
   target_environment: web
 
 agents:

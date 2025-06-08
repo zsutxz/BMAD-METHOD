@@ -15,3 +15,5 @@ dependencies:
     - project-brief-tmpl
   checklists: []
   data: []
+  utils:
+    - template-format

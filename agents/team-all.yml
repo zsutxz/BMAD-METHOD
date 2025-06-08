@@ -1,5 +1,5 @@
 bundle:
-  name: Full Organization Team Bundle
+  name: Every Agent Team Bundle
   description: This is a full organization of agents and includes every possible agent. This will produce the larges bundle but give the most options for discussion in a single session
   target_environment: web
 
@@ -7,9 +7,10 @@ agents:
   - bmad
   - analyst
   - pm
+  - ux-expert
   - architect
+  - fullstack-architect
   - design-architect
-  - devops
   - po
   - sm
   - qa

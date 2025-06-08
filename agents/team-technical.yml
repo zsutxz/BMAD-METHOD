@@ -1,0 +1,8 @@
+bundle:
+  name: Technical Planning and Assessment Team Bundle
+  description: This is good for deep technical discussions and assessments.
+  target_environment: web
+
+agents:
+  - bmad
+  - fullstack-architect
