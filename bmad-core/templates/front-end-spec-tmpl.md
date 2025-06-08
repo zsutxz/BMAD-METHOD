@@ -4,9 +4,6 @@
 
 {State the purpose - to define the user experience goals, information architecture, user flows, and visual design specifications for the project's user interface.}
 
-- **Link to Primary Design Files:** {e.g., Figma, Sketch, Adobe XD URL}
-- **Link to Deployed Storybook / Design System:** {URL, if applicable}
-
 ## Overall UX Goals & Principles
 
 - **Target User Personas:** {Reference personas or briefly describe key user types and their goals.}
@@ -16,6 +13,7 @@
 ## Information Architecture (IA)
 
 - **Site Map / Screen Inventory:**
+
   ```mermaid
   graph TD
       A[Homepage] --> B(Dashboard);
@@ -24,7 +22,9 @@
       C --> E[Profile Settings];
       C --> F[Notification Settings];
   ```
+
   _(Or provide a list of all screens/pages)_
+
 - **Navigation Structure:** {Describe primary navigation (e.g., top bar, sidebar), secondary navigation, breadcrumbs, etc.}
 
 ## User Flows
@@ -35,7 +35,9 @@
 
 - **Goal:** {What the user wants to achieve.}
 - **Steps / Diagram:**
+
   ```mermaid
+
   graph TD
       Start --> EnterCredentials[Enter Email/Password];
       EnterCredentials --> ClickLogin[Click Login Button];
@@ -44,6 +46,7 @@
       CheckAuth -- No --> ShowError[Show Error Message];
       ShowError --> EnterCredentials;
   ```
+
   _(Or: Link to specific flow diagram in Figma/Miro)_
 
 ### {Another User Flow Name}
@@ -80,5 +83,5 @@
 
 ## Change Log
 
-| Change        | Date       | Version | Description         | Author         |
-| ------------- | ---------- | ------- | ------------------- | -------------- |
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |

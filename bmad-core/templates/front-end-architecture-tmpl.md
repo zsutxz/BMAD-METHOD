@@ -149,16 +149,6 @@ Document the starter template decision and any constraints it imposes before pro
 
 [[LLM: List required environment variables based on the chosen framework. Show the appropriate format and naming conventions for the framework. After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
-## AI Frontend Tool Prompt
-
-[[LLM: Generate a detailed prompt for AI frontend tools (v0, Cursor, Claude, etc.) customized for the chosen framework. Include framework version, tech stack, patterns, conventions, and key requirements from the UX-UI specification.]]
-
-### Copy this prompt for AI tools
-
-```text
-{{ai_tool_prompt}}
-```
-
 ## Frontend Developer Standards
 
 ### Critical Coding Rules
