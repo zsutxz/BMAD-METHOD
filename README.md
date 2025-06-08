@@ -24,7 +24,7 @@ NOTE: BMad Agent KB has not been updated for V4 yet - so its knowledge is not id
 
 Copy the entire `bmad-core/` folder to your project root to get started. The `bmad-core/ide-agents` includes all of the individual agents.
 
-SPECIAL CURSOR, WINDSURF, VSCode and CLAUDE_CODE note (or any ide for that matter): Rules and commands are the key to being able to easily use and switch between agents in the IDE now! You can see examples for cursor, and claude already, by looking in the .cursor or .claude/commands folder. Set up slash commands as these show and you will be able to use endless custom agents regardless of your choice of IDE or agentic coding partner!
+SPECIAL CURSOR, WINDSURF, VSCode and CLAUDE_CODE note (or any ide for that matter): Rules and commands are the key to being able to easily use and switch between agents in the IDE now! You can see examples for cursor, windsurf and claude already, by looking in the .cursor or .claude/commands folder. Set up slash commands as these show and you will be able to use endless custom agents regardless of your choice of IDE or agentic coding partner!
 
 ## Old Versions
 
