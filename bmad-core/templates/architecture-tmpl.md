@@ -1,27 +1,29 @@
 # {Project Name} Architecture Document
 
-## Introduction / Preamble
+## High Level Architecture
+
+[[LLM: Produce the following child sections, and then derscribe why you made the choices you did if any choices were taken that you made that were unique or deviated from what was given as initial context from the PRD or prior discussions, and immediately execute tasks#advanced-elicitation display]]
+
+### Introduction / Preamble
 
 {This document outlines the overall project architecture, including backend systems, shared services, and non-UI specific concerns. Its primary goal is to serve as the guiding architectural blueprint for AI-driven development, ensuring consistency and adherence to chosen patterns and technologies.
 
 **Relationship to Frontend Architecture:**
 If the project includes a significant user interface, a separate Frontend Architecture Document (typically named `front-end-architecture-tmpl.txt` or similar, and linked in the "Key Reference Documents" section) details the frontend-specific design and MUST be used in conjunction with this document. Core technology stack choices documented herein (see "Definitive Tech Stack Selections") are definitive for the entire project, including any frontend components.}
 
-## Table of Contents
-
-{ Update this if sections and subsections are added or removed }
-
-## Technical Summary
+### Technical Summary
 
 { Provide a brief paragraph overview of the system's architecture, key components, technology choices, and architectural patterns used. Reference the goals from the PRD. }
 
-## High-Level Overview
+### High Level Overview
 
-{ Describe the main architectural style (e.g., Monolith, Microservices, Serverless, Event-Driven), reflecting the decision made in the PRD. Explain the repository structure (Monorepo/Polyrepo). Explain the primary user interaction or data flow at a conceptual level. }
+[[LLM: Describe the main architectural style (e.g., Monolith, Microservices, Serverless, Event-Driven), reflecting the decision made in the PRD. Explain the repository structure (Monorepo/Polyrepo). Explain the primary user interaction or data flow at a conceptual level.]]
 
-{ Insert high-level mermaid system context or interaction diagram here - e.g., Mermaid Class C4 Models Layer 1 and 2 }
+### High Level Project Diagram
 
-## Architectural / Design Patterns Adopted
+[[LLM: Produce a Mermaid High Level Diagram that best Describes the Overall PRD Backend Architecture]]
+
+### Architectural and Design Patterns
 
 { List the key high-level patterns chosen for the architecture. These foundational patterns should be established early as they guide component design, interactions, and technology choices. }
 
@@ -29,9 +31,9 @@ If the project includes a significant user interface, a separate Frontend Archit
 - **Pattern 2:** {e.g., Dependency Injection, Repository Pattern, Module Pattern} - _Rationale/Reference:_ {...}
 - **Pattern N:** {...}
 
-## Component View
+### Components
 
-{ Describe the major logical components or services of the system and their responsibilities, reflecting the decided overall architecture (e.g., distinct microservices, modules within a monolith, packages within a monorepo) and the architectural patterns adopted. Explain how they collaborate. }
+[[LLM: Describe the major logical components or services of the system and their responsibilities, reflecting the decided overall architecture (e.g., distinct microservices, modules within a monolith, packages within a monorepo) and the architectural patterns adopted. Explain how they collaborate. Produce a component diagram or diagrams as needed in mermaid as a child section. Immediately execute tasks#advanced-elicitation display]]
 
 - Component A: {Description of responsibility}
 
@@ -41,9 +43,11 @@ If the project includes a significant user interface, a separate Frontend Archit
 
 { Insert component diagram here if it helps - e.g., using Mermaid graph TD or C4 Model Container/Component Diagram }
 
-## Project Structure
+### Component Diagrams
 
-{Provide an ASCII or Mermaid diagram representing the project's folder structure. The following is a general example. If a `front-end-architecture-tmpl.txt` (or equivalent) is in use, it will contain the detailed structure for the frontend portion (e.g., within `src/frontend/` or a dedicated `frontend/` root directory). Shared code structure (e.g., in a `packages/` directory for a monorepo) should also be detailed here.}
+## Source Tree
+
+[[LLM: Provide an ASCII or Mermaid diagram representing the project's proposed folder structure based on information we have aligned on to this point such as monorepo vs polyrepo vs monolith vs microservices. The following is a general example, but is very project and technology dependant. Immediately upon render of the section, execute tasks#advanced-elicitation display.]]
 
 ```plaintext
 {project-root}/
@@ -87,168 +91,57 @@ If the project includes a significant user interface, a separate Frontend Archit
 └── README.md                   # Project overview and setup instructions
 ```
 
-(Adjust the example tree based on the actual project type - e.g., Python would have requirements.txt, etc. The structure above illustrates a potential separation for projects with distinct frontends; for simpler projects or APIs, the `src/` structure might be flatter.)
+## External APIs
 
-### Key Directory Descriptions
+[[LLM: List the External API name proposed if needed - if unsure you can suggest or ask the user when it seems we will need to rely on some external services depending on the project requirements. List the URL to doc or API Spec (openapi / swagger url) - if you are unsure as user to provide after you explain when we need a given API or similar. For each API we need the following information]]
 
-- docs/: Contains all project planning and reference documentation.
-- infra/: Holds the Infrastructure as Code definitions (e.g., AWS CDK, Terraform).
-- src/: Contains the main application source code. May be subdivided (e.g., `backend/`, `frontend/`, `shared/`) depending on project complexity and whether a separate frontend architecture document is in use.
-- src/backend/core/ / src/core/ / src/domain/: Core business logic, entities, use cases, independent of frameworks/external services.
-- src/backend/adapters/ / src/adapters/ / src/infrastructure/: Implementation details, interactions with databases, cloud SDKs, frameworks.
-- src/backend/controllers/ / src/routes/ / src/pages/: Entry points for API requests or UI views (if UI is simple and not in a separate frontend structure).
-- test/: Contains all automated tests, mirroring the src/ structure where applicable.
-
-### Notes
-
-{Mention any specific build output paths, compiler configuration pointers, or other relevant structural notes.}
-
-## API Reference
-
-### External APIs Consumed
-
-{Repeat this section for each external API the system interacts with.}
-
-#### {External Service Name} API
-
-- **Purpose:** {Why does the system use this API?}
-- **Base URL(s):**
-  - Production: `{URL}`
-  - Staging/Dev: `{URL}`
-- **Authentication:** {Describe method - e.g., API Key in Header (Header Name: `X-API-Key`), OAuth 2.0 Client Credentials, Basic Auth. Reference `docs/environment-vars.md` for key names.}
-- **Key Endpoints Used:**
-  - **`{HTTP Method} {/path/to/endpoint}`:**
-    - Description: {What does this endpoint do?}
-    - Request Parameters: {Query params, path params}
-    - Request Body Schema: {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if the schema is exceptionally large or complex.}
-    - Example Request: `{Code block}`
-    - Success Response Schema (Code: `200 OK`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
-    - Error Response Schema(s) (Codes: `4xx`, `5xx`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
-    - Example Response: `{Code block}`
-  - **`{HTTP Method} {/another/endpoint}`:** {...}
-- **Rate Limits:** {If known}
-- **Link to Official Docs:** {URL}
-
-### Internal APIs Provided (If Applicable)
-
-{If the system exposes its own APIs (e.g., in a microservices architecture or for a UI frontend). Repeat for each API.}
-
-#### {Internal API / Service Name} API
+### {External API Name} API
 
 - **Purpose:** {What service does this API provide?}
-- **Base URL(s):** {e.g., `/api/v1/...`}
+- **Base URL(s):** {e.g., `https://some-saas/api/v1/`}
 - **Authentication/Authorization:** {Describe how access is controlled.}
-- **Endpoints:**
-  - **`{HTTP Method} {/path/to/endpoint}`:**
-    - Description: {What does this endpoint do?}
-    - Request Parameters: {...}
-    - Request Body Schema: {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
-    - Success Response Schema (Code: `200 OK`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
-    - Error Response Schema(s) (Codes: `4xx`, `5xx`): {Provide JSON schema inline, or link to a detailed definition in `docs/data-models.md` only if very complex.}
-  - **`{HTTP Method} {/another/endpoint}`:** {...}
+- **Endpoints Used**
+  - Identify the endpoint - short statement of purpose to use it
+
+## REST API Spec
+
+[[LLM: Create OpenAPI Spec (Swagger) proposed if proposing a rest api]]
 
 ## Data Models
 
-### Core Application Entities / Domain Objects
+[[LLM: List major data models, discussing with the user why you have listed the specific data models]]
 
-{Define the main objects/concepts the application works with. Repeat subsection for each key entity.}
+## Database Schema
 
-#### {Entity Name, e.g., User, Order, Product}
+[[LLM: Create a database schema model proposed to meet the project requirements. For each schema, include the purpose of each schema model]]
 
-- **Description:** {What does this entity represent?}
-- **Schema / Interface Definition:**
-  ```typescript
-  // Example using TypeScript Interface
-  export interface {EntityName} {
-    id: string; // {Description, e.g., Unique identifier}
-    propertyName: string; // {Description}
-    optionalProperty?: number; // {Description}
-    // ... other properties
-  }
-  ```
-- **Validation Rules:** {List any specific validation rules beyond basic types - e.g., max length, format, range.}
-
-### API Payload Schemas (If distinct)
-
-{Define schemas here only if they are distinct from core entities AND not fully detailed under the API endpoint definitions in the API Reference section. Prefer detailing request/response schemas directly with their APIs where possible. This section is for complex, reusable payload structures that might be used across multiple internal APIs or differ significantly from core persisted entities.}
-
-#### {API Endpoint / Purpose, e.g., Create Order Request, repeat the section as needed}
-
-- **Schema / Interface Definition:**
-  ```typescript
-  // Example
-  export interface CreateOrderRequest {
-    customerId: string;
-    items: { productId: string; quantity: number }[];
-    // ...
-  }
-  ```
-
-### Database Schemas (If applicable)
-
-{If using a database, define table structures or document database schemas. repeat as needed}
-
-#### {Table / Collection Name}
-
-- **Purpose:** {What data does this table store?}
-- **Schema Definition:**
-  ```sql
-  -- Example SQL
-  CREATE TABLE {TableName} (
-    id VARCHAR(36) PRIMARY KEY,
-    column_name VARCHAR(255) NOT NULL,
-    numeric_column DECIMAL(10, 2),
-    -- ... other columns, indexes, constraints
-  );
-  ```
-  _(Alternatively, use ORM model definitions, NoSQL document structure, etc.)_
-
-## Core Workflow / Sequence Diagrams
+## Core Workflow
 
 { Illustrate key or complex workflows using mermaid sequence diagrams. Can have high level tying the full project together, and also smaller epic level sequence diagrams. }
 
-## Definitive Tech Stack Selections
+## Tech Stack
 
-{ This section outlines the definitive technology choices for the project. These selections should be made after a thorough understanding of the project's requirements, components, data models, and core workflows. The Architect Agent should guide the user through these decisions, ensuring each choice is justified and recorded accurately in the table below.
+[[LLM: This section outlines the definitive technology choices for the project. These selections should be made after a thorough understanding of the project's requirements, components, data models, and core workflows. The Architect Agent should guide the user through these decisions, ensuring each choice is justified and recorded accurately in the table below.]]
 
-This table is the **single source of truth** for all technology selections. Other architecture documents (e.g., Frontend Architecture) must refer to these choices and elaborate on their specific application rather than re-defining them.
+[[LLM: This table is the **single source of truth** for all technology selections. Other architecture documents (e.g., Frontend Architecture) must refer to these choices and elaborate on their specific application rather than re-defining them.]]
 
-Key decisions to discuss and finalize here, which will then be expanded upon and formally documented in the detailed stack table below, include considerations such as:
+[[LLM: Key decisions to discuss and finalize here, which will then be expanded upon and formally documented in the detailed stack table below, include considerations such as:
 
 - Preferred Starter Template Frontend: { Url to template or starter, if used }
 - Preferred Starter Template Backend: { Url to template or starter, if used }
 - Primary Language(s) & Version(s): {e.g., TypeScript 5.x, Python 3.11 - Specify exact versions, e.g., `5.2.3`}
 - Primary Runtime(s) & Version(s): {e.g., Node.js 22.x - Specify exact versions, e.g., `22.0.1`}
 
-Must be definitive selections; do not list open-ended choices (e.g., for web scraping, pick one tool, not two). Specify exact versions (e.g., `18.2.0`). If 'Latest' is used, it implies the latest stable version _at the time of this document's last update_, and the specific version (e.g., `xyz-library@2.3.4`) should be recorded. Pinning versions is strongly preferred to avoid unexpected breaking changes for the AI agent. }
-
-| Category             | Technology              | Version / Details | Description / Purpose                   | Justification (Optional) |
-| :------------------- | :---------------------- | :---------------- | :-------------------------------------- | :----------------------- |
-| **Languages**        | {e.g., TypeScript}      | {e.g., 5.x}       | {Primary language for backend/frontend} | {Why this language?}     |
-|                      | {e.g., Python}          | {e.g., 3.11}      | {Used for data processing, ML}          | {...}                    |
-| **Runtime**          | {e.g., Node.js}         | {e.g., 22.x}      | {Server-side execution environment}     | {...}                    |
-| **Frameworks**       | {e.g., NestJS}          | {e.g., 10.x}      | {Backend API framework}                 | {Why this framework?}    |
-|                      | {e.g., React}           | {e.g., 18.x}      | {Frontend UI library}                   | {...}                    |
-| **Databases**        | {e.g., PostgreSQL}      | {e.g., 15}        | {Primary relational data store}         | {...}                    |
-|                      | {e.g., Redis}           | {e.g., 7.x}       | {Caching, session storage}              | {...}                    |
-| **Cloud Platform**   | {e.g., AWS}             | {N/A}             | {Primary cloud provider}                | {...}                    |
-| **Cloud Services**   | {e.g., AWS Lambda}      | {N/A}             | {Serverless compute}                    | {...}                    |
-|                      | {e.g., AWS S3}          | {N/A}             | {Object storage for assets/state}       | {...}                    |
-|                      | {e.g., AWS EventBridge} | {N/A}             | {Event bus / scheduled tasks}           | {...}                    |
-| **Infrastructure**   | {e.g., AWS CDK}         | {e.g., Latest}    | {Infrastructure as Code tool}           | {...}                    |
-|                      | {e.g., Docker}          | {e.g., Latest}    | {Containerization}                      | {...}                    |
-| **UI Libraries**     | {e.g., Material UI}     | {e.g., 5.x}       | {React component library}               | {...}                    |
-| **State Management** | {e.g., Redux Toolkit}   | {e.g., Latest}    | {Frontend state management}             | {...}                    |
-| **Testing**          | {e.g., Jest}            | {e.g., Latest}    | {Unit/Integration testing framework}    | {...}                    |
-|                      | {e.g., Playwright}      | {e.g., Latest}    | {End-to-end testing framework}          | {...}                    |
-| **CI/CD**            | {e.g., GitHub Actions}  | {N/A}             | {Continuous Integration/Deployment}     | {...}                    |
-| **Other Tools**      | {e.g., LangChain.js}    | {e.g., Latest}    | {LLM interaction library}               | {...}                    |
-|                      | {e.g., Cheerio}         | {e.g., Latest}    | {HTML parsing/scraping}                 | {...}                    |
-
-## Infrastructure and Deployment Overview
+Must be definitive selections; do not list open-ended choices (e.g., for web scraping, pick one tool, not two). Specify exact versions (e.g., `18.2.0`). If 'Latest' is used, it implies the latest stable version _at the time of this document's last update_, and the specific version (e.g., `xyz-library@2.3.4`) should be recorded. Pinning versions is strongly preferred to avoid unexpected breaking changes for the AI agent.]]
 
 - Cloud Provider(s): {e.g., AWS, Azure, GCP, On-premise}
 - Core Services Used: {List key managed services - e.g., Lambda, S3, Kubernetes Engine, RDS, Kafka}
+
+| Category | Technology | Version | Purpose |
+| :------- | :--------- | :------ | :------ |
+
+## Infrastructure and Deployment
+
 - Infrastructure as Code (IaC): {Tool used - e.g., AWS CDK, Terraform...} - Location: {Link to IaC code repo/directory}
 - Deployment Strategy: {e.g., CI/CD pipeline with automated promotions, Blue/Green, Canary} - Tools: {e.g., Jenkins, GitHub Actions, GitLab CI}
 - Environments: {List environments - e.g., Development, Staging, Production}
@@ -270,7 +163,7 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 
 ## Coding Standards
 
-{These standards are mandatory for all code generation by AI agents and human developers. Deviations are not permitted unless explicitly approved and documented as an exception in this section or a linked addendum.}
+[[LLM: These standards are mandatory for all code generation by AI agents and human developers. Deviations are not permitted unless explicitly approved and documented as an exception in this section or a linked addendum. Ensure you let the user know they should really review this and also make sections to it as needed during development once this is sharded out to the coding-standards file as this will always be used by the dev agent to ensure it follows standards. Also keep this section as short and lean as possible to not bloat the context with stuff the agent will probably know anyways. The following are possible sections, it all depends on the project and what the user things should be included - use your best judgement to keep it lean but clear to keep a dumb dev agent on the rails. This applies to the child sections also, do not add them if not needed, or strive to keep them succinct.]]
 
 - **Primary Runtime(s):** {e.g., Node.js 22.x, Python Runtime for Lambda - refer to Definitive Tech Stack}
 - **Style Guide & Linter:** {e.g., ESLint with Airbnb config + Prettier; Black, Flake8, MyPy; Go fmt, golint. Specify chosen tools and link to configuration files (e.g., `.eslintrc.js`, `pyproject.toml`). Linter rules are mandatory and must not be disabled without cause.}
@@ -293,9 +186,9 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 
 ### Detailed Language & Framework Conventions
 
-{For each primary language and framework selected in the "Definitive Tech Stack Selections", the following specific conventions **must** be adhered to. If a chosen technology is not listed below, it implies adherence to its standard, widely accepted best practices and the general guidelines in this document.}
+[[LLM: For each primary language and framework selected in the "Definitive Tech Stack Selections", the following specific conventions **must** be adhered to. If a chosen technology is not listed below, it implies adherence to its standard, widely accepted best practices and the general guidelines in this document.]]
 
-#### `{Language/Framework 1 Name, e.g., TypeScript/Node.js}` Specifics:
+#### `{Language/Framework 1 Name, e.g., TypeScript/Node.js}` Specifics
 
 - **Immutability:** `{e.g., "Always prefer immutable data structures. Use `Readonly\<T\>`, `ReadonlyArray\<T\>`, `as const` for object/array literals. Avoid direct mutation of objects/arrays passed as props or state. Consider libraries like Immer for complex state updates."}`
 - **Functional vs. OOP:** `{e.g., "Favor functional programming constructs (map, filter, reduce, pure functions) for data transformation and business logic where practical. Use classes for entities, services with clear state/responsibilities, or when framework conventions (e.g., NestJS) demand."}`
@@ -324,7 +217,7 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 
 ## Test Strategy and Standards
 
-{This section outlines the project's comprehensive testing strategy, which all AI-generated and human-written code must adhere to. It complements the testing tools listed in the "Definitive Tech Stack Selections".}
+[[LLM: Work with the user to determine the test strategy. Unit test framework, test organization, Test coverage desired, Build then test or TDD, integration testing approach, integration testing with local or remote resources, any mocking for integration tests and then what? for example if using dynamo, will we use in memory ddb, docker ddb, remote test db instance etc... Consider this for all proposed technologies and what makes sense to test locally or remote. Use any info that follows as needed. This section is NOT going to be read directly by the dev agent as it can get long, the minimum basics the agent needs to know will be listed in coding standards such as what the unit or integration test library is and any specific standard of style the dev needs to know. If the qa agent is used, that agent will be familiar and review this section.]]
 
 - **Tools:** {Reiterate primary testing frameworks and libraries from Tech Stack, e.g., Jest, Playwright, PyTest, JUnit, Testcontainers.}
 - **Unit Tests:**
@@ -347,9 +240,9 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 - **Mocking/Stubbing Strategy (General):** {Beyond specific test types, outline general principles. e.g., "Prefer fakes or test doubles over extensive mocking where it improves test clarity and maintainability. Strive for tests that are fast, reliable, and isolated."}
 - **Test Data Management:** {How is test data created, managed, and isolated? E.g., factories, fixtures, setup/teardown scripts, dedicated test data generation tools.}
 
-## Security Best Practices
+## Security
 
-{Outline key security considerations relevant to the codebase. These are mandatory and must be actively addressed by the AI agent during development.}
+[[LLM: Outline key security considerations relevant to the codebase. These are mandatory and must be actively addressed by the AI agent during development.]]
 
 - **Input Sanitization/Validation:** {Specify library/method for ALL external inputs (API requests, user-provided data, file uploads). E.g., 'Use class-validator with NestJS DTOs for all API inputs; all validation rules must be defined in DTOs.' For other languages, 'Use {validation_library} for all external inputs; define schemas and constraints.' Validation must occur at the boundary before processing.}
 - **Output Encoding:** {Specify where and how output encoding should be performed to prevent XSS and other injection attacks. E.g., 'All dynamic data rendered in HTML templates must be contextually auto-escaped by the template engine (specify engine and confirm default behavior). If generating HTML/XML/JSON manually, use approved encoding libraries like {encoder_library_name}.'}
@@ -361,10 +254,6 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 - **Error Handling & Information Disclosure:** {Ensure error messages do not leak sensitive information (stack traces, internal paths, detailed SQL errors) to the end-user. Log detailed errors server-side, provide generic messages or error IDs to the client.}
 - **Regular Security Audits/Testing:** {Mention if planned, e.g., penetration testing, static/dynamic analysis tool usage in CI (SAST/DAST).}
 - **{Other relevant practices, e.g., File upload security, Session management security, Data encryption at rest and in transit beyond HTTPS if specific requirements exist.}**
-
-## Key Reference Documents
-
-{ if any }
 
 ## Change Log
 
