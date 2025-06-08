@@ -18,7 +18,7 @@
   - [Business Analyst](#business-analyst)
   - [Product Manager](#product-manager)
   - [Architect](#architect)
-  - [Design Architect](#design-architect)
+  - [UI Architect](#ui-architect)
   - [Product Owner](#product-owner)
   - [Scrum Master](#scrum-master)
   - [Developer](#developer)
@@ -370,7 +370,7 @@ npm run validate
 - Technology selection
 - Integration planning
 
-### Design Architect
+### UI Architect
 
 **Name**: Jane (Web) / Millie (IDE)  
 **Purpose**: UI/UX and frontend architecture
@@ -581,8 +581,8 @@ bmad-core/
 ├── data/            # Knowledge bases and preferences
 └── ide-agents/      # Standalone IDE agent files
 
-agents/              # YAML agent configurations
-bundles/            # Bundle configurations (team-*.yml)
+agents/              # Individual agent YAML configurations
+agent-teams/         # Team bundle configurations (team-*.yml)
 tools/              # Build tooling and scripts
 dist/               # Build output
 ```

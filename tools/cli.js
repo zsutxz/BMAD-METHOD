@@ -106,8 +106,8 @@ program
             agents.forEach(agentId => {
                 try {
                     const config = resolver.loadAgentConfig(agentId);
-                    const webCompatible = config.environments.web?.available !== false;
-                    const ideOnly = config.environments.ide?.ide_only === true;
+                    const webCompatible = config.environments?.web?.available !== false;
+                    const ideOnly = config.environments?.ide?.ide_only === true;
                     
                     console.log(`   ${agentId}: ${config.name}`);
                     console.log(`      ${config.description}`);

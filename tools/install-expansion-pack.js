@@ -109,7 +109,11 @@ async function installExpansionPack(packName) {
     log('\nUpdating team configurations...', 'yellow');
     
     for (const update of manifest.team_updates) {
-      const teamPath = path.join(projectRoot, 'agents', update.team);
+      // Try new location first (agent-teams), then fallback to old location (agents)
+      let teamPath = path.join(projectRoot, 'agent-teams', update.team);
+      if (!fs.existsSync(teamPath)) {
+        teamPath = path.join(projectRoot, 'agents', update.team);
+      }
       
       if (fs.existsSync(teamPath)) {
         try {

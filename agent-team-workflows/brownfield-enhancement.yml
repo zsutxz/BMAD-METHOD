@@ -1,0 +1,193 @@
+workflow:
+  id: brownfield-enhancement
+  name: Brownfield Enhancement
+  description: >-
+    Workflow for adding features, refactoring, or modernizing existing applications.
+    Handles legacy code analysis and incremental improvements.
+  type: brownfield
+  project_types:
+    - feature-addition
+    - refactoring
+    - modernization
+    - bug-fix
+
+  stages:
+    - id: system-analysis
+      name: Existing System Analysis
+      description: Understand current system and identify improvement areas
+      steps:
+        - agent: analyst
+          action: System Assessment
+          description: >-
+            Analyze existing system, codebase, and identify pain points
+          inputs:
+            - existing-documentation
+            - codebase-access
+          outputs:
+            - system-assessment
+            - improvement-opportunities
+            - technical-debt-analysis
+          prompts:
+            - "Let's analyze the existing system architecture"
+            - "What are the main pain points and technical debt?"
+            - "Share any existing documentation or system diagrams"
+            - "You can also share the codebase if you have access to it"
+
+        - agent: dev
+          action: Code Analysis
+          description: >-
+            Deep dive into codebase quality and structure
+          inputs:
+            - codebase-access
+          outputs:
+            - code-quality-report
+            - dependency-analysis
+            - refactoring-candidates
+          prompts:
+            - "Let me analyze the code structure and quality"
+            - "Identifying areas that need refactoring"
+
+    - id: enhancement-planning
+      name: Enhancement Planning
+      description: Plan improvements and new features
+      steps:
+        - agent: pm
+          action: Enhancement Strategy
+          description: >-
+            Define enhancement goals and success criteria
+          inputs:
+            - system-assessment
+            - improvement-opportunities
+          outputs:
+            - enhancement-prd
+            - success-metrics
+            - risk-assessment
+          prompts:
+            - "What specific enhancements are we targeting?"
+            - "Define success metrics for these improvements"
+
+        - agent: architect
+          action: Integration Architecture
+          description: >-
+            Design how new features integrate with existing system
+          inputs:
+            - enhancement-prd
+            - system-assessment
+          outputs:
+            - integration-architecture
+            - migration-strategy
+            - compatibility-matrix
+          prompts:
+            - "How will new features integrate with existing code?"
+            - "Design migration strategy for gradual rollout"
+
+    - id: incremental-design
+      name: Incremental Design
+      description: Design changes that don't break existing functionality
+      steps:
+        - agent: fullstack-architect
+          action: Incremental Architecture
+          description: >-
+            Design architecture that allows gradual migration
+          inputs:
+            - integration-architecture
+            - technical-debt-analysis
+          outputs:
+            - incremental-architecture
+            - feature-flags-design
+            - rollback-strategy
+          prompts:
+            - "Design architecture for incremental deployment"
+            - "How do we maintain backward compatibility?"
+
+        - agent: devops
+          action: Deployment Strategy
+          description: >-
+            Plan zero-downtime deployment and rollback procedures
+          inputs:
+            - incremental-architecture
+          outputs:
+            - deployment-strategy
+            - canary-release-plan
+            - monitoring-upgrades
+          prompts:
+            - "Design blue-green or canary deployment"
+            - "Upgrade monitoring for new features"
+
+    - id: risk-mitigation
+      name: Risk Assessment & Mitigation
+      description: Identify and plan for risks in brownfield changes
+      steps:
+        - agent: qa
+          action: Regression Risk Analysis
+          description: >-
+            Identify regression risks and test coverage gaps
+          inputs:
+            - code-quality-report
+            - integration-architecture
+          outputs:
+            - regression-risk-matrix
+            - test-gap-analysis
+            - test-automation-plan
+          prompts:
+            - "What existing functionality might break?"
+            - "Where do we need additional test coverage?"
+
+        - agent: po
+          action: Change Impact Review
+          description: >-
+            Review all changes for business impact
+          inputs:
+            - enhancement-prd
+            - risk-assessment
+            - regression-risk-matrix
+          outputs:
+            - impact-analysis
+            - stakeholder-communication
+            - approval-checklist
+          prompts:
+            - "Review impact on existing users and workflows"
+            - "Prepare stakeholder communication plan"
+
+    - id: implementation-planning
+      name: Phased Implementation
+      description: Create phased implementation plan
+      steps:
+        - agent: sm
+          action: Phased Story Creation
+          description: >-
+            Create stories for incremental implementation
+          inputs:
+            - incremental-architecture
+            - impact-analysis
+          outputs:
+            - implementation-phases
+            - user-stories
+            - dependency-map
+          prompts:
+            - "Break down into safe, incremental phases"
+            - "Map dependencies between stories"
+
+  transitions:
+    - from: system-analysis
+      to: enhancement-planning
+      condition: assessment complete
+    - from: enhancement-planning
+      to: incremental-design
+      condition: strategy defined
+    - from: incremental-design
+      to: risk-mitigation
+      condition: architecture approved
+    - from: risk-mitigation
+      to: implementation-planning
+      condition: risks assessed
+
+  special_considerations:
+    - name: Legacy Code
+      description: Handle undocumented or poorly structured code
+    - name: Data Migration
+      description: Plan for data structure changes
+    - name: User Training
+      description: Consider impact on existing users
+    - name: Rollback Plan
+      description: Always have a way to revert changes

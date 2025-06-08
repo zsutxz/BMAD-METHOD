@@ -16,3 +16,8 @@ dependencies:
     - bmad-kb
   utils:
     - orchestrator-commands
+    - workflow-management
+    - create-agent
+    - create-ide-agent
+    - create-team
+    - create-expansion-pack

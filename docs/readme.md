@@ -39,7 +39,7 @@ Want to modify agents or create custom bundles?
 
 1. **Copy bmad-core** to your project
 2. **Install dependencies**: `npm install`
-3. **Customize** agents in `/agents/` or resources in `/bmad-core/`
+3. **Customize** agents in `/agents/`, team bundles in `/agent-teams/`, or resources in `/bmad-core/`
 4. **Build**: `npm run build`
 
 ## When Do You Need npm install?

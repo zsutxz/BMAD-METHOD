@@ -13,6 +13,7 @@ class WebBuilder {
     constructor(rootPath = process.cwd()) {
         this.rootPath = rootPath;
         this.agentsPath = path.join(rootPath, 'agents');
+        this.teamsPath = path.join(rootPath, 'agent-teams');
         this.outputPath = path.join(rootPath, 'dist');
         this.sampleUpdatePath = path.join(rootPath, 'web-bundles');
         this.resolver = new DependencyResolver(rootPath);
@@ -115,6 +116,49 @@ class WebBuilder {
     }
 
     /**
+     * Expand agent wildcards in the list
+     * If the list contains '*', it will be replaced with all available agents
+     */
+    expandAgentWildcards(agentIds) {
+        // Check if wildcard is present
+        const wildcardIndex = agentIds.indexOf('*');
+        if (wildcardIndex === -1) {
+            return agentIds;
+        }
+
+        // Get all available agents
+        const allAgents = this.resolver.getAvailableAgents()
+            .filter(agentId => {
+                // Exclude team bundles
+                if (agentId.startsWith('team-')) {
+                    return false;
+                }
+                
+                try {
+                    const config = this.resolver.loadAgentConfig(agentId);
+                    // Include all agents that don't explicitly disable web
+                    return config.environments?.web?.available !== false;
+                } catch {
+                    return false;
+                }
+            });
+
+        // Create expanded list
+        const expandedList = [...agentIds];
+        
+        // Replace wildcard with all agents not already in the list
+        const existingAgents = new Set(agentIds.filter(id => id !== '*'));
+        const agentsToAdd = allAgents.filter(agent => !existingAgents.has(agent));
+        
+        // Replace the wildcard with the missing agents
+        expandedList.splice(wildcardIndex, 1, ...agentsToAdd);
+        
+        console.log(`   Expanded wildcard to include: ${agentsToAdd.join(', ')}`);
+        
+        return expandedList;
+    }
+
+    /**
      * Build a specific bundle
      */
     async buildBundle(bundleConfig) {
@@ -124,7 +168,10 @@ class WebBuilder {
         console.log(`${emoji} Building ${bundleType}: ${bundleConfig.name}`);
 
         // Ensure agents is an array of strings
-        const agentIds = Array.isArray(bundleConfig.agents) ? bundleConfig.agents : [];
+        let agentIds = Array.isArray(bundleConfig.agents) ? bundleConfig.agents : [];
+        
+        // Expand wildcards
+        agentIds = this.expandAgentWildcards(agentIds);
         
         // Resolve dependencies
         const agentDependencies = this.resolver.resolveBundleDependencies(
@@ -360,8 +407,33 @@ class WebBuilder {
      */
     loadBundleConfigs() {
         const configs = [];
+        
+        // Load team configurations from agent-teams directory
+        const teamFiles = this.findAgentFiles(this.teamsPath);
+        teamFiles.forEach(file => {
+            try {
+                const content = fs.readFileSync(file, 'utf8');
+                const config = yaml.load(content);
+                
+                // Check if this has bundle config
+                if (config.bundle) {
+                    // Only include web bundles (exclude IDE-specific bundles)
+                    if (config.bundle.target_environment === 'web') {
+                        // Merge agents list from root level into bundle config
+                        const bundleConfig = { ...config.bundle };
+                        if (config.agents && !bundleConfig.agents) {
+                            bundleConfig.agents = config.agents;
+                        }
+                        configs.push(bundleConfig);
+                    }
+                }
+            } catch (error) {
+                console.warn(`Warning: Failed to load config ${file}:`, error.message);
+            }
+        });
+        
+        // For backward compatibility, also check agents directory for team-*.yml files
         const agentFiles = this.findAgentFiles(this.agentsPath);
-
         agentFiles.forEach(file => {
             try {
                 const content = fs.readFileSync(file, 'utf8');

@@ -1,0 +1,16 @@
+bundle:
+  name: Full-Stack Development Team
+  description: >-
+    Comprehensive full-stack development team capable of handling both greenfield 
+    application development and brownfield enhancement projects. This team combines 
+    strategic planning, user experience design, and holistic system architecture 
+    to deliver complete solutions from concept to deployment. Specializes in 
+    full-stack applications, SaaS platforms, enterprise apps, feature additions, 
+    refactoring, and system modernization.
+  target_environment: web
+
+agents:
+  - bmad
+  - pm
+  - ux-expert
+  - fullstack-architect

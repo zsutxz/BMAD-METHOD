@@ -74,7 +74,7 @@ dependencies:
     - pm-checklist
 ```
 
-Team bundles are defined in `team-*.yml` files:
+Team bundles are defined in the `/agent-teams/` directory as `team-*.yml` files:
 
 ```yaml
 bundle:
@@ -98,7 +98,8 @@ The BMAD v4 system uses this structure:
 
 ```
 BMAD-METHOD/
-├── agents/              # Agent YAML configurations
+├── agents/              # Individual agent YAML configurations
+├── agent-teams/         # Team bundle YAML configurations
 ├── bmad-core/          # Core resources
 │   ├── personas/       # Agent personality definitions
 │   ├── tasks/         # Reusable task instructions

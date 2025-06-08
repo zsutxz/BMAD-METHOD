@@ -1,0 +1,227 @@
+workflow:
+  id: fullstack-app
+  name: Full-Stack Application Development
+  description: >-
+    Comprehensive workflow for building production-ready full-stack applications
+    with emphasis on UI/UX and scalable architecture.
+  type: greenfield
+  project_types:
+    - web-app
+    - saas
+    - enterprise-app
+  
+  stages:
+    - id: discovery
+      name: Discovery & Analysis
+      description: Deep dive into requirements and market analysis
+      steps:
+        - agent: analyst
+          action: Market & Requirements Analysis
+          description: >-
+            Analyze market, competitors, and gather detailed requirements
+          outputs:
+            - project-brief
+            - market-analysis
+          prompts:
+            - "Let's analyze the market landscape for your application"
+            - "What are your competitive advantages?"
+            
+    - id: product-design
+      name: Product Design
+      description: Create comprehensive product specifications
+      steps:
+        - agent: pm
+          action: Create Detailed PRD
+          description: >-
+            Create comprehensive PRD with user stories and success metrics
+          inputs:
+            - project-brief
+            - market-analysis
+          outputs:
+            - prd
+            - success-metrics
+          prompts:
+            - "Let's define detailed features and user stories"
+            - "What metrics will measure success?"
+            
+        - agent: ux-expert
+          action: Complete UX Design
+          description: >-
+            Create user research, personas, flows, and detailed wireframes
+          inputs:
+            - prd
+          outputs:
+            - user-personas
+            - user-flows
+            - wireframes
+            - ui-specifications
+          prompts:
+            - "Let's create detailed user personas"
+            - "Time to design the complete user experience"
+            
+    - id: ui-development
+      name: UI Design & Prototyping
+      description: Create high-fidelity designs and interactive prototypes
+      steps:
+        - agent: ui-architect
+          action: UI Architecture & Design System
+          description: >-
+            Create design system, component library specs, and UI architecture
+          inputs:
+            - wireframes
+            - ui-specifications
+          outputs:
+            - design-system
+            - component-specs
+            - ui-architecture
+          prompts:
+            - "Let's create a scalable design system"
+            - "Define reusable component architecture"
+            
+        - agent: ux-expert
+          action: Generate UI Components
+          description: >-
+            Create AI prompts and generate actual UI components
+          inputs:
+            - design-system
+            - component-specs
+          outputs:
+            - ui-generation-prompts
+            - generated-components
+          prompts:
+            - "Let's create prompts for AI UI generation"
+            - "Generate the core UI components"
+            
+    - id: technical-architecture
+      name: System Architecture
+      description: Design complete technical architecture
+      steps:
+        - agent: fullstack-architect
+          action: System Architecture Design
+          description: >-
+            Design complete system including microservices, APIs, and infrastructure
+          inputs:
+            - prd
+            - ui-architecture
+          outputs:
+            - system-architecture
+            - api-specifications
+            - data-models
+          prompts:
+            - "Design the complete system architecture"
+            - "Define API contracts and data models"
+            
+        - agent: architect
+          action: Backend Architecture
+          description: >-
+            Detail backend services, integrations, and technical specifications
+          inputs:
+            - system-architecture
+            - api-specifications
+          outputs:
+            - backend-architecture
+            - integration-specs
+          prompts:
+            - "Detail the backend service architecture"
+            - "Define third-party integrations"
+            
+        - agent: devops
+          action: Infrastructure Design
+          description: >-
+            Design cloud infrastructure, CI/CD, and deployment architecture
+          inputs:
+            - system-architecture
+          outputs:
+            - infrastructure-design
+            - deployment-architecture
+            - ci-cd-pipeline
+          prompts:
+            - "Design the cloud infrastructure"
+            - "Create CI/CD pipeline specifications"
+            
+    - id: validation
+      name: Comprehensive Validation
+      description: Validate all artifacts and ensure alignment
+      steps:
+        - agent: po
+          action: Full Artifact Validation
+          description: >-
+            Validate all documents, ensure alignment, and approve for development
+          inputs:
+            - prd
+            - system-architecture
+            - ui-architecture
+            - infrastructure-design
+          outputs:
+            - validation-report
+            - approved-artifacts
+          prompts:
+            - "Complete validation of all artifacts"
+            - "Any final adjustments needed?"
+            
+    - id: development-planning
+      name: Sprint Planning
+      description: Create detailed development plan and stories
+      steps:
+        - agent: sm
+          action: Create Sprint Plan
+          description: >-
+            Create epics, user stories, and detailed sprint plan
+          inputs:
+            - approved-artifacts
+          outputs:
+            - epics
+            - user-stories
+            - sprint-plan
+            - definition-of-done
+          prompts:
+            - "Let's break this into epics and stories"
+            - "Create the sprint roadmap"
+            
+    - id: quality-planning
+      name: Quality Assurance Planning
+      description: Define testing strategy and quality metrics
+      steps:
+        - agent: qa
+          action: Test Strategy & Planning
+          description: >-
+            Create comprehensive test strategy and automation plan
+          inputs:
+            - prd
+            - system-architecture
+            - user-stories
+          outputs:
+            - test-strategy
+            - test-cases
+            - automation-plan
+          prompts:
+            - "Define the testing strategy"
+            - "Plan test automation approach"
+            
+  transitions:
+    - from: discovery
+      to: product-design
+      condition: project-brief completed
+    - from: product-design
+      to: ui-development
+      condition: prd and wireframes completed
+    - from: ui-development
+      to: technical-architecture
+      condition: ui components designed
+    - from: technical-architecture
+      to: validation
+      condition: all architecture completed
+    - from: validation
+      to: development-planning
+      condition: artifacts approved
+    - from: development-planning
+      to: quality-planning
+      condition: stories created
+      
+  checkpoints:
+    - after: product-design
+      review: Stakeholder review of PRD and UX
+    - after: technical-architecture
+      review: Architecture review board
+    - after: validation
+      review: Final go/no-go decision

@@ -1,0 +1,179 @@
+workflow:
+  id: greenfield-mvp
+  name: Greenfield MVP Development
+  description: >-
+    Complete workflow for building a new MVP from scratch. Takes you from initial
+    idea through planning, architecture, and development setup.
+  type: greenfield
+  project_types:
+    - web-app
+    - mobile-app
+    - full-stack
+    - app with microservice rest api
+
+  stages:
+    - id: discovery
+      name: Discovery & Requirements
+      description: Understand the problem space and gather requirements
+      steps:
+        - agent: analyst
+          action: Create Project Brief
+          description: >-
+            Brainstorm and document the project vision, goals, and high-level requirements
+          outputs:
+            - project-brief
+          prompts:
+            - "Let's explore your project idea. What problem are you trying to solve?"
+            - "Who are your target users and what are their main pain points?"
+
+    - id: planning
+      name: Product Planning
+      description: Define the product and create detailed requirements
+      steps:
+        - agent: pm
+          action: Create PRD
+          description: >-
+            Transform the project brief into a comprehensive Product Requirements Document
+          inputs:
+            - project-brief
+          outputs:
+            - prd
+          prompts:
+            - "Based on the project brief, let's define the MVP features"
+            - "What are the must-have features vs nice-to-have for launch?"
+
+        - agent: ux-expert
+          action: Design UX Strategy
+          description: >-
+            Create user flows, wireframes, and UI specifications
+          inputs:
+            - prd
+          outputs:
+            - ux-strategy
+            - ui-specifications
+          prompts:
+            - "Let's map out the user journey for the core features"
+            - "What UI patterns best serve your users' needs?"
+
+    - id: architecture
+      name: Technical Architecture
+      description: Design the system architecture and technical approach
+      steps:
+        - agent: fullstack-architect
+          action: Create Architecture Document
+          description: >-
+            Design comprehensive system architecture covering all layers
+          inputs:
+            - prd
+            - ui-specifications
+          outputs:
+            - architecture-doc
+          prompts:
+            - "Let's design a scalable architecture for your MVP"
+            - "What are your performance and scaling requirements?"
+
+        - agent: ui-architect
+          action: Create Frontend Architecture
+          description: >-
+            Detail the frontend architecture and component design
+          inputs:
+            - architecture-doc
+            - ui-specifications
+          outputs:
+            - frontend-architecture
+            - ui-prompt-specs
+          prompts:
+            - "Let's define the frontend stack and component architecture"
+            - "Should we generate UI components with AI assistance?"
+
+    - id: validation
+      name: Validation & Refinement
+      description: Review and validate all planning artifacts
+      steps:
+        - agent: po
+          action: Validate Artifacts
+          description: >-
+            Review all documents for consistency and completeness
+          inputs:
+            - project-brief
+            - prd
+            - architecture-doc
+            - frontend-architecture
+          outputs:
+            - validation-report
+            - change-requests
+          prompts:
+            - "Let's review all artifacts for consistency"
+            - "Are there any gaps or conflicts to address?"
+
+    - id: development-planning
+      name: Development Planning
+      description: Create actionable development stories
+      steps:
+        - agent: sm
+          action: Create User Stories
+          description: >-
+            Break down requirements into sprint-ready user stories
+          inputs:
+            - prd
+            - architecture-doc
+            - validation-report
+          outputs:
+            - user-stories
+            - sprint-plan
+          prompts:
+            - "Let's create the first sprint's user stories"
+            - "How should we prioritize the backlog?"
+
+    - id: development-handoff
+      name: Development Handoff
+      description: Transition to implementation phase
+      steps:
+        - agent: dev
+          action: Development Setup
+          description: >-
+            Review all artifacts and set up development environment
+          inputs:
+            - architecture-doc
+            - frontend-architecture
+            - user-stories
+          outputs:
+            - dev-environment
+            - implementation-plan
+          prompts:
+            - "Let's set up the development environment"
+            - "Ready to start implementing the first story?"
+
+  transitions:
+    - from: discovery
+      to: planning
+      condition: project-brief completed
+    - from: planning
+      to: architecture
+      condition: prd and ui-specifications completed
+    - from: architecture
+      to: validation
+      condition: all architecture docs completed
+    - from: validation
+      to: development-planning
+      condition: validation passed
+    - from: development-planning
+      to: development-handoff
+      condition: stories created
+
+  artifacts:
+    project-brief:
+      template: project-brief-tmpl
+      description: High-level project vision and goals
+    prd:
+      template: prd-tmpl
+      description: Detailed product requirements
+    architecture-doc:
+      template: fullstack-architecture-tmpl
+      description: Complete system architecture
+    frontend-architecture:
+      template: front-end-architecture-tmpl
+      description: Frontend-specific architecture
+    user-stories:
+      template: story-tmpl
+      description: Development-ready user stories

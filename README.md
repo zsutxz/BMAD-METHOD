@@ -54,7 +54,7 @@ Only needed if you want to customize agents:
 ### Configuring Custom Agents
 
 - Edit YAML files in `/agents/` to customize behavior
-- Create new team combinations in `team-*.yml` files
+- Create new team combinations in `/agent-teams/` directory
 - All configuration is now YAML-based for easy editing
 
 ### IDE Slash Commands

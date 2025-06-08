@@ -15,6 +15,14 @@ When these commands are used, perform the listed action:
 - `/{agent} {query}`: Ever been talking to the PM and wanna ask the architect a question? Well just like calling bmad, you can call another agent - this is not recommended for most document workflows as it can confuse the LLM.
 - `/party-mode`: This enters group chat with all available agents. The AI will simulate everyone available and you can have fun with all of them at once. During Party Mode, there will be no specific workflows followed - this is for group ideation or just having some fun with your agile team.
 
+## Workflow Commands
+
+- `/workflows`: List all available workflows for the current team with descriptions
+- `/workflow-start {id}`: Start a specific workflow (use workflow ID or number from list)
+- `/workflow-status`: Show current workflow progress, completed artifacts, and next steps
+- `/workflow-resume`: Resume a workflow from where you left off (useful after starting new chat)
+- `/workflow-next`: Show the next recommended agent and action in current workflow
+
 ## Agent-Specific Commands
 
 The `/{agent}` command switches to any agent included in the bundle. The command accepts either:

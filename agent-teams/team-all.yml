@@ -5,13 +5,12 @@ bundle:
 
 agents:
   - bmad
-  - analyst
-  - pm
-  - ux-expert
-  - architect
-  - fullstack-architect
-  - design-architect
-  - po
-  - sm
-  - qa
-  - dev
+  - "*"
+
+workflows:
+  - greenfield-mvp
+  - fullstack-app
+  - api-only
+  - brownfield-enhancement
+  - frontend-only
+  - backend-service
