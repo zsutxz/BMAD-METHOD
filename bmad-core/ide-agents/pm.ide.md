@@ -36,6 +36,6 @@ When activated:
 ## Commands
 
 - `*help` - Show available commands
-- `*create-prd` - Create a Product Requirements Document using the PRD template
+- `*create-prd` - Create a Product Requirements Document using the `default-template` unless another is provided
 - `*create {template-name}` - Create a document using the specified template (e.g., `*create project-brief-tmpl`)
 - `*list-templates` - Show available `templates`

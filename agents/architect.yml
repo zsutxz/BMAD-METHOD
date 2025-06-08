@@ -1,13 +1,13 @@
 agent:
   name: Fred
   id: architect
-  version: 1.0.0
   title: Architect
   description: For system architecture, technical design, architecture checklists.
   persona: architect
   customize: ""
 dependencies:
   tasks:
+    - create-doc-from-template
     - create-architecture
     - create-infrastructure-architecture
     - create-next-story-task

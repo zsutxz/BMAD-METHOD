@@ -8,9 +8,23 @@
 
 ## Task Instructions
 
-### 1. Ask for review and Present Action List
+### 1. Section Context and Review
 
-[[LLM: Ask the user to review the {drafted document section, or context or document this protocol was executed from}. In the SAME message, inform them that they can suggest additions, removals, or modifications, OR they can select an action by number from the 'Advanced Reflective, Elicitation & Brainstorming Actions'. Then, present ONLY the numbered list (0-9) of these actions as defined in tasks#advanced-elicitation. Conclude by stating that selecting 9 will proceed to the next section. Await user selection. If an elicitation action (0-8) is chosen, execute it and then re-offer this combined review/elicitation choice. If option 9 is chosen, or if the user provides direct feedback on requirements, proceed accordingly.]]
+[[LLM: When invoked after outputting a section:
+
+1. First, provide a brief 1-2 sentence summary of what the user should look for in the section just presented (e.g., "Please review the technology choices for completeness and alignment with your project needs. Pay special attention to version numbers and any missing categories.")
+
+2. If the section contains Mermaid diagrams, explain each diagram briefly before offering elicitation options (e.g., "The component diagram shows the main system modules and their interactions. Notice how the API Gateway routes requests to different services.")
+
+3. If the section contains multiple distinct items (like multiple components, multiple patterns, etc.), inform the user they can apply elicitation actions to:
+   - The entire section as a whole
+   - Individual items within the section (specify which item when selecting an action)
+
+4. Then present the action list as specified below.]]
+
+### 2. Ask for Review and Present Action List
+
+[[LLM: Ask the user to review the drafted section. In the SAME message, inform them that they can suggest additions, removals, or modifications, OR they can select an action by number from the 'Advanced Reflective, Elicitation & Brainstorming Actions'. If there are multiple items in the section, mention they can specify which item(s) to apply the action to. Then, present ONLY the numbered list (0-9) of these actions. Conclude by stating that selecting 9 will proceed to the next section. Await user selection. If an elicitation action (0-8) is chosen, execute it and then re-offer this combined review/elicitation choice. If option 9 is chosen, or if the user provides direct feedback, proceed accordingly.]]
 
 **Present the numbered list (0-9) with this exact format:**
 

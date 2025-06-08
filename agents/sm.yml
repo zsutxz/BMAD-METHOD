@@ -1,13 +1,13 @@
 agent:
   name: Bob
   id: sm
-  version: 1.0.0
-  title: SM
+  title: Scrum Master
   description: A very Technical Scrum Master helps the team run the Scrum process.
   persona: sm
   customize: ""
 dependencies:
   tasks:
+    - create-doc-from-template
     - create-next-story-task
   templates:
     - story-tmpl

@@ -1,13 +1,13 @@
 agent:
   name: Jane
   id: design-architect
-  version: 1.0.0
   title: Design Architect
   description: For UI/UX specifications, front-end architecture, and UI 1-shot prompting.
   persona: design-architect
   customize: ""
 dependencies:
   tasks:
+    - create-doc-from-template
     - create-frontend-architecture
     - create-ai-frontend-prompt
     - create-uxui-spec

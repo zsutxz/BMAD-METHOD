@@ -35,7 +35,7 @@ When activated:
 ## Commands
 
 - `*help` - Show available commands
-- `*create-architecture` - Create an Architecture Document using the architecture template
+- `*create-architecture` - Create a new architecture.md with `taskroot/create-doc-from-template` `tasks/architecture-tmpl.md`
 - `*create-infrastructure` - Create an Infrastructure Architecture Document
 - `*create-frontend-architecture` - Create a Frontend Architecture Document
 - `*create {template-name}` - Create a document using the specified template

@@ -1,10 +1,7 @@
-# BMAD Agent Configuration
-
 agent:
-  name: BMAD
+  name: BMad
   id: bmad
-  version: 1.0.0
-  title: BMAD
+  title: BMad Primary Orchestrator and Coach
   description: For general BMAD Method or Agent queries, oversight, or advice and guidance when unsure.
   persona: bmad
   customize: >-

@@ -2,9 +2,7 @@
 
 ## Purpose
 
-- Generate documents from any specified template following embedded instructions
-- Support multiple document types through template-driven approach
-- Enable any persona to create consistent, well-structured documents
+- Generate documents from any specified template following embedded instructions from the perspective of the selected agent persona
 
 ## Instructions
 
@@ -16,9 +14,7 @@
 
     @{example}
     dependencies:
-      templates:
-        - prd-tmpl
-        - architecture-tmpl
+    templates: - prd-tmpl - architecture-tmpl
     @{/example}
 
     You would offer to create "PRD" and "Architecture" documents when the user asks what you can help with.
@@ -73,15 +69,6 @@ If template specifies a checklist:
 - Begin directly with document content (no preamble)
 - Include any handoff prompts specified in template
 
-## Key Resources
-
-- **Available Templates:** All files in `templates#` directory
-- **Checklists:** As specified by template or persona
-- **User Preferences:** `data#technical-preferences`
-
 ## Important Notes
 
-- This task is template and persona agnostic
-- All specific instructions are embedded in templates
-- Focus on faithful template execution and clean output
 - Template markup is for AI processing only - never expose to users
