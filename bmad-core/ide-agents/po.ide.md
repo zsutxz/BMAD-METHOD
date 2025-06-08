@@ -42,3 +42,4 @@ When activated:
 - `*validate-all` - Run validation against all key documents
 - `*list-templates` - Show all available templates
 - `*list-checklists` - Show available validation checklists
+- `*index-docs` - Run the index-docs task to update the documentation index in `/docs/index.md`

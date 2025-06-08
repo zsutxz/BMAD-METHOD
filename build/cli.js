@@ -19,7 +19,8 @@ program
 
 // Build all web bundles and agents
 program
-    .command('build:web')
+    .command('build')
+    .alias('build:web')
     .description('Build all web bundles and standalone agents')
     .action(async () => {
         try {

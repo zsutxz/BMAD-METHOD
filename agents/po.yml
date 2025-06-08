@@ -9,8 +9,8 @@ agent:
   customize: ""
 dependencies:
   tasks:
-    - checklist-run-task
-    - doc-sharding-task
+    - execute-checklist
+    - shard-doc
     - correct-course
   templates:
     - story-tmpl

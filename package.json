@@ -7,10 +7,7 @@
     "bmad-build": "build/cli.js"
   },
   "scripts": {
-    "build": "node build/cli.js build:web",
-    "build:web": "node build/cli.js build:web",
-    "build:bundle": "node build/cli.js build:bundle",
-    "build:agent": "node build/cli.js build:agent",
+    "build": "node build/cli.js build",
     "list:agents": "node build/cli.js list:agents",
     "analyze:deps": "node build/cli.js analyze:deps",
     "validate": "node build/cli.js validate",
@@ -31,7 +28,7 @@
     "agents",
     "bmad"
   ],
-  "author": "BMAD Development Team",
+  "author": "Brian (BMad) Madison",
   "license": "MIT",
   "repository": {
     "type": "git",

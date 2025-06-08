@@ -23,6 +23,7 @@ node build/cli.js build:bundle --name "planning"
 ```
 
 **Key Resources:**
+
 - `bmad-core/`: Portable resources for copying to your projects
 - `agents/`: Individual agent configurations
 - `bundles/`: Bundle configurations for different use cases
@@ -62,13 +63,13 @@ Paths in the configuration file (`build-web-agent.cfg.js`) are relative to the `
 The script expects a specific structure within the `asset_root` directory:
 
 1. **Subdirectories**: Create subdirectories directly under `asset_root` for each category of assets. Based on the `bmad-agent/` folder, these would be:
-    - `checklists/`
-    - `data/`
-    - `personas/`
-    - `tasks/`
-    - `templates/`
+   - `checklists/`
+   - `data/`
+   - `personas/`
+   - `tasks/`
+   - `templates/`
 2. **Asset Files**: Place your individual asset files (e.g., `.md`, `.txt`) within these subdirectories.
-    - For example, persona definition files would go into `asset_root/personas/`, task files into `asset_root/tasks/`, etc.
+   - For example, persona definition files would go into `asset_root/personas/`, task files into `asset_root/tasks/`, etc.
 3. **Filename Uniqueness**: Within each subdirectory, ensure that all files have unique base names (i.e., the filename without its final extension). For example, having `my-persona.md` and `my-persona.txt` in the _same_ subdirectory (e.g., `personas/`) will cause the script to halt with an error. However, `my-persona.md` and `another-persona.md` is fine.
 
 ### Running the Build Script
@@ -76,8 +77,8 @@ The script expects a specific structure within the `asset_root` directory:
 NOTE the build will skip any files with the `.ide.<extension>` - so you can have ide specific agents or files also that do not make sense for the web, such as `dev.ide.md` - or a specific ide `sm.ide.md`.
 
 1. ```cmd
-    node build-web-agent.js
-    ```
+   node build-web-agent.js
+   ```
 
 The script will log its progress, including discovered source directories, any issues found (like duplicate base filenames), and the output files being generated.
 
@@ -86,8 +87,8 @@ The script will log its progress, including discovered source directories, any i
 After running the script, the `build_dir` (e.g., `bmad-agent/build/`) will contain:
 
 1. **Bundled Asset Files**: For each subdirectory processed in `asset_root`, a corresponding `.txt` file will be created in `build_dir`. Each file concatenates the content of all files from its source subdirectory.
-    - Example: Files from `asset_root/personas/` will be bundled into `build_dir/personas.txt`.
-    - Each original file's content within the bundle is demarcated by `==================== START: [base_filename] ====================` and `==================== END: [base_filename] ====================`.
+   - Example: Files from `asset_root/personas/` will be bundled into `build_dir/personas.txt`.
+   - Each original file's content within the bundle is demarcated by `==================== START: [base_filename] ====================` and `==================== END: [base_filename] ====================`.
 2. **`agent-prompt.txt`**: This file is a copy of the bmad orchestrator prompt specified by `orchestrator_agent_prompt` in the configuration.
 3. **`agent-config.txt**: This is the key file so the orchestrator knows what agents and tasks are configured, and how to find the specific instructions and tasks for the agent in the compiled build assets
 
@@ -140,8 +141,8 @@ While `build-bmad-orchestrator.js` packages assets, the Orchestrator's core beha
 1. The Orchestrator (initially BMad) loads and parses the Markdown agent configuration file (e.g., `web-bmad-orchestrator-agent.cfg.md`).
 2. When a user request matches an agent's `title`, `name`, `description`, or `classification_label`, the Orchestrator identifies the target agent.
 3. It then loads the agent's `persona` and any associated `templates`, `checklists`, `data_sources`, and `tasks` by:
-    - Identifying the correct bundled `.txt` file (e.g., `personas.txt` for `personas#pm`).
-    - Extracting the specific content block (e.g., the `pm` section from `personas.txt`).
+   - Identifying the correct bundled `.txt` file (e.g., `personas.txt` for `personas#pm`).
+   - Extracting the specific content block (e.g., the `pm` section from `personas.txt`).
 4. The `Customize` instructions from the Markdown configuration are applied, potentially modifying the agent's behavior.
 5. The Orchestrator then _becomes_ that agent, adopting its complete persona, knowledge, and operational parameters defined in the Markdown configuration and the loaded asset sections.
 
@@ -162,91 +163,91 @@ A powerful alternative is the `ide-bmad-orchestrator.md`. This agent provides th
 #### How the IDE Orchestrator Works
 
 1. **Configuration (`ide-bmad-orchestrator.cfg.md`):**
-    The orchestrator's behavior is primarily driven by a Markdown configuration file (e.g., `bmad-agent/ide-bmad-orchestrator.cfg.md`, the path to which is specified within the `ide-bmad-orchestrator.md` itself). This config file has two main parts:
+   The orchestrator's behavior is primarily driven by a Markdown configuration file (e.g., `bmad-agent/ide-bmad-orchestrator.cfg.md`, the path to which is specified within the `ide-bmad-orchestrator.md` itself). This config file has two main parts:
 
-    - **Data Resolution:**
-      Located at the top of the config file, this section defines key-value pairs for base paths. These paths tell the orchestrator where to find different types of asset files (personas, tasks, checklists, templates, data).
+   - **Data Resolution:**
+     Located at the top of the config file, this section defines key-value pairs for base paths. These paths tell the orchestrator where to find different types of asset files (personas, tasks, checklists, templates, data).
 
-      ```markdown
-      # Configuration for IDE Agents
+     ```markdown
+     # Configuration for IDE Agents
 
-      ## Data Resolution
+     ## Data Resolution
 
-      agent-root: (project-root)/bmad-agent
-      checklists: (agent-root)/checklists
-      data: (agent-root)/data
-      personas: (agent-root)/personas
-      tasks: (agent-root)/tasks
-      templates: (agent-root)/templates
+     agent-root: (project-root)/bmad-agent
+     checklists: (agent-root)/checklists
+     data: (agent-root)/data
+     personas: (agent-root)/personas
+     tasks: (agent-root)/tasks
+     templates: (agent-root)/templates
 
-      NOTE: All Persona references and task markdown style links assume these data resolution paths unless a specific path is given.
-      Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks`, then below [Create PRD](create-prd.md) would resolve to `root/foo/tasks/create-prd.md`
-      ```
+     NOTE: All Persona references and task markdown style links assume these data resolution paths unless a specific path is given.
+     Example: If above cfg has `agent-root: root/foo/` and `tasks: (agent-root)/tasks`, then below [Create PRD](create-prd.md) would resolve to `root/foo/tasks/create-prd.md`
+     ```
 
-      The `(project-root)` placeholder is typically interpreted as the root of your current workspace.
+     The `(project-root)` placeholder is typically interpreted as the root of your current workspace.
 
-    - **Agent Definitions:**
-      Following the `Data Resolution` section, the file lists definitions for each specialized agent the orchestrator can become. Each agent is typically introduced with a `## Title:` Markdown heading.
-      Key attributes for each agent include:
+   - **Agent Definitions:**
+     Following the `Data Resolution` section, the file lists definitions for each specialized agent the orchestrator can become. Each agent is typically introduced with a `## Title:` Markdown heading.
+     Key attributes for each agent include:
 
-      - `Name`: The specific name of the agent (e.g., `- Name: Larry`).
-      - `Customize`: A string providing specific personality traits or behavioral overrides for the agent (e.g., `- Customize: "You are a bit of a know-it-all..."`).
-      - `Description`: A brief summary of the agent's role and capabilities.
-      - `Persona`: The filename of the Markdown file containing the agent's core persona definition (e.g., `- Persona: "analyst.md"`). This file is located using the `personas:` path from the `Data Resolution` section.
-      - `Tasks`: A list of tasks the agent can perform. Each task is a Markdown link:
+     - `Name`: The specific name of the agent (e.g., `- Name: Larry`).
+     - `Customize`: A string providing specific personality traits or behavioral overrides for the agent (e.g., `- Customize: "You are a bit of a know-it-all..."`).
+     - `Description`: A brief summary of the agent's role and capabilities.
+     - `Persona`: The filename of the Markdown file containing the agent's core persona definition (e.g., `- Persona: "analyst.md"`). This file is located using the `personas:` path from the `Data Resolution` section.
+     - `Tasks`: A list of tasks the agent can perform. Each task is a Markdown link:
 
-        - The link text is the user-friendly task name (e.g., `[Create PRD]`).
-        - The link target is either a Markdown filename for an external task definition (e.g., `(create-prd.md)`), resolved using the `tasks:` path, or a special string like `(In Analyst Memory Already)` indicating the task logic is part of the persona's main definition.
-          Example:
+       - The link text is the user-friendly task name (e.g., `[Create PRD]`).
+       - The link target is either a Markdown filename for an external task definition (e.g., `(create-prd.md)`), resolved using the `tasks:` path, or a special string like `(In Analyst Memory Already)` indicating the task logic is part of the persona's main definition.
+         Example:
 
-        ```markdown
-        ## Title: Product Owner AKA PO
+       ```markdown
+       ## Title: Product Owner AKA PO
 
-        - Name: Curly
-        - Persona: "po.md"
-        - Tasks:
-          - [Create PRD](create-prd.md)
-          - [Create Next Story](create-next-story-task.md)
-        ```
+       - Name: Curly
+       - Persona: "po.md"
+       - Tasks:
+         - [Create PRD](create-prd.md)
+         - [Create Next Story](create-next-story.md)
+       ```
 
 2. **Operational Workflow (inside `ide-bmad-orchestrator.md`):**
-    - **Initialization:** Upon activation in your IDE, the `ide-bmad-orchestrator.md` first loads and parses its specified configuration file (`ide-bmad-orchestrator.cfg.md`). If this fails, it will inform you and halt.
-    - **Greeting & Persona Listing:** It will greet you. If your initial instruction isn't clear or if you ask, it will list the available specialist personas (by `Title`, `Name`, and `Description`) and the `Tasks` each can perform, all derived from the loaded configuration.
-    - **Persona Activation:** When you request a specific persona (e.g., "Become the Analyst" or "I need Larry to help with research"), the orchestrator:
-      - Finds the persona in its configuration.
-      - Loads the corresponding persona file (e.g., `analyst.md`).
-      - Applies any `Customize:` instructions.
-      - Announces the activation (e.g., "Activating Analyst (Larry)...").
-      - **The orchestrator then fully embodies the chosen agent.** Its original orchestrator persona becomes dormant.
-    - **Task Execution:** Once a persona is active, it will try to match your request to one of its configured `Tasks`.
-      - If the task references an external file (e.g., `create-prd.md`), that file is loaded and its instructions are followed. The active persona will use the `Data Resolution` paths from the main config to find any dependent files like templates or checklists mentioned in the task file.
-      - If a task is marked as "In Memory" (or similar), the active persona executes it based on its internal definition.
-    - **Context and Persona Switching:** The orchestrator embodies only one persona at a time. If you ask to switch to a different persona while one is active, it will typically advise starting a new chat session to maintain clear context. However, it allows an explicit "override safety protocol" command if you insist on switching personas within the same chat. This terminates the current persona and re-initializes with the new one.
+   - **Initialization:** Upon activation in your IDE, the `ide-bmad-orchestrator.md` first loads and parses its specified configuration file (`ide-bmad-orchestrator.cfg.md`). If this fails, it will inform you and halt.
+   - **Greeting & Persona Listing:** It will greet you. If your initial instruction isn't clear or if you ask, it will list the available specialist personas (by `Title`, `Name`, and `Description`) and the `Tasks` each can perform, all derived from the loaded configuration.
+   - **Persona Activation:** When you request a specific persona (e.g., "Become the Analyst" or "I need Larry to help with research"), the orchestrator:
+     - Finds the persona in its configuration.
+     - Loads the corresponding persona file (e.g., `analyst.md`).
+     - Applies any `Customize:` instructions.
+     - Announces the activation (e.g., "Activating Analyst (Larry)...").
+     - **The orchestrator then fully embodies the chosen agent.** Its original orchestrator persona becomes dormant.
+   - **Task Execution:** Once a persona is active, it will try to match your request to one of its configured `Tasks`.
+     - If the task references an external file (e.g., `create-prd.md`), that file is loaded and its instructions are followed. The active persona will use the `Data Resolution` paths from the main config to find any dependent files like templates or checklists mentioned in the task file.
+     - If a task is marked as "In Memory" (or similar), the active persona executes it based on its internal definition.
+   - **Context and Persona Switching:** The orchestrator embodies only one persona at a time. If you ask to switch to a different persona while one is active, it will typically advise starting a new chat session to maintain clear context. However, it allows an explicit "override safety protocol" command if you insist on switching personas within the same chat. This terminates the current persona and re-initializes with the new one.
 
 #### Usage Instructions for IDE Orchestrator
 
 1. **Set up your configuration (`ide-bmad-orchestrator.cfg.md`):**
-    - Ensure you have an `ide-bmad-orchestrator.cfg.md` file. You can use the one located in `bmad-agent/` as a template or starting point.
-    - Verify that the `Data Resolution` paths at the top correctly point to your asset folders (personas, tasks, templates, checklists, data) relative to your project structure.
-    - Define your desired agents with their `Title`, `Name`, `Customize` instructions, `Persona` file, and `Tasks`. Ensure the referenced persona and task files exist in the locations specified by your `Data Resolution` paths.
+   - Ensure you have an `ide-bmad-orchestrator.cfg.md` file. You can use the one located in `bmad-agent/` as a template or starting point.
+   - Verify that the `Data Resolution` paths at the top correctly point to your asset folders (personas, tasks, templates, checklists, data) relative to your project structure.
+   - Define your desired agents with their `Title`, `Name`, `Customize` instructions, `Persona` file, and `Tasks`. Ensure the referenced persona and task files exist in the locations specified by your `Data Resolution` paths.
 2. **Set up your persona and task files:**
-    - Create the Markdown files for each persona (e.g., `analyst.md`, `po.md`) in your `personas` directory.
-    - Create the Markdown files for each task (e.g., `create-prd.md`) in your `tasks` directory.
+   - Create the Markdown files for each persona (e.g., `analyst.md`, `po.md`) in your `personas` directory.
+   - Create the Markdown files for each task (e.g., `create-prd.md`) in your `tasks` directory.
 3. **Activate the Orchestrator:**
-    - In your IDE (e.g., Cursor), select the `ide-bmad-orchestrator.md` file/agent as your active AI assistant.
+   - In your IDE (e.g., Cursor), select the `ide-bmad-orchestrator.md` file/agent as your active AI assistant.
 4. **Interact with the Orchestrator:**
-    - **Initial Interaction:**
-      - The orchestrator will greet you and confirm it has loaded its configuration.
-      - You can ask: "What agents are available?" or "List personas and tasks."
-    - **Activating a Persona:**
-      - Tell the orchestrator which persona you want: "I want to work with the Product Owner," or "Activate Curly," or "Become the PO."
-    - **Performing a Task:**
-      - Once a persona is active, state the task: "Create a PRD," or if the persona is "Curly" (the PO), you might say "Curly, create the next story."
-      - You can also combine persona activation and task request: "Curly, I need you to create a PRD."
-    - **Switching Personas:**
-      - If you need to switch: "I need to talk to the Architect now."
-      - The orchestrator will advise a new chat. If you want to switch in the current chat, you'll need to give an explicit override command when prompted (e.g., "Override safety protocol and switch to Architect").
-    - **Follow Persona Instructions:** Once a persona is active, it will guide you based on its definition and the task it's performing. Remember that resource files like templates or checklists referenced by a task will be resolved using the global `Data Resolution` paths in the `ide-bmad-orchestrator.cfg.md`.
+   - **Initial Interaction:**
+     - The orchestrator will greet you and confirm it has loaded its configuration.
+     - You can ask: "What agents are available?" or "List personas and tasks."
+   - **Activating a Persona:**
+     - Tell the orchestrator which persona you want: "I want to work with the Product Owner," or "Activate Curly," or "Become the PO."
+   - **Performing a Task:**
+     - Once a persona is active, state the task: "Create a PRD," or if the persona is "Curly" (the PO), you might say "Curly, create the next story."
+     - You can also combine persona activation and task request: "Curly, I need you to create a PRD."
+   - **Switching Personas:**
+     - If you need to switch: "I need to talk to the Architect now."
+     - The orchestrator will advise a new chat. If you want to switch in the current chat, you'll need to give an explicit override command when prompted (e.g., "Override safety protocol and switch to Architect").
+   - **Follow Persona Instructions:** Once a persona is active, it will guide you based on its definition and the task it's performing. Remember that resource files like templates or checklists referenced by a task will be resolved using the global `Data Resolution` paths in the `ide-bmad-orchestrator.cfg.md`.
 
 This setup allows for a highly flexible and dynamically configured multi-persona agent directly within your IDE, streamlining various development and project management workflows.
 

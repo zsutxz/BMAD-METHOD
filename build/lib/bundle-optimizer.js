@@ -42,7 +42,10 @@ class BundleOptimizer {
             optimizedBundle.agents[agentDep.agent] = {
                 name: agentDep.config.name,
                 id: agentDep.config.id,
+                title: agentDep.config.title,
                 description: agentDep.config.description,
+                persona: agentDep.config.persona,
+                customize: agentDep.config.customize || '',
                 capabilities: agentDep.config.capabilities || [],
                 workflow: agentDep.config.workflow || []
             };
@@ -172,7 +175,7 @@ class BundleOptimizer {
         const agentDep = resolver.resolveAgentDependencies(agentId, environment);
         const bundleConfig = {
             name: `${agentDep.config.name} Standalone`,
-            version: agentDep.config.version,
+            version: agentDep.config.version || '1.0.0',
             target_environment: environment,
             optimize: true
         };

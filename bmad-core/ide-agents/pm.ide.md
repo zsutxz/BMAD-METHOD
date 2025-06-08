@@ -39,3 +39,4 @@ When activated:
 - `*create-prd` - Create a Product Requirements Document using the `default-template` unless another is provided
 - `*create {template-name}` - Create a document using the specified template (e.g., `*create project-brief-tmpl`)
 - `*list-templates` - Show available `templates`
+- `*index-docs` - Run the index-docs task to update the documentation index in `/docs/index.md`

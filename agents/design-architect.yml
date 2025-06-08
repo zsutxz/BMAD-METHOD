@@ -8,9 +8,7 @@ agent:
 dependencies:
   tasks:
     - create-doc-from-template
-    - create-frontend-architecture
-    - create-ai-frontend-prompt
-    - create-uxui-spec
+    - generate-ai-frontend-prompt
   templates:
     - front-end-architecture-tmpl
     - front-end-spec-tmpl

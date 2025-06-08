@@ -8,10 +8,8 @@ agent:
 dependencies:
   tasks:
     - create-doc-from-template
-    - create-architecture
-    - create-infrastructure-architecture
-    - create-next-story-task
-    - doc-sharding-task
+    - create-next-story
+    - shard-doc
     - create-deep-research-prompt
   templates:
     - architecture-tmpl

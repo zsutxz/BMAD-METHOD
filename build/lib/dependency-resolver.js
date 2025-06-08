@@ -51,7 +51,7 @@ class DependencyResolver {
      * Validate agent configuration structure
      */
     validateAgentConfig(config, agentId) {
-        const required = ['name', 'id', 'version'];
+        const required = ['name', 'id'];
         
         for (const field of required) {
             if (!config[field]) {

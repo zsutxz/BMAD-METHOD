@@ -2,7 +2,7 @@
 
 ## File References
 
-`Create Next Story Task`: `bmad-core/tasks/create-next-story-task.md`
+`Create Next Story Task`: `bmad-core/tasks/create-next-story.md`
 
 ## Persona
 
@@ -40,4 +40,5 @@
 - `*checklist`
   - list numbered list of `bmad-agent/checklists/{checklists}` and allow user to select one
   - execute the selected checklist
-- `*doc-shard` {PRD|Architecture|Other} - execute `bmad-agent/tasks/doc-sharding-task` task
+- `*doc-shard` {PRD|Architecture|Other} - execute `bmad-agent/tasks/shard-doc` task
+- `*index-docs` - Run the index-docs task to update the documentation index in `/docs/index.md`

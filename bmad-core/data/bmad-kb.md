@@ -129,7 +129,7 @@ Effective use of the BMAD Method relies on understanding where key tools, config
   - `ide-bmad-orchestrator.md`: Main prompt/definition of the IDE Orchestrator agent.
 - **Task Files:**
   - Located in `bmad-agent/tasks/` (and sometimes `bmad-agent/checklists/` for checklist-like tasks).
-  - Self-contained instruction sets for specific jobs (e.g., `create-prd.md`, `checklist-run-task.md`).
+  - Self-contained instruction sets for specific jobs (e.g., `create-prd.md`, `execute-checklist.md`).
   - Reduce agent bloat and provide on-demand functionality for any capable agent.
 - **Core Agent Definitions (Personas):**
   - Files (typically `.md`) defining core personalities and instructions for different agents.
@@ -219,27 +219,27 @@ Understanding the distinct roles and responsibilities of each agent is key to ef
 
   - **Function:** Designs system architecture, handles technical design, and ensures technical feasibility.
   - **Web Persona:** `Architect (Fred)` with persona `personas#architect`. Uses `checklists#architect-checklist` and `templates#architecture-tmpl`. Tasks include `tasks#create-architecture` and `tasks#create-deep-research-prompt`.
-  - **IDE Persona:** `Architect (Mo)` with persona `architect.md`. Customized to be "Cold, Calculating, Brains behind the agent crew." Generates architecture (`create-architecture.md` task), helps plan stories (`create-next-story-task.md`), and can update PO-level epics/stories (`doc-sharding-task.md`).
+  - **IDE Persona:** `Architect (Mo)` with persona `architect.md`. Customized to be "Cold, Calculating, Brains behind the agent crew." Generates architecture (`create-architecture.md` task), helps plan stories (`create-next-story.md`), and can update PO-level epics/stories (`shard-doc.md`).
   - **Output:** `Architecture Document`.
 
 - **Design Architect:**
 
   - **Function:** Focuses on UI/UX specifications, front-end technical architecture, and can generate prompts for AI UI generation services.
-  - **Web Persona:** `Design Architect (Jane)` with persona `personas#design-architect`. Uses `checklists#frontend-architecture-checklist`, `templates#front-end-architecture-tmpl` (for FE architecture), and `templates#front-end-spec-tmpl` (for UX/UI Spec). Tasks: `tasks#create-frontend-architecture`, `tasks#create-ai-frontend-prompt`, `tasks#create-uxui-spec`.
-  - **IDE Persona:** `Design Architect (Millie)` with persona `design-architect.md`. Customized to be "Fun and carefree, but a frontend design master." Helps design web apps, produces UI generation prompts (`create-ai-frontend-prompt.md` task), plans FE architecture (`create-frontend-architecture.md` task), and creates UX/UI specs (`create-uxui-spec.md` task).
+  - **Web Persona:** `Design Architect (Jane)` with persona `personas#design-architect`. Uses `checklists#frontend-architecture-checklist`, `templates#front-end-architecture-tmpl` (for FE architecture), and `templates#front-end-spec-tmpl` (for UX/UI Spec). Tasks: `tasks#create-frontend-architecture`, `tasks#generate-ai-frontend-prompt`, `tasks#create-uxui-spec`.
+  - **IDE Persona:** `Design Architect (Millie)` with persona `design-architect.md`. Customized to be "Fun and carefree, but a frontend design master." Helps design web apps, produces UI generation prompts (`generate-ai-frontend-prompt.md` task), plans FE architecture (`create-frontend-architecture.md` task), and creates UX/UI specs (`create-uxui-spec.md` task).
   - **Output:** `UX/UI Specification`, `Front-end Architecture Plan`, AI UI generation prompts.
 
 - **Product Owner (PO):**
 
   - **Function:** Agile Product Owner responsible for validating documents, ensuring development sequencing, managing the product backlog, running master checklists, handling mid-sprint re-planning, and drafting user stories.
-  - **Web Persona:** `PO (Sarah)` with persona `personas#po`. Uses `checklists#po-master-checklist`, `checklists#story-draft-checklist`, `checklists#change-checklist`, and `templates#story-tmpl`. Tasks include `tasks#story-draft-task`, `tasks#doc-sharding-task` (extracts epics and shards architecture), and `tasks#correct-course`.
-  - **IDE Persona:** `Product Owner AKA PO (Curly)` with persona `po.md`. Described as a "Jack of many trades." Tasks include `create-prd.md`, `create-next-story-task.md`, `doc-sharding-task.md`, and `correct-course.md`.
+  - **Web Persona:** `PO (Sarah)` with persona `personas#po`. Uses `checklists#po-master-checklist`, `checklists#story-draft-checklist`, `checklists#change-checklist`, and `templates#story-tmpl`. Tasks include `tasks#story-draft-task`, `tasks#shard-doc` (extracts epics and shards architecture), and `tasks#correct-course`.
+  - **IDE Persona:** `Product Owner AKA PO (Curly)` with persona `po.md`. Described as a "Jack of many trades." Tasks include `create-prd.md`, `create-next-story.md`, `shard-doc.md`, and `correct-course.md`.
   - **Output:** User Stories, managed PRD/Backlog.
 
 - **Scrum Master (SM):**
 
   - **Function:** A technical role focused on helping the team run the Scrum process, facilitating development, and often involved in story generation and refinement.
-  - **Web Persona:** `SM (Bob)` with persona `personas#sm`. Described as "A very Technical Scrum Master." Uses `checklists#change-checklist`, `checklists#story-dod-checklist`, `checklists#story-draft-checklist`, and `templates#story-tmpl`. Tasks: `tasks#checklist-run-task`, `tasks#correct-course`, `tasks#story-draft-task`.
+  - **Web Persona:** `SM (Bob)` with persona `personas#sm`. Described as "A very Technical Scrum Master." Uses `checklists#change-checklist`, `checklists#story-dod-checklist`, `checklists#story-draft-checklist`, and `templates#story-tmpl`. Tasks: `tasks#execute-checklist`, `tasks#correct-course`, `tasks#story-draft-task`.
   - **IDE Persona:** `Scrum Master: SM (SallySM)` with persona `sm.ide.md`. Described as "Super Technical and Detail Oriented," specialized in "Next Story Generation" (likely leveraging the `sm.ide.md` persona's capabilities).
 
 - **Developer Agents (DEV):**
@@ -295,13 +295,13 @@ Once an AI agent (like those in Gemini or ChatGPT) has generated a document (e.g
 
 ### Document Sharding
 
-Large documents like PRDs or Architecture Documents can become unwieldy for AI agents to process efficiently, especially in environments with context window limitations. The `doc-sharding-task.md` is designed to break these down:
+Large documents like PRDs or Architecture Documents can become unwieldy for AI agents to process efficiently, especially in environments with context window limitations. The `shard-doc.md` is designed to break these down:
 
 - **Purpose:** The sharding task splits a large document (e.g., PRD, Architecture, Front-End Architecture) into smaller, more granular sections or individual user stories. This makes it easier for subsequent agents, like the SM (Scrum Master) or Dev Agents, to work with specific parts of the document without needing to process the entire thing.
 - **How to Use:**
   1.  Ensure the large document you want to shard (e.g., `prd.md`, `architecture.md`) exists in your project's `docs` folder.
-  2.  Instruct your active IDE agent (e.g., PO, SM, or the BMAD Orchestrator embodying one of these roles) to run the `doc-sharding-task.md`.
-  3.  You will typically specify the _source file_ to be sharded. For example: "Run the `doc-sharding-task.md` against `docs/prd.md`."
+  2.  Instruct your active IDE agent (e.g., PO, SM, or the BMAD Orchestrator embodying one of these roles) to run the `shard-doc.md`.
+  3.  You will typically specify the _source file_ to be sharded. For example: "Run the `shard-doc.md` against `docs/prd.md`."
   4.  The task will guide the agent to break down the document. The output might be new smaller files or instructions on how the document is logically segmented.
 
 ### Utilizing Dedicated IDE Agents (SM and Dev)
@@ -394,7 +394,7 @@ Understanding key files helps in navigating and customizing the BMAD process:
   - `web-bmad-orchestrator-agent.cfg.md`: Configuration for the web orchestrator agent.
   - `web-bmad-orchestrator-agent.md`: Definition of the web orchestrator agent.
 - **Task Definitions:**
-  - Files in `bmad-agent/tasks/` or `bmad-agent/checklists/` (e.g., `checklist-run-task.md`): Reusable prompts for specific actions and also used by agents to keep agent persona files lean.
+  - Files in `bmad-agent/tasks/` or `bmad-agent/checklists/` (e.g., `execute-checklist.md`): Reusable prompts for specific actions and also used by agents to keep agent persona files lean.
 - **Agent Personas & Templates:**
   - Files in `bmad-agent/personas/`: Define the core behaviors of different agents.
   - Files in `bmad-agent/templates/`: Standard formats for documents like Project Briefs, PRDs that the agents will use to populate instances of these documents.
@@ -410,7 +410,7 @@ Understanding key files helps in navigating and customizing the BMAD process:
 ### PURPOSE OF IDE TASKS
 
 - **Reduce Agent Bloat:** Avoid adding numerous, rarely used instructions to primary IDE agent modes (Dev Agent, SM Agent) or even the Orchestrator's base prompt. Keeps agents lean, beneficial for IDEs with limits on custom agent complexity/numbers.
-- **On-Demand Functionality:** Instruct an active IDE agent (standalone or an embodied persona within the IDE Orchestrator) to perform a task by providing the content of the relevant task file (e.g., from `bmad-agent/tasks/checklist-run-task.md`) as a prompt, or by referencing it if the agent is configured to find it (as with the IDE Orchestrator).
+- **On-Demand Functionality:** Instruct an active IDE agent (standalone or an embodied persona within the IDE Orchestrator) to perform a task by providing the content of the relevant task file (e.g., from `bmad-agent/tasks/execute-checklist.md`) as a prompt, or by referencing it if the agent is configured to find it (as with the IDE Orchestrator).
 - **Versatility:** Any sufficiently capable agent can be asked to execute a task. Tasks can handle specific functions like running checklists, creating stories, sharding documents, indexing libraries, etc. They are self-contained instruction sets.
 
 ### EXAMPLES OF TASK FUNCTIONALITY
@@ -420,14 +420,14 @@ Understanding key files helps in navigating and customizing the BMAD process:
 Here are some examples of functionalities provided by tasks found in `bmad-agent/tasks/`:
 
 - **`create-prd.md`:** Guides the generation of a Product Requirements Document.
-- **`create-next-story-task.md`:** Helps in defining and creating the next user story for development.
+- **`create-next-story.md`:** Helps in defining and creating the next user story for development.
 - **`create-architecture.md`:** Assists in outlining the technical architecture for a project.
 - **`create-frontend-architecture.md`:** Focuses specifically on designing the front-end architecture.
 - **`create-uxui-spec.md`:** Facilitates the creation of a UX/UI Specification document.
-- **`create-ai-frontend-prompt.md`:** Helps in drafting a prompt for an AI service to generate UI/frontend elements.
-- **`doc-sharding-task.md`:** Provides a process for breaking down large documents into smaller, manageable parts.
+- **`generate-ai-frontend-prompt.md`:** Helps in drafting a prompt for an AI service to generate UI/frontend elements.
+- **`shard-doc.md`:** Provides a process for breaking down large documents into smaller, manageable parts.
 - **`library-indexing-task.md`:** Assists in creating an index or overview of a code library.
-- **`checklist-run-task.md`:** Executes a predefined checklist (likely using `checklist-mappings.yml`).
+- **`execute-checklist.md`:** Executes a predefined checklist (likely using `checklist-mappings.yml`).
 - **`correct-course.md`:** Provides guidance or steps for when a project needs to adjust its direction.
 - **`create-deep-research-prompt.md`:** Helps formulate prompts for conducting in-depth research on a topic.
 

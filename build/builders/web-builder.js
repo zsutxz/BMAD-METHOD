@@ -22,9 +22,10 @@ class WebBuilder {
      * Build all web bundles
      */
     async buildAll() {
-        console.log('🚀 Building all web bundles...');
+        console.log('🚀 Building all bundles...');
         
         const results = {
+            teams: [],
             bundles: [],
             agents: [],
             errors: []
@@ -39,11 +40,20 @@ class WebBuilder {
             for (const config of bundleConfigs) {
                 try {
                     const result = await this.buildBundle(config);
-                    results.bundles.push(result);
-                    console.log(`✅ Built bundle: ${config.name}`);
+                    const isTeamBundle = config.name.toLowerCase().includes('team');
+                    if (isTeamBundle) {
+                        results.teams.push(result);
+                    } else {
+                        results.bundles.push(result);
+                    }
+                    const bundleType = isTeamBundle ? 'team bundle' : 'bundle';
+                    console.log(`✅ Built ${bundleType}: ${config.name}`);
                 } catch (error) {
-                    console.error(`❌ Failed to build bundle ${config.name}:`, error.message);
-                    results.errors.push({ type: 'bundle', name: config.name, error: error.message });
+                    const isTeamBundle = config.name.toLowerCase().includes('team');
+                    const bundleType = isTeamBundle ? 'team bundle' : 'bundle';
+                    const errorType = isTeamBundle ? 'team' : 'bundle';
+                    console.error(`❌ Failed to build ${bundleType} ${config.name}:`, error.message);
+                    results.errors.push({ type: errorType, name: config.name, error: error.message });
                 }
             }
 
@@ -78,7 +88,10 @@ class WebBuilder {
             }
 
             console.log(`\n📊 Build Summary:`);
-            console.log(`   Bundles: ${results.bundles.length} built, ${results.errors.filter(e => e.type === 'bundle').length} failed`);
+            console.log(`   Teams: ${results.teams.length} built, ${results.errors.filter(e => e.type === 'team').length} failed`);
+            if (results.bundles.length > 0 || results.errors.filter(e => e.type === 'bundle').length > 0) {
+                console.log(`   Bundles: ${results.bundles.length} built, ${results.errors.filter(e => e.type === 'bundle').length} failed`);
+            }
             console.log(`   Agents: ${results.agents.length} built, ${results.errors.filter(e => e.type === 'agent').length} failed`);
 
             return results;
@@ -93,7 +106,10 @@ class WebBuilder {
      * Build a specific bundle
      */
     async buildBundle(bundleConfig) {
-        console.log(`📦 Building bundle: ${bundleConfig.name}`);
+        const isTeamBundle = bundleConfig.name.toLowerCase().includes('team');
+        const emoji = isTeamBundle ? '👥' : '📦';
+        const bundleType = isTeamBundle ? 'team bundle' : 'bundle';
+        console.log(`${emoji} Building ${bundleType}: ${bundleConfig.name}`);
 
         // Ensure agents is an array of strings
         const agentIds = Array.isArray(bundleConfig.agents) ? bundleConfig.agents : [];
@@ -189,7 +205,7 @@ class WebBuilder {
         content += `==================== START: agent-config ====================\n`;
         content += yaml.dump({
             name: bundle.metadata.name,
-            version: bundle.metadata.version,
+            version: bundle.metadata.version || '1.0.0',
             agents: bundle.agents,
             commands: config.output?.orchestrator_commands || []
         });
@@ -213,7 +229,7 @@ class WebBuilder {
         // Create agent-config.txt
         const agentConfigContent = yaml.dump({
             name: bundle.metadata.name,
-            version: bundle.metadata.version,
+            version: bundle.metadata.version || '1.0.0',
             environment: bundle.metadata.environment,
             agents: bundle.agents,
             commands: config.output?.orchestrator_commands || [],
@@ -251,20 +267,30 @@ class WebBuilder {
      * Create orchestrator prompt content
      */
     createOrchestratorPrompt(bundle, config) {
-        // Use the actual BMAD orchestrator agent prompt
-        const orchestratorPaths = [
-            path.join(this.rootPath, '_old', 'web-bmad-orchestrator-agent.md'),
-            path.join(this.rootPath, 'bmad-agent', 'web-bmad-orchestrator-agent.md')
-        ];
+        // Try to use the bmad persona as the orchestrator base
+        const bmadPersonaPath = path.join(this.rootPath, 'bmad-core', 'personas', 'bmad.md');
         
-        for (const orchestratorPath of orchestratorPaths) {
-            if (fs.existsSync(orchestratorPath)) {
-                return fs.readFileSync(orchestratorPath, 'utf8');
-            }
+        if (fs.existsSync(bmadPersonaPath)) {
+            const bmadContent = fs.readFileSync(bmadPersonaPath, 'utf8');
+            // Append bundle-specific agent information
+            let prompt = bmadContent + '\n\n';
+            prompt += `## Available Agents in ${bundle.metadata.name}\n\n`;
+            
+            Object.entries(bundle.agents).forEach(([id, agent]) => {
+                const command = config.output?.orchestrator_commands?.find(cmd => cmd.includes(id)) || `/${id}`;
+                prompt += `### ${agent.name} (${command})\n`;
+                prompt += `- **Role:** ${agent.title}\n`;
+                prompt += `- **Description:** ${agent.description}\n`;
+                if (agent.customize) {
+                    prompt += `- **Customization:** ${agent.customize}\n`;
+                }
+                prompt += '\n';
+            });
+            
+            return prompt;
         }
         
-        // Fallback to basic prompt if orchestrator file not found
-        console.warn('Warning: web-bmad-orchestrator-agent.md not found, using fallback prompt');
+        // Fallback to basic prompt if bmad persona not found
         
         let prompt = `# BMAD ${bundle.metadata.name} Orchestrator\n\n`;
         prompt += `You are the BMAD orchestrator for the ${bundle.metadata.name}. `;
@@ -273,7 +299,12 @@ class WebBuilder {
         // List available agents
         Object.entries(bundle.agents).forEach(([id, agent]) => {
             prompt += `## ${agent.name} (${config.output?.orchestrator_commands?.find(cmd => cmd.includes(id)) || `/${id}`})\n`;
-            prompt += `${agent.description}\n\n`;
+            prompt += `**Role:** ${agent.title}\n`;
+            prompt += `${agent.description}\n`;
+            if (agent.customize) {
+                prompt += `**Customization:** ${agent.customize}\n`;
+            }
+            prompt += '\n';
             if (agent.capabilities && agent.capabilities.length > 0) {
                 prompt += `**Capabilities:**\n`;
                 agent.capabilities.forEach(cap => prompt += `- ${cap}\n`);
