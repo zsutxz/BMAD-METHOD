@@ -1,32 +1,105 @@
 # Expanded Documentation
 
-If you got here and did not set up the web agent yet already - highlight suggest doing that and talking to the web agent, much easier than reading these yawn inducing docs.
+## Quick Start Guide
+
+Choose your path based on what you want to do:
+
+### 🚀 Path 1: Use Pre-built Web Bundles (Easiest - No Installation)
+
+Want to use BMAD agents with Gemini or ChatGPT? Just grab a pre-built bundle:
+
+1. **Navigate to `/web-bundles/`** in this repository
+   - Team bundles: `/web-bundles/teams/` (full agile teams)
+   - Individual agents: `/web-bundles/agents/` (specific roles)
+2. **Upload to your AI platform**
+   - Gemini: Create a new Gem, upload the bundle file
+   - ChatGPT: Create a custom GPT, attach the bundle file
+3. **Start using immediately!**
+
+**No Node.js, no npm, no build process needed!**
+
+### 💻 Path 2: IDE-Only Usage (No Installation)
+
+Just need agents in your IDE (Cursor, Windsurf)?
+
+1. **Copy the bmad-core folder** to your project root:
+   ```bash
+   cp -r /path/to/BMAD-METHOD/bmad-core /your-project-root/
+   ```
+2. **Use IDE agents directly**:
+   - Most common: `sm.ide.md` (story generation) and `dev.ide.md` (development)
+   - Find them in `bmad-core/ide-agents/`
+   - Copy content into your IDE's custom agent settings
+
+**That's it! No build process required.**
+
+### 🛠️ Path 3: Customize & Build Your Own (Installation Required)
+
+Want to modify agents or create custom bundles?
+
+1. **Copy bmad-core** to your project
+2. **Install dependencies**: `npm install`
+3. **Customize** agents in `/agents/` or resources in `/bmad-core/`
+4. **Build**: `npm run build`
+
+## When Do You Need npm install?
+
+**You DON'T need it if:**
+- Using pre-built bundles from `/web-bundles/`
+- Only using IDE agents as-is
+- Not modifying configurations
+
+**You DO need it if:**
+- Customizing agent YAML files
+- Creating new team bundles
+- Modifying bmad-core and rebuilding
 
 ## IDE Project Quickstart
 
-After you clone the project to your local machine, you can copy the `bmad-agent` folder to your project root. This will put the templates, checklists, and other assets the local agents will need to use the agents from your IDE instead of the Web Agent. Minimally to build your project you will want the sm.ide.md and dev.ide.md so you can draft and build your project incrementally.
+For the fastest IDE setup:
 
-Here are the more [Setup and Usage Instructions](./instruction.md) for IDE, WEB and Task setup.
+1. Copy `bmad-core` to your project root
+2. Set up `sm.ide.md` and `dev.ide.md` as custom agents
+3. Start building!
 
-Starting with the latest version of the BMad Agents for the BMad Method is very easy - all you need to do is copy `bmad-agent` folder to your project. The dedicated dev and sm that existing in previous versions are still available and are in the `bmad-agent/personas` folder with the .ide.md extension. Copy and paste the contents into your specific IDE's method of configuring a custom agent mode. The dev and sm both are configured for architecture and prd artifacts to be in (project-root)/docs and stories will be generated and developed in/from your (project-root)/docs/stories.
+The agents expect:
+- Docs in `(project-root)/docs/`
+- Stories in `(project-root)/docs/stories/`
 
-For all other agent use (including the dev and sm) you can set up the [ide orchestrator](../bmad-agent/ide-bmad-orchestrator.md) - you can ask the orchestrator bmad to become any agent you have [configured](../bmad-agent/ide-bmad-orchestrator.cfg.md).
+For other agents, use the [IDE orchestrator](../bmad-core/utils/agent-switcher.ide.md) - one agent that can become any role!
 
-[General IDE Custom Mode Setup](../docs/ide-setup.md).
+[Detailed Setup Instructions](./instruction.md) | [IDE Setup Guide](./ide-setup.md)
 
 ## Advancing AI-Driven Development
 
-Welcome to the latest and most advanced yet easy to use version of the Web and IDE Agent Agile Workflow! This new version, called BMad Agent version V3, represents a significant evolution that builds upon previous versions.
+Welcome to the BMAD Method v4! This latest version represents a complete architectural redesign with powerful new features while maintaining the ease of use you expect.
 
-## What's New?
+## What's New in v4?
 
-All IDE Agents are now optimized to be under 6K characters, so they will work with windsurf's file limit restrictions.
+### 🏗️ Complete Architectural Redesign
+- **Modular build system** with dependency resolution and optimization
+- **Pre-built bundles** ready to use - no installation required
+- **Dual environment support** - optimized for both web UIs and IDEs
+- **Bundle optimization** automatically deduplicates shared resources
 
-The method now has an uber Orchestrator called BMAD - this agent will take your web or ide usage to the next level - this agent can morph and become the specific agent you want to work with! This makes Web usage super easy to use and set up. And in the IDE - you do not have to set up so many different agents if you do not want to!
+### 🤖 Enhanced Agent System
+- All IDE agents optimized to under 6K characters (Windsurf compatible)
+- **BMAD Orchestrator** - one agent that can transform into any role
+- **Slash commands** for quick agent switching (`/pm`, `/architect`, etc.)
+- **Configurable agents** - customize who does what in your workflow
 
-There have been drastic improvements to the generation of documents and artifacts and the agents are now programmed to really help you build the best possible plans. Advanced LLM prompting techniques have been incorporated and programmed to help you help the agents produce amazing accurate artifacts, unlike anything seen before. Additionally agents are now configurable in what they can and cannot do - so you can accept the defaults, or set which personas are able to do what tasks. If you think the PO should be the one generating PRDs and the Scrum Master should be your course corrector - its all possible now! **Define agile the BMad way - or your way!**
+### 📈 Advanced Features
+- **Dependency graphs** to visualize agent relationships
+- **Validation system** ensures all configurations are correct
+- **YAML-based configuration** for easy customization
+- **Task system** keeps agents lean while providing on-demand functionality
 
-While this is very powerful - you can get started with the default recommended set up as is in this repo, and basically use the agents as they are envisioned and will be explained. Detailed configuration and usage is outlined in the [Instructions](./instruction.md)
+### 🚀 Improved Workflow
+- **Pre-built web bundles** in `/web-bundles/` - just upload and use
+- **Better prompting techniques** for more accurate artifacts
+- **Flexible methodology** - define Agile your way
+
+Get started with the default setup or customize everything - the choice is yours! See the [detailed instructions](./instruction.md) for configuration options.
 
 ## What is the BMad Method?
 
@@ -50,14 +123,14 @@ See the detailed [Web Orchestration Setup and Usage Instructions](./instruction.
 
 There are dedicated self contained agents that are stand alone, and also an IDE version of an orchestrator. For there standalone, there are:
 
-- [Dev IDE Agent](../bmad-agent/personas/dev.ide.md)
-- [Story Generating SM Agent](../bmad-agent/personas/sm.ide.md)
+- [Dev IDE Agent](../bmad-core/personas/dev.ide.md)
+- [Story Generating SM Agent](../bmad-core/personas/sm.ide.md)
 
 If you want to use the other agents, you can use the other agents from that folder - but some will be larger than Windsurf allows - and there are many agents. So its recommended to either use 1 off tasks - OR even better - use the IDE Orchestrator Agent. See these [set up and Usage instructions for IDE Orchestrator](./instruction.md#ide-agent-setup-and-usage).
 
 ## Tasks
 
-Located in `bmad-agent/tasks/`, these self-contained instruction sets allow IDE agents or the orchestrators configured agents to perform specific jobs. These also can be used as one off commands with a vanilla agent in the ide by just referencing the task and asking the agent to perform it.
+Located in `bmad-core/tasks/`, these self-contained instruction sets allow IDE agents or the orchestrators configured agents to perform specific jobs. These also can be used as one off commands with a vanilla agent in the ide by just referencing the task and asking the agent to perform it.
 
 **Purpose:**
 

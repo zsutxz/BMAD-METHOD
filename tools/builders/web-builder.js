@@ -14,8 +14,17 @@ class WebBuilder {
         this.rootPath = rootPath;
         this.agentsPath = path.join(rootPath, 'agents');
         this.outputPath = path.join(rootPath, 'dist');
+        this.sampleUpdatePath = path.join(rootPath, 'web-bundles');
         this.resolver = new DependencyResolver(rootPath);
         this.optimizer = new BundleOptimizer(rootPath);
+        this.sampleUpdateEnabled = false;
+    }
+
+    /**
+     * Enable sample update mode to output to web-bundles directory as well
+     */
+    enableSampleUpdate() {
+        this.sampleUpdateEnabled = true;
     }
 
     /**
@@ -32,8 +41,11 @@ class WebBuilder {
         };
 
         try {
-            // Ensure output directory exists
+            // Ensure output directories exist
             this.ensureOutputDirectory();
+            if (this.sampleUpdateEnabled) {
+                this.ensureSampleUpdateDirectory();
+            }
 
             // Build orchestrator bundles
             const bundleConfigs = this.loadBundleConfigs();
@@ -151,6 +163,14 @@ class WebBuilder {
             fs.writeFileSync(bundleFile, bundleContent);
             outputs.push(bundleFile);
 
+            // Also write to web-bundles if sample update is enabled
+            if (this.sampleUpdateEnabled) {
+                const sampleOutputDir = path.join(this.sampleUpdatePath, 'teams');
+                this.ensureDirectory(sampleOutputDir);
+                const sampleBundleFile = path.join(sampleOutputDir, outputFilename);
+                fs.writeFileSync(sampleBundleFile, bundleContent);
+            }
+
             // For single_file format, everything is in the bundle file
             // No need for separate orchestrator files
         }
@@ -178,6 +198,14 @@ class WebBuilder {
 
         const agentFile = path.join(outputDir, `${agentId}.txt`);
         fs.writeFileSync(agentFile, optimizedBundle.standaloneContent);
+
+        // Also write to web-bundles if sample update is enabled
+        if (this.sampleUpdateEnabled) {
+            const sampleOutputDir = path.join(this.sampleUpdatePath, 'agents');
+            this.ensureDirectory(sampleOutputDir);
+            const sampleAgentFile = path.join(sampleOutputDir, `${agentId}.txt`);
+            fs.writeFileSync(sampleAgentFile, optimizedBundle.standaloneContent);
+        }
 
         return {
             name: agentId,
@@ -401,6 +429,15 @@ class WebBuilder {
         this.ensureDirectory(this.outputPath);
         this.ensureDirectory(path.join(this.outputPath, 'teams'));
         this.ensureDirectory(path.join(this.outputPath, 'agents'));
+    }
+
+    /**
+     * Ensure sample update directory exists
+     */
+    ensureSampleUpdateDirectory() {
+        this.ensureDirectory(this.sampleUpdatePath);
+        this.ensureDirectory(path.join(this.sampleUpdatePath, 'teams'));
+        this.ensureDirectory(path.join(this.sampleUpdatePath, 'agents'));
     }
 }
 

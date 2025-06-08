@@ -2,15 +2,16 @@
   "name": "bmad-method",
   "version": "4.0.0",
   "description": "Breakthrough Method of Agile AI-driven Development",
-  "main": "build/cli.js",
+  "main": "tools/cli.js",
   "bin": {
-    "bmad-build": "build/cli.js"
+    "bmad-build": "tools/cli.js"
   },
   "scripts": {
-    "build": "node build/cli.js build",
-    "list:agents": "node build/cli.js list:agents",
-    "analyze:deps": "node build/cli.js analyze:deps",
-    "validate": "node build/cli.js validate",
+    "build": "node tools/cli.js build",
+    "build:sample-update": "node tools/cli.js build --sample-update",
+    "list:agents": "node tools/cli.js list:agents",
+    "analyze:deps": "node tools/cli.js analyze:deps",
+    "validate": "node tools/cli.js validate",
     "test": "echo \"Tests not yet implemented\" && exit 0"
   },
   "dependencies": {

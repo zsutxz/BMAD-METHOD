@@ -22,9 +22,13 @@ program
     .command('build')
     .alias('build:web')
     .description('Build all web bundles and standalone agents')
-    .action(async () => {
+    .option('--sample-update', 'Also output to web-bundles directory')
+    .action(async (options) => {
         try {
             const builder = new WebBuilder();
+            if (options.sampleUpdate) {
+                builder.enableSampleUpdate();
+            }
             const results = await builder.buildAll();
             
             if (results.errors.length > 0) {
@@ -35,6 +39,9 @@ program
                 process.exit(1);
             } else {
                 console.log('\n🎉 All builds completed successfully!');
+                if (options.sampleUpdate) {
+                    console.log('   📁 Also updated web-bundles directory');
+                }
             }
         } catch (error) {
             console.error('❌ Build failed:', error.message);
