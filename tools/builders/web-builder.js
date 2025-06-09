@@ -519,9 +519,32 @@ class WebBuilder {
      * Ensure sample update directory exists
      */
     ensureSampleUpdateDirectory() {
+        // Clean existing files in web-bundles subdirectories
+        const teamsDir = path.join(this.sampleUpdatePath, 'teams');
+        const agentsDir = path.join(this.sampleUpdatePath, 'agents');
+        
+        // Remove existing .txt files in teams directory
+        if (fs.existsSync(teamsDir)) {
+            const teamFiles = fs.readdirSync(teamsDir).filter(f => f.endsWith('.txt'));
+            teamFiles.forEach(file => {
+                fs.unlinkSync(path.join(teamsDir, file));
+            });
+            console.log(`🧹 Cleaned ${teamFiles.length} files from web-bundles/teams`);
+        }
+        
+        // Remove existing .txt files in agents directory
+        if (fs.existsSync(agentsDir)) {
+            const agentFiles = fs.readdirSync(agentsDir).filter(f => f.endsWith('.txt'));
+            agentFiles.forEach(file => {
+                fs.unlinkSync(path.join(agentsDir, file));
+            });
+            console.log(`🧹 Cleaned ${agentFiles.length} files from web-bundles/agents`);
+        }
+        
+        // Ensure directories exist
         this.ensureDirectory(this.sampleUpdatePath);
-        this.ensureDirectory(path.join(this.sampleUpdatePath, 'teams'));
-        this.ensureDirectory(path.join(this.sampleUpdatePath, 'agents'));
+        this.ensureDirectory(teamsDir);
+        this.ensureDirectory(agentsDir);
     }
 }
 
