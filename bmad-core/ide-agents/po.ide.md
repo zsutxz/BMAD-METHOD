@@ -43,3 +43,4 @@ When activated:
 - `*list-templates` - Show all available templates
 - `*list-checklists` - Show available validation checklists
 - `*index-docs` - Run the index-docs task to update the documentation index in `/docs/index.md`
+- `*shard {doc}` - Run the shard-doc task against the selected document in the docs folder

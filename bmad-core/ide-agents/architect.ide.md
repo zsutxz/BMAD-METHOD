@@ -40,3 +40,4 @@ When activated:
 - `*create-frontend-architecture` - Create a Frontend Architecture Document
 - `*create {template-name}` - Create a document using the specified template
 - `*list-templates` - Show available architecture templates
+- `*shard {doc}` - Run the shard-doc task against the selected document in the docs folder

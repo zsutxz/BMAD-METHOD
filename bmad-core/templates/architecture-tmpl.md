@@ -52,6 +52,13 @@ Document the decision here before proceeding with the architecture design. In no
 
 After presenting this starter template section, apply `tasks#advanced-elicitation` protocol]]
 
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
+
 ## High Level Architecture
 
 [[LLM: This section contains multiple subsections that establish the foundation of the architecture. Present all subsections together (Introduction, Technical Summary, High Level Overview, Project Diagram, and Architectural Patterns), then apply `tasks#advanced-elicitation` protocol to the complete High Level Architecture section. The user can choose to refine the entire section or specific subsections.]]
@@ -714,16 +721,6 @@ Note: Basic info goes in Coding Standards for dev agent. This detailed section i
 - **Penetration Testing:** {{pentest_schedule}}
 
 [[LLM: After presenting the security section, apply `tasks#advanced-elicitation` protocol]]
-
-## Change Log
-
-[[LLM: Track document versions and changes]]
-
-| Date     | Version | Description                   | Author     |
-| :------- | :------ | :---------------------------- | :--------- |
-| {{date}} | 1.0.0   | Initial architecture document | {{author}} |
-
----
 
 ## Checklist Results Report
 

@@ -8,7 +8,7 @@
 
 This document defines the user experience goals, information architecture, user flows, and visual design specifications for {{Project Name}}'s user interface. It serves as the foundation for visual design and frontend development, ensuring a cohesive and user-centered experience.
 
-## Overall UX Goals & Principles
+### Overall UX Goals & Principles
 
 [[LLM: Work with the user to establish and document the following. If not already defined, facilitate a discussion to determine:
 
@@ -23,33 +23,43 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 {{persona_descriptions}}
 
 @{example: personas}
+
 - **Power User:** Technical professionals who need advanced features and efficiency
 - **Casual User:** Occasional users who prioritize ease of use and clear guidance
 - **Administrator:** System managers who need control and oversight capabilities
-@{/example}
+  @{/example}
 
 ### Usability Goals
 
 {{usability_goals}}
 
 @{example: usability_goals}
+
 - Ease of learning: New users can complete core tasks within 5 minutes
 - Efficiency of use: Power users can complete frequent tasks with minimal clicks
 - Error prevention: Clear validation and confirmation for destructive actions
 - Memorability: Infrequent users can return without relearning
-@{/example}
+  @{/example}
 
 ### Design Principles
 
 {{design_principles}}
 
 @{example: design_principles}
+
 1. **Clarity over cleverness** - Prioritize clear communication over aesthetic innovation
 2. **Progressive disclosure** - Show only what's needed, when it's needed
 3. **Consistent patterns** - Use familiar UI patterns throughout the application
 4. **Immediate feedback** - Every action should have a clear, immediate response
 5. **Accessible by default** - Design for all users from the start
-@{/example}
+   @{/example}
+
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
 
 ## Information Architecture (IA)
 
@@ -69,6 +79,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ```
 
 @{example: sitemap}
+
 ```mermaid
 graph TD
     A[Homepage] --> B[Dashboard]
@@ -83,6 +94,7 @@ graph TD
     D --> D2[Settings]
     D --> D3[Billing]
 ```
+
 @{/example}
 
 ### Navigation Structure
@@ -106,6 +118,7 @@ graph TD
 Create subsections for each major flow. After presenting all flows, apply `tasks#advanced-elicitation` protocol]]
 
 <<REPEAT: user_flow>>
+
 ### {{flow_name}}
 
 **User Goal:** {{flow_goal}}
@@ -121,6 +134,7 @@ Create subsections for each major flow. After presenting all flows, apply `tasks
 ```
 
 **Edge Cases & Error Handling:**
+
 - {{edge_case_1}}
 - {{edge_case_2}}
 
@@ -128,6 +142,7 @@ Create subsections for each major flow. After presenting all flows, apply `tasks
 <</REPEAT>>
 
 @{example: user_flow}
+
 ### User Registration
 
 **User Goal:** Create a new account to access the platform
@@ -153,10 +168,11 @@ graph TD
 ```
 
 **Edge Cases & Error Handling:**
+
 - Duplicate email: Show inline error with password recovery option
 - Weak password: Real-time feedback on password strength
 - Network error: Preserve form data and show retry option
-@{/example}
+  @{/example}
 
 ## Wireframes & Mockups
 
@@ -169,11 +185,13 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ### Key Screen Layouts
 
 <<REPEAT: screen_layout>>
+
 #### {{screen_name}}
 
 **Purpose:** {{screen_purpose}}
 
 **Key Elements:**
+
 - {{element_1}}
 - {{element_2}}
 - {{element_3}}
@@ -194,6 +212,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ### Core Components
 
 <<REPEAT: component>>
+
 #### {{component_name}}
 
 **Purpose:** {{component_purpose}}
@@ -206,6 +225,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 <</REPEAT>>
 
 @{example: component}
+
 #### Button
 
 **Purpose:** Primary interaction element for user actions
@@ -214,11 +234,12 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **States:** Default, Hover, Active, Disabled, Loading
 
-**Usage Guidelines:** 
+**Usage Guidelines:**
+
 - Use Primary for main CTAs (one per view)
 - Secondary for supporting actions
 - Destructive only for permanent deletions with confirmation
-@{/example}
+  @{/example}
 
 ## Branding & Style Guide
 
@@ -232,19 +253,20 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### Color Palette
 
-| Color Type | Hex Code | Usage |
-|:-----------|:---------|:------|
-| **Primary** | {{primary_color}} | {{primary_usage}} |
-| **Secondary** | {{secondary_color}} | {{secondary_usage}} |
-| **Accent** | {{accent_color}} | {{accent_usage}} |
-| **Success** | {{success_color}} | Positive feedback, confirmations |
-| **Warning** | {{warning_color}} | Cautions, important notices |
-| **Error** | {{error_color}} | Errors, destructive actions |
-| **Neutral** | {{neutral_colors}} | Text, borders, backgrounds |
+| Color Type    | Hex Code            | Usage                            |
+| :------------ | :------------------ | :------------------------------- |
+| **Primary**   | {{primary_color}}   | {{primary_usage}}                |
+| **Secondary** | {{secondary_color}} | {{secondary_usage}}              |
+| **Accent**    | {{accent_color}}    | {{accent_usage}}                 |
+| **Success**   | {{success_color}}   | Positive feedback, confirmations |
+| **Warning**   | {{warning_color}}   | Cautions, important notices      |
+| **Error**     | {{error_color}}     | Errors, destructive actions      |
+| **Neutral**   | {{neutral_colors}}  | Text, borders, backgrounds       |
 
 ### Typography
 
 **Font Families:**
+
 - **Primary:** {{primary_font}}
 - **Secondary:** {{secondary_font}}
 - **Monospace:** {{mono_font}}
@@ -283,16 +305,19 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ### Key Requirements
 
 **Visual:**
+
 - Color contrast ratios: {{contrast_requirements}}
 - Focus indicators: {{focus_requirements}}
 - Text sizing: {{text_requirements}}
 
 **Interaction:**
+
 - Keyboard navigation: {{keyboard_requirements}}
 - Screen reader support: {{screen_reader_requirements}}
 - Touch targets: {{touch_requirements}}
 
 **Content:**
+
 - Alternative text: {{alt_text_requirements}}
 - Heading structure: {{heading_requirements}}
 - Form labels: {{form_requirements}}
@@ -309,12 +334,12 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### Breakpoints
 
-| Breakpoint | Min Width | Max Width | Target Devices |
-|:-----------|:----------|:----------|:---------------|
-| Mobile | {{mobile_min}} | {{mobile_max}} | {{mobile_devices}} |
-| Tablet | {{tablet_min}} | {{tablet_max}} | {{tablet_devices}} |
-| Desktop | {{desktop_min}} | {{desktop_max}} | {{desktop_devices}} |
-| Wide | {{wide_min}} | - | {{wide_devices}} |
+| Breakpoint | Min Width       | Max Width       | Target Devices      |
+| :--------- | :-------------- | :-------------- | :------------------ |
+| Mobile     | {{mobile_min}}  | {{mobile_max}}  | {{mobile_devices}}  |
+| Tablet     | {{tablet_min}}  | {{tablet_max}}  | {{tablet_devices}}  |
+| Desktop    | {{desktop_min}} | {{desktop_max}} | {{desktop_devices}} |
+| Wide       | {{wide_min}}    | -               | {{wide_devices}}    |
 
 ### Adaptation Patterns
 
@@ -339,8 +364,9 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ### Key Animations
 
 <<REPEAT: animation>>
+
 - **{{animation_name}}:** {{animation_description}} (Duration: {{duration}}, Easing: {{easing}})
-<</REPEAT>>
+  <</REPEAT>>
 
 ## Performance Considerations
 
@@ -379,14 +405,6 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 - [ ] Responsive strategy clear
 - [ ] Brand guidelines incorporated
 - [ ] Performance goals established
-
-## Change Log
-
-| Date | Version | Description | Author |
-|:-----|:--------|:------------|:-------|
-| {{date}} | 1.0.0 | Initial UI/UX specification | {{author}} |
-
----
 
 ## Checklist Results
 

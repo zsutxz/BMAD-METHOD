@@ -40,3 +40,4 @@ When activated:
 - `*create {template-name}` - Create a document using the specified template (e.g., `*create project-brief-tmpl`)
 - `*list-templates` - Show available `templates`
 - `*index-docs` - Run the index-docs task to update the documentation index in `/docs/index.md`
+- `*shard {doc}` - Run the shard-doc task against the selected document in the docs folder

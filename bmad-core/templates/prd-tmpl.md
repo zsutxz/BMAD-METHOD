@@ -14,6 +14,13 @@
 
 [[LLM: 1-2 short paragraphs summarizing the background context, such as what we learned in the brief without being redundant with the goals, what and why this solves a problem, what the current landscape or need is etc...]]
 
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
+
 ## Requirements
 
 [[LLM: Draft the list of functional and non functional requirements under the two child sections, and immediately execute tasks#advanced-elicitation display]]
@@ -178,27 +185,16 @@ so that {{benefit}}.
 <</REPEAT>>
 <</REPEAT>>
 
-## Change Log
-
-| Change | Date | Version | Description | Author |
-| ------ | ---- | ------- | ----------- | ------ |
-
------ END PRD START CHECKLIST OUTPUT ------
-
 ## Checklist Results Report
 
 [[LLM: Before running the checklist and drafting the prompts, offer to output the full updated PRD. If outputting it, confirm with the user that you will be proceeding to run the checklist and produce the report. Once the user confirms, execute the `pm-checklist` and populate the results in this section.]]
 
------ END Checklist START Design Architect `UI/UX Specification Mode` Prompt ------
+## Next Steps
 
-## Design Architect Prompt
+### Design Architect Prompt
 
 [[LLM: This section will contain the prompt for the Design Architect, keep it short and to the point to initiate create architecture mode using this document as input.]]
 
------ END Design Architect `UI/UX Specification Mode` Prompt START Architect Prompt ------
-
-## Architect Prompt
+### Architect Prompt
 
 [[LLM: This section will contain the prompt for the Architect, keep it short and to the point to initiate create architecture mode using this document as input.]]
-
------ END Architect Prompt ------

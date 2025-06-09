@@ -43,7 +43,9 @@
 
 {Link to or summarize findings from any initial research conducted (e.g., `deep-research-report-BA.md`).}
 
-## PM Prompt
+## Next Steps
+
+### PM Prompt
 
 This Project Brief provides the full context for {Project Name}. Please start in 'PRD Generation Mode', review the brief thoroughly to work with the user to create the PRD section by section as the template indicates, asking for any necessary clarification or suggesting improvements as your mode 1 programming allows.
 

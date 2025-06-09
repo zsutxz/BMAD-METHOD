@@ -9,3 +9,8 @@ agents:
   - pm
   - architect
   - po
+
+workflows:
+  - api-only
+  - brownfield-enhancement
+  - backend-service

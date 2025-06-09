@@ -1,0 +1,253 @@
+workflow:
+  id: brownfield-service
+  name: Brownfield Service/API Enhancement
+  description: >-
+    Workflow for modernizing, refactoring, or enhancing existing backend services and APIs.
+    Handles performance optimization, API versioning, microservice extraction, and technical debt.
+  type: brownfield
+  project_types:
+    - service-modernization
+    - api-enhancement
+    - microservice-extraction
+    - performance-optimization
+    - technical-debt-reduction
+
+  stages:
+    - id: service-analysis
+      name: Service Assessment
+      description: Analyze existing service and identify improvement areas
+      steps:
+        - agent: analyst
+          action: Service Assessment
+          description: >-
+            Analyze current service architecture, performance, and technical debt
+          inputs:
+            - existing-service-code
+            - performance-metrics
+            - error-logs
+          outputs:
+            - service-assessment
+            - performance-bottlenecks
+            - technical-debt-analysis
+            - integration-dependencies
+          prompts:
+            - "Let's analyze the current service architecture"
+            - "What performance issues are you experiencing?"
+            - "Share service metrics, logs, or documentation"
+
+        - agent: fullstack-architect
+          action: Architecture Analysis
+          description: >-
+            Deep dive into service architecture and identify improvement opportunities
+          inputs:
+            - service-assessment
+            - existing-service-code
+          outputs:
+            - architecture-assessment
+            - refactoring-opportunities
+            - modernization-candidates
+          prompts:
+            - "Analyze the service architecture patterns"
+            - "Identify areas for modernization"
+
+    - id: enhancement-planning
+      name: Service Enhancement Strategy
+      description: Plan service improvements and modernization approach
+      steps:
+        - agent: pm
+          action: Enhancement Strategy
+          description: >-
+            Define enhancement goals, priorities, and migration strategy
+          inputs:
+            - service-assessment
+            - architecture-assessment
+          outputs:
+            - enhancement-strategy
+            - migration-roadmap
+            - risk-assessment
+          prompts:
+            - "What are the primary enhancement goals?"
+            - "Define the migration strategy and timeline"
+
+        - agent: fullstack-architect
+          action: Modernization Architecture
+          description: >-
+            Design target architecture for service modernization
+          inputs:
+            - enhancement-strategy
+            - modernization-candidates
+          outputs:
+            - target-architecture
+            - migration-patterns
+            - backward-compatibility-plan
+          prompts:
+            - "Design the target service architecture"
+            - "Plan for backward compatibility during migration"
+
+    - id: incremental-refactoring
+      name: Incremental Refactoring Design
+      description: Design safe, incremental refactoring approach
+      steps:
+        - agent: fullstack-architect
+          action: Refactoring Strategy
+          description: >-
+            Design strangler fig pattern or other safe refactoring approaches
+          inputs:
+            - target-architecture
+            - integration-dependencies
+          outputs:
+            - refactoring-strategy
+            - service-extraction-plan
+            - data-migration-strategy
+          prompts:
+            - "Design strangler fig or parallel run strategy"
+            - "Plan service extraction and data migration"
+
+        - agent: devops
+          action: Infrastructure Evolution
+          description: >-
+            Plan infrastructure changes and deployment strategy
+          inputs:
+            - refactoring-strategy
+            - target-architecture
+          outputs:
+            - infrastructure-migration
+            - deployment-strategy
+            - monitoring-evolution
+            - scaling-improvements
+          prompts:
+            - "Plan infrastructure for new architecture"
+            - "Design zero-downtime deployment strategy"
+
+    - id: api-evolution
+      name: API Versioning & Evolution
+      description: Plan API changes and versioning strategy
+      steps:
+        - agent: fullstack-architect
+          action: API Evolution Strategy
+          description: >-
+            Design API versioning and backward compatibility
+          inputs:
+            - target-architecture
+            - integration-dependencies
+          outputs:
+            - api-versioning-strategy
+            - contract-evolution-plan
+            - deprecation-timeline
+          prompts:
+            - "Design API versioning strategy"
+            - "Plan contract evolution and deprecation"
+
+    - id: data-strategy
+      name: Data Migration & Consistency
+      description: Plan data migration and consistency strategies
+      steps:
+        - agent: fullstack-architect
+          action: Data Migration Planning
+          description: >-
+            Plan data migration, consistency, and synchronization
+          inputs:
+            - refactoring-strategy
+            - data-migration-strategy
+          outputs:
+            - data-migration-plan
+            - consistency-strategy
+            - rollback-procedures
+          prompts:
+            - "Plan data migration with zero data loss"
+            - "Design data consistency during transition"
+
+    - id: quality-assurance
+      name: Testing & Quality Strategy
+      description: Plan comprehensive testing for service changes
+      steps:
+        - agent: qa
+          action: Service Testing Strategy
+          description: >-
+            Design testing approach for service modernization
+          inputs:
+            - refactoring-strategy
+            - api-versioning-strategy
+          outputs:
+            - service-test-strategy
+            - contract-testing-plan
+            - performance-testing-plan
+            - chaos-testing-strategy
+          prompts:
+            - "Design comprehensive service testing"
+            - "Plan contract tests for API evolution"
+            - "Design chaos engineering tests"
+
+    - id: monitoring-observability
+      name: Enhanced Observability
+      description: Plan improved monitoring and observability
+      steps:
+        - agent: devops
+          action: Observability Enhancement
+          description: >-
+            Design enhanced monitoring, logging, and alerting
+          inputs:
+            - target-architecture
+            - performance-bottlenecks
+          outputs:
+            - observability-strategy
+            - sli-slo-definitions
+            - alerting-improvements
+            - dashboards-design
+          prompts:
+            - "Design comprehensive service observability"
+            - "Define SLIs and SLOs for the service"
+
+    - id: implementation-planning
+      name: Phased Implementation
+      description: Create detailed implementation plan
+      steps:
+        - agent: sm
+          action: Migration Story Planning
+          description: >-
+            Create stories for incremental service migration
+          inputs:
+            - migration-roadmap
+            - refactoring-strategy
+          outputs:
+            - migration-stories
+            - implementation-phases
+            - dependency-management
+          prompts:
+            - "Break down migration into safe phases"
+            - "Plan story dependencies and risks"
+
+  transitions:
+    - from: service-analysis
+      to: enhancement-planning
+      condition: assessment complete
+    - from: enhancement-planning
+      to: incremental-refactoring
+      condition: strategy defined
+    - from: incremental-refactoring
+      to: api-evolution
+      condition: refactoring planned
+    - from: api-evolution
+      to: data-strategy
+      condition: api strategy defined
+    - from: data-strategy
+      to: quality-assurance
+      condition: data strategy planned
+    - from: quality-assurance
+      to: monitoring-observability
+      condition: testing planned
+    - from: monitoring-observability
+      to: implementation-planning
+      condition: observability designed
+
+  special_considerations:
+    - name: Zero Downtime
+      description: Ensure service remains available during migration
+    - name: Data Integrity
+      description: Maintain data consistency throughout migration
+    - name: Client Impact
+      description: Minimize impact on service consumers
+    - name: Rollback Plan
+      description: Always have a way to revert changes safely
+    - name: Performance SLA
+      description: Maintain or improve existing performance SLAs

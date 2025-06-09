@@ -40,6 +40,13 @@ This unified approach combines what would traditionally be separate backend and 
 
 If none, state "N/A - Greenfield project"
 
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
+
 ## High Level Architecture
 
 [[LLM: This section contains multiple subsections that establish the foundation. Present all subsections together, then apply `tasks#advanced-elicitation` protocol to the complete section.]]
@@ -221,7 +228,7 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
 
 - {{relationship_1}}
 - {{relationship_2}}
-<</REPEAT>>
+  <</REPEAT>>
 
 @{example: data_model}
 
@@ -261,7 +268,7 @@ interface UserProfile {
 
 - Has many Posts (1:n)
 - Has one Profile (1:1)
-@{/example}
+  @{/example}
 
 ## REST API Spec
 
@@ -988,19 +995,9 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 - Response time
 - Database query performance
 
-## Change Log
-
-| Date     | Version | Description                    | Author     |
-| :------- | :------ | :----------------------------- | :--------- |
-| {{date}} | 1.0.0   | Initial fullstack architecture | {{author}} |
-
----
-
 ## Checklist Results Report
 
 [[LLM: Before running the checklist, offer to output the full architecture document. Once user confirms, execute the `architect-checklist` and populate results here.]]
-
----
 
 ## Next Steps
 

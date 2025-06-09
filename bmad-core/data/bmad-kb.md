@@ -518,6 +518,166 @@ For large documents (PRD, Architecture):
 3. Include context from completed work
 4. Validate against architecture and PRD
 
+## IDE Development Workflow
+
+### Post-Planning Phase: Transition to Implementation
+
+Once you have completed the planning phase and have your core documents saved in your project's `docs/` folder, you're ready to begin the implementation cycle in your IDE environment.
+
+#### Required Documents
+
+Before starting implementation, ensure you have these documents in your `docs/` folder:
+
+- `prd.md` - Product Requirements Document with epics and stories
+- `fullstack-architecture.md` OR both `architecture.md` and `front-end-architecture.md`
+- `project-brief.md` (reference)
+- `front-end-spec.md` (if applicable)
+
+#### Step 1: Document Sharding
+
+Large documents need to be broken down for IDE agents to work with effectively:
+
+1. **Use BMAD Agent to Shard Documents**
+   ```
+   Please shard the docs/prd.md document using the shard-doc task
+   ```
+2. **Shard Architecture Documents**
+
+   ```
+   Please shard the docs/fullstack-architecture.md document using the shard-doc task
+   ```
+
+3. **Expected Folder Structure After Sharding**
+   ```
+   docs/
+   ├── prd.md                    # Original PRD
+   ├── fullstack-architecture.md # Original architecture
+   ├── prd/                      # Sharded PRD content
+   │   ├── epic-1.md            # Individual epic files
+   │   ├── epic-2.md
+   │   └── epic-N.md
+   ├── fullstack-architecture/   # Sharded architecture content
+   │   ├── tech-stack.md
+   │   ├── data-models.md
+   │   ├── components.md
+   │   └── [other-sections].md
+   └── stories/                  # Generated story files
+       ├── epic-1/
+       │   ├── story-1-1.md
+       │   └── story-1-2.md
+       └── epic-2/
+           └── story-2-1.md
+   ```
+
+#### Step 2: SM ↔ DEV Implementation Cycle
+
+The core development workflow follows a strict SM (Scrum Master) to DEV (Developer) cycle:
+
+##### Story Creation (SM Agent)
+
+1. **Switch to SM Agent**
+
+   ```
+   /sm
+   ```
+
+2. **Create Next Story**
+
+   ```
+   Please create the next story for this project
+   ```
+
+   - SM agent will check existing stories in `docs/stories/`
+   - Identifies what's complete vs in-progress
+   - Determines the next logical story from the epics
+   - Creates a new story file with proper sequencing
+
+3. **Manual Story Selection** (if needed)
+   ```
+   Please create story 1.1 from epic 1 (the first story)
+   ```
+
+##### Story Review and Approval
+
+1. **Review Generated Story**
+
+   - Check story file in `docs/stories/epic-X/story-X-Y.md`
+   - Verify acceptance criteria are clear
+   - Ensure story aligns with architecture
+
+2. **Approve Story**
+   - Edit the story file
+   - Change status from `Draft` to `Approved`
+   - Save the file
+
+##### Story Development (DEV Agent)
+
+1. **Switch to DEV Agent**
+
+   ```
+   /dev
+   ```
+
+2. **Develop Next Story**
+
+   ```
+   Please develop the next approved story
+   ```
+
+   - DEV agent will find the next `Approved` story
+   - Implements code according to story requirements
+   - References architecture documents from sharded folders
+   - Updates story status to `InProgress` then `Review`
+
+3. **Manual Story Selection** (if needed)
+   ```
+   Please develop story 1.1
+   ```
+
+##### Story Completion
+
+1. **Verify Implementation**
+
+   - Test the implemented functionality
+   - Ensure acceptance criteria are met
+   - Validate against architecture requirements
+
+2. **Mark Story Complete**
+
+   - Edit the story file
+   - Change status from `Review` to `Done`
+   - Save the file
+
+3. **Return to SM for Next Story**
+   - SM agent will now see this story as complete
+   - Can proceed to create the next sequential story
+
+#### Sequential Development Best Practices
+
+1. **Follow Epic Order**: Complete Epic 1 before Epic 2, etc.
+2. **Sequential Stories**: Complete Story 1.1 before Story 1.2
+3. **One Story at a Time**: Never have multiple stories `InProgress`
+4. **Clear Status Management**: Keep story statuses current
+5. **Architecture Alignment**: Regularly reference sharded architecture docs
+
+#### Story Status Flow
+
+```
+Draft → Approved → InProgress → Review → Done
+  ↑         ↑          ↑          ↑       ↑
+ SM      User       DEV       DEV     User
+creates  approves  starts   completes verifies
+```
+
+#### Troubleshooting Common Issues
+
+- **SM can't find next story**: Ensure current story is marked `Done`
+- **DEV can't find approved story**: Check story status is `Approved`
+- **Architecture conflicts**: Re-shard updated architecture documents
+- **Missing context**: Reference original docs in `docs/` folder
+
+This cycle continues until all epics and stories are complete, delivering your fully implemented project according to the planned architecture and requirements.
+
 ## Best Practices
 
 ### When to Use Web vs IDE

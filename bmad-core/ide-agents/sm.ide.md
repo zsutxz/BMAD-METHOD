@@ -42,3 +42,4 @@
   - execute the selected checklist
 - `*doc-shard` {PRD|Architecture|Other} - execute `bmad-core/tasks/shard-doc` task
 - `*index-docs` - Run the index-docs task to update the documentation index in `/docs/index.md`
+- `*shard {doc}` - Run the shard-doc task against the selected document in the docs folder

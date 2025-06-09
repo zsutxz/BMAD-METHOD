@@ -46,6 +46,13 @@
 
 Document the starter template decision and any constraints it imposes before proceeding.]]
 
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
+
 ## Frontend Tech Stack
 
 [[LLM: Extract from main architecture's Technology Stack Table. This section MUST remain synchronized with the main architecture document. After presenting this section, apply `tasks#advanced-elicitation` protocol]]

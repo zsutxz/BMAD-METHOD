@@ -1,16 +1,16 @@
-# Story {EpicNum}.{StoryNum}: {Short Title Copied from Epic File}
+# Story {{EpicNum}}.{{StoryNum}}: {{Short Title Copied from Epic File}}
 
-## Status: { Draft | Approved | InProgress | Review | Done }
+## Status: {{ Draft | Approved | InProgress | Review | Done }}
 
 ## Story
 
-- As a [role]
-- I want [action]
-- so that [benefit]
+- As a {{role}}
+- I want {{action}}
+- so that {{benefit}}
 
 ## Acceptance Criteria (ACs)
 
-{ Copy the Acceptance Criteria numbered list }
+{{ Copy the Acceptance Criteria numbered list }}
 
 ## Tasks / Subtasks
 
@@ -23,7 +23,7 @@
 
 ## Dev Technical Reference
 
--
+[[LLM: SM Agent populates relevant information, only what was pulled from actual artifacts from docs folder, relevant to this story. Do not invent information. If there were important notes from previous story that is relevant here, also include them here if it will help the dev agent. You do NOT need to repeat anything from coding standards or test standards as the dev agent is already aware of those. The dev agent should NEVER need to read the PRD or architecture documents though to complete this self contained story.]]
 
 ## Dev Agent Record
 
@@ -39,4 +39,7 @@
 
 ### Change Log
 
-{List and requirements or tasks that changed from the original state of the story when development started}
+[[LLM: Track document versions and changes during development that deviate from story dev start]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |

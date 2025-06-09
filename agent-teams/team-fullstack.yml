@@ -14,3 +14,7 @@ agents:
   - pm
   - ux-expert
   - fullstack-architect
+
+workflows:
+  - greenfield-fullstack
+  - brownfield-fullstack
