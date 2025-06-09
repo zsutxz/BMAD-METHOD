@@ -19,6 +19,7 @@ dependencies:
     - generate-ai-frontend-prompt
     - create-deep-research-prompt
     - create-doc-from-template
+    - execute-checklist
 
   templates:
     - front-end-spec-tmpl

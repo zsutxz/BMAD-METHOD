@@ -285,12 +285,19 @@ class WebBuilder {
 
         // Add agent configurations section
         content += `==================== START: agent-config ====================\n`;
-        content += yaml.dump({
+        const configData = {
             name: bundle.metadata.name,
             version: bundle.metadata.version || '1.0.0',
             agents: bundle.agents,
             commands: config.output?.orchestrator_commands || []
-        });
+        };
+        
+        // Include workflows if defined
+        if (config.workflows) {
+            configData.workflows = config.workflows;
+        }
+        
+        content += yaml.dump(configData);
         content += `==================== END: agent-config ====================\n\n`;
 
         // Add resource sections
@@ -428,6 +435,10 @@ class WebBuilder {
                     const bundleConfig = { ...config.bundle };
                     if (config.agents && !bundleConfig.agents) {
                         bundleConfig.agents = config.agents;
+                    }
+                    // Include workflows if defined
+                    if (config.workflows) {
+                        bundleConfig.workflows = config.workflows;
                     }
                     configs.push(bundleConfig);
                 }

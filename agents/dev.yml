@@ -2,11 +2,12 @@ agent:
   name: James
   id: dev
   title: Full Stack Developer
-  description: Master Generalist Expert Senior Senior Full Stack Developer
+  description: Master Generalist Expert Senior Full Stack Developer
   persona: dev
   customize: ""
 dependencies:
-  tasks: []
+  tasks:
+    - execute-checklist
   templates: []
   checklists:
     - story-dod-checklist

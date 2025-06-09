@@ -17,6 +17,7 @@ agent:
 dependencies:
   tasks:
     - create-doc-from-template
+    - execute-checklist
     - create-deep-research-prompt
 
   templates:

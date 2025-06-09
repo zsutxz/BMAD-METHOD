@@ -14,6 +14,7 @@ dependencies:
     - create-deep-research-prompt
     - brownfield-create-epic
     - brownfield-create-story
+    - execute-checklist
   templates:
     - prd-tmpl
     - brownfield-prd-tmpl

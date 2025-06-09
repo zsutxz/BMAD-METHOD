@@ -48,11 +48,11 @@
 
 ### Fred (/architect)
 - **Role:** Architect
-- **Description:** For system architecture, technical design, architecture checklists.
+- **Description:** Experienced system architect with deep expertise in designing scalable,  maintainable solutions. Pragmatic approach to technical decisions with  a focus on long-term system health and team productivity.
 
 ### James (/dev)
 - **Role:** Full Stack Developer
-- **Description:** Master Generalist Expert Senior Senior Full Stack Developer
+- **Description:** Master Generalist Expert Senior Full Stack Developer
 
 ### Winston (/fullstack-architect)
 - **Role:** Fullstack Architect
@@ -69,15 +69,15 @@
 
 ### Quinn (/qa)
 - **Role:** Quality Assurance Test Architect
-- **Description:** Test Architect and Automation Expert
+- **Description:** Senior quality advocate with expertise in test architecture and automation. Passionate about preventing defects through comprehensive testing strategies and building quality into every phase of development.
 
 ### Bob (/sm)
 - **Role:** Scrum Master
-- **Description:** A very Technical Scrum Master helps the team run the Scrum process.
+- **Description:** Technical Scrum Master with engineering background who bridges the gap  between process and implementation. Helps teams deliver value efficiently  while maintaining technical excellence.
 
 ### Jane (/ui-architect)
 - **Role:** UI Architect
-- **Description:** For UI/UX specifications, front-end architecture, and UI 1-shot prompting.
+- **Description:** Frontend architecture specialist with expertise in modern UI frameworks and design systems. Creates scalable component architectures that balance developer experience with user performance.
 
 ### Sally (/ux-expert)
 - **Role:** UX Expert
@@ -87,7 +87,7 @@
 
 
 <!-- Bundle: Team All -->
-<!-- Generated: 2025-06-09T03:23:56.264Z -->
+<!-- Generated: 2025-06-09T03:59:32.709Z -->
 <!-- Environment: web -->
 
 ==================== START: agent-config ====================
@@ -124,7 +124,10 @@ agents:
     name: Fred
     id: architect
     title: Architect
-    description: For system architecture, technical design, architecture checklists.
+    description: >-
+      Experienced system architect with deep expertise in designing scalable, 
+      maintainable solutions. Pragmatic approach to technical decisions with  a
+      focus on long-term system health and team productivity.
     persona: architect
     customize: ''
     capabilities: []
@@ -133,7 +136,7 @@ agents:
     name: James
     id: dev
     title: Full Stack Developer
-    description: Master Generalist Expert Senior Senior Full Stack Developer
+    description: Master Generalist Expert Senior Full Stack Developer
     persona: dev
     customize: ''
     capabilities: []
@@ -181,7 +184,10 @@ agents:
     name: Quinn
     id: qa
     title: Quality Assurance Test Architect
-    description: Test Architect and Automation Expert
+    description: >-
+      Senior quality advocate with expertise in test architecture and
+      automation. Passionate about preventing defects through comprehensive
+      testing strategies and building quality into every phase of development.
     persona: qa
     customize: ''
     capabilities: []
@@ -190,7 +196,10 @@ agents:
     name: Bob
     id: sm
     title: Scrum Master
-    description: A very Technical Scrum Master helps the team run the Scrum process.
+    description: >-
+      Technical Scrum Master with engineering background who bridges the gap 
+      between process and implementation. Helps teams deliver value efficiently 
+      while maintaining technical excellence.
     persona: sm
     customize: ''
     capabilities: []
@@ -199,7 +208,10 @@ agents:
     name: Jane
     id: ui-architect
     title: UI Architect
-    description: For UI/UX specifications, front-end architecture, and UI 1-shot prompting.
+    description: >-
+      Frontend architecture specialist with expertise in modern UI frameworks
+      and design systems. Creates scalable component architectures that balance
+      developer experience with user performance.
     persona: ui-architect
     customize: ''
     capabilities: []
@@ -222,6 +234,13 @@ agents:
     capabilities: []
     workflow: []
 commands: []
+workflows:
+  - brownfield-fullstack
+  - brownfield-service
+  - brownfield-ui
+  - greenfield-fullstack
+  - greenfield-service
+  - greenfield-ui
 ==================== END: agent-config ====================
 
 ==================== START: personas#bmad ====================
@@ -1017,6 +1036,107 @@ To perform deep research effectively, please be aware:
 
 ==================== END: tasks#create-deep-research-prompt ====================
 
+==================== START: tasks#execute-checklist ====================
+# Checklist Validation Task
+
+This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
+
+## Context
+
+The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. Each checklist contains embedded prompts and instructions to guide the LLM through thorough validation and advanced elicitation. The checklists automatically identify their required artifacts and guide the validation process.
+
+## Available Checklists
+
+If the user asks or does not specify a specific checklist, list the checklists available to the agent persona. If the task is being run not with a specific agent, tell the user to check the bmad-core/checklists folder to select the appropriate one to run.
+
+## Instructions
+
+1. **Initial Assessment**
+
+   - If user or the task being run provides a checklist name:
+     - Try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
+     - If multiple matches found, ask user to clarify
+     - Load the appropriate checklist from bmad-core/checklists/
+   - If no checklist specified:
+     - Ask the user which checklist they want to use
+     - Present the available options from the files in the checklists folder
+   - Confirm if they want to work through the checklist:
+     - Section by section (interactive mode - very time consuming)
+     - All at once (YOLO mode - recommended for checklists, there will be a summary of sections at the end to discuss)
+
+2. **Document and Artifact Gathering**
+
+   - Each checklist will specify its required documents/artifacts at the beginning
+   - Follow the checklist's specific instructions for what to gather, generally a file can be resolved in the docs folder, if not or unsure, halt and ask or confirm with the user.
+
+3. **Checklist Processing**
+
+   If in interactive mode:
+
+   - Work through each section of the checklist one at a time
+   - For each section:
+     - Review all items in the section following instructions for that section embedded in the checklist
+     - Check each item against the relevant documentation or artifacts as appropriate
+     - Present summary of findings for that section, highlighting warnings, errors and non applicable items (rationale for non-applicability).
+     - Get user confirmation before proceeding to next section or if any thing major do we need to halt and take corrective action
+
+   If in YOLO mode:
+
+   - Process all sections at once
+   - Create a comprehensive report of all findings
+   - Present the complete analysis to the user
+
+4. **Validation Approach**
+
+   For each checklist item:
+
+   - Read and understand the requirement
+   - Look for evidence in the documentation that satisfies the requirement
+   - Consider both explicit mentions and implicit coverage
+   - Aside from this, follow all checklist llm instructions
+   - Mark items as:
+     - ✅ PASS: Requirement clearly met
+     - ❌ FAIL: Requirement not met or insufficient coverage
+     - ⚠️ PARTIAL: Some aspects covered but needs improvement
+     - N/A: Not applicable to this case
+
+5. **Section Analysis**
+
+   For each section:
+
+   - think step by step to calculate pass rate
+   - Identify common themes in failed items
+   - Provide specific recommendations for improvement
+   - In interactive mode, discuss findings with user
+   - Document any user decisions or explanations
+
+6. **Final Report**
+
+   Prepare a summary that includes:
+
+   - Overall checklist completion status
+   - Pass rates by section
+   - List of failed items with context
+   - Specific recommendations for improvement
+   - Any sections or items marked as N/A with justification
+
+## Checklist Execution Methodology
+
+Each checklist now contains embedded LLM prompts and instructions that will:
+
+1. **Guide thorough thinking** - Prompts ensure deep analysis of each section
+2. **Request specific artifacts** - Clear instructions on what documents/access is needed
+3. **Provide contextual guidance** - Section-specific prompts for better validation
+4. **Generate comprehensive reports** - Final summary with detailed findings
+
+The LLM will:
+
+- Execute the complete checklist validation
+- Present a final report with pass/fail rates and key findings
+- Offer to provide detailed analysis of any section, especially those with warnings or failures
+
+==================== END: tasks#execute-checklist ====================
+
 ==================== START: tasks#create-next-story ====================
 # Create Next Story Task
 
@@ -1716,107 +1836,6 @@ The story creation is successful when:
 - Stories should take no more than 4 hours of focused development work
 
 ==================== END: tasks#brownfield-create-story ====================
-
-==================== START: tasks#execute-checklist ====================
-# Checklist Validation Task
-
-This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
-
-## Context
-
-The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. Each checklist contains embedded prompts and instructions to guide the LLM through thorough validation and advanced elicitation. The checklists automatically identify their required artifacts and guide the validation process.
-
-## Available Checklists
-
-If the user asks or does not specify a specific checklist, list the checklists available to the agent persona. If the task is being run not with a specific agent, tell the user to check the bmad-core/checklists folder to select the appropriate one to run.
-
-## Instructions
-
-1. **Initial Assessment**
-
-   - If user or the task being run provides a checklist name:
-     - Try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
-     - If multiple matches found, ask user to clarify
-     - Load the appropriate checklist from bmad-core/checklists/
-   - If no checklist specified:
-     - Ask the user which checklist they want to use
-     - Present the available options from the files in the checklists folder
-   - Confirm if they want to work through the checklist:
-     - Section by section (interactive mode - very time consuming)
-     - All at once (YOLO mode - recommended for checklists, there will be a summary of sections at the end to discuss)
-
-2. **Document and Artifact Gathering**
-
-   - Each checklist will specify its required documents/artifacts at the beginning
-   - Follow the checklist's specific instructions for what to gather, generally a file can be resolved in the docs folder, if not or unsure, halt and ask or confirm with the user.
-
-3. **Checklist Processing**
-
-   If in interactive mode:
-
-   - Work through each section of the checklist one at a time
-   - For each section:
-     - Review all items in the section following instructions for that section embedded in the checklist
-     - Check each item against the relevant documentation or artifacts as appropriate
-     - Present summary of findings for that section, highlighting warnings, errors and non applicable items (rationale for non-applicability).
-     - Get user confirmation before proceeding to next section or if any thing major do we need to halt and take corrective action
-
-   If in YOLO mode:
-
-   - Process all sections at once
-   - Create a comprehensive report of all findings
-   - Present the complete analysis to the user
-
-4. **Validation Approach**
-
-   For each checklist item:
-
-   - Read and understand the requirement
-   - Look for evidence in the documentation that satisfies the requirement
-   - Consider both explicit mentions and implicit coverage
-   - Aside from this, follow all checklist llm instructions
-   - Mark items as:
-     - ✅ PASS: Requirement clearly met
-     - ❌ FAIL: Requirement not met or insufficient coverage
-     - ⚠️ PARTIAL: Some aspects covered but needs improvement
-     - N/A: Not applicable to this case
-
-5. **Section Analysis**
-
-   For each section:
-
-   - think step by step to calculate pass rate
-   - Identify common themes in failed items
-   - Provide specific recommendations for improvement
-   - In interactive mode, discuss findings with user
-   - Document any user decisions or explanations
-
-6. **Final Report**
-
-   Prepare a summary that includes:
-
-   - Overall checklist completion status
-   - Pass rates by section
-   - List of failed items with context
-   - Specific recommendations for improvement
-   - Any sections or items marked as N/A with justification
-
-## Checklist Execution Methodology
-
-Each checklist now contains embedded LLM prompts and instructions that will:
-
-1. **Guide thorough thinking** - Prompts ensure deep analysis of each section
-2. **Request specific artifacts** - Clear instructions on what documents/access is needed
-3. **Provide contextual guidance** - Section-specific prompts for better validation
-4. **Generate comprehensive reports** - Final summary with detailed findings
-
-The LLM will:
-
-- Execute the complete checklist validation
-- Present a final report with pass/fail rates and key findings
-- Offer to provide detailed analysis of any section, especially those with warnings or failures
-
-==================== END: tasks#execute-checklist ====================
 
 ==================== START: tasks#index-docs ====================
 # Index Documentation Task
@@ -9474,8 +9493,23 @@ When these commands are used, perform the listed action:
 
 - `/help`: Ask user if they want a list of commands, or help with Workflows or want to know what agent can help them next. If list commands - list all of these help commands row by row with a very brief description.
 - `/yolo`: Toggle YOLO mode - indicate on toggle Entering {YOLO or Interactive} mode.
-- `/agent-list`: output a table with number, Agent Name, Agent Title, Agent available Tasks
-  - If one task is checklist runner, list each checklists the agent has as a separate task, Example `[Run PO Checklist]`, `[Run Story DoD Checklist]`
+- `/agent-list`: Display all agents in the current bundle with their details. Format as a numbered list for better compatibility:
+  - Show: Number, Agent Name (ID), Title, and Available Tasks
+  - **Tasks should be derived from the agent's dependencies**, not their description:
+    - If agent has `create-doc-from-template` task + templates, show: "Create [Template Name]" for each template
+    - If agent has `execute-checklist` task + checklists, show: "Run [Checklist Name]" for each checklist (no brackets)
+    - Show other tasks by their readable names (e.g., "Deep Research", "Course Correction")
+  - Example format:
+    ```
+    1. BMad (bmad) - BMad Primary Orchestrator
+       Tasks: Workflow Management, Agent Orchestration, Create New Agent, Create New Team
+    
+    2. Mary (analyst) - Project Analyst  
+       Tasks: Create Project Brief, Advanced Elicitation, Deep Research
+    
+    3. Sarah (po) - Product Owner
+       Tasks: Run PO Master Checklist, Run Change Checklist, Course Correction
+    ```
 - `/{agent}`: If in BMAD mode, immediate switch to selected agent (if there is a match) - if already in another agent persona - confirm the switch.
 - `/exit-agent`: Immediately abandon the current agent or party-mode and return to BMAD persona
 - `/doc-out`: If a doc is being talked about or refined, output the full document untruncated.
