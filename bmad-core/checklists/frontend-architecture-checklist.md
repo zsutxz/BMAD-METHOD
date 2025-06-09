@@ -4,9 +4,37 @@
 
 This checklist is for the Design Architect to use after completing the "Frontend Architecture Mode" and populating the `front-end-architecture-tmpl.txt` (or `.md`) document. It ensures all sections are comprehensively covered and meet quality standards before finalization.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - FRONTEND ARCHITECTURE VALIDATION
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. frontend-architecture.md or fe-architecture.md - The frontend architecture document (check docs/frontend-architecture.md or docs/fe-architecture.md)
+2. architecture.md - Main architecture document for alignment verification
+3. UI/UX specifications or design files (Figma, Sketch, etc.)
+4. Any component library documentation or design system references
+5. Technology stack specifications from main architecture
+
+IMPORTANT: If the frontend architecture document is missing, immediately ask the user for its location. This checklist cannot proceed without it.
+
+VALIDATION APPROACH:
+
+1. Cross-Reference - Verify alignment with main architecture document
+2. Completeness - Ensure all template sections are properly filled
+3. Consistency - Check that patterns and conventions are uniform
+4. Implementability - Verify an AI agent could implement from these specs
+5. Best Practices - Ensure modern frontend practices are followed
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ---
 
 ## I. Introduction
+
+[[LLM: Verify all links and references are present and functional. If any links are broken or missing, note them as failures. The introduction sets the context for the entire document.]]
 
 - [ ] Is the `{Project Name}` correctly filled in throughout the Introduction?
 - [ ] Is the link to the Main Architecture Document present and correct?
@@ -15,6 +43,15 @@ This checklist is for the Design Architect to use after completing the "Frontend
 - [ ] Is the link to a Deployed Storybook / Component Showcase included, if applicable and available?
 
 ## II. Overall Frontend Philosophy & Patterns
+
+[[LLM: This section is critical for consistency. Verify that:
+
+1. The chosen patterns align with the tech stack in the main architecture
+2. The philosophy is clear enough for consistent implementation
+3. State management approach matches the application's complexity
+4. No conflicting patterns are specified
+
+Pay special attention to alignment with the main architecture document - any mismatches here will cause implementation problems.]]
 
 - [ ] Are the chosen Framework & Core Libraries clearly stated and aligned with the main architecture document?
 - [ ] Is the Component Architecture (e.g., Atomic Design, Presentational/Container) clearly described?
@@ -27,12 +64,30 @@ This checklist is for the Design Architect to use after completing the "Frontend
 
 ## III. Detailed Frontend Directory Structure
 
+[[LLM: The directory structure is the blueprint for code organization. Verify:
+
+1. The ASCII diagram is clear and complete
+2. Structure follows the stated patterns from Section II
+3. Conventions are explicit (where do new components go?)
+4. Structure supports the chosen framework's best practices
+
+An AI agent should be able to know exactly where to place any new file based on this structure.]]
+
 - [ ] Is an ASCII diagram representing the frontend application's folder structure provided?
 - [ ] Is the diagram clear, accurate, and reflective of the chosen framework/patterns?
 - [ ] Are conventions for organizing components, pages, services, state, styles, etc., highlighted?
 - [ ] Are notes explaining specific conventions or rationale for the structure present and clear?
 
 ## IV. Component Breakdown & Implementation Details
+
+[[LLM: Component specifications are crucial for consistent implementation. For this section:
+
+1. Verify the template itself is complete with all required fields
+2. Check that any example components follow the template exactly
+3. Ensure naming conventions are clear and followable
+4. Validate that the level of detail is sufficient for implementation
+
+The component template should be so clear that every component built follows the same pattern.]]
 
 ### Component Naming & Organization
 
@@ -59,6 +114,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 
 ## V. State Management In-Depth
 
+[[LLM: State management is often where frontend apps become complex. Validate:
+
+1. The chosen solution matches the app's needs (not over/under-engineered)
+2. Store structure is clearly defined with examples
+3. Patterns for async operations are specified
+4. Selector patterns promote performance
+5. The approach scales with application growth
+
+Look for specific examples and templates, not just high-level descriptions.]]
+
 - [ ] Is the chosen State Management Solution reiterated and rationale briefly provided (if not fully covered in main arch doc)?
 - [ ] Are conventions for Store Structure / Slices clearly defined (e.g., location, feature-based slices)?
 - [ ] If a Core Slice Example (e.g., `sessionSlice`) is provided:
@@ -74,6 +139,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 
 ## VI. API Interaction Layer
 
+[[LLM: API integration is where frontend meets backend. Verify:
+
+1. HTTP client setup is complete with all configurations
+2. Error handling is comprehensive (network, timeout, 4xx, 5xx)
+3. Service definitions follow a consistent pattern
+4. Authentication/authorization integration is clear
+5. Retry logic doesn't create cascading failures
+
+This section should prevent any ambiguity in how the frontend communicates with backends.]]
+
 - [ ] Is the HTTP Client Setup detailed (e.g., Axios instance, Fetch wrapper, base URL, default headers, interceptors)?
 - [ ] Are Service Definitions conventions explained?
 - [ ] Is an example of a service (e.g., `userService.ts`) provided, including its purpose and example functions?
@@ -83,6 +158,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 
 ## VII. Routing Strategy
 
+[[LLM: Routing defines the application's navigation structure. Check:
+
+1. All major application routes are defined
+2. Protection mechanisms are clearly specified
+3. Route patterns are consistent and predictable
+4. Deep linking considerations are addressed
+5. Route guards integrate with authentication properly
+
+The routing table should be comprehensive enough to understand the entire app structure.]]
+
 - [ ] Is the chosen Routing Library stated?
 - [ ] Is a table of Route Definitions provided?
   - [ ] Does it include Path Pattern, Component/Page, Protection status, and Notes for each route?
@@ -91,6 +176,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 - [ ] Is the Authorization Guard mechanism (if applicable for roles/permissions) described?
 
 ## VIII. Build, Bundling, and Deployment
+
+[[LLM: Build and deployment directly impact performance and reliability. Validate:
+
+1. Build scripts are clearly documented
+2. Environment variable handling is secure and clear
+3. Optimization strategies are appropriate for the app size
+4. Deployment platform is compatible with the build output
+5. Caching strategies won't cause stale content issues
+
+Look for specific commands and configurations, not general statements.]]
 
 - [ ] Are Key Build Scripts (e.g., `npm run build`) listed and their purpose explained?
 - [ ] Is the handling of Environment Variables during the build process described for different environments?
@@ -103,6 +198,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 - [ ] Is the Asset Caching Strategy (CDN/browser) for static assets outlined?
 
 ## IX. Frontend Testing Strategy
+
+[[LLM: Testing ensures quality and prevents regressions. Verify:
+
+1. Testing layers are appropriate (unit, integration, e2e)
+2. Tools are specified and compatible with the tech stack
+3. Test file locations follow a clear pattern
+4. Testing scope is realistic and valuable
+5. Test data management is addressed
+
+The strategy should be specific enough to start writing tests immediately.]]
 
 - [ ] Is there a link to the Main Testing Strategy document/section, and is it correct?
 - [ ] For Component Testing:
@@ -121,6 +226,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 
 ## X. Accessibility (AX) Implementation Details
 
+[[LLM: Accessibility is not optional - it's a core requirement. Check:
+
+1. Semantic HTML usage is emphasized
+2. ARIA guidance is practical and specific
+3. Keyboard navigation is comprehensively addressed
+4. Testing tools and processes are defined
+5. Accessibility is integrated into the development workflow
+
+This section should prevent accessibility from being an afterthought.]]
+
 - [ ] Is there an emphasis on using Semantic HTML?
 - [ ] Are guidelines for ARIA Implementation (roles, states, properties for custom components) provided?
 - [ ] Are requirements for Keyboard Navigation (all interactive elements focusable/operable) stated?
@@ -129,6 +244,16 @@ This checklist is for the Design Architect to use after completing the "Frontend
 - [ ] Does this section align with AX requirements from the UI/UX Specification?
 
 ## XI. Performance Considerations
+
+[[LLM: Performance directly impacts user experience. Validate:
+
+1. Image optimization strategies are concrete
+2. Code splitting approach matches app architecture
+3. Re-render optimization techniques are specified
+4. Performance monitoring is built-in from the start
+5. Performance budgets or targets are defined
+
+Look for specific techniques and tools, not just aspirational statements.]]
 
 - [ ] Is Image Optimization (formats, responsive images, lazy loading) discussed?
 - [ ] Is Code Splitting & Lazy Loading (impact on perceived performance) reiterated if necessary?
@@ -146,6 +271,43 @@ This checklist is for the Design Architect to use after completing the "Frontend
 ---
 
 ## Final Review Sign-off
+
+[[LLM: FINAL VALIDATION REPORT GENERATION
+
+Generate a comprehensive frontend architecture validation report:
+
+1. Executive Summary
+
+   - Document completeness (percentage of sections properly filled)
+   - Alignment with main architecture (High/Medium/Low)
+   - Implementation readiness (Ready/Needs Work/Not Ready)
+   - Critical gaps identified
+
+2. Section Analysis
+
+   - Pass rate for each major section
+   - Most critical failures or gaps
+   - Sections requiring immediate attention
+
+3. Technical Concerns
+
+   - Potential implementation challenges
+   - Inconsistencies between sections
+   - Missing critical information
+   - Over-engineering concerns
+
+4. Recommendations
+
+   - Must-fix items before development
+   - Should-fix items for better quality
+   - Nice-to-have improvements
+
+5. AI Implementation Assessment
+   - Clarity score for AI implementation (1-10)
+   - Ambiguous areas needing clarification
+   - Missing examples or templates
+
+After presenting the report, ask if the user wants detailed analysis of any specific section, especially those with failures or concerns.]]
 
 - [ ] Have all placeholders (e.g., `{Project Name}`, `{e.g., ...}`) been filled in or removed where appropriate?
 - [ ] Has the document been reviewed for clarity, consistency, and completeness by the Design Architect?

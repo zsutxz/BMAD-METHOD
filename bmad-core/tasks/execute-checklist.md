@@ -1,35 +1,34 @@
 # Checklist Validation Task
 
-This task provides instructions for validating documentation against checklists. The agent should follow these instructions to ensure thorough and systematic validation of documents.
+This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
 
 ## Context
 
-The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. The mapping between checklists and their required documents is defined in `checklist-mappings`. This allows for easy addition of new checklists without modifying this task.
+The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. Each checklist contains embedded prompts and instructions to guide the LLM through thorough validation and advanced elicitation. The checklists automatically identify their required artifacts and guide the validation process.
+
+## Available Checklists
+
+If the user asks or does not specify a specific checklist, list the checklists available to the agent persona. If the task is being run not with a specific agent, tell the user to check the bmad-core/checklists folder to select the appropriate one to run.
 
 ## Instructions
 
 1. **Initial Assessment**
 
-   - Check `checklist-mappings` for available checklists
-   - If user provides a checklist name:
-     - Look for exact match in checklist-mappings.yml
-     - If no exact match, try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
+   - If user or the task being run provides a checklist name:
+     - Try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
      - If multiple matches found, ask user to clarify
-     - Once matched, use the checklist_file path from the mapping
+     - Load the appropriate checklist from bmad-core/checklists/
    - If no checklist specified:
      - Ask the user which checklist they want to use
-     - Present available options from checklist-mappings.yml
+     - Present the available options from the files in the checklists folder
    - Confirm if they want to work through the checklist:
-     - Section by section (interactive mode)
-     - All at once (YOLO mode)
+     - Section by section (interactive mode - very time consuming)
+     - All at once (YOLO mode - recommended for checklists, there will be a summary of sections at the end to discuss)
 
-2. **Document Location**
+2. **Document and Artifact Gathering**
 
-   - Look up the required documents and default locations in `checklist-mappings`
-   - For each required document:
-     - Check all default locations specified in the mapping
-     - If not found, ask the user for the document location
-   - Verify all required documents are accessible
+   - Each checklist will specify its required documents/artifacts at the beginning
+   - Follow the checklist's specific instructions for what to gather, generally a file can be resolved in the docs folder, if not or unsure, halt and ask or confirm with the user.
 
 3. **Checklist Processing**
 
@@ -37,10 +36,10 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
 
    - Work through each section of the checklist one at a time
    - For each section:
-     - Review all items in the section
-     - Check each item against the relevant documentation
-     - Present findings for that section
-     - Get user confirmation before proceeding to next section
+     - Review all items in the section following instructions for that section embedded in the checklist
+     - Check each item against the relevant documentation or artifacts as appropriate
+     - Present summary of findings for that section, highlighting warnings, errors and non applicable items (rationale for non-applicability).
+     - Get user confirmation before proceeding to next section or if any thing major do we need to halt and take corrective action
 
    If in YOLO mode:
 
@@ -55,6 +54,7 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
    - Read and understand the requirement
    - Look for evidence in the documentation that satisfies the requirement
    - Consider both explicit mentions and implicit coverage
+   - Aside from this, follow all checklist llm instructions
    - Mark items as:
      - ✅ PASS: Requirement clearly met
      - ❌ FAIL: Requirement not met or insufficient coverage
@@ -65,7 +65,7 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
 
    For each section:
 
-   - Calculate pass rate
+   - think step by step to calculate pass rate
    - Identify common themes in failed items
    - Provide specific recommendations for improvement
    - In interactive mode, discuss findings with user
@@ -81,55 +81,17 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
    - Specific recommendations for improvement
    - Any sections or items marked as N/A with justification
 
-## Special Considerations
+## Checklist Execution Methodology
 
-1. **Architecture Checklist**
+Each checklist now contains embedded LLM prompts and instructions that will:
 
-   - Focus on technical completeness and clarity
-   - Verify all system components are addressed
-   - Check for security and scalability considerations
-   - Ensure deployment and operational aspects are covered
+1. **Guide thorough thinking** - Prompts ensure deep analysis of each section
+2. **Request specific artifacts** - Clear instructions on what documents/access is needed
+3. **Provide contextual guidance** - Section-specific prompts for better validation
+4. **Generate comprehensive reports** - Final summary with detailed findings
 
-2. **Frontend Architecture Checklist**
+The LLM will:
 
-   - Validate UI/UX specifications
-   - Check component structure and organization
-   - Verify state management approach
-   - Ensure responsive design considerations
-
-3. **PM Checklist**
-
-   - Focus on product requirements clarity
-   - Verify user stories and acceptance criteria
-   - Check market and user research coverage
-   - Ensure technical feasibility is addressed
-
-4. **Story Checklists**
-   - Verify clear acceptance criteria
-   - Check for technical context and dependencies
-   - Ensure testability is addressed
-   - Validate user value is clearly stated
-
-## Success Criteria
-
-The checklist validation is complete when:
-
-1. All applicable items have been assessed
-2. Clear pass/fail status for each item
-3. Specific recommendations provided for failed items
-4. User has reviewed and acknowledged findings
-5. Final report documents all decisions and rationales
-
-## Example Interaction
-
-Agent: "Let me check the available checklists... According to checklist-mappings.yml, we have several options. Which would you like to use?"
-
-User: "The architect checklist"
-
-Agent: "Would you like to work through it section by section (interactive) or get a complete analysis all at once (YOLO mode)?"
-
-User: "Interactive please"
-
-Agent: "According to the mappings, I need to check for architecture.md. The default location is docs/architecture.md. Should I look there?"
-
-[Continue interaction based on user responses...]
+- Execute the complete checklist validation
+- Present a final report with pass/fail rates and key findings
+- Offer to provide detailed analysis of any section, especially those with warnings or failures

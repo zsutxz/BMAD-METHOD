@@ -2,192 +2,115 @@ workflow:
   id: brownfield-fullstack
   name: Brownfield Full-Stack Enhancement
   description: >-
-    Workflow for adding features, refactoring, or modernizing existing applications.
-    Handles legacy code analysis and incremental improvements.
+    Agent workflow for enhancing existing full-stack applications with new features, 
+    modernization, or significant changes. Handles existing system analysis and safe integration.
   type: brownfield
   project_types:
     - feature-addition
     - refactoring
     - modernization
-    - bug-fix
+    - integration-enhancement
 
-  stages:
-    - id: system-analysis
-      name: Existing System Analysis
-      description: Understand current system and identify improvement areas
-      steps:
-        - agent: analyst
-          action: System Assessment
-          description: >-
-            Analyze existing system, codebase, and identify pain points
-          inputs:
-            - existing-documentation
-            - codebase-access
-          outputs:
-            - system-assessment
-            - improvement-opportunities
-            - technical-debt-analysis
-          prompts:
-            - "Let's analyze the existing system architecture"
-            - "What are the main pain points and technical debt?"
-            - "Share any existing documentation or system diagrams"
-            - "You can also share the codebase if you have access to it"
+  # For Complex Enhancements (Multiple Stories, Architectural Changes)
+  complex_enhancement_sequence:
+    - step: scope_assessment
+      agent: any
+      action: assess complexity
+      notes: "First, assess if this is a simple change (use simple_enhancement_sequence) or complex enhancement requiring full planning."
 
-        - agent: fullstack-architect
-          action: Code Analysis
-          description: >-
-            Deep dive into codebase quality and structure
-          inputs:
-            - codebase-access
-          outputs:
-            - code-quality-report
-            - dependency-analysis
-            - refactoring-candidates
-          prompts:
-            - "Let me analyze the code structure and quality"
-            - "Identifying areas that need refactoring"
+    - step: project_analysis
+      agent: analyst
+      action: analyze existing project
+      notes: "Review existing documentation, codebase structure, and identify integration points. Document current system understanding before proceeding."
 
-    - id: enhancement-planning
-      name: Enhancement Planning
-      description: Plan improvements and new features
-      steps:
-        - agent: pm
-          action: Enhancement Strategy
-          description: >-
-            Define enhancement goals and success criteria
-          inputs:
-            - system-assessment
-            - improvement-opportunities
-          outputs:
-            - enhancement-prd
-            - success-metrics
-            - risk-assessment
-          prompts:
-            - "What specific enhancements are we targeting?"
-            - "Define success metrics for these improvements"
+    - agent: pm
+      creates: brownfield-prd.md
+      uses: brownfield-prd-tmpl
+      requires: existing_project_analysis
+      notes: "Creates comprehensive brownfield PRD with existing system analysis and enhancement planning. SAVE OUTPUT: Copy final brownfield-prd.md to your project's docs/ folder."
 
-        - agent: fullstack-architect
-          action: Integration Architecture
-          description: >-
-            Design how new features integrate with existing system
-          inputs:
-            - enhancement-prd
-            - system-assessment
-          outputs:
-            - integration-architecture
-            - migration-strategy
-            - compatibility-matrix
-          prompts:
-            - "How will new features integrate with existing code?"
-            - "Design migration strategy for gradual rollout"
+    - agent: fullstack-architect
+      creates: brownfield-architecture.md
+      uses: brownfield-architecture-tmpl
+      requires: brownfield-prd.md
+      notes: "Creates brownfield architecture with integration strategy and existing system constraints. SAVE OUTPUT: Copy final brownfield-architecture.md to your project's docs/ folder."
 
-    - id: incremental-design
-      name: Incremental Design
-      description: Design changes that don't break existing functionality
-      steps:
-        - agent: fullstack-architect
-          action: Incremental Architecture
-          description: >-
-            Design architecture that allows gradual migration
-          inputs:
-            - integration-architecture
-            - technical-debt-analysis
-          outputs:
-            - incremental-architecture
-            - feature-flags-design
-            - rollback-strategy
-          prompts:
-            - "Design architecture for incremental deployment"
-            - "How do we maintain backward compatibility?"
+    - agent: po
+      validates: all_artifacts
+      uses: brownfield-checklist
+      notes: "Validates all brownfield documents for integration safety and completeness. May require updates to any document."
 
-        - agent: devops
-          action: Deployment Strategy
-          description: >-
-            Plan zero-downtime deployment and rollback procedures
-          inputs:
-            - incremental-architecture
-          outputs:
-            - deployment-strategy
-            - canary-release-plan
-            - monitoring-upgrades
-          prompts:
-            - "Design blue-green or canary deployment"
-            - "Upgrade monitoring for new features"
+    - agent: various
+      updates: any_flagged_documents
+      condition: po_checklist_issues
+      notes: "If PO finds issues, return to relevant agent to fix and re-export updated documents to docs/ folder."
 
-    - id: risk-mitigation
-      name: Risk Assessment & Mitigation
-      description: Identify and plan for risks in brownfield changes
-      steps:
-        - agent: qa
-          action: Regression Risk Analysis
-          description: >-
-            Identify regression risks and test coverage gaps
-          inputs:
-            - code-quality-report
-            - integration-architecture
-          outputs:
-            - regression-risk-matrix
-            - test-gap-analysis
-            - test-automation-plan
-          prompts:
-            - "What existing functionality might break?"
-            - "Where do we need additional test coverage?"
+    - workflow_end:
+      action: move_to_ide
+      notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-        - agent: po
-          action: Change Impact Review
-          description: >-
-            Review all changes for business impact
-          inputs:
-            - enhancement-prd
-            - risk-assessment
-            - regression-risk-matrix
-          outputs:
-            - impact-analysis
-            - stakeholder-communication
-            - approval-checklist
-          prompts:
-            - "Review impact on existing users and workflows"
-            - "Prepare stakeholder communication plan"
+  # For Simple Enhancements (1-3 Stories, Following Existing Patterns)
+  simple_enhancement_sequence:
+    - step: enhancement_type
+      action: choose approach
+      notes: "Choose between creating single story (very small change) or epic (1-3 related stories)."
 
-    - id: implementation-planning
-      name: Phased Implementation
-      description: Create phased implementation plan
-      steps:
-        - agent: sm
-          action: Phased Story Creation
-          description: >-
-            Create stories for incremental implementation
-          inputs:
-            - incremental-architecture
-            - impact-analysis
-          outputs:
-            - implementation-phases
-            - user-stories
-            - dependency-map
-          prompts:
-            - "Break down into safe, incremental phases"
-            - "Map dependencies between stories"
+    - agent: pm|po|sm
+      creates: brownfield_epic OR brownfield_story
+      uses: brownfield-create-epic OR brownfield-create-story
+      notes: "Create focused enhancement with existing system integration. Choose agent based on team preference and context."
 
-  transitions:
-    - from: system-analysis
-      to: enhancement-planning
-      condition: assessment complete
-    - from: enhancement-planning
-      to: incremental-design
-      condition: strategy defined
-    - from: incremental-design
-      to: risk-mitigation
-      condition: architecture approved
-    - from: risk-mitigation
-      to: implementation-planning
-      condition: risks assessed
+    - workflow_end:
+      action: move_to_ide
+      notes: "Enhancement defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  special_considerations:
-    - name: Legacy Code
-      description: Handle undocumented or poorly structured code
-    - name: Data Migration
-      description: Plan for data structure changes
-    - name: User Training
-      description: Consider impact on existing users
-    - name: Rollback Plan
-      description: Always have a way to revert changes
+  flow_diagram: |
+    ```mermaid
+    graph TD
+        A[Start: Brownfield Enhancement] --> B{Enhancement Complexity?}
+        B -->|Complex/Significant| C[analyst: analyze existing project]
+        B -->|Simple| D{1 Story or 2-3 Stories?}
+        
+        C --> E[pm: brownfield-prd.md]
+        E --> F[fullstack-architect: brownfield-architecture.md]
+        F --> G[po: validate with brownfield-checklist]
+        G --> H{PO finds issues?}
+        H -->|Yes| I[Return to relevant agent for fixes]
+        H -->|No| J[Move to IDE Environment]
+        I --> G
+        
+        D -->|1 Story| K[pm/po/sm: brownfield-create-story]
+        D -->|2-3 Stories| L[pm/po/sm: brownfield-create-epic]
+        K --> M[Move to IDE Environment]
+        L --> M
+        
+        style J fill:#90EE90
+        style M fill:#90EE90
+        style E fill:#FFE4B5
+        style F fill:#FFE4B5
+        style K fill:#FFB6C1
+        style L fill:#FFB6C1
+    ```
+
+  decision_guidance:
+    use_complex_sequence_when:
+      - Enhancement requires multiple coordinated stories (4+)
+      - Architectural changes are needed
+      - Significant integration work required
+      - Risk assessment and mitigation planning necessary
+      - Multiple team members will work on related changes
+
+    use_simple_sequence_when:
+      - Enhancement can be completed in 1-3 stories
+      - Follows existing project patterns
+      - Integration complexity is minimal
+      - Risk to existing system is low
+      - Change is isolated with clear boundaries
+
+  handoff_prompts:
+    analyst_to_pm: "Existing project analysis complete. Create comprehensive brownfield PRD with integration strategy."
+    pm_to_architect: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the integration architecture."
+    architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for integration safety."
+    po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
+    simple_to_ide: "Enhancement defined with existing system integration. Move to IDE environment to begin development."
+    complex_complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."

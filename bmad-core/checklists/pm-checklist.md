@@ -2,7 +2,40 @@
 
 This checklist serves as a comprehensive framework to ensure the Product Requirements Document (PRD) and Epic definitions are complete, well-structured, and appropriately scoped for MVP development. The PM should systematically work through each item during the product definition process.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - PM CHECKLIST
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. prd.md - The Product Requirements Document (check docs/prd.md)
+2. Any user research, market analysis, or competitive analysis documents
+3. Business goals and strategy documents
+4. Any existing epic definitions or user stories
+
+IMPORTANT: If the PRD is missing, immediately ask the user for its location or content before proceeding.
+
+VALIDATION APPROACH:
+
+1. User-Centric - Every requirement should tie back to user value
+2. MVP Focus - Ensure scope is truly minimal while viable
+3. Clarity - Requirements should be unambiguous and testable
+4. Completeness - All aspects of the product vision are covered
+5. Feasibility - Requirements are technically achievable
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ## 1. PROBLEM DEFINITION & CONTEXT
+
+[[LLM: The foundation of any product is a clear problem statement. As you review this section:
+
+1. Verify the problem is real and worth solving
+2. Check that the target audience is specific, not "everyone"
+3. Ensure success metrics are measurable, not vague aspirations
+4. Look for evidence of user research, not just assumptions
+5. Confirm the problem-solution fit is logical]]
 
 ### 1.1 Problem Statement
 
@@ -30,6 +63,14 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## 2. MVP SCOPE DEFINITION
 
+[[LLM: MVP scope is critical - too much and you waste resources, too little and you can't validate. Check:
+
+1. Is this truly minimal? Challenge every feature
+2. Does each feature directly address the core problem?
+3. Are "nice-to-haves" clearly separated from "must-haves"?
+4. Is the rationale for inclusion/exclusion documented?
+5. Can you ship this in the target timeframe?]]
+
 ### 2.1 Core Functionality
 
 - [ ] Essential features clearly distinguished from nice-to-haves
@@ -56,6 +97,14 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## 3. USER EXPERIENCE REQUIREMENTS
 
+[[LLM: UX requirements bridge user needs and technical implementation. Validate:
+
+1. User flows cover the primary use cases completely
+2. Edge cases are identified (even if deferred)
+3. Accessibility isn't an afterthought
+4. Performance expectations are realistic
+5. Error states and recovery are planned]]
+
 ### 3.1 User Journeys & Flows
 
 - [ ] Primary user flows documented
@@ -81,6 +130,14 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 - [ ] High-level navigation structure defined
 
 ## 4. FUNCTIONAL REQUIREMENTS
+
+[[LLM: Functional requirements must be clear enough for implementation. Check:
+
+1. Requirements focus on WHAT not HOW (no implementation details)
+2. Each requirement is testable (how would QA verify it?)
+3. Dependencies are explicit (what needs to be built first?)
+4. Requirements use consistent terminology
+5. Complex features are broken into manageable pieces]]
 
 ### 4.1 Feature Completeness
 
@@ -242,27 +299,75 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## PRD & EPIC VALIDATION SUMMARY
 
+[[LLM: FINAL PM CHECKLIST REPORT GENERATION
+
+Create a comprehensive validation report that includes:
+
+1. Executive Summary
+
+   - Overall PRD completeness (percentage)
+   - MVP scope appropriateness (Too Large/Just Right/Too Small)
+   - Readiness for architecture phase (Ready/Nearly Ready/Not Ready)
+   - Most critical gaps or concerns
+
+2. Category Analysis Table
+   Fill in the actual table with:
+
+   - Status: PASS (90%+ complete), PARTIAL (60-89%), FAIL (<60%)
+   - Critical Issues: Specific problems that block progress
+
+3. Top Issues by Priority
+
+   - BLOCKERS: Must fix before architect can proceed
+   - HIGH: Should fix for quality
+   - MEDIUM: Would improve clarity
+   - LOW: Nice to have
+
+4. MVP Scope Assessment
+
+   - Features that might be cut for true MVP
+   - Missing features that are essential
+   - Complexity concerns
+   - Timeline realism
+
+5. Technical Readiness
+
+   - Clarity of technical constraints
+   - Identified technical risks
+   - Areas needing architect investigation
+
+6. Recommendations
+   - Specific actions to address each blocker
+   - Suggested improvements
+   - Next steps
+
+After presenting the report, ask if the user wants:
+
+- Detailed analysis of any failed sections
+- Suggestions for improving specific areas
+- Help with refining MVP scope]]
+
 ### Category Statuses
 
-| Category | Status | Critical Issues |
-|----------|--------|----------------|
-| 1. Problem Definition & Context | PASS/FAIL/PARTIAL | |
-| 2. MVP Scope Definition | PASS/FAIL/PARTIAL | |
-| 3. User Experience Requirements | PASS/FAIL/PARTIAL | |
-| 4. Functional Requirements | PASS/FAIL/PARTIAL | |
-| 5. Non-Functional Requirements | PASS/FAIL/PARTIAL | |
-| 6. Epic & Story Structure | PASS/FAIL/PARTIAL | |
-| 7. Technical Guidance | PASS/FAIL/PARTIAL | |
-| 8. Cross-Functional Requirements | PASS/FAIL/PARTIAL | |
-| 9. Clarity & Communication | PASS/FAIL/PARTIAL | |
+| Category                         | Status | Critical Issues |
+| -------------------------------- | ------ | --------------- |
+| 1. Problem Definition & Context  | _TBD_  |                 |
+| 2. MVP Scope Definition          | _TBD_  |                 |
+| 3. User Experience Requirements  | _TBD_  |                 |
+| 4. Functional Requirements       | _TBD_  |                 |
+| 5. Non-Functional Requirements   | _TBD_  |                 |
+| 6. Epic & Story Structure        | _TBD_  |                 |
+| 7. Technical Guidance            | _TBD_  |                 |
+| 8. Cross-Functional Requirements | _TBD_  |                 |
+| 9. Clarity & Communication       | _TBD_  |                 |
 
 ### Critical Deficiencies
 
-- List all critical issues that must be addressed before handoff to Architect
+_To be populated during validation_
 
 ### Recommendations
 
-- Provide specific recommendations for addressing each deficiency
+_To be populated during validation_
 
 ### Final Decision
 

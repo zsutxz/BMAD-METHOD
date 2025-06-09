@@ -2,216 +2,126 @@ workflow:
   id: brownfield-ui
   name: Brownfield UI/Frontend Enhancement
   description: >-
-    Workflow for modernizing, redesigning, or enhancing existing frontend applications.
-    Handles UI/UX improvements, framework migrations, and frontend refactoring.
+    Agent workflow for enhancing existing frontend applications with new features,
+    modernization, or design improvements. Handles existing UI analysis and safe integration.
   type: brownfield
   project_types:
     - ui-modernization
     - framework-migration
     - design-refresh
-    - frontend-refactoring
+    - frontend-enhancement
 
-  stages:
-    - id: ui-analysis
-      name: Current UI Assessment
-      description: Analyze existing frontend and identify improvement areas
-      steps:
-        - agent: analyst
-          action: Frontend Assessment
-          description: >-
-            Analyze current frontend, user feedback, and performance issues
-          inputs:
-            - existing-frontend
-            - user-feedback
-            - analytics-data
-          outputs:
-            - frontend-assessment
-            - usability-issues
-            - performance-analysis
-          prompts:
-            - "Let's analyze the current frontend application"
-            - "What are users' main pain points with the current UI?"
-            - "Share analytics data or user feedback if available"
+  # For Complex UI Enhancements (Multiple Stories, Design Changes)
+  complex_enhancement_sequence:
+    - step: scope_assessment
+      agent: any
+      action: assess complexity
+      notes: "First, assess if this is a simple UI change (use simple_enhancement_sequence) or complex enhancement requiring full planning."
 
-        - agent: ux-expert
-          action: UX Audit
-          description: >-
-            Conduct comprehensive UX audit and competitive analysis
-          inputs:
-            - frontend-assessment
-            - user-feedback
-          outputs:
-            - ux-audit-report
-            - competitor-analysis
-            - accessibility-audit
-          prompts:
-            - "Let's audit the current user experience"
-            - "How do competitors handle similar flows?"
+    - step: ui_analysis
+      agent: analyst
+      action: analyze existing UI
+      notes: "Review existing frontend application, user feedback, analytics data, and identify improvement areas."
 
-    - id: enhancement-strategy
-      name: UI Enhancement Strategy
-      description: Define UI improvement strategy and goals
-      steps:
-        - agent: pm
-          action: UI Enhancement Planning
-          description: >-
-            Define enhancement goals, priorities, and success metrics
-          inputs:
-            - ux-audit-report
-            - usability-issues
-          outputs:
-            - ui-enhancement-strategy
-            - improvement-priorities
-            - success-metrics
-          prompts:
-            - "What are the priority UI improvements?"
-            - "Define success metrics for the redesign"
+    - agent: pm
+      creates: brownfield-prd.md
+      uses: brownfield-prd-tmpl
+      requires: existing_ui_analysis
+      notes: "Creates comprehensive brownfield PRD focused on UI enhancement with existing system analysis. SAVE OUTPUT: Copy final brownfield-prd.md to your project's docs/ folder."
 
-        - agent: ux-expert
-          action: Design Strategy
-          description: >-
-            Create design strategy and visual direction
-          inputs:
-            - ui-enhancement-strategy
-            - competitor-analysis
-          outputs:
-            - design-strategy
-            - visual-direction
-            - brand-evolution
-          prompts:
-            - "Define the new visual direction"
-            - "How should the brand evolve?"
+    - agent: ux-expert
+      creates: front-end-spec.md
+      uses: front-end-spec-tmpl
+      requires: brownfield-prd.md
+      notes: "Creates UI/UX specification for brownfield enhancement that integrates with existing design patterns. SAVE OUTPUT: Copy final front-end-spec.md to your project's docs/ folder."
 
-    - id: incremental-design
-      name: Incremental UI Design
-      description: Design improvements that can be rolled out incrementally
-      steps:
-        - agent: ux-expert
-          action: Progressive Design System
-          description: >-
-            Create new design system that can coexist with existing UI
-          inputs:
-            - design-strategy
-            - frontend-assessment
-          outputs:
-            - progressive-design-system
-            - component-migration-plan
-            - style-guide-evolution
-          prompts:
-            - "Design a system that can coexist with current UI"
-            - "Plan component-by-component migration"
+    - agent: ui-architect
+      creates: brownfield-architecture.md
+      uses: brownfield-architecture-tmpl
+      requires:
+        - brownfield-prd.md
+        - front-end-spec.md
+      notes: "Creates brownfield frontend architecture with component integration strategy and migration planning. SAVE OUTPUT: Copy final brownfield-architecture.md to your project's docs/ folder."
 
-        - agent: ui-architect
-          action: Frontend Migration Architecture
-          description: >-
-            Design technical approach for gradual frontend migration
-          inputs:
-            - progressive-design-system
-            - existing-frontend
-          outputs:
-            - migration-architecture
-            - component-strategy
-            - bundling-strategy
-          prompts:
-            - "Design incremental migration approach"
-            - "How to avoid breaking existing functionality?"
+    - agent: po
+      validates: all_artifacts
+      uses: brownfield-checklist
+      notes: "Validates all brownfield documents for UI integration safety and design consistency. May require updates to any document."
 
-    - id: user-validation
-      name: User Testing & Validation
-      description: Validate new designs with users
-      steps:
-        - agent: ux-expert
-          action: Prototype & Test
-          description: >-
-            Create prototypes and conduct user testing
-          inputs:
-            - progressive-design-system
-            - improvement-priorities
-          outputs:
-            - interactive-prototypes
-            - user-testing-results
-            - design-iterations
-          prompts:
-            - "Let's create testable prototypes"
-            - "Test with real users and iterate"
+    - agent: various
+      updates: any_flagged_documents
+      condition: po_checklist_issues
+      notes: "If PO finds issues, return to relevant agent to fix and re-export updated documents to docs/ folder."
 
-    - id: technical-planning
-      name: Implementation Planning
-      description: Plan technical implementation of UI changes
-      steps:
-        - agent: ui-architect
-          action: Technical Implementation Plan
-          description: >-
-            Create detailed technical plan for UI migration
-          inputs:
-            - migration-architecture
-            - design-iterations
-          outputs:
-            - implementation-roadmap
-            - risk-mitigation-plan
-            - rollback-strategy
-          prompts:
-            - "Create step-by-step implementation plan"
-            - "Plan for safe rollbacks if needed"
+    - workflow_end:
+      action: move_to_ide
+      notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-        - agent: qa
-          action: UI Testing Strategy
-          description: >-
-            Plan testing approach for UI changes
-          inputs:
-            - implementation-roadmap
-            - user-testing-results
-          outputs:
-            - ui-test-strategy
-            - visual-regression-tests
-            - cross-browser-testing
-            - accessibility-testing
-          prompts:
-            - "Plan comprehensive UI testing"
-            - "Ensure no regressions in existing flows"
+  # For Simple UI Enhancements (1-3 Stories, Following Existing Design)
+  simple_enhancement_sequence:
+    - step: enhancement_type
+      action: choose approach
+      notes: "Choose between creating single story (simple component change) or epic (1-3 related UI changes)."
 
-    - id: deployment-strategy
-      name: Gradual Rollout Planning
-      description: Plan safe deployment of UI changes
-      steps:
-        - agent: ui-architect
-          action: Feature Flag Strategy
-          description: >-
-            Design feature flagging for gradual UI rollout
-          inputs:
-            - implementation-roadmap
-            - risk-mitigation-plan
-          outputs:
-            - feature-flag-design
-            - a-b-testing-plan
-            - monitoring-strategy
-          prompts:
-            - "Design A/B testing for new UI components"
-            - "Plan feature flags for safe rollout"
+    - agent: pm|po|sm
+      creates: brownfield_epic OR brownfield_story
+      uses: brownfield-create-epic OR brownfield-create-story
+      notes: "Create focused UI enhancement with existing design system integration. Choose agent based on team preference and context."
 
-  transitions:
-    - from: ui-analysis
-      to: enhancement-strategy
-      condition: assessment complete
-    - from: enhancement-strategy
-      to: incremental-design
-      condition: strategy defined
-    - from: incremental-design
-      to: user-validation
-      condition: designs ready
-    - from: user-validation
-      to: technical-planning
-      condition: designs validated
-    - from: technical-planning
-      to: deployment-strategy
-      condition: implementation planned
+    - workflow_end:
+      action: move_to_ide
+      notes: "UI enhancement defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  special_considerations:
-    - name: User Adoption
-      description: Plan for user training and change management
-    - name: SEO Impact
-      description: Ensure URL structure and SEO aren't negatively affected
-    - name: Performance
-      description: Maintain or improve existing performance metrics
-    - name: Analytics
-      description: Preserve analytics tracking through UI changes
+  flow_diagram: |
+    ```mermaid
+    graph TD
+        A[Start: UI Enhancement] --> B{Enhancement Complexity?}
+        B -->|Complex/Significant| C[analyst: analyze existing UI]
+        B -->|Simple| D{1 Story or 2-3 Stories?}
+        
+        C --> E[pm: brownfield-prd.md]
+        E --> F[ux-expert: front-end-spec.md]
+        F --> G[ui-architect: brownfield-architecture.md]
+        G --> H[po: validate with brownfield-checklist]
+        H --> I{PO finds issues?}
+        I -->|Yes| J[Return to relevant agent for fixes]
+        I -->|No| K[Move to IDE Environment]
+        J --> H
+        
+        D -->|1 Story| L[pm/po/sm: brownfield-create-story]
+        D -->|2-3 Stories| M[pm/po/sm: brownfield-create-epic]
+        L --> N[Move to IDE Environment]
+        M --> N
+        
+        style K fill:#90EE90
+        style N fill:#90EE90
+        style E fill:#FFE4B5
+        style F fill:#FFE4B5
+        style G fill:#FFE4B5
+        style L fill:#FFB6C1
+        style M fill:#FFB6C1
+    ```
+
+  decision_guidance:
+    use_complex_sequence_when:
+      - UI enhancement requires multiple coordinated stories (4+)
+      - Design system changes needed
+      - New component patterns required
+      - User research and testing needed
+      - Multiple team members will work on related changes
+
+    use_simple_sequence_when:
+      - Enhancement can be completed in 1-3 stories
+      - Follows existing design patterns exactly
+      - Component changes are isolated
+      - Risk to existing UI is low
+      - Change maintains current user experience
+
+  handoff_prompts:
+    analyst_to_pm: "UI analysis complete. Create comprehensive brownfield PRD with UI integration strategy."
+    pm_to_ux: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the UI/UX specification."
+    ux_to_architect: "UI/UX spec complete. Save it as docs/front-end-spec.md, then create the frontend architecture."
+    architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for UI integration safety."
+    po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
+    simple_to_ide: "UI enhancement defined with existing design integration. Move to IDE environment to begin development."
+    complex_complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."

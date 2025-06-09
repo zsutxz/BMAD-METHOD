@@ -12,11 +12,14 @@ dependencies:
     - execute-checklist
     - shard-doc
     - correct-course
+    - brownfield-create-epic
+    - brownfield-create-story
   templates:
     - story-tmpl
   checklists:
     - po-master-checklist
     - change-checklist
+    - brownfield-checklist
   data: []
   utils:
     - template-format

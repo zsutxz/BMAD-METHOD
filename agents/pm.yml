@@ -12,8 +12,11 @@ dependencies:
     - create-doc-from-template
     - correct-course
     - create-deep-research-prompt
+    - brownfield-create-epic
+    - brownfield-create-story
   templates:
     - prd-tmpl
+    - brownfield-prd-tmpl
   checklists:
     - pm-checklist
     - change-checklist

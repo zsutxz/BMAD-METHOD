@@ -2,7 +2,41 @@
 
 This checklist serves as a comprehensive framework for the Product Owner to validate the complete MVP plan before development execution. The PO should systematically work through each item, documenting compliance status and noting any deficiencies.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - PO MASTER CHECKLIST
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. prd.md - The Product Requirements Document (check docs/prd.md)
+2. architecture.md - The system architecture (check docs/architecture.md)
+3. frontend-architecture.md - If applicable (check docs/frontend-architecture.md or docs/fe-architecture.md)
+4. All epic and story definitions
+5. Any technical specifications or constraints
+
+IMPORTANT: This checklist validates the COMPLETE MVP plan. All documents should be finalized before running this validation.
+
+VALIDATION FOCUS:
+
+1. Sequencing - Are things built in the right order?
+2. Dependencies - Are all prerequisites in place before they're needed?
+3. Completeness - Is everything needed for MVP included?
+4. Clarity - Can developers implement without confusion?
+5. Feasibility - Is the plan realistic and achievable?
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ## 1. PROJECT SETUP & INITIALIZATION
+
+[[LLM: Project setup is the foundation - if this is wrong, everything else fails. Verify:
+
+1. The VERY FIRST epic/story creates the project structure
+2. No code is written before the project exists
+3. Development environment is ready before any development
+4. Dependencies are installed before they're imported
+5. Configuration happens before it's needed]]
 
 ### 1.1 Project Scaffolding
 
@@ -28,6 +62,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Dependency conflicts or special requirements are noted
 
 ## 2. INFRASTRUCTURE & DEPLOYMENT SEQUENCING
+
+[[LLM: Infrastructure must exist before it's used. Check sequencing carefully:
+
+1. Databases exist before tables/collections
+2. Tables/collections exist before data operations
+3. APIs are configured before endpoints are added
+4. Auth is set up before protected routes
+5. Deployment pipeline exists before deployment stories]]
 
 ### 2.1 Database & Data Store Setup
 
@@ -61,6 +103,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 3. EXTERNAL DEPENDENCIES & INTEGRATIONS
 
+[[LLM: External dependencies often block progress. Ensure:
+
+1. All external accounts are created early
+2. API keys are obtained before integration stories
+3. User actions (like purchasing) are clearly marked
+4. Fallback options exist for external service issues
+5. Integration prerequisites are met before integration]]
+
 ### 3.1 Third-Party Services
 
 - [ ] Account creation steps are identified for required services
@@ -84,6 +134,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 4. USER/AGENT RESPONSIBILITY DELINEATION
 
+[[LLM: Clear ownership prevents confusion and delays. Verify:
+
+1. User tasks are truly things only humans can do
+2. No coding tasks are assigned to users
+3. Account creation and payments are user tasks
+4. Everything else is assigned to appropriate agents
+5. Handoffs between user and agent are clear]]
+
 ### 4.1 User Actions
 
 - [ ] User responsibilities are limited to only what requires human intervention
@@ -99,6 +157,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Testing and validation are assigned to appropriate agents
 
 ## 5. FEATURE SEQUENCING & DEPENDENCIES
+
+[[LLM: Dependencies create the critical path. Check rigorously:
+
+1. Nothing is used before it exists
+2. Shared components are built once, used many times
+3. The user can complete a meaningful flow early
+4. Each epic delivers value, not just infrastructure
+5. Dependencies don't create circular references]]
 
 ### 5.1 Functional Dependencies
 
@@ -123,6 +189,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 6. MVP SCOPE ALIGNMENT
 
+[[LLM: MVP means MINIMUM viable product. Validate:
+
+1. Every feature directly supports core MVP goals
+2. "Nice to haves" are clearly marked for post-MVP
+3. The user can achieve primary goals with included features
+4. Technical requirements don't add unnecessary scope
+5. The product is truly viable with just these features]]
+
 ### 6.1 PRD Goals Alignment
 
 - [ ] All core goals defined in the PRD are addressed in epics/stories
@@ -145,6 +219,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Performance considerations are appropriately addressed
 
 ## 7. RISK MANAGEMENT & PRACTICALITY
+
+[[LLM: Risks can derail the entire project. Ensure:
+
+1. Technical unknowns have research/spike stories
+2. External dependencies have fallback plans
+3. Complex features have validation milestones
+4. The timeline accounts for discovered complexity
+5. Critical risks are addressed early, not late]]
 
 ### 7.1 Technical Risk Mitigation
 
@@ -169,6 +251,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 8. DOCUMENTATION & HANDOFF
 
+[[LLM: Good documentation enables smooth development. Check:
+
+1. Developers can start without extensive onboarding
+2. Deployment steps are clear and complete
+3. Handoff points between roles are documented
+4. Future maintenance is considered
+5. Knowledge isn't trapped in one person's head]]
+
 ### 8.1 Developer Documentation
 
 - [ ] API documentation is created alongside implementation
@@ -184,6 +274,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Support processes are defined if applicable
 
 ## 9. POST-MVP CONSIDERATIONS
+
+[[LLM: Planning for success prevents technical debt. Verify:
+
+1. MVP doesn't paint the product into a corner
+2. Future features won't require major refactoring
+3. Monitoring exists to validate MVP success
+4. Feedback loops inform post-MVP priorities
+5. The architecture can grow with the product]]
 
 ### 9.1 Future Enhancements
 
@@ -201,27 +299,79 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## VALIDATION SUMMARY
 
+[[LLM: FINAL PO VALIDATION REPORT GENERATION
+
+Generate a comprehensive validation report for the complete MVP plan:
+
+1. Executive Summary
+
+   - Overall plan readiness (percentage)
+   - Go/No-Go recommendation
+   - Critical blocking issues count
+   - Estimated development timeline feasibility
+
+2. Sequencing Analysis
+
+   - Dependency violations found
+   - Circular dependencies identified
+   - Missing prerequisites
+   - Optimal vs actual sequencing
+
+3. Risk Assessment
+
+   - High-risk areas without mitigation
+   - External dependency risks
+   - Technical complexity hotspots
+   - Timeline risks
+
+4. MVP Completeness
+
+   - Core features coverage
+   - Missing essential functionality
+   - Scope creep identified
+   - True MVP vs "MLP" (Most Lovable Product)
+
+5. Implementation Readiness
+
+   - Developer clarity score (1-10)
+   - Ambiguous requirements count
+   - Missing technical details
+   - Handoff completeness
+
+6. Recommendations
+   - Must-fix before development
+   - Should-fix for quality
+   - Consider for improvement
+   - Post-MVP deferrals
+
+After presenting the report, ask if the user wants:
+
+- Detailed analysis of any failed sections
+- Specific story resequencing suggestions
+- Risk mitigation strategies
+- MVP scope refinement help]]
+
 ### Category Statuses
 
-| Category | Status | Critical Issues |
-|----------|--------|----------------|
-| 1. Project Setup & Initialization | PASS/FAIL/PARTIAL | |
-| 2. Infrastructure & Deployment Sequencing | PASS/FAIL/PARTIAL | |
-| 3. External Dependencies & Integrations | PASS/FAIL/PARTIAL | |
-| 4. User/Agent Responsibility Delineation | PASS/FAIL/PARTIAL | |
-| 5. Feature Sequencing & Dependencies | PASS/FAIL/PARTIAL | |
-| 6. MVP Scope Alignment | PASS/FAIL/PARTIAL | |
-| 7. Risk Management & Practicality | PASS/FAIL/PARTIAL | |
-| 8. Documentation & Handoff | PASS/FAIL/PARTIAL | |
-| 9. Post-MVP Considerations | PASS/FAIL/PARTIAL | |
+| Category                                  | Status | Critical Issues |
+| ----------------------------------------- | ------ | --------------- |
+| 1. Project Setup & Initialization         | _TBD_  |                 |
+| 2. Infrastructure & Deployment Sequencing | _TBD_  |                 |
+| 3. External Dependencies & Integrations   | _TBD_  |                 |
+| 4. User/Agent Responsibility Delineation  | _TBD_  |                 |
+| 5. Feature Sequencing & Dependencies      | _TBD_  |                 |
+| 6. MVP Scope Alignment                    | _TBD_  |                 |
+| 7. Risk Management & Practicality         | _TBD_  |                 |
+| 8. Documentation & Handoff                | _TBD_  |                 |
+| 9. Post-MVP Considerations                | _TBD_  |                 |
 
 ### Critical Deficiencies
 
-- List all critical issues that must be addressed before approval
+_To be populated during validation_
 
 ### Recommendations
 
-- Provide specific recommendations for addressing each deficiency
+_To be populated during validation_
 
 ### Final Decision
 

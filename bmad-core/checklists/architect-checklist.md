@@ -2,7 +2,35 @@
 
 This checklist serves as a comprehensive framework for the Architect to validate the technical design and architecture before development execution. The Architect should systematically work through each item, ensuring the architecture is robust, scalable, secure, and aligned with the product requirements.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - REQUIRED ARTIFACTS
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. architecture.md - The primary architecture document (check docs/architecture.md)
+2. prd.md - Product Requirements Document for requirements alignment (check docs/prd.md)
+3. Any system diagrams referenced in the architecture
+4. API documentation if available
+5. Technology stack details and version specifications
+
+IMPORTANT: If any required documents are missing or inaccessible, immediately ask the user for their location or content before proceeding.
+
+VALIDATION APPROACH:
+For each section, you must:
+
+1. Deep Analysis - Don't just check boxes, thoroughly analyze each item against the provided documentation
+2. Evidence-Based - Cite specific sections or quotes from the documents when validating
+3. Critical Thinking - Question assumptions and identify gaps, not just confirm what's present
+4. Risk Assessment - Consider what could go wrong with each architectural decision
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ## 1. REQUIREMENTS ALIGNMENT
+
+[[LLM: Before evaluating this section, take a moment to fully understand the product's purpose and goals from the PRD. What is the core problem being solved? Who are the users? What are the critical success factors? Keep these in mind as you validate alignment. For each item, don't just check if it's mentioned - verify that the architecture provides a concrete technical solution.]]
 
 ### 1.1 Functional Requirements Coverage
 
@@ -29,6 +57,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Organizational technical standards are followed
 
 ## 2. ARCHITECTURE FUNDAMENTALS
+
+[[LLM: Architecture clarity is crucial for successful implementation. As you review this section, visualize the system as if you were explaining it to a new developer. Are there any ambiguities that could lead to misinterpretation? Would an AI agent be able to implement this architecture without confusion? Look for specific diagrams, component definitions, and clear interaction patterns.]]
 
 ### 2.1 Architecture Clarity
 
@@ -64,6 +94,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 
 ## 3. TECHNICAL STACK & DECISIONS
 
+[[LLM: Technology choices have long-term implications. For each technology decision, consider: Is this the simplest solution that could work? Are we over-engineering? Will this scale? What are the maintenance implications? Are there security vulnerabilities in the chosen versions? Verify that specific versions are defined, not ranges.]]
+
 ### 3.1 Technology Selection
 
 - [ ] Selected technologies meet all requirements
@@ -97,6 +129,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Data backup and recovery strategies are outlined
 
 ## 4. RESILIENCE & OPERATIONAL READINESS
+
+[[LLM: Production systems fail in unexpected ways. As you review this section, think about Murphy's Law - what could go wrong? Consider real-world scenarios: What happens during peak load? How does the system behave when a critical service is down? Can the operations team diagnose issues at 3 AM? Look for specific resilience patterns, not just mentions of "error handling".]]
 
 ### 4.1 Error Handling & Resilience
 
@@ -132,6 +166,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 
 ## 5. SECURITY & COMPLIANCE
 
+[[LLM: Security is not optional. Review this section with a hacker's mindset - how could someone exploit this system? Also consider compliance: Are there industry-specific regulations that apply? GDPR? HIPAA? PCI? Ensure the architecture addresses these proactively. Look for specific security controls, not just general statements.]]
+
 ### 5.1 Authentication & Authorization
 
 - [ ] Authentication mechanism is clearly defined
@@ -165,6 +201,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Security monitoring strategy is outlined
 
 ## 6. IMPLEMENTATION GUIDANCE
+
+[[LLM: Clear implementation guidance prevents costly mistakes. As you review this section, imagine you're a developer starting on day one. Do they have everything they need to be productive? Are coding standards clear enough to maintain consistency across the team? Look for specific examples and patterns.]]
 
 ### 6.1 Coding Standards & Practices
 
@@ -200,6 +238,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 
 ## 7. DEPENDENCY & INTEGRATION MANAGEMENT
 
+[[LLM: Dependencies are often the source of production issues. For each dependency, consider: What happens if it's unavailable? Is there a newer version with security patches? Are we locked into a vendor? What's our contingency plan? Verify specific versions and fallback strategies.]]
+
 ### 7.1 External Dependencies
 
 - [ ] All external dependencies are identified
@@ -225,6 +265,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Rate limits and quotas are considered
 
 ## 8. AI AGENT IMPLEMENTATION SUITABILITY
+
+[[LLM: This architecture may be implemented by AI agents. Review with extreme clarity in mind. Are patterns consistent? Is complexity minimized? Would an AI agent make incorrect assumptions? Remember: explicit is better than implicit. Look for clear file structures, naming conventions, and implementation patterns.]]
 
 ### 8.1 Modularity for AI Agents
 
@@ -257,3 +299,38 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Self-healing mechanisms are incorporated where possible
 - [ ] Testing patterns are clearly defined
 - [ ] Debugging guidance is provided
+
+[[LLM: FINAL VALIDATION REPORT GENERATION
+
+Now that you've completed the checklist, generate a comprehensive validation report that includes:
+
+1. Executive Summary
+
+   - Overall architecture readiness (High/Medium/Low)
+   - Critical risks identified
+   - Key strengths of the architecture
+
+2. Section Analysis
+
+   - Pass rate for each major section (percentage of items passed)
+   - Most concerning failures or gaps
+   - Sections requiring immediate attention
+
+3. Risk Assessment
+
+   - Top 5 risks by severity
+   - Mitigation recommendations for each
+   - Timeline impact of addressing issues
+
+4. Recommendations
+
+   - Must-fix items before development
+   - Should-fix items for better quality
+   - Nice-to-have improvements
+
+5. AI Implementation Readiness
+   - Specific concerns for AI agent implementation
+   - Areas needing additional clarification
+   - Complexity hotspots to address
+
+After presenting the report, ask the user if they would like detailed analysis of any specific section, especially those with warnings or failures.]]

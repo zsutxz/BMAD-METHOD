@@ -14,6 +14,7 @@ dependencies:
   templates:
     - architecture-tmpl
     - infrastructure-architecture-tmpl
+    - brownfield-architecture-tmpl
   checklists:
     - architect-checklist
   data:

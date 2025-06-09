@@ -10,7 +10,7 @@ This PRD is for SIGNIFICANT enhancements to existing projects that require compr
 
 3. **Deep Assessment Requirement**: You MUST thoroughly analyze the existing project structure, patterns, and constraints before making ANY suggestions. Every recommendation must be grounded in actual project analysis, not assumptions.]]
 
-## Project Analysis and Context
+## Intro Project Analysis and Context
 
 [[LLM: Gather comprehensive information about the existing project. This section must be completed before proceeding with requirements.
 
@@ -73,20 +73,20 @@ Do not proceed with any recommendations until the user has validated your unders
 - [ ] Significant Impact (substantial existing code changes)
 - [ ] Major Impact (architectural changes required)
 
+### Goals and Background Context
+
+#### Goals
+
+[[LLM: Bullet list of 1-line desired outcomes this enhancement will deliver if successful]]
+
+#### Background Context
+
+[[LLM: 1-2 short paragraphs explaining why this enhancement is needed, what problem it solves, and how it fits with the existing project]]
+
 ### Change Log
 
 | Change | Date | Version | Description | Author |
 | ------ | ---- | ------- | ----------- | ------ |
-
-## Goals and Background Context
-
-### Goals
-
-[[LLM: Bullet list of 1-line desired outcomes this enhancement will deliver if successful]]
-
-### Background Context
-
-[[LLM: 1-2 short paragraphs explaining why this enhancement is needed, what problem it solves, and how it fits with the existing project]]
 
 ## Requirements
 
