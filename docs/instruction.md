@@ -79,7 +79,6 @@ Team bundles are defined in the `/agent-teams/` directory as `team-*.yml` files:
 ```yaml
 bundle:
   name: Full Team Bundle
-  target_environment: web
   
 agents:
   - bmad

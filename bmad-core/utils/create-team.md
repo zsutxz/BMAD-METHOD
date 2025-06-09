@@ -59,7 +59,6 @@ bundle:
   name: {Team Name}
   description: >-
     {Detailed description of the team's purpose and capabilities}
-  target_environment: web
   
 agents:
   - {agent-id-1}
@@ -101,7 +100,6 @@ bundle:
   name: Development Team Bundle
   description: >-
     Core development team for building features from story to deployment
-  target_environment: web
 
 agents:
   - sm      # Sprint coordination
@@ -116,7 +114,6 @@ bundle:
   name: Planning Team Bundle
   description: >-
     Strategic planning team for project inception and architecture
-  target_environment: web
 
 agents:
   - analyst    # Requirements gathering
@@ -131,7 +128,6 @@ bundle:
   name: Full-Stack Team Bundle
   description: >-
     Complete team for full-stack application development
-  target_environment: web
 
 agents:
   - fullstack-architect  # Holistic design

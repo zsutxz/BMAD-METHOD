@@ -176,7 +176,7 @@ class WebBuilder {
         // Resolve dependencies
         const agentDependencies = this.resolver.resolveBundleDependencies(
             agentIds,
-            bundleConfig.target_environment,
+            'web',
             bundleConfig.optimize !== false
         );
 
@@ -274,7 +274,7 @@ class WebBuilder {
         // Add bundle metadata as a comment
         content += `<!-- Bundle: ${bundle.metadata.name} -->\n`;
         content += `<!-- Generated: ${bundle.metadata.generatedAt} -->\n`;
-        content += `<!-- Environment: ${bundle.metadata.environment} -->\n\n`;
+        content += `<!-- Environment: web -->\n\n`;
 
         // Add agent configurations section
         content += `==================== START: agent-config ====================\n`;
@@ -305,7 +305,7 @@ class WebBuilder {
         const agentConfigContent = yaml.dump({
             name: bundle.metadata.name,
             version: bundle.metadata.version || '1.0.0',
-            environment: bundle.metadata.environment,
+            environment: 'web',
             agents: bundle.agents,
             commands: config.output?.orchestrator_commands || [],
             metadata: {
@@ -417,15 +417,12 @@ class WebBuilder {
                 
                 // Check if this has bundle config
                 if (config.bundle) {
-                    // Only include web bundles (exclude IDE-specific bundles)
-                    if (config.bundle.target_environment === 'web') {
-                        // Merge agents list from root level into bundle config
-                        const bundleConfig = { ...config.bundle };
-                        if (config.agents && !bundleConfig.agents) {
-                            bundleConfig.agents = config.agents;
-                        }
-                        configs.push(bundleConfig);
+                    // Merge agents list from root level into bundle config
+                    const bundleConfig = { ...config.bundle };
+                    if (config.agents && !bundleConfig.agents) {
+                        bundleConfig.agents = config.agents;
                     }
+                    configs.push(bundleConfig);
                 }
             } catch (error) {
                 console.warn(`Warning: Failed to load config ${file}:`, error.message);
@@ -442,15 +439,12 @@ class WebBuilder {
                 
                 // Check if this is a team bundle (team-*.yml) with bundle config
                 if (filename.startsWith('team-') && config.bundle) {
-                    // Only include web bundles (exclude IDE-specific bundles)
-                    if (config.bundle.target_environment === 'web') {
-                        // Merge agents list from root level into bundle config
-                        const bundleConfig = { ...config.bundle };
-                        if (config.agents && !bundleConfig.agents) {
-                            bundleConfig.agents = config.agents;
-                        }
-                        configs.push(bundleConfig);
+                    // Merge agents list from root level into bundle config
+                    const bundleConfig = { ...config.bundle };
+                    if (config.agents && !bundleConfig.agents) {
+                        bundleConfig.agents = config.agents;
                     }
+                    configs.push(bundleConfig);
                 }
             } catch (error) {
                 console.warn(`Warning: Failed to load config ${file}:`, error.message);

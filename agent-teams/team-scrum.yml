@@ -1,7 +1,6 @@
 bundle:
   name: Development Team Bundle
   description: This is a core development Agile implementation scrum team.
-  target_environment: web
 
 agents:
   - bmad

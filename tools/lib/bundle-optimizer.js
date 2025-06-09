@@ -20,7 +20,7 @@ class BundleOptimizer {
             metadata: {
                 name: bundleConfig.name,
                 version: bundleConfig.version,
-                environment: bundleConfig.target_environment,
+                environment: 'web',
                 generatedAt: new Date().toISOString(),
                 optimization: bundleConfig.optimize || false
             },
@@ -55,9 +55,7 @@ class BundleOptimizer {
         this.loadResources(optimizedBundle, agentDependencies.bundleResources, agentDependencies.agents);
 
         // Create optimized sections for web output
-        if (bundleConfig.target_environment === 'web') {
-            this.createWebSections(optimizedBundle, bundleConfig);
-        }
+        this.createWebSections(optimizedBundle, bundleConfig);
 
         // Calculate statistics
         optimizedBundle.statistics = this.calculateBundleStats(optimizedBundle, agentDependencies);
@@ -176,7 +174,7 @@ class BundleOptimizer {
         const bundleConfig = {
             name: `${agentDep.config.name} Standalone`,
             version: agentDep.config.version || '1.0.0',
-            target_environment: environment,
+            // Environment is always 'web' for standalone agents
             optimize: true
         };
 

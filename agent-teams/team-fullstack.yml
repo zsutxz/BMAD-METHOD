@@ -7,14 +7,9 @@ bundle:
     to deliver complete solutions from concept to deployment. Specializes in 
     full-stack applications, SaaS platforms, enterprise apps, feature additions, 
     refactoring, and system modernization.
-  target_environment: web
 
 agents:
   - bmad
   - pm
   - ux-expert
   - fullstack-architect
-
-workflows:
-  - greenfield-fullstack
-  - brownfield-fullstack

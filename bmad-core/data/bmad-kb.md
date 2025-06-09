@@ -139,7 +139,6 @@ Bundles group related agents for specific use cases:
 bundle:
   name: Full Team Bundle
   description: Complete development team
-  target_environment: web
 
 agents:
   - bmad # Orchestrator
