@@ -11,8 +11,13 @@
    - **Team bundles** in [`/web-bundles/teams/`](web-bundles/teams/) - Full agile teams with all roles
    - **Individual agents** in [`/web-bundles/agents/`](web-bundles/agents/) - Single role agents
 3. Upload to your AI platform:
+
    - **Gemini**: Create a new Gem → Upload the bundle file → Start using!
    - **ChatGPT**: Create a custom GPT → Attach as knowledge → Start using!
+
+   Wether you use Gemini or ChatGPT, you will want to set the instructions as follows: 'Your critical operating instructions are attached, you ARE the BMad Agent, and you are orchestrating the team attached as instructed. Do not deviate from the attached operating instructions.'
+
+   Thanks it, you are now ready to go. I suggest starting with typing `/help` - and if you dont know what to do, select the option to hear about and select a workflow - and BMad will help you throughout the whole process guiding you agent to agent now!
 
 That's it! You're ready to use BMAD agents. 🎉
 
