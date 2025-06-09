@@ -2,6 +2,8 @@
 
 This utility helps you create a new BMAD agent for web platforms (Gemini, ChatGPT, etc.).
 
+**Note for User-Created Agents**: If you're creating a custom agent for your own use (not part of the core BMAD system), prefix the agent ID with a period (e.g., `.data-analyst`) to ensure it's gitignored and won't conflict with repository updates.
+
 ## Process
 
 Follow these steps to create a new agent:
@@ -37,6 +39,7 @@ Determine what the agent can do:
 ### 4. Create the Persona File
 
 Create `/bmad-core/personas/{agent-id}.md` with this structure:
+(For user-created agents, use `/bmad-core/personas/.{agent-id}.md`)
 
 ```markdown
 # {Agent Name} - {Title}
@@ -75,6 +78,7 @@ Create `/bmad-core/personas/{agent-id}.md` with this structure:
 ### 5. Create the Agent Configuration
 
 Create `/agents/{agent-id}.yml` with this structure:
+(For user-created agents, use `/agents/.{agent-id}.yml`)
 
 ```yaml
 agent:
@@ -103,6 +107,7 @@ dependencies:
 ### 6. Create Any New Tasks
 
 If new tasks were identified, create them in `/bmad-core/tasks/{task-name}.md`
+(For user-created tasks, use `/bmad-core/tasks/.{task-name}.md`)
 
 ### 7. Test and Validate
 

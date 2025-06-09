@@ -73,9 +73,11 @@ For each checklist:
 
 #### 3.1 Create Directory Structure
 
+**IMPORTANT**: User-created expansion packs should start with a period (.) to ensure they are gitignored and don't conflict with repo updates.
+
 ```
 expansion-packs/
-└── {pack-name}/
+└── .{pack-name}/
     ├── manifest.yml
     ├── README.md
     ├── agents/
@@ -104,14 +106,20 @@ description: >-
 author: {Your name or organization}
 bmad_version: "4.0.0"
 
-# Files to install
+# Files to install (with . prefix for gitignore)
 files:
   - source: agents/{agent-id}.yml
-    destination: agents/{agent-id}.yml
+    destination: agents/.{agent-id}.yml
   - source: personas/{agent-id}.md
-    destination: bmad-core/personas/{agent-id}.md
+    destination: bmad-core/personas/.{agent-id}.md
   - source: tasks/{task-name}.md
-    destination: bmad-core/tasks/{task-name}.md
+    destination: bmad-core/tasks/.{task-name}.md
+  - source: templates/{template-name}.md
+    destination: bmad-core/templates/.{template-name}.md
+  - source: checklists/{checklist-name}.md
+    destination: bmad-core/checklists/.{checklist-name}.md
+  - source: ide-agents/{agent-id}.ide.md
+    destination: bmad-core/ide-agents/.{agent-id}.ide.md
   # ... more files
 
 # Optional: Update existing teams
@@ -176,15 +184,15 @@ Include:
 
 #### 5.2 Test Installation
 
-1. Run `node tools/install-expansion-pack.js {pack-name}`
-2. Verify all files copied correctly
+1. Run `node tools/install-expansion-pack.js .{pack-name}`
+2. Verify all files copied correctly (should have . prefix)
 3. Build agents to test configurations
 4. Run sample scenarios
 
 ## Example: Healthcare Expansion Pack
 
 ```
-healthcare/
+.healthcare/
 ├── manifest.yml
 ├── README.md
 ├── agents/

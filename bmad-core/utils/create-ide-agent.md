@@ -2,6 +2,8 @@
 
 This utility helps you create a new BMAD agent optimized for IDE environments (Cursor, Windsurf, etc.).
 
+**Note for User-Created IDE Agents**: If you're creating a custom IDE agent for your own use (not part of the core BMAD system), prefix the agent ID with a period (e.g., `.api-expert`) to ensure it's gitignored and won't conflict with repository updates.
+
 ## Important Constraints
 
 IDE agents must be **compact and efficient** (target: under 2000 characters) to work well as slash commands.
@@ -36,6 +38,7 @@ Be selective - IDE agents should be specialized:
 ### 4. Create the Compact IDE Agent
 
 Create `/bmad-core/ide-agents/{agent-id}.ide.md` with this structure:
+(For user-created agents, use `/bmad-core/ide-agents/.{agent-id}.ide.md`)
 
 ```markdown
 # {Slash Command}

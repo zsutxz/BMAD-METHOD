@@ -4,6 +4,8 @@ This utility helps you create a NEW BMAD team bundle by combining existing agent
 
 **Important**: This utility is for CREATING new teams, not for listing what agents are available in the current bundle. To see agents in the current bundle, use `/agent-list`.
 
+**Note for User-Created Teams**: If you're creating a custom team for your own use (not part of the core BMAD system), prefix the team ID with a period (e.g., `.team-frontend`) to ensure it's gitignored and won't conflict with repository updates.
+
 ## Process
 
 ### 1. Define Team Basics
@@ -57,6 +59,7 @@ Consider:
 ### 5. Create Team Configuration
 
 Create `/agent-teams/{team-id}.yml`:
+(For user-created teams, use `/agent-teams/.{team-id}.yml`)
 
 ```yaml
 bundle:
