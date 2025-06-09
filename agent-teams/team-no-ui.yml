@@ -8,3 +8,7 @@ agents:
   - pm
   - architect
   - po
+
+workflows:
+  - greenfield-service
+  - brownfield-service

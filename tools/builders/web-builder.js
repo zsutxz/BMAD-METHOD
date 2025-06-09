@@ -239,18 +239,25 @@ class WebBuilder {
 
         const optimizedBundle = this.optimizer.createStandaloneAgent(agentId, 'web');
 
+        // Get agent config to extract name
+        const agentConfig = this.resolver.loadAgentConfig(agentId);
+        const agentName = agentConfig.name || agentId;
+        
+        // Create lowercase-dashcase filename with format: {id}-{name}.txt
+        const filename = `${agentId}-${agentName.toLowerCase().replace(/\s+/g, '-')}.txt`;
+
         // Write standalone agent file
         const outputDir = path.join(this.outputPath, 'agents');
         this.ensureDirectory(outputDir);
 
-        const agentFile = path.join(outputDir, `${agentId}.txt`);
+        const agentFile = path.join(outputDir, filename);
         fs.writeFileSync(agentFile, optimizedBundle.standaloneContent);
 
         // Also write to web-bundles if sample update is enabled
         if (this.sampleUpdateEnabled) {
             const sampleOutputDir = path.join(this.sampleUpdatePath, 'agents');
             this.ensureDirectory(sampleOutputDir);
-            const sampleAgentFile = path.join(sampleOutputDir, `${agentId}.txt`);
+            const sampleAgentFile = path.join(sampleOutputDir, filename);
             fs.writeFileSync(sampleAgentFile, optimizedBundle.standaloneContent);
         }
 

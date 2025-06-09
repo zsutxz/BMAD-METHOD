@@ -2,19 +2,46 @@
 
 This utility enables the BMAD orchestrator to manage and execute team workflows.
 
+## Important: Dynamic Workflow Loading
+
+The BMAD orchestrator MUST read the available workflows from the current team configuration's `workflows` field. Do not use hardcoded workflow lists. Each team bundle defines its own set of supported workflows based on the agents it includes.
+
+**Critical Distinction**:
+- When asked "what workflows are available?", show ONLY the workflows defined in the current team bundle's configuration
+- The create-* utilities (create-agent, create-team, etc.) are for CREATING new configurations, not for listing what's available in the current session
+- Use `/agent-list` to show agents in the current bundle, NOT the create-agent utility
+- Use `/workflows` to show workflows in the current bundle, NOT any creation utilities
+
+### Workflow Descriptions
+
+When displaying workflows, use these descriptions based on the workflow ID:
+
+- **greenfield-fullstack**: Build a new full-stack application from concept to development
+- **brownfield-fullstack**: Enhance an existing full-stack application with new features
+- **greenfield-service**: Build a new backend service or API from concept to development
+- **brownfield-service**: Enhance an existing backend service or API
+- **greenfield-ui**: Build a new frontend/UI application from concept to development
+- **brownfield-ui**: Enhance an existing frontend/UI application
+
 ## Workflow Commands
 
 ### /workflows
-Lists all available workflows for the current team.
+Lists all available workflows for the current team. The available workflows are determined by the team configuration and may include workflows such as:
+- greenfield-fullstack
+- brownfield-fullstack
+- greenfield-service
+- brownfield-service
+- greenfield-ui
+- brownfield-ui
 
-Example response:
+The actual list depends on which team bundle is loaded. When responding to this command, display the workflows that are configured in the current team's `workflows` field.
+
+Example response format:
 ```
-Available workflows:
-1. greenfield-mvp - Complete workflow for building a new MVP from scratch
-2. fullstack-app - Comprehensive workflow for production-ready applications
-3. api-only - API-first development workflow
-4. brownfield-enhancement - Enhance existing applications
-5. frontend-only - Frontend application development
+Available workflows for [Team Name]:
+1. [workflow-id] - [Brief description based on workflow type]
+2. [workflow-id] - [Brief description based on workflow type]
+...
 
 Use /workflow-start {number or id} to begin a workflow.
 ```
@@ -22,14 +49,14 @@ Use /workflow-start {number or id} to begin a workflow.
 ### /workflow-start {workflow-id}
 Starts a specific workflow and transitions to the first agent.
 
-Example: `/workflow-start greenfield-mvp`
+Example: `/workflow-start greenfield-fullstack`
 
 ### /workflow-status
 Shows current workflow progress, completed artifacts, and next steps.
 
 Example response:
 ```
-Current Workflow: Greenfield MVP Development
+Current Workflow: Greenfield Full-Stack Development
 Stage: Product Planning (2 of 6)
 Completed:
   ✓ Discovery & Requirements
@@ -47,10 +74,10 @@ Resumes a workflow from where it left off, useful when starting a new chat.
 
 User can provide completed artifacts:
 ```
-User: /workflow-resume greenfield-mvp
+User: /workflow-resume greenfield-fullstack
       I have completed: project-brief, PRD
 BMad: I see you've completed Discovery and part of Product Planning. 
-      Based on the greenfield-mvp workflow, the next step is:
+      Based on the greenfield-fullstack workflow, the next step is:
       - UX Strategy with Sally (ux-expert)
       
       Would you like me to load Sally to continue?
@@ -84,7 +111,7 @@ After each artifact is completed:
 Track all created artifacts:
 ```yaml
 workflow_state:
-  current_workflow: greenfield-mvp
+  current_workflow: greenfield-fullstack
   current_stage: planning
   current_step: 2
   artifacts:
@@ -111,7 +138,7 @@ Example:
 ```
 User: I'm working on a new app. Here's my PRD and architecture doc.
 BMad: I see you have a PRD and architecture document. Based on these artifacts, 
-      it looks like you're following the greenfield-mvp workflow and have completed
+      it looks like you're following the greenfield-fullstack workflow and have completed
       stages 1-3. The next recommended step would be:
       
       Stage 4: Validation & Refinement
@@ -130,12 +157,12 @@ When transitioning between agents, pass:
 
 Example transition:
 ```
-BMad: Great! John has completed the PRD. According to the greenfield-mvp workflow,
+BMad: Great! John has completed the PRD. According to the greenfield-fullstack workflow,
       the next step is UX Strategy with Sally.
       
       /ux-expert
       
-Sally: I see we're in the Product Planning stage of the greenfield-mvp workflow.
+Sally: I see we're in the Product Planning stage of the greenfield-fullstack workflow.
        I have access to:
        - Project Brief from Mary
        - PRD from John

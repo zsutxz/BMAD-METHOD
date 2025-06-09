@@ -1,6 +1,8 @@
 # Create Team Utility
 
-This utility helps you create a new BMAD team bundle by combining existing agents.
+This utility helps you create a NEW BMAD team bundle by combining existing agents from the BMAD-METHOD repository.
+
+**Important**: This utility is for CREATING new teams, not for listing what agents are available in the current bundle. To see agents in the current bundle, use `/agent-list`.
 
 ## Process
 
@@ -13,12 +15,12 @@ Ask the user for:
 - **Team Description**: What this team is designed to accomplish
 - **Target Environment**: Usually "web" for team bundles
 
-### 2. List Available Agents
+### 2. List Available Agents for Team Creation
 
-Show all available agents from `/agents/`:
+When creating a new team, you can choose from these agents in the BMAD-METHOD repository:
 
 ```
-Available agents:
+Agents available for team creation:
 - analyst (Mary) - Project Analyst and Brainstorming Coach
 - architect (Fred) - System Architecture Expert
 - bmad (BMad) - BMAD Method Orchestrator
@@ -32,6 +34,8 @@ Available agents:
 - sm (Bob) - Scrum Master
 - ux-expert (Sally) - UX Design Expert
 ```
+
+**Note**: This list is for selecting agents when creating a NEW team configuration file. It does not reflect what agents are in your current bundle.
 
 ### 3. Select Team Members
 

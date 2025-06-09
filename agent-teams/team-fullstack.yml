@@ -1,5 +1,5 @@
 bundle:
-  name: Full-Stack Development Team
+  name: Team Fullstack
   description: >-
     Comprehensive full-stack development team capable of handling both greenfield 
     application development and brownfield enhancement projects. This team combines 
@@ -10,6 +10,14 @@ bundle:
 
 agents:
   - bmad
+  - analyst
   - pm
   - ux-expert
   - fullstack-architect
+  - po
+
+workflows:
+  - greenfield-fullstack
+  - brownfield-fullstack
+  - greenfield-ui
+  - brownfield-ui

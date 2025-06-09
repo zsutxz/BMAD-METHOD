@@ -1,6 +1,6 @@
 bundle:
-  name: Technical Planning and Assessment Team Bundle
-  description: This is good for deep technical discussions and assessments.
+  name: team-technical
+  description: The Technical Planning and Assessment Team Bundle is good for deep technical discussions and assessments.
 
 agents:
   - bmad
