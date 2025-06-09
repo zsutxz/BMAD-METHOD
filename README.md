@@ -66,6 +66,23 @@ Only needed if you want to customize agents:
 
 For Cursor, Windsurf, VSCode, and Claude Code: Check the `.cursor/` or `.claude/commands/` folders for example slash command setups. These let you quickly switch between agents in your IDE!
 
+For Claude at least, it also helped to add the following to the root CLAUDE.MD:
+
+```markdown
+## Custom IDE Commands
+
+IMPORTANT: This repository uses custom commands defined in `.claude/commands/`. When users type these commands, IMMEDIATELY follow the instructions in the corresponding command file:
+
+- `/ide-agent <agent-name>` - Switch to an IDE agent persona (see `.claude/commands/ide-agent.md`)
+- `/exit-agent` or `/exit` - Return to default Claude Code mode
+
+When a custom command is used:
+
+1. IMMEDIATELY read the command file
+2. Follow the instructions exactly as written
+3. Do NOT ask for clarification or additional information unless the command file says to
+```
+
 ## 📚 Documentation
 
 - [Detailed Setup Guide](docs/instruction.md)
