@@ -170,11 +170,11 @@ Confirm with the user their preferred interaction style:
 
 ### 4. Template Processing Rules
 
-**CRITICAL: Never display template markup, LLM instructions, or examples to users**
+#### CRITICAL: Never display template markup, LLM instructions, or examples to users
 
 - Replace all {{placeholders}} with actual content
 - Execute all [[LLM: instructions]] internally
-- Process <<REPEAT>> sections as needed
+- Process `<<REPEAT>>` sections as needed
 - Evaluate ^^CONDITION^^ blocks and include only if applicable
 - Use @{examples} for guidance but never output them
 
@@ -408,7 +408,9 @@ To perform deep research effectively, please be aware:
 
 {Link to or summarize findings from any initial research conducted (e.g., `deep-research-report-BA.md`).}
 
-## PM Prompt
+## Next Steps
+
+### PM Prompt
 
 This Project Brief provides the full context for {Project Name}. Please start in 'PRD Generation Mode', review the brief thoroughly to work with the user to create the PRD section by section as the template indicates, asking for any necessary clarification or suggesting improvements as your mode 1 programming allows.
 
@@ -416,4 +418,33 @@ This Project Brief provides the full context for {Project Name}. Please start in
 This Project Brief provides the full context for Mealmate. Please start in 'PRD Generation Mode', review the brief thoroughly to work with the user to create the PRD section by section 1 at a time, asking for any necessary clarification or suggesting improvements as your mode 1 programming allows.</example_handoff_prompt>
 
 ==================== END: templates#project-brief-tmpl ====================
+
+==================== START: utils#template-format ====================
+# Template Format Conventions
+
+Templates in the BMAD method use standardized markup for AI processing. These conventions ensure consistent document generation.
+
+## Template Markup Elements
+
+- **{{placeholders}}**: Variables to be replaced with actual content
+- **[[LLM: instructions]]**: Internal processing instructions for AI agents (never shown to users)
+- **<<REPEAT>>** sections: Content blocks that may be repeated as needed
+- **^^CONDITION^^** blocks: Conditional content included only if criteria are met
+- **@{examples}**: Example content for guidance (never output to users)
+
+## Processing Rules
+
+- Replace all {{placeholders}} with project-specific content
+- Execute all [[LLM: instructions]] internally without showing users
+- Process conditional and repeat blocks as specified
+- Use examples for guidance but never include them in final output
+- Present only clean, formatted content to users
+
+## Critical Guidelines
+
+- **NEVER display template markup, LLM instructions, or examples to users**
+- Template elements are for AI processing only
+- Focus on faithful template execution and clean output
+- All template-specific instructions are embedded within templates
+==================== END: utils#template-format ====================
 

@@ -60,7 +60,7 @@
 
 
 <!-- Bundle: Development Team Bundle -->
-<!-- Generated: 2025-06-08T15:35:49.398Z -->
+<!-- Generated: 2025-06-09T01:54:51.037Z -->
 <!-- Environment: web -->
 
 ==================== START: agent-config ====================
@@ -277,36 +277,35 @@ commands: []
 ==================== START: tasks#execute-checklist ====================
 # Checklist Validation Task
 
-This task provides instructions for validating documentation against checklists. The agent should follow these instructions to ensure thorough and systematic validation of documents.
+This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
 
 ## Context
 
-The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. The mapping between checklists and their required documents is defined in `checklist-mappings`. This allows for easy addition of new checklists without modifying this task.
+The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. Each checklist contains embedded prompts and instructions to guide the LLM through thorough validation and advanced elicitation. The checklists automatically identify their required artifacts and guide the validation process.
+
+## Available Checklists
+
+If the user asks or does not specify a specific checklist, list the checklists available to the agent persona. If the task is being run not with a specific agent, tell the user to check the bmad-core/checklists folder to select the appropriate one to run.
 
 ## Instructions
 
 1. **Initial Assessment**
 
-   - Check `checklist-mappings` for available checklists
-   - If user provides a checklist name:
-     - Look for exact match in checklist-mappings.yml
-     - If no exact match, try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
+   - If user or the task being run provides a checklist name:
+     - Try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
      - If multiple matches found, ask user to clarify
-     - Once matched, use the checklist_file path from the mapping
+     - Load the appropriate checklist from bmad-core/checklists/
    - If no checklist specified:
      - Ask the user which checklist they want to use
-     - Present available options from checklist-mappings.yml
+     - Present the available options from the files in the checklists folder
    - Confirm if they want to work through the checklist:
-     - Section by section (interactive mode)
-     - All at once (YOLO mode)
+     - Section by section (interactive mode - very time consuming)
+     - All at once (YOLO mode - recommended for checklists, there will be a summary of sections at the end to discuss)
 
-2. **Document Location**
+2. **Document and Artifact Gathering**
 
-   - Look up the required documents and default locations in `checklist-mappings`
-   - For each required document:
-     - Check all default locations specified in the mapping
-     - If not found, ask the user for the document location
-   - Verify all required documents are accessible
+   - Each checklist will specify its required documents/artifacts at the beginning
+   - Follow the checklist's specific instructions for what to gather, generally a file can be resolved in the docs folder, if not or unsure, halt and ask or confirm with the user.
 
 3. **Checklist Processing**
 
@@ -314,10 +313,10 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
 
    - Work through each section of the checklist one at a time
    - For each section:
-     - Review all items in the section
-     - Check each item against the relevant documentation
-     - Present findings for that section
-     - Get user confirmation before proceeding to next section
+     - Review all items in the section following instructions for that section embedded in the checklist
+     - Check each item against the relevant documentation or artifacts as appropriate
+     - Present summary of findings for that section, highlighting warnings, errors and non applicable items (rationale for non-applicability).
+     - Get user confirmation before proceeding to next section or if any thing major do we need to halt and take corrective action
 
    If in YOLO mode:
 
@@ -332,6 +331,7 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
    - Read and understand the requirement
    - Look for evidence in the documentation that satisfies the requirement
    - Consider both explicit mentions and implicit coverage
+   - Aside from this, follow all checklist llm instructions
    - Mark items as:
      - ✅ PASS: Requirement clearly met
      - ❌ FAIL: Requirement not met or insufficient coverage
@@ -342,7 +342,7 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
 
    For each section:
 
-   - Calculate pass rate
+   - think step by step to calculate pass rate
    - Identify common themes in failed items
    - Provide specific recommendations for improvement
    - In interactive mode, discuss findings with user
@@ -358,58 +358,20 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
    - Specific recommendations for improvement
    - Any sections or items marked as N/A with justification
 
-## Special Considerations
+## Checklist Execution Methodology
 
-1. **Architecture Checklist**
+Each checklist now contains embedded LLM prompts and instructions that will:
 
-   - Focus on technical completeness and clarity
-   - Verify all system components are addressed
-   - Check for security and scalability considerations
-   - Ensure deployment and operational aspects are covered
+1. **Guide thorough thinking** - Prompts ensure deep analysis of each section
+2. **Request specific artifacts** - Clear instructions on what documents/access is needed
+3. **Provide contextual guidance** - Section-specific prompts for better validation
+4. **Generate comprehensive reports** - Final summary with detailed findings
 
-2. **Frontend Architecture Checklist**
+The LLM will:
 
-   - Validate UI/UX specifications
-   - Check component structure and organization
-   - Verify state management approach
-   - Ensure responsive design considerations
-
-3. **PM Checklist**
-
-   - Focus on product requirements clarity
-   - Verify user stories and acceptance criteria
-   - Check market and user research coverage
-   - Ensure technical feasibility is addressed
-
-4. **Story Checklists**
-   - Verify clear acceptance criteria
-   - Check for technical context and dependencies
-   - Ensure testability is addressed
-   - Validate user value is clearly stated
-
-## Success Criteria
-
-The checklist validation is complete when:
-
-1. All applicable items have been assessed
-2. Clear pass/fail status for each item
-3. Specific recommendations provided for failed items
-4. User has reviewed and acknowledged findings
-5. Final report documents all decisions and rationales
-
-## Example Interaction
-
-Agent: "Let me check the available checklists... According to checklist-mappings.yml, we have several options. Which would you like to use?"
-
-User: "The architect checklist"
-
-Agent: "Would you like to work through it section by section (interactive) or get a complete analysis all at once (YOLO mode)?"
-
-User: "Interactive please"
-
-Agent: "According to the mappings, I need to check for architecture.md. The default location is docs/architecture.md. Should I look there?"
-
-[Continue interaction based on user responses...]
+- Execute the complete checklist validation
+- Present a final report with pass/fail rates and key findings
+- Offer to provide detailed analysis of any section, especially those with warnings or failures
 
 ==================== END: tasks#execute-checklist ====================
 
@@ -667,6 +629,348 @@ Document sharded successfully:
 
 ==================== END: tasks#correct-course ====================
 
+==================== START: tasks#brownfield-create-epic ====================
+# Create Brownfield Epic Task
+
+## Purpose
+
+Create a single epic for smaller brownfield enhancements that don't require the full PRD and Architecture documentation process. This task is for isolated features or modifications that can be completed within a focused scope.
+
+## When to Use This Task
+
+**Use this task when:**
+
+- The enhancement can be completed in 1-3 stories
+- No significant architectural changes are required
+- The enhancement follows existing project patterns
+- Integration complexity is minimal
+- Risk to existing system is low
+
+**Use the full brownfield PRD/Architecture process when:**
+
+- The enhancement requires multiple coordinated stories
+- Architectural planning is needed
+- Significant integration work is required
+- Risk assessment and mitigation planning is necessary
+
+## Instructions
+
+### 1. Project Analysis (Required)
+
+Before creating the epic, gather essential information about the existing project:
+
+**Existing Project Context:**
+
+- [ ] Project purpose and current functionality understood
+- [ ] Existing technology stack identified
+- [ ] Current architecture patterns noted
+- [ ] Integration points with existing system identified
+
+**Enhancement Scope:**
+
+- [ ] Enhancement clearly defined and scoped
+- [ ] Impact on existing functionality assessed
+- [ ] Required integration points identified
+- [ ] Success criteria established
+
+### 2. Epic Creation
+
+Create a focused epic following this structure:
+
+#### Epic Title
+
+{{Enhancement Name}} - Brownfield Enhancement
+
+#### Epic Goal
+
+{{1-2 sentences describing what the epic will accomplish and why it adds value}}
+
+#### Epic Description
+
+**Existing System Context:**
+
+- Current relevant functionality: {{brief description}}
+- Technology stack: {{relevant existing technologies}}
+- Integration points: {{where new work connects to existing system}}
+
+**Enhancement Details:**
+
+- What's being added/changed: {{clear description}}
+- How it integrates: {{integration approach}}
+- Success criteria: {{measurable outcomes}}
+
+#### Stories
+
+List 1-3 focused stories that complete the epic:
+
+1. **Story 1:** {{Story title and brief description}}
+2. **Story 2:** {{Story title and brief description}}
+3. **Story 3:** {{Story title and brief description}}
+
+#### Compatibility Requirements
+
+- [ ] Existing APIs remain unchanged
+- [ ] Database schema changes are backward compatible
+- [ ] UI changes follow existing patterns
+- [ ] Performance impact is minimal
+
+#### Risk Mitigation
+
+- **Primary Risk:** {{main risk to existing system}}
+- **Mitigation:** {{how risk will be addressed}}
+- **Rollback Plan:** {{how to undo changes if needed}}
+
+#### Definition of Done
+
+- [ ] All stories completed with acceptance criteria met
+- [ ] Existing functionality verified through testing
+- [ ] Integration points working correctly
+- [ ] Documentation updated appropriately
+- [ ] No regression in existing features
+
+### 3. Validation Checklist
+
+Before finalizing the epic, ensure:
+
+**Scope Validation:**
+
+- [ ] Epic can be completed in 1-3 stories maximum
+- [ ] No architectural documentation is required
+- [ ] Enhancement follows existing patterns
+- [ ] Integration complexity is manageable
+
+**Risk Assessment:**
+
+- [ ] Risk to existing system is low
+- [ ] Rollback plan is feasible
+- [ ] Testing approach covers existing functionality
+- [ ] Team has sufficient knowledge of integration points
+
+**Completeness Check:**
+
+- [ ] Epic goal is clear and achievable
+- [ ] Stories are properly scoped
+- [ ] Success criteria are measurable
+- [ ] Dependencies are identified
+
+### 4. Handoff to Story Manager
+
+Once the epic is validated, provide this handoff to the Story Manager:
+
+---
+
+**Story Manager Handoff:**
+
+"Please develop detailed user stories for this brownfield epic. Key considerations:
+
+- This is an enhancement to an existing system running {{technology stack}}
+- Integration points: {{list key integration points}}
+- Existing patterns to follow: {{relevant existing patterns}}
+- Critical compatibility requirements: {{key requirements}}
+- Each story must include verification that existing functionality remains intact
+
+The epic should maintain system integrity while delivering {{epic goal}}."
+
+---
+
+## Success Criteria
+
+The epic creation is successful when:
+
+1. Enhancement scope is clearly defined and appropriately sized
+2. Integration approach respects existing system architecture
+3. Risk to existing functionality is minimized
+4. Stories are logically sequenced for safe implementation
+5. Compatibility requirements are clearly specified
+6. Rollback plan is feasible and documented
+
+## Important Notes
+
+- This task is specifically for SMALL brownfield enhancements
+- If the scope grows beyond 3 stories, consider the full brownfield PRD process
+- Always prioritize existing system integrity over new functionality
+- When in doubt about scope or complexity, escalate to full brownfield planning
+
+==================== END: tasks#brownfield-create-epic ====================
+
+==================== START: tasks#brownfield-create-story ====================
+# Create Brownfield Story Task
+
+## Purpose
+
+Create a single user story for very small brownfield enhancements that can be completed in one focused development session. This task is for minimal additions or bug fixes that require existing system integration awareness.
+
+## When to Use This Task
+
+**Use this task when:**
+
+- The enhancement can be completed in a single story (2-4 hours of focused work)
+- No new architecture or significant design is required
+- The change follows existing patterns exactly
+- Integration is straightforward with minimal risk
+- Change is isolated with clear boundaries
+
+**Use brownfield-create-epic when:**
+
+- The enhancement requires 2-3 coordinated stories
+- Some design work is needed
+- Multiple integration points are involved
+
+**Use the full brownfield PRD/Architecture process when:**
+
+- The enhancement requires multiple coordinated stories
+- Architectural planning is needed
+- Significant integration work is required
+
+## Instructions
+
+### 1. Quick Project Assessment
+
+Gather minimal but essential context about the existing project:
+
+**Current System Context:**
+
+- [ ] Relevant existing functionality identified
+- [ ] Technology stack for this area noted
+- [ ] Integration point(s) clearly understood
+- [ ] Existing patterns for similar work identified
+
+**Change Scope:**
+
+- [ ] Specific change clearly defined
+- [ ] Impact boundaries identified
+- [ ] Success criteria established
+
+### 2. Story Creation
+
+Create a single focused story following this structure:
+
+#### Story Title
+
+{{Specific Enhancement}} - Brownfield Addition
+
+#### User Story
+
+As a {{user type}},  
+I want {{specific action/capability}},  
+So that {{clear benefit/value}}.
+
+#### Story Context
+
+**Existing System Integration:**
+
+- Integrates with: {{existing component/system}}
+- Technology: {{relevant tech stack}}
+- Follows pattern: {{existing pattern to follow}}
+- Touch points: {{specific integration points}}
+
+#### Acceptance Criteria
+
+**Functional Requirements:**
+
+1. {{Primary functional requirement}}
+2. {{Secondary functional requirement (if any)}}
+3. {{Integration requirement}}
+
+**Integration Requirements:** 4. Existing {{relevant functionality}} continues to work unchanged 5. New functionality follows existing {{pattern}} pattern 6. Integration with {{system/component}} maintains current behavior
+
+**Quality Requirements:** 7. Change is covered by appropriate tests 8. Documentation is updated if needed 9. No regression in existing functionality verified
+
+#### Technical Notes
+
+- **Integration Approach:** {{how it connects to existing system}}
+- **Existing Pattern Reference:** {{link or description of pattern to follow}}
+- **Key Constraints:** {{any important limitations or requirements}}
+
+#### Definition of Done
+
+- [ ] Functional requirements met
+- [ ] Integration requirements verified
+- [ ] Existing functionality regression tested
+- [ ] Code follows existing patterns and standards
+- [ ] Tests pass (existing and new)
+- [ ] Documentation updated if applicable
+
+### 3. Risk and Compatibility Check
+
+**Minimal Risk Assessment:**
+
+- **Primary Risk:** {{main risk to existing system}}
+- **Mitigation:** {{simple mitigation approach}}
+- **Rollback:** {{how to undo if needed}}
+
+**Compatibility Verification:**
+
+- [ ] No breaking changes to existing APIs
+- [ ] Database changes (if any) are additive only
+- [ ] UI changes follow existing design patterns
+- [ ] Performance impact is negligible
+
+### 4. Validation Checklist
+
+Before finalizing the story, confirm:
+
+**Scope Validation:**
+
+- [ ] Story can be completed in one development session
+- [ ] Integration approach is straightforward
+- [ ] Follows existing patterns exactly
+- [ ] No design or architecture work required
+
+**Clarity Check:**
+
+- [ ] Story requirements are unambiguous
+- [ ] Integration points are clearly specified
+- [ ] Success criteria are testable
+- [ ] Rollback approach is simple
+
+### 5. Handoff to Developer
+
+Once the story is validated, provide this handoff to the Developer:
+
+---
+
+**Developer Handoff:**
+
+"This is a focused brownfield story for an existing {{technology}} system.
+
+**Integration Context:**
+
+- Existing component: {{component/system}}
+- Pattern to follow: {{existing pattern}}
+- Key constraint: {{main constraint}}
+
+**Critical Requirements:**
+
+- Follow the existing {{pattern}} pattern exactly
+- Ensure {{existing functionality}} continues working
+- Test integration with {{specific component}}
+
+**Verification:**
+Please verify existing {{relevant functionality}} remains unchanged after implementation."
+
+---
+
+## Success Criteria
+
+The story creation is successful when:
+
+1. Enhancement is clearly defined and appropriately scoped for single session
+2. Integration approach is straightforward and low-risk
+3. Existing system patterns are identified and will be followed
+4. Rollback plan is simple and feasible
+5. Acceptance criteria include existing functionality verification
+
+## Important Notes
+
+- This task is for VERY SMALL brownfield changes only
+- If complexity grows during analysis, escalate to brownfield-create-epic
+- Always prioritize existing system integrity
+- When in doubt about integration complexity, use brownfield-create-epic instead
+- Stories should take no more than 4 hours of focused development work
+
+==================== END: tasks#brownfield-create-story ====================
+
 ==================== START: tasks#create-doc-from-template ====================
 # Create Document from Template Task
 
@@ -707,11 +1011,11 @@ Confirm with the user their preferred interaction style:
 
 ### 4. Template Processing Rules
 
-**CRITICAL: Never display template markup, LLM instructions, or examples to users**
+#### CRITICAL: Never display template markup, LLM instructions, or examples to users
 
 - Replace all {{placeholders}} with actual content
 - Execute all [[LLM: instructions]] internally
-- Process <<REPEAT>> sections as needed
+- Process `<<REPEAT>>` sections as needed
 - Evaluate ^^CONDITION^^ blocks and include only if applicable
 - Use @{examples} for guidance but never output them
 
@@ -1030,19 +1334,19 @@ Would you like to proceed with documentation indexing? Please provide the requir
 ==================== END: tasks#index-docs ====================
 
 ==================== START: templates#story-tmpl ====================
-# Story {EpicNum}.{StoryNum}: {Short Title Copied from Epic File}
+# Story {{EpicNum}}.{{StoryNum}}: {{Short Title Copied from Epic File}}
 
-## Status: { Draft | Approved | InProgress | Review | Done }
+## Status: {{ Draft | Approved | InProgress | Review | Done }}
 
 ## Story
 
-- As a [role]
-- I want [action]
-- so that [benefit]
+- As a {{role}}
+- I want {{action}}
+- so that {{benefit}}
 
 ## Acceptance Criteria (ACs)
 
-{ Copy the Acceptance Criteria numbered list }
+{{ Copy the Acceptance Criteria numbered list }}
 
 ## Tasks / Subtasks
 
@@ -1055,7 +1359,7 @@ Would you like to proceed with documentation indexing? Please provide the requir
 
 ## Dev Technical Reference
 
--
+[[LLM: SM Agent populates relevant information, only what was pulled from actual artifacts from docs folder, relevant to this story. Do not invent information. If there were important notes from previous story that is relevant here, also include them here if it will help the dev agent. You do NOT need to repeat anything from coding standards or test standards as the dev agent is already aware of those. The dev agent should NEVER need to read the PRD or architecture documents though to complete this self contained story.]]
 
 ## Dev Agent Record
 
@@ -1071,7 +1375,10 @@ Would you like to proceed with documentation indexing? Please provide the requir
 
 ### Change Log
 
-{List and requirements or tasks that changed from the original state of the story when development started}
+[[LLM: Track document versions and changes during development that deviate from story dev start]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
 
 ==================== END: templates#story-tmpl ====================
 
@@ -1080,7 +1387,41 @@ Would you like to proceed with documentation indexing? Please provide the requir
 
 This checklist serves as a comprehensive framework for the Product Owner to validate the complete MVP plan before development execution. The PO should systematically work through each item, documenting compliance status and noting any deficiencies.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - PO MASTER CHECKLIST
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. prd.md - The Product Requirements Document (check docs/prd.md)
+2. architecture.md - The system architecture (check docs/architecture.md)
+3. frontend-architecture.md - If applicable (check docs/frontend-architecture.md or docs/fe-architecture.md)
+4. All epic and story definitions
+5. Any technical specifications or constraints
+
+IMPORTANT: This checklist validates the COMPLETE MVP plan. All documents should be finalized before running this validation.
+
+VALIDATION FOCUS:
+
+1. Sequencing - Are things built in the right order?
+2. Dependencies - Are all prerequisites in place before they're needed?
+3. Completeness - Is everything needed for MVP included?
+4. Clarity - Can developers implement without confusion?
+5. Feasibility - Is the plan realistic and achievable?
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ## 1. PROJECT SETUP & INITIALIZATION
+
+[[LLM: Project setup is the foundation - if this is wrong, everything else fails. Verify:
+
+1. The VERY FIRST epic/story creates the project structure
+2. No code is written before the project exists
+3. Development environment is ready before any development
+4. Dependencies are installed before they're imported
+5. Configuration happens before it's needed]]
 
 ### 1.1 Project Scaffolding
 
@@ -1106,6 +1447,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Dependency conflicts or special requirements are noted
 
 ## 2. INFRASTRUCTURE & DEPLOYMENT SEQUENCING
+
+[[LLM: Infrastructure must exist before it's used. Check sequencing carefully:
+
+1. Databases exist before tables/collections
+2. Tables/collections exist before data operations
+3. APIs are configured before endpoints are added
+4. Auth is set up before protected routes
+5. Deployment pipeline exists before deployment stories]]
 
 ### 2.1 Database & Data Store Setup
 
@@ -1139,6 +1488,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 3. EXTERNAL DEPENDENCIES & INTEGRATIONS
 
+[[LLM: External dependencies often block progress. Ensure:
+
+1. All external accounts are created early
+2. API keys are obtained before integration stories
+3. User actions (like purchasing) are clearly marked
+4. Fallback options exist for external service issues
+5. Integration prerequisites are met before integration]]
+
 ### 3.1 Third-Party Services
 
 - [ ] Account creation steps are identified for required services
@@ -1162,6 +1519,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 4. USER/AGENT RESPONSIBILITY DELINEATION
 
+[[LLM: Clear ownership prevents confusion and delays. Verify:
+
+1. User tasks are truly things only humans can do
+2. No coding tasks are assigned to users
+3. Account creation and payments are user tasks
+4. Everything else is assigned to appropriate agents
+5. Handoffs between user and agent are clear]]
+
 ### 4.1 User Actions
 
 - [ ] User responsibilities are limited to only what requires human intervention
@@ -1177,6 +1542,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Testing and validation are assigned to appropriate agents
 
 ## 5. FEATURE SEQUENCING & DEPENDENCIES
+
+[[LLM: Dependencies create the critical path. Check rigorously:
+
+1. Nothing is used before it exists
+2. Shared components are built once, used many times
+3. The user can complete a meaningful flow early
+4. Each epic delivers value, not just infrastructure
+5. Dependencies don't create circular references]]
 
 ### 5.1 Functional Dependencies
 
@@ -1201,6 +1574,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 6. MVP SCOPE ALIGNMENT
 
+[[LLM: MVP means MINIMUM viable product. Validate:
+
+1. Every feature directly supports core MVP goals
+2. "Nice to haves" are clearly marked for post-MVP
+3. The user can achieve primary goals with included features
+4. Technical requirements don't add unnecessary scope
+5. The product is truly viable with just these features]]
+
 ### 6.1 PRD Goals Alignment
 
 - [ ] All core goals defined in the PRD are addressed in epics/stories
@@ -1223,6 +1604,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Performance considerations are appropriately addressed
 
 ## 7. RISK MANAGEMENT & PRACTICALITY
+
+[[LLM: Risks can derail the entire project. Ensure:
+
+1. Technical unknowns have research/spike stories
+2. External dependencies have fallback plans
+3. Complex features have validation milestones
+4. The timeline accounts for discovered complexity
+5. Critical risks are addressed early, not late]]
 
 ### 7.1 Technical Risk Mitigation
 
@@ -1247,6 +1636,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 8. DOCUMENTATION & HANDOFF
 
+[[LLM: Good documentation enables smooth development. Check:
+
+1. Developers can start without extensive onboarding
+2. Deployment steps are clear and complete
+3. Handoff points between roles are documented
+4. Future maintenance is considered
+5. Knowledge isn't trapped in one person's head]]
+
 ### 8.1 Developer Documentation
 
 - [ ] API documentation is created alongside implementation
@@ -1262,6 +1659,14 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] Support processes are defined if applicable
 
 ## 9. POST-MVP CONSIDERATIONS
+
+[[LLM: Planning for success prevents technical debt. Verify:
+
+1. MVP doesn't paint the product into a corner
+2. Future features won't require major refactoring
+3. Monitoring exists to validate MVP success
+4. Feedback loops inform post-MVP priorities
+5. The architecture can grow with the product]]
 
 ### 9.1 Future Enhancements
 
@@ -1279,27 +1684,79 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## VALIDATION SUMMARY
 
+[[LLM: FINAL PO VALIDATION REPORT GENERATION
+
+Generate a comprehensive validation report for the complete MVP plan:
+
+1. Executive Summary
+
+   - Overall plan readiness (percentage)
+   - Go/No-Go recommendation
+   - Critical blocking issues count
+   - Estimated development timeline feasibility
+
+2. Sequencing Analysis
+
+   - Dependency violations found
+   - Circular dependencies identified
+   - Missing prerequisites
+   - Optimal vs actual sequencing
+
+3. Risk Assessment
+
+   - High-risk areas without mitigation
+   - External dependency risks
+   - Technical complexity hotspots
+   - Timeline risks
+
+4. MVP Completeness
+
+   - Core features coverage
+   - Missing essential functionality
+   - Scope creep identified
+   - True MVP vs "MLP" (Most Lovable Product)
+
+5. Implementation Readiness
+
+   - Developer clarity score (1-10)
+   - Ambiguous requirements count
+   - Missing technical details
+   - Handoff completeness
+
+6. Recommendations
+   - Must-fix before development
+   - Should-fix for quality
+   - Consider for improvement
+   - Post-MVP deferrals
+
+After presenting the report, ask if the user wants:
+
+- Detailed analysis of any failed sections
+- Specific story resequencing suggestions
+- Risk mitigation strategies
+- MVP scope refinement help]]
+
 ### Category Statuses
 
-| Category | Status | Critical Issues |
-|----------|--------|----------------|
-| 1. Project Setup & Initialization | PASS/FAIL/PARTIAL | |
-| 2. Infrastructure & Deployment Sequencing | PASS/FAIL/PARTIAL | |
-| 3. External Dependencies & Integrations | PASS/FAIL/PARTIAL | |
-| 4. User/Agent Responsibility Delineation | PASS/FAIL/PARTIAL | |
-| 5. Feature Sequencing & Dependencies | PASS/FAIL/PARTIAL | |
-| 6. MVP Scope Alignment | PASS/FAIL/PARTIAL | |
-| 7. Risk Management & Practicality | PASS/FAIL/PARTIAL | |
-| 8. Documentation & Handoff | PASS/FAIL/PARTIAL | |
-| 9. Post-MVP Considerations | PASS/FAIL/PARTIAL | |
+| Category                                  | Status | Critical Issues |
+| ----------------------------------------- | ------ | --------------- |
+| 1. Project Setup & Initialization         | _TBD_  |                 |
+| 2. Infrastructure & Deployment Sequencing | _TBD_  |                 |
+| 3. External Dependencies & Integrations   | _TBD_  |                 |
+| 4. User/Agent Responsibility Delineation  | _TBD_  |                 |
+| 5. Feature Sequencing & Dependencies      | _TBD_  |                 |
+| 6. MVP Scope Alignment                    | _TBD_  |                 |
+| 7. Risk Management & Practicality         | _TBD_  |                 |
+| 8. Documentation & Handoff                | _TBD_  |                 |
+| 9. Post-MVP Considerations                | _TBD_  |                 |
 
 ### Critical Deficiencies
 
-- List all critical issues that must be addressed before approval
+_To be populated during validation_
 
 ### Recommendations
 
-- Provide specific recommendations for addressing each deficiency
+_To be populated during validation_
 
 ### Final Decision
 
@@ -1315,9 +1772,41 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 **Instructions:** Review each item with the user. Mark `[x]` for completed/confirmed, `[N/A]` if not applicable, or add notes for discussion points.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - CHANGE NAVIGATION
+
+Changes during development are inevitable, but how we handle them determines project success or failure.
+
+Before proceeding, understand:
+
+1. This checklist is for SIGNIFICANT changes that affect the project direction
+2. Minor adjustments within a story don't require this process
+3. The goal is to minimize wasted work while adapting to new realities
+4. User buy-in is critical - they must understand and approve changes
+
+Required context:
+
+- The triggering story or issue
+- Current project state (completed stories, current epic)
+- Access to PRD, architecture, and other key documents
+- Understanding of remaining work planned
+
+APPROACH:
+This is an interactive process with the user. Work through each section together, discussing implications and options. The user makes final decisions, but provide expert guidance on technical feasibility and impact.
+
+REMEMBER: Changes are opportunities to improve, not failures. Handle them professionally and constructively.]]
+
 ---
 
 ## 1. Understand the Trigger & Context
+
+[[LLM: Start by fully understanding what went wrong and why. Don't jump to solutions yet. Ask probing questions:
+
+- What exactly happened that triggered this review?
+- Is this a one-time issue or symptomatic of a larger problem?
+- Could this have been anticipated earlier?
+- What assumptions were incorrect?
+
+Be specific and factual, not blame-oriented.]]
 
 - [ ] **Identify Triggering Story:** Clearly identify the story (or stories) that revealed the issue.
 - [ ] **Define the Issue:** Articulate the core problem precisely.
@@ -1330,6 +1819,15 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] **Gather Evidence:** Note any specific logs, error messages, user feedback, or analysis that supports the issue definition.
 
 ## 2. Epic Impact Assessment
+
+[[LLM: Changes ripple through the project structure. Systematically evaluate:
+
+1. Can we salvage the current epic with modifications?
+2. Do future epics still make sense given this change?
+3. Are we creating or eliminating dependencies?
+4. Does the epic sequence need reordering?
+
+Think about both immediate and downstream effects.]]
 
 - [ ] **Analyze Current Epic:**
   - [ ] Can the current epic containing the trigger story still be completed?
@@ -1344,6 +1842,15 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] **Summarize Epic Impact:** Briefly document the overall effect on the project's epic structure and flow.
 
 ## 3. Artifact Conflict & Impact Analysis
+
+[[LLM: Documentation drives development in BMAD. Check each artifact:
+
+1. Does this change invalidate documented decisions?
+2. Are architectural assumptions still valid?
+3. Do user flows need rethinking?
+4. Are technical constraints different than documented?
+
+Be thorough - missed conflicts cause future problems.]]
 
 - [ ] **Review PRD:**
   - [ ] Does the issue conflict with the core goals or requirements stated in the PRD?
@@ -1362,6 +1869,16 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 - [ ] **Summarize Artifact Impact:** List all artifacts requiring updates and the nature of the changes needed.
 
 ## 4. Path Forward Evaluation
+
+[[LLM: Present options clearly with pros/cons. For each path:
+
+1. What's the effort required?
+2. What work gets thrown away?
+3. What risks are we taking?
+4. How does this affect timeline?
+5. Is this sustainable long-term?
+
+Be honest about trade-offs. There's rarely a perfect solution.]]
 
 - [ ] **Option 1: Direct Adjustment / Integration:**
   - [ ] Can the issue be addressed by modifying/adding future stories within the existing plan?
@@ -1383,6 +1900,16 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 5. Sprint Change Proposal Components
 
+[[LLM: The proposal must be actionable and clear. Ensure:
+
+1. The issue is explained in plain language
+2. Impacts are quantified where possible
+3. The recommended path has clear rationale
+4. Next steps are specific and assigned
+5. Success criteria for the change are defined
+
+This proposal guides all subsequent work.]]
+
 (Ensure all agreed-upon points from previous sections are captured in the proposal)
 
 - [ ] **Identified Issue Summary:** Clear, concise problem statement.
@@ -1395,6 +1922,26 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ## 6. Final Review & Handoff
 
+[[LLM: Changes require coordination. Before concluding:
+
+1. Is the user fully aligned with the plan?
+2. Do all stakeholders understand the impacts?
+3. Are handoffs to other agents clear?
+4. Is there a rollback plan if the change fails?
+5. How will we validate the change worked?
+
+Get explicit approval - implicit agreement causes problems.
+
+FINAL REPORT:
+After completing the checklist, provide a concise summary:
+
+- What changed and why
+- What we're doing about it
+- Who needs to do what
+- When we'll know if it worked
+
+Keep it action-oriented and forward-looking.]]
+
 - [ ] **Review Checklist:** Confirm all relevant items were discussed.
 - [ ] **Review Sprint Change Proposal:** Ensure it accurately reflects the discussion and decisions.
 - [ ] **User Approval:** Obtain explicit user approval for the proposal.
@@ -1404,12 +1951,532 @@ This checklist serves as a comprehensive framework for the Product Owner to vali
 
 ==================== END: checklists#change-checklist ====================
 
+==================== START: checklists#brownfield-checklist ====================
+# Brownfield Enhancement Validation Checklist
+
+This checklist serves as a comprehensive framework for Product Owners to validate brownfield enhancements before development execution. It ensures thorough analysis of existing systems, proper integration planning, and risk mitigation for working with existing codebases.
+
+[[LLM: CRITICAL INITIALIZATION - BROWNFIELD CONTEXT
+
+This checklist requires extensive access to the existing project. Before proceeding, ensure you have:
+
+1. brownfield-prd.md - The brownfield product requirements (check docs/brownfield-prd.md)
+2. brownfield-architecture.md - The enhancement architecture (check docs/brownfield-architecture.md)
+3. Existing Project Access:
+
+   - Full source code repository access
+   - Current deployment configuration
+   - Database schemas and data models
+   - API documentation (internal and external)
+   - Infrastructure configuration
+   - CI/CD pipeline configuration
+   - Current monitoring/logging setup
+
+4. Optional but Valuable:
+   - existing-project-docs.md
+   - tech-stack.md with version details
+   - source-tree.md or actual file structure
+   - Performance benchmarks
+   - Known issues/bug tracker access
+   - Team documentation/wikis
+
+IMPORTANT: If you don't have access to the existing project codebase, STOP and request access. Brownfield validation cannot be properly completed without examining the actual system being enhanced.
+
+CRITICAL MINDSET: You are validating changes to a LIVE SYSTEM. Every decision has the potential to break existing functionality. Approach this with:
+
+1. Extreme Caution - Assume every change could have unintended consequences
+2. Deep Investigation - Don't trust documentation alone, verify against actual code
+3. Integration Focus - The seams between new and old are where failures occur
+4. User Impact - Existing users depend on current functionality, preserve their workflows
+5. Technical Debt Awareness - Understand what compromises exist and why
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
+## 1. EXISTING PROJECT ANALYSIS VALIDATION
+
+[[LLM: Begin by conducting a thorough investigation of the existing system. Don't just read documentation - examine actual code, configuration files, and deployment scripts. Look for:
+
+- Undocumented behaviors that users might depend on
+- Technical debt that could complicate integration
+- Patterns and conventions that new code must follow
+- Hidden dependencies not mentioned in documentation
+
+As you validate each item below, cite specific files, code sections, or configuration details as evidence. For each check, provide specific examples from the codebase.]]
+
+### 1.1 Project Documentation Completeness
+
+- [ ] All required existing project documentation has been located and analyzed
+- [ ] Tech stack documentation is current and accurate
+- [ ] Source tree/architecture overview exists and is up-to-date
+- [ ] Coding standards documentation reflects actual codebase practices
+- [ ] API documentation exists and covers all active endpoints
+- [ ] External API integrations are documented with current versions
+- [ ] UX/UI guidelines exist and match current implementation
+- [ ] Any missing documentation has been identified and creation planned
+
+### 1.2 Existing System Understanding
+
+- [ ] Current project purpose and core functionality clearly understood
+- [ ] Existing technology stack versions accurately identified
+- [ ] Current architecture patterns and conventions documented
+- [ ] Existing deployment and infrastructure setup analyzed
+- [ ] Performance characteristics and constraints identified
+- [ ] Security measures and compliance requirements documented
+- [ ] Known technical debt and limitation areas identified
+- [ ] Active maintenance and support processes understood
+
+### 1.3 Codebase Analysis Quality
+
+- [ ] File structure and organization patterns documented
+- [ ] Naming conventions and coding patterns identified
+- [ ] Testing frameworks and patterns analyzed
+- [ ] Build and deployment processes understood
+- [ ] Dependency management approach documented
+- [ ] Configuration management patterns identified
+- [ ] Error handling and logging patterns documented
+- [ ] Integration points with external systems mapped
+
+## 2. ENHANCEMENT SCOPE VALIDATION
+
+[[LLM: The scope determines everything. Before validating, answer: Is this enhancement truly significant enough to warrant this comprehensive process, or would a simpler approach suffice? Consider:
+
+- Could this be done as a simple feature addition?
+- Are we over-engineering the solution?
+- What's the minimum viable change that delivers value?
+- Are we addressing the root cause or just symptoms?
+
+Be prepared to recommend a simpler approach if the current plan is overkill. If the enhancement could be done in 1-2 stories, suggest using brownfield-create-epic or brownfield-create-story instead.]]
+
+### 2.1 Complexity Assessment
+
+- [ ] Enhancement complexity properly assessed (significant vs. simple)
+- [ ] Scope justifies full PRD/Architecture process vs. simple epic/story creation
+- [ ] Enhancement type clearly categorized (new feature, modification, integration, etc.)
+- [ ] Impact assessment on existing codebase accurately evaluated
+- [ ] Resource requirements appropriate for enhancement scope
+- [ ] Timeline expectations realistic given existing system constraints
+- [ ] Success criteria defined and measurable
+- [ ] Rollback criteria and thresholds established
+
+### 2.2 Integration Points Analysis
+
+- [ ] All integration points with existing system identified
+- [ ] Data flow between new and existing components mapped
+- [ ] API integration requirements clearly defined
+- [ ] Database schema integration approach specified
+- [ ] UI/UX integration requirements documented
+- [ ] Authentication/authorization integration planned
+- [ ] External service integration impacts assessed
+- [ ] Performance impact on existing system evaluated
+
+### 2.3 Compatibility Requirements
+
+- [ ] Existing API compatibility requirements defined
+- [ ] Database schema backward compatibility ensured
+- [ ] UI/UX consistency requirements specified
+- [ ] Integration compatibility with existing workflows maintained
+- [ ] Third-party service compatibility verified
+- [ ] Browser/platform compatibility requirements unchanged
+- [ ] Performance compatibility maintained or improved
+- [ ] Security posture maintained or enhanced
+
+## 3. RISK ASSESSMENT AND MITIGATION
+
+[[LLM: This is the most critical section. Think like a pessimist - what's the worst that could happen? For each risk:
+
+1. Identify specific code/configuration that could break
+2. Trace the potential cascade of failures
+3. Quantify the user impact (how many affected, how severely)
+4. Validate that mitigation strategies are concrete, not theoretical
+
+Remember: In production, Murphy's Law is gospel. If it can fail, it will fail. For each risk identified, cite specific code locations and estimate blast radius.]]
+
+### 3.1 Technical Risk Evaluation
+
+- [ ] Risk of breaking existing functionality assessed
+- [ ] Database migration risks identified and mitigated
+- [ ] API breaking change risks evaluated
+- [ ] Deployment risks to existing system assessed
+- [ ] Performance degradation risks identified
+- [ ] Security vulnerability risks evaluated
+- [ ] Third-party service integration risks assessed
+- [ ] Data loss or corruption risks mitigated
+
+### 3.2 Mitigation Strategy Completeness
+
+- [ ] Rollback procedures clearly defined and tested
+- [ ] Feature flag strategy implemented for gradual rollout
+- [ ] Backup and recovery procedures updated
+- [ ] Monitoring and alerting enhanced for new components
+- [ ] Performance testing strategy includes existing functionality
+- [ ] Security testing covers integration points
+- [ ] User communication plan for changes prepared
+- [ ] Support team training plan developed
+
+### 3.3 Testing Strategy Validation
+
+- [ ] Regression testing strategy covers all existing functionality
+- [ ] Integration testing plan validates new-to-existing connections
+- [ ] Performance testing includes existing system baseline
+- [ ] Security testing covers enhanced attack surface
+- [ ] User acceptance testing includes existing workflows
+- [ ] Load testing validates system under enhanced load
+- [ ] Disaster recovery testing updated for new components
+- [ ] Automated test suite extended appropriately
+
+## 4. ARCHITECTURE INTEGRATION VALIDATION
+
+[[LLM: Architecture mismatches are subtle but deadly. As you review integration points:
+
+1. Compare actual code patterns with proposed patterns - do they clash?
+2. Check version compatibility down to patch levels
+3. Verify assumptions about existing system behavior
+4. Look for impedance mismatches in data models, API styles, error handling
+5. Consider performance implications of integration overhead
+
+If you find architectural incompatibilities, flag them as CRITICAL issues. Provide specific examples of pattern conflicts.]]
+
+### 4.1 Technology Stack Alignment
+
+- [ ] New technologies justified and compatible with existing stack
+- [ ] Version compatibility verified across all dependencies
+- [ ] Build process integration validated
+- [ ] Deployment pipeline integration planned
+- [ ] Configuration management approach consistent
+- [ ] Monitoring and logging integration maintained
+- [ ] Security tools and processes integration verified
+- [ ] Development environment setup updated appropriately
+
+### 4.2 Component Integration Design
+
+- [ ] New components follow existing architectural patterns
+- [ ] Component boundaries respect existing system design
+- [ ] Data models integrate properly with existing schema
+- [ ] API design consistent with existing endpoints
+- [ ] Error handling consistent with existing patterns
+- [ ] Authentication/authorization integration seamless
+- [ ] Caching strategy compatible with existing approach
+- [ ] Service communication patterns maintained
+
+### 4.3 Code Organization Validation
+
+- [ ] New code follows existing project structure conventions
+- [ ] File naming patterns consistent with existing codebase
+- [ ] Import/export patterns match existing conventions
+- [ ] Testing file organization follows existing patterns
+- [ ] Documentation approach consistent with existing standards
+- [ ] Configuration file patterns maintained
+- [ ] Asset organization follows existing conventions
+- [ ] Build output organization unchanged
+
+## 5. IMPLEMENTATION PLANNING VALIDATION
+
+[[LLM: Implementation sequence can make or break a brownfield project. Review the plan with these questions:
+
+- Can each story be deployed without breaking existing functionality?
+- Are there hidden dependencies between stories?
+- Is there a clear rollback point for each story?
+- Will users experience degraded service during any phase?
+- Are we testing the integration points sufficiently at each step?
+
+Pay special attention to data migrations - they're often the source of catastrophic failures. For each story, verify it maintains system integrity.]]
+
+### 5.1 Story Sequencing Validation
+
+- [ ] Stories properly sequenced to minimize risk to existing system
+- [ ] Each story maintains existing functionality integrity
+- [ ] Story dependencies clearly identified and logical
+- [ ] Rollback points defined for each story
+- [ ] Integration verification included in each story
+- [ ] Performance impact assessment included per story
+- [ ] User impact minimized through story sequencing
+- [ ] Value delivery incremental and testable
+
+### 5.2 Development Approach Validation
+
+- [ ] Development environment setup preserves existing functionality
+- [ ] Local testing approach validated for existing features
+- [ ] Code review process updated for integration considerations
+- [ ] Pair programming approach planned for critical integration points
+- [ ] Knowledge transfer plan for existing system context
+- [ ] Documentation update process defined
+- [ ] Communication plan for development team coordination
+- [ ] Timeline buffer included for integration complexity
+
+### 5.3 Deployment Strategy Validation
+
+- [ ] Deployment approach minimizes downtime
+- [ ] Blue-green or canary deployment strategy implemented
+- [ ] Database migration strategy tested and validated
+- [ ] Configuration management updated appropriately
+- [ ] Environment-specific considerations addressed
+- [ ] Health checks updated for new components
+- [ ] Monitoring dashboards updated for new metrics
+- [ ] Incident response procedures updated
+
+## 6. STAKEHOLDER ALIGNMENT VALIDATION
+
+[[LLM: Stakeholder surprises kill brownfield projects. Validate that:
+
+1. ALL affected users have been identified (not just the obvious ones)
+2. Impact on each user group is documented and communicated
+3. Training needs are realistic (users resist change)
+4. Support team is genuinely prepared (not just informed)
+5. Business continuity isn't just assumed - it's planned
+
+Look for hidden stakeholders - that batch job that runs at 2 AM, the partner API that depends on current behavior, the report that expects specific data formats. Check cron jobs, scheduled tasks, and external integrations.]]
+
+### 6.1 User Impact Assessment
+
+- [ ] Existing user workflows analyzed for impact
+- [ ] User communication plan developed for changes
+- [ ] Training materials updated for new functionality
+- [ ] Support documentation updated comprehensively
+- [ ] User feedback collection plan implemented
+- [ ] Accessibility requirements maintained or improved
+- [ ] Performance expectations managed appropriately
+- [ ] Migration path for existing user data validated
+
+### 6.2 Team Readiness Validation
+
+- [ ] Development team familiar with existing codebase
+- [ ] QA team understands existing test coverage
+- [ ] DevOps team prepared for enhanced deployment complexity
+- [ ] Support team trained on new functionality
+- [ ] Product team aligned on success metrics
+- [ ] Stakeholders informed of timeline and scope
+- [ ] Resource allocation appropriate for enhanced complexity
+- [ ] Escalation procedures defined for integration issues
+
+### 6.3 Business Continuity Validation
+
+- [ ] Critical business processes remain uninterrupted
+- [ ] SLA requirements maintained throughout enhancement
+- [ ] Customer impact minimized and communicated
+- [ ] Revenue-generating features protected during enhancement
+- [ ] Compliance requirements maintained throughout process
+- [ ] Audit trail requirements preserved
+- [ ] Data retention policies unaffected
+- [ ] Business intelligence and reporting continuity maintained
+
+## 7. DOCUMENTATION AND COMMUNICATION VALIDATION
+
+[[LLM: In brownfield projects, documentation gaps cause integration failures. Verify that:
+
+1. Documentation accurately reflects the current state (not the ideal state)
+2. Integration points are documented with excessive detail
+3. "Tribal knowledge" has been captured in writing
+4. Change impacts are documented for every affected component
+5. Runbooks are updated for new failure modes
+
+If existing documentation is poor, this enhancement must improve it - technical debt compounds. Check actual code vs documentation for discrepancies.]]
+
+### 7.1 Documentation Standards
+
+- [ ] Enhancement documentation follows existing project standards
+- [ ] Architecture documentation updated to reflect integration
+- [ ] API documentation updated for new/changed endpoints
+- [ ] User documentation updated for new functionality
+- [ ] Developer documentation includes integration guidance
+- [ ] Deployment documentation updated for enhanced process
+- [ ] Troubleshooting guides updated for new components
+- [ ] Change log properly maintained with detailed entries
+
+### 7.2 Communication Plan Validation
+
+- [ ] Stakeholder communication plan covers all affected parties
+- [ ] Technical communication includes integration considerations
+- [ ] User communication addresses workflow changes
+- [ ] Timeline communication includes integration complexity buffers
+- [ ] Risk communication includes mitigation strategies
+- [ ] Success criteria communication aligned with measurements
+- [ ] Feedback collection mechanisms established
+- [ ] Escalation communication procedures defined
+
+### 7.3 Knowledge Transfer Planning
+
+- [ ] Existing system knowledge captured and accessible
+- [ ] New functionality knowledge transfer plan developed
+- [ ] Integration points knowledge documented comprehensively
+- [ ] Troubleshooting knowledge base updated
+- [ ] Code review knowledge shared across team
+- [ ] Deployment knowledge transferred to operations team
+- [ ] Monitoring and alerting knowledge documented
+- [ ] Historical context preserved for future enhancements
+
+## 8. SUCCESS METRICS AND MONITORING VALIDATION
+
+[[LLM: Success in brownfield isn't just about new features working - it's about everything still working. Ensure:
+
+1. Baseline metrics for existing functionality are captured
+2. Degradation thresholds are defined (when do we rollback?)
+3. New monitoring covers integration points, not just new components
+4. Success criteria include "no regression" metrics
+5. Long-term metrics capture gradual degradation
+
+Without proper baselines, you can't prove the enhancement didn't break anything. Verify specific metrics and thresholds.]]
+
+### 8.1 Success Criteria Definition
+
+- [ ] Enhancement success metrics clearly defined and measurable
+- [ ] Existing system performance baselines established
+- [ ] User satisfaction metrics include existing functionality
+- [ ] Business impact metrics account for integration complexity
+- [ ] Technical health metrics cover enhanced system
+- [ ] Quality metrics include regression prevention
+- [ ] Timeline success criteria realistic for brownfield complexity
+- [ ] Resource utilization metrics appropriate for enhanced system
+
+### 8.2 Monitoring Strategy Validation
+
+- [ ] Existing monitoring capabilities preserved and enhanced
+- [ ] New component monitoring integrated with existing dashboards
+- [ ] Alert thresholds updated for enhanced system complexity
+- [ ] Log aggregation includes new components appropriately
+- [ ] Performance monitoring covers integration points
+- [ ] Security monitoring enhanced for new attack surfaces
+- [ ] User experience monitoring includes existing workflows
+- [ ] Business metrics monitoring updated for enhanced functionality
+
+### 8.3 Feedback and Iteration Planning
+
+- [ ] User feedback collection includes existing functionality assessment
+- [ ] Technical feedback loops established for integration health
+- [ ] Performance feedback includes existing system impact
+- [ ] Business feedback loops capture integration value
+- [ ] Iteration planning includes integration refinement
+- [ ] Continuous improvement process updated for enhanced complexity
+- [ ] Learning capture process includes integration lessons
+- [ ] Future enhancement planning considers established integration patterns
+
+---
+
+## CHECKLIST COMPLETION VALIDATION
+
+### Final Validation Steps
+
+- [ ] All sections completed with evidence and documentation
+- [ ] Critical risks identified and mitigation strategies implemented
+- [ ] Stakeholder sign-off obtained for high-risk integration decisions
+- [ ] Go/no-go decision criteria established with clear thresholds
+- [ ] Rollback triggers and procedures tested and validated
+- [ ] Success metrics baseline established and monitoring confirmed
+- [ ] Team readiness confirmed through final review and sign-off
+- [ ] Communication plan activated and stakeholders informed
+
+### Documentation Artifacts
+
+- [ ] Completed brownfield PRD with validated existing system analysis
+- [ ] Completed brownfield architecture with integration specifications
+- [ ] Risk assessment document with mitigation strategies
+- [ ] Integration testing plan with existing system coverage
+- [ ] Deployment plan with rollback procedures
+- [ ] Monitoring and alerting configuration updates
+- [ ] Team readiness assessment with training completion
+- [ ] Stakeholder communication plan with timeline and milestones
+
+---
+
+**Checklist Completion Date:** **\*\***\_\_\_**\*\***  
+**Product Owner Signature:** **\*\***\_\_\_**\*\***  
+**Technical Lead Approval:** **\*\***\_\_\_**\*\***  
+**Stakeholder Sign-off:** **\*\***\_\_\_**\*\***
+
+[[LLM: FINAL BROWNFIELD VALIDATION REPORT GENERATION
+
+Generate a comprehensive brownfield validation report with special attention to integration risks:
+
+1. Executive Summary
+
+   - Enhancement readiness: GO / NO-GO / CONDITIONAL
+   - Critical integration risks identified
+   - Estimated risk to existing functionality (High/Medium/Low)
+   - Confidence level in success (percentage with justification)
+
+2. Integration Risk Analysis
+
+   - Top 5 integration risks by severity
+   - Specific code/components at risk
+   - User impact if risks materialize
+   - Mitigation effectiveness assessment
+
+3. Existing System Impact
+
+   - Features/workflows that could be affected
+   - Performance impact predictions
+   - Security posture changes
+   - Technical debt introduced vs. resolved
+
+4. Go/No-Go Recommendation
+
+   - Must-fix items before proceeding
+   - Acceptable risks with mitigation
+   - Success probability assessment
+   - Alternative approaches if No-Go
+
+5. Rollback Readiness
+
+   - Rollback procedure completeness
+   - Time to rollback estimate
+   - Data recovery considerations
+   - User communication plan
+
+6. 30-60-90 Day Outlook
+   - Expected issues in first 30 days
+   - Monitoring focus areas
+   - Success validation milestones
+   - Long-term integration health indicators
+
+After presenting this report, offer to deep-dive into any section, especially high-risk areas or failed validations. Ask if the user wants specific recommendations for reducing integration risks.]]
+
+==================== END: checklists#brownfield-checklist ====================
+
 ==================== START: checklists#story-draft-checklist ====================
 # Story Draft Checklist
 
 The Scrum Master should use this checklist to validate that each story contains sufficient context for a developer agent to implement it successfully, while assuming the dev agent has reasonable capabilities to figure things out.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - STORY DRAFT VALIDATION
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. The story document being validated (usually in docs/stories/ or provided directly)
+2. The parent epic context
+3. Any referenced architecture or design documents
+4. Previous related stories if this builds on prior work
+
+IMPORTANT: This checklist validates individual stories BEFORE implementation begins.
+
+VALIDATION PRINCIPLES:
+
+1. Clarity - A developer should understand WHAT to build
+2. Context - WHY this is being built and how it fits
+3. Guidance - Key technical decisions and patterns to follow
+4. Testability - How to verify the implementation works
+5. Self-Contained - Most info needed is in the story itself
+
+REMEMBER: We assume competent developer agents who can:
+
+- Research documentation and codebases
+- Make reasonable technical decisions
+- Follow established patterns
+- Ask for clarification when truly stuck
+
+We're checking for SUFFICIENT guidance, not exhaustive detail.]]
+
 ## 1. GOAL & CONTEXT CLARITY
+
+[[LLM: Without clear goals, developers build the wrong thing. Verify:
+
+1. The story states WHAT functionality to implement
+2. The business value or user benefit is clear
+3. How this fits into the larger epic/product is explained
+4. Dependencies are explicit ("requires Story X to be complete")
+5. Success looks like something specific, not vague]]
 
 - [ ] Story goal/purpose is clearly stated
 - [ ] Relationship to epic goals is evident
@@ -1418,6 +2485,16 @@ The Scrum Master should use this checklist to validate that each story contains 
 - [ ] Business context and value are clear
 
 ## 2. TECHNICAL IMPLEMENTATION GUIDANCE
+
+[[LLM: Developers need enough technical context to start coding. Check:
+
+1. Key files/components to create or modify are mentioned
+2. Technology choices are specified where non-obvious
+3. Integration points with existing code are identified
+4. Data models or API contracts are defined or referenced
+5. Non-standard patterns or exceptions are called out
+
+Note: We don't need every file listed - just the important ones.]]
 
 - [ ] Key files to create/modify are identified (not necessarily exhaustive)
 - [ ] Technologies specifically needed for this story are mentioned
@@ -1428,12 +2505,28 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 ## 3. REFERENCE EFFECTIVENESS
 
+[[LLM: References should help, not create a treasure hunt. Ensure:
+
+1. References point to specific sections, not whole documents
+2. The relevance of each reference is explained
+3. Critical information is summarized in the story
+4. References are accessible (not broken links)
+5. Previous story context is summarized if needed]]
+
 - [ ] References to external documents point to specific relevant sections
 - [ ] Critical information from previous stories is summarized (not just referenced)
 - [ ] Context is provided for why references are relevant
 - [ ] References use consistent format (e.g., `docs/filename.md#section`)
 
 ## 4. SELF-CONTAINMENT ASSESSMENT
+
+[[LLM: Stories should be mostly self-contained to avoid context switching. Verify:
+
+1. Core requirements are in the story, not just in references
+2. Domain terms are explained or obvious from context
+3. Assumptions are stated explicitly
+4. Edge cases are mentioned (even if deferred)
+5. The story could be understood without reading 10 other documents]]
 
 - [ ] Core information needed is included (not overly reliant on external docs)
 - [ ] Implicit assumptions are made explicit
@@ -1442,6 +2535,14 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 ## 5. TESTING GUIDANCE
 
+[[LLM: Testing ensures the implementation actually works. Check:
+
+1. Test approach is specified (unit, integration, e2e)
+2. Key test scenarios are listed
+3. Success criteria are measurable
+4. Special test considerations are noted
+5. Acceptance criteria in the story are testable]]
+
 - [ ] Required testing approach is outlined
 - [ ] Key test scenarios are identified
 - [ ] Success criteria are defined
@@ -1449,13 +2550,42 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 ## VALIDATION RESULT
 
-| Category                             | Status            | Issues |
-| ------------------------------------ | ----------------- | ------ |
-| 1. Goal & Context Clarity            | PASS/FAIL/PARTIAL |        |
-| 2. Technical Implementation Guidance | PASS/FAIL/PARTIAL |        |
-| 3. Reference Effectiveness           | PASS/FAIL/PARTIAL |        |
-| 4. Self-Containment Assessment       | PASS/FAIL/PARTIAL |        |
-| 5. Testing Guidance                  | PASS/FAIL/PARTIAL |        |
+[[LLM: FINAL STORY VALIDATION REPORT
+
+Generate a concise validation report:
+
+1. Quick Summary
+
+   - Story readiness: READY / NEEDS REVISION / BLOCKED
+   - Clarity score (1-10)
+   - Major gaps identified
+
+2. Fill in the validation table with:
+
+   - PASS: Requirements clearly met
+   - PARTIAL: Some gaps but workable
+   - FAIL: Critical information missing
+
+3. Specific Issues (if any)
+
+   - List concrete problems to fix
+   - Suggest specific improvements
+   - Identify any blocking dependencies
+
+4. Developer Perspective
+   - Could YOU implement this story as written?
+   - What questions would you have?
+   - What might cause delays or rework?
+
+Be pragmatic - perfect documentation doesn't exist. Focus on whether a competent developer can succeed with this story.]]
+
+| Category                             | Status | Issues |
+| ------------------------------------ | ------ | ------ |
+| 1. Goal & Context Clarity            | _TBD_  |        |
+| 2. Technical Implementation Guidance | _TBD_  |        |
+| 3. Reference Effectiveness           | _TBD_  |        |
+| 4. Self-Containment Assessment       | _TBD_  |        |
+| 5. Testing Guidance                  | _TBD_  |        |
 
 **Final Assessment:**
 
@@ -1472,54 +2602,99 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 Before marking a story as 'Review', please go through each item in this checklist. Report the status of each item (e.g., [x] Done, [ ] Not Done, [N/A] Not Applicable) and provide brief comments if necessary.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - STORY DOD VALIDATION
+
+This checklist is for DEVELOPER AGENTS to self-validate their work before marking a story complete.
+
+IMPORTANT: This is a self-assessment. Be honest about what's actually done vs what should be done. It's better to identify issues now than have them found in review.
+
+EXECUTION APPROACH:
+
+1. Go through each section systematically
+2. Mark items as [x] Done, [ ] Not Done, or [N/A] Not Applicable
+3. Add brief comments explaining any [ ] or [N/A] items
+4. Be specific about what was actually implemented
+5. Flag any concerns or technical debt created
+
+The goal is quality delivery, not just checking boxes.]]
+
 ## Checklist Items
 
 1. **Requirements Met:**
 
-    - [ ] All functional requirements specified in the story are implemented.
-    - [ ] All acceptance criteria defined in the story are met.
+   [[LLM: Be specific - list each requirement and whether it's complete]]
+
+   - [ ] All functional requirements specified in the story are implemented.
+   - [ ] All acceptance criteria defined in the story are met.
 
 2. **Coding Standards & Project Structure:**
 
-    - [ ] All new/modified code strictly adheres to `Operational Guidelines`.
-    - [ ] All new/modified code aligns with `Project Structure` (file locations, naming, etc.).
-    - [ ] Adherence to `Tech Stack` for technologies/versions used (if story introduces or modifies tech usage).
-    - [ ] Adherence to `Api Reference` and `Data Models` (if story involves API or data model changes).
-    - [ ] Basic security best practices (e.g., input validation, proper error handling, no hardcoded secrets) applied for new/modified code.
-    - [ ] No new linter errors or warnings introduced.
-    - [ ] Code is well-commented where necessary (clarifying complex logic, not obvious statements).
+   [[LLM: Code quality matters for maintainability. Check each item carefully]]
+
+   - [ ] All new/modified code strictly adheres to `Operational Guidelines`.
+   - [ ] All new/modified code aligns with `Project Structure` (file locations, naming, etc.).
+   - [ ] Adherence to `Tech Stack` for technologies/versions used (if story introduces or modifies tech usage).
+   - [ ] Adherence to `Api Reference` and `Data Models` (if story involves API or data model changes).
+   - [ ] Basic security best practices (e.g., input validation, proper error handling, no hardcoded secrets) applied for new/modified code.
+   - [ ] No new linter errors or warnings introduced.
+   - [ ] Code is well-commented where necessary (clarifying complex logic, not obvious statements).
 
 3. **Testing:**
 
-    - [ ] All required unit tests as per the story and `Operational Guidelines` Testing Strategy are implemented.
-    - [ ] All required integration tests (if applicable) as per the story and `Operational Guidelines` Testing Strategy are implemented.
-    - [ ] All tests (unit, integration, E2E if applicable) pass successfully.
-    - [ ] Test coverage meets project standards (if defined).
+   [[LLM: Testing proves your code works. Be honest about test coverage]]
+
+   - [ ] All required unit tests as per the story and `Operational Guidelines` Testing Strategy are implemented.
+   - [ ] All required integration tests (if applicable) as per the story and `Operational Guidelines` Testing Strategy are implemented.
+   - [ ] All tests (unit, integration, E2E if applicable) pass successfully.
+   - [ ] Test coverage meets project standards (if defined).
 
 4. **Functionality & Verification:**
 
-    - [ ] Functionality has been manually verified by the developer (e.g., running the app locally, checking UI, testing API endpoints).
-    - [ ] Edge cases and potential error conditions considered and handled gracefully.
+   [[LLM: Did you actually run and test your code? Be specific about what you tested]]
+
+   - [ ] Functionality has been manually verified by the developer (e.g., running the app locally, checking UI, testing API endpoints).
+   - [ ] Edge cases and potential error conditions considered and handled gracefully.
 
 5. **Story Administration:**
-    - [ ] All tasks within the story file are marked as complete.
-    - [ ] Any clarifications or decisions made during development are documented in the story file or linked appropriately.
-    - [ ] The story wrap up section has been completed with notes of changes or information relevant to the next story or overall project, the agent model that was primarily used during development, and the changelog of any changes is properly updated.
+
+   [[LLM: Documentation helps the next developer. What should they know?]]
+
+   - [ ] All tasks within the story file are marked as complete.
+   - [ ] Any clarifications or decisions made during development are documented in the story file or linked appropriately.
+   - [ ] The story wrap up section has been completed with notes of changes or information relevant to the next story or overall project, the agent model that was primarily used during development, and the changelog of any changes is properly updated.
+
 6. **Dependencies, Build & Configuration:**
 
-    - [ ] Project builds successfully without errors.
-    - [ ] Project linting passes
-    - [ ] Any new dependencies added were either pre-approved in the story requirements OR explicitly approved by the user during development (approval documented in story file).
-    - [ ] If new dependencies were added, they are recorded in the appropriate project files (e.g., `package.json`, `requirements.txt`) with justification.
-    - [ ] No known security vulnerabilities introduced by newly added and approved dependencies.
-    - [ ] If new environment variables or configurations were introduced by the story, they are documented and handled securely.
+   [[LLM: Build issues block everyone. Ensure everything compiles and runs cleanly]]
+
+   - [ ] Project builds successfully without errors.
+   - [ ] Project linting passes
+   - [ ] Any new dependencies added were either pre-approved in the story requirements OR explicitly approved by the user during development (approval documented in story file).
+   - [ ] If new dependencies were added, they are recorded in the appropriate project files (e.g., `package.json`, `requirements.txt`) with justification.
+   - [ ] No known security vulnerabilities introduced by newly added and approved dependencies.
+   - [ ] If new environment variables or configurations were introduced by the story, they are documented and handled securely.
 
 7. **Documentation (If Applicable):**
-    - [ ] Relevant inline code documentation (e.g., JSDoc, TSDoc, Python docstrings) for new public APIs or complex logic is complete.
-    - [ ] User-facing documentation updated, if changes impact users.
-    - [ ] Technical documentation (e.g., READMEs, system diagrams) updated if significant architectural changes were made.
+
+   [[LLM: Good documentation prevents future confusion. What needs explaining?]]
+
+   - [ ] Relevant inline code documentation (e.g., JSDoc, TSDoc, Python docstrings) for new public APIs or complex logic is complete.
+   - [ ] User-facing documentation updated, if changes impact users.
+   - [ ] Technical documentation (e.g., READMEs, system diagrams) updated if significant architectural changes were made.
 
 ## Final Confirmation
+
+[[LLM: FINAL DOD SUMMARY
+
+After completing the checklist:
+
+1. Summarize what was accomplished in this story
+2. List any items marked as [ ] Not Done with explanations
+3. Identify any technical debt or follow-up work needed
+4. Note any challenges or learnings for future stories
+5. Confirm whether the story is truly ready for review
+
+Be honest - it's better to flag issues now than have them discovered later.]]
 
 - [ ] I, the Developer Agent, confirm that all applicable items above have been addressed.
 
@@ -1546,7 +2721,7 @@ Before marking a story as 'Review', please go through each item in this checklis
   - [Business Analyst](#business-analyst)
   - [Product Manager](#product-manager)
   - [Architect](#architect)
-  - [Design Architect](#design-architect)
+  - [UI Architect](#ui-architect)
   - [Product Owner](#product-owner)
   - [Scrum Master](#scrum-master)
   - [Developer](#developer)
@@ -1667,7 +2842,6 @@ Bundles group related agents for specific use cases:
 bundle:
   name: Full Team Bundle
   description: Complete development team
-  target_environment: web
 
 agents:
   - bmad # Orchestrator
@@ -1898,7 +3072,7 @@ npm run validate
 - Technology selection
 - Integration planning
 
-### Design Architect
+### UI Architect
 
 **Name**: Jane (Web) / Millie (IDE)  
 **Purpose**: UI/UX and frontend architecture
@@ -2046,6 +3220,166 @@ For large documents (PRD, Architecture):
 3. Include context from completed work
 4. Validate against architecture and PRD
 
+## IDE Development Workflow
+
+### Post-Planning Phase: Transition to Implementation
+
+Once you have completed the planning phase and have your core documents saved in your project's `docs/` folder, you're ready to begin the implementation cycle in your IDE environment.
+
+#### Required Documents
+
+Before starting implementation, ensure you have these documents in your `docs/` folder:
+
+- `prd.md` - Product Requirements Document with epics and stories
+- `fullstack-architecture.md` OR both `architecture.md` and `front-end-architecture.md`
+- `project-brief.md` (reference)
+- `front-end-spec.md` (if applicable)
+
+#### Step 1: Document Sharding
+
+Large documents need to be broken down for IDE agents to work with effectively:
+
+1. **Use BMAD Agent to Shard Documents**
+   ```
+   Please shard the docs/prd.md document using the shard-doc task
+   ```
+2. **Shard Architecture Documents**
+
+   ```
+   Please shard the docs/fullstack-architecture.md document using the shard-doc task
+   ```
+
+3. **Expected Folder Structure After Sharding**
+   ```
+   docs/
+   ├── prd.md                    # Original PRD
+   ├── fullstack-architecture.md # Original architecture
+   ├── prd/                      # Sharded PRD content
+   │   ├── epic-1.md            # Individual epic files
+   │   ├── epic-2.md
+   │   └── epic-N.md
+   ├── fullstack-architecture/   # Sharded architecture content
+   │   ├── tech-stack.md
+   │   ├── data-models.md
+   │   ├── components.md
+   │   └── [other-sections].md
+   └── stories/                  # Generated story files
+       ├── epic-1/
+       │   ├── story-1-1.md
+       │   └── story-1-2.md
+       └── epic-2/
+           └── story-2-1.md
+   ```
+
+#### Step 2: SM ↔ DEV Implementation Cycle
+
+The core development workflow follows a strict SM (Scrum Master) to DEV (Developer) cycle:
+
+##### Story Creation (SM Agent)
+
+1. **Switch to SM Agent**
+
+   ```
+   /sm
+   ```
+
+2. **Create Next Story**
+
+   ```
+   Please create the next story for this project
+   ```
+
+   - SM agent will check existing stories in `docs/stories/`
+   - Identifies what's complete vs in-progress
+   - Determines the next logical story from the epics
+   - Creates a new story file with proper sequencing
+
+3. **Manual Story Selection** (if needed)
+   ```
+   Please create story 1.1 from epic 1 (the first story)
+   ```
+
+##### Story Review and Approval
+
+1. **Review Generated Story**
+
+   - Check story file in `docs/stories/epic-X/story-X-Y.md`
+   - Verify acceptance criteria are clear
+   - Ensure story aligns with architecture
+
+2. **Approve Story**
+   - Edit the story file
+   - Change status from `Draft` to `Approved`
+   - Save the file
+
+##### Story Development (DEV Agent)
+
+1. **Switch to DEV Agent**
+
+   ```
+   /dev
+   ```
+
+2. **Develop Next Story**
+
+   ```
+   Please develop the next approved story
+   ```
+
+   - DEV agent will find the next `Approved` story
+   - Implements code according to story requirements
+   - References architecture documents from sharded folders
+   - Updates story status to `InProgress` then `Review`
+
+3. **Manual Story Selection** (if needed)
+   ```
+   Please develop story 1.1
+   ```
+
+##### Story Completion
+
+1. **Verify Implementation**
+
+   - Test the implemented functionality
+   - Ensure acceptance criteria are met
+   - Validate against architecture requirements
+
+2. **Mark Story Complete**
+
+   - Edit the story file
+   - Change status from `Review` to `Done`
+   - Save the file
+
+3. **Return to SM for Next Story**
+   - SM agent will now see this story as complete
+   - Can proceed to create the next sequential story
+
+#### Sequential Development Best Practices
+
+1. **Follow Epic Order**: Complete Epic 1 before Epic 2, etc.
+2. **Sequential Stories**: Complete Story 1.1 before Story 1.2
+3. **One Story at a Time**: Never have multiple stories `InProgress`
+4. **Clear Status Management**: Keep story statuses current
+5. **Architecture Alignment**: Regularly reference sharded architecture docs
+
+#### Story Status Flow
+
+```
+Draft → Approved → InProgress → Review → Done
+  ↑         ↑          ↑          ↑       ↑
+ SM      User       DEV       DEV     User
+creates  approves  starts   completes verifies
+```
+
+#### Troubleshooting Common Issues
+
+- **SM can't find next story**: Ensure current story is marked `Done`
+- **DEV can't find approved story**: Check story status is `Approved`
+- **Architecture conflicts**: Re-shard updated architecture documents
+- **Missing context**: Reference original docs in `docs/` folder
+
+This cycle continues until all epics and stories are complete, delivering your fully implemented project according to the planned architecture and requirements.
+
 ## Best Practices
 
 ### When to Use Web vs IDE
@@ -2109,8 +3443,8 @@ bmad-core/
 ├── data/            # Knowledge bases and preferences
 └── ide-agents/      # Standalone IDE agent files
 
-agents/              # YAML agent configurations
-bundles/            # Bundle configurations (team-*.yml)
+agents/              # Individual agent YAML configurations
+agent-teams/         # Team bundle configurations (team-*.yml)
 tools/              # Build tooling and scripts
 dist/               # Build output
 ```
@@ -2229,6 +3563,14 @@ When these commands are used, perform the listed action:
 - `/{agent} {query}`: Ever been talking to the PM and wanna ask the architect a question? Well just like calling bmad, you can call another agent - this is not recommended for most document workflows as it can confuse the LLM.
 - `/party-mode`: This enters group chat with all available agents. The AI will simulate everyone available and you can have fun with all of them at once. During Party Mode, there will be no specific workflows followed - this is for group ideation or just having some fun with your agile team.
 
+## Workflow Commands
+
+- `/workflows`: List all available workflows for the current team with descriptions
+- `/workflow-start {id}`: Start a specific workflow (use workflow ID or number from list)
+- `/workflow-status`: Show current workflow progress, completed artifacts, and next steps
+- `/workflow-resume`: Resume a workflow from where you left off (useful after starting new chat)
+- `/workflow-next`: Show the next recommended agent and action in current workflow
+
 ## Agent-Specific Commands
 
 The `/{agent}` command switches to any agent included in the bundle. The command accepts either:
@@ -2239,4 +3581,920 @@ The `/{agent}` command switches to any agent included in the bundle. The command
 The BMAD orchestrator determines available agents from the bundle configuration at runtime.
 
 ==================== END: utils#orchestrator-commands ====================
+
+==================== START: utils#workflow-management ====================
+# Workflow Management
+
+This utility enables the BMAD orchestrator to manage and execute team workflows.
+
+## Workflow Commands
+
+### /workflows
+Lists all available workflows for the current team.
+
+Example response:
+```
+Available workflows:
+1. greenfield-mvp - Complete workflow for building a new MVP from scratch
+2. fullstack-app - Comprehensive workflow for production-ready applications
+3. api-only - API-first development workflow
+4. brownfield-enhancement - Enhance existing applications
+5. frontend-only - Frontend application development
+
+Use /workflow-start {number or id} to begin a workflow.
+```
+
+### /workflow-start {workflow-id}
+Starts a specific workflow and transitions to the first agent.
+
+Example: `/workflow-start greenfield-mvp`
+
+### /workflow-status
+Shows current workflow progress, completed artifacts, and next steps.
+
+Example response:
+```
+Current Workflow: Greenfield MVP Development
+Stage: Product Planning (2 of 6)
+Completed:
+  ✓ Discovery & Requirements
+    - project-brief (completed by Mary)
+  
+In Progress:
+  ⚡ Product Planning
+    - Create PRD (John) - awaiting input
+    
+Next: Technical Architecture
+```
+
+### /workflow-resume
+Resumes a workflow from where it left off, useful when starting a new chat.
+
+User can provide completed artifacts:
+```
+User: /workflow-resume greenfield-mvp
+      I have completed: project-brief, PRD
+BMad: I see you've completed Discovery and part of Product Planning. 
+      Based on the greenfield-mvp workflow, the next step is:
+      - UX Strategy with Sally (ux-expert)
+      
+      Would you like me to load Sally to continue?
+```
+
+### /workflow-next
+Shows the next recommended agent and action in the current workflow.
+
+## Workflow Execution Flow
+
+### 1. Starting a Workflow
+
+When a workflow is started:
+1. Load the workflow definition
+2. Identify the first stage and step
+3. Transition to the required agent
+4. Provide context about expected inputs/outputs
+5. Guide artifact creation
+
+### 2. Stage Transitions
+
+After each artifact is completed:
+1. Mark the step as complete
+2. Check transition conditions
+3. If stage is complete, move to next stage
+4. Load the appropriate agent
+5. Pass relevant artifacts as context
+
+### 3. Artifact Tracking
+
+Track all created artifacts:
+```yaml
+workflow_state:
+  current_workflow: greenfield-mvp
+  current_stage: planning
+  current_step: 2
+  artifacts:
+    project-brief:
+      status: completed
+      created_by: analyst
+      timestamp: 2024-01-15T10:30:00Z
+    prd:
+      status: in-progress
+      created_by: pm
+      started: 2024-01-15T11:00:00Z
+```
+
+### 4. Workflow Interruption Handling
+
+When user returns after interruption:
+1. Ask if continuing previous workflow
+2. Request any completed artifacts
+3. Analyze provided artifacts
+4. Determine workflow position
+5. Suggest next appropriate step
+
+Example:
+```
+User: I'm working on a new app. Here's my PRD and architecture doc.
+BMad: I see you have a PRD and architecture document. Based on these artifacts, 
+      it looks like you're following the greenfield-mvp workflow and have completed
+      stages 1-3. The next recommended step would be:
+      
+      Stage 4: Validation & Refinement
+      - Load Sarah (Product Owner) to validate all artifacts
+      
+      Would you like to continue with this workflow?
+```
+
+## Workflow Context Passing
+
+When transitioning between agents, pass:
+1. Previous artifacts created
+2. Current workflow stage
+3. Expected outputs
+4. Any decisions or constraints identified
+
+Example transition:
+```
+BMad: Great! John has completed the PRD. According to the greenfield-mvp workflow,
+      the next step is UX Strategy with Sally.
+      
+      /ux-expert
+      
+Sally: I see we're in the Product Planning stage of the greenfield-mvp workflow.
+       I have access to:
+       - Project Brief from Mary
+       - PRD from John
+       
+       Let's create the UX strategy and UI specifications. First, let me review
+       the PRD to understand the features we're designing for...
+```
+
+## Multi-Path Workflows
+
+Some workflows may have multiple paths:
+```yaml
+conditional_paths:
+  - condition: "project_type == 'mobile'"
+    next_stage: mobile-specific-design
+  - condition: "project_type == 'web'"
+    next_stage: web-architecture
+  - default: fullstack-architecture
+```
+
+Handle these by asking clarifying questions when needed.
+
+## Workflow Best Practices
+
+1. **Always show progress** - Users should know where they are
+2. **Explain transitions** - Why moving to next agent
+3. **Preserve context** - Pass relevant information forward
+4. **Allow flexibility** - Users can skip or modify steps
+5. **Track everything** - Maintain complete workflow state
+
+## Integration with Agents
+
+Each agent should be workflow-aware:
+- Know which workflow is active
+- Understand their role in the workflow
+- Access previous artifacts
+- Know expected outputs
+- Guide toward workflow goals
+
+This creates a seamless experience where the entire team works together toward the workflow's objectives.
+==================== END: utils#workflow-management ====================
+
+==================== START: utils#create-agent ====================
+# Create Agent Utility
+
+This utility helps you create a new BMAD agent for web platforms (Gemini, ChatGPT, etc.).
+
+## Process
+
+Follow these steps to create a new agent:
+
+### 1. Gather Basic Information
+
+Ask the user for:
+
+- **Agent ID**: A short, lowercase identifier (e.g., `data-analyst`, `security-expert`)
+- **Agent Name**: The character name (e.g., "Elena", "Marcus")
+- **Title**: Professional title (e.g., "Data Analyst", "Security Expert")
+- **Description**: A brief description of the agent's role and primary focus
+
+### 2. Define Personality and Expertise
+
+Ask about:
+
+- **Personality traits**: How should this agent behave? (professional, friendly, detail-oriented, etc.)
+- **Communication style**: How do they speak? (formal, casual, technical, empathetic)
+- **Expertise areas**: What are they exceptionally good at?
+- **Years of experience**: How senior are they in their role?
+- **Motivations**: What drives them to excel?
+
+### 3. Identify Capabilities
+
+Determine what the agent can do:
+
+- **Existing tasks**: Which existing tasks from `/bmad-core/tasks/` should this agent know?
+- **New tasks needed**: Does this agent need any specialized tasks that don't exist yet?
+- **Templates used**: Which document templates will this agent work with?
+- **Checklists**: Which quality checklists apply to this agent's work?
+
+### 4. Create the Persona File
+
+Create `/bmad-core/personas/{agent-id}.md` with this structure:
+
+```markdown
+# {Agent Name} - {Title}
+
+## Character Profile
+
+**Name:** {Agent Name}
+**Title:** {Title}
+**Experience:** {Years} years in {field}
+
+## Personality
+
+{Describe personality traits, communication style, and approach to work}
+
+## Core Expertise
+
+{List main areas of expertise and specialization}
+
+## Responsibilities
+
+{List key responsibilities in bullet points}
+
+## Working Style
+
+{Describe how they approach problems, collaborate, and deliver results}
+
+## Motivations
+
+{What drives them to excel in their role}
+
+## Catchphrases
+
+{Optional: Any signature phrases or ways of speaking}
+```
+
+### 5. Create the Agent Configuration
+
+Create `/agents/{agent-id}.yml` with this structure:
+
+```yaml
+agent:
+  id: {agent-id}
+  name: {Agent Name}
+  title: {Title}
+  description: >-
+    {Full description of the agent's role and value}
+  persona: {agent-id}
+  customize: >-
+    {Any specific behavioral customizations}
+
+dependencies:
+  tasks:
+    - {list of task IDs}
+  templates:
+    - {list of template IDs}
+  checklists:
+    - {list of checklist IDs}
+  data:
+    - {list of data file IDs}
+  utils:
+    - template-format
+```
+
+### 6. Create Any New Tasks
+
+If new tasks were identified, create them in `/bmad-core/tasks/{task-name}.md`
+
+### 7. Test and Validate
+
+1. Run `npm run validate` to check configuration
+2. Run `npm run build:agent -a {agent-id}` to build the agent
+3. Review the generated output in `/dist/agents/{agent-id}.txt`
+
+## Example Questions to Ask
+
+1. "What will this agent be called? (ID like 'data-analyst')"
+2. "What's their character name? (like 'Elena')"
+3. "What's their professional title?"
+4. "Describe their main role in 2-3 sentences."
+5. "What personality traits should they have?"
+6. "How many years of experience do they have?"
+7. "What existing tasks should they know? (e.g., create-doc-from-template, execute-checklist)"
+8. "Do they need any specialized tasks that don't exist yet?"
+9. "Which document templates will they use?"
+10. "What motivates them in their work?"
+
+## Important Notes
+
+- Keep personas engaging but professional
+- Ensure all referenced tasks, templates, and checklists exist
+- Web agents can be more detailed than IDE agents (no size constraints)
+- Consider how this agent will collaborate with existing team members
+- Run validation after creating to catch any issues
+
+==================== END: utils#create-agent ====================
+
+==================== START: utils#create-ide-agent ====================
+# Create IDE Agent Utility
+
+This utility helps you create a new BMAD agent optimized for IDE environments (Cursor, Windsurf, etc.).
+
+## Important Constraints
+
+IDE agents must be **compact and efficient** (target: under 2000 characters) to work well as slash commands.
+
+## Process
+
+### 1. Gather Essential Information
+
+Ask the user for:
+
+- **Agent ID**: Short, lowercase identifier (e.g., `api-expert`, `test-engineer`)
+- **Slash command**: The command to activate (e.g., `/api`, `/test`)
+- **Core purpose**: ONE primary function (IDE agents should be focused)
+
+### 2. Define Minimal Personality
+
+Keep it brief:
+
+- **One-line personality**: A single trait or approach (e.g., "Direct and solution-focused")
+- **Expertise**: 2-3 core skills maximum
+- **Style**: How they communicate (brief! e.g., "Concise, code-first responses")
+
+### 3. Identify Essential Capabilities
+
+Be selective - IDE agents should be specialized:
+
+- **1-2 primary tasks**: Only the most essential tasks
+- **1 template maximum**: Only if absolutely necessary
+- **Skip checklists**: Usually too large for IDE agents
+- **Reuse existing tasks**: Creating new tasks for IDE agents is rare
+
+### 4. Create the Compact IDE Agent
+
+Create `/bmad-core/ide-agents/{agent-id}.ide.md` with this structure:
+
+```markdown
+# {Slash Command}
+
+You are {Agent Name}, a {title/role}.
+
+## Expertise
+- {Skill 1}
+- {Skill 2}
+- {Skill 3 if essential}
+
+## Approach
+{One sentence about how you work}
+
+## Focus
+{One sentence about what you prioritize}
+
+---
+
+When activated with {slash command}, immediately focus on {primary purpose}.
+```
+
+### 5. Size Optimization Techniques
+
+To keep agents small:
+
+1. **Remove fluff**: No backstory, minimal personality
+2. **Use references**: Reference tasks rather than inline instructions
+3. **Be specific**: One job done well is better than many done poorly
+4. **Trim lists**: Maximum 3-5 bullet points for any list
+5. **Avoid examples**: Let referenced tasks handle examples
+
+### 6. Test the Agent
+
+1. Check character count: `wc -c {agent-file}`
+2. Ensure it's under 2000 characters
+3. Test in your IDE with the slash command
+4. Verify it can access referenced tasks
+
+## Example Questions (Keep it Simple!)
+
+1. "What's the slash command? (e.g., /api)"
+2. "What's the ONE thing this agent does best?"
+3. "In 5 words or less, describe their personality"
+4. "What 1-2 existing tasks do they need?"
+5. "Any special focus or constraints?"
+
+## Example: Minimal API Expert
+
+```markdown
+# /api
+
+You are Alex, an API design expert.
+
+## Expertise
+- RESTful API design
+- OpenAPI/Swagger specs
+- API security patterns
+
+## Approach
+I provide immediate, practical API solutions with example code.
+
+## Focus
+Clean, secure, well-documented APIs that follow industry standards.
+
+---
+
+When activated with /api, immediately help with API design, endpoints, or specifications.
+```
+
+## Size Comparison
+
+❌ **Too Large** (persona-style):
+
+```markdown
+Alex is a seasoned API architect with over 10 years of experience 
+building scalable systems. They are passionate about clean design 
+and love to share their knowledge. Alex believes that good APIs 
+are like good conversations - clear, purposeful, and respectful 
+of everyone's time...
+```
+
+(Too much personality, not focused)
+
+✅ **Just Right** (IDE-style):
+
+```markdown
+You are Alex, an API design expert.
+Focus: RESTful design, OpenAPI specs, security patterns.
+Style: Direct solutions with example code.
+```
+
+(Minimal, focused, actionable)
+
+## Important Notes
+
+- **One agent, one job** - Don't try to do everything
+- **Reference, don't repeat** - Use task dependencies
+- **Test the size** - Must be under 2000 characters
+- **Skip the story** - No background needed for IDE agents
+- **Focus on action** - What they DO, not who they ARE
+
+==================== END: utils#create-ide-agent ====================
+
+==================== START: utils#create-team ====================
+# Create Team Utility
+
+This utility helps you create a new BMAD team bundle by combining existing agents.
+
+## Process
+
+### 1. Define Team Basics
+
+Ask the user for:
+
+- **Team ID**: Filename without extension (e.g., `team-frontend`, `team-planning`)
+- **Team Name**: Display name (e.g., "Frontend Development Team")
+- **Team Description**: What this team is designed to accomplish
+- **Target Environment**: Usually "web" for team bundles
+
+### 2. List Available Agents
+
+Show all available agents from `/agents/`:
+
+```
+Available agents:
+- analyst (Mary) - Project Analyst and Brainstorming Coach
+- architect (Fred) - System Architecture Expert
+- bmad (BMad) - BMAD Method Orchestrator
+- ui-architect (Jane) - UI/UX Architecture Expert
+- dev (James) - Full Stack Developer
+- devops (Alex) - Platform Engineer
+- fullstack-architect (Winston) - Holistic System Designer
+- pm (John) - Product Manager
+- po (Sarah) - Product Owner
+- qa (Quinn) - Test Architect
+- sm (Bob) - Scrum Master
+- ux-expert (Sally) - UX Design Expert
+```
+
+### 3. Select Team Members
+
+For each agent the user wants to include:
+
+1. Confirm the agent ID
+2. Ask if they want to customize the persona for this team context
+3. Note any special team dynamics or relationships
+
+### 4. Optimize Team Composition
+
+Consider:
+
+- **Role coverage**: Does the team have all necessary skills?
+- **Team size**: 3-7 agents is usually optimal
+- **Collaboration**: How will these agents work together?
+- **Use cases**: What problems will this team solve?
+
+### 5. Create Team Configuration
+
+Create `/agent-teams/{team-id}.yml`:
+
+```yaml
+bundle:
+  name: {Team Name}
+  description: >-
+    {Detailed description of the team's purpose and capabilities}
+  
+agents:
+  - {agent-id-1}
+  - {agent-id-2}
+  - {agent-id-3}
+  # ... more agents
+```
+
+#### Using Wildcards
+
+You can use `"*"` (quoted) to include all available agents:
+
+```yaml
+agents:
+  - bmad         # Always include bmad first
+  - "*"          # Include all other agents
+```
+
+Or mix specific agents with wildcard:
+
+```yaml
+agents:
+  - pm           # Product Manager first
+  - architect    # Then Architect
+  - "*"          # Then all remaining agents
+```
+
+### 6. Validate and Build
+
+1. Run `npm run validate` to check configuration
+2. Run `npm run build` to generate the team bundle
+3. Review output in `/dist/teams/{team-filename}.txt`
+
+## Example Teams
+
+### Development Team
+```yaml
+bundle:
+  name: Development Team Bundle
+  description: >-
+    Core development team for building features from story to deployment
+
+agents:
+  - sm      # Sprint coordination
+  - dev     # Implementation
+  - qa      # Quality assurance
+  - devops  # Deployment
+```
+
+### Planning Team
+```yaml
+bundle:
+  name: Planning Team Bundle
+  description: >-
+    Strategic planning team for project inception and architecture
+
+agents:
+  - analyst    # Requirements gathering
+  - pm         # Product planning
+  - architect  # System design
+  - po         # Validation
+```
+
+### Full-Stack Team
+```yaml
+bundle:
+  name: Full-Stack Team Bundle
+  description: >-
+    Complete team for full-stack application development
+
+agents:
+  - fullstack-architect  # Holistic design
+  - design-architect     # Frontend architecture
+  - dev                  # Implementation
+  - qa                   # Testing
+  - devops              # Infrastructure
+```
+
+## Questions to Ask
+
+1. "What should this team be called? (e.g., 'team-mobile')"
+2. "What's the team's display name?"
+3. "Describe the team's primary purpose"
+4. "Which agents should be on this team? (list agent IDs)"
+5. "Any special dynamics between team members?"
+6. "What types of projects will this team handle?"
+
+## Tips for Good Teams
+
+- **Start small**: Begin with 3-4 core agents
+- **Clear purpose**: Each team should have a specific focus
+- **Complementary skills**: Agents should cover different aspects
+- **Avoid redundancy**: Don't include agents with overlapping roles
+- **Consider workflow**: Order agents by typical workflow sequence
+
+## Common Team Patterns
+
+1. **Scrum Team**: sm, dev, qa, po
+2. **Planning Team**: analyst, pm, architect, po
+3. **Design Team**: ux-expert, ui-architect, dev
+4. **Full Organization**: All agents (for complex projects)
+5. **Technical Team**: architect, dev, devops, qa
+
+## Important Notes
+
+- Teams reference existing agents - create agents first
+- Keep team descriptions clear and purpose-driven
+- Consider creating multiple focused teams rather than one large team
+- Test team dynamics by running sample scenarios
+==================== END: utils#create-team ====================
+
+==================== START: utils#create-expansion-pack ====================
+# Create Expansion Pack Utility
+
+This utility helps you create a comprehensive BMAD expansion pack that can include new agents, tasks, templates, and checklists for a specific domain.
+
+## Understanding Expansion Packs
+
+Expansion packs extend BMAD with domain-specific capabilities. They are self-contained packages that can be installed into any BMAD project.
+
+## Process Overview
+
+### Phase 1: Discovery and Planning
+
+#### 1.1 Define the Domain
+
+Ask the user:
+
+- **Pack Name**: Short identifier (e.g., `healthcare`, `fintech`, `gamedev`)
+- **Display Name**: Full name (e.g., "Healthcare Compliance Pack")
+- **Description**: What domain or industry does this serve?
+- **Key Problems**: What specific challenges will this pack solve?
+- **Target Users**: Who will benefit from this expansion?
+
+#### 1.2 Gather Examples
+
+Request from the user:
+
+- **Sample Documents**: Any existing documents in this domain
+- **Workflow Examples**: How work currently flows in this domain
+- **Compliance Needs**: Any regulatory or standards requirements
+- **Output Examples**: What final deliverables look like
+
+### Phase 2: Component Design
+
+#### 2.1 Identify Required Agents
+
+For each proposed agent:
+
+- **Role**: What specialist is needed?
+- **Expertise**: Domain-specific knowledge required
+- **Interactions**: How they work with existing BMAD agents
+- **Unique Value**: What can't existing agents handle?
+
+#### 2.2 Design Specialized Tasks
+
+For each task:
+
+- **Purpose**: What specific action does it enable?
+- **Inputs**: What information is needed?
+- **Process**: Step-by-step instructions
+- **Outputs**: What gets produced?
+- **Agent Usage**: Which agents will use this task?
+
+#### 2.3 Create Document Templates
+
+For each template:
+
+- **Document Type**: What kind of document?
+- **Structure**: Sections and organization
+- **Placeholders**: Variable content areas
+- **Instructions**: How to complete each section
+- **Standards**: Any format requirements
+
+#### 2.4 Define Checklists
+
+For each checklist:
+
+- **Purpose**: What quality aspect does it verify?
+- **Scope**: When should it be used?
+- **Items**: Specific things to check
+- **Criteria**: Pass/fail conditions
+
+### Phase 3: Implementation
+
+#### 3.1 Create Directory Structure
+
+```
+expansion-packs/
+└── {pack-name}/
+    ├── manifest.yml
+    ├── README.md
+    ├── agents/
+    │   └── {agent-id}.yml
+    ├── personas/
+    │   └── {agent-id}.md
+    ├── tasks/
+    │   └── {task-name}.md
+    ├── templates/
+    │   └── {template-name}.md
+    ├── checklists/
+    │   └── {checklist-name}.md
+    └── ide-agents/
+        └── {agent-id}.ide.md
+```
+
+#### 3.2 Create Manifest
+
+Create `manifest.yml`:
+
+```yaml
+name: {Pack Name}
+version: 1.0.0
+description: >-
+  {Detailed description of the expansion pack}
+author: {Your name or organization}
+bmad_version: "4.0.0"
+
+# Files to install
+files:
+  - source: agents/{agent-id}.yml
+    destination: agents/{agent-id}.yml
+  - source: personas/{agent-id}.md
+    destination: bmad-core/personas/{agent-id}.md
+  - source: tasks/{task-name}.md
+    destination: bmad-core/tasks/{task-name}.md
+  # ... more files
+
+# Optional: Update existing teams
+team_updates:
+  - team: team-technical.yml
+    add_agent: {new-agent-id}
+
+# Post-install message
+post_install_message: >-
+  {Pack Name} installed successfully!
+  
+  New agents available: {list agents}
+  New tasks available: {list tasks}
+  
+  Run 'npm run build' to generate bundles.
+```
+
+### Phase 4: Content Creation
+
+#### 4.1 Agent Creation Checklist
+
+For each new agent:
+
+1. Create persona file with domain expertise
+2. Create agent configuration YAML
+3. Create IDE-optimized version (optional)
+4. List all task dependencies
+5. Define template usage
+6. Add to relevant teams
+
+#### 4.2 Task Creation Guidelines
+
+Each task should:
+
+1. Have a clear, single purpose
+2. Include step-by-step instructions
+3. Provide examples when helpful
+4. Reference domain standards
+5. Be reusable across agents
+
+#### 4.3 Template Best Practices
+
+Templates should:
+
+1. Include clear section headers
+2. Provide inline instructions
+3. Show example content
+4. Mark required vs optional sections
+5. Include domain-specific terminology
+
+### Phase 5: Testing and Documentation
+
+#### 5.1 Create README
+
+Include:
+
+- Overview of the pack's purpose
+- List of all components
+- Installation instructions
+- Usage examples
+- Integration notes
+
+#### 5.2 Test Installation
+
+1. Run `node tools/install-expansion-pack.js {pack-name}`
+2. Verify all files copied correctly
+3. Build agents to test configurations
+4. Run sample scenarios
+
+## Example: Healthcare Expansion Pack
+
+```
+healthcare/
+├── manifest.yml
+├── README.md
+├── agents/
+│   ├── clinical-analyst.yml
+│   └── compliance-officer.yml
+├── personas/
+│   ├── clinical-analyst.md
+│   └── compliance-officer.md
+├── tasks/
+│   ├── hipaa-assessment.md
+│   ├── clinical-protocol-review.md
+│   └── patient-data-analysis.md
+├── templates/
+│   ├── clinical-trial-protocol.md
+│   ├── hipaa-compliance-report.md
+│   └── patient-outcome-report.md
+└── checklists/
+    ├── hipaa-checklist.md
+    └── clinical-data-quality.md
+```
+
+## Interactive Questions Flow
+
+### Initial Discovery
+1. "What domain or industry will this expansion pack serve?"
+2. "What are the main challenges or workflows in this domain?"
+3. "Do you have any example documents or outputs? (Please share)"
+4. "What specialized roles/experts exist in this domain?"
+
+### Agent Planning
+5. "For agent '{name}', what is their specific expertise?"
+6. "What unique tasks would this agent perform?"
+7. "How would they interact with existing BMAD agents?"
+
+### Task Design
+8. "Describe the '{task}' process step-by-step"
+9. "What information is needed to complete this task?"
+10. "What should the output look like?"
+
+### Template Creation
+11. "What sections should the '{template}' document have?"
+12. "Are there any required formats or standards?"
+13. "Can you provide an example of a completed document?"
+
+### Integration
+14. "Which existing teams should include these new agents?"
+15. "Are there any dependencies between components?"
+
+## Important Considerations
+
+- **Domain Expertise**: Ensure accuracy in specialized fields
+- **Compliance**: Include necessary regulatory requirements
+- **Compatibility**: Test with existing BMAD agents
+- **Documentation**: Provide clear usage instructions
+- **Examples**: Include real-world scenarios
+- **Maintenance**: Plan for updates as domain evolves
+
+## Tips for Success
+
+1. **Start Small**: Begin with 1-2 agents and expand
+2. **Get Examples**: Real documents make better templates
+3. **Test Thoroughly**: Run complete workflows
+4. **Document Well**: Others will need to understand the domain
+5. **Iterate**: Refine based on usage feedback
+==================== END: utils#create-expansion-pack ====================
+
+==================== START: utils#template-format ====================
+# Template Format Conventions
+
+Templates in the BMAD method use standardized markup for AI processing. These conventions ensure consistent document generation.
+
+## Template Markup Elements
+
+- **{{placeholders}}**: Variables to be replaced with actual content
+- **[[LLM: instructions]]**: Internal processing instructions for AI agents (never shown to users)
+- **<<REPEAT>>** sections: Content blocks that may be repeated as needed
+- **^^CONDITION^^** blocks: Conditional content included only if criteria are met
+- **@{examples}**: Example content for guidance (never output to users)
+
+## Processing Rules
+
+- Replace all {{placeholders}} with project-specific content
+- Execute all [[LLM: instructions]] internally without showing users
+- Process conditional and repeat blocks as specified
+- Use examples for guidance but never include them in final output
+- Present only clean, formatted content to users
+
+## Critical Guidelines
+
+- **NEVER display template markup, LLM instructions, or examples to users**
+- Template elements are for AI processing only
+- Focus on faithful template execution and clean output
+- All template-specific instructions are embedded within templates
+==================== END: utils#template-format ====================
 

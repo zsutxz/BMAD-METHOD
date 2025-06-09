@@ -22,7 +22,8 @@ dependencies:
   templates:
     - architecture-tmpl
     - front-end-architecture-tmpl
-    - infrastructure-architecture-tmpl
+    - fullstack-architecture-tmpl
+    - brownfield-architecture-tmpl
 
   checklists:
     - architect-checklist

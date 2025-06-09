@@ -13,7 +13,6 @@ dependencies:
     - create-deep-research-prompt
   templates:
     - architecture-tmpl
-    - infrastructure-architecture-tmpl
     - brownfield-architecture-tmpl
   checklists:
     - architect-checklist

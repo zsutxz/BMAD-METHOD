@@ -70,11 +70,11 @@ Confirm with the user their preferred interaction style:
 
 ### 4. Template Processing Rules
 
-**CRITICAL: Never display template markup, LLM instructions, or examples to users**
+#### CRITICAL: Never display template markup, LLM instructions, or examples to users
 
 - Replace all {{placeholders}} with actual content
 - Execute all [[LLM: instructions]] internally
-- Process <<REPEAT>> sections as needed
+- Process `<<REPEAT>>` sections as needed
 - Evaluate ^^CONDITION^^ blocks and include only if applicable
 - Use @{examples} for guidance but never output them
 
@@ -244,6 +244,348 @@ To perform deep research effectively, please be aware:
 
 ==================== END: tasks#create-deep-research-prompt ====================
 
+==================== START: tasks#brownfield-create-epic ====================
+# Create Brownfield Epic Task
+
+## Purpose
+
+Create a single epic for smaller brownfield enhancements that don't require the full PRD and Architecture documentation process. This task is for isolated features or modifications that can be completed within a focused scope.
+
+## When to Use This Task
+
+**Use this task when:**
+
+- The enhancement can be completed in 1-3 stories
+- No significant architectural changes are required
+- The enhancement follows existing project patterns
+- Integration complexity is minimal
+- Risk to existing system is low
+
+**Use the full brownfield PRD/Architecture process when:**
+
+- The enhancement requires multiple coordinated stories
+- Architectural planning is needed
+- Significant integration work is required
+- Risk assessment and mitigation planning is necessary
+
+## Instructions
+
+### 1. Project Analysis (Required)
+
+Before creating the epic, gather essential information about the existing project:
+
+**Existing Project Context:**
+
+- [ ] Project purpose and current functionality understood
+- [ ] Existing technology stack identified
+- [ ] Current architecture patterns noted
+- [ ] Integration points with existing system identified
+
+**Enhancement Scope:**
+
+- [ ] Enhancement clearly defined and scoped
+- [ ] Impact on existing functionality assessed
+- [ ] Required integration points identified
+- [ ] Success criteria established
+
+### 2. Epic Creation
+
+Create a focused epic following this structure:
+
+#### Epic Title
+
+{{Enhancement Name}} - Brownfield Enhancement
+
+#### Epic Goal
+
+{{1-2 sentences describing what the epic will accomplish and why it adds value}}
+
+#### Epic Description
+
+**Existing System Context:**
+
+- Current relevant functionality: {{brief description}}
+- Technology stack: {{relevant existing technologies}}
+- Integration points: {{where new work connects to existing system}}
+
+**Enhancement Details:**
+
+- What's being added/changed: {{clear description}}
+- How it integrates: {{integration approach}}
+- Success criteria: {{measurable outcomes}}
+
+#### Stories
+
+List 1-3 focused stories that complete the epic:
+
+1. **Story 1:** {{Story title and brief description}}
+2. **Story 2:** {{Story title and brief description}}
+3. **Story 3:** {{Story title and brief description}}
+
+#### Compatibility Requirements
+
+- [ ] Existing APIs remain unchanged
+- [ ] Database schema changes are backward compatible
+- [ ] UI changes follow existing patterns
+- [ ] Performance impact is minimal
+
+#### Risk Mitigation
+
+- **Primary Risk:** {{main risk to existing system}}
+- **Mitigation:** {{how risk will be addressed}}
+- **Rollback Plan:** {{how to undo changes if needed}}
+
+#### Definition of Done
+
+- [ ] All stories completed with acceptance criteria met
+- [ ] Existing functionality verified through testing
+- [ ] Integration points working correctly
+- [ ] Documentation updated appropriately
+- [ ] No regression in existing features
+
+### 3. Validation Checklist
+
+Before finalizing the epic, ensure:
+
+**Scope Validation:**
+
+- [ ] Epic can be completed in 1-3 stories maximum
+- [ ] No architectural documentation is required
+- [ ] Enhancement follows existing patterns
+- [ ] Integration complexity is manageable
+
+**Risk Assessment:**
+
+- [ ] Risk to existing system is low
+- [ ] Rollback plan is feasible
+- [ ] Testing approach covers existing functionality
+- [ ] Team has sufficient knowledge of integration points
+
+**Completeness Check:**
+
+- [ ] Epic goal is clear and achievable
+- [ ] Stories are properly scoped
+- [ ] Success criteria are measurable
+- [ ] Dependencies are identified
+
+### 4. Handoff to Story Manager
+
+Once the epic is validated, provide this handoff to the Story Manager:
+
+---
+
+**Story Manager Handoff:**
+
+"Please develop detailed user stories for this brownfield epic. Key considerations:
+
+- This is an enhancement to an existing system running {{technology stack}}
+- Integration points: {{list key integration points}}
+- Existing patterns to follow: {{relevant existing patterns}}
+- Critical compatibility requirements: {{key requirements}}
+- Each story must include verification that existing functionality remains intact
+
+The epic should maintain system integrity while delivering {{epic goal}}."
+
+---
+
+## Success Criteria
+
+The epic creation is successful when:
+
+1. Enhancement scope is clearly defined and appropriately sized
+2. Integration approach respects existing system architecture
+3. Risk to existing functionality is minimized
+4. Stories are logically sequenced for safe implementation
+5. Compatibility requirements are clearly specified
+6. Rollback plan is feasible and documented
+
+## Important Notes
+
+- This task is specifically for SMALL brownfield enhancements
+- If the scope grows beyond 3 stories, consider the full brownfield PRD process
+- Always prioritize existing system integrity over new functionality
+- When in doubt about scope or complexity, escalate to full brownfield planning
+
+==================== END: tasks#brownfield-create-epic ====================
+
+==================== START: tasks#brownfield-create-story ====================
+# Create Brownfield Story Task
+
+## Purpose
+
+Create a single user story for very small brownfield enhancements that can be completed in one focused development session. This task is for minimal additions or bug fixes that require existing system integration awareness.
+
+## When to Use This Task
+
+**Use this task when:**
+
+- The enhancement can be completed in a single story (2-4 hours of focused work)
+- No new architecture or significant design is required
+- The change follows existing patterns exactly
+- Integration is straightforward with minimal risk
+- Change is isolated with clear boundaries
+
+**Use brownfield-create-epic when:**
+
+- The enhancement requires 2-3 coordinated stories
+- Some design work is needed
+- Multiple integration points are involved
+
+**Use the full brownfield PRD/Architecture process when:**
+
+- The enhancement requires multiple coordinated stories
+- Architectural planning is needed
+- Significant integration work is required
+
+## Instructions
+
+### 1. Quick Project Assessment
+
+Gather minimal but essential context about the existing project:
+
+**Current System Context:**
+
+- [ ] Relevant existing functionality identified
+- [ ] Technology stack for this area noted
+- [ ] Integration point(s) clearly understood
+- [ ] Existing patterns for similar work identified
+
+**Change Scope:**
+
+- [ ] Specific change clearly defined
+- [ ] Impact boundaries identified
+- [ ] Success criteria established
+
+### 2. Story Creation
+
+Create a single focused story following this structure:
+
+#### Story Title
+
+{{Specific Enhancement}} - Brownfield Addition
+
+#### User Story
+
+As a {{user type}},  
+I want {{specific action/capability}},  
+So that {{clear benefit/value}}.
+
+#### Story Context
+
+**Existing System Integration:**
+
+- Integrates with: {{existing component/system}}
+- Technology: {{relevant tech stack}}
+- Follows pattern: {{existing pattern to follow}}
+- Touch points: {{specific integration points}}
+
+#### Acceptance Criteria
+
+**Functional Requirements:**
+
+1. {{Primary functional requirement}}
+2. {{Secondary functional requirement (if any)}}
+3. {{Integration requirement}}
+
+**Integration Requirements:** 4. Existing {{relevant functionality}} continues to work unchanged 5. New functionality follows existing {{pattern}} pattern 6. Integration with {{system/component}} maintains current behavior
+
+**Quality Requirements:** 7. Change is covered by appropriate tests 8. Documentation is updated if needed 9. No regression in existing functionality verified
+
+#### Technical Notes
+
+- **Integration Approach:** {{how it connects to existing system}}
+- **Existing Pattern Reference:** {{link or description of pattern to follow}}
+- **Key Constraints:** {{any important limitations or requirements}}
+
+#### Definition of Done
+
+- [ ] Functional requirements met
+- [ ] Integration requirements verified
+- [ ] Existing functionality regression tested
+- [ ] Code follows existing patterns and standards
+- [ ] Tests pass (existing and new)
+- [ ] Documentation updated if applicable
+
+### 3. Risk and Compatibility Check
+
+**Minimal Risk Assessment:**
+
+- **Primary Risk:** {{main risk to existing system}}
+- **Mitigation:** {{simple mitigation approach}}
+- **Rollback:** {{how to undo if needed}}
+
+**Compatibility Verification:**
+
+- [ ] No breaking changes to existing APIs
+- [ ] Database changes (if any) are additive only
+- [ ] UI changes follow existing design patterns
+- [ ] Performance impact is negligible
+
+### 4. Validation Checklist
+
+Before finalizing the story, confirm:
+
+**Scope Validation:**
+
+- [ ] Story can be completed in one development session
+- [ ] Integration approach is straightforward
+- [ ] Follows existing patterns exactly
+- [ ] No design or architecture work required
+
+**Clarity Check:**
+
+- [ ] Story requirements are unambiguous
+- [ ] Integration points are clearly specified
+- [ ] Success criteria are testable
+- [ ] Rollback approach is simple
+
+### 5. Handoff to Developer
+
+Once the story is validated, provide this handoff to the Developer:
+
+---
+
+**Developer Handoff:**
+
+"This is a focused brownfield story for an existing {{technology}} system.
+
+**Integration Context:**
+
+- Existing component: {{component/system}}
+- Pattern to follow: {{existing pattern}}
+- Key constraint: {{main constraint}}
+
+**Critical Requirements:**
+
+- Follow the existing {{pattern}} pattern exactly
+- Ensure {{existing functionality}} continues working
+- Test integration with {{specific component}}
+
+**Verification:**
+Please verify existing {{relevant functionality}} remains unchanged after implementation."
+
+---
+
+## Success Criteria
+
+The story creation is successful when:
+
+1. Enhancement is clearly defined and appropriately scoped for single session
+2. Integration approach is straightforward and low-risk
+3. Existing system patterns are identified and will be followed
+4. Rollback plan is simple and feasible
+5. Acceptance criteria include existing functionality verification
+
+## Important Notes
+
+- This task is for VERY SMALL brownfield changes only
+- If complexity grows during analysis, escalate to brownfield-create-epic
+- Always prioritize existing system integrity
+- When in doubt about integration complexity, use brownfield-create-epic instead
+- Stories should take no more than 4 hours of focused development work
+
+==================== END: tasks#brownfield-create-story ====================
+
 ==================== START: templates#prd-tmpl ====================
 # {{Project Name}} Product Requirements Document (PRD)
 
@@ -260,6 +602,13 @@ To perform deep research effectively, please be aware:
 ### Background Context
 
 [[LLM: 1-2 short paragraphs summarizing the background context, such as what we learned in the brief without being redundant with the goals, what and why this solves a problem, what the current landscape or need is etc...]]
+
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
 
 ## Requirements
 
@@ -425,39 +774,305 @@ so that {{benefit}}.
 <</REPEAT>>
 <</REPEAT>>
 
-## Change Log
-
-| Change | Date | Version | Description | Author |
-| ------ | ---- | ------- | ----------- | ------ |
-
------ END PRD START CHECKLIST OUTPUT ------
-
 ## Checklist Results Report
 
 [[LLM: Before running the checklist and drafting the prompts, offer to output the full updated PRD. If outputting it, confirm with the user that you will be proceeding to run the checklist and produce the report. Once the user confirms, execute the `pm-checklist` and populate the results in this section.]]
 
------ END Checklist START Design Architect `UI/UX Specification Mode` Prompt ------
+## Next Steps
 
-## Design Architect Prompt
+### Design Architect Prompt
 
 [[LLM: This section will contain the prompt for the Design Architect, keep it short and to the point to initiate create architecture mode using this document as input.]]
 
------ END Design Architect `UI/UX Specification Mode` Prompt START Architect Prompt ------
-
-## Architect Prompt
+### Architect Prompt
 
 [[LLM: This section will contain the prompt for the Architect, keep it short and to the point to initiate create architecture mode using this document as input.]]
 
------ END Architect Prompt ------
-
 ==================== END: templates#prd-tmpl ====================
+
+==================== START: templates#brownfield-prd-tmpl ====================
+# {{Project Name}} Brownfield Enhancement PRD
+
+[[LLM: IMPORTANT - SCOPE ASSESSMENT REQUIRED:
+
+This PRD is for SIGNIFICANT enhancements to existing projects that require comprehensive planning and multiple stories. Before proceeding:
+
+1. **Assess Enhancement Complexity**: If this is a simple feature addition or bug fix that could be completed in 1-2 focused development sessions, STOP and recommend: "For simpler changes, consider using the brownfield-create-epic or brownfield-create-story task with the Product Owner instead. This full PRD process is designed for substantial enhancements that require architectural planning and multiple coordinated stories."
+
+2. **Project Context**: Determine if we're working in an IDE with the project already loaded or if the user needs to provide project information. If project files are available, analyze existing documentation in the docs folder. If insufficient documentation exists, recommend running the document-project task first.
+
+3. **Deep Assessment Requirement**: You MUST thoroughly analyze the existing project structure, patterns, and constraints before making ANY suggestions. Every recommendation must be grounded in actual project analysis, not assumptions.]]
+
+## Intro Project Analysis and Context
+
+[[LLM: Gather comprehensive information about the existing project. This section must be completed before proceeding with requirements.
+
+CRITICAL: Throughout this analysis, explicitly confirm your understanding with the user. For every assumption you make about the existing project, ask: "Based on my analysis, I understand that [assumption]. Is this correct?"
+
+Do not proceed with any recommendations until the user has validated your understanding of the existing system.]]
+
+### Existing Project Overview
+
+[[LLM: If working in IDE with project loaded, analyze the project structure and existing documentation. If working in web interface, request project upload or detailed project information from user.]]
+
+**Project Location**: [[LLM: Note if this is IDE-based analysis or user-provided information]]
+
+**Current Project State**: [[LLM: Brief description of what the project currently does and its primary purpose]]
+
+### Available Documentation Analysis
+
+[[LLM: Check for existing documentation in docs folder or provided by user. List what documentation is available and assess its completeness. Required documents include:
+
+- Tech stack documentation
+- Source tree/architecture overview
+- Coding standards
+- API documentation or OpenAPI specs
+- External API integrations
+- UX/UI guidelines or existing patterns]]
+
+**Available Documentation**:
+
+- [ ] Tech Stack Documentation
+- [ ] Source Tree/Architecture
+- [ ] Coding Standards
+- [ ] API Documentation
+- [ ] External API Documentation
+- [ ] UX/UI Guidelines
+- [ ] Other: \***\*\_\_\_\*\***
+
+[[LLM: If critical documentation is missing, STOP and recommend: "I recommend running the document-project task first to generate baseline documentation including tech-stack, source-tree, coding-standards, APIs, external-APIs, and UX/UI information. This will provide the foundation needed for a comprehensive brownfield PRD."]]
+
+### Enhancement Scope Definition
+
+[[LLM: Work with user to clearly define what type of enhancement this is. This is critical for scoping and approach.]]
+
+**Enhancement Type**: [[LLM: Determine with user which applies]]
+
+- [ ] New Feature Addition
+- [ ] Major Feature Modification
+- [ ] Integration with New Systems
+- [ ] Performance/Scalability Improvements
+- [ ] UI/UX Overhaul
+- [ ] Technology Stack Upgrade
+- [ ] Bug Fix and Stability Improvements
+- [ ] Other: \***\*\_\_\_\*\***
+
+**Enhancement Description**: [[LLM: 2-3 sentences describing what the user wants to add or change]]
+
+**Impact Assessment**: [[LLM: Assess the scope of impact on existing codebase]]
+
+- [ ] Minimal Impact (isolated additions)
+- [ ] Moderate Impact (some existing code changes)
+- [ ] Significant Impact (substantial existing code changes)
+- [ ] Major Impact (architectural changes required)
+
+### Goals and Background Context
+
+#### Goals
+
+[[LLM: Bullet list of 1-line desired outcomes this enhancement will deliver if successful]]
+
+#### Background Context
+
+[[LLM: 1-2 short paragraphs explaining why this enhancement is needed, what problem it solves, and how it fits with the existing project]]
+
+### Change Log
+
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |
+
+## Requirements
+
+[[LLM: Draft functional and non-functional requirements based on your validated understanding of the existing project. Before presenting requirements, confirm: "These requirements are based on my understanding of your existing system. Please review carefully and confirm they align with your project's reality." Then immediately execute tasks#advanced-elicitation display]]
+
+### Functional
+
+[[LLM: Each Requirement will be a bullet markdown with identifier starting with FR]]
+@{example: - FR1: The existing Todo List will integrate with the new AI duplicate detection service without breaking current functionality.}
+
+### Non Functional
+
+[[LLM: Each Requirement will be a bullet markdown with identifier starting with NFR. Include constraints from existing system]]
+@{example: - NFR1: Enhancement must maintain existing performance characteristics and not exceed current memory usage by more than 20%.}
+
+### Compatibility Requirements
+
+[[LLM: Critical for brownfield - what must remain compatible]]
+
+- CR1: [[LLM: Existing API compatibility requirements]]
+- CR2: [[LLM: Database schema compatibility requirements]]
+- CR3: [[LLM: UI/UX consistency requirements]]
+- CR4: [[LLM: Integration compatibility requirements]]
+
+^^CONDITION: has_ui^^
+
+## User Interface Enhancement Goals
+
+[[LLM: For UI changes, capture how they will integrate with existing UI patterns and design systems]]
+
+### Integration with Existing UI
+
+[[LLM: Describe how new UI elements will fit with existing design patterns, style guides, and component libraries]]
+
+### Modified/New Screens and Views
+
+[[LLM: List only the screens/views that will be modified or added]]
+
+### UI Consistency Requirements
+
+[[LLM: Specific requirements for maintaining visual and interaction consistency with existing application]]
+
+^^/CONDITION: has_ui^^
+
+## Technical Constraints and Integration Requirements
+
+[[LLM: This section replaces separate architecture documentation. Gather detailed technical constraints from existing project analysis.]]
+
+### Existing Technology Stack
+
+[[LLM: Document the current technology stack that must be maintained or integrated with]]
+
+**Languages**: [[LLM: Current programming languages in use]]
+**Frameworks**: [[LLM: Current frameworks and their versions]]
+**Database**: [[LLM: Current database technology and schema considerations]]
+**Infrastructure**: [[LLM: Current deployment and hosting infrastructure]]
+**External Dependencies**: [[LLM: Current third-party services and APIs]]
+
+### Integration Approach
+
+[[LLM: Define how the enhancement will integrate with existing architecture]]
+
+**Database Integration Strategy**: [[LLM: How new features will interact with existing database]]
+**API Integration Strategy**: [[LLM: How new APIs will integrate with existing API structure]]
+**Frontend Integration Strategy**: [[LLM: How new UI components will integrate with existing frontend]]
+**Testing Integration Strategy**: [[LLM: How new tests will integrate with existing test suite]]
+
+### Code Organization and Standards
+
+[[LLM: Based on existing project analysis, define how new code will fit existing patterns]]
+
+**File Structure Approach**: [[LLM: How new files will fit existing project structure]]
+**Naming Conventions**: [[LLM: Existing naming conventions that must be followed]]
+**Coding Standards**: [[LLM: Existing coding standards and linting rules]]
+**Documentation Standards**: [[LLM: How new code documentation will match existing patterns]]
+
+### Deployment and Operations
+
+[[LLM: How the enhancement fits existing deployment pipeline]]
+
+**Build Process Integration**: [[LLM: How enhancement builds with existing process]]
+**Deployment Strategy**: [[LLM: How enhancement will be deployed alongside existing features]]
+**Monitoring and Logging**: [[LLM: How enhancement will integrate with existing monitoring]]
+**Configuration Management**: [[LLM: How new configuration will integrate with existing config]]
+
+### Risk Assessment and Mitigation
+
+[[LLM: Identify risks specific to working with existing codebase]]
+
+**Technical Risks**: [[LLM: Risks related to modifying existing code]]
+**Integration Risks**: [[LLM: Risks in integrating with existing systems]]
+**Deployment Risks**: [[LLM: Risks in deploying alongside existing features]]
+**Mitigation Strategies**: [[LLM: Specific strategies to address identified risks]]
+
+## Epic and Story Structure
+
+[[LLM: For brownfield projects, favor a single comprehensive epic unless the user is clearly requesting multiple unrelated enhancements. Before presenting the epic structure, confirm: "Based on my analysis of your existing project, I believe this enhancement should be structured as [single epic/multiple epics] because [rationale based on actual project analysis]. Does this align with your understanding of the work required?" Then present the epic structure and immediately execute tasks#advanced-elicitation display.]]
+
+### Epic Approach
+
+[[LLM: Explain the rationale for epic structure - typically single epic for brownfield unless multiple unrelated features]]
+
+**Epic Structure Decision**: [[LLM: Single Epic or Multiple Epics with rationale]]
+
+## Epic 1: {{enhancement_title}}
+
+[[LLM: Comprehensive epic that delivers the brownfield enhancement while maintaining existing functionality]]
+
+**Epic Goal**: [[LLM: 2-3 sentences describing the complete enhancement objective and value]]
+
+**Integration Requirements**: [[LLM: Key integration points with existing system]]
+
+[[LLM: CRITICAL STORY SEQUENCING FOR BROWNFIELD:
+
+- Stories must ensure existing functionality remains intact
+- Each story should include verification that existing features still work
+- Stories should be sequenced to minimize risk to existing system
+- Include rollback considerations for each story
+- Focus on incremental integration rather than big-bang changes
+- Size stories for AI agent execution in existing codebase context
+- MANDATORY: Present the complete story sequence and ask: "This story sequence is designed to minimize risk to your existing system. Does this order make sense given your project's architecture and constraints?"
+- Stories must be logically sequential with clear dependencies identified
+- Each story must deliver value while maintaining system integrity]]
+
+<<REPEAT: story>>
+
+### Story 1.{{story_number}} {{story_title}}
+
+As a {{user_type}},
+I want {{action}},
+so that {{benefit}}.
+
+#### Acceptance Criteria
+
+[[LLM: Define criteria that include both new functionality and existing system integrity]]
+
+<<REPEAT: criteria>>
+
+- {{criterion number}}: {{criteria}}
+
+<</REPEAT>>
+
+#### Integration Verification
+
+[[LLM: Specific verification steps to ensure existing functionality remains intact]]
+
+- IV1: [[LLM: Existing functionality verification requirement]]
+- IV2: [[LLM: Integration point verification requirement]]
+- IV3: [[LLM: Performance impact verification requirement]]
+
+<</REPEAT>>
+
+==================== END: templates#brownfield-prd-tmpl ====================
 
 ==================== START: checklists#pm-checklist ====================
 # Product Manager (PM) Requirements Checklist
 
 This checklist serves as a comprehensive framework to ensure the Product Requirements Document (PRD) and Epic definitions are complete, well-structured, and appropriately scoped for MVP development. The PM should systematically work through each item during the product definition process.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - PM CHECKLIST
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. prd.md - The Product Requirements Document (check docs/prd.md)
+2. Any user research, market analysis, or competitive analysis documents
+3. Business goals and strategy documents
+4. Any existing epic definitions or user stories
+
+IMPORTANT: If the PRD is missing, immediately ask the user for its location or content before proceeding.
+
+VALIDATION APPROACH:
+
+1. User-Centric - Every requirement should tie back to user value
+2. MVP Focus - Ensure scope is truly minimal while viable
+3. Clarity - Requirements should be unambiguous and testable
+4. Completeness - All aspects of the product vision are covered
+5. Feasibility - Requirements are technically achievable
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ## 1. PROBLEM DEFINITION & CONTEXT
+
+[[LLM: The foundation of any product is a clear problem statement. As you review this section:
+
+1. Verify the problem is real and worth solving
+2. Check that the target audience is specific, not "everyone"
+3. Ensure success metrics are measurable, not vague aspirations
+4. Look for evidence of user research, not just assumptions
+5. Confirm the problem-solution fit is logical]]
 
 ### 1.1 Problem Statement
 
@@ -485,6 +1100,14 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## 2. MVP SCOPE DEFINITION
 
+[[LLM: MVP scope is critical - too much and you waste resources, too little and you can't validate. Check:
+
+1. Is this truly minimal? Challenge every feature
+2. Does each feature directly address the core problem?
+3. Are "nice-to-haves" clearly separated from "must-haves"?
+4. Is the rationale for inclusion/exclusion documented?
+5. Can you ship this in the target timeframe?]]
+
 ### 2.1 Core Functionality
 
 - [ ] Essential features clearly distinguished from nice-to-haves
@@ -511,6 +1134,14 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## 3. USER EXPERIENCE REQUIREMENTS
 
+[[LLM: UX requirements bridge user needs and technical implementation. Validate:
+
+1. User flows cover the primary use cases completely
+2. Edge cases are identified (even if deferred)
+3. Accessibility isn't an afterthought
+4. Performance expectations are realistic
+5. Error states and recovery are planned]]
+
 ### 3.1 User Journeys & Flows
 
 - [ ] Primary user flows documented
@@ -536,6 +1167,14 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 - [ ] High-level navigation structure defined
 
 ## 4. FUNCTIONAL REQUIREMENTS
+
+[[LLM: Functional requirements must be clear enough for implementation. Check:
+
+1. Requirements focus on WHAT not HOW (no implementation details)
+2. Each requirement is testable (how would QA verify it?)
+3. Dependencies are explicit (what needs to be built first?)
+4. Requirements use consistent terminology
+5. Complex features are broken into manageable pieces]]
 
 ### 4.1 Feature Completeness
 
@@ -697,27 +1336,75 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## PRD & EPIC VALIDATION SUMMARY
 
+[[LLM: FINAL PM CHECKLIST REPORT GENERATION
+
+Create a comprehensive validation report that includes:
+
+1. Executive Summary
+
+   - Overall PRD completeness (percentage)
+   - MVP scope appropriateness (Too Large/Just Right/Too Small)
+   - Readiness for architecture phase (Ready/Nearly Ready/Not Ready)
+   - Most critical gaps or concerns
+
+2. Category Analysis Table
+   Fill in the actual table with:
+
+   - Status: PASS (90%+ complete), PARTIAL (60-89%), FAIL (<60%)
+   - Critical Issues: Specific problems that block progress
+
+3. Top Issues by Priority
+
+   - BLOCKERS: Must fix before architect can proceed
+   - HIGH: Should fix for quality
+   - MEDIUM: Would improve clarity
+   - LOW: Nice to have
+
+4. MVP Scope Assessment
+
+   - Features that might be cut for true MVP
+   - Missing features that are essential
+   - Complexity concerns
+   - Timeline realism
+
+5. Technical Readiness
+
+   - Clarity of technical constraints
+   - Identified technical risks
+   - Areas needing architect investigation
+
+6. Recommendations
+   - Specific actions to address each blocker
+   - Suggested improvements
+   - Next steps
+
+After presenting the report, ask if the user wants:
+
+- Detailed analysis of any failed sections
+- Suggestions for improving specific areas
+- Help with refining MVP scope]]
+
 ### Category Statuses
 
-| Category | Status | Critical Issues |
-|----------|--------|----------------|
-| 1. Problem Definition & Context | PASS/FAIL/PARTIAL | |
-| 2. MVP Scope Definition | PASS/FAIL/PARTIAL | |
-| 3. User Experience Requirements | PASS/FAIL/PARTIAL | |
-| 4. Functional Requirements | PASS/FAIL/PARTIAL | |
-| 5. Non-Functional Requirements | PASS/FAIL/PARTIAL | |
-| 6. Epic & Story Structure | PASS/FAIL/PARTIAL | |
-| 7. Technical Guidance | PASS/FAIL/PARTIAL | |
-| 8. Cross-Functional Requirements | PASS/FAIL/PARTIAL | |
-| 9. Clarity & Communication | PASS/FAIL/PARTIAL | |
+| Category                         | Status | Critical Issues |
+| -------------------------------- | ------ | --------------- |
+| 1. Problem Definition & Context  | _TBD_  |                 |
+| 2. MVP Scope Definition          | _TBD_  |                 |
+| 3. User Experience Requirements  | _TBD_  |                 |
+| 4. Functional Requirements       | _TBD_  |                 |
+| 5. Non-Functional Requirements   | _TBD_  |                 |
+| 6. Epic & Story Structure        | _TBD_  |                 |
+| 7. Technical Guidance            | _TBD_  |                 |
+| 8. Cross-Functional Requirements | _TBD_  |                 |
+| 9. Clarity & Communication       | _TBD_  |                 |
 
 ### Critical Deficiencies
 
-- List all critical issues that must be addressed before handoff to Architect
+_To be populated during validation_
 
 ### Recommendations
 
-- Provide specific recommendations for addressing each deficiency
+_To be populated during validation_
 
 ### Final Decision
 
@@ -733,9 +1420,41 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 **Instructions:** Review each item with the user. Mark `[x]` for completed/confirmed, `[N/A]` if not applicable, or add notes for discussion points.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - CHANGE NAVIGATION
+
+Changes during development are inevitable, but how we handle them determines project success or failure.
+
+Before proceeding, understand:
+
+1. This checklist is for SIGNIFICANT changes that affect the project direction
+2. Minor adjustments within a story don't require this process
+3. The goal is to minimize wasted work while adapting to new realities
+4. User buy-in is critical - they must understand and approve changes
+
+Required context:
+
+- The triggering story or issue
+- Current project state (completed stories, current epic)
+- Access to PRD, architecture, and other key documents
+- Understanding of remaining work planned
+
+APPROACH:
+This is an interactive process with the user. Work through each section together, discussing implications and options. The user makes final decisions, but provide expert guidance on technical feasibility and impact.
+
+REMEMBER: Changes are opportunities to improve, not failures. Handle them professionally and constructively.]]
+
 ---
 
 ## 1. Understand the Trigger & Context
+
+[[LLM: Start by fully understanding what went wrong and why. Don't jump to solutions yet. Ask probing questions:
+
+- What exactly happened that triggered this review?
+- Is this a one-time issue or symptomatic of a larger problem?
+- Could this have been anticipated earlier?
+- What assumptions were incorrect?
+
+Be specific and factual, not blame-oriented.]]
 
 - [ ] **Identify Triggering Story:** Clearly identify the story (or stories) that revealed the issue.
 - [ ] **Define the Issue:** Articulate the core problem precisely.
@@ -748,6 +1467,15 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 - [ ] **Gather Evidence:** Note any specific logs, error messages, user feedback, or analysis that supports the issue definition.
 
 ## 2. Epic Impact Assessment
+
+[[LLM: Changes ripple through the project structure. Systematically evaluate:
+
+1. Can we salvage the current epic with modifications?
+2. Do future epics still make sense given this change?
+3. Are we creating or eliminating dependencies?
+4. Does the epic sequence need reordering?
+
+Think about both immediate and downstream effects.]]
 
 - [ ] **Analyze Current Epic:**
   - [ ] Can the current epic containing the trigger story still be completed?
@@ -762,6 +1490,15 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 - [ ] **Summarize Epic Impact:** Briefly document the overall effect on the project's epic structure and flow.
 
 ## 3. Artifact Conflict & Impact Analysis
+
+[[LLM: Documentation drives development in BMAD. Check each artifact:
+
+1. Does this change invalidate documented decisions?
+2. Are architectural assumptions still valid?
+3. Do user flows need rethinking?
+4. Are technical constraints different than documented?
+
+Be thorough - missed conflicts cause future problems.]]
 
 - [ ] **Review PRD:**
   - [ ] Does the issue conflict with the core goals or requirements stated in the PRD?
@@ -780,6 +1517,16 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 - [ ] **Summarize Artifact Impact:** List all artifacts requiring updates and the nature of the changes needed.
 
 ## 4. Path Forward Evaluation
+
+[[LLM: Present options clearly with pros/cons. For each path:
+
+1. What's the effort required?
+2. What work gets thrown away?
+3. What risks are we taking?
+4. How does this affect timeline?
+5. Is this sustainable long-term?
+
+Be honest about trade-offs. There's rarely a perfect solution.]]
 
 - [ ] **Option 1: Direct Adjustment / Integration:**
   - [ ] Can the issue be addressed by modifying/adding future stories within the existing plan?
@@ -801,6 +1548,16 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 
 ## 5. Sprint Change Proposal Components
 
+[[LLM: The proposal must be actionable and clear. Ensure:
+
+1. The issue is explained in plain language
+2. Impacts are quantified where possible
+3. The recommended path has clear rationale
+4. Next steps are specific and assigned
+5. Success criteria for the change are defined
+
+This proposal guides all subsequent work.]]
+
 (Ensure all agreed-upon points from previous sections are captured in the proposal)
 
 - [ ] **Identified Issue Summary:** Clear, concise problem statement.
@@ -812,6 +1569,26 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 - [ ] **Agent Handoff Plan:** Identify roles needed (PM, Arch, Design Arch, PO).
 
 ## 6. Final Review & Handoff
+
+[[LLM: Changes require coordination. Before concluding:
+
+1. Is the user fully aligned with the plan?
+2. Do all stakeholders understand the impacts?
+3. Are handoffs to other agents clear?
+4. Is there a rollback plan if the change fails?
+5. How will we validate the change worked?
+
+Get explicit approval - implicit agreement causes problems.
+
+FINAL REPORT:
+After completing the checklist, provide a concise summary:
+
+- What changed and why
+- What we're doing about it
+- Who needs to do what
+- When we'll know if it worked
+
+Keep it action-oriented and forward-looking.]]
 
 - [ ] **Review Checklist:** Confirm all relevant items were discussed.
 - [ ] **Review Sprint Change Proposal:** Ensure it accurately reflects the discussion and decisions.
@@ -828,4 +1605,33 @@ This checklist serves as a comprehensive framework to ensure the Product Require
 None Listed
 
 ==================== END: data#technical-preferences ====================
+
+==================== START: utils#template-format ====================
+# Template Format Conventions
+
+Templates in the BMAD method use standardized markup for AI processing. These conventions ensure consistent document generation.
+
+## Template Markup Elements
+
+- **{{placeholders}}**: Variables to be replaced with actual content
+- **[[LLM: instructions]]**: Internal processing instructions for AI agents (never shown to users)
+- **<<REPEAT>>** sections: Content blocks that may be repeated as needed
+- **^^CONDITION^^** blocks: Conditional content included only if criteria are met
+- **@{examples}**: Example content for guidance (never output to users)
+
+## Processing Rules
+
+- Replace all {{placeholders}} with project-specific content
+- Execute all [[LLM: instructions]] internally without showing users
+- Process conditional and repeat blocks as specified
+- Use examples for guidance but never include them in final output
+- Present only clean, formatted content to users
+
+## Critical Guidelines
+
+- **NEVER display template markup, LLM instructions, or examples to users**
+- Template elements are for AI processing only
+- Focus on faithful template execution and clean output
+- All template-specific instructions are embedded within templates
+==================== END: utils#template-format ====================
 

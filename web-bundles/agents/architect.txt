@@ -13,7 +13,7 @@ For system architecture, technical design, architecture checklists.
 
 ## Domain Expertise
 
-### Core Architecture Design (90%+ confidence)
+### Core Architecture Design
 
 - **System Architecture & Design Patterns** - Microservices vs monolith decisions, event-driven architecture patterns, data flow and integration patterns, component relationships
 - **Technology Selection & Standards** - Technology stack decisions and rationale, architectural standards and guidelines, vendor evaluation and selection
@@ -22,8 +22,7 @@ For system architecture, technical design, architecture checklists.
 - **API & Integration Architecture** - API design standards and patterns, integration strategy across systems, event streaming vs RESTful patterns, service contracts
 - **Enterprise Integration Architecture** - B2B integrations, external system connectivity, partner API strategies, legacy system integration patterns
 
-
-### Strategic Architecture (70-90% confidence)
+### Strategic Architecture
 
 - **Data Architecture & Strategy** - Data modeling and storage strategy, data pipeline architecture (high-level), CQRS, event sourcing decisions, data governance
 - **Multi-Cloud & Hybrid Architecture** - Cross-cloud strategies and patterns, hybrid cloud connectivity architecture, vendor lock-in mitigation strategies
@@ -34,7 +33,7 @@ For system architecture, technical design, architecture checklists.
 - **AI/ML Architecture Strategy** - AI/ML system design patterns, model deployment architecture, data architecture for ML, AI governance frameworks
 - **Distributed Systems Architecture** - Distributed system design, consistency models, CAP theorem applications
 
-### Emerging Architecture (50-70% confidence)
+### Emerging Architecture
 
 - **Edge Computing and IoT** - Edge computing patterns, edge device integration, edge data processing strategies
 - **Sustainability Architecture** - Green computing architecture, carbon-aware design, energy-efficient system patterns
@@ -121,11 +120,11 @@ Confirm with the user their preferred interaction style:
 
 ### 4. Template Processing Rules
 
-**CRITICAL: Never display template markup, LLM instructions, or examples to users**
+#### CRITICAL: Never display template markup, LLM instructions, or examples to users
 
 - Replace all {{placeholders}} with actual content
 - Execute all [[LLM: instructions]] internally
-- Process <<REPEAT>> sections as needed
+- Process `<<REPEAT>>` sections as needed
 - Evaluate ^^CONDITION^^ blocks and include only if applicable
 - Use @{examples} for guidance but never output them
 
@@ -506,7 +505,9 @@ To perform deep research effectively, please be aware:
 
 ## Introduction
 
-[[LLM: This section establishes the document's purpose and scope. Keep the content below but ensure project name is properly substituted.]]
+[[LLM: This section establishes the document's purpose and scope. Keep the content below but ensure project name is properly substituted.
+
+After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 This document outlines the overall project architecture for {{Project Name}}, including backend systems, shared services, and non-UI specific concerns. Its primary goal is to serve as the guiding architectural blueprint for AI-driven development, ensuring consistency and adherence to chosen patterns and technologies.
 
@@ -548,7 +549,16 @@ If the project includes a significant user interface, a separate Frontend Archit
    - Proceed with architecture design from scratch
    - Note that manual setup will be required for all tooling and configuration
 
-Document the decision here before proceeding with the architecture design. In none, just say N/A]]
+Document the decision here before proceeding with the architecture design. In none, just say N/A
+
+After presenting this starter template section, apply `tasks#advanced-elicitation` protocol]]
+
+### Change Log
+
+[[LLM: Track document versions and changes]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
 
 ## High Level Architecture
 
@@ -844,7 +854,7 @@ servers:
 
 ^^/CONDITION: has_rest_api^^
 
-[[LLM: After presenting the REST API spec (or skipping if not applicable), apply `tasks#advanced-elicitation` protocol]]
+[[LLM: After presenting the REST API spec (or noting its absence if not applicable), apply `tasks#advanced-elicitation` protocol]]
 
 ## Database Schema
 
@@ -1213,16 +1223,6 @@ Note: Basic info goes in Coding Standards for dev agent. This detailed section i
 
 [[LLM: After presenting the security section, apply `tasks#advanced-elicitation` protocol]]
 
-## Change Log
-
-[[LLM: Track document versions and changes]]
-
-| Date     | Version | Description                   | Author     |
-| :------- | :------ | :---------------------------- | :--------- |
-| {{date}} | 1.0.0   | Initial architecture document | {{author}} |
-
----
-
 ## Checklist Results Report
 
 [[LLM: Before running the checklist, offer to output the full architecture document. Once user confirms, execute the `architect-checklist` and populate results here.]]
@@ -1270,173 +1270,586 @@ Note: Basic info goes in Coding Standards for dev agent. This detailed section i
 
 ==================== END: templates#architecture-tmpl ====================
 
-==================== START: templates#infrastructure-architecture-tmpl ====================
-# {Project Name} Infrastructure Architecture
+==================== START: templates#brownfield-architecture-tmpl ====================
+# {{Project Name}} Brownfield Enhancement Architecture
 
-## Infrastructure Overview
+[[LLM: IMPORTANT - SCOPE AND ASSESSMENT REQUIRED:
 
-- Cloud Provider(s)
-- Core Services & Resources
-- Regional Architecture
-- Multi-environment Strategy
+This architecture document is for SIGNIFICANT enhancements to existing projects that require comprehensive architectural planning. Before proceeding:
 
-## Infrastructure as Code (IaC)
+1. **Verify Complexity**: Confirm this enhancement requires architectural planning. For simple additions, recommend: "For simpler changes that don't require architectural planning, consider using the brownfield-create-epic or brownfield-create-story task with the Product Owner instead."
 
-- Tools & Frameworks
-- Repository Structure
-- State Management
-- Dependency Management
+2. **REQUIRED INPUTS**:
 
-## Environment Configuration
+   - Completed brownfield-prd.md
+   - Existing project technical documentation (from docs folder or user-provided)
+   - Access to existing project structure (IDE or uploaded files)
 
-- Environment Promotion Strategy
-- Configuration Management
-- Secret Management
-- Feature Flag Integration
+3. **DEEP ANALYSIS MANDATE**: You MUST conduct thorough analysis of the existing codebase, architecture patterns, and technical constraints before making ANY architectural recommendations. Every suggestion must be based on actual project analysis, not assumptions.
 
-## Environment Transition Strategy
+4. **CONTINUOUS VALIDATION**: Throughout this process, explicitly validate your understanding with the user. For every architectural decision, confirm: "Based on my analysis of your existing system, I recommend [decision] because [evidence from actual project]. Does this align with your system's reality?"
 
-- Development to Production Pipeline
-- Deployment Stages and Gates
-- Approval Workflows and Authorities
-- Rollback Procedures
-- Change Cadence and Release Windows
-- Environment-Specific Configuration Management
+If any required inputs are missing, request them before proceeding.]]
 
-## Network Architecture
+## Introduction
 
-- VPC/VNET Design
-- Subnet Strategy
-- Security Groups & NACLs
-- Load Balancers & API Gateways
-- Service Mesh (if applicable)
+[[LLM: This section establishes the document's purpose and scope for brownfield enhancements. Keep the content below but ensure project name and enhancement details are properly substituted.
 
-## Compute Resources
+After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
-- Container Strategy
-- Serverless Architecture
-- VM/Instance Configuration
-- Auto-scaling Approach
+This document outlines the architectural approach for enhancing {{Project Name}} with {{Enhancement Description}}. Its primary goal is to serve as the guiding architectural blueprint for AI-driven development of new features while ensuring seamless integration with the existing system.
 
-## Data Resources
+**Relationship to Existing Architecture:**
+This document supplements existing project architecture by defining how new components will integrate with current systems. Where conflicts arise between new and existing patterns, this document provides guidance on maintaining consistency while implementing enhancements.
 
-- Database Deployment Strategy
-- Backup & Recovery
-- Replication & Failover
-- Data Migration Strategy
+### Existing Project Analysis
 
-## Security Architecture
+[[LLM: Analyze the existing project structure and architecture:
 
-- IAM & Authentication
-- Network Security
-- Data Encryption
-- Compliance Controls
-- Security Scanning & Monitoring
+1. Review existing documentation in docs folder
+2. Examine current technology stack and versions
+3. Identify existing architectural patterns and conventions
+4. Note current deployment and infrastructure setup
+5. Document any constraints or limitations
 
-## Shared Responsibility Model
+CRITICAL: After your analysis, explicitly validate your findings: "Based on my analysis of your project, I've identified the following about your existing system: [key findings]. Please confirm these observations are accurate before I proceed with architectural recommendations."
 
-- Cloud Provider Responsibilities
-- Platform Team Responsibilities
-- Development Team Responsibilities
-- Security Team Responsibilities
-- Operational Monitoring Ownership
-- Incident Response Accountability Matrix
+Present findings and apply `tasks#advanced-elicitation` protocol]]
 
-## Monitoring & Observability
+**Current Project State:**
 
-- Metrics Collection
-- Logging Strategy
-- Tracing Implementation
-- Alerting & Incident Response
-- Dashboards & Visualization
+- **Primary Purpose:** {{existing_project_purpose}}
+- **Current Tech Stack:** {{existing_tech_summary}}
+- **Architecture Style:** {{existing_architecture_style}}
+- **Deployment Method:** {{existing_deployment_approach}}
 
-## CI/CD Pipeline
+**Available Documentation:**
 
-- Pipeline Architecture
-- Build Process
-- Deployment Strategy
-- Rollback Procedures
-- Approval Gates
+- {{existing_docs_summary}}
 
-## Disaster Recovery
+**Identified Constraints:**
 
-- Backup Strategy
-- Recovery Procedures
-- RTO & RPO Targets
-- DR Testing Approach
+- {{constraint_1}}
+- {{constraint_2}}
+- {{constraint_3}}
 
-## Cost Optimization
+### Change Log
 
-- Resource Sizing Strategy
-- Reserved Instances/Commitments
-- Cost Monitoring & Reporting
-- Optimization Recommendations
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |
 
-## Infrastructure Verification
+## Enhancement Scope and Integration Strategy
 
-### Validation Framework
+[[LLM: Define how the enhancement will integrate with the existing system:
 
-This infrastructure architecture will be validated using the comprehensive `infrastructure-checklist.md`, with particular focus on Section 12: Architecture Documentation Validation. The checklist ensures:
+1. Review the brownfield PRD enhancement scope
+2. Identify integration points with existing code
+3. Define boundaries between new and existing functionality
+4. Establish compatibility requirements
 
-- Completeness of architecture documentation
-- Consistency with broader system architecture
-- Appropriate level of detail for different stakeholders
-- Clear implementation guidance
-- Future evolution considerations
+VALIDATION CHECKPOINT: Before presenting the integration strategy, confirm: "Based on my analysis, the integration approach I'm proposing takes into account [specific existing system characteristics]. These integration points and boundaries respect your current architecture patterns. Is this assessment accurate?"
 
-### Validation Process
+Present complete integration strategy and apply `tasks#advanced-elicitation` protocol]]
 
-The architecture documentation validation should be performed:
+### Enhancement Overview
 
-- After initial architecture development
-- After significant architecture changes
-- Before major implementation phases
-- During periodic architecture reviews
+**Enhancement Type:** {{enhancement_type}}
+**Scope:** {{enhancement_scope}}
+**Integration Impact:** {{integration_impact_level}}
 
-The Platform Engineer should use the infrastructure checklist to systematically validate all aspects of this architecture document.
+### Integration Approach
 
-## Infrastructure Evolution
+**Code Integration Strategy:** {{code_integration_approach}}
+**Database Integration:** {{database_integration_approach}}
+**API Integration:** {{api_integration_approach}}
+**UI Integration:** {{ui_integration_approach}}
 
-- Technical Debt Inventory
-- Planned Upgrades and Migrations
-- Deprecation Schedule
-- Technology Roadmap
-- Capacity Planning
-- Scalability Considerations
+### Compatibility Requirements
 
-## Integration with Application Architecture
+- **Existing API Compatibility:** {{api_compatibility}}
+- **Database Schema Compatibility:** {{db_compatibility}}
+- **UI/UX Consistency:** {{ui_compatibility}}
+- **Performance Impact:** {{performance_constraints}}
 
-- Service-to-Infrastructure Mapping
-- Application Dependency Matrix
-- Performance Requirements Implementation
-- Security Requirements Implementation
-- Data Flow to Infrastructure Correlation
-- API Gateway and Service Mesh Integration
+## Tech Stack Alignment
 
-## Cross-Team Collaboration
+[[LLM: Ensure new components align with existing technology choices:
 
-- Platform Engineer and Developer Touchpoints
-- Frontend/Backend Integration Requirements
-- Product Requirements to Infrastructure Mapping
-- Architecture Decision Impact Analysis
-- Design Architect UI/UX Infrastructure Requirements
-- Analyst Research Integration
+1. Use existing technology stack as the foundation
+2. Only introduce new technologies if absolutely necessary
+3. Justify any new additions with clear rationale
+4. Ensure version compatibility with existing dependencies
 
-## Infrastructure Change Management
+Present complete tech stack alignment and apply `tasks#advanced-elicitation` protocol]]
 
-- Change Request Process
-- Risk Assessment
-- Testing Strategy
-- Validation Procedures
+### Existing Technology Stack
 
-==================== END: templates#infrastructure-architecture-tmpl ====================
+[[LLM: Document the current stack that must be maintained or integrated with]]
+
+| Category           | Current Technology | Version     | Usage in Enhancement | Notes     |
+| :----------------- | :----------------- | :---------- | :------------------- | :-------- |
+| **Language**       | {{language}}       | {{version}} | {{usage}}            | {{notes}} |
+| **Runtime**        | {{runtime}}        | {{version}} | {{usage}}            | {{notes}} |
+| **Framework**      | {{framework}}      | {{version}} | {{usage}}            | {{notes}} |
+| **Database**       | {{database}}       | {{version}} | {{usage}}            | {{notes}} |
+| **API Style**      | {{api_style}}      | {{version}} | {{usage}}            | {{notes}} |
+| **Authentication** | {{auth}}           | {{version}} | {{usage}}            | {{notes}} |
+| **Testing**        | {{test_framework}} | {{version}} | {{usage}}            | {{notes}} |
+| **Build Tool**     | {{build_tool}}     | {{version}} | {{usage}}            | {{notes}} |
+
+### New Technology Additions
+
+[[LLM: Only include if new technologies are required for the enhancement]]
+
+^^CONDITION: has_new_tech^^
+
+| Technology   | Version     | Purpose     | Rationale     | Integration Method |
+| :----------- | :---------- | :---------- | :------------ | :----------------- |
+| {{new_tech}} | {{version}} | {{purpose}} | {{rationale}} | {{integration}}    |
+
+^^/CONDITION: has_new_tech^^
+
+## Data Models and Schema Changes
+
+[[LLM: Define new data models and how they integrate with existing schema:
+
+1. Identify new entities required for the enhancement
+2. Define relationships with existing data models
+3. Plan database schema changes (additions, modifications)
+4. Ensure backward compatibility
+
+Present data model changes and apply `tasks#advanced-elicitation` protocol]]
+
+### New Data Models
+
+<<REPEAT: new_data_model>>
+
+### {{model_name}}
+
+**Purpose:** {{model_purpose}}
+**Integration:** {{integration_with_existing}}
+
+**Key Attributes:**
+
+- {{attribute_1}}: {{type_1}} - {{description_1}}
+- {{attribute_2}}: {{type_2}} - {{description_2}}
+
+**Relationships:**
+
+- **With Existing:** {{existing_relationships}}
+- **With New:** {{new_relationships}}
+
+<</REPEAT>>
+
+### Schema Integration Strategy
+
+**Database Changes Required:**
+
+- **New Tables:** {{new_tables_list}}
+- **Modified Tables:** {{modified_tables_list}}
+- **New Indexes:** {{new_indexes_list}}
+- **Migration Strategy:** {{migration_approach}}
+
+**Backward Compatibility:**
+
+- {{compatibility_measure_1}}
+- {{compatibility_measure_2}}
+
+## Component Architecture
+
+[[LLM: Define new components and their integration with existing architecture:
+
+1. Identify new components required for the enhancement
+2. Define interfaces with existing components
+3. Establish clear boundaries and responsibilities
+4. Plan integration points and data flow
+
+MANDATORY VALIDATION: Before presenting component architecture, confirm: "The new components I'm proposing follow the existing architectural patterns I identified in your codebase: [specific patterns]. The integration interfaces respect your current component structure and communication patterns. Does this match your project's reality?"
+
+Present component architecture and apply `tasks#advanced-elicitation` protocol]]
+
+### New Components
+
+<<REPEAT: new_component>>
+
+### {{component_name}}
+
+**Responsibility:** {{component_description}}
+**Integration Points:** {{integration_points}}
+
+**Key Interfaces:**
+
+- {{interface_1}}
+- {{interface_2}}
+
+**Dependencies:**
+
+- **Existing Components:** {{existing_dependencies}}
+- **New Components:** {{new_dependencies}}
+
+**Technology Stack:** {{component_tech_details}}
+
+<</REPEAT>>
+
+### Component Interaction Diagram
+
+[[LLM: Create Mermaid diagram showing how new components interact with existing ones]]
+
+```mermaid
+{{component_interaction_diagram}}
+```
+
+## API Design and Integration
+
+[[LLM: Define new API endpoints and integration with existing APIs:
+
+1. Plan new API endpoints required for the enhancement
+2. Ensure consistency with existing API patterns
+3. Define authentication and authorization integration
+4. Plan versioning strategy if needed
+
+Present API design and apply `tasks#advanced-elicitation` protocol]]
+
+### New API Endpoints
+
+^^CONDITION: has_new_api^^
+
+**API Integration Strategy:** {{api_integration_strategy}}
+**Authentication:** {{auth_integration}}
+**Versioning:** {{versioning_approach}}
+
+<<REPEAT: new_endpoint>>
+
+#### {{endpoint_name}}
+
+- **Method:** {{http_method}}
+- **Endpoint:** {{endpoint_path}}
+- **Purpose:** {{endpoint_purpose}}
+- **Integration:** {{integration_with_existing}}
+
+**Request:**
+
+```json
+{{request_schema}}
+```
+
+**Response:**
+
+```json
+{{response_schema}}
+```
+
+<</REPEAT>>
+
+^^/CONDITION: has_new_api^^
+
+## External API Integration
+
+[[LLM: Document new external API integrations required for the enhancement]]
+
+^^CONDITION: has_new_external_apis^^
+
+<<REPEAT: external_api>>
+
+### {{api_name}} API
+
+- **Purpose:** {{api_purpose}}
+- **Documentation:** {{api_docs_url}}
+- **Base URL:** {{api_base_url}}
+- **Authentication:** {{auth_method}}
+- **Integration Method:** {{integration_approach}}
+
+**Key Endpoints Used:**
+
+- `{{method}} {{endpoint_path}}` - {{endpoint_purpose}}
+
+**Error Handling:** {{error_handling_strategy}}
+
+<</REPEAT>>
+
+^^/CONDITION: has_new_external_apis^^
+
+## Source Tree Integration
+
+[[LLM: Define how new code will integrate with existing project structure:
+
+1. Follow existing project organization patterns
+2. Identify where new files/folders will be placed
+3. Ensure consistency with existing naming conventions
+4. Plan for minimal disruption to existing structure
+
+Present integration plan and apply `tasks#advanced-elicitation` protocol]]
+
+### Existing Project Structure
+
+[[LLM: Document relevant parts of current structure]]
+
+```plaintext
+{{existing_structure_relevant_parts}}
+```
+
+### New File Organization
+
+[[LLM: Show only new additions to existing structure]]
+
+```plaintext
+{{project-root}}/
+├── {{existing_structure_context}}
+│   ├── {{new_folder_1}}/           # {{purpose_1}}
+│   │   ├── {{new_file_1}}
+│   │   └── {{new_file_2}}
+│   ├── {{existing_folder}}/        # Existing folder with additions
+│   │   ├── {{existing_file}}       # Existing file
+│   │   └── {{new_file_3}}          # New addition
+│   └── {{new_folder_2}}/           # {{purpose_2}}
+```
+
+### Integration Guidelines
+
+- **File Naming:** {{file_naming_consistency}}
+- **Folder Organization:** {{folder_organization_approach}}
+- **Import/Export Patterns:** {{import_export_consistency}}
+
+## Infrastructure and Deployment Integration
+
+[[LLM: Define how the enhancement will be deployed alongside existing infrastructure:
+
+1. Use existing deployment pipeline and infrastructure
+2. Identify any infrastructure changes needed
+3. Plan deployment strategy to minimize risk
+4. Define rollback procedures
+
+Present deployment integration and apply `tasks#advanced-elicitation` protocol]]
+
+### Existing Infrastructure
+
+**Current Deployment:** {{existing_deployment_summary}}
+**Infrastructure Tools:** {{existing_infrastructure_tools}}
+**Environments:** {{existing_environments}}
+
+### Enhancement Deployment Strategy
+
+**Deployment Approach:** {{deployment_approach}}
+**Infrastructure Changes:** {{infrastructure_changes}}
+**Pipeline Integration:** {{pipeline_integration}}
+
+### Rollback Strategy
+
+**Rollback Method:** {{rollback_method}}
+**Risk Mitigation:** {{risk_mitigation}}
+**Monitoring:** {{monitoring_approach}}
+
+## Coding Standards and Conventions
+
+[[LLM: Ensure new code follows existing project conventions:
+
+1. Document existing coding standards from project analysis
+2. Identify any enhancement-specific requirements
+3. Ensure consistency with existing codebase patterns
+4. Define standards for new code organization
+
+Present coding standards and apply `tasks#advanced-elicitation` protocol]]
+
+### Existing Standards Compliance
+
+**Code Style:** {{existing_code_style}}
+**Linting Rules:** {{existing_linting}}
+**Testing Patterns:** {{existing_test_patterns}}
+**Documentation Style:** {{existing_doc_style}}
+
+### Enhancement-Specific Standards
+
+[[LLM: Only include if new patterns are needed for the enhancement]]
+
+<<REPEAT: enhancement_standard>>
+
+- **{{standard_name}}:** {{standard_description}}
+
+<</REPEAT>>
+
+### Critical Integration Rules
+
+- **Existing API Compatibility:** {{api_compatibility_rule}}
+- **Database Integration:** {{db_integration_rule}}
+- **Error Handling:** {{error_handling_integration}}
+- **Logging Consistency:** {{logging_consistency}}
+
+## Testing Strategy
+
+[[LLM: Define testing approach for the enhancement:
+
+1. Integrate with existing test suite
+2. Ensure existing functionality remains intact
+3. Plan for testing new features
+4. Define integration testing approach
+
+Present testing strategy and apply `tasks#advanced-elicitation` protocol]]
+
+### Integration with Existing Tests
+
+**Existing Test Framework:** {{existing_test_framework}}
+**Test Organization:** {{existing_test_organization}}
+**Coverage Requirements:** {{existing_coverage_requirements}}
+
+### New Testing Requirements
+
+#### Unit Tests for New Components
+
+- **Framework:** {{test_framework}}
+- **Location:** {{test_location}}
+- **Coverage Target:** {{coverage_target}}
+- **Integration with Existing:** {{test_integration}}
+
+#### Integration Tests
+
+- **Scope:** {{integration_test_scope}}
+- **Existing System Verification:** {{existing_system_verification}}
+- **New Feature Testing:** {{new_feature_testing}}
+
+#### Regression Testing
+
+- **Existing Feature Verification:** {{regression_test_approach}}
+- **Automated Regression Suite:** {{automated_regression}}
+- **Manual Testing Requirements:** {{manual_testing_requirements}}
+
+## Security Integration
+
+[[LLM: Ensure security consistency with existing system:
+
+1. Follow existing security patterns and tools
+2. Ensure new features don't introduce vulnerabilities
+3. Maintain existing security posture
+4. Define security testing for new components
+
+Present security integration and apply `tasks#advanced-elicitation` protocol]]
+
+### Existing Security Measures
+
+**Authentication:** {{existing_auth}}
+**Authorization:** {{existing_authz}}
+**Data Protection:** {{existing_data_protection}}
+**Security Tools:** {{existing_security_tools}}
+
+### Enhancement Security Requirements
+
+**New Security Measures:** {{new_security_measures}}
+**Integration Points:** {{security_integration_points}}
+**Compliance Requirements:** {{compliance_requirements}}
+
+### Security Testing
+
+**Existing Security Tests:** {{existing_security_tests}}
+**New Security Test Requirements:** {{new_security_tests}}
+**Penetration Testing:** {{pentest_requirements}}
+
+## Risk Assessment and Mitigation
+
+[[LLM: Identify and plan for risks specific to brownfield development:
+
+1. Technical integration risks
+2. Deployment and operational risks
+3. User impact and compatibility risks
+4. Mitigation strategies for each risk
+
+Present risk assessment and apply `tasks#advanced-elicitation` protocol]]
+
+### Technical Risks
+
+<<REPEAT: technical_risk>>
+
+**Risk:** {{risk_description}}
+**Impact:** {{impact_level}}
+**Likelihood:** {{likelihood}}
+**Mitigation:** {{mitigation_strategy}}
+
+<</REPEAT>>
+
+### Operational Risks
+
+<<REPEAT: operational_risk>>
+
+**Risk:** {{risk_description}}
+**Impact:** {{impact_level}}
+**Likelihood:** {{likelihood}}
+**Mitigation:** {{mitigation_strategy}}
+
+<</REPEAT>>
+
+### Monitoring and Alerting
+
+**Enhanced Monitoring:** {{monitoring_additions}}
+**New Alerts:** {{new_alerts}}
+**Performance Monitoring:** {{performance_monitoring}}
+
+## Checklist Results Report
+
+[[LLM: Execute the architect-checklist and populate results here, focusing on brownfield-specific validation]]
+
+## Next Steps
+
+[[LLM: After completing the brownfield architecture:
+
+1. Review integration points with existing system
+2. Begin story implementation with Dev agent
+3. Set up deployment pipeline integration
+4. Plan rollback and monitoring procedures]]
+
+### Story Manager Handoff
+
+[[LLM: Create a brief prompt for Story Manager to work with this brownfield enhancement. Include:
+
+- Reference to this architecture document
+- Key integration requirements validated with user
+- Existing system constraints based on actual project analysis
+- First story to implement with clear integration checkpoints
+- Emphasis on maintaining existing system integrity throughout implementation]]
+
+### Developer Handoff
+
+[[LLM: Create a brief prompt for developers starting implementation. Include:
+
+- Reference to this architecture and existing coding standards analyzed from actual project
+- Integration requirements with existing codebase validated with user
+- Key technical decisions based on real project constraints
+- Existing system compatibility requirements with specific verification steps
+- Clear sequencing of implementation to minimize risk to existing functionality]]
+
+==================== END: templates#brownfield-architecture-tmpl ====================
 
 ==================== START: checklists#architect-checklist ====================
 # Architect Solution Validation Checklist
 
 This checklist serves as a comprehensive framework for the Architect to validate the technical design and architecture before development execution. The Architect should systematically work through each item, ensuring the architecture is robust, scalable, secure, and aligned with the product requirements.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - REQUIRED ARTIFACTS
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. architecture.md - The primary architecture document (check docs/architecture.md)
+2. prd.md - Product Requirements Document for requirements alignment (check docs/prd.md)
+3. Any system diagrams referenced in the architecture
+4. API documentation if available
+5. Technology stack details and version specifications
+
+IMPORTANT: If any required documents are missing or inaccessible, immediately ask the user for their location or content before proceeding.
+
+VALIDATION APPROACH:
+For each section, you must:
+
+1. Deep Analysis - Don't just check boxes, thoroughly analyze each item against the provided documentation
+2. Evidence-Based - Cite specific sections or quotes from the documents when validating
+3. Critical Thinking - Question assumptions and identify gaps, not just confirm what's present
+4. Risk Assessment - Consider what could go wrong with each architectural decision
+
+EXECUTION MODE:
+Ask the user if they want to work through the checklist:
+
+- Section by section (interactive mode) - Review each section, present findings, get confirmation before proceeding
+- All at once (comprehensive mode) - Complete full analysis and present comprehensive report at end]]
+
 ## 1. REQUIREMENTS ALIGNMENT
+
+[[LLM: Before evaluating this section, take a moment to fully understand the product's purpose and goals from the PRD. What is the core problem being solved? Who are the users? What are the critical success factors? Keep these in mind as you validate alignment. For each item, don't just check if it's mentioned - verify that the architecture provides a concrete technical solution.]]
 
 ### 1.1 Functional Requirements Coverage
 
@@ -1463,6 +1876,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Organizational technical standards are followed
 
 ## 2. ARCHITECTURE FUNDAMENTALS
+
+[[LLM: Architecture clarity is crucial for successful implementation. As you review this section, visualize the system as if you were explaining it to a new developer. Are there any ambiguities that could lead to misinterpretation? Would an AI agent be able to implement this architecture without confusion? Look for specific diagrams, component definitions, and clear interaction patterns.]]
 
 ### 2.1 Architecture Clarity
 
@@ -1498,6 +1913,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 
 ## 3. TECHNICAL STACK & DECISIONS
 
+[[LLM: Technology choices have long-term implications. For each technology decision, consider: Is this the simplest solution that could work? Are we over-engineering? Will this scale? What are the maintenance implications? Are there security vulnerabilities in the chosen versions? Verify that specific versions are defined, not ranges.]]
+
 ### 3.1 Technology Selection
 
 - [ ] Selected technologies meet all requirements
@@ -1531,6 +1948,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Data backup and recovery strategies are outlined
 
 ## 4. RESILIENCE & OPERATIONAL READINESS
+
+[[LLM: Production systems fail in unexpected ways. As you review this section, think about Murphy's Law - what could go wrong? Consider real-world scenarios: What happens during peak load? How does the system behave when a critical service is down? Can the operations team diagnose issues at 3 AM? Look for specific resilience patterns, not just mentions of "error handling".]]
 
 ### 4.1 Error Handling & Resilience
 
@@ -1566,6 +1985,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 
 ## 5. SECURITY & COMPLIANCE
 
+[[LLM: Security is not optional. Review this section with a hacker's mindset - how could someone exploit this system? Also consider compliance: Are there industry-specific regulations that apply? GDPR? HIPAA? PCI? Ensure the architecture addresses these proactively. Look for specific security controls, not just general statements.]]
+
 ### 5.1 Authentication & Authorization
 
 - [ ] Authentication mechanism is clearly defined
@@ -1599,6 +2020,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Security monitoring strategy is outlined
 
 ## 6. IMPLEMENTATION GUIDANCE
+
+[[LLM: Clear implementation guidance prevents costly mistakes. As you review this section, imagine you're a developer starting on day one. Do they have everything they need to be productive? Are coding standards clear enough to maintain consistency across the team? Look for specific examples and patterns.]]
 
 ### 6.1 Coding Standards & Practices
 
@@ -1634,6 +2057,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 
 ## 7. DEPENDENCY & INTEGRATION MANAGEMENT
 
+[[LLM: Dependencies are often the source of production issues. For each dependency, consider: What happens if it's unavailable? Is there a newer version with security patches? Are we locked into a vendor? What's our contingency plan? Verify specific versions and fallback strategies.]]
+
 ### 7.1 External Dependencies
 
 - [ ] All external dependencies are identified
@@ -1659,6 +2084,8 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Rate limits and quotas are considered
 
 ## 8. AI AGENT IMPLEMENTATION SUITABILITY
+
+[[LLM: This architecture may be implemented by AI agents. Review with extreme clarity in mind. Are patterns consistent? Is complexity minimized? Would an AI agent make incorrect assumptions? Remember: explicit is better than implicit. Look for clear file structures, naming conventions, and implementation patterns.]]
 
 ### 8.1 Modularity for AI Agents
 
@@ -1692,6 +2119,41 @@ This checklist serves as a comprehensive framework for the Architect to validate
 - [ ] Testing patterns are clearly defined
 - [ ] Debugging guidance is provided
 
+[[LLM: FINAL VALIDATION REPORT GENERATION
+
+Now that you've completed the checklist, generate a comprehensive validation report that includes:
+
+1. Executive Summary
+
+   - Overall architecture readiness (High/Medium/Low)
+   - Critical risks identified
+   - Key strengths of the architecture
+
+2. Section Analysis
+
+   - Pass rate for each major section (percentage of items passed)
+   - Most concerning failures or gaps
+   - Sections requiring immediate attention
+
+3. Risk Assessment
+
+   - Top 5 risks by severity
+   - Mitigation recommendations for each
+   - Timeline impact of addressing issues
+
+4. Recommendations
+
+   - Must-fix items before development
+   - Should-fix items for better quality
+   - Nice-to-have improvements
+
+5. AI Implementation Readiness
+   - Specific concerns for AI agent implementation
+   - Areas needing additional clarification
+   - Complexity hotspots to address
+
+After presenting the report, ask the user if they would like detailed analysis of any specific section, especially those with warnings or failures.]]
+
 ==================== END: checklists#architect-checklist ====================
 
 ==================== START: data#technical-preferences ====================
@@ -1700,4 +2162,33 @@ This checklist serves as a comprehensive framework for the Architect to validate
 None Listed
 
 ==================== END: data#technical-preferences ====================
+
+==================== START: utils#template-format ====================
+# Template Format Conventions
+
+Templates in the BMAD method use standardized markup for AI processing. These conventions ensure consistent document generation.
+
+## Template Markup Elements
+
+- **{{placeholders}}**: Variables to be replaced with actual content
+- **[[LLM: instructions]]**: Internal processing instructions for AI agents (never shown to users)
+- **<<REPEAT>>** sections: Content blocks that may be repeated as needed
+- **^^CONDITION^^** blocks: Conditional content included only if criteria are met
+- **@{examples}**: Example content for guidance (never output to users)
+
+## Processing Rules
+
+- Replace all {{placeholders}} with project-specific content
+- Execute all [[LLM: instructions]] internally without showing users
+- Process conditional and repeat blocks as specified
+- Use examples for guidance but never include them in final output
+- Present only clean, formatted content to users
+
+## Critical Guidelines
+
+- **NEVER display template markup, LLM instructions, or examples to users**
+- Template elements are for AI processing only
+- Focus on faithful template execution and clean output
+- All template-specific instructions are embedded within templates
+==================== END: utils#template-format ====================
 

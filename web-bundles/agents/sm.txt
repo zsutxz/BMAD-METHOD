@@ -71,11 +71,11 @@ Confirm with the user their preferred interaction style:
 
 ### 4. Template Processing Rules
 
-**CRITICAL: Never display template markup, LLM instructions, or examples to users**
+#### CRITICAL: Never display template markup, LLM instructions, or examples to users
 
 - Replace all {{placeholders}} with actual content
 - Execute all [[LLM: instructions]] internally
-- Process <<REPEAT>> sections as needed
+- Process `<<REPEAT>>` sections as needed
 - Evaluate ^^CONDITION^^ blocks and include only if applicable
 - Use @{examples} for guidance but never output them
 
@@ -393,20 +393,362 @@ Please provide:
 Would you like to proceed with documentation indexing? Please provide the required input above.
 ==================== END: tasks#index-docs ====================
 
-==================== START: templates#story-tmpl ====================
-# Story {EpicNum}.{StoryNum}: {Short Title Copied from Epic File}
+==================== START: tasks#brownfield-create-epic ====================
+# Create Brownfield Epic Task
 
-## Status: { Draft | Approved | InProgress | Review | Done }
+## Purpose
+
+Create a single epic for smaller brownfield enhancements that don't require the full PRD and Architecture documentation process. This task is for isolated features or modifications that can be completed within a focused scope.
+
+## When to Use This Task
+
+**Use this task when:**
+
+- The enhancement can be completed in 1-3 stories
+- No significant architectural changes are required
+- The enhancement follows existing project patterns
+- Integration complexity is minimal
+- Risk to existing system is low
+
+**Use the full brownfield PRD/Architecture process when:**
+
+- The enhancement requires multiple coordinated stories
+- Architectural planning is needed
+- Significant integration work is required
+- Risk assessment and mitigation planning is necessary
+
+## Instructions
+
+### 1. Project Analysis (Required)
+
+Before creating the epic, gather essential information about the existing project:
+
+**Existing Project Context:**
+
+- [ ] Project purpose and current functionality understood
+- [ ] Existing technology stack identified
+- [ ] Current architecture patterns noted
+- [ ] Integration points with existing system identified
+
+**Enhancement Scope:**
+
+- [ ] Enhancement clearly defined and scoped
+- [ ] Impact on existing functionality assessed
+- [ ] Required integration points identified
+- [ ] Success criteria established
+
+### 2. Epic Creation
+
+Create a focused epic following this structure:
+
+#### Epic Title
+
+{{Enhancement Name}} - Brownfield Enhancement
+
+#### Epic Goal
+
+{{1-2 sentences describing what the epic will accomplish and why it adds value}}
+
+#### Epic Description
+
+**Existing System Context:**
+
+- Current relevant functionality: {{brief description}}
+- Technology stack: {{relevant existing technologies}}
+- Integration points: {{where new work connects to existing system}}
+
+**Enhancement Details:**
+
+- What's being added/changed: {{clear description}}
+- How it integrates: {{integration approach}}
+- Success criteria: {{measurable outcomes}}
+
+#### Stories
+
+List 1-3 focused stories that complete the epic:
+
+1. **Story 1:** {{Story title and brief description}}
+2. **Story 2:** {{Story title and brief description}}
+3. **Story 3:** {{Story title and brief description}}
+
+#### Compatibility Requirements
+
+- [ ] Existing APIs remain unchanged
+- [ ] Database schema changes are backward compatible
+- [ ] UI changes follow existing patterns
+- [ ] Performance impact is minimal
+
+#### Risk Mitigation
+
+- **Primary Risk:** {{main risk to existing system}}
+- **Mitigation:** {{how risk will be addressed}}
+- **Rollback Plan:** {{how to undo changes if needed}}
+
+#### Definition of Done
+
+- [ ] All stories completed with acceptance criteria met
+- [ ] Existing functionality verified through testing
+- [ ] Integration points working correctly
+- [ ] Documentation updated appropriately
+- [ ] No regression in existing features
+
+### 3. Validation Checklist
+
+Before finalizing the epic, ensure:
+
+**Scope Validation:**
+
+- [ ] Epic can be completed in 1-3 stories maximum
+- [ ] No architectural documentation is required
+- [ ] Enhancement follows existing patterns
+- [ ] Integration complexity is manageable
+
+**Risk Assessment:**
+
+- [ ] Risk to existing system is low
+- [ ] Rollback plan is feasible
+- [ ] Testing approach covers existing functionality
+- [ ] Team has sufficient knowledge of integration points
+
+**Completeness Check:**
+
+- [ ] Epic goal is clear and achievable
+- [ ] Stories are properly scoped
+- [ ] Success criteria are measurable
+- [ ] Dependencies are identified
+
+### 4. Handoff to Story Manager
+
+Once the epic is validated, provide this handoff to the Story Manager:
+
+---
+
+**Story Manager Handoff:**
+
+"Please develop detailed user stories for this brownfield epic. Key considerations:
+
+- This is an enhancement to an existing system running {{technology stack}}
+- Integration points: {{list key integration points}}
+- Existing patterns to follow: {{relevant existing patterns}}
+- Critical compatibility requirements: {{key requirements}}
+- Each story must include verification that existing functionality remains intact
+
+The epic should maintain system integrity while delivering {{epic goal}}."
+
+---
+
+## Success Criteria
+
+The epic creation is successful when:
+
+1. Enhancement scope is clearly defined and appropriately sized
+2. Integration approach respects existing system architecture
+3. Risk to existing functionality is minimized
+4. Stories are logically sequenced for safe implementation
+5. Compatibility requirements are clearly specified
+6. Rollback plan is feasible and documented
+
+## Important Notes
+
+- This task is specifically for SMALL brownfield enhancements
+- If the scope grows beyond 3 stories, consider the full brownfield PRD process
+- Always prioritize existing system integrity over new functionality
+- When in doubt about scope or complexity, escalate to full brownfield planning
+
+==================== END: tasks#brownfield-create-epic ====================
+
+==================== START: tasks#brownfield-create-story ====================
+# Create Brownfield Story Task
+
+## Purpose
+
+Create a single user story for very small brownfield enhancements that can be completed in one focused development session. This task is for minimal additions or bug fixes that require existing system integration awareness.
+
+## When to Use This Task
+
+**Use this task when:**
+
+- The enhancement can be completed in a single story (2-4 hours of focused work)
+- No new architecture or significant design is required
+- The change follows existing patterns exactly
+- Integration is straightforward with minimal risk
+- Change is isolated with clear boundaries
+
+**Use brownfield-create-epic when:**
+
+- The enhancement requires 2-3 coordinated stories
+- Some design work is needed
+- Multiple integration points are involved
+
+**Use the full brownfield PRD/Architecture process when:**
+
+- The enhancement requires multiple coordinated stories
+- Architectural planning is needed
+- Significant integration work is required
+
+## Instructions
+
+### 1. Quick Project Assessment
+
+Gather minimal but essential context about the existing project:
+
+**Current System Context:**
+
+- [ ] Relevant existing functionality identified
+- [ ] Technology stack for this area noted
+- [ ] Integration point(s) clearly understood
+- [ ] Existing patterns for similar work identified
+
+**Change Scope:**
+
+- [ ] Specific change clearly defined
+- [ ] Impact boundaries identified
+- [ ] Success criteria established
+
+### 2. Story Creation
+
+Create a single focused story following this structure:
+
+#### Story Title
+
+{{Specific Enhancement}} - Brownfield Addition
+
+#### User Story
+
+As a {{user type}},  
+I want {{specific action/capability}},  
+So that {{clear benefit/value}}.
+
+#### Story Context
+
+**Existing System Integration:**
+
+- Integrates with: {{existing component/system}}
+- Technology: {{relevant tech stack}}
+- Follows pattern: {{existing pattern to follow}}
+- Touch points: {{specific integration points}}
+
+#### Acceptance Criteria
+
+**Functional Requirements:**
+
+1. {{Primary functional requirement}}
+2. {{Secondary functional requirement (if any)}}
+3. {{Integration requirement}}
+
+**Integration Requirements:** 4. Existing {{relevant functionality}} continues to work unchanged 5. New functionality follows existing {{pattern}} pattern 6. Integration with {{system/component}} maintains current behavior
+
+**Quality Requirements:** 7. Change is covered by appropriate tests 8. Documentation is updated if needed 9. No regression in existing functionality verified
+
+#### Technical Notes
+
+- **Integration Approach:** {{how it connects to existing system}}
+- **Existing Pattern Reference:** {{link or description of pattern to follow}}
+- **Key Constraints:** {{any important limitations or requirements}}
+
+#### Definition of Done
+
+- [ ] Functional requirements met
+- [ ] Integration requirements verified
+- [ ] Existing functionality regression tested
+- [ ] Code follows existing patterns and standards
+- [ ] Tests pass (existing and new)
+- [ ] Documentation updated if applicable
+
+### 3. Risk and Compatibility Check
+
+**Minimal Risk Assessment:**
+
+- **Primary Risk:** {{main risk to existing system}}
+- **Mitigation:** {{simple mitigation approach}}
+- **Rollback:** {{how to undo if needed}}
+
+**Compatibility Verification:**
+
+- [ ] No breaking changes to existing APIs
+- [ ] Database changes (if any) are additive only
+- [ ] UI changes follow existing design patterns
+- [ ] Performance impact is negligible
+
+### 4. Validation Checklist
+
+Before finalizing the story, confirm:
+
+**Scope Validation:**
+
+- [ ] Story can be completed in one development session
+- [ ] Integration approach is straightforward
+- [ ] Follows existing patterns exactly
+- [ ] No design or architecture work required
+
+**Clarity Check:**
+
+- [ ] Story requirements are unambiguous
+- [ ] Integration points are clearly specified
+- [ ] Success criteria are testable
+- [ ] Rollback approach is simple
+
+### 5. Handoff to Developer
+
+Once the story is validated, provide this handoff to the Developer:
+
+---
+
+**Developer Handoff:**
+
+"This is a focused brownfield story for an existing {{technology}} system.
+
+**Integration Context:**
+
+- Existing component: {{component/system}}
+- Pattern to follow: {{existing pattern}}
+- Key constraint: {{main constraint}}
+
+**Critical Requirements:**
+
+- Follow the existing {{pattern}} pattern exactly
+- Ensure {{existing functionality}} continues working
+- Test integration with {{specific component}}
+
+**Verification:**
+Please verify existing {{relevant functionality}} remains unchanged after implementation."
+
+---
+
+## Success Criteria
+
+The story creation is successful when:
+
+1. Enhancement is clearly defined and appropriately scoped for single session
+2. Integration approach is straightforward and low-risk
+3. Existing system patterns are identified and will be followed
+4. Rollback plan is simple and feasible
+5. Acceptance criteria include existing functionality verification
+
+## Important Notes
+
+- This task is for VERY SMALL brownfield changes only
+- If complexity grows during analysis, escalate to brownfield-create-epic
+- Always prioritize existing system integrity
+- When in doubt about integration complexity, use brownfield-create-epic instead
+- Stories should take no more than 4 hours of focused development work
+
+==================== END: tasks#brownfield-create-story ====================
+
+==================== START: templates#story-tmpl ====================
+# Story {{EpicNum}}.{{StoryNum}}: {{Short Title Copied from Epic File}}
+
+## Status: {{ Draft | Approved | InProgress | Review | Done }}
 
 ## Story
 
-- As a [role]
-- I want [action]
-- so that [benefit]
+- As a {{role}}
+- I want {{action}}
+- so that {{benefit}}
 
 ## Acceptance Criteria (ACs)
 
-{ Copy the Acceptance Criteria numbered list }
+{{ Copy the Acceptance Criteria numbered list }}
 
 ## Tasks / Subtasks
 
@@ -419,7 +761,7 @@ Would you like to proceed with documentation indexing? Please provide the requir
 
 ## Dev Technical Reference
 
--
+[[LLM: SM Agent populates relevant information, only what was pulled from actual artifacts from docs folder, relevant to this story. Do not invent information. If there were important notes from previous story that is relevant here, also include them here if it will help the dev agent. You do NOT need to repeat anything from coding standards or test standards as the dev agent is already aware of those. The dev agent should NEVER need to read the PRD or architecture documents though to complete this self contained story.]]
 
 ## Dev Agent Record
 
@@ -435,7 +777,10 @@ Would you like to proceed with documentation indexing? Please provide the requir
 
 ### Change Log
 
-{List and requirements or tasks that changed from the original state of the story when development started}
+[[LLM: Track document versions and changes during development that deviate from story dev start]]
+
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
 
 ==================== END: templates#story-tmpl ====================
 
@@ -444,7 +789,43 @@ Would you like to proceed with documentation indexing? Please provide the requir
 
 The Scrum Master should use this checklist to validate that each story contains sufficient context for a developer agent to implement it successfully, while assuming the dev agent has reasonable capabilities to figure things out.
 
+[[LLM: INITIALIZATION INSTRUCTIONS - STORY DRAFT VALIDATION
+
+Before proceeding with this checklist, ensure you have access to:
+
+1. The story document being validated (usually in docs/stories/ or provided directly)
+2. The parent epic context
+3. Any referenced architecture or design documents
+4. Previous related stories if this builds on prior work
+
+IMPORTANT: This checklist validates individual stories BEFORE implementation begins.
+
+VALIDATION PRINCIPLES:
+
+1. Clarity - A developer should understand WHAT to build
+2. Context - WHY this is being built and how it fits
+3. Guidance - Key technical decisions and patterns to follow
+4. Testability - How to verify the implementation works
+5. Self-Contained - Most info needed is in the story itself
+
+REMEMBER: We assume competent developer agents who can:
+
+- Research documentation and codebases
+- Make reasonable technical decisions
+- Follow established patterns
+- Ask for clarification when truly stuck
+
+We're checking for SUFFICIENT guidance, not exhaustive detail.]]
+
 ## 1. GOAL & CONTEXT CLARITY
+
+[[LLM: Without clear goals, developers build the wrong thing. Verify:
+
+1. The story states WHAT functionality to implement
+2. The business value or user benefit is clear
+3. How this fits into the larger epic/product is explained
+4. Dependencies are explicit ("requires Story X to be complete")
+5. Success looks like something specific, not vague]]
 
 - [ ] Story goal/purpose is clearly stated
 - [ ] Relationship to epic goals is evident
@@ -453,6 +834,16 @@ The Scrum Master should use this checklist to validate that each story contains 
 - [ ] Business context and value are clear
 
 ## 2. TECHNICAL IMPLEMENTATION GUIDANCE
+
+[[LLM: Developers need enough technical context to start coding. Check:
+
+1. Key files/components to create or modify are mentioned
+2. Technology choices are specified where non-obvious
+3. Integration points with existing code are identified
+4. Data models or API contracts are defined or referenced
+5. Non-standard patterns or exceptions are called out
+
+Note: We don't need every file listed - just the important ones.]]
 
 - [ ] Key files to create/modify are identified (not necessarily exhaustive)
 - [ ] Technologies specifically needed for this story are mentioned
@@ -463,12 +854,28 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 ## 3. REFERENCE EFFECTIVENESS
 
+[[LLM: References should help, not create a treasure hunt. Ensure:
+
+1. References point to specific sections, not whole documents
+2. The relevance of each reference is explained
+3. Critical information is summarized in the story
+4. References are accessible (not broken links)
+5. Previous story context is summarized if needed]]
+
 - [ ] References to external documents point to specific relevant sections
 - [ ] Critical information from previous stories is summarized (not just referenced)
 - [ ] Context is provided for why references are relevant
 - [ ] References use consistent format (e.g., `docs/filename.md#section`)
 
 ## 4. SELF-CONTAINMENT ASSESSMENT
+
+[[LLM: Stories should be mostly self-contained to avoid context switching. Verify:
+
+1. Core requirements are in the story, not just in references
+2. Domain terms are explained or obvious from context
+3. Assumptions are stated explicitly
+4. Edge cases are mentioned (even if deferred)
+5. The story could be understood without reading 10 other documents]]
 
 - [ ] Core information needed is included (not overly reliant on external docs)
 - [ ] Implicit assumptions are made explicit
@@ -477,6 +884,14 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 ## 5. TESTING GUIDANCE
 
+[[LLM: Testing ensures the implementation actually works. Check:
+
+1. Test approach is specified (unit, integration, e2e)
+2. Key test scenarios are listed
+3. Success criteria are measurable
+4. Special test considerations are noted
+5. Acceptance criteria in the story are testable]]
+
 - [ ] Required testing approach is outlined
 - [ ] Key test scenarios are identified
 - [ ] Success criteria are defined
@@ -484,13 +899,42 @@ The Scrum Master should use this checklist to validate that each story contains 
 
 ## VALIDATION RESULT
 
-| Category                             | Status            | Issues |
-| ------------------------------------ | ----------------- | ------ |
-| 1. Goal & Context Clarity            | PASS/FAIL/PARTIAL |        |
-| 2. Technical Implementation Guidance | PASS/FAIL/PARTIAL |        |
-| 3. Reference Effectiveness           | PASS/FAIL/PARTIAL |        |
-| 4. Self-Containment Assessment       | PASS/FAIL/PARTIAL |        |
-| 5. Testing Guidance                  | PASS/FAIL/PARTIAL |        |
+[[LLM: FINAL STORY VALIDATION REPORT
+
+Generate a concise validation report:
+
+1. Quick Summary
+
+   - Story readiness: READY / NEEDS REVISION / BLOCKED
+   - Clarity score (1-10)
+   - Major gaps identified
+
+2. Fill in the validation table with:
+
+   - PASS: Requirements clearly met
+   - PARTIAL: Some gaps but workable
+   - FAIL: Critical information missing
+
+3. Specific Issues (if any)
+
+   - List concrete problems to fix
+   - Suggest specific improvements
+   - Identify any blocking dependencies
+
+4. Developer Perspective
+   - Could YOU implement this story as written?
+   - What questions would you have?
+   - What might cause delays or rework?
+
+Be pragmatic - perfect documentation doesn't exist. Focus on whether a competent developer can succeed with this story.]]
+
+| Category                             | Status | Issues |
+| ------------------------------------ | ------ | ------ |
+| 1. Goal & Context Clarity            | _TBD_  |        |
+| 2. Technical Implementation Guidance | _TBD_  |        |
+| 3. Reference Effectiveness           | _TBD_  |        |
+| 4. Self-Containment Assessment       | _TBD_  |        |
+| 5. Testing Guidance                  | _TBD_  |        |
 
 **Final Assessment:**
 
@@ -499,4 +943,33 @@ The Scrum Master should use this checklist to validate that each story contains 
 - BLOCKED: External information required (specify what information)
 
 ==================== END: checklists#story-draft-checklist ====================
+
+==================== START: utils#template-format ====================
+# Template Format Conventions
+
+Templates in the BMAD method use standardized markup for AI processing. These conventions ensure consistent document generation.
+
+## Template Markup Elements
+
+- **{{placeholders}}**: Variables to be replaced with actual content
+- **[[LLM: instructions]]**: Internal processing instructions for AI agents (never shown to users)
+- **<<REPEAT>>** sections: Content blocks that may be repeated as needed
+- **^^CONDITION^^** blocks: Conditional content included only if criteria are met
+- **@{examples}**: Example content for guidance (never output to users)
+
+## Processing Rules
+
+- Replace all {{placeholders}} with project-specific content
+- Execute all [[LLM: instructions]] internally without showing users
+- Process conditional and repeat blocks as specified
+- Use examples for guidance but never include them in final output
+- Present only clean, formatted content to users
+
+## Critical Guidelines
+
+- **NEVER display template markup, LLM instructions, or examples to users**
+- Template elements are for AI processing only
+- Focus on faithful template execution and clean output
+- All template-specific instructions are embedded within templates
+==================== END: utils#template-format ====================
 
