@@ -1,0 +1,232 @@
+# BMAD Agent Configuration Schema
+# This schema defines the structure for BMAD agent configuration files
+# Agents are composed of configuration + persona + dependencies
+
+type: object
+required:
+  - agent
+  - dependencies
+
+properties:
+  agent:
+    type: object
+    description: Core agent configuration and metadata
+    required:
+      - name
+      - id
+      - title
+      - description
+      - persona
+      - customize
+    properties:
+      name:
+        type: string
+        description: Human-friendly character name of the agent
+        pattern: "^[A-Z][a-z]+$"
+        examples:
+          - "John"
+          - "Mary"
+          - "Sarah"
+          - "James"
+          - "Quinn"
+          - "Sally"
+          - "Winston"
+          - "Bob"
+          - "BMad"
+      
+      id:
+        type: string
+        description: Unique identifier for the agent (lowercase, hyphenated)
+        pattern: "^[a-z][a-z0-9-]*$"
+        examples:
+          - "pm"
+          - "analyst"
+          - "architect"
+          - "po"
+          - "sm"
+          - "dev"
+          - "qa"
+          - "ux-expert"
+          - "bmad"
+      
+      title:
+        type: string
+        description: Professional title or role
+        minLength: 5
+        maxLength: 50
+        examples:
+          - "Product Manager"
+          - "Business Analyst"
+          - "Architect"
+          - "Product Owner"
+          - "Scrum Master"
+          - "Full Stack Developer"
+          - "QA Engineer"
+          - "UX Expert"
+      
+      description:
+        type: string
+        description: Main goal and purpose of the agent
+        minLength: 20
+        maxLength: 300
+      
+      persona:
+        type: string
+        description: Reference to the persona file in bmad-core/personas/
+        pattern: "^bmad-core/personas/[a-z][a-z0-9-]*\\.md$"
+      
+      customize:
+        type: string
+        description: Customization instructions or empty string for no customization
+        default: ""
+
+  dependencies:
+    type: object
+    description: Resources required by this agent
+    required:
+      - tasks
+      - templates
+      - checklists
+      - data
+      - utils
+    properties:
+      tasks:
+        type: array
+        description: List of task files from bmad-core/tasks/
+        items:
+          type: string
+          pattern: "^[a-z][a-z0-9-]*$"
+        uniqueItems: true
+      
+      templates:
+        type: array
+        description: List of template files from bmad-core/templates/
+        items:
+          type: string
+          pattern: "^[a-z][a-z0-9-]*-tmpl$"
+        uniqueItems: true
+      
+      checklists:
+        type: array
+        description: List of checklist files from bmad-core/checklists/
+        items:
+          type: string
+          pattern: "^[a-z][a-z0-9-]*-checklist$"
+        uniqueItems: true
+      
+      data:
+        type: array
+        description: List of data files from bmad-core/data/
+        items:
+          type: string
+          pattern: "^[a-z][a-z0-9-]*$"
+        uniqueItems: true
+      
+      utils:
+        type: array
+        description: List of utility files from bmad-core/utils/
+        items:
+          type: string
+          pattern: "^[a-z][a-z0-9-]*$"
+        uniqueItems: true
+
+# No additional properties allowed
+additionalProperties: false
+
+# Validation rules
+allOf:
+  # Ensure persona file matches agent id
+  - if:
+      properties:
+        agent:
+          properties:
+            id:
+              const: "ux-expert"
+    then:
+      properties:
+        agent:
+          properties:
+            persona:
+              const: "bmad-core/personas/ux-expert.md"
+  - if:
+      properties:
+        agent:
+          properties:
+            id:
+              pattern: "^(?!ux-expert).*$"
+    then:
+      properties:
+        agent:
+          properties:
+            persona:
+              pattern: "^bmad-core/personas/\\1\\.md$"
+
+# Examples showing valid agent configurations
+examples:
+  product_manager:
+    agent:
+      name: "John"
+      id: "pm"
+      title: "Product Manager"
+      description: "Creates Product Requirements Documents (PRDs) and conducts product research to define product strategy"
+      persona: "bmad-core/personas/pm.md"
+      customize: ""
+    dependencies:
+      tasks:
+        - "create-doc-from-template"
+        - "advanced-elicitation"
+        - "shard-doc"
+      templates:
+        - "prd-tmpl"
+        - "project-brief-tmpl"
+        - "brownfield-prd-tmpl"
+      checklists:
+        - "pm-checklist"
+      data:
+        - "bmad-kb"
+        - "technical-preferences"
+      utils:
+        - "template-format"
+
+  business_analyst:
+    agent:
+      name: "Mary"
+      id: "analyst"
+      title: "Business Analyst"
+      description: "Facilitates brainstorming sessions, creates research prompts, and develops comprehensive project briefs"
+      persona: "bmad-core/personas/analyst.md"
+      customize: ""
+    dependencies:
+      tasks:
+        - "advanced-elicitation"
+        - "create-deep-research-prompt"
+        - "create-doc-from-template"
+      templates:
+        - "project-brief-tmpl"
+      checklists: []
+      data:
+        - "bmad-kb"
+      utils: []
+
+  architect:
+    agent:
+      name: "Winston"
+      id: "architect"
+      title: "Architect"
+      description: "Designs comprehensive system architectures balancing user experience, technical excellence, and practical implementation"
+      persona: "bmad-core/personas/architect.md"
+      customize: ""
+    dependencies:
+      tasks:
+        - "create-doc-from-template"
+        - "execute-checklist"
+        - "shard-doc"
+      templates:
+        - "architecture-tmpl"
+        - "fullstack-architecture-tmpl"
+        - "brownfield-architecture-tmpl"
+      checklists:
+        - "architect-checklist"
+      data:
+        - "technical-preferences"
+      utils: []

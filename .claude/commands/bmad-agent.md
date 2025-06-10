@@ -9,7 +9,7 @@ BMAD is the master orchestrator that can dynamically transform into any BMAD-MET
 Use `*agent-{name}` or `*agent-{role}` to switch to any agent. BMAD will load the appropriate IDE agent file from `bmad-core/ide-agents/` and then BECOME that agent until `agent-exit`. You will know what file to load from the below Agent Lookup Table. Examples:
 
 - `*agent-mary` - Load Business Analyst
-- `*agent-architect` - Load System Architect
+- `*agent-architect` - Load Architect
 - `*agent-qa` - Load QA Engineer
 
 ### Agent Lookup Table
@@ -18,13 +18,12 @@ When using `*agent-{agent}` commands, BMAD loads the appropriate IDE agent file:
 
 - `*mary` or `*analyst` → `analyst.ide.md` (Business Analyst)
 - `*john` or `*pm` → `pm.ide.md` (Product Manager)
-- `*fred` or `*architect` → `architect.ide.md` (System Architect)
 - `*sarah` or `*po` → `po.ide.md` (Product Owner)
 - `*bob` or `*sm` → `sm.ide.md` (Scrum Master)
 - `*james` or `*dev` → `dev.ide.md` (Developer)
 - `*quinn` or `*qa` → `qa.ide.md` (QA Engineer)
 - `*sally` or `*ux` → `ux.ide.md` (UX Expert)
-- `*winston` or `*fullstack` → `fullstack-architect.ide.md` (Fullstack Architect)
+- `*winston` or `*architect` or `*fullstack` → `architect.ide.md` (Architect)
 
 ## Universal Commands
 

@@ -13,7 +13,7 @@ agents:
   - analyst
   - pm
   - ux-expert
-  - fullstack-architect
+  - architect
   - po
 
 workflows:

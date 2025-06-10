@@ -29,7 +29,7 @@ workflow:
       requires: existing_project_analysis
       notes: "Creates comprehensive brownfield PRD with existing system analysis and enhancement planning. SAVE OUTPUT: Copy final brownfield-prd.md to your project's docs/ folder."
 
-    - agent: fullstack-architect
+    - agent: architect
       creates: brownfield-architecture.md
       uses: brownfield-architecture-tmpl
       requires: brownfield-prd.md
@@ -37,7 +37,7 @@ workflow:
 
     - agent: po
       validates: all_artifacts
-      uses: brownfield-checklist
+      uses: po-master-checklist
       notes: "Validates all brownfield documents for integration safety and completeness. May require updates to any document."
 
     - agent: various
@@ -72,8 +72,8 @@ workflow:
         B -->|Simple| D{1 Story or 2-3 Stories?}
         
         C --> E[pm: brownfield-prd.md]
-        E --> F[fullstack-architect: brownfield-architecture.md]
-        F --> G[po: validate with brownfield-checklist]
+        E --> F[architect: brownfield-architecture.md]
+        F --> G[po: validate with po-master-checklist]
         G --> H{PO finds issues?}
         H -->|Yes| I[Return to relevant agent for fixes]
         H -->|No| J[Move to IDE Environment]

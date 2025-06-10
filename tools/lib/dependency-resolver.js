@@ -10,7 +10,7 @@ const yaml = require('js-yaml');
 class DependencyResolver {
     constructor(rootPath = process.cwd()) {
         this.rootPath = rootPath;
-        this.agentsPath = path.join(rootPath, 'agents');
+        this.agentsPath = path.join(rootPath, 'bmad-core', 'agents');
         this.corePath = path.join(rootPath, 'bmad-core');
         this.cache = new Map();
     }

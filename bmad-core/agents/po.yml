@@ -19,7 +19,6 @@ dependencies:
   checklists:
     - po-master-checklist
     - change-checklist
-    - brownfield-checklist
   data: []
   utils:
     - template-format

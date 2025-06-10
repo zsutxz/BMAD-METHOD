@@ -35,7 +35,7 @@ workflow:
       requires: brownfield-prd.md
       notes: "Creates UI/UX specification for brownfield enhancement that integrates with existing design patterns. SAVE OUTPUT: Copy final front-end-spec.md to your project's docs/ folder."
 
-    - agent: ui-architect
+    - agent: architect
       creates: brownfield-architecture.md
       uses: brownfield-architecture-tmpl
       requires:
@@ -45,7 +45,7 @@ workflow:
 
     - agent: po
       validates: all_artifacts
-      uses: brownfield-checklist
+      uses: po-master-checklist
       notes: "Validates all brownfield documents for UI integration safety and design consistency. May require updates to any document."
 
     - agent: various
@@ -81,8 +81,8 @@ workflow:
         
         C --> E[pm: brownfield-prd.md]
         E --> F[ux-expert: front-end-spec.md]
-        F --> G[ui-architect: brownfield-architecture.md]
-        G --> H[po: validate with brownfield-checklist]
+        F --> G[architect: brownfield-architecture.md]
+        G --> H[po: validate with po-master-checklist]
         H --> I{PO finds issues?}
         I -->|Yes| J[Return to relevant agent for fixes]
         I -->|No| K[Move to IDE Environment]

@@ -1,180 +1,223 @@
 # Create Team Task
 
-This task helps you create a NEW BMAD team bundle by combining existing agents from the BMAD-METHOD repository.
+This task guides you through creating a new BMAD agent team that conforms to the agent-team schema and effectively combines agents for specific project types.
 
-**Important**: This task is for CREATING new teams, not for listing what agents are available in the current bundle. To see agents in the current bundle, use `/agent-list`.
+**Note for User-Created Teams**: If creating a custom team for your own use (not part of the core BMAD system), prefix the team name with a period (e.g., `.team-frontend`) to ensure it's gitignored and won't conflict with repository updates.
 
-**Note for User-Created Teams**: If you're creating a custom team for your own use (not part of the core BMAD system), prefix the team ID with a period (e.g., `.team-frontend`) to ensure it's gitignored and won't conflict with repository updates.
+## Prerequisites
+
+1. Load and understand the team schema: `/bmad-core/schemas/agent-team-schema.yml`
+2. Review existing teams in `/bmad-core/agent-teams/` for patterns and naming conventions
+3. List available agents from `/agents/` to understand team composition options
+4. Review workflows in `/bmad-core/workflows/` to align team capabilities
 
 ## Process
 
-### 1. Define Team Basics
+### 1. Define Team Purpose and Scope
 
-Ask the user for:
+Before selecting agents, clarify the team's mission:
 
-- **Team ID**: Filename without extension (e.g., `team-frontend`, `team-planning`)
-- **Team Name**: Display name (e.g., "Frontend Development Team")
-- **Team Description**: What this team is designed to accomplish
-- **Target Environment**: Usually "web" for team bundles
+- **Team Purpose**: What specific problems will this team solve?
+- **Project Types**: Greenfield, brownfield, or both?
+- **Technical Scope**: UI-focused, backend-only, or full-stack?
+- **Team Size Consideration**: Smaller teams (3-5 agents) for focused work, larger teams (6-8) for comprehensive coverage
 
-### 2. List Available Agents for Team Creation
+### 2. Create Team Metadata
 
-When creating a new team, you can choose from these agents in the BMAD-METHOD repository:
+Based on the schema requirements:
 
-```
-Agents available for team creation:
-- analyst (Mary) - Project Analyst and Brainstorming Coach
-- architect (Fred) - System Architecture Expert
-- bmad (BMad) - BMAD Method Orchestrator
-- ui-architect (Jane) - UI/UX Architecture Expert
-- dev (James) - Full Stack Developer
-- devops (Alex) - Platform Engineer
-- fullstack-architect (Winston) - Holistic System Designer
-- pm (John) - Product Manager
-- po (Sarah) - Product Owner
-- qa (Quinn) - Test Architect
-- sm (Bob) - Scrum Master
-- ux-expert (Sally) - UX Design Expert
-```
+- **Team Name**: Must follow pattern `^Team .+$` (e.g., "Team Frontend", "Team Analytics")
+  - For user teams: prefix with period (e.g., "Team .MyCustom")
+- **Description**: 20-500 characters explaining team's purpose, capabilities, and use cases
+- **File Name**: `/bmad-core/agent-teams/team-{identifier}.yml`
+  - For user teams: `/bmad-core/agent-teams/.team-{identifier}.yml`
 
-**Note**: This list is for selecting agents when creating a NEW team configuration file. It does not reflect what agents are in your current bundle.
+### 3. Select Agents Based on Purpose
 
-### 3. Select Team Members
+#### Discover Available Agents
 
-For each agent the user wants to include:
+1. List all agents from `/agents/` directory
+2. Review each agent's role and capabilities
+3. Consider agent synergies and coverage
 
-1. Confirm the agent ID
-2. Ask if they want to customize the persona for this team context
-3. Note any special team dynamics or relationships
+#### Agent Selection Guidelines
 
-### 4. Optimize Team Composition
+Based on team purpose, recommend agents:
 
-Consider:
+**For Planning & Strategy Teams:**
+- `bmad` (required orchestrator)
+- `analyst` - Requirements gathering and research
+- `pm` - Product strategy and documentation
+- `po` - Validation and approval
+- `architect` - Technical planning (if technical planning needed)
 
-- **Role coverage**: Does the team have all necessary skills?
-- **Team size**: 3-7 agents is usually optimal
-- **Collaboration**: How will these agents work together?
-- **Use cases**: What problems will this team solve?
+**For Design & UX Teams:**
+- `bmad` (required orchestrator)
+- `ux-expert` - User experience design
+- `architect` - Frontend architecture
+- `pm` - Product requirements alignment
+- `po` - Design validation
+
+**For Development Teams:**
+- `bmad` (required orchestrator)
+- `sm` - Sprint coordination
+- `dev` - Implementation
+- `qa` - Quality assurance
+- `architect` - Technical guidance
+
+**For Full-Stack Teams:**
+- `bmad` (required orchestrator)
+- `analyst` - Initial planning
+- `pm` - Product management
+- `ux-expert` - UI/UX design (if UI work included)
+- `architect` - System architecture
+- `po` - Validation
+- Additional agents as needed
+
+#### Special Cases
+
+- **Using Wildcard**: If team needs all agents, use `["bmad", "*"]`
+- **Validation**: Schema requires `bmad` in all teams
+
+### 4. Select Workflows
+
+Based on the schema's workflow enum values and team composition:
+
+1. **Analyze team capabilities** against available workflows:
+   - `brownfield-fullstack` - Requires full team with UX
+   - `brownfield-service` - Backend-focused team
+   - `brownfield-ui` - UI/UX-focused team
+   - `greenfield-fullstack` - Full team for new projects
+   - `greenfield-service` - Backend team for new services
+   - `greenfield-ui` - Frontend team for new UIs
+
+2. **Match workflows to agents**:
+   - UI workflows require `ux-expert`
+   - Service workflows benefit from `architect` and `dev`
+   - All workflows benefit from planning agents (`analyst`, `pm`)
+
+3. **Apply schema validation rules**:
+   - Teams without `ux-expert` shouldn't have UI workflows
+   - Teams named "Team No UI" can't have UI workflows
 
 ### 5. Create Team Configuration
 
-Create `/agent-teams/{team-id}.yml`:
-(For user-created teams, use `/agent-teams/.{team-id}.yml`)
+Generate the configuration following the schema:
 
 ```yaml
 bundle:
-  name: { Team Name }
+  name: "{Team Name}" # Must match pattern "^Team .+$"
   description: >-
-    {Detailed description of the team's purpose and capabilities}
+    {20-500 character description explaining purpose,
+    capabilities, and ideal use cases}
 
 agents:
-  - { agent-id-1 }
-  - { agent-id-2 }
-  - { agent-id-3 }
-  # ... more agents
+  - bmad # Required orchestrator
+  - {agent-id-1}
+  - {agent-id-2}
+  # ... additional agents
+
+workflows:
+  - {workflow-1} # From enum list
+  - {workflow-2}
+  # ... additional workflows
 ```
 
-#### Using Wildcards
+### 6. Validate Team Composition
 
-You can use `"*"` (quoted) to include all available agents:
+Before finalizing, verify:
 
-```yaml
-agents:
-  - bmad # Always include bmad first
-  - "*" # Include all other agents
-```
+1. **Role Coverage**: Does the team have all necessary skills for its workflows?
+2. **Size Optimization**: 
+   - Minimum: 2 agents (bmad + 1)
+   - Recommended: 3-7 agents
+   - Maximum with wildcard: bmad + "*"
+3. **Workflow Alignment**: Can the selected agents execute all workflows?
+4. **Schema Compliance**: Configuration matches all schema requirements
 
-Or mix specific agents with wildcard:
+### 7. Integration Recommendations
 
-```yaml
-agents:
-  - pm # Product Manager first
-  - architect # Then Architect
-  - "*" # Then all remaining agents
-```
+Document how this team integrates with existing system:
 
-### 6. Validate and Build
+1. **Complementary Teams**: Which existing teams complement this one?
+2. **Handoff Points**: Where does this team hand off to others?
+3. **Use Case Scenarios**: Specific project types ideal for this team
 
-1. Run `npm run validate` to check configuration
-2. Run `npm run build` to generate the team bundle
-3. Review output in `/dist/teams/{team-filename}.txt`
+### 8. Validation and Testing
 
-## Example Teams
+1. **Schema Validation**: Ensure configuration matches agent-team-schema.yml
+2. **Build Validation**: Run `npm run validate`
+3. **Build Team**: Run `npm run build:team -t {team-name}`
+4. **Size Check**: Verify output is appropriate for target platform
+5. **Test Scenarios**: Run sample workflows with the team
 
-### Development Team
+## Example Team Creation
+
+### Example 1: API Development Team
 
 ```yaml
 bundle:
-  name: Development Team Bundle
+  name: "Team API"
   description: >-
-    Core development team for building features from story to deployment
+    Specialized team for API and backend service development. Focuses on 
+    robust service architecture, implementation, and testing without UI 
+    components. Ideal for microservices, REST APIs, and backend systems.
 
 agents:
-  - sm # Sprint coordination
-  - dev # Implementation
-  - qa # Quality assurance
-  - devops # Deployment
+  - bmad
+  - analyst
+  - architect
+  - dev
+  - qa
+  - po
+
+workflows:
+  - greenfield-service
+  - brownfield-service
 ```
 
-### Planning Team
+### Example 2: Rapid Prototyping Team
 
 ```yaml
 bundle:
-  name: Planning Team Bundle
+  name: "Team Prototype"
   description: >-
-    Strategic planning team for project inception and architecture
+    Agile team for rapid prototyping and proof of concept development. 
+    Combines planning, design, and implementation for quick iterations 
+    on new ideas and experimental features.
 
 agents:
-  - analyst # Requirements gathering
-  - pm # Product planning
-  - architect # System design
-  - po # Validation
+  - bmad
+  - pm
+  - ux-expert
+  - architect
+  - dev
+
+workflows:
+  - greenfield-ui
+  - greenfield-fullstack
 ```
 
-### Full-Stack Team
+## Team Creation Checklist
 
-```yaml
-bundle:
-  name: Full-Stack Team Bundle
-  description: >-
-    Complete team for full-stack application development
+- [ ] Team purpose clearly defined
+- [ ] Name follows schema pattern "Team {Name}"
+- [ ] Description is 20-500 characters
+- [ ] Includes bmad orchestrator
+- [ ] Agents align with team purpose
+- [ ] Workflows match team capabilities
+- [ ] No conflicting validations (e.g., no-UI team with UI workflows)
+- [ ] Configuration validates against schema
+- [ ] Build completes successfully
+- [ ] Output size appropriate for platform
 
-agents:
-  - fullstack-architect # Holistic design
-  - design-architect # Frontend architecture
-  - dev # Implementation
-  - qa # Testing
-  - devops # Infrastructure
-```
+## Best Practices
 
-## Questions to Ask
+1. **Start Focused**: Create teams with specific purposes rather than general-purpose teams
+2. **Consider Workflow**: Order agents by typical workflow sequence
+3. **Avoid Redundancy**: Don't duplicate roles unless needed
+4. **Document Rationale**: Explain why each agent is included
+5. **Test Integration**: Verify team works well with selected workflows
+6. **Iterate**: Refine team composition based on usage
 
-1. "What should this team be called? (e.g., 'team-mobile')"
-2. "What's the team's display name?"
-3. "Describe the team's primary purpose"
-4. "Which agents should be on this team? (list agent IDs)"
-5. "Any special dynamics between team members?"
-6. "What types of projects will this team handle?"
-
-## Tips for Good Teams
-
-- **Start small**: Begin with 3-4 core agents
-- **Clear purpose**: Each team should have a specific focus
-- **Complementary skills**: Agents should cover different aspects
-- **Avoid redundancy**: Don't include agents with overlapping roles
-- **Consider workflow**: Order agents by typical workflow sequence
-
-## Common Team Patterns
-
-1. **Scrum Team**: sm, dev, qa, po
-2. **Planning Team**: analyst, pm, architect, po
-3. **Design Team**: ux-expert, ui-architect, dev
-4. **Full Organization**: All agents (for complex projects)
-5. **Technical Team**: architect, dev, devops, qa
-
-## Important Notes
-
-- Teams reference existing agents - create agents first
-- Keep team descriptions clear and purpose-driven
-- Consider creating multiple focused teams rather than one large team
-- Test team dynamics by running sample scenarios
+This schema-driven approach ensures teams are well-structured, purposeful, and integrate seamlessly with the BMAD ecosystem.

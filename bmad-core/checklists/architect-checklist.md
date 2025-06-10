@@ -8,11 +8,23 @@ Before proceeding with this checklist, ensure you have access to:
 
 1. architecture.md - The primary architecture document (check docs/architecture.md)
 2. prd.md - Product Requirements Document for requirements alignment (check docs/prd.md)
-3. Any system diagrams referenced in the architecture
-4. API documentation if available
-5. Technology stack details and version specifications
+3. frontend-architecture.md or fe-architecture.md - If this is a UI project (check docs/frontend-architecture.md)
+4. Any system diagrams referenced in the architecture
+5. API documentation if available
+6. Technology stack details and version specifications
 
 IMPORTANT: If any required documents are missing or inaccessible, immediately ask the user for their location or content before proceeding.
+
+PROJECT TYPE DETECTION:
+First, determine the project type by checking:
+- Does the architecture include a frontend/UI component?
+- Is there a frontend-architecture.md document?
+- Does the PRD mention user interfaces or frontend requirements?
+
+If this is a backend-only or service-only project:
+- Skip sections marked with [[FRONTEND ONLY]]
+- Focus extra attention on API design, service architecture, and integration patterns
+- Note in your final report that frontend sections were skipped due to project type
 
 VALIDATION APPROACH:
 For each section, you must:
@@ -104,7 +116,9 @@ Ask the user if they want to work through the checklist:
 - [ ] Alternatives considered are documented with pros/cons
 - [ ] Selected stack components work well together
 
-### 3.2 Frontend Architecture
+### 3.2 Frontend Architecture [[FRONTEND ONLY]]
+
+[[LLM: Skip this entire section if this is a backend-only or service-only project. Only evaluate if the project includes a user interface.]]
 
 - [ ] UI framework and libraries are specifically selected
 - [ ] State management approach is defined
@@ -128,11 +142,63 @@ Ask the user if they want to work through the checklist:
 - [ ] Data migration/seeding approach is specified
 - [ ] Data backup and recovery strategies are outlined
 
-## 4. RESILIENCE & OPERATIONAL READINESS
+## 4. FRONTEND DESIGN & IMPLEMENTATION [[FRONTEND ONLY]]
+
+[[LLM: This entire section should be skipped for backend-only projects. Only evaluate if the project includes a user interface. When evaluating, ensure alignment between the main architecture document and the frontend-specific architecture document.]]
+
+### 4.1 Frontend Philosophy & Patterns
+
+- [ ] Framework & Core Libraries align with main architecture document
+- [ ] Component Architecture (e.g., Atomic Design) is clearly described
+- [ ] State Management Strategy is appropriate for application complexity
+- [ ] Data Flow patterns are consistent and clear
+- [ ] Styling Approach is defined and tooling specified
+
+### 4.2 Frontend Structure & Organization
+
+- [ ] Directory structure is clearly documented with ASCII diagram
+- [ ] Component organization follows stated patterns
+- [ ] File naming conventions are explicit
+- [ ] Structure supports chosen framework's best practices
+- [ ] Clear guidance on where new components should be placed
+
+### 4.3 Component Design
+
+- [ ] Component template/specification format is defined
+- [ ] Component props, state, and events are well-documented
+- [ ] Shared/foundational components are identified
+- [ ] Component reusability patterns are established
+- [ ] Accessibility requirements are built into component design
+
+### 4.4 Frontend-Backend Integration
+
+- [ ] API interaction layer is clearly defined
+- [ ] HTTP client setup and configuration documented
+- [ ] Error handling for API calls is comprehensive
+- [ ] Service definitions follow consistent patterns
+- [ ] Authentication integration with backend is clear
+
+### 4.5 Routing & Navigation
+
+- [ ] Routing strategy and library are specified
+- [ ] Route definitions table is comprehensive
+- [ ] Route protection mechanisms are defined
+- [ ] Deep linking considerations addressed
+- [ ] Navigation patterns are consistent
+
+### 4.6 Frontend Performance
+
+- [ ] Image optimization strategies defined
+- [ ] Code splitting approach documented
+- [ ] Lazy loading patterns established
+- [ ] Re-render optimization techniques specified
+- [ ] Performance monitoring approach defined
+
+## 5. RESILIENCE & OPERATIONAL READINESS
 
 [[LLM: Production systems fail in unexpected ways. As you review this section, think about Murphy's Law - what could go wrong? Consider real-world scenarios: What happens during peak load? How does the system behave when a critical service is down? Can the operations team diagnose issues at 3 AM? Look for specific resilience patterns, not just mentions of "error handling".]]
 
-### 4.1 Error Handling & Resilience
+### 5.1 Error Handling & Resilience
 
 - [ ] Error handling strategy is comprehensive
 - [ ] Retry policies are defined where appropriate
@@ -140,7 +206,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Graceful degradation approaches are defined
 - [ ] System can recover from partial failures
 
-### 4.2 Monitoring & Observability
+### 5.2 Monitoring & Observability
 
 - [ ] Logging strategy is defined
 - [ ] Monitoring approach is specified
@@ -148,7 +214,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Alerting thresholds and strategies are outlined
 - [ ] Debugging and troubleshooting capabilities are built in
 
-### 4.3 Performance & Scaling
+### 5.3 Performance & Scaling
 
 - [ ] Performance bottlenecks are identified and addressed
 - [ ] Caching strategy is defined where appropriate
@@ -156,7 +222,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Horizontal and vertical scaling strategies are outlined
 - [ ] Resource sizing recommendations are provided
 
-### 4.4 Deployment & DevOps
+### 5.4 Deployment & DevOps
 
 - [ ] Deployment strategy is defined
 - [ ] CI/CD pipeline approach is outlined
@@ -164,11 +230,11 @@ Ask the user if they want to work through the checklist:
 - [ ] Infrastructure as Code approach is defined
 - [ ] Rollback and recovery procedures are outlined
 
-## 5. SECURITY & COMPLIANCE
+## 6. SECURITY & COMPLIANCE
 
 [[LLM: Security is not optional. Review this section with a hacker's mindset - how could someone exploit this system? Also consider compliance: Are there industry-specific regulations that apply? GDPR? HIPAA? PCI? Ensure the architecture addresses these proactively. Look for specific security controls, not just general statements.]]
 
-### 5.1 Authentication & Authorization
+### 6.1 Authentication & Authorization
 
 - [ ] Authentication mechanism is clearly defined
 - [ ] Authorization model is specified
@@ -176,7 +242,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Session management approach is defined
 - [ ] Credential management is addressed
 
-### 5.2 Data Security
+### 6.2 Data Security
 
 - [ ] Data encryption approach (at rest and in transit) is specified
 - [ ] Sensitive data handling procedures are defined
@@ -184,7 +250,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Backup encryption is addressed if required
 - [ ] Data access audit trails are specified if required
 
-### 5.3 API & Service Security
+### 6.3 API & Service Security
 
 - [ ] API security controls are defined
 - [ ] Rate limiting and throttling approaches are specified
@@ -192,7 +258,7 @@ Ask the user if they want to work through the checklist:
 - [ ] CSRF/XSS prevention measures are addressed
 - [ ] Secure communication protocols are specified
 
-### 5.4 Infrastructure Security
+### 6.4 Infrastructure Security
 
 - [ ] Network security design is outlined
 - [ ] Firewall and security group configurations are specified
@@ -200,11 +266,11 @@ Ask the user if they want to work through the checklist:
 - [ ] Least privilege principle is applied
 - [ ] Security monitoring strategy is outlined
 
-## 6. IMPLEMENTATION GUIDANCE
+## 7. IMPLEMENTATION GUIDANCE
 
 [[LLM: Clear implementation guidance prevents costly mistakes. As you review this section, imagine you're a developer starting on day one. Do they have everything they need to be productive? Are coding standards clear enough to maintain consistency across the team? Look for specific examples and patterns.]]
 
-### 6.1 Coding Standards & Practices
+### 7.1 Coding Standards & Practices
 
 - [ ] Coding standards are defined
 - [ ] Documentation requirements are specified
@@ -212,7 +278,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Code organization principles are defined
 - [ ] Naming conventions are specified
 
-### 6.2 Testing Strategy
+### 7.2 Testing Strategy
 
 - [ ] Unit testing approach is defined
 - [ ] Integration testing strategy is outlined
@@ -220,7 +286,17 @@ Ask the user if they want to work through the checklist:
 - [ ] Performance testing requirements are outlined
 - [ ] Security testing approach is defined
 
-### 6.3 Development Environment
+### 7.3 Frontend Testing [[FRONTEND ONLY]]
+
+[[LLM: Skip this subsection for backend-only projects.]]
+
+- [ ] Component testing scope and tools defined
+- [ ] UI integration testing approach specified
+- [ ] Visual regression testing considered
+- [ ] Accessibility testing tools identified
+- [ ] Frontend-specific test data management addressed
+
+### 7.4 Development Environment
 
 - [ ] Local development environment setup is documented
 - [ ] Required tools and configurations are specified
@@ -228,7 +304,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Source control practices are defined
 - [ ] Dependency management approach is specified
 
-### 6.4 Technical Documentation
+### 7.5 Technical Documentation
 
 - [ ] API documentation standards are defined
 - [ ] Architecture documentation requirements are specified
@@ -236,11 +312,11 @@ Ask the user if they want to work through the checklist:
 - [ ] System diagrams and visualizations are included
 - [ ] Decision records for key choices are included
 
-## 7. DEPENDENCY & INTEGRATION MANAGEMENT
+## 8. DEPENDENCY & INTEGRATION MANAGEMENT
 
 [[LLM: Dependencies are often the source of production issues. For each dependency, consider: What happens if it's unavailable? Is there a newer version with security patches? Are we locked into a vendor? What's our contingency plan? Verify specific versions and fallback strategies.]]
 
-### 7.1 External Dependencies
+### 8.1 External Dependencies
 
 - [ ] All external dependencies are identified
 - [ ] Versioning strategy for dependencies is defined
@@ -248,7 +324,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Licensing implications are addressed
 - [ ] Update and patching strategy is outlined
 
-### 7.2 Internal Dependencies
+### 8.2 Internal Dependencies
 
 - [ ] Component dependencies are clearly mapped
 - [ ] Build order dependencies are addressed
@@ -256,7 +332,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Circular dependencies are eliminated
 - [ ] Versioning strategy for internal components is defined
 
-### 7.3 Third-Party Integrations
+### 8.3 Third-Party Integrations
 
 - [ ] All third-party integrations are identified
 - [ ] Integration approaches are defined
@@ -264,11 +340,11 @@ Ask the user if they want to work through the checklist:
 - [ ] Error handling for integration failures is specified
 - [ ] Rate limits and quotas are considered
 
-## 8. AI AGENT IMPLEMENTATION SUITABILITY
+## 9. AI AGENT IMPLEMENTATION SUITABILITY
 
 [[LLM: This architecture may be implemented by AI agents. Review with extreme clarity in mind. Are patterns consistent? Is complexity minimized? Would an AI agent make incorrect assumptions? Remember: explicit is better than implicit. Look for clear file structures, naming conventions, and implementation patterns.]]
 
-### 8.1 Modularity for AI Agents
+### 9.1 Modularity for AI Agents
 
 - [ ] Components are sized appropriately for AI agent implementation
 - [ ] Dependencies between components are minimized
@@ -276,7 +352,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Components have singular, well-defined responsibilities
 - [ ] File and code organization optimized for AI agent understanding
 
-### 8.2 Clarity & Predictability
+### 9.2 Clarity & Predictability
 
 - [ ] Patterns are consistent and predictable
 - [ ] Complex logic is broken down into simpler steps
@@ -284,7 +360,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Examples are provided for unfamiliar patterns
 - [ ] Component responsibilities are explicit and clear
 
-### 8.3 Implementation Guidance
+### 9.3 Implementation Guidance
 
 - [ ] Detailed implementation guidance is provided
 - [ ] Code structure templates are defined
@@ -292,7 +368,7 @@ Ask the user if they want to work through the checklist:
 - [ ] Common pitfalls are identified with solutions
 - [ ] References to similar implementations are provided when helpful
 
-### 8.4 Error Prevention & Handling
+### 9.4 Error Prevention & Handling
 
 - [ ] Design reduces opportunities for implementation errors
 - [ ] Validation and error checking approaches are defined
@@ -300,30 +376,48 @@ Ask the user if they want to work through the checklist:
 - [ ] Testing patterns are clearly defined
 - [ ] Debugging guidance is provided
 
+## 10. ACCESSIBILITY IMPLEMENTATION [[FRONTEND ONLY]]
+
+[[LLM: Skip this section for backend-only projects. Accessibility is a core requirement for any user interface.]]
+
+### 10.1 Accessibility Standards
+
+- [ ] Semantic HTML usage is emphasized
+- [ ] ARIA implementation guidelines provided
+- [ ] Keyboard navigation requirements defined
+- [ ] Focus management approach specified
+- [ ] Screen reader compatibility addressed
+
+### 10.2 Accessibility Testing
+
+- [ ] Accessibility testing tools identified
+- [ ] Testing process integrated into workflow
+- [ ] Compliance targets (WCAG level) specified
+- [ ] Manual testing procedures defined
+- [ ] Automated testing approach outlined
+
 [[LLM: FINAL VALIDATION REPORT GENERATION
 
 Now that you've completed the checklist, generate a comprehensive validation report that includes:
 
 1. Executive Summary
-
    - Overall architecture readiness (High/Medium/Low)
    - Critical risks identified
    - Key strengths of the architecture
+   - Project type (Full-stack/Frontend/Backend) and sections evaluated
 
 2. Section Analysis
-
    - Pass rate for each major section (percentage of items passed)
    - Most concerning failures or gaps
    - Sections requiring immediate attention
+   - Note any sections skipped due to project type
 
 3. Risk Assessment
-
    - Top 5 risks by severity
    - Mitigation recommendations for each
    - Timeline impact of addressing issues
 
 4. Recommendations
-
    - Must-fix items before development
    - Should-fix items for better quality
    - Nice-to-have improvements
@@ -332,5 +426,11 @@ Now that you've completed the checklist, generate a comprehensive validation rep
    - Specific concerns for AI agent implementation
    - Areas needing additional clarification
    - Complexity hotspots to address
+
+6. Frontend-Specific Assessment (if applicable)
+   - Frontend architecture completeness
+   - Alignment between main and frontend architecture docs
+   - UI/UX specification coverage
+   - Component design clarity
 
 After presenting the report, ask the user if they would like detailed analysis of any specific section, especially those with warnings or failures.]]

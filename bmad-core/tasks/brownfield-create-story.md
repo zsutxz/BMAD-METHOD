@@ -8,7 +8,7 @@ Create a single user story for very small brownfield enhancements that can be co
 
 **Use this task when:**
 
-- The enhancement can be completed in a single story (2-4 hours of focused work)
+- The enhancement can be completed in a single story
 - No new architecture or significant design is required
 - The change follows existing patterns exactly
 - Integration is straightforward with minimal risk
@@ -127,33 +127,6 @@ Before finalizing the story, confirm:
 - [ ] Integration points are clearly specified
 - [ ] Success criteria are testable
 - [ ] Rollback approach is simple
-
-### 5. Handoff to Developer
-
-Once the story is validated, provide this handoff to the Developer:
-
----
-
-**Developer Handoff:**
-
-"This is a focused brownfield story for an existing {{technology}} system.
-
-**Integration Context:**
-
-- Existing component: {{component/system}}
-- Pattern to follow: {{existing pattern}}
-- Key constraint: {{main constraint}}
-
-**Critical Requirements:**
-
-- Follow the existing {{pattern}} pattern exactly
-- Ensure {{existing functionality}} continues working
-- Test integration with {{specific component}}
-
-**Verification:**
-Please verify existing {{relevant functionality}} remains unchanged after implementation."
-
----
 
 ## Success Criteria
 

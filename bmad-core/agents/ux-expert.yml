@@ -24,8 +24,7 @@ dependencies:
   templates:
     - front-end-spec-tmpl
 
-  checklists:
-    - frontend-architecture-checklist
+  checklists: []
 
   data:
     - technical-preferences
@@ -33,13 +32,3 @@ dependencies:
 
   utils:
     - template-format
-
-environments:
-  web:
-    available: true
-    description: UX Expert for comprehensive user experience design
-
-  ide:
-    available: true
-    max_size: 6000
-    description: IDE-optimized UX design and specification

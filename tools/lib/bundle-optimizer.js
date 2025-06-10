@@ -124,20 +124,24 @@ class BundleOptimizer {
         const sections = [];
 
         // Create personas section
+        // For team bundles, exclude BMAD from personas since it's already the orchestrator
         if (Object.keys(bundle.resources.personas).length > 0) {
             const personasContent = Object.entries(bundle.resources.personas)
+                .filter(([id, persona]) => id !== 'bmad')  // Exclude BMAD from personas section
                 .map(([id, persona]) => 
                     `==================== START: personas#${id} ====================\n` +
                     persona.content +
                     `\n==================== END: personas#${id} ====================`
                 ).join('\n\n');
             
-            sections.push({
-                name: 'personas',
-                filename: 'personas.txt',
-                content: personasContent,
-                size: personasContent.length
-            });
+            if (personasContent) {  // Only add section if there's content after filtering
+                sections.push({
+                    name: 'personas',
+                    filename: 'personas.txt',
+                    content: personasContent,
+                    size: personasContent.length
+                });
+            }
         }
 
         // Create other resource sections

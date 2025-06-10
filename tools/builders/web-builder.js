@@ -12,8 +12,8 @@ const BundleOptimizer = require('../lib/bundle-optimizer');
 class WebBuilder {
     constructor(rootPath = process.cwd()) {
         this.rootPath = rootPath;
-        this.agentsPath = path.join(rootPath, 'agents');
-        this.teamsPath = path.join(rootPath, 'agent-teams');
+        this.agentsPath = path.join(rootPath, 'bmad-core', 'agents');
+        this.teamsPath = path.join(rootPath, 'bmad-core', 'agent-teams');
         this.outputPath = path.join(rootPath, 'dist');
         this.sampleUpdatePath = path.join(rootPath, 'web-bundles');
         this.resolver = new DependencyResolver(rootPath);
@@ -277,11 +277,6 @@ class WebBuilder {
         let content = this.createOrchestratorPrompt(bundle, config);
         
         content += '\n\n';
-        
-        // Add bundle metadata as a comment
-        content += `<!-- Bundle: ${bundle.metadata.name} -->\n`;
-        content += `<!-- Generated: ${bundle.metadata.generatedAt} -->\n`;
-        content += `<!-- Environment: web -->\n\n`;
 
         // Add agent configurations section
         content += `==================== START: agent-config ====================\n`;

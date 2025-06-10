@@ -38,7 +38,7 @@ workflow:
 
     - agent: po
       validates: all_artifacts
-      uses: brownfield-checklist
+      uses: po-master-checklist
       notes: "Validates all brownfield documents for service integration safety and API compatibility. May require updates to any document."
 
     - agent: various
@@ -74,7 +74,7 @@ workflow:
         
         C --> E[pm: brownfield-prd.md]
         E --> F[architect: brownfield-architecture.md]
-        F --> G[po: validate with brownfield-checklist]
+        F --> G[po: validate with po-master-checklist]
         G --> H{PO finds issues?}
         H -->|Yes| I[Return to relevant agent for fixes]
         H -->|No| J[Move to IDE Environment]
