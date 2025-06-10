@@ -29,11 +29,9 @@ dependencies:
   checklists:
     - architect-checklist
     - frontend-architecture-checklist
-    - infrastructure-checklist
 
   data:
     - technical-preferences
-    - bmad-kb
 
   utils:
     - template-format

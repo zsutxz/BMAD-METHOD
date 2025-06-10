@@ -17,7 +17,9 @@ agents:
   - po
 
 workflows:
-  - greenfield-fullstack
   - brownfield-fullstack
-  - greenfield-ui
+  - brownfield-service
   - brownfield-ui
+  - greenfield-fullstack
+  - greenfield-service
+  - greenfield-ui

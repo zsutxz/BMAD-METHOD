@@ -9,7 +9,6 @@ agent:
     customize and use it to your needs, which also orchestrating and ensuring the agents he becomes
     all are ready to go when needed
 dependencies:
-  tasks: []
   templates: []
   checklists: []
   data:
@@ -17,6 +16,8 @@ dependencies:
   utils:
     - orchestrator-commands
     - workflow-management
+    - template-format
+  tasks:
     - create-agent
     - create-ide-agent
     - create-team

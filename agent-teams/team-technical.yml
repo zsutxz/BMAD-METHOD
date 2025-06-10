@@ -1,9 +1,0 @@
-bundle:
-  name: team-technical
-  description: The Technical Planning and Assessment Team Bundle is good for deep technical discussions and assessments.
-
-agents:
-  - bmad
-  - fullstack-architect
-  - ux-expert
-  - dev
