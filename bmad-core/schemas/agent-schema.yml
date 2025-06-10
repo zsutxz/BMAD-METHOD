@@ -1,6 +1,6 @@
 # BMAD Agent Configuration Schema
 # This schema defines the structure for BMAD agent configuration files
-# Agents are composed of configuration + persona + dependencies
+# Agents can either reference an external persona or embed the persona directly
 
 type: object
 required:
@@ -16,7 +16,6 @@ properties:
       - id
       - title
       - description
-      - persona
       - customize
     properties:
       name:
@@ -71,14 +70,24 @@ properties:
         maxLength: 300
       
       persona:
-        type: string
-        description: Reference to the persona file in bmad-core/personas/
-        pattern: "^bmad-core/personas/[a-z][a-z0-9-]*\\.md$"
+        oneOf:
+          - type: string
+            description: Reference to external persona file
+            pattern: "^bmad-core/personas/[a-z][a-z0-9-]*\\.md$"
+          - type: "null"
+            description: Null when using embedded persona
       
       customize:
         type: string
-        description: Customization instructions or empty string for no customization
+        description: Customization instructions or embedded persona definition
         default: ""
+      
+      startup:
+        type: array
+        description: Startup instructions for the agent (required when persona is null)
+        items:
+          type: string
+          minLength: 20
 
   dependencies:
     type: object
@@ -135,35 +144,45 @@ additionalProperties: false
 
 # Validation rules
 allOf:
-  # Ensure persona file matches agent id
+  # When persona is null, customize must contain embedded persona and startup must be provided
   - if:
       properties:
         agent:
           properties:
-            id:
-              const: "ux-expert"
+            persona:
+              type: "null"
     then:
       properties:
         agent:
+          required:
+            - startup
           properties:
-            persona:
-              const: "bmad-core/personas/ux-expert.md"
+            customize:
+              minLength: 200
+              description: "Must contain comprehensive persona definition when persona is null"
+            startup:
+              minItems: 1
+              description: "Startup instructions required for embedded personas"
+  
+  # When persona is provided, startup is optional
   - if:
       properties:
         agent:
           properties:
-            id:
-              pattern: "^(?!ux-expert).*$"
+            persona:
+              type: string
     then:
       properties:
         agent:
           properties:
-            persona:
-              pattern: "^bmad-core/personas/\\1\\.md$"
+            customize:
+              maxLength: 500
+              description: "Keep customizations brief when using external persona"
 
 # Examples showing valid agent configurations
 examples:
-  product_manager:
+  # Agent with external persona
+  external_persona_agent:
     agent:
       name: "John"
       id: "pm"
@@ -171,6 +190,9 @@ examples:
       description: "Creates Product Requirements Documents (PRDs) and conducts product research to define product strategy"
       persona: "bmad-core/personas/pm.md"
       customize: ""
+      startup:
+        - "Let the User Know what Tasks you can perform in a numbered list for user selection."
+        - "Execute the Full Tasks as Selected."
     dependencies:
       tasks:
         - "create-doc-from-template"
@@ -179,54 +201,44 @@ examples:
       templates:
         - "prd-tmpl"
         - "project-brief-tmpl"
-        - "brownfield-prd-tmpl"
       checklists:
         - "pm-checklist"
       data:
         - "bmad-kb"
-        - "technical-preferences"
       utils:
         - "template-format"
 
-  business_analyst:
+  # Agent with embedded persona
+  embedded_persona_agent:
     agent:
-      name: "Mary"
-      id: "analyst"
-      title: "Business Analyst"
-      description: "Facilitates brainstorming sessions, creates research prompts, and develops comprehensive project briefs"
-      persona: "bmad-core/personas/analyst.md"
-      customize: ""
+      name: "Elena"
+      id: "data-analyst"
+      title: "Data Analyst"
+      description: "Analyzes data patterns, creates visualizations, and provides insights for data-driven decision making"
+      persona: null
+      customize: >-
+        Elena is a meticulous Data Analyst with expertise in statistical analysis, data visualization, 
+        and pattern recognition. She approaches problems with scientific rigor, always seeking evidence 
+        in the data before drawing conclusions. Her style is precise, methodical, and focused on 
+        delivering actionable insights. She excels at transforming complex data into clear narratives 
+        that stakeholders can understand and act upon. Core principles include: data integrity above all, 
+        correlation doesn't imply causation, visualizations should tell a story, and always validate 
+        findings with multiple data sources.
+      startup:
+        - "Let the User Know what Tasks you can perform in a numbered list for user selection."
+        - "Focus on data-driven insights and evidence-based recommendations."
+        - "Always ask for data sources and context before beginning analysis."
     dependencies:
       tasks:
-        - "advanced-elicitation"
-        - "create-deep-research-prompt"
-        - "create-doc-from-template"
+        - "analyze-data"
+        - "create-visualization"
+        - "statistical-analysis"
       templates:
-        - "project-brief-tmpl"
-      checklists: []
-      data:
-        - "bmad-kb"
-      utils: []
-
-  architect:
-    agent:
-      name: "Winston"
-      id: "architect"
-      title: "Architect"
-      description: "Designs comprehensive system architectures balancing user experience, technical excellence, and practical implementation"
-      persona: "bmad-core/personas/architect.md"
-      customize: ""
-    dependencies:
-      tasks:
-        - "create-doc-from-template"
-        - "execute-checklist"
-        - "shard-doc"
-      templates:
-        - "architecture-tmpl"
-        - "fullstack-architecture-tmpl"
-        - "brownfield-architecture-tmpl"
+        - "data-report-tmpl"
+        - "dashboard-tmpl"
       checklists:
-        - "architect-checklist"
+        - "data-quality-checklist"
       data:
-        - "technical-preferences"
-      utils: []
+        - "statistical-methods"
+      utils:
+        - "data-tools"

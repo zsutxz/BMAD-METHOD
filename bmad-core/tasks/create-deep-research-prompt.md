@@ -1,55 +1,289 @@
-# Deep Research Phase
+# Create Deep Research Prompt Task
 
-Leveraging advanced analytical capabilities, the Deep Research Phase with the PM is designed to provide targeted, strategic insights crucial for product definition. Unlike the broader exploratory research an Analyst might undertake, the PM utilizes deep research to:
-
-- **Validate Product Hypotheses:** Rigorously test assumptions about market need, user problems, and the viability of specific product concepts.
-- **Refine Target Audience & Value Proposition:** Gain a nuanced understanding of specific user segments, their precise pain points, and how the proposed product delivers unique value to them.
-- **Focused Competitive Analysis:** Analyze competitors through the lens of a specific product idea to identify differentiation opportunities, feature gaps to exploit, and potential market positioning challenges.
-- **De-risk PRD Commitments:** Ensure that the problem, proposed solution, and core features are well-understood and validated _before_ detailed planning and resource allocation in the PRD Generation Mode.
-
-Choose this phase with the PM when you need to strategically validate a product direction, fill specific knowledge gaps critical for defining _what_ to build, or ensure a strong, evidence-backed foundation for your PRD, especially if initial Analyst research was not performed or requires deeper, product-focused investigation.
+This task helps create comprehensive research prompts for various types of deep analysis. It can process inputs from brainstorming sessions, project briefs, market research, or specific research questions to generate targeted prompts for deeper investigation.
 
 ## Purpose
 
-- To gather foundational information, validate concepts, understand market needs, or analyze competitors when a comprehensive Project Brief from an Analyst is unavailable or insufficient.
-- To ensure the PM has a solid, data-informed basis for defining a valuable and viable product before committing to PRD specifics.
-- To de-risk product decisions by grounding them in targeted research, especially if the user is engaging the PM directly without prior Analyst work or if the initial brief lacks necessary depth.
+Generate well-structured research prompts that:
 
-## Instructions
+- Define clear research objectives and scope
+- Specify appropriate research methodologies
+- Outline expected deliverables and formats
+- Guide systematic investigation of complex topics
+- Ensure actionable insights are captured
 
-<critical_rule>Note on Deep Research Execution:</critical_rule>
-To perform deep research effectively, please be aware:
+## Research Type Selection
 
-- You may need to use this current conversational agent to help you formulate a comprehensive research prompt, which can then be executed by a dedicated deep research model or function.
-- Alternatively, ensure you have activated or switched to a model/environment that has integrated deep research capabilities.
-  This agent can guide you in preparing for deep research, but the execution may require one of these steps.
+[[LLM: First, help the user select the most appropriate research focus based on their needs and any input documents they've provided.]]
 
-1. **Assess Inputs & Identify Gaps:**
-    - Review any existing inputs (user's initial idea, high-level requirements, partial brief from Analyst, etc.).
-    - Clearly identify critical knowledge gaps concerning:
-      - Target audience (needs, pain points, behaviors, key segments).
-      - Market landscape (size, trends, opportunities, potential saturation).
-      - Competitive analysis (key direct/indirect competitors, their offerings, strengths, weaknesses, market positioning, potential differentiators for this product).
-      - Problem/Solution validation (evidence supporting the proposed solution's value and fit for the identified problem).
-      - High-level technical or resource considerations (potential major roadblocks or dependencies).
-2. **Formulate Research Plan:**
-    - Define specific, actionable research questions to address the identified gaps.
-    - Propose targeted research activities (e.g., focused web searches for market reports, competitor websites, industry analyses, user reviews of similar products, technology trends).
-    - <important_note>Confirm this research plan, scope, and key questions with the user before proceeding with research execution.</important_note>
-3. **Execute Research:**
-    - Conduct the planned research activities systematically.
-    - Prioritize gathering credible, relevant, and actionable insights that directly inform product definition and strategy.
-4. **Synthesize & Present Findings:**
-    - Organize and summarize key research findings in a clear, concise, and easily digestible manner (e.g., bullet points, brief summaries per research question).
-    - Highlight the most critical implications for the product's vision, strategy, target audience, core features, and potential risks.
-    - Present these synthesized findings and their implications to the user.
-5. **Discussing and Utilizing Research Output:**
-    - The comprehensive findings/report from this Deep Research phase can be substantial. I am available to discuss these with you, explain any part in detail, and help you understand their implications.
-    - **Options for Utilizing These Findings for PRD Generation:**
-      1. **Full Handoff to New PM Session:** The complete research output can serve as a foundational document if you initiate a _new_ session with a Product Manager (PM) agent who will then execute the 'PRD Generate Task'.
-      2. **Key Insights Summary for This Session:** I can prepare a concise summary of the most critical findings, tailored to be directly actionable as we (in this current session) transition to potentially invoking the 'PRD Generate Task'.
-    - <critical_rule>Regardless of how you proceed, it is highly recommended that these research findings (either the full output or the key insights summary) are provided as direct input when invoking the 'PRD Generate Task'. This ensures the PRD is built upon a solid, evidence-based foundation.</critical_rule>
-6. **Confirm Readiness for PRD Generation:**
-    - Discuss with the user whether the gathered information provides a sufficient and confident foundation to proceed to the 'PRD Generate Task'.
-    - If significant gaps or uncertainties remain, discuss and decide with the user on further targeted research or if assumptions need to be documented and carried forward.
-    - Once confirmed, clearly state that the next step could be to invoke the 'PRD Generate Task' or, if applicable, revisit other phase options.
+### 1. Research Focus Options
+
+Present these numbered options to the user:
+
+1. **Product Validation Research**
+
+   - Validate product hypotheses and market fit
+   - Test assumptions about user needs and solutions
+   - Assess technical and business feasibility
+   - Identify risks and mitigation strategies
+
+2. **Market Opportunity Research**
+
+   - Analyze market size and growth potential
+   - Identify market segments and dynamics
+   - Assess market entry strategies
+   - Evaluate timing and market readiness
+
+3. **User & Customer Research**
+
+   - Deep dive into user personas and behaviors
+   - Understand jobs-to-be-done and pain points
+   - Map customer journeys and touchpoints
+   - Analyze willingness to pay and value perception
+
+4. **Competitive Intelligence Research**
+
+   - Detailed competitor analysis and positioning
+   - Feature and capability comparisons
+   - Business model and strategy analysis
+   - Identify competitive advantages and gaps
+
+5. **Technology & Innovation Research**
+
+   - Assess technology trends and possibilities
+   - Evaluate technical approaches and architectures
+   - Identify emerging technologies and disruptions
+   - Analyze build vs. buy vs. partner options
+
+6. **Industry & Ecosystem Research**
+
+   - Map industry value chains and dynamics
+   - Identify key players and relationships
+   - Analyze regulatory and compliance factors
+   - Understand partnership opportunities
+
+7. **Strategic Options Research**
+
+   - Evaluate different strategic directions
+   - Assess business model alternatives
+   - Analyze go-to-market strategies
+   - Consider expansion and scaling paths
+
+8. **Risk & Feasibility Research**
+
+   - Identify and assess various risk factors
+   - Evaluate implementation challenges
+   - Analyze resource requirements
+   - Consider regulatory and legal implications
+
+9. **Custom Research Focus**
+   [[LLM: Allow user to define their own specific research focus.]]
+   - User-defined research objectives
+   - Specialized domain investigation
+   - Cross-functional research needs
+
+### 2. Input Processing
+
+[[LLM: Based on the selected research type and any provided inputs (project brief, brainstorming results, etc.), extract relevant context and constraints.]]
+
+**If Project Brief provided:**
+
+- Extract key product concepts and goals
+- Identify target users and use cases
+- Note technical constraints and preferences
+- Highlight uncertainties and assumptions
+
+**If Brainstorming Results provided:**
+
+- Synthesize main ideas and themes
+- Identify areas needing validation
+- Extract hypotheses to test
+- Note creative directions to explore
+
+**If Market Research provided:**
+
+- Build on identified opportunities
+- Deepen specific market insights
+- Validate initial findings
+- Explore adjacent possibilities
+
+**If Starting Fresh:**
+
+- Gather essential context through questions
+- Define the problem space
+- Clarify research objectives
+- Establish success criteria
+
+## Process
+
+### 3. Research Prompt Structure
+
+[[LLM: Based on the selected research type and context, collaboratively develop a comprehensive research prompt with these components.]]
+
+#### A. Research Objectives
+
+[[LLM: Work with the user to articulate clear, specific objectives for the research.]]
+
+- Primary research goal and purpose
+- Key decisions the research will inform
+- Success criteria for the research
+- Constraints and boundaries
+
+#### B. Research Questions
+
+[[LLM: Develop specific, actionable research questions organized by theme.]]
+
+**Core Questions:**
+
+- Central questions that must be answered
+- Priority ranking of questions
+- Dependencies between questions
+
+**Supporting Questions:**
+
+- Additional context-building questions
+- Nice-to-have insights
+- Future-looking considerations
+
+#### C. Research Methodology
+
+[[LLM: Specify appropriate research methods based on the type and objectives.]]
+
+**Data Collection Methods:**
+
+- Secondary research sources
+- Primary research approaches (if applicable)
+- Data quality requirements
+- Source credibility criteria
+
+**Analysis Frameworks:**
+
+- Specific frameworks to apply
+- Comparison criteria
+- Evaluation methodologies
+- Synthesis approaches
+
+#### D. Output Requirements
+
+[[LLM: Define how research findings should be structured and presented.]]
+
+**Format Specifications:**
+
+- Executive summary requirements
+- Detailed findings structure
+- Visual/tabular presentations
+- Supporting documentation
+
+**Key Deliverables:**
+
+- Must-have sections and insights
+- Decision-support elements
+- Action-oriented recommendations
+- Risk and uncertainty documentation
+
+### 4. Prompt Generation
+
+[[LLM: Synthesize all elements into a comprehensive, ready-to-use research prompt.]]
+
+**Research Prompt Template:**
+
+```
+## Research Objective
+[Clear statement of what this research aims to achieve]
+
+## Background Context
+[Relevant information from project brief, brainstorming, or other inputs]
+
+## Research Questions
+
+### Primary Questions (Must Answer)
+1. [Specific, actionable question]
+2. [Specific, actionable question]
+...
+
+### Secondary Questions (Nice to Have)
+1. [Supporting question]
+2. [Supporting question]
+...
+
+## Research Methodology
+
+### Information Sources
+- [Specific source types and priorities]
+
+### Analysis Frameworks
+- [Specific frameworks to apply]
+
+### Data Requirements
+- [Quality, recency, credibility needs]
+
+## Expected Deliverables
+
+### Executive Summary
+- Key findings and insights
+- Critical implications
+- Recommended actions
+
+### Detailed Analysis
+[Specific sections needed based on research type]
+
+### Supporting Materials
+- Data tables
+- Comparison matrices
+- Source documentation
+
+## Success Criteria
+[How to evaluate if research achieved its objectives]
+
+## Timeline and Priority
+[If applicable, any time constraints or phasing]
+```
+
+### 5. Review and Refinement
+
+[[LLM: Present the draft research prompt for user review and refinement.]]
+
+1. **Present Complete Prompt**
+
+   - Show the full research prompt
+   - Explain key elements and rationale
+   - Highlight any assumptions made
+
+2. **Gather Feedback**
+
+   - Are the objectives clear and correct?
+   - Do the questions address all concerns?
+   - Is the scope appropriate?
+   - Are output requirements sufficient?
+
+3. **Refine as Needed**
+   - Incorporate user feedback
+   - Adjust scope or focus
+   - Add missing elements
+   - Clarify ambiguities
+
+### 6. Next Steps Guidance
+
+[[LLM: Provide clear guidance on how to use the research prompt.]]
+
+**Execution Options:**
+
+1. **Use with AI Research Assistant**: Provide this prompt to an AI model with research capabilities
+2. **Guide Human Research**: Use as a framework for manual research efforts
+3. **Hybrid Approach**: Combine AI and human research using this structure
+
+**Integration Points:**
+
+- How findings will feed into next phases
+- Which team members should review results
+- How to validate findings
+- When to revisit or expand research
+
+## Important Notes
+
+- The quality of the research prompt directly impacts the quality of insights gathered
+- Be specific rather than general in research questions
+- Consider both current state and future implications
+- Balance comprehensiveness with focus
+- Document assumptions and limitations clearly
+- Plan for iterative refinement based on initial findings

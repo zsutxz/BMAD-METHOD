@@ -1,53 +1,199 @@
-# Project Brief: {Project Name}
+# Project Brief: {{Project Name}}
 
-## Introduction / Problem Statement
+[[LLM: This template guides creation of a comprehensive Project Brief that serves as the foundational input for product development. 
 
-{Describe the core idea, the problem being solved, or the opportunity being addressed. Why is this project needed?}
+Start by asking the user which mode they prefer:
+1. **Interactive Mode** - Work through each section collaboratively
+2. **YOLO Mode** - Generate complete draft for review and refinement
 
-## Vision & Goals
+Before beginning, understand what inputs are available (brainstorming results, market research, competitive analysis, initial ideas) and gather project context.]]
 
-- **Vision:** {Describe the high-level desired future state or impact of this project.}
-- **Primary Goals:** {List 2-5 specific, measurable, achievable, relevant, time-bound (SMART) goals for the Minimum Viable Product (MVP).}
-  - Goal 1: ...
-  - Goal 2: ...
-- **Success Metrics (Initial Ideas):** {How will we measure if the project/MVP is successful? List potential KPIs.}
+## Executive Summary
 
-## Target Audience / Users
+[[LLM: Create a concise overview that captures the essence of the project. Include:
+- Product concept in 1-2 sentences
+- Primary problem being solved
+- Target market identification
+- Key value proposition]]
 
-{Describe the primary users of this product/system. Who are they? What are their key characteristics or needs relevant to this project?}
+{{Write executive summary based on information gathered}}
 
-## Key Features / Scope (High-Level Ideas for MVP)
+## Problem Statement
 
-{List the core functionalities or features envisioned for the MVP. Keep this high-level; details will go in the PRD/Epics.}
+[[LLM: Articulate the problem with clarity and evidence. Address:
+- Current state and pain points
+- Impact of the problem (quantify if possible)
+- Why existing solutions fall short
+- Urgency and importance of solving this now]]
 
-- Feature Idea 1: ...
-- Feature Idea 2: ...
-- Feature Idea N: ...
+{{Detailed problem description with supporting evidence}}
 
-## Post MVP Features / Scope and Ideas
+## Proposed Solution
 
-{List the core functionalities or features envisioned as potential for POST MVP. Keep this high-level; details will go in the PRD/Epics/Architecture.}
+[[LLM: Describe the solution approach at a high level. Include:
+- Core concept and approach
+- Key differentiators from existing solutions
+- Why this solution will succeed where others haven't
+- High-level vision for the product]]
 
-- Feature Idea 1: ...
-- Feature Idea 2: ...
-- Feature Idea N: ...
+{{Solution description focusing on the "what" and "why", not implementation details}}
 
-## Known Technical Constraints or Preferences
+## Target Users
 
-- **Constraints:** {List any known limitations and technical mandates or preferences - e.g., budget, timeline, specific technology mandates, required integrations, compliance needs.}
-- **Initial Architectural Preferences (if any):** {Capture any early thoughts or strong preferences regarding repository structure (e.g., monorepo, polyrepo) and overall service architecture (e.g., monolith, microservices, serverless components). This is not a final decision point but for initial awareness.}
-- **Risks:** {Identify potential risks - e.g., technical challenges, resource availability, market acceptance, dependencies.}
-- **User Preferences:** {Any specific requests from the user that are not a high level feature that could direct technology or library choices, or anything else that came up in the brainstorming or drafting of the PRD that is not included in prior document sections}
+[[LLM: Define and characterize the intended users with specificity. For each user segment include:
+- Demographic/firmographic profile
+- Current behaviors and workflows
+- Specific needs and pain points
+- Goals they're trying to achieve]]
 
-## Relevant Research (Optional)
+### Primary User Segment: {{Segment Name}}
+{{Detailed description of primary users}}
 
-{Link to or summarize findings from any initial research conducted (e.g., `deep-research-report-BA.md`).}
+### Secondary User Segment: {{Segment Name}}
+{{Description of secondary users if applicable}}
+
+## Goals & Success Metrics
+
+[[LLM: Establish clear objectives and how to measure success. Make goals SMART (Specific, Measurable, Achievable, Relevant, Time-bound)]]
+
+### Business Objectives
+- {{Objective 1 with metric}}
+- {{Objective 2 with metric}}
+- {{Objective 3 with metric}}
+
+### User Success Metrics
+- {{How users will measure value}}
+- {{Engagement metrics}}
+- {{Satisfaction indicators}}
+
+### Key Performance Indicators (KPIs)
+- {{KPI 1: Definition and target}}
+- {{KPI 2: Definition and target}}
+- {{KPI 3: Definition and target}}
+
+## MVP Scope
+
+[[LLM: Define the minimum viable product clearly. Be specific about what's in and what's out. Help user distinguish must-haves from nice-to-haves.]]
+
+### Core Features (Must Have)
+- **Feature 1:** {{Brief description and why it's essential}}
+- **Feature 2:** {{Brief description and why it's essential}}
+- **Feature 3:** {{Brief description and why it's essential}}
+
+### Out of Scope for MVP
+- {{Feature/capability explicitly not in MVP}}
+- {{Feature/capability to be considered post-MVP}}
+
+### MVP Success Criteria
+{{Define what constitutes a successful MVP launch}}
+
+## Post-MVP Vision
+
+[[LLM: Outline the longer-term product direction without overcommitting to specifics]]
+
+### Phase 2 Features
+{{Next priority features after MVP success}}
+
+### Long-term Vision
+{{Where this product could go in 1-2 years}}
+
+### Expansion Opportunities
+{{Potential new markets, use cases, or integrations}}
+
+## Technical Considerations
+
+[[LLM: Document known technical constraints and preferences. Note these are initial thoughts, not final decisions.]]
+
+### Platform Requirements
+- **Target Platforms:** {{Web, mobile, desktop, etc.}}
+- **Browser/OS Support:** {{Specific requirements}}
+- **Performance Requirements:** {{Load times, concurrent users, etc.}}
+
+### Technology Preferences
+- **Frontend:** {{If any preferences exist}}
+- **Backend:** {{If any preferences exist}}
+- **Database:** {{If any preferences exist}}
+- **Hosting/Infrastructure:** {{Cloud preferences, on-prem requirements}}
+
+### Architecture Considerations
+- **Repository Structure:** {{Initial thoughts on monorepo vs. polyrepo}}
+- **Service Architecture:** {{Initial thoughts on monolith vs. microservices}}
+- **Integration Requirements:** {{Third-party services, APIs}}
+- **Security/Compliance:** {{Any specific requirements}}
+
+## Constraints & Assumptions
+
+[[LLM: Clearly state limitations and assumptions to set realistic expectations]]
+
+### Constraints
+- **Budget:** {{If known}}
+- **Timeline:** {{Target launch date or development timeframe}}
+- **Resources:** {{Team size, skill constraints}}
+- **Technical:** {{Legacy systems, required tech stack}}
+
+### Key Assumptions
+- {{Assumption about users, market, or technology}}
+- {{Assumption about resources or support}}
+- {{Assumption about external dependencies}}
+
+## Risks & Open Questions
+
+[[LLM: Identify unknowns and potential challenges proactively]]
+
+### Key Risks
+- **Risk 1:** {{Description and potential impact}}
+- **Risk 2:** {{Description and potential impact}}
+- **Risk 3:** {{Description and potential impact}}
+
+### Open Questions
+- {{Question needing research or decision}}
+- {{Question about technical approach}}
+- {{Question about market or users}}
+
+### Areas Needing Further Research
+- {{Topic requiring deeper investigation}}
+- {{Validation needed before proceeding}}
+
+## Appendices
+
+### A. Research Summary
+{{If applicable, summarize key findings from:
+- Market research
+- Competitive analysis  
+- User interviews
+- Technical feasibility studies}}
+
+### B. Stakeholder Input
+{{Key feedback or requirements from stakeholders}}
+
+### C. References
+{{Links to relevant documents, research, or examples}}
 
 ## Next Steps
 
-### PM Prompt
+### Immediate Actions
+1. {{First concrete next step}}
+2. {{Second concrete next step}}
+3. {{Third concrete next step}}
 
-This Project Brief provides the full context for {Project Name}. Please start in 'PRD Generation Mode', review the brief thoroughly to work with the user to create the PRD section by section as the template indicates, asking for any necessary clarification or suggesting improvements as your mode 1 programming allows.
+### PM Handoff
 
-<example_handoff_prompt>
-This Project Brief provides the full context for Mealmate. Please start in 'PRD Generation Mode', review the brief thoroughly to work with the user to create the PRD section by section 1 at a time, asking for any necessary clarification or suggesting improvements as your mode 1 programming allows.</example_handoff_prompt>
+This Project Brief provides the full context for {{Project Name}}. Please start in 'PRD Generation Mode', review the brief thoroughly to work with the user to create the PRD section by section as the template indicates, asking for any necessary clarification or suggesting improvements.
+
+---
+
+[[LLM: After completing each major section (not subsections), offer advanced elicitation with these custom options for project briefs:
+
+**Project Brief Elicitation Actions**
+0. Expand section with more specific details
+1. Validate against similar successful products
+2. Stress test assumptions with edge cases
+3. Explore alternative solution approaches
+4. Analyze resource/constraint trade-offs
+5. Generate risk mitigation strategies
+6. Challenge scope from MVP minimalist view
+7. Brainstorm creative feature possibilities
+8. If only we had [resource/capability/time]...
+9. Proceed to next section
+
+These replace the standard elicitation options when working on project brief documents.]]
