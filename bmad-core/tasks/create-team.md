@@ -1,8 +1,8 @@
-# Create Team Utility
+# Create Team Task
 
-This utility helps you create a NEW BMAD team bundle by combining existing agents from the BMAD-METHOD repository.
+This task helps you create a NEW BMAD team bundle by combining existing agents from the BMAD-METHOD repository.
 
-**Important**: This utility is for CREATING new teams, not for listing what agents are available in the current bundle. To see agents in the current bundle, use `/agent-list`.
+**Important**: This task is for CREATING new teams, not for listing what agents are available in the current bundle. To see agents in the current bundle, use `/agent-list`.
 
 **Note for User-Created Teams**: If you're creating a custom team for your own use (not part of the core BMAD system), prefix the team ID with a period (e.g., `.team-frontend`) to ensure it's gitignored and won't conflict with repository updates.
 
@@ -63,14 +63,14 @@ Create `/agent-teams/{team-id}.yml`:
 
 ```yaml
 bundle:
-  name: {Team Name}
+  name: { Team Name }
   description: >-
     {Detailed description of the team's purpose and capabilities}
-  
+
 agents:
-  - {agent-id-1}
-  - {agent-id-2}
-  - {agent-id-3}
+  - { agent-id-1 }
+  - { agent-id-2 }
+  - { agent-id-3 }
   # ... more agents
 ```
 
@@ -80,17 +80,17 @@ You can use `"*"` (quoted) to include all available agents:
 
 ```yaml
 agents:
-  - bmad         # Always include bmad first
-  - "*"          # Include all other agents
+  - bmad # Always include bmad first
+  - "*" # Include all other agents
 ```
 
 Or mix specific agents with wildcard:
 
 ```yaml
 agents:
-  - pm           # Product Manager first
-  - architect    # Then Architect
-  - "*"          # Then all remaining agents
+  - pm # Product Manager first
+  - architect # Then Architect
+  - "*" # Then all remaining agents
 ```
 
 ### 6. Validate and Build
@@ -102,6 +102,7 @@ agents:
 ## Example Teams
 
 ### Development Team
+
 ```yaml
 bundle:
   name: Development Team Bundle
@@ -109,13 +110,14 @@ bundle:
     Core development team for building features from story to deployment
 
 agents:
-  - sm      # Sprint coordination
-  - dev     # Implementation
-  - qa      # Quality assurance
-  - devops  # Deployment
+  - sm # Sprint coordination
+  - dev # Implementation
+  - qa # Quality assurance
+  - devops # Deployment
 ```
 
 ### Planning Team
+
 ```yaml
 bundle:
   name: Planning Team Bundle
@@ -123,13 +125,14 @@ bundle:
     Strategic planning team for project inception and architecture
 
 agents:
-  - analyst    # Requirements gathering
-  - pm         # Product planning
-  - architect  # System design
-  - po         # Validation
+  - analyst # Requirements gathering
+  - pm # Product planning
+  - architect # System design
+  - po # Validation
 ```
 
 ### Full-Stack Team
+
 ```yaml
 bundle:
   name: Full-Stack Team Bundle
@@ -137,11 +140,11 @@ bundle:
     Complete team for full-stack application development
 
 agents:
-  - fullstack-architect  # Holistic design
-  - design-architect     # Frontend architecture
-  - dev                  # Implementation
-  - qa                   # Testing
-  - devops              # Infrastructure
+  - fullstack-architect # Holistic design
+  - design-architect # Frontend architecture
+  - dev # Implementation
+  - qa # Testing
+  - devops # Infrastructure
 ```
 
 ## Questions to Ask

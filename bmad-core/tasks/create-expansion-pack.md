@@ -1,6 +1,6 @@
-# Create Expansion Pack Utility
+# Create Expansion Pack Task
 
-This utility helps you create a comprehensive BMAD expansion pack that can include new agents, tasks, templates, and checklists for a specific domain.
+This task helps you create a comprehensive BMAD expansion pack that can include new agents, tasks, templates, and checklists for a specific domain.
 
 ## Understanding Expansion Packs
 
@@ -99,11 +99,11 @@ expansion-packs/
 Create `manifest.yml`:
 
 ```yaml
-name: {Pack Name}
+name: { Pack Name }
 version: 1.0.0
 description: >-
   {Detailed description of the expansion pack}
-author: {Your name or organization}
+author: { Your name or organization }
 bmad_version: "4.0.0"
 
 # Files to install (with . prefix for gitignore)
@@ -125,15 +125,15 @@ files:
 # Optional: Update existing teams
 team_updates:
   - team: team-technical.yml
-    add_agent: {new-agent-id}
+    add_agent: { new-agent-id }
 
 # Post-install message
 post_install_message: >-
   {Pack Name} installed successfully!
-  
+
   New agents available: {list agents}
   New tasks available: {list tasks}
-  
+
   Run 'npm run build' to generate bundles.
 ```
 
@@ -217,27 +217,32 @@ Include:
 ## Interactive Questions Flow
 
 ### Initial Discovery
+
 1. "What domain or industry will this expansion pack serve?"
 2. "What are the main challenges or workflows in this domain?"
 3. "Do you have any example documents or outputs? (Please share)"
 4. "What specialized roles/experts exist in this domain?"
 
 ### Agent Planning
+
 5. "For agent '{name}', what is their specific expertise?"
 6. "What unique tasks would this agent perform?"
 7. "How would they interact with existing BMAD agents?"
 
 ### Task Design
+
 8. "Describe the '{task}' process step-by-step"
 9. "What information is needed to complete this task?"
 10. "What should the output look like?"
 
 ### Template Creation
+
 11. "What sections should the '{template}' document have?"
 12. "Are there any required formats or standards?"
 13. "Can you provide an example of a completed document?"
 
 ### Integration
+
 14. "Which existing teams should include these new agents?"
 15. "Are there any dependencies between components?"
 

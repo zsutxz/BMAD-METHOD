@@ -1,6 +1,6 @@
-# Create Agent Utility
+# Create Agent Task
 
-This utility helps you create a new BMAD agent for web platforms (Gemini, ChatGPT, etc.).
+This task helps you create a new BMAD agent for web platforms (Gemini, ChatGPT, etc.).
 
 **Note for User-Created Agents**: If you're creating a custom agent for your own use (not part of the core BMAD system), prefix the agent ID with a period (e.g., `.data-analyst`) to ensure it's gitignored and won't conflict with repository updates.
 
@@ -82,24 +82,24 @@ Create `/agents/{agent-id}.yml` with this structure:
 
 ```yaml
 agent:
-  id: {agent-id}
-  name: {Agent Name}
-  title: {Title}
+  id: { agent-id }
+  name: { Agent Name }
+  title: { Title }
   description: >-
     {Full description of the agent's role and value}
-  persona: {agent-id}
+  persona: { agent-id }
   customize: >-
     {Any specific behavioral customizations}
 
 dependencies:
   tasks:
-    - {list of task IDs}
+    - { list of task IDs }
   templates:
-    - {list of template IDs}
+    - { list of template IDs }
   checklists:
-    - {list of checklist IDs}
+    - { list of checklist IDs }
   data:
-    - {list of data file IDs}
+    - { list of data file IDs }
   utils:
     - template-format
 ```

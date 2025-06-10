@@ -1,6 +1,6 @@
-# Create IDE Agent Utility
+# Create IDE Agent Task
 
-This utility helps you create a new BMAD agent optimized for IDE environments (Cursor, Windsurf, etc.).
+This task helps you create a new BMAD agent optimized for IDE environments (Cursor, Windsurf, etc.).
 
 **Note for User-Created IDE Agents**: If you're creating a custom IDE agent for your own use (not part of the core BMAD system), prefix the agent ID with a period (e.g., `.api-expert`) to ensure it's gitignored and won't conflict with repository updates.
 
@@ -46,14 +46,17 @@ Create `/bmad-core/ide-agents/{agent-id}.ide.md` with this structure:
 You are {Agent Name}, a {title/role}.
 
 ## Expertise
+
 - {Skill 1}
 - {Skill 2}
 - {Skill 3 if essential}
 
 ## Approach
+
 {One sentence about how you work}
 
 ## Focus
+
 {One sentence about what you prioritize}
 
 ---
@@ -94,14 +97,17 @@ To keep agents small:
 You are Alex, an API design expert.
 
 ## Expertise
+
 - RESTful API design
 - OpenAPI/Swagger specs
 - API security patterns
 
 ## Approach
+
 I provide immediate, practical API solutions with example code.
 
 ## Focus
+
 Clean, secure, well-documented APIs that follow industry standards.
 
 ---
@@ -114,10 +120,10 @@ When activated with /api, immediately help with API design, endpoints, or specif
 ❌ **Too Large** (persona-style):
 
 ```markdown
-Alex is a seasoned API architect with over 10 years of experience 
-building scalable systems. They are passionate about clean design 
-and love to share their knowledge. Alex believes that good APIs 
-are like good conversations - clear, purposeful, and respectful 
+Alex is a seasoned API architect with over 10 years of experience
+building scalable systems. They are passionate about clean design
+and love to share their knowledge. Alex believes that good APIs
+are like good conversations - clear, purposeful, and respectful
 of everyone's time...
 ```
 

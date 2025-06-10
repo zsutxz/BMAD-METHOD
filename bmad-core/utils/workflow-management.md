@@ -7,10 +7,11 @@ This utility enables the BMAD orchestrator to manage and execute team workflows.
 The BMAD orchestrator MUST read the available workflows from the current team configuration's `workflows` field. Do not use hardcoded workflow lists. Each team bundle defines its own set of supported workflows based on the agents it includes.
 
 **Critical Distinction**:
+
 - When asked "what workflows are available?", show ONLY the workflows defined in the current team bundle's configuration
-- The create-* utilities (create-agent, create-team, etc.) are for CREATING new configurations, not for listing what's available in the current session
-- Use `/agent-list` to show agents in the current bundle, NOT the create-agent utility
-- Use `/workflows` to show workflows in the current bundle, NOT any creation utilities
+- The create-\* tasks (create-agent, create-team, etc.) are for CREATING new configurations, not for listing what's available in the current session
+- Use `/agent-list` to show agents in the current bundle, NOT the create-agent task
+- Use `/workflows` to show workflows in the current bundle, NOT any creation tasks
 
 ### Workflow Descriptions
 
@@ -26,7 +27,9 @@ When displaying workflows, use these descriptions based on the workflow ID:
 ## Workflow Commands
 
 ### /workflows
+
 Lists all available workflows for the current team. The available workflows are determined by the team configuration and may include workflows such as:
+
 - greenfield-fullstack
 - brownfield-fullstack
 - greenfield-service
@@ -37,6 +40,7 @@ Lists all available workflows for the current team. The available workflows are 
 The actual list depends on which team bundle is loaded. When responding to this command, display the workflows that are configured in the current team's `workflows` field.
 
 Example response format:
+
 ```
 Available workflows for [Team Name]:
 1. [workflow-id] - [Brief description based on workflow type]
@@ -47,43 +51,49 @@ Use /workflow-start {number or id} to begin a workflow.
 ```
 
 ### /workflow-start {workflow-id}
+
 Starts a specific workflow and transitions to the first agent.
 
 Example: `/workflow-start greenfield-fullstack`
 
 ### /workflow-status
+
 Shows current workflow progress, completed artifacts, and next steps.
 
 Example response:
+
 ```
 Current Workflow: Greenfield Full-Stack Development
 Stage: Product Planning (2 of 6)
 Completed:
   ✓ Discovery & Requirements
     - project-brief (completed by Mary)
-  
+
 In Progress:
   ⚡ Product Planning
     - Create PRD (John) - awaiting input
-    
+
 Next: Technical Architecture
 ```
 
 ### /workflow-resume
+
 Resumes a workflow from where it left off, useful when starting a new chat.
 
 User can provide completed artifacts:
+
 ```
 User: /workflow-resume greenfield-fullstack
       I have completed: project-brief, PRD
-BMad: I see you've completed Discovery and part of Product Planning. 
+BMad: I see you've completed Discovery and part of Product Planning.
       Based on the greenfield-fullstack workflow, the next step is:
       - UX Strategy with Sally (ux-expert)
-      
+
       Would you like me to load Sally to continue?
 ```
 
 ### /workflow-next
+
 Shows the next recommended agent and action in the current workflow.
 
 ## Workflow Execution Flow
@@ -91,6 +101,7 @@ Shows the next recommended agent and action in the current workflow.
 ### 1. Starting a Workflow
 
 When a workflow is started:
+
 1. Load the workflow definition
 2. Identify the first stage and step
 3. Transition to the required agent
@@ -100,6 +111,7 @@ When a workflow is started:
 ### 2. Stage Transitions
 
 After each artifact is completed:
+
 1. Mark the step as complete
 2. Check transition conditions
 3. If stage is complete, move to next stage
@@ -109,6 +121,7 @@ After each artifact is completed:
 ### 3. Artifact Tracking
 
 Track all created artifacts:
+
 ```yaml
 workflow_state:
   current_workflow: greenfield-fullstack
@@ -128,6 +141,7 @@ workflow_state:
 ### 4. Workflow Interruption Handling
 
 When user returns after interruption:
+
 1. Ask if continuing previous workflow
 2. Request any completed artifacts
 3. Analyze provided artifacts
@@ -135,38 +149,41 @@ When user returns after interruption:
 5. Suggest next appropriate step
 
 Example:
+
 ```
 User: I'm working on a new app. Here's my PRD and architecture doc.
-BMad: I see you have a PRD and architecture document. Based on these artifacts, 
+BMad: I see you have a PRD and architecture document. Based on these artifacts,
       it looks like you're following the greenfield-fullstack workflow and have completed
       stages 1-3. The next recommended step would be:
-      
+
       Stage 4: Validation & Refinement
       - Load Sarah (Product Owner) to validate all artifacts
-      
+
       Would you like to continue with this workflow?
 ```
 
 ## Workflow Context Passing
 
 When transitioning between agents, pass:
+
 1. Previous artifacts created
 2. Current workflow stage
 3. Expected outputs
 4. Any decisions or constraints identified
 
 Example transition:
+
 ```
 BMad: Great! John has completed the PRD. According to the greenfield-fullstack workflow,
       the next step is UX Strategy with Sally.
-      
+
       /ux-expert
-      
+
 Sally: I see we're in the Product Planning stage of the greenfield-fullstack workflow.
        I have access to:
        - Project Brief from Mary
        - PRD from John
-       
+
        Let's create the UX strategy and UI specifications. First, let me review
        the PRD to understand the features we're designing for...
 ```
@@ -174,6 +191,7 @@ Sally: I see we're in the Product Planning stage of the greenfield-fullstack wor
 ## Multi-Path Workflows
 
 Some workflows may have multiple paths:
+
 ```yaml
 conditional_paths:
   - condition: "project_type == 'mobile'"
@@ -196,6 +214,7 @@ Handle these by asking clarifying questions when needed.
 ## Integration with Agents
 
 Each agent should be workflow-aware:
+
 - Know which workflow is active
 - Understand their role in the workflow
 - Access previous artifacts
