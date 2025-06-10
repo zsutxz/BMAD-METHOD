@@ -3,18 +3,8 @@
   "version": "4.0.0",
   "description": "Breakthrough Method of Agile AI-driven Development",
   "main": "tools/cli.js",
-  "bin": {
-    "bmad-build": "tools/cli.js"
-  },
-  "scripts": {
-    "build": "node tools/cli.js build",
-    "build:sample-update": "node tools/cli.js build --sample-update",
-    "list:agents": "node tools/cli.js list:agents",
-    "analyze:deps": "node tools/cli.js analyze:deps",
-    "validate": "node tools/cli.js validate",
-    "install:expansion": "node tools/install-expansion-pack.js",
-    "test": "echo \"Tests not yet implemented\" && exit 0"
-  },
+  "bin": {},
+  "scripts": {},
   "dependencies": {
     "commander": "^9.4.1",
     "js-yaml": "^4.1.0"
