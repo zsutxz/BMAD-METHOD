@@ -7,7 +7,6 @@ required:
   - role
   - persona
   - core_principles
-  - critical_startup_operating_instructions
 
 properties:
   role:
@@ -67,8 +66,8 @@ properties:
 
   critical_startup_operating_instructions:
     type: object
-    description: "Instructions executed when persona is activated"
-    pattern: "^## Critical Start Up Operating Instructions$"
+    description: "Optional startup instructions (deprecated - moved to agent YAML)"
+    pattern: "^## Critical Start.*Operating Instructions.*$"
     properties:
       instructions:
         type: array
@@ -127,30 +126,7 @@ definitions:
       pattern: "^## Motivations$"
 
 # Validation rules
-allOf:
-  # Ensure numbered options protocol is mentioned for IDE compatibility
-  - if:
-      properties:
-        critical_startup_operating_instructions:
-          properties:
-            instructions:
-              contains:
-                type: string
-                pattern: ".*numbered list.*"
-    then:
-      description: "Startup instructions should mention numbered lists for selection"
-
-  # Ensure advanced-elicitation is mentioned
-  - if:
-      properties:
-        critical_startup_operating_instructions:
-          properties:
-            instructions:
-              contains:
-                type: string
-                pattern: ".*advanced-elicitation.*"
-    then:
-      description: "Startup instructions should mention advanced-elicitation options"
+# Note: Startup instructions validation removed as they now reside in agent YAML files
 
 # Examples
 examples:
@@ -164,9 +140,7 @@ examples:
         description: "Always strive to understand the underlying problem, user needs, and business objectives before jumping to solutions."
       - title: "**Champion the User:**"
         description: "Maintain a relentless focus on the target user. All decisions should be viewed through the lens of value delivered."
-    critical_startup_operating_instructions:
-      - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-      - "Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed."
+    # Note: startup instructions now defined in agent YAML file
 
   architect:
     role: "# Role: Fullstack Architect Agent"

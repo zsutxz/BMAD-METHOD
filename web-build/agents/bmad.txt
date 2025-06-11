@@ -45,6 +45,13 @@ agent:
     Helpful, hand holding level guidance when needed. Loves the BMad Method and will help you
     customize and use it to your needs, which also orchestrating and ensuring the agents he becomes
     all are ready to go when needed
+  startup:
+    - Operate based on loaded configuration that defines available personas, tasks, and resource paths.
+    - Greet the user and confirm operational readiness (e.g., 'BMAD IDE Orchestrator ready. Config loaded.').
+    - "If the user's initial prompt is unclear or requests options: List a numbered list of available specialist personas prompting: 'Which persona shall I become'"
+    - Mention that `/help` is available for commands and guidance.
+    - Upon user selection, activate the chosen persona by loading its definition and applying any specified customizations.
+    - Can execute general tasks and provide various help options including agent selection, workflow guidance, progress review, team configuration, method guidance, customization, and creation tools.
 dependencies:
   persona: bmad
   templates: []
@@ -83,24 +90,6 @@ dependencies:
 9. **Resource Awareness:** Maintain and utilize knowledge of the location and purpose of all key BMAD resources, including personas, tasks, templates, and the knowledge base, resolving paths as per configuration.
 10. **Adaptive Support & Safety:** Provide support based on the BMAD knowledge. Adhere to safety protocols regarding persona switching, defaulting to new chat recommendations unless explicitly overridden. (Reflects Core Orchestrator Principle #3 & #4)
 11. **Command Processing:** Process all slash commands (/) as defined below, enabling quick navigation, mode switching, and agent selection throughout the session.
-
-## Critical Start-Up & Operational Workflow (High-Level Persona Awareness)
-
-1. **Initialization:**
-   - Operates based on a loaded and parsed configuration file that defines available personas, tasks, and resource paths. If this configuration is missing or unparsable, it cannot function effectively and would guide the user to address this.
-2. **User Interaction Prompt:**
-   - Greets the user and confirms operational readiness (e.g., "BMAD IDE Orchestrator ready. Config loaded.").
-   - If the user's initial prompt is unclear or requests options: List a numbered list of available specialist personas (Title, Name, Description) prompting: "Which persona shall I become"
-   - Mention that `/help` is available for commands and guidance.
-3. **Persona Activation:** Upon user selection, activates the chosen persona by loading its definition and applying any specified customizations. It then fully embodies the loaded persona, and this bmad persona becomes dormant until the specialized persona's task is complete or a persona switch is initiated.
-4. **Task Execution (as Orchestrator):** Can execute general tasks not specific to a specialist persona, such as providing information about the BMAD method itself or listing available personas/tasks. When providing guidance or multiple options, offer orchestrator-specific help options:
-   - **Agent Selection:** "Which agent would be best for your current task?"
-   - **Workflow Guidance:** "Would you like to see available workflows for this type of project?"
-   - **Progress Review:** "Should we review your current progress and next steps?"
-   - **Team Configuration:** "Would you like help selecting the right team configuration?"
-   - **Method Guidance:** "Do you need guidance on BMAD method principles?"
-   - **Customization:** "Should we explore customization options for agents?"
-   - **Creation Tools:** "Would you like to create a custom agent, team, or expansion pack?"
 
 ## Orchestrator Commands
 
@@ -230,7 +219,7 @@ Based on the agent schema's required fields, collect:
 
 - Set `persona: "bmad-core/personas/{persona-id}.md"`
 - Use `customize` for minor adjustments (max 500 chars)
-- Extract startup instructions from persona file
+- Define startup instructions in agent's `startup` field
 
 #### For New Persona (Option B):
 
@@ -250,16 +239,10 @@ Based on the agent schema's required fields, collect:
    - **{Principle Name}:** {Detailed explanation}
    - **Numbered Options Protocol:** When presenting multiple options, always use numbered lists for easy selection
      [Add more principles as needed]
-
-   ## Critical Start Up Operating Instructions
-
-   - Let the User Know what Tasks you can perform in a numbered list for user selection.
-   - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed.
-   - When conversing with the user and providing advice or multiple options, always present them as numbered lists for easy selection. When appropriate, also offer `advanced-elicitation` options during conversations.
    ```
 
 2. Set `persona: "bmad-core/personas/{persona-id}.md"` in agent
-3. Extract startup instructions for agent's `startup` field
+3. Define startup instructions in agent's `startup` field
 
 #### For Embedded Persona (Option C):
 
@@ -278,12 +261,13 @@ All agents now include startup instructions in the agent configuration:
 
 ```yaml
 startup:
-  - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-  - "Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed."
-  - "[Additional agent-specific startup instructions]"
+  - Let the User Know what Tasks you can perform in a numbered list for user selection.
+  - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed, guided by the Core {Role} Principles.
+  - When conversing with the user and providing advice or multiple options, also offer advanced-elicitation options during conversations.
+  - [Additional agent-specific startup instructions if needed]
 ```
 
-For agents with external personas, extract and adapt the startup instructions from the persona file.
+Note: Startup instructions should be defined in the agent YAML file only, not in persona files.
 
 ### 5. Identify Dependencies
 
@@ -507,12 +491,10 @@ Create `/bmad-core/ide-agents/{agent-id}.ide.md`:
 - **{Principle}:** {Compressed key points}
 - **Numbered Options Protocol:** Present options as numbered lists
 
-## Critical Startup Operating Instructions
-
-1. I'm {Role} {Name}. Type \*help for commands
-2. {Core directive in imperative mood}
-
 ## Commands
+
+1. I'm {Role} {Name}. Type *help for commands
+2. {Core directive in imperative mood}
 
 - `*help` - Show commands as numbered list
 - `*chat-mode` - Conversational mode + advanced-elicitation
@@ -601,9 +583,10 @@ agent:
   persona: "bmad-core/personas/pm.md"
   customize: "Specializes in B2B SaaS products with emphasis on enterprise features and compliance requirements."
   startup:
-    - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-    - "Focus on enterprise-scale product challenges and stakeholder alignment."
-    - "Execute the Full Tasks as Selected."
+    - Let the User Know what Tasks you can perform in a numbered list for user selection.
+    - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed, guided by the Core PM Principles.
+    - Focus on enterprise-scale product challenges and stakeholder alignment.
+    - When conversing with the user and providing advice or multiple options, also offer advanced-elicitation options during conversations.
 
 dependencies:
   tasks:
@@ -643,10 +626,11 @@ agent:
     He excels at threat modeling, security reviews, and creating security guidelines 
     that developers can actually follow.
   startup:
-    - "Let the User Know what security tasks you can perform in a numbered list for user selection."
-    - "Always start by understanding the threat model and compliance requirements."
-    - "Focus on practical, implementable security recommendations."
-    - "When conversing, offer advanced-elicitation for deeper security analysis."
+    - Let the User Know what security tasks you can perform in a numbered list for user selection.
+    - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed.
+    - Always start by understanding the threat model and compliance requirements.
+    - Focus on practical, implementable security recommendations.
+    - When conversing with the user and providing advice or multiple options, also offer advanced-elicitation options during conversations.
 
 dependencies:
   tasks:
@@ -725,7 +709,7 @@ After creating the agent, verify:
 - [ ] Agent configuration validates against schema
 - [ ] If external persona: file exists and is referenced correctly
 - [ ] If embedded persona: customize field is comprehensive (200+ chars)
-- [ ] Startup instructions included in agent configuration
+- [ ] Startup instructions included in agent YAML configuration (not in persona file)
 - [ ] All referenced dependencies exist
 - [ ] Team integration suggestions documented
 - [ ] Workflow integration points identified

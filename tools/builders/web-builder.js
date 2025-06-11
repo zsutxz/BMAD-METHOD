@@ -35,7 +35,7 @@ class WebBuilder {
       for (const outputDir of this.outputDirs) {
         const outputPath = path.join(outputDir, 'agents');
         await fs.mkdir(outputPath, { recursive: true });
-        const outputFile = path.join(outputPath, `${agentId}.md`);
+        const outputFile = path.join(outputPath, `${agentId}.txt`);
         await fs.writeFile(outputFile, bundle, 'utf8');
       }
     }
@@ -54,7 +54,7 @@ class WebBuilder {
       for (const outputDir of this.outputDirs) {
         const outputPath = path.join(outputDir, 'teams');
         await fs.mkdir(outputPath, { recursive: true });
-        const outputFile = path.join(outputPath, `${teamId}.md`);
+        const outputFile = path.join(outputPath, `${teamId}.txt`);
         await fs.writeFile(outputFile, bundle, 'utf8');
       }
     }

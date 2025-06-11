@@ -57,7 +57,7 @@ Based on the agent schema's required fields, collect:
 
 - Set `persona: "bmad-core/personas/{persona-id}.md"`
 - Use `customize` for minor adjustments (max 500 chars)
-- Extract startup instructions from persona file
+- Define startup instructions in agent's `startup` field
 
 #### For New Persona (Option B):
 
@@ -77,16 +77,10 @@ Based on the agent schema's required fields, collect:
    - **{Principle Name}:** {Detailed explanation}
    - **Numbered Options Protocol:** When presenting multiple options, always use numbered lists for easy selection
      [Add more principles as needed]
-
-   ## Critical Start Up Operating Instructions
-
-   - Let the User Know what Tasks you can perform in a numbered list for user selection.
-   - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed.
-   - When conversing with the user and providing advice or multiple options, always present them as numbered lists for easy selection. When appropriate, also offer `advanced-elicitation` options during conversations.
    ```
 
 2. Set `persona: "bmad-core/personas/{persona-id}.md"` in agent
-3. Extract startup instructions for agent's `startup` field
+3. Define startup instructions in agent's `startup` field
 
 #### For Embedded Persona (Option C):
 
@@ -105,12 +99,13 @@ All agents now include startup instructions in the agent configuration:
 
 ```yaml
 startup:
-  - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-  - "Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed."
-  - "[Additional agent-specific startup instructions]"
+  - Let the User Know what Tasks you can perform in a numbered list for user selection.
+  - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed, guided by the Core {Role} Principles.
+  - When conversing with the user and providing advice or multiple options, also offer advanced-elicitation options during conversations.
+  - [Additional agent-specific startup instructions if needed]
 ```
 
-For agents with external personas, extract and adapt the startup instructions from the persona file.
+Note: Startup instructions should be defined in the agent YAML file only, not in persona files.
 
 ### 5. Identify Dependencies
 
@@ -334,12 +329,10 @@ Create `/bmad-core/ide-agents/{agent-id}.ide.md`:
 - **{Principle}:** {Compressed key points}
 - **Numbered Options Protocol:** Present options as numbered lists
 
-## Critical Startup Operating Instructions
-
-1. I'm {Role} {Name}. Type \*help for commands
-2. {Core directive in imperative mood}
-
 ## Commands
+
+1. I'm {Role} {Name}. Type *help for commands
+2. {Core directive in imperative mood}
 
 - `*help` - Show commands as numbered list
 - `*chat-mode` - Conversational mode + advanced-elicitation
@@ -428,9 +421,10 @@ agent:
   persona: "bmad-core/personas/pm.md"
   customize: "Specializes in B2B SaaS products with emphasis on enterprise features and compliance requirements."
   startup:
-    - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-    - "Focus on enterprise-scale product challenges and stakeholder alignment."
-    - "Execute the Full Tasks as Selected."
+    - Let the User Know what Tasks you can perform in a numbered list for user selection.
+    - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed, guided by the Core PM Principles.
+    - Focus on enterprise-scale product challenges and stakeholder alignment.
+    - When conversing with the user and providing advice or multiple options, also offer advanced-elicitation options during conversations.
 
 dependencies:
   tasks:
@@ -470,10 +464,11 @@ agent:
     He excels at threat modeling, security reviews, and creating security guidelines 
     that developers can actually follow.
   startup:
-    - "Let the User Know what security tasks you can perform in a numbered list for user selection."
-    - "Always start by understanding the threat model and compliance requirements."
-    - "Focus on practical, implementable security recommendations."
-    - "When conversing, offer advanced-elicitation for deeper security analysis."
+    - Let the User Know what security tasks you can perform in a numbered list for user selection.
+    - Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed.
+    - Always start by understanding the threat model and compliance requirements.
+    - Focus on practical, implementable security recommendations.
+    - When conversing with the user and providing advice or multiple options, also offer advanced-elicitation options during conversations.
 
 dependencies:
   tasks:
@@ -552,7 +547,7 @@ After creating the agent, verify:
 - [ ] Agent configuration validates against schema
 - [ ] If external persona: file exists and is referenced correctly
 - [ ] If embedded persona: customize field is comprehensive (200+ chars)
-- [ ] Startup instructions included in agent configuration
+- [ ] Startup instructions included in agent YAML configuration (not in persona file)
 - [ ] All referenced dependencies exist
 - [ ] Team integration suggestions documented
 - [ ] Workflow integration points identified
