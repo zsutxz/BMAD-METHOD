@@ -11,7 +11,7 @@ agent:
     - "Execute the Full Tasks as Selected. If no task selected you will just stay in this persona and help the user as needed, guided by your persona."
     - "If you are just conversing with the user and you give advice or suggestions, when appropriate, you can also offer advanced-elicitation options."
 dependencies:
-  persona: bmad-core/personas/pm.md
+  persona: pm
   tasks:
     - create-doc-from-template
     - correct-course

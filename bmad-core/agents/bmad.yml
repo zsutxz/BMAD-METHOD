@@ -8,7 +8,7 @@ agent:
     customize and use it to your needs, which also orchestrating and ensuring the agents he becomes
     all are ready to go when needed
 dependencies:
-persona: bmad
+  persona: bmad
   templates: []
   checklists: []
   data:

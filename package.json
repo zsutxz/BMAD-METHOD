@@ -4,7 +4,14 @@
   "description": "Breakthrough Method of Agile AI-driven Development",
   "main": "tools/cli.js",
   "bin": {},
-  "scripts": {},
+  "scripts": {
+    "build": "node tools/cli.js build",
+    "build:agents": "node tools/cli.js build --agents-only",
+    "build:teams": "node tools/cli.js build --teams-only",
+    "list:agents": "node tools/cli.js list:agents",
+    "validate": "node tools/cli.js validate",
+    "analyze:deps": "echo 'Dependency analysis not yet implemented'"
+  },
   "dependencies": {
     "commander": "^9.4.1",
     "js-yaml": "^4.1.0"

@@ -32,4 +32,4 @@ bmad-core/checklists/.*
 bmad-core/data/.*
 bmad-core/ide-agents/.*
 
-.ai/*
+.ai/*web-build/

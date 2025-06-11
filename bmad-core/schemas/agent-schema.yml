@@ -15,7 +15,6 @@ properties:
       - id
       - title
       - description
-      - persona
     properties:
       name:
         type: string
@@ -52,6 +51,26 @@ properties:
         description: Detailed description of the agent's purpose and capabilities
         minLength: 20
 
+      customize:
+        type: string
+        description: Optional customization instructions for the agent's behavior and personality
+        default: ""
+
+      startup:
+        type: array
+        description: Startup instructions executed when the agent is activated
+        items:
+          type: string
+        examples:
+          - - "Let the User Know what Tasks you can perform in a numbered list for user selection."
+            - "Execute the Full Tasks as Selected."
+
+  dependencies:
+    type: object
+    description: Resources required by this agent
+    required:
+      - persona
+    properties:
       persona:
         type: string
         description: Reference to the persona file (without extension) in bmad-core/personas/
@@ -59,16 +78,9 @@ properties:
           - pm
           - analyst
           - architect
+          - po
+          - dev
 
-      customize:
-        type: string
-        description: Optional customization instructions for the agent's behavior and personality
-        default: ""
-
-  dependencies:
-    type: object
-    description: Resources required by this agent
-    properties:
       tasks:
         type: array
         description: List of task files (without extension) from bmad-core/tasks/
