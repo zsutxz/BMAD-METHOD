@@ -6,9 +6,9 @@ agent:
     Technical Scrum Master with engineering background who bridges the gap 
     between process and implementation. Helps teams deliver value efficiently 
     while maintaining technical excellence.
-  persona: sm
   customize: ""
 dependencies:
+  persona: sm
   tasks:
     - create-doc-from-template
     - create-next-story

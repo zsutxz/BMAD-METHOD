@@ -1,6 +1,5 @@
 # BMAD Agent Configuration Schema
-# This schema defines the structure for BMAD agent configuration files
-# Agents can either reference an external persona or embed the persona directly
+# This schema defines the structure for BMAD Method agent configuration files
 
 type: object
 required:
@@ -10,235 +9,165 @@ required:
 properties:
   agent:
     type: object
-    description: Core agent configuration and metadata
+    description: Core agent configuration
     required:
       - name
       - id
       - title
       - description
-      - customize
+      - persona
     properties:
       name:
         type: string
-        description: Human-friendly character name of the agent
-        pattern: "^[A-Z][a-z]+$"
+        description: Human-friendly name of the agent (e.g., 'John', 'Mary')
         examples:
-          - "John"
-          - "Mary"
-          - "Sarah"
-          - "James"
-          - "Quinn"
-          - "Sally"
-          - "Winston"
-          - "Bob"
-          - "BMad"
-      
+          - John
+          - Mary
+          - Winston
+          - Sarah
+          - Bob
+
       id:
         type: string
-        description: Unique identifier for the agent (lowercase, hyphenated)
-        pattern: "^[a-z][a-z0-9-]*$"
+        pattern: ^[a-z][a-z0-9-]*$
+        description: Unique identifier for the agent, lowercase with hyphens
         examples:
-          - "pm"
-          - "analyst"
-          - "architect"
-          - "po"
-          - "sm"
-          - "dev"
-          - "qa"
-          - "ux-expert"
-          - "bmad"
-      
+          - pm
+          - analyst
+          - architect
+          - po
+          - dev
+
       title:
         type: string
-        description: Professional title or role
-        minLength: 5
-        maxLength: 50
+        description: Professional title or role of the agent
         examples:
-          - "Product Manager"
-          - "Business Analyst"
-          - "Architect"
-          - "Product Owner"
-          - "Scrum Master"
-          - "Full Stack Developer"
-          - "QA Engineer"
-          - "UX Expert"
-      
+          - Product Manager
+          - Business Analyst
+          - Architect
+          - Product Owner
+
       description:
         type: string
-        description: Main goal and purpose of the agent
+        description: Detailed description of the agent's purpose and capabilities
         minLength: 20
-        maxLength: 300
-      
+
       persona:
-        oneOf:
-          - type: string
-            description: Reference to external persona file
-            pattern: "^bmad-core/personas/[a-z][a-z0-9-]*\\.md$"
-          - type: "null"
-            description: Null when using embedded persona
-      
+        type: string
+        description: Reference to the persona file (without extension) in bmad-core/personas/
+        examples:
+          - pm
+          - analyst
+          - architect
+
       customize:
         type: string
-        description: Customization instructions or embedded persona definition
+        description: Optional customization instructions for the agent's behavior and personality
         default: ""
-      
-      startup:
-        type: array
-        description: Startup instructions for the agent (required when persona is null)
-        items:
-          type: string
-          minLength: 20
 
   dependencies:
     type: object
     description: Resources required by this agent
-    required:
-      - tasks
-      - templates
-      - checklists
-      - data
-      - utils
     properties:
       tasks:
         type: array
-        description: List of task files from bmad-core/tasks/
+        description: List of task files (without extension) from bmad-core/tasks/
         items:
           type: string
-          pattern: "^[a-z][a-z0-9-]*$"
+          pattern: ^[a-z][a-z0-9-]*$
         uniqueItems: true
-      
+        examples:
+          - - create-doc-from-template
+            - execute-checklist
+            - correct-course
+
       templates:
         type: array
-        description: List of template files from bmad-core/templates/
+        description: List of template files (without extension) from bmad-core/templates/
         items:
           type: string
-          pattern: "^[a-z][a-z0-9-]*-tmpl$"
+          pattern: ^[a-z][a-z0-9-]*(-tmpl)?$
         uniqueItems: true
-      
+        examples:
+          - - prd-tmpl
+            - architecture-tmpl
+            - story-tmpl
+
       checklists:
         type: array
-        description: List of checklist files from bmad-core/checklists/
+        description: List of checklist files (without extension) from bmad-core/checklists/
         items:
           type: string
-          pattern: "^[a-z][a-z0-9-]*-checklist$"
+          pattern: ^[a-z][a-z0-9-]*(-checklist)?$
         uniqueItems: true
-      
+        default: []
+        examples:
+          - - pm-checklist
+            - architect-checklist
+            - po-master-checklist
+
       data:
         type: array
-        description: List of data files from bmad-core/data/
+        description: List of data files (without extension) from bmad-core/data/
         items:
           type: string
-          pattern: "^[a-z][a-z0-9-]*$"
+          pattern: ^[a-z][a-z0-9-]*$
         uniqueItems: true
-      
+        default: []
+        examples:
+          - - technical-preferences
+            - bmad-kb
+
       utils:
         type: array
-        description: List of utility files from bmad-core/utils/
+        description: List of utility files (without extension) from bmad-core/utils/
         items:
           type: string
-          pattern: "^[a-z][a-z0-9-]*$"
+          pattern: ^[a-z][a-z0-9-]*$
         uniqueItems: true
+        default: []
+        examples:
+          - - template-format
 
-# No additional properties allowed
+  environments:
+    type: object
+    description: Optional environment-specific configurations
+    properties:
+      web:
+        type: object
+        description: Web environment configuration
+        properties:
+          available:
+            type: boolean
+            description: Whether this agent is available in web environments
+            default: true
+
+          description:
+            type: string
+            description: Web-specific description of the agent's capabilities
+
+          max_size:
+            type: integer
+            description: Maximum character size for web bundle
+            minimum: 1000
+
+      ide:
+        type: object
+        description: IDE environment configuration
+        properties:
+          available:
+            type: boolean
+            description: Whether this agent is available in IDE environments
+            default: true
+
+          description:
+            type: string
+            description: IDE-specific description of the agent's capabilities
+
+          max_size:
+            type: integer
+            description: Maximum character size for IDE agent
+            minimum: 1000
+            maximum: 20000
+
 additionalProperties: false
-
-# Validation rules
-allOf:
-  # When persona is null, customize must contain embedded persona and startup must be provided
-  - if:
-      properties:
-        agent:
-          properties:
-            persona:
-              type: "null"
-    then:
-      properties:
-        agent:
-          required:
-            - startup
-          properties:
-            customize:
-              minLength: 200
-              description: "Must contain comprehensive persona definition when persona is null"
-            startup:
-              minItems: 1
-              description: "Startup instructions required for embedded personas"
-  
-  # When persona is provided, startup is optional
-  - if:
-      properties:
-        agent:
-          properties:
-            persona:
-              type: string
-    then:
-      properties:
-        agent:
-          properties:
-            customize:
-              maxLength: 500
-              description: "Keep customizations brief when using external persona"
-
-# Examples showing valid agent configurations
-examples:
-  # Agent with external persona
-  external_persona_agent:
-    agent:
-      name: "John"
-      id: "pm"
-      title: "Product Manager"
-      description: "Creates Product Requirements Documents (PRDs) and conducts product research to define product strategy"
-      persona: "bmad-core/personas/pm.md"
-      customize: ""
-      startup:
-        - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-        - "Execute the Full Tasks as Selected."
-    dependencies:
-      tasks:
-        - "create-doc-from-template"
-        - "advanced-elicitation"
-        - "shard-doc"
-      templates:
-        - "prd-tmpl"
-        - "project-brief-tmpl"
-      checklists:
-        - "pm-checklist"
-      data:
-        - "bmad-kb"
-      utils:
-        - "template-format"
-
-  # Agent with embedded persona
-  embedded_persona_agent:
-    agent:
-      name: "Elena"
-      id: "data-analyst"
-      title: "Data Analyst"
-      description: "Analyzes data patterns, creates visualizations, and provides insights for data-driven decision making"
-      persona: null
-      customize: >-
-        Elena is a meticulous Data Analyst with expertise in statistical analysis, data visualization, 
-        and pattern recognition. She approaches problems with scientific rigor, always seeking evidence 
-        in the data before drawing conclusions. Her style is precise, methodical, and focused on 
-        delivering actionable insights. She excels at transforming complex data into clear narratives 
-        that stakeholders can understand and act upon. Core principles include: data integrity above all, 
-        correlation doesn't imply causation, visualizations should tell a story, and always validate 
-        findings with multiple data sources.
-      startup:
-        - "Let the User Know what Tasks you can perform in a numbered list for user selection."
-        - "Focus on data-driven insights and evidence-based recommendations."
-        - "Always ask for data sources and context before beginning analysis."
-    dependencies:
-      tasks:
-        - "analyze-data"
-        - "create-visualization"
-        - "statistical-analysis"
-      templates:
-        - "data-report-tmpl"
-        - "dashboard-tmpl"
-      checklists:
-        - "data-quality-checklist"
-      data:
-        - "statistical-methods"
-      utils:
-        - "data-tools"

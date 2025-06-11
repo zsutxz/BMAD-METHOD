@@ -5,9 +5,9 @@ agent:
   description: >-
     Product Owner helps validate the artifacts are all cohesive with a master checklist, and also
     helps coach significant changes
-  persona: po
   customize: ""
 dependencies:
+  persona: po
   tasks:
     - execute-checklist
     - shard-doc

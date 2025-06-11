@@ -6,9 +6,9 @@ agent:
     Senior quality advocate with expertise in test architecture and automation.
     Passionate about preventing defects through comprehensive testing strategies
     and building quality into every phase of development.
-  persona: qa
   customize: ""
 dependencies:
+  persona: qa
   tasks: []
   templates: []
   checklists: []
