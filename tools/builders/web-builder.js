@@ -7,7 +7,7 @@ class WebBuilder {
     this.rootDir = options.rootDir || process.cwd();
     this.outputDirs = options.outputDirs || [
       path.join(this.rootDir, 'dist'),
-      path.join(this.rootDir, 'web-build')
+      path.join(this.rootDir, 'bmad-core', 'web-bundles')
     ];
     this.resolver = new DependencyResolver(this.rootDir);
     this.templatePath = path.join(this.rootDir, 'bmad-core', 'templates', 'web-agent-startup-instructions-template.md');

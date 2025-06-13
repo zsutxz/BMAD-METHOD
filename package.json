@@ -6,11 +6,11 @@
   "bin": {},
   "scripts": {
     "build": "node tools/cli.js build",
+    "install": "node tools/installer/bin/bmad.js install",
     "build:agents": "node tools/cli.js build --agents-only",
     "build:teams": "node tools/cli.js build --teams-only",
     "list:agents": "node tools/cli.js list:agents",
-    "validate": "node tools/cli.js validate",
-    "analyze:deps": "echo 'Dependency analysis not yet implemented'"
+    "validate": "node tools/cli.js validate"
   },
   "dependencies": {
     "commander": "^9.4.1",

@@ -48,9 +48,9 @@ program
 program
   .command('list:agents')
   .description('List all available agents')
-  .action(() => {
+  .action(async () => {
     const builder = new WebBuilder({ rootDir: process.cwd() });
-    const agents = builder.listAgents();
+    const agents = await builder.resolver.listAgents();
     console.log('Available agents:');
     agents.forEach(agent => console.log(`  - ${agent}`));
   });
@@ -61,8 +61,23 @@ program
   .action(async () => {
     const builder = new WebBuilder({ rootDir: process.cwd() });
     try {
-      await builder.validate();
-      console.log('All configurations are valid!');
+      // Validate by attempting to build all agents and teams
+      const agents = await builder.resolver.listAgents();
+      const teams = await builder.resolver.listTeams();
+      
+      console.log('Validating agents...');
+      for (const agent of agents) {
+        await builder.resolver.resolveAgentDependencies(agent);
+        console.log(`  ✓ ${agent}`);
+      }
+      
+      console.log('\nValidating teams...');
+      for (const team of teams) {
+        await builder.resolver.resolveTeamDependencies(team);
+        console.log(`  ✓ ${team}`);
+      }
+      
+      console.log('\nAll configurations are valid!');
     } catch (error) {
       console.error('Validation failed:', error.message);
       process.exit(1);
