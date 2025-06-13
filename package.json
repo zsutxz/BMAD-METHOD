@@ -9,7 +9,6 @@
   },
   "scripts": {
     "build": "node tools/cli.js build",
-    "install": "node tools/installer/bin/bmad.js install",
     "build:agents": "node tools/cli.js build --agents-only",
     "build:teams": "node tools/cli.js build --teams-only",
     "list:agents": "node tools/cli.js list:agents",
