@@ -18,18 +18,4 @@ Thumbs.db
 .env
 
 CLAUDE.md
-
-# User-created content (prefixed with .)
-# These allow users to create custom content without conflicts
-expansion-packs/.*
-agents/.*
-agent-teams/.*
-agent-team-workflows/.*
-bmad-core/personas/.*
-bmad-core/tasks/.*
-bmad-core/templates/.*
-bmad-core/checklists/.*
-bmad-core/data/.*
-bmad-core/ide-agents/.*
-
-.ai/*web-build/
+.ai/*

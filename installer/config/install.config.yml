@@ -1,0 +1,129 @@
+# BMAD Method Installation Configuration
+# This file defines what files are included in each installation profile
+
+installation-profiles:
+  minimal:
+    name: "IDE Agents Only"
+    description: "Minimal setup for IDE usage (recommended for beginners)"
+    files:
+      - "bmad-core/ide-agents/*.ide.md"
+      - "bmad-core/utils/agent-switcher.ide.md"
+      - "bmad-core/data/bmad-kb.md"
+      - "bmad-core/data/technical-preferences.md"
+      - "bmad-core/utils/template-format.md"
+
+  core:
+    extends: minimal
+    name: "IDE + Web Agents"
+    description: "Includes web agent configurations for building web-compatible bundles"
+    files:
+      - "bmad-core/agents/*.yml"
+      - "bmad-core/templates/web-agent-startup-instructions-template.md"
+
+  teams:
+    extends: core
+    name: "Teams & Workflows"
+    description: "Full team collaboration setup with pre-configured workflows"
+    files:
+      - "bmad-core/agent-teams/*.yml"
+      - "bmad-core/workflows/*.yml"
+      - "bmad-core/utils/workflow-management.md"
+
+  developer:
+    extends: teams
+    name: "Full Developer Kit"
+    description: "Everything including agent creation tools and schemas"
+    files:
+      - "bmad-core/tasks/create-*.md"
+      - "bmad-core/schemas/*.yml"
+      - "bmad-core/tasks/shard-doc.md"
+      - "bmad-core/tasks/index-docs.md"
+
+# IDE-specific configuration for generating rules/commands
+ide-configurations:
+  cursor:
+    name: "Cursor"
+    rule-file: ".cursorrules"
+    format: "single-file"
+    command-prefix: ""
+    instructions: |
+      # To use BMAD agents in Cursor:
+      # 1. Press Ctrl+L (Cmd+L on Mac) to open the chat
+      # 2. Type the agent name (e.g., "dev", "pm", "architect")
+      # 3. The agent will adopt that persona for the conversation
+
+  claude-code:
+    name: "Claude Code"
+    rule-dir: ".claude/commands/"
+    format: "multi-file"
+    command-suffix: ".md"
+    instructions: |
+      # To use BMAD agents in Claude Code:
+      # 1. Type /agent-name (e.g., "/dev", "/pm", "/architect")
+      # 2. Claude will switch to that agent's persona
+
+  windsurf:
+    name: "Windsurf"
+    rule-dir: ".windsurf/rules/"
+    format: "single-file"
+    rule-file: "bmad-agents.md"
+    instructions: |
+      # To use BMAD agents in Windsurf:
+      # 1. Type /agent-name (e.g., "/dev", "/pm")
+      # 2. Windsurf will adopt that agent's persona
+
+  roo:
+    name: "Roo"
+    # Configuration TBD - needs research
+    format: "unknown"
+    instructions: |
+      # Roo configuration coming soon
+      # Manual setup: Copy IDE agent files to your Roo configuration
+
+  cline:
+    name: "Cline"
+    # Configuration TBD - needs research
+    format: "unknown"
+    instructions: |
+      # Cline configuration coming soon
+      # Manual setup: Copy IDE agent files to your Cline configuration
+
+# Web agent export configuration
+web-agents:
+  source-dir: "web-build"
+  available-agents:
+    - name: "analyst"
+      file: "analyst.md"
+      description: "Business Analyst agent for requirements gathering"
+    - name: "pm"
+      file: "pm.md"
+      description: "Product Manager agent for product strategy"
+    - name: "architect"
+      file: "architect.md"
+      description: "Solution Architect agent for technical design"
+    - name: "po"
+      file: "po.md"
+      description: "Product Owner agent for backlog management"
+    - name: "sm"
+      file: "sm.md"
+      description: "Scrum Master agent for Agile processes"
+    - name: "dev"
+      file: "dev.md"
+      description: "Developer agent for implementation"
+    - name: "qa"
+      file: "qa.md"
+      description: "QA Engineer agent for testing"
+    - name: "ux"
+      file: "ux-expert.md"
+      description: "UX Expert agent for user experience"
+
+  teams:
+    - name: "fullstack"
+      file: "team-fullstack.md"
+      description: "Full-stack development team"
+    - name: "no-ui"
+      file: "team-no-ui.md"
+      description: "Backend/service development team"
+    - name: "all"
+      file: "team-all.md"
+      description: "Complete Agile team with all roles"
