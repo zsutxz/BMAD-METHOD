@@ -4,8 +4,28 @@ const { program } = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const path = require('path');
-const { version } = require('../package.json');
-const installer = require('../lib/installer');
+
+// Handle both execution contexts (from root via npx or from installer directory)
+let version, installer;
+try {
+  // Try installer context first (when run from tools/installer/)
+  version = require('../package.json').version;
+  installer = require('../lib/installer');
+} catch (e) {
+  // Fall back to root context (when run via npx from GitHub)
+  try {
+    version = require('../../../package.json').version;
+    installer = require('../../../tools/installer/lib/installer');
+  } catch (e2) {
+    console.error(chalk.red('Error: Could not load required modules. Please ensure you are running from the correct directory.'));
+    console.error(chalk.yellow('Debug info:'), {
+      __dirname,
+      cwd: process.cwd(),
+      error: e2.message
+    });
+    process.exit(1);
+  }
+}
 
 program
   .version(version)

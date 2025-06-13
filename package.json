@@ -4,8 +4,8 @@
   "description": "Breakthrough Method of Agile AI-driven Development",
   "main": "tools/cli.js",
   "bin": {
-    "bmad": "./tools/installer/bin/bmad.js",
-    "bmad-method": "./tools/installer/bin/bmad.js"
+    "bmad": "./bmad.js",
+    "bmad-method": "./bmad.js"
   },
   "scripts": {
     "build": "node tools/cli.js build",

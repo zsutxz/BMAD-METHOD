@@ -18,8 +18,8 @@ BMAD-METHOD (Breakthrough Method of AgileAI Driven Development) transforms softw
 - Scrum Master: Story generation and sprint planning
 - Developer: Code implementation
 - QA Specialist: Testing and quality assurance
-- BMAD Orchestrator: Role transformation via slash commands
-- BMAD Master: Universal executor of all capabilities
+- BMAD Orchestrator: Role transformation via slash commands and BMAD Method Tutor
+- BMAD Master: Universal executor of all capabilities without role switching
 
 ### Team Configurations
 
@@ -37,10 +37,10 @@ BMAD-METHOD (Breakthrough Method of AgileAI Driven Development) transforms softw
 
 ### Option 1: Web Bundles (No Installation)
 
-1. Download pre-built bundles from `web-bundles/`
+1. Download pre-built bundles from `bmad-core/web-bundles/`
 2. Upload to ChatGPT or Gemini
 3. Set instructions: "Your critical operating instructions are attached, you ARE the BMad Agent..."
-4. Start with `/help` command
+4. Start with `/help` command if unsure what to do!
 
 ### Option 2: IDE Integration
 
