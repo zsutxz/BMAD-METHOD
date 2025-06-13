@@ -12,7 +12,8 @@
     "build:agents": "node tools/cli.js build --agents-only",
     "build:teams": "node tools/cli.js build --teams-only",
     "list:agents": "node tools/cli.js list:agents",
-    "validate": "node tools/cli.js validate"
+    "validate": "node tools/cli.js validate",
+    "install:bmad": "node tools/installer/bin/bmad.js install"
   },
   "dependencies": {
     "commander": "^9.4.1",
