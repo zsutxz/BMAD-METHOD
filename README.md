@@ -1,80 +1,107 @@
-# The BMAD-Method V4 (Breakthrough Method of AgileAI Driven Development)
+# BMAD-METHOD
 
-## 🚀 Quick Start (No Installation Required!)
+AI agent orchestration framework for software development. Provides specialized AI agents that function as a complete Agile development team.
 
-### Option 1: Use Pre-built Web Bundles (Easiest)
+## Overview
 
-**No Node.js needed! Just download and use:**
+BMAD-METHOD (Breakthrough Method of AgileAI Driven Development) transforms software development workflows by providing 10 specialized AI agents that handle different aspects of the development lifecycle.
 
-1. Go to the [`/web-bundles/`](web-bundles/) folder in this repo
-2. Download a bundle file:
-   - **Team bundles** in [`/web-bundles/teams/`](web-bundles/teams/) - Full agile teams with all roles
-   - **Individual agents** in [`/web-bundles/agents/`](web-bundles/agents/) - Single role agents
-3. Upload to your AI platform:
+## Features
 
-   - **Gemini**: Create a new Gem → Upload the bundle file → Start using!
-   - **ChatGPT**: Create a custom GPT → Attach as knowledge → Start using!
+### Specialized Agents
 
-   Wether you use Gemini or ChatGPT, you will want to set the instructions as follows: 'Your critical operating instructions are attached, you ARE the BMad Agent, and you are orchestrating the team attached as instructed. Do not deviate from the attached operating instructions.'
+- Business Analyst: Requirements gathering and project briefs
+- Product Manager: Product roadmaps and PRDs
+- UX Expert: User experience design and UI specifications
+- Solution Architect: System design and technical architecture
+- Product Owner: Story validation and backlog management
+- Scrum Master: Story generation and sprint planning
+- Developer: Code implementation
+- QA Specialist: Testing and quality assurance
+- BMAD Orchestrator: Role transformation via slash commands
+- BMAD Master: Universal executor of all capabilities
 
-   Thanks it, you are now ready to go. I suggest starting with typing `/help` - and if you dont know what to do, select the option to hear about and select a workflow - and BMad will help you throughout the whole process guiding you agent to agent now!
+### Team Configurations
 
-That's it! You're ready to use BMAD agents. 🎉
+- Team All: Complete agile team with all roles
+- Team Fullstack: Full-stack application development focus
+- Team No-UI: Backend/service development without UX roles
 
-### Option 2: IDE Agents (Also No Installation)
+### Structured Workflows
 
-For Cursor, Windsurf, or other IDEs:
+- Greenfield: New project workflows (fullstack, service, UI)
+- Brownfield: Existing project workflows (fullstack, service, UI)
+- Decision guidance for complex and simple project paths
 
-1. Copy the `bmad-core/` folder to your project root
-2. Use agents from `bmad-core/ide-agents/`
-3. Set up slash commands (see examples in `.cursor/` or `.claude/commands/`)
+## Installation
 
-## What is BMAD?
+### Option 1: Web Bundles (No Installation)
 
-BMAD is a framework that gives you a complete Agile development team powered by AI. Each agent specializes in a specific role:
+1. Download pre-built bundles from `web-bundles/`
+2. Upload to ChatGPT or Gemini
+3. Set instructions: "Your critical operating instructions are attached, you ARE the BMad Agent..."
+4. Start with `/help` command
 
-- **🧠 Business Analyst** - Requirements gathering and project briefs
-- **📋 Product Manager** - PRDs and product planning
-- **👁️ UX Expert** - User experience design and UI specifications
-- **🏗️ Architect** - System design and technical architecture
-- **🔄 Fullstack Architect** - Holistic full-stack system design
-- **🎨 Design Architect** - UI/UX and frontend architecture
-- **✅ Product Owner** - Story validation and backlog management
-- **📝 Scrum Master** - Story generation and sprint planning
-- **💻 Developer** - Code implementation
-- **🧪 QA Engineer** - Testing and quality assurance
+### Option 2: IDE Integration
 
-The **BMAD Orchestrator** can transform into any role using slash commands!
-The **BMAD Master** can do anything within the bmad-core without agent switching.
+1. Copy `bmad-core/` to project root
+2. Use agents from `bmad-core/agents/`
+3. Configure IDE slash commands
 
-## 🛠️ Advanced: Build Custom Bundles
+### Option 3: Build Custom Bundles
 
-Only needed if you want to customize agents:
+```bash
+git clone [repository]
+npm install
+npm run build
+```
 
-1. Clone this repository
-2. Install Node.js and run `npm install`
-3. Create or Modify agents in `/agents/` folder
-4. Add your own custom templates, tasks, etc...
-5. Run `npm run build`
-6. Find your custom bundles in `/dist/` for the web agents
-7. If it is for an ide, just copy them to the same folders from the bmad method that are already in your project.
+Find bundles in `dist/`
 
-### IDE Slash Commands
+## Build Commands
 
-For Cursor, Windsurf, VSCode, and Claude Code: Check the `.cursor/` or `.claude/commands/` folders for example slash command setups. These let you quickly switch between agents in your IDE!
+```bash
+npm run build          # Build all bundles
+npm run build:agents   # Build agent bundles only
+npm run build:teams    # Build team bundles only
+npm run list:agents    # List available agents
+npm run validate       # Validate configurations
+```
 
-## 📚 Documentation
+## Project Structure
 
-Updates to docs coming soon.
+```
+bmad-core/
+├── agents/          # Individual agent definitions
+├── agent-teams/     # Team configurations
+├── workflows/       # Development workflows
+├── templates/       # Document templates
+├── tasks/          # Reusable task definitions
+├── checklists/     # Quality checklists
+├── data/           # Knowledge base
+└── web-bundles/    # Pre-built bundles
 
-## Previous Versions
+expansion-packs/     # Modular extensions
+tools/              # Build and CLI tools
+```
 
-- [Version 3](https://github.com/bmadcode/BMAD-METHOD/tree/V3)
-- [Version 2](https://github.com/bmadcode/BMAD-METHOD/tree/V2)
-- [Version 1](https://github.com/bmadcode/BMAD-METHOD/tree/V1)
+## Technical Details
 
----
+- Language: JavaScript
+- Runtime: Node.js 14.0.0+
+- Configuration: YAML-based
+- License: [MIT](LICENSE)
 
-Thank you and enjoy! - BMad
+## Contributing
 
-[MIT License](docs/LICENSE)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Author
+
+Brian (BMad) Madison
+
+## Version
+
+4.0.0
+
+See [versions.md](docs/versions.md) for previous versions and history.
