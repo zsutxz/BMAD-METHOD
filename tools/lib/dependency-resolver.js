@@ -10,9 +10,21 @@ class DependencyResolver {
   }
 
   async resolveAgentDependencies(agentId) {
-    const agentPath = path.join(this.bmadCore, 'agents', `${agentId}.yml`);
+    const agentPath = path.join(this.bmadCore, 'agents', `${agentId}.md`);
     const agentContent = await fs.readFile(agentPath, 'utf8');
-    const agentConfig = yaml.load(agentContent);
+    
+    // Extract YAML from markdown content
+    const yamlMatch = agentContent.match(/```yml\n([\s\S]*?)\n```/);
+    if (!yamlMatch) {
+      throw new Error(`No YAML configuration found in agent ${agentId}`);
+    }
+    
+    // Clean up the YAML to handle command descriptions after dashes
+    let yamlContent = yamlMatch[1];
+    // Fix commands section: convert "- command - description" to just "- command"
+    yamlContent = yamlContent.replace(/^(\s*-)(\s*"[^"]+")(\s*-\s*.*)$/gm, '$1$2');
+    
+    const agentConfig = yaml.load(yamlContent);
     
     const dependencies = {
       agent: {
@@ -24,12 +36,7 @@ class DependencyResolver {
       resources: []
     };
 
-    // Resolve persona
-    if (agentConfig.dependencies?.persona) {
-      const personaId = agentConfig.dependencies.persona;
-      const resource = await this.loadResource('personas', personaId);
-      if (resource) dependencies.resources.push(resource);
-    }
+    // Personas are now embedded in agent configs, no need to resolve separately
 
     // Resolve other dependencies
     const depTypes = ['tasks', 'templates', 'checklists', 'data', 'utils'];
@@ -60,8 +67,8 @@ class DependencyResolver {
       resources: new Map() // Use Map to deduplicate resources
     };
 
-    // Always add bmad agent first if it's a team
-    const bmadAgent = await this.resolveAgentDependencies('bmad');
+    // Always add bmad-orchestrator agent first if it's a team
+    const bmadAgent = await this.resolveAgentDependencies('bmad-orchestrator');
     dependencies.agents.push(bmadAgent.agent);
     bmadAgent.resources.forEach(res => {
       dependencies.resources.set(res.path, res);
@@ -70,20 +77,20 @@ class DependencyResolver {
     // Resolve all agents in the team
     let agentsToResolve = teamConfig.agents || [];
     
-    // Handle wildcard "*" - include all agents
+    // Handle wildcard "*" - include all agents except bmad-master
     if (agentsToResolve.includes('*')) {
       const allAgents = await this.listAgents();
-      // Remove wildcard and add all agents except those already in the list
+      // Remove wildcard and add all agents except those already in the list and bmad-master
       agentsToResolve = agentsToResolve.filter(a => a !== '*');
       for (const agent of allAgents) {
-        if (!agentsToResolve.includes(agent)) {
+        if (!agentsToResolve.includes(agent) && agent !== 'bmad-master') {
           agentsToResolve.push(agent);
         }
       }
     }
     
     for (const agentId of agentsToResolve) {
-      if (agentId === 'bmad') continue; // Already added
+      if (agentId === 'bmad-orchestrator' || agentId === 'bmad-master') continue; // Already added or excluded
       const agentDeps = await this.resolveAgentDependencies(agentId);
       dependencies.agents.push(agentDeps.agent);
       
@@ -150,8 +157,8 @@ class DependencyResolver {
     try {
       const files = await fs.readdir(path.join(this.bmadCore, 'agents'));
       return files
-        .filter(f => f.endsWith('.yml'))
-        .map(f => f.replace('.yml', ''));
+        .filter(f => f.endsWith('.md'))
+        .map(f => f.replace('.md', ''));
     } catch (error) {
       return [];
     }

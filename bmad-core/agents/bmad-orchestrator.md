@@ -66,7 +66,6 @@ workflow:
 
 dependencies:
   tasks:
-    - create-agent
     - create-ide-agent
     - create-team
     - create-expansion-pack

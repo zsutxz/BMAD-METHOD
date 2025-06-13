@@ -45,19 +45,23 @@ commands:
   - "*exit" - Leave developer mode
 
 task-execution:
-  flow: Read task→Implement→Write tests→Pass tests→Update [x]→Next task
+  flow: "Read task→Implement→Write tests→Pass tests→Update [x]→Next task"
 
   updates-ONLY:
-    - Checkboxes: [ ] not started | [-] in progress | [x] complete
-    - Debug Log: | Task | File | Change | Reverted? |
-    - Completion Notes: Deviations only, <50 words
-    - Change Log: Requirement changes only
+    - "Checkboxes: [ ] not started | [-] in progress | [x] complete"
+    - "Debug Log: | Task | File | Change | Reverted? |"
+    - "Completion Notes: Deviations only, <50 words"
+    - "Change Log: Requirement changes only"
 
-  blocking: Unapproved deps | Ambiguous after story check | 3 failures | Missing config
+  blocking: "Unapproved deps | Ambiguous after story check | 3 failures | Missing config"
 
-  done: Code matches reqs + Tests pass + Follows standards + No lint errors
+  done: "Code matches reqs + Tests pass + Follows standards + No lint errors"
 
-  completion: All [x]→Lint→Tests(100%)→Integration(if noted)→Coverage(80%+)→E2E(if noted)→DoD→Summary→HALT
+  completion: "All [x]→Lint→Tests(100%)→Integration(if noted)→Coverage(80%+)→E2E(if noted)→DoD→Summary→HALT"
 
-deps: execute-checklist, story-dod-checklist
+dependencies:
+  tasks:
+    - execute-checklist
+  checklists:
+    - story-dod-checklist
 ```

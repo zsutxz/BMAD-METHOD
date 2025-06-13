@@ -65,7 +65,7 @@ dependencies:
     - index-docs
     - shard-doc
   templates:
-    - agent-tmpl
+    - agent-tmplv2
     - architecture-tmpl
     - brownfield-architecture-tmpl
     - brownfield-prd-tmpl
