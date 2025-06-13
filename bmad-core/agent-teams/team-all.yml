@@ -3,7 +3,7 @@ bundle:
   description: This is a full organization of agents and includes every possible agent. This will produce the larges bundle but give the most options for discussion in a single session
 
 agents:
-  - bmad
+  - bmad-orchestrator
   - "*"
 
 workflows:

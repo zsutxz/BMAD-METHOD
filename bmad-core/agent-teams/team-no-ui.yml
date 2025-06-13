@@ -3,7 +3,7 @@ bundle:
   description: This is a team that is responsible for planning the project without any UI/UX design. This is for projects that do not require UI/UX design.
 
 agents:
-  - bmad
+  - bmad-orchestrator
   - analyst
   - pm
   - architect

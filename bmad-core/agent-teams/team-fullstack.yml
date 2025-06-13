@@ -9,7 +9,7 @@ bundle:
     refactoring, and system modernization.
 
 agents:
-  - bmad
+  - bmad-orchestrator
   - analyst
   - pm
   - ux-expert

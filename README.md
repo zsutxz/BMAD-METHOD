@@ -45,6 +45,7 @@ BMAD is a framework that gives you a complete Agile development team powered by 
 - **🧪 QA Engineer** - Testing and quality assurance
 
 The **BMAD Orchestrator** can transform into any role using slash commands!
+The **BMAD Master** can do anything within the bmad-core without agent switching.
 
 ## 🛠️ Advanced: Build Custom Bundles
 
@@ -52,43 +53,19 @@ Only needed if you want to customize agents:
 
 1. Clone this repository
 2. Install Node.js and run `npm install`
-3. Modify agents in `/agents/` folder
-4. Run `npm run build`
-5. Find your custom bundles in `/dist/`
-
-### Configuring Custom Agents
-
-- Edit YAML files in `/agents/` to customize behavior
-- Create new team combinations in `/agent-teams/` directory
-- All configuration is now YAML-based for easy editing
+3. Create or Modify agents in `/agents/` folder
+4. Add your own custom templates, tasks, etc...
+5. Run `npm run build`
+6. Find your custom bundles in `/dist/` for the web agents
+7. If it is for an ide, just copy them to the same folders from the bmad method that are already in your project.
 
 ### IDE Slash Commands
 
 For Cursor, Windsurf, VSCode, and Claude Code: Check the `.cursor/` or `.claude/commands/` folders for example slash command setups. These let you quickly switch between agents in your IDE!
 
-For Claude at least, it also helped to add the following to the root CLAUDE.MD:
-
-```markdown
-## Custom IDE Commands
-
-IMPORTANT: This repository uses custom commands defined in `.claude/commands/`. When users type these commands, IMMEDIATELY follow the instructions in the corresponding command file:
-
-- `/ide-agent <agent-name>` - Switch to an IDE agent persona (see `.claude/commands/ide-agent.md`)
-- `/exit-agent` or `/exit` - Return to default Claude Code mode
-
-When a custom command is used:
-
-1. IMMEDIATELY read the command file
-2. Follow the instructions exactly as written
-3. Do NOT ask for clarification or additional information unless the command file says to
-```
-
 ## 📚 Documentation
 
-- [Detailed Setup Guide](docs/instruction.md)
-- [IDE Setup Guide](docs/ide-setup.md)
-- [BMAD Knowledge Base](bmad-core/data/bmad-kb.md)
-- [Contributing Guidelines](docs/CONTRIBUTING.md)
+Updates to docs coming soon.
 
 ## Previous Versions
 

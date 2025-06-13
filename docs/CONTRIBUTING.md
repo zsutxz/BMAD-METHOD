@@ -22,6 +22,8 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 
 ### Pull Request Process
 
+Please only propose small granular commits! If its large or significant, please discuss in the discussions tab and open up an issue first. I do not want you to waste your time on a potentially very large PR to have it rejected because it is not aligned or deviates from other planned changes. Communicate and lets work together to build and improve this great community project!
+
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature/your-feature-name`)
 3. Make your changes
@@ -32,13 +34,12 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 
 ## Commit Message Convention
 
-[Commit Convention](./docs/commit.md)
+PRs with a wall of AI Generated marketing hype that is unclear in what is being proposed will be closed and rejected. Your best change to contribute is with a small clear PR description explaining, what is the issue being solved or gap in the system being filled. Also explain how it leads to the core guiding principles of the project.
 
 ## Code Style
 
 - Follow the existing code style and conventions
 - Write clear comments for complex logic
-- Ensure all tests pass before submitting
 
 ## License
 
