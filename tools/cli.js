@@ -3,6 +3,7 @@
 const { Command } = require('commander');
 const WebBuilder = require('./builders/web-builder');
 const V3ToV4Upgrader = require('./upgraders/v3-to-v4-upgrader');
+const IdeSetup = require('./installer/lib/ide-setup');
 const path = require('path');
 
 const program = new Command();
@@ -37,6 +38,21 @@ program
       if (!options.agentsOnly) {
         console.log('Building team bundles...');
         await builder.buildTeams();
+      }
+
+      // Generate IDE configuration folders
+      console.log('Generating IDE configuration folders...');
+      const installDir = process.cwd();
+      
+      // Generate configurations for all supported IDEs
+      const ides = ['cursor', 'claude-code', 'windsurf', 'roo'];
+      for (const ide of ides) {
+        try {
+          console.log(`Setting up ${ide} integration...`);
+          await IdeSetup.setup(ide, installDir);
+        } catch (error) {
+          console.warn(`Warning: Failed to setup ${ide}:`, error.message);
+        }
       }
 
       console.log('Build completed successfully!');

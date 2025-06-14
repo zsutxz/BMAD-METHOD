@@ -253,6 +253,41 @@ class IdeSetup {
     // Create new modes content
     let newModesContent = "";
 
+    // Define file permissions for each agent type
+    const agentPermissions = {
+      'analyst': {
+        fileRegex: '\\.(md|txt)$',
+        description: 'Documentation and text files'
+      },
+      'pm': {
+        fileRegex: '\\.(md|txt)$',
+        description: 'Product documentation'
+      },
+      'architect': {
+        fileRegex: '\\.(md|txt|yml|yaml|json)$',
+        description: 'Architecture docs and configs'
+      },
+      'dev': null, // Full edit access
+      'qa': {
+        fileRegex: '\\.(test|spec)\\.(js|ts|jsx|tsx)$|\\.md$',
+        description: 'Test files and documentation'
+      },
+      'ux-expert': {
+        fileRegex: '\\.(md|css|scss|html|jsx|tsx)$',
+        description: 'Design-related files'
+      },
+      'po': {
+        fileRegex: '\\.(md|txt)$',
+        description: 'Story and requirement docs'
+      },
+      'sm': {
+        fileRegex: '\\.(md|txt)$',
+        description: 'Process and planning docs'
+      },
+      'bmad-orchestrator': null, // Full edit access
+      'bmad-master': null // Full edit access
+    };
+
     for (const agentId of agents) {
       // Skip if already exists
       if (existingModes.includes(`bmad-${agentId}`)) {
@@ -285,23 +320,35 @@ class IdeSetup {
           const titleMatch = yaml.match(/title:\s*(.+)/);
           const iconMatch = yaml.match(/icon:\s*(.+)/);
           const whenToUseMatch = yaml.match(/whenToUse:\s*"(.+)"/);
+          const roleDefinitionMatch = yaml.match(/roleDefinition:\s*"(.+)"/);
 
-          const title = titleMatch ? titleMatch[1].trim() : agentId;
+          const title = titleMatch ? titleMatch[1].trim() : this.getAgentTitle(agentId);
           const icon = iconMatch ? iconMatch[1].trim() : "🤖";
           const whenToUse = whenToUseMatch
             ? whenToUseMatch[1].trim()
             : `Use for ${title} tasks`;
+          const roleDefinition = roleDefinitionMatch
+            ? roleDefinitionMatch[1].trim()
+            : `You are a ${title} specializing in ${title.toLowerCase()} tasks and responsibilities.`;
 
-          // Build mode entry
-          newModesContent += `  - slug: bmad-${agentId}\n`;
-          newModesContent += `    name: "${icon} ${title}"\n`;
-          newModesContent += `    roleDefinition: "You are the ${title} from BMAD-METHOD."\n`;
-          newModesContent += `    whenToUse: "${whenToUse}"\n`;
-          newModesContent += `    customInstructions: "CRITICAL: Read the full YML from .bmad-core/agents/${agentId}.md, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode."\n`;
-          newModesContent += `    groups:\n`;
-          newModesContent += `      - read\n`;
-          newModesContent += `      - edit  # Full access - adjust permissions as needed\n`;
-          newModesContent += "\n";
+          // Build mode entry with proper formatting
+          newModesContent += ` - slug: bmad-${agentId}\n`;
+          newModesContent += `   name: '${icon} ${title}'\n`;
+          newModesContent += `   roleDefinition: ${roleDefinition}\n`;
+          newModesContent += `   whenToUse: ${whenToUse}\n`;
+          newModesContent += `   customInstructions: CRITICAL Read the full YML from .bmad-core/agents/${agentId}.md start activation to alter your state of being follow startup section instructions stay in this being until told to exit this mode\n`;
+          newModesContent += `   groups:\n`;
+          newModesContent += `    - read\n`;
+          
+          // Add permissions based on agent type
+          const permissions = agentPermissions[agentId];
+          if (permissions) {
+            newModesContent += `    - - edit\n`;
+            newModesContent += `      - fileRegex: ${permissions.fileRegex}\n`;
+            newModesContent += `        description: ${permissions.description}\n`;
+          } else {
+            newModesContent += `    - edit\n`;
+          }
 
           console.log(
             chalk.green(`✓ Added mode: bmad-${agentId} (${icon} ${title})`)
@@ -317,7 +364,7 @@ class IdeSetup {
       roomodesContent = existingContent.trim() + "\n" + newModesContent;
     } else {
       // Create new .roomodes file with proper YAML structure
-      roomodesContent = "modes:\n" + newModesContent;
+      roomodesContent = "customModes:\n" + newModesContent;
     }
 
     // Write .roomodes file
@@ -325,14 +372,13 @@ class IdeSetup {
     console.log(chalk.green("✓ Created .roo/.roomodes file"));
 
     // Create README in .roo directory
-
     const rooReadme = `# Roo Code Custom Modes for BMAD-METHOD
 
 This directory contains custom mode configurations for Roo Code to enable BMAD agent personalities.
 
 ## Setup
 
-The \`.roomodes\` file in the project root defines all BMAD agents as custom modes. Modes are automatically available in Roo Code when you open this project.
+The \`.roomodes\` file defines all BMAD agents as custom modes using the proper \`customModes:\` structure. Modes are automatically available in Roo Code when you open this project.
 
 ## Available Modes
 
@@ -345,12 +391,14 @@ In Roo Code:
 2. Select any BMAD agent mode
 3. The AI will adopt that agent's personality and expertise
 
-## Adding Custom Instructions
+## File Permissions
 
-To add mode-specific instructions:
-1. Create files in \`.roo/rules-{mode-slug}/\`
-2. Add markdown files with additional context
-3. The AI will automatically include these when the mode is active
+Each agent has specific file access permissions:
+- **Analysts, PM, PO, SM**: Limited to documentation files (.md, .txt)
+- **Architect**: Architecture docs and configs (.md, .txt, .yml, .yaml, .json)
+- **QA**: Test files and documentation
+- **UX Expert**: Design-related files (.md, .css, .scss, .html, .jsx, .tsx)
+- **Developer, Orchestrator, Master**: Full edit access to all files
 `;
 
     const readmePath = path.join(rooDir, "README.md");
