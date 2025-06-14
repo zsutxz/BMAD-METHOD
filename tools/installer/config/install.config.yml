@@ -108,12 +108,14 @@ ide-configurations:
       # 2. Windsurf will adopt that agent's persona
 
   roo:
-    name: "Roo"
-    # Configuration TBD - needs research
-    format: "unknown"
+    name: "Roo Code"
+    format: "custom-modes"
+    file: ".roomodes"
     instructions: |
-      # Roo configuration coming soon
-      # Manual setup: Copy IDE agent files to your Roo configuration
+      # To use BMAD agents in Roo Code:
+      # 1. Open the mode selector (usually in the status bar)
+      # 2. Select any bmad-{agent} mode (e.g., "bmad-dev", "bmad-pm")
+      # 3. The AI will adopt that agent's full personality and capabilities
 
   cline:
     name: "Cline"

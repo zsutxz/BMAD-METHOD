@@ -37,7 +37,7 @@ program
   .option('-f, --full', 'Install complete .bmad-core folder')
   .option('-a, --agent <agent>', 'Install specific agent with dependencies')
   .option('-d, --directory <path>', 'Installation directory (default: ./bmad-core)')
-  .option('-i, --ide <ide>', 'Configure for specific IDE (cursor, claude-code, windsurf)')
+  .option('-i, --ide <ide>', 'Configure for specific IDE (cursor, claude-code, windsurf, roo)')
   .action(async (options) => {
     try {
       if (!options.full && !options.agent) {
@@ -161,6 +161,7 @@ async function promptInstallation(options) {
         { name: 'Cursor', value: 'cursor' },
         { name: 'Claude Code', value: 'claude-code' },
         { name: 'Windsurf', value: 'windsurf' },
+        { name: 'Roo Code', value: 'roo' },
         { name: 'Other/Manual setup', value: null }
       ]
     }

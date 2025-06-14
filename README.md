@@ -103,6 +103,7 @@ The BMad Method works with any IDE, but has built-in integration for:
 - `cursor` - Cursor IDE with @agent commands
 - `claude-code` - Claude Code with /agent commands
 - `windsurf` - Windsurf with @agent commands
+- `roo` - Roo Code with custom modes (see `.roomodes`)
 - More coming soon - BUT ITS easy to use with ANY IDE!
 
 ## Available Agents
