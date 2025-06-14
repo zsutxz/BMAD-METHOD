@@ -20,12 +20,14 @@
 **Prerequisites**: Install [Node.js](https://nodejs.org) (v14 or higher)
 
 **Option A: Using npx (easiest)**
+
 ```bash
 npx bmad-method install
 # Choose: full installation, destination folder, and IDE
 ```
 
 **Option B: Clone and install**
+
 ```bash
 git clone https://github.com/bmadcode/bmad-method.git
 cd bmad-method
