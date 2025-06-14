@@ -200,6 +200,38 @@ class V3ToV4Upgrader {
       }
     }
 
+    // Find UX/UI spec
+    const uxSpecCandidates = [
+      "ux-ui-spec.md",
+      "ux-ui-specification.md",
+      "ui-spec.md",
+      "ux-spec.md",
+    ];
+    let uxSpecFile = null;
+    for (const candidate of uxSpecCandidates) {
+      const candidatePath = path.join(docsPath, candidate);
+      if (await this.pathExists(candidatePath)) {
+        uxSpecFile = candidate;
+        break;
+      }
+    }
+
+    // Find v0 prompt or UX prompt
+    const uxPromptCandidates = [
+      "v0-prompt.md",
+      "ux-prompt.md",
+      "ui-prompt.md",
+      "design-prompt.md",
+    ];
+    let uxPromptFile = null;
+    for (const candidate of uxPromptCandidates) {
+      const candidatePath = path.join(docsPath, candidate);
+      if (await this.pathExists(candidatePath)) {
+        uxPromptFile = candidate;
+        break;
+      }
+    }
+
     // Find epic files
     const epicFiles = await globAsync("epic*.md", { cwd: docsPath });
 
@@ -220,6 +252,8 @@ class V3ToV4Upgrader {
       prdFile,
       archFile,
       frontEndArchFile,
+      uxSpecFile,
+      uxPromptFile,
       epicFiles,
       storyFiles,
       customFileCount: bmadAgentFiles.length,
@@ -247,6 +281,20 @@ class V3ToV4Upgrader {
         `- Front-end Architecture found: docs/${analysis.frontEndArchFile}`
       );
     }
+    console.log(
+      `- UX/UI Spec found: ${
+        analysis.uxSpecFile
+          ? `docs/${analysis.uxSpecFile}`
+          : chalk.yellow("Not found")
+      }`
+    );
+    console.log(
+      `- UX/Design Prompt found: ${
+        analysis.uxPromptFile
+          ? `docs/${analysis.uxPromptFile}`
+          : chalk.yellow("Not found")
+      }`
+    );
     console.log(
       `- Epic files found: ${analysis.epicFiles.length} files (epic*.md)`
     );
@@ -408,6 +456,30 @@ class V3ToV4Upgrader {
         copiedCount++;
       }
 
+      // Copy UX/UI Spec if exists
+      if (analysis.uxSpecFile) {
+        const src = path.join(backupDocsPath, analysis.uxSpecFile);
+        const dest = path.join(newDocsPath, analysis.uxSpecFile);
+        await fs.copyFile(src, dest);
+        console.log(
+          chalk.green(`✓ Copied UX/UI Spec to docs/${analysis.uxSpecFile}`)
+        );
+        copiedCount++;
+      }
+
+      // Copy UX/Design Prompt if exists
+      if (analysis.uxPromptFile) {
+        const src = path.join(backupDocsPath, analysis.uxPromptFile);
+        const dest = path.join(newDocsPath, analysis.uxPromptFile);
+        await fs.copyFile(src, dest);
+        console.log(
+          chalk.green(
+            `✓ Copied UX/Design Prompt to docs/${analysis.uxPromptFile}`
+          )
+        );
+        copiedCount++;
+      }
+
       // Copy stories
       if (analysis.storyFiles.length > 0) {
         const storiesDir = path.join(newDocsPath, "stories");
@@ -520,6 +592,8 @@ class V3ToV4Upgrader {
       (analysis.prdFile ? 1 : 0) +
       (analysis.archFile ? 1 : 0) +
       (analysis.frontEndArchFile ? 1 : 0) +
+      (analysis.uxSpecFile ? 1 : 0) +
+      (analysis.uxPromptFile ? 1 : 0) +
       analysis.storyFiles.length;
     console.log(
       `- Documents migrated: ${totalDocs} files${
@@ -544,6 +618,11 @@ class V3ToV4Upgrader {
     if (analysis.frontEndArchFile) {
       console.log(
         "- Front-end architecture found - V4 uses full-stack-architecture.md, migration needed"
+      );
+    }
+    if (analysis.uxSpecFile || analysis.uxPromptFile) {
+      console.log(
+        "- UX/UI design files found and copied - ready for use with V4"
       );
     }
 

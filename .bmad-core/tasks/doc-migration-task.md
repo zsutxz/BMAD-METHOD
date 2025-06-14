@@ -1,188 +1,180 @@
-# Document Migration Task (V3 to V4)
+# Document Migration Task
 
 ## Purpose
 
-Migrate BMAD-METHOD V3 documents to V4 format by aligning section headings, structure, and content organization with V4 templates while preserving all user-generated content.
+Migrate BMAD-METHOD documents to match V4 template structure exactly, preserving all content while enforcing strict template compliance.
 
-## When to Use This Task
+## Task Requirements
 
-[[LLM: This task should be used after a V3 to V4 upgrade when the user has existing PRD and Architecture documents that need to be aligned with V4 templates. The task handles:
+1. **Input**: User MUST specify the document to migrate (e.g., `docs/prd.md`)
+2. **Template**: User MUST specify the V4 template to use (e.g., `.bmad-core/templates/prd-tmpl.md`)
+3. **Validation**: Verify document and template are compatible types
+4. **Output**: Creates migrated document with original name, backs up original with `.bak` extension
 
-- PRD migration to V4 format
-- Architecture migration (single backend or full-stack)
-- Merging separate front-end and backend architecture docs into full-stack-architecture.md
-  ]]
+[[LLM: VALIDATION REQUIREMENTS:
 
-Use this task when:
+- Both input document and template paths MUST be provided by the user
+- Do NOT assume or select templates automatically
+- Validate that document type matches template type (e.g., PRD → PRD template)
+- Reject incompatible migrations (e.g., PRD → architecture template)
 
-- You've upgraded from BMAD V3 to V4
-- Your documents have V3 section headings that differ from V4
-- You have separate front-end and backend architecture documents
-- You need to align your documents with V4 agent expectations
+]]
 
-## Prerequisites
+## Migration Rules
 
-- Completed V3 to V4 upgrade
-- Documents located in `docs/` folder
-- Access to V4 templates in `.bmad-core/templates/`
+### Strict Template Compliance
 
-## Process
+[[LLM: CRITICAL RULES:
 
-### 1. Analyze Existing Documents
+1. The ONLY Level 2 headings (##) allowed are EXACTLY those in the V4 template
+2. No additions, no removals, no modifications to Level 2 headings
+3. All user content must be preserved and placed under appropriate template sections
+4. Remove any existing table of contents
+5. Never delete user content - find the most appropriate section
+6. DO NOT add any LLM prompts, placeholders, or "TBD" content
+7. Leave empty sections empty - no instructions or guidance text
 
-[[LLM: First, examine what documents exist in the docs/ folder:
+]]
 
-- Look for prd.md or similar
-- Look for architecture.md or similar
-- Check for front-end-architecture.md or similar
-- Note which documents need migration
-  ]]
+### Content Migration Process
 
-Identify which documents need migration:
+1. **Read Template Structure**
+   - Extract all Level 2 headings from the V4 template
+   - These are the ONLY Level 2 headings allowed in the final document
 
-- PRD document
-- Architecture document(s)
-- Any front-end specific architecture
+2. **Analyze Original Document**
+   - Identify all content blocks
+   - Note original section organization
+   - Flag any custom sections
 
-### 2. PRD Migration
+3. **Create Backup First**
+   - Rename original file: `mv filename.md filename.md.bak`
+   - This preserves the original completely
 
-[[LLM: When migrating the PRD:
+4. **Create New File**
+   - Create new `filename.md` from scratch
+   - Start with template structure (all Level 2 headings)
+   - For each content block from original:
+     - Find the most appropriate V4 template section
+     - If original had Level 2 heading not in template, demote to Level 3
+     - Preserve all text, lists, code blocks, diagrams, tables
+     - Remove only table of contents sections
+   - **IMPORTANT**: Do NOT add any LLM prompts, placeholders, or instructions
+   - If a template section has no matching content, leave it empty
 
-1. Read the existing PRD content
-2. Compare with `.bmad-core/templates/prd-tmpl.md`
-3. Map V3 sections to V4 sections:
-   - Keep all user content
-   - Update section headings to match V4
-   - Add any missing V4 sections with placeholder content
-   - Preserve any custom sections at the end
+5. **Validate Content Preservation**
+   - For each major content block from original (excluding headings):
+     - Use grep or search to verify it exists in new file
+     - Report any content that couldn't be verified
+   - This ensures no accidental content loss
 
-V3 → V4 Common Mappings:
+## Example Migration
 
-- "Executive Summary" → "Goals and Background Context"
-- "Goals" → "Goals and Background Context > Goals"
-- "Requirements" → Keep as is
-- "User Stories" → "Epics and User Stories"
-  ]]
+```markdown
+Original (prd.md):
+## Executive Summary
+[content...]
+## Custom Feature Section  
+[content...]
+## Table of Contents
+[toc...]
 
-**PRD Section Mapping:**
+Template (prd-tmpl.md):
+## Goals and Background Context
+## Functional Requirements
+## Success Metrics and KPIs
 
-1. Update main heading structure to match V4 template
-2. Preserve all existing content under new headings
-3. Add missing sections with appropriate prompts for completion
-4. Maintain any project-specific custom sections
+Result (prd.md):
+## Goals and Background Context
+[executive summary content moved here]
+### Custom Feature Section
+[content preserved but demoted to Level 3]
+## Functional Requirements
 
-### 3. Architecture Migration
-
-[[LLM: Determine architecture migration path:
-
-1. If ONLY backend architecture exists:
-   - Use `.bmad-core/templates/architecture-tmpl.md`
-   - Map sections appropriately
-2. If BOTH backend AND front-end architecture exist:
-   - Use `.bmad-core/templates/full-stack-architecture-tmpl.md`
-   - Merge content from both documents
-   - Create unified architecture document
-3. Section mapping approach:
-   - Preserve all technical decisions and content
-   - Update headings to match V4 structure
-   - Combine overlapping sections intelligently
-     ]]
-
-**Architecture Migration Paths:**
-
-#### Single Architecture → architecture.md
-
-- Update section headings to V4 format
-- Add any missing V4 sections
-- Preserve all technical content
-
-#### Multiple Architecture Files → full-stack-architecture.md
-
-- Merge backend and front-end content
-- Organize under V4 full-stack sections
-- Eliminate redundancy while preserving all unique content
-- Create unified system view
-
-### 4. Content Preservation Rules
-
-[[LLM: CRITICAL preservation rules:
-
-1. NEVER delete user content
-2. If unsure where content belongs, add it to the most relevant section
-3. Preserve all:
-   - Technical decisions
-   - Diagrams and code blocks
-   - Lists and tables
-   - Custom sections
-   - Links and references
-4. Add [[LLM: migration note]] comments where manual review might be needed
-   ]]
-
-**Always Preserve:**
-
-- All user-written content
-- Technical specifications
-- Diagrams (Mermaid, ASCII, etc.)
-- Code examples
-- Custom sections not in V4 template
-
-### 5. Create Migration Report
-
-[[LLM: After migration, create a brief report:
-
-- List all documents migrated
-- Note any sections that need manual review
-- Highlight any content that was moved significantly
-- Suggest next steps
-  ]]
-
-Generate `migration-report.md` with:
-
-- Documents migrated
-- Section mappings performed
-- Any content requiring review
-- Recommendations for manual updates
-
-## Validation Checklist
-
-Before completing migration:
-
-- [ ] All original content is preserved
-- [ ] Section headings match V4 templates
-- [ ] No duplicate content in merged documents
-- [ ] Documents are properly formatted
-- [ ] Any uncertain mappings are marked for review
-
-## Example Migrations
-
-### V3 PRD Section → V4 PRD Section
-
-```
-V3: ## Executive Summary     → V4: ## Goals and Background Context
-V3: ## Goals                 → V4: ### Goals
-V3: ## Success Metrics       → V4: ## Success Metrics and KPIs
+## Success Metrics and KPIs
 ```
 
-### Architecture Merge Example
+## Execution Instructions
 
-```
-backend-architecture.md + front-end-architecture.md → full-stack-architecture.md
+[[LLM: When executing this task:
 
-V3 Backend: ## Technology Stack    →  V4: ## Technology Stack > ### Backend
-V3 Frontend: ## UI Architecture    →  V4: ## Technology Stack > ### Frontend
-```
+1. Ask user for BOTH: input file path AND template path (do not assume)
+2. Validate compatibility:
+   - Check document title/type (PRD, Architecture, etc.)
+   - Ensure template matches document type
+   - REJECT if types don't match (e.g., "Cannot migrate PRD to architecture template")
+3. Read both files completely
+4. Rename original to .bak: `mv original.md original.md.bak`
+5. Extract Level 2 headings from template - these are MANDATORY
+6. Create NEW file with original name
+7. Build new content:
+   - Start with all template Level 2 sections
+   - Map original content to appropriate sections
+   - Demote any non-template Level 2 headings to Level 3
+   - Leave empty sections empty (no placeholders or instructions)
+8. Validate content preservation:
+   - Extract key content snippets from .bak file
+   - Use grep to verify each exists in new file
+   - Report any missing content
+9. Report migration summary:
+   - Sections moved/demoted
+   - Content validation results
+   - Any manual review needed
 
-## Post-Migration Steps
+]]
 
-1. Review migrated documents for accuracy
-2. Fill in any placeholder sections added
-3. Run document sharding if needed
-4. Update any cross-references between documents
+### Document Type Detection
 
-## Important Notes
+[[LLM: Detect document type by examining:
 
-- This task requires careful analysis of existing content
-- When in doubt, preserve content and mark for review
-- The goal is structure alignment, not content rewriting
-- Custom sections should be retained even if not in V4 template
-- MOST CRITICAL - The ONLY LEVEL 2 HEADINGS should be what are in the V4 templates. so content preservation might mean making some content that was level 2 a level 3 now. UNDERSTAND that the LEVEL 2 headings result in file names
+- File name (prd.md, architecture.md, etc.)
+- Main title (# Product Requirements Document, # Architecture, etc.)
+- Content patterns (user stories → PRD, technology stack → Architecture)
+
+Template compatibility:
+
+- prd-tmpl.md → Only for PRD documents
+- architecture-tmpl.md → Only for backend/single architecture
+- full-stack-architecture-tmpl.md → Only for architecture documents (can merge multiple)
+
+]]
+
+## Common Migrations
+
+Valid migrations:
+
+- `prd.md` → `.bmad-core/templates/prd-tmpl.md`
+- `architecture.md` → `.bmad-core/templates/architecture-tmpl.md`
+- `architecture.md` + `front-end-architecture.md` → `.bmad-core/templates/full-stack-architecture-tmpl.md`
+
+Invalid migrations (MUST REJECT):
+
+- `prd.md` → `.bmad-core/templates/architecture-tmpl.md`
+- `architecture.md` → `.bmad-core/templates/prd-tmpl.md`
+- `ux-ui-spec.md` → `.bmad-core/templates/prd-tmpl.md`
+
+## Validation
+
+After migration verify:
+
+- [ ] All Level 2 headings match template exactly
+- [ ] All original content is preserved (use grep validation)
+- [ ] No table of contents remains
+- [ ] Backup file exists with .bak extension
+- [ ] Custom sections demoted to Level 3 or lower
+
+### Content Validation Example
+
+[[LLM: Example validation approach:
+
+1. Extract significant text blocks from .bak file (>20 words)
+2. For each block, grep in new file:
+   ```bash
+   grep -F "first 10-15 words of content block" newfile.md
+   ```
+3. Track validation results:
+   - ✓ Found: content successfully migrated
+   - ✗ Missing: needs investigation
+4. Report any content that couldn't be found
+
+]]
