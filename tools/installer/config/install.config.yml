@@ -17,8 +17,8 @@ installation-options:
 # These are the core files that should be included with any single agent installation
 agent-dependencies:
   core-files:
-    - ".bmad-core/data/bmad-kb.md"
-    - ".bmad-core/data/technical-preferences.md"
+    # Only files that truly every agent needs should go here
+    # Most dependencies should be declared in the agent YAML itself
     - ".bmad-core/utils/template-format.md"
     
   # Agent-specific dependencies (parsed from agent files or explicitly defined)
@@ -28,8 +28,17 @@ agent-dependencies:
     
   pm:
     - ".bmad-core/templates/prd-tmpl.md"
+    - ".bmad-core/templates/brownfield-prd-tmpl.md"
     - ".bmad-core/checklists/pm-checklist.md"
+    - ".bmad-core/checklists/change-checklist.md"
     - ".bmad-core/tasks/advanced-elicitation.md"
+    - ".bmad-core/tasks/create-doc.md"
+    - ".bmad-core/tasks/correct-course.md"
+    - ".bmad-core/tasks/create-deep-research-prompt.md"
+    - ".bmad-core/tasks/brownfield-create-epic.md"
+    - ".bmad-core/tasks/brownfield-create-story.md"
+    - ".bmad-core/tasks/execute-checklist.md"
+    - ".bmad-core/tasks/shard-doc.md"
     
   architect:
     - ".bmad-core/templates/architecture-tmpl.md"

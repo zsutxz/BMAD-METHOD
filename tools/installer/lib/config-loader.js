@@ -31,16 +31,43 @@ class ConfigLoader {
   }
 
   async getAgentDependencies(agentId) {
-    const config = await this.load();
-    const dependencies = config['agent-dependencies'] || {};
+    // Use DependencyResolver to dynamically parse agent dependencies
+    const DependencyResolver = require('../../lib/dependency-resolver');
+    const resolver = new DependencyResolver(path.join(__dirname, '..', '..', '..'));
     
-    // Always include core files
-    const coreFiles = dependencies['core-files'] || [];
-    
-    // Add agent-specific dependencies
-    const agentDeps = dependencies[agentId] || [];
-    
-    return [...coreFiles, ...agentDeps];
+    try {
+      const agentDeps = await resolver.resolveAgentDependencies(agentId);
+      
+      // Convert to flat list of file paths
+      const depPaths = [];
+      
+      // Add core files
+      const config = await this.load();
+      const coreFiles = config['agent-dependencies']?.['core-files'] || [];
+      depPaths.push(...coreFiles);
+      
+      // Add agent file itself is already handled by installer
+      
+      // Add all resolved resources
+      for (const resource of agentDeps.resources) {
+        const filePath = `.bmad-core/${resource.type}/${resource.id}.md`;
+        if (!depPaths.includes(filePath)) {
+          depPaths.push(filePath);
+        }
+      }
+      
+      return depPaths;
+    } catch (error) {
+      console.warn(`Failed to dynamically resolve dependencies for ${agentId}: ${error.message}`);
+      
+      // Fall back to static config
+      const config = await this.load();
+      const dependencies = config['agent-dependencies'] || {};
+      const coreFiles = dependencies['core-files'] || [];
+      const agentDeps = dependencies[agentId] || [];
+      
+      return [...coreFiles, ...agentDeps];
+    }
   }
 
   async getIdeConfiguration(ide) {
