@@ -222,6 +222,16 @@ npm test         # Run tests
 
 MIT License - see [LICENSE](LICENSE) for details.
 
+## Version History
+
+- **Current**: [v4.0.0](https://github.com/bmadcode/bmad-method) - Complete framework rewrite with CLI installer, dynamic dependencies, and expansion packs
+- **Previous Versions**:
+  - [Version 3](https://github.com/bmadcode/BMAD-METHOD/tree/V3) - Introduced the unified BMAD Agent and Gemini optimization
+  - [Version 2](https://github.com/bmadcode/BMAD-METHOD/tree/V2) - Added web agents and template separation
+  - [Version 1](https://github.com/bmadcode/BMAD-METHOD/tree/V1) - Original 7-file proof of concept
+
+See [versions.md](docs/versions.md) for detailed version history and migration guides.
+
 ## Author
 
 Created by Brian (BMad) Madison
@@ -231,3 +241,4 @@ Created by Brian (BMad) Madison
 [![Contributors](https://contrib.rocks/image?repo=bmadcode/bmad-method)](https://github.com/bmadcode/bmad-method/graphs/contributors)
 
 <sub>Built with ❤️ for the AI-assisted development community</sub>
+
