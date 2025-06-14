@@ -2,6 +2,7 @@
 
 const { Command } = require('commander');
 const WebBuilder = require('./builders/web-builder');
+const V3ToV4Upgrader = require('./upgraders/v3-to-v4-upgrader');
 const path = require('path');
 
 const program = new Command();
@@ -82,6 +83,21 @@ program
       console.error('Validation failed:', error.message);
       process.exit(1);
     }
+  });
+
+program
+  .command('upgrade')
+  .description('Upgrade a BMAD-METHOD V3 project to V4')
+  .option('-p, --project <path>', 'Path to V3 project (defaults to current directory)')
+  .option('--dry-run', 'Show what would be changed without making changes')
+  .option('--no-backup', 'Skip creating backup (not recommended)')
+  .action(async (options) => {
+    const upgrader = new V3ToV4Upgrader();
+    await upgrader.upgrade({
+      projectPath: options.project,
+      dryRun: options.dryRun,
+      backup: options.backup
+    });
   });
 
 program.parse();

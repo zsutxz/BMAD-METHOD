@@ -3,8 +3,13 @@
 [![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](docs/versions.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org)
+[![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/g6ypHytrCB)
 
 **AI-Powered Agile Development Framework** - Transform your software development with specialized AI agents that work as your complete Agile team.
+
+📺 **[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)** - V4 walkthrough and comprehensive guide coming soon!
+
+⭐ **If you find this project helpful or useful, please give it a star!** It helps others discover BMAD-METHOD and you will be notified of updates!
 
 ## 🚀 Quick Start
 
@@ -98,6 +103,7 @@ The BMad Method works with any IDE, but has built-in integration for:
 - `cursor` - Cursor IDE with @agent commands
 - `claude-code` - Claude Code with /agent commands
 - `windsurf` - Windsurf with @agent commands
+- More coming soon - BUT ITS easy to use with ANY IDE!
 
 ## Available Agents
 
@@ -116,10 +122,10 @@ The BMad Method works with any IDE, but has built-in integration for:
 
 ### Meta Agents
 
-| Agent               | Role             | Specialty                             |
-| ------------------- | ---------------- | ------------------------------------- |
-| `bmad-orchestrator` | Team Coordinator | Multi-agent workflows, role switching |
-| `bmad-master`       | Universal Expert | All capabilities without switching    |
+| Agent               | Role             | Specialty                                                           |
+| ------------------- | ---------------- | ------------------------------------------------------------------- |
+| `bmad-orchestrator` | Team Coordinator | Multi-agent workflows, role switching, is part of every team bundle |
+| `bmad-master`       | Universal Expert | All capabilities without switching                                  |
 
 ## Usage
 
@@ -154,6 +160,33 @@ npx bmad-method update
 # Check installation status
 npx bmad-method status
 ```
+
+### Upgrading from V3 to V4
+
+If you have an existing BMAD-METHOD V3 project:
+
+```bash
+# Run the upgrade command and follow the prompts including entering existing project location
+npm run upgrade
+
+# Run the upgrade command and follow the prompts including entering existing project location
+npx bmad-method upgrade
+```
+
+The upgrade process will:
+
+1. Create a backup of your V3 files in `.bmad-v3-backup/`
+2. Install the new V4 `.bmad-core/` structure
+3. Migrate your documents (PRD, Architecture, Stories, Epics)
+4. Set up IDE integration for all V4 agents (Cursor Windsurf and Claude-Code - others coming soon)
+
+After upgrading:
+
+1. Review your documents in the `docs/` folder
+2. Use `@bmad-master` agent to run the `doc-migration-task` to align your documents with V4 templates
+3. If you have separate front-end and backend architecture docs, the migration task will help merge them into a unified `full-stack-architecture.md`
+
+**Note**: The agents in .bmad-core fully replace the items in bmad-agent.
 
 ## Teams & Workflows
 
@@ -211,14 +244,9 @@ Rich templates for all document types:
 - Test Plans
 - And more...
 
-### Slash Commands
+### Slash Star Commands
 
-Quick actions and role switching:
-
-- `/help` - Show available commands
-- `/pm` - Switch to Product Manager
-- `*create-doc` - Create from template
-- `*validate` - Run validations
+Ask the agent you are using for help with /help (in the web) or \*help in the ide to see what commands are available!
 
 ## Contributing
 
@@ -230,12 +258,11 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 git clone https://github.com/bmadcode/bmad-method.git
 cd bmad-method
 npm install
-npm run validate  # Check configurations
-npm test         # Run tests
 ```
 
 ## Support
 
+- 💬 [Discord Community](https://discord.gg/g6ypHytrCB)
 - 📖 [Documentation](docs/)
 - 🐛 [Issue Tracker](https://github.com/bmadcode/bmad-method/issues)
 - 💬 [Discussions](https://github.com/bmadcode/bmad-method/discussions)

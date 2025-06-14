@@ -43,7 +43,7 @@ class IdeSetup {
         const mdcPath = path.join(cursorRulesDir, `${agentId}.mdc`);
         
         // Create MDC content with proper format
-        let mdcContent = '\n---\n';
+        let mdcContent = '---\n';
         mdcContent += 'description: \n';
         mdcContent += 'globs: []\n';
         mdcContent += 'alwaysApply: false\n';
