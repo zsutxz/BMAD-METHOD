@@ -15,6 +15,10 @@
     "validate": "node tools/cli.js validate",
     "install:bmad": "node tools/installer/bin/bmad.js install",
     "format": "prettier --write \"**/*.md\" && node tools/yaml-format.js **/*.md **/*.yml **/*.yaml .roo/.roomodes",
+    "version:patch": "node tools/version-bump.js patch",
+    "version:minor": "node tools/version-bump.js minor", 
+    "version:major": "node tools/version-bump.js major",
+    "release": "semantic-release",
     "prepare": "husky"
   },
   "dependencies": {
@@ -46,9 +50,12 @@
     "node": ">=14.0.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.1",
     "prettier": "^3.5.3",
+    "semantic-release": "^24.2.5",
     "yaml-lint": "^1.7.0"
   },
   "lint-staged": {
