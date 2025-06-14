@@ -24,24 +24,15 @@
 
 **Prerequisites**: Install [Node.js](https://nodejs.org) (v14 or higher)
 
-**Option A: Using npx (easiest)**
-
 ```bash
 npx bmad-method install
-# Choose: full installation, destination folder, and IDE
+# The installer will automatically detect your project state and guide you through:
+# - Fresh installation or upgrade from v3
+# - Full installation or single agent
+# - Destination folder and IDE configuration
 ```
 
-**Option B: Clone and install**
-
-```bash
-git clone https://github.com/bmadcode/bmad-method.git
-cd bmad-method
-npm install
-npm run install:bmad
-# When prompted, choose your project directory for installation
-```
-
-This installs all agents and configures them for your IDE.
+This installs all agents and configures them for your IDE. If you have an existing v3 installation, it will offer to upgrade it automatically.
 
 ## 📋 Table of Contents
 
@@ -86,12 +77,13 @@ Install directly into your project:
 ```bash
 # Interactive installation (recommended)
 npx bmad-method install
-# You'll be prompted for:
+# The installer automatically detects your project state and guides you through:
+# - Fresh installation or upgrade from v3
 # - Installation type (full/single agent)
 # - Destination directory
 # - IDE configuration
 
-# Or use command line options
+# Or use command line options for fresh installations
 npx bmad-method install --full --directory ./my-project --ide cursor
 npx bmad-method install --agent pm --directory ./my-project --ide claude-code
 ```
@@ -155,8 +147,8 @@ After uploading a bundle you can ask /help of the agent to learn what it can do
 # List all available agents
 npx bmad-method list
 
-# Update existing installation with changes
-npx bmad-method update
+# Install or update (automatically detects existing installations)
+npx bmad-method install
 
 # Check installation status
 npx bmad-method status
@@ -164,14 +156,11 @@ npx bmad-method status
 
 ### Upgrading from V3 to V4
 
-If you have an existing BMAD-METHOD V3 project:
+If you have an existing BMAD-METHOD V3 project, simply run the installer in your project directory:
 
 ```bash
-# Run the upgrade command and follow the prompts including entering existing project location
-npm run upgrade
-
-# Run the upgrade command and follow the prompts including entering existing project location
-npx bmad-method upgrade
+npx bmad-method install
+# The installer will automatically detect your V3 installation and offer to upgrade
 ```
 
 The upgrade process will:
@@ -179,7 +168,8 @@ The upgrade process will:
 1. Create a backup of your V3 files in `.bmad-v3-backup/`
 2. Install the new V4 `.bmad-core/` structure
 3. Migrate your documents (PRD, Architecture, Stories, Epics)
-4. Set up IDE integration for all V4 agents (Cursor Windsurf and Claude-Code - others coming soon)
+4. Set up IDE integration for all V4 agents
+5. Create an install manifest for future updates
 
 After upgrading:
 
@@ -187,7 +177,7 @@ After upgrading:
 2. Use `@bmad-master` agent to run the `doc-migration-task` to align your documents with V4 templates
 3. If you have separate front-end and backend architecture docs, the migration task will help merge them into a unified `full-stack-architecture.md`
 
-**Note**: The agents in .bmad-core fully replace the items in bmad-agent.
+**Note**: The agents in `.bmad-core/` fully replace the items in `bmad-agent/`.
 
 ## Teams & Workflows
 
