@@ -96,7 +96,7 @@ dependencies:
     - create-deep-research-prompt
     - create-doc
     - create-expansion-pack
-    - create-ide-agent
+    - create-agent
     - create-next-story
     - create-team
     - execute-checklist
@@ -1727,7 +1727,7 @@ Required user data files:
 - [ ] manifest.yml reflects actual files
 ==================== END: tasks#create-expansion-pack ====================
 
-==================== START: tasks#create-ide-agent ====================
+==================== START: tasks#create-agent ====================
 # Create IDE Agent Task
 
 This task guides you through creating a new BMAD IDE agent that conforms to the IDE agent schema and integrates effectively with workflows and teams.
@@ -1990,7 +1990,7 @@ Recommended teams for this agent:
 6. **Schema Compliance**: Always validate against the schema
 
 This schema-driven approach ensures IDE agents are consistent, integrated, and valuable additions to the BMAD ecosystem.
-==================== END: tasks#create-ide-agent ====================
+==================== END: tasks#create-agent ====================
 
 ==================== START: tasks#create-next-story ====================
 # Create Next Story Task

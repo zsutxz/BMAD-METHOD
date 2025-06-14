@@ -61,7 +61,7 @@ dependencies:
     - create-deep-research-prompt
     - create-doc
     - create-expansion-pack
-    - create-ide-agent
+    - create-agent
     - create-next-story
     - create-team
     - execute-checklist

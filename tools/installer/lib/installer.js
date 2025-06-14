@@ -1,140 +1,50 @@
+const path = require("path");
 const chalk = require("chalk");
 const ora = require("ora");
-const path = require("path");
-const configLoader = require("./config-loader");
+const inquirer = require("inquirer");
 const fileManager = require("./file-manager");
+const configLoader = require("./config-loader");
 const ideSetup = require("./ide-setup");
 
 class Installer {
   async install(config) {
-    const spinner = ora("Installing BMAD Method...").start();
+    const spinner = ora("Analyzing installation directory...").start();
 
     try {
       // Resolve installation directory
       const installDir = path.resolve(config.directory);
 
-      // Check if directory already exists
-      if (await fileManager.pathExists(installDir)) {
-        const manifest = await fileManager.readManifest(installDir);
-        if (manifest) {
-          spinner.fail("BMAD is already installed in this directory");
-          console.log(
-            chalk.yellow(
-              '\nUse "bmad update" to update the existing installation'
-            )
+      // Detect current state
+      const state = await this.detectInstallationState(installDir);
+
+      // Handle different states
+      switch (state.type) {
+        case "clean":
+          return await this.performFreshInstall(config, installDir, spinner);
+
+        case "v4_existing":
+          return await this.handleExistingV4Installation(
+            config,
+            installDir,
+            state,
+            spinner
           );
-          return;
-        }
-      }
 
-      let files = [];
-
-      if (config.installType === "full") {
-        // Full installation - copy entire .bmad-core folder as a subdirectory
-        spinner.text = "Copying complete .bmad-core folder...";
-        const sourceDir = configLoader.getBmadCorePath();
-        const bmadCoreDestDir = path.join(installDir, ".bmad-core");
-        await fileManager.copyDirectory(sourceDir, bmadCoreDestDir);
-
-        // Get list of all files for manifest
-        const glob = require("glob");
-        files = glob
-          .sync("**/*", {
-            cwd: bmadCoreDestDir,
-            nodir: true,
-            ignore: ["**/.git/**", "**/node_modules/**"],
-          })
-          .map((file) => path.join(".bmad-core", file));
-      } else if (config.installType === "single-agent") {
-        // Single agent installation
-        spinner.text = `Installing ${config.agent} agent...`;
-
-        // Copy agent file
-        const agentPath = configLoader.getAgentPath(config.agent);
-        const destAgentPath = path.join(
-          installDir,
-          "agents",
-          `${config.agent}.md`
-        );
-        await fileManager.copyFile(agentPath, destAgentPath);
-        files.push(`agents/${config.agent}.md`);
-
-        // Copy dependencies
-        const dependencies = await configLoader.getAgentDependencies(
-          config.agent
-        );
-        const sourceBase = configLoader.getBmadCorePath();
-
-        for (const dep of dependencies) {
-          spinner.text = `Copying dependency: ${dep}`;
-
-          if (dep.includes("*")) {
-            // Handle glob patterns
-            const copiedFiles = await fileManager.copyGlobPattern(
-              dep.replace(".bmad-core/", ""),
-              sourceBase,
-              installDir
-            );
-            files.push(...copiedFiles);
-          } else {
-            // Handle single files
-            const sourcePath = path.join(
-              sourceBase,
-              dep.replace(".bmad-core/", "")
-            );
-            const destPath = path.join(
-              installDir,
-              dep.replace(".bmad-core/", "")
-            );
-
-            if (await fileManager.copyFile(sourcePath, destPath)) {
-              files.push(dep.replace(".bmad-core/", ""));
-            }
-          }
-        }
-      }
-
-      // Set up IDE integration if requested
-      if (config.ide) {
-        spinner.text = `Setting up ${config.ide} integration...`;
-        // For full installations, IDE rules should be in the root install dir, not .bmad-core
-        await ideSetup.setup(config.ide, installDir, config.agent);
-      }
-
-      // Create manifest
-      spinner.text = "Creating installation manifest...";
-      await fileManager.createManifest(installDir, config, files);
-
-      spinner.succeed("Installation complete!");
-
-      // Show success message
-      console.log(chalk.green("\n✓ BMAD Method installed successfully!\n"));
-
-      if (config.ide) {
-        const ideConfig = await configLoader.getIdeConfiguration(config.ide);
-        if (ideConfig && ideConfig.instructions) {
-          console.log(
-            chalk.bold("To use BMAD agents in " + ideConfig.name + ":")
+        case "v3_existing":
+          return await this.handleV3Installation(
+            config,
+            installDir,
+            state,
+            spinner
           );
-          console.log(ideConfig.instructions);
-        }
-      } else {
-        console.log(chalk.yellow("No IDE configuration was set up."));
-        console.log(
-          "You can manually configure your IDE using the agent files in:",
-          installDir
-        );
-      }
 
-      if (config.installType === "single-agent") {
-        console.log(
-          chalk.dim(
-            "\nNeed other agents? Run: npx bmad-method install --agent=<name>"
-          )
-        );
-        console.log(
-          chalk.dim("Need everything? Run: npx bmad-method install --full")
-        );
+        case "unknown_existing":
+          return await this.handleUnknownInstallation(
+            config,
+            installDir,
+            state,
+            spinner
+          );
       }
     } catch (error) {
       spinner.fail("Installation failed");
@@ -142,23 +52,270 @@ class Installer {
     }
   }
 
-  async update(options) {
-    const spinner = ora("Checking for updates...").start();
+  async detectInstallationState(installDir) {
+    const state = {
+      type: "clean",
+      hasV4Manifest: false,
+      hasV3Structure: false,
+      hasBmadCore: false,
+      hasOtherFiles: false,
+      manifest: null,
+    };
+
+    // Check if directory exists
+    if (!(await fileManager.pathExists(installDir))) {
+      return state; // clean install
+    }
+
+    // Check for V4 installation (has .bmad-core with manifest)
+    const bmadCorePath = path.join(installDir, ".bmad-core");
+    const manifestPath = path.join(bmadCorePath, "install-manifest.yml");
+
+    if (await fileManager.pathExists(manifestPath)) {
+      state.type = "v4_existing";
+      state.hasV4Manifest = true;
+      state.hasBmadCore = true;
+      state.manifest = await fileManager.readManifest(bmadCorePath);
+      return state;
+    }
+
+    // Check for V3 installation (has bmad-agent directory)
+    const bmadAgentPath = path.join(installDir, "bmad-agent");
+    if (await fileManager.pathExists(bmadAgentPath)) {
+      state.type = "v3_existing";
+      state.hasV3Structure = true;
+      return state;
+    }
+
+    // Check for .bmad-core without manifest (broken V4 or manual copy)
+    if (await fileManager.pathExists(bmadCorePath)) {
+      state.type = "unknown_existing";
+      state.hasBmadCore = true;
+      return state;
+    }
+
+    // Check if directory has other files
+    const glob = require("glob");
+    const files = glob.sync("**/*", {
+      cwd: installDir,
+      nodir: true,
+      ignore: ["**/.git/**", "**/node_modules/**"],
+    });
+
+    if (files.length > 0) {
+      state.type = "unknown_existing";
+      state.hasOtherFiles = true;
+      return state;
+    }
+
+    return state; // clean install
+  }
+
+  async performFreshInstall(config, installDir, spinner) {
+    spinner.text = "Installing BMAD Method...";
+
+    let files = [];
+
+    if (config.installType === "full") {
+      // Full installation - copy entire .bmad-core folder as a subdirectory
+      spinner.text = "Copying complete .bmad-core folder...";
+      const sourceDir = configLoader.getBmadCorePath();
+      const bmadCoreDestDir = path.join(installDir, ".bmad-core");
+      await fileManager.copyDirectory(sourceDir, bmadCoreDestDir);
+
+      // Get list of all files for manifest
+      const glob = require("glob");
+      files = glob
+        .sync("**/*", {
+          cwd: bmadCoreDestDir,
+          nodir: true,
+          ignore: ["**/.git/**", "**/node_modules/**"],
+        })
+        .map((file) => path.join(".bmad-core", file));
+    } else if (config.installType === "single-agent") {
+      // Single agent installation
+      spinner.text = `Installing ${config.agent} agent...`;
+
+      // Copy agent file
+      const agentPath = configLoader.getAgentPath(config.agent);
+      const destAgentPath = path.join(
+        installDir,
+        "agents",
+        `${config.agent}.md`
+      );
+      await fileManager.copyFile(agentPath, destAgentPath);
+      files.push(`agents/${config.agent}.md`);
+
+      // Copy dependencies
+      const dependencies = await configLoader.getAgentDependencies(
+        config.agent
+      );
+      const sourceBase = configLoader.getBmadCorePath();
+
+      for (const dep of dependencies) {
+        spinner.text = `Copying dependency: ${dep}`;
+
+        if (dep.includes("*")) {
+          // Handle glob patterns
+          const copiedFiles = await fileManager.copyGlobPattern(
+            dep.replace(".bmad-core/", ""),
+            sourceBase,
+            installDir
+          );
+          files.push(...copiedFiles);
+        } else {
+          // Handle single files
+          const sourcePath = path.join(
+            sourceBase,
+            dep.replace(".bmad-core/", "")
+          );
+          const destPath = path.join(
+            installDir,
+            dep.replace(".bmad-core/", "")
+          );
+
+          if (await fileManager.copyFile(sourcePath, destPath)) {
+            files.push(dep.replace(".bmad-core/", ""));
+          }
+        }
+      }
+    }
+
+    // Set up IDE integration if requested
+    if (config.ide) {
+      spinner.text = `Setting up ${config.ide} integration...`;
+      await ideSetup.setup(config.ide, installDir, config.agent);
+    }
+
+    // Create manifest
+    spinner.text = "Creating installation manifest...";
+    await fileManager.createManifest(installDir, config, files);
+
+    spinner.succeed("Installation complete!");
+    this.showSuccessMessage(config, installDir);
+  }
+
+  async handleExistingV4Installation(config, installDir, state, spinner) {
+    spinner.stop();
+
+    console.log(chalk.yellow("\n🔍 Found existing BMAD v4 installation"));
+    console.log(`   Directory: ${installDir}`);
+    console.log(`   Version: ${state.manifest.version}`);
+    console.log(
+      `   Installed: ${new Date(
+        state.manifest.installed_at
+      ).toLocaleDateString()}`
+    );
+
+    const { action } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "action",
+        message: "What would you like to do?",
+        choices: [
+          { name: "Update existing installation", value: "update" },
+          { name: "Reinstall (overwrite)", value: "reinstall" },
+          { name: "Cancel", value: "cancel" },
+        ],
+      },
+    ]);
+
+    switch (action) {
+      case "update":
+        return await this.performUpdate(installDir, state.manifest, spinner);
+      case "reinstall":
+        return await this.performReinstall(config, installDir, spinner);
+      case "cancel":
+        console.log("Installation cancelled.");
+        return;
+    }
+  }
+
+  async handleV3Installation(config, installDir, state, spinner) {
+    spinner.stop();
+
+    console.log(
+      chalk.yellow("\n🔍 Found BMAD v3 installation (bmad-agent/ directory)")
+    );
+    console.log(`   Directory: ${installDir}`);
+
+    const { action } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "action",
+        message: "What would you like to do?",
+        choices: [
+          { name: "Upgrade from v3 to v4 (recommended)", value: "upgrade" },
+          { name: "Install v4 alongside v3", value: "alongside" },
+          { name: "Cancel", value: "cancel" },
+        ],
+      },
+    ]);
+
+    switch (action) {
+      case "upgrade":
+        console.log(chalk.cyan("\n📦 Starting v3 to v4 upgrade process..."));
+        const V3ToV4Upgrader = require("../../upgraders/v3-to-v4-upgrader");
+        const upgrader = new V3ToV4Upgrader();
+        return await upgrader.upgrade({ projectPath: installDir });
+      case "alongside":
+        return await this.performFreshInstall(config, installDir, spinner);
+      case "cancel":
+        console.log("Installation cancelled.");
+        return;
+    }
+  }
+
+  async handleUnknownInstallation(config, installDir, state, spinner) {
+    spinner.stop();
+
+    console.log(chalk.yellow("\n⚠️  Directory contains existing files"));
+    console.log(`   Directory: ${installDir}`);
+
+    if (state.hasBmadCore) {
+      console.log("   Found: .bmad-core directory (but no manifest)");
+    }
+    if (state.hasOtherFiles) {
+      console.log("   Found: Other files in directory");
+    }
+
+    const { action } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "action",
+        message: "What would you like to do?",
+        choices: [
+          { name: "Install anyway (may overwrite files)", value: "force" },
+          { name: "Choose different directory", value: "different" },
+          { name: "Cancel", value: "cancel" },
+        ],
+      },
+    ]);
+
+    switch (action) {
+      case "force":
+        return await this.performFreshInstall(config, installDir, spinner);
+      case "different":
+        const { newDir } = await inquirer.prompt([
+          {
+            type: "input",
+            name: "newDir",
+            message: "Enter new installation directory:",
+            default: path.join(path.dirname(installDir), "bmad-project"),
+          },
+        ]);
+        config.directory = newDir;
+        return await this.install(config);
+      case "cancel":
+        console.log("Installation cancelled.");
+        return;
+    }
+  }
+
+  async performUpdate(installDir, manifest, spinner) {
+    spinner.start("Checking for updates...");
 
     try {
-      // Find existing installation
-      const installDir = await this.findInstallation();
-      if (!installDir) {
-        spinner.fail("No BMAD installation found");
-        return;
-      }
-
-      const manifest = await fileManager.readManifest(installDir);
-      if (!manifest) {
-        spinner.fail("Invalid installation - manifest not found");
-        return;
-      }
-
       // Check for modified files
       spinner.text = "Checking for modified files...";
       const modifiedFiles = await fileManager.checkModifiedFiles(
@@ -166,42 +323,43 @@ class Installer {
         manifest
       );
 
-      if (modifiedFiles.length > 0 && !options.force) {
+      if (modifiedFiles.length > 0) {
         spinner.warn("Found modified files");
         console.log(chalk.yellow("\nThe following files have been modified:"));
         modifiedFiles.forEach((file) => console.log(`  - ${file}`));
 
-        if (!options.dryRun) {
-          console.log(
-            chalk.yellow("\nUse --force to overwrite modified files")
-          );
-          console.log(chalk.yellow("or manually backup your changes first"));
+        const { action } = await inquirer.prompt([
+          {
+            type: "list",
+            name: "action",
+            message: "How would you like to proceed?",
+            choices: [
+              { name: "Backup and overwrite modified files", value: "backup" },
+              { name: "Skip modified files", value: "skip" },
+              { name: "Cancel update", value: "cancel" },
+            ],
+          },
+        ]);
+
+        if (action === "cancel") {
+          console.log("Update cancelled.");
+          return;
         }
-        return;
+
+        if (action === "backup") {
+          spinner.start("Backing up modified files...");
+          for (const file of modifiedFiles) {
+            const filePath = path.join(installDir, file);
+            const backupPath = await fileManager.backupFile(filePath);
+            console.log(
+              chalk.dim(`  Backed up: ${file} → ${path.basename(backupPath)}`)
+            );
+          }
+        }
       }
 
-      if (options.dryRun) {
-        spinner.info("Dry run - no changes will be made");
-        console.log("\nFiles that would be updated:");
-        manifest.files.forEach((file) => console.log(`  - ${file.path}`));
-        return;
-      }
-
-      // Perform update
+      // Perform update by re-running installation
       spinner.text = "Updating files...";
-
-      // Backup modified files if forcing
-      if (modifiedFiles.length > 0 && options.force) {
-        for (const file of modifiedFiles) {
-          const filePath = path.join(installDir, file);
-          const backupPath = await fileManager.backupFile(filePath);
-          console.log(
-            chalk.dim(`  Backed up: ${file} → ${path.basename(backupPath)}`)
-          );
-        }
-      }
-
-      // Re-run installation with same config
       const config = {
         installType: manifest.install_type,
         agent: manifest.agent,
@@ -209,10 +367,73 @@ class Installer {
         ide: manifest.ide_setup,
       };
 
-      await this.install(config);
+      await this.performFreshInstall(config, installDir, spinner);
     } catch (error) {
       spinner.fail("Update failed");
       throw error;
+    }
+  }
+
+  async performReinstall(config, installDir, spinner) {
+    spinner.start("Reinstalling BMAD Method...");
+
+    // Remove existing .bmad-core
+    const bmadCorePath = path.join(installDir, ".bmad-core");
+    if (await fileManager.pathExists(bmadCorePath)) {
+      await fileManager.removeDirectory(bmadCorePath);
+    }
+
+    return await this.performFreshInstall(config, installDir, spinner);
+  }
+
+  showSuccessMessage(config, installDir) {
+    console.log(chalk.green("\n✓ BMAD Method installed successfully!\n"));
+
+    if (config.ide) {
+      const ideConfig = configLoader.getIdeConfiguration(config.ide);
+      if (ideConfig && ideConfig.instructions) {
+        console.log(
+          chalk.bold("To use BMAD agents in " + ideConfig.name + ":")
+        );
+        console.log(ideConfig.instructions);
+      }
+    } else {
+      console.log(chalk.yellow("No IDE configuration was set up."));
+      console.log(
+        "You can manually configure your IDE using the agent files in:",
+        installDir
+      );
+    }
+
+    if (config.installType === "single-agent") {
+      console.log(
+        chalk.dim(
+          "\nNeed other agents? Run: npx bmad-method install --agent=<name>"
+        )
+      );
+      console.log(
+        chalk.dim("Need everything? Run: npx bmad-method install --full")
+      );
+    }
+  }
+
+  // Legacy method for backward compatibility
+  async update(options) {
+    console.log(chalk.yellow('The "update" command is deprecated.'));
+    console.log(
+      'Please use "install" instead - it will detect and offer to update existing installations.'
+    );
+
+    const installDir = await this.findInstallation();
+    if (installDir) {
+      const config = {
+        installType: "full",
+        directory: path.dirname(installDir),
+        ide: null,
+      };
+      return await this.install(config);
+    } else {
+      console.log(chalk.red("No BMAD installation found."));
     }
   }
 

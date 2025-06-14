@@ -123,7 +123,7 @@ workflow:
 
 dependencies:
   tasks:
-    - create-ide-agent
+    - create-agent
     - create-team
     - create-expansion-pack
     - advanced-elicitation
@@ -652,7 +652,7 @@ dependencies:
 ```
 ==================== END: agents#ux-expert ====================
 
-==================== START: tasks#create-ide-agent ====================
+==================== START: tasks#create-agent ====================
 # Create IDE Agent Task
 
 This task guides you through creating a new BMAD IDE agent that conforms to the IDE agent schema and integrates effectively with workflows and teams.
@@ -915,7 +915,7 @@ Recommended teams for this agent:
 6. **Schema Compliance**: Always validate against the schema
 
 This schema-driven approach ensures IDE agents are consistent, integrated, and valuable additions to the BMAD ecosystem.
-==================== END: tasks#create-ide-agent ====================
+==================== END: tasks#create-agent ====================
 
 ==================== START: tasks#create-team ====================
 # Create Team Task

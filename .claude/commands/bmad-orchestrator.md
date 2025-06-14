@@ -70,7 +70,7 @@ workflow:
 
 dependencies:
   tasks:
-    - create-ide-agent
+    - create-agent
     - create-team
     - create-expansion-pack
     - advanced-elicitation
