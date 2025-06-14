@@ -7,9 +7,10 @@ You are now operating as a specialized AI agent from the BMAD-METHOD framework. 
 1. **Follow all startup commands**: Your agent configuration includes startup instructions that define your behavior, personality, and approach. These MUST be followed exactly.
 
 2. **Resource Navigation**: This bundle contains all resources you need. Resources are marked with tags like:
-   - `==================== START: folder#filename ====================`
-   - `==================== END: folder#filename ====================`
-   
+
+- `==================== START: folder#filename ====================`
+- `==================== END: folder#filename ====================`
+
 When you need to reference a resource mentioned in your instructions:
    - Look for the corresponding START/END tags
    - The format is always `folder#filename` (e.g., `personas#analyst`, `tasks#create-story`)
@@ -754,7 +755,7 @@ Analyze where this IDE agent fits in workflows:
 4. **Document recommendations**:
    ```markdown
    ## Workflow Integration
-   
+
    This agent enhances the following workflows:
    - `greenfield-service`: API design phase (between architecture and implementation)
    - `brownfield-service`: API refactoring and modernization
@@ -774,7 +775,7 @@ Consider which teams benefit from this IDE agent:
 3. **Document integration**:
    ```markdown
    ## Team Integration
-   
+
    Recommended teams for this agent:
    - `team-fullstack`: Provides specialized {domain} expertise
    - `team-no-ui`: Enhances backend {capability}
@@ -1047,7 +1048,7 @@ workflows:
 Before finalizing, verify:
 
 1. **Role Coverage**: Does the team have all necessary skills for its workflows?
-2. **Size Optimization**: 
+2. **Size Optimization**:
    - Minimum: 2 agents (bmad + 1)
    - Recommended: 3-7 agents
    - Maximum with wildcard: bmad + "*"
@@ -1078,8 +1079,8 @@ Document how this team integrates with existing system:
 bundle:
   name: "Team API"
   description: >-
-    Specialized team for API and backend service development. Focuses on 
-    robust service architecture, implementation, and testing without UI 
+    Specialized team for API and backend service development. Focuses on
+    robust service architecture, implementation, and testing without UI
     components. Ideal for microservices, REST APIs, and backend systems.
 
 agents:
@@ -1101,8 +1102,8 @@ workflows:
 bundle:
   name: "Team Prototype"
   description: >-
-    Agile team for rapid prototyping and proof of concept development. 
-    Combines planning, design, and implementation for quick iterations 
+    Agile team for rapid prototyping and proof of concept development.
+    Combines planning, design, and implementation for quick iterations
     on new ideas and experimental features.
 
 agents:
@@ -2101,13 +2102,13 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 
 5. **SCAMPER Method**
    [[LLM: Guide through each SCAMPER prompt systematically.]]
-   - **S**ubstitute: What can be substituted?
-   - **C**ombine: What can be combined or integrated?
-   - **A**dapt: What can be adapted from elsewhere?
-   - **M**odify/Magnify: What can be emphasized or reduced?
-   - **P**ut to other uses: What else could this be used for?
-   - **E**liminate: What can be removed or simplified?
-   - **R**everse/Rearrange: What can be reversed or reordered?
+   - **S** = Substitute: What can be substituted?
+   - **C** = Combine: What can be combined or integrated?
+   - **A** = Adapt: What can be adapted from elsewhere?
+   - **M** = Modify/Magnify: What can be emphasized or reduced?
+   - **P** = Put to other uses: What else could this be used for?
+   - **E** = Eliminate: What can be removed or simplified?
+   - **R** = Reverse/Rearrange: What can be reversed or reordered?
 
 6. **Six Thinking Hats**
    [[LLM: Cycle through different thinking modes, spending focused time in each.]]
@@ -2557,7 +2558,7 @@ Present these numbered options to the user:
 ==================== START: templates#project-brief-tmpl ====================
 # Project Brief: {{Project Name}}
 
-[[LLM: This template guides creation of a comprehensive Project Brief that serves as the foundational input for product development. 
+[[LLM: This template guides creation of a comprehensive Project Brief that serves as the foundational input for product development.
 
 Start by asking the user which mode they prefer:
 1. **Interactive Mode** - Work through each section collaboratively
@@ -2716,7 +2717,7 @@ Before beginning, understand what inputs are available (brainstorming results, m
 ### A. Research Summary
 {{If applicable, summarize key findings from:
 - Market research
-- Competitive analysis  
+- Competitive analysis
 - User interviews
 - Technical feasibility studies}}
 
@@ -3028,7 +3029,7 @@ These replace the standard elicitation options when working on market research d
 
 {{Create a 2x2 matrix:
 - Priority 1 (Core Competitors): High Market Share + High Threat
-- Priority 2 (Emerging Threats): Low Market Share + High Threat  
+- Priority 2 (Emerging Threats): Low Market Share + High Threat
 - Priority 3 (Established Players): High Market Share + Low Threat
 - Priority 4 (Monitor Only): Low Market Share + Low Threat}}
 
@@ -6704,8 +6705,8 @@ Create a single focused story following this structure:
 
 #### User Story
 
-As a {{user type}},  
-I want {{specific action/capability}},  
+As a {{user type}},
+I want {{specific action/capability}},
 So that {{clear benefit/value}}.
 
 #### Story Context
@@ -8455,7 +8456,7 @@ Generate a comprehensive validation report that adapts to project type:
 After presenting the report, ask if the user wants:
 
 - Detailed analysis of any failed sections
-- Specific story resequencing suggestions
+- Specific story reordering suggestions
 - Risk mitigation strategies
 - [BROWNFIELD] Integration risk deep-dive]]
 
@@ -9337,7 +9338,7 @@ workflow:
   id: brownfield-fullstack
   name: Brownfield Full-Stack Enhancement
   description: >-
-    Agent workflow for enhancing existing full-stack applications with new features, 
+    Agent workflow for enhancing existing full-stack applications with new features,
     modernization, or significant changes. Handles existing system analysis and safe integration.
   type: brownfield
   project_types:
@@ -9405,7 +9406,7 @@ workflow:
         A[Start: Brownfield Enhancement] --> B{Enhancement Complexity?}
         B -->|Complex/Significant| C[analyst: analyze existing project]
         B -->|Simple| D{1 Story or 2-3 Stories?}
-        
+
         C --> E[pm: brownfield-prd.md]
         E --> F[architect: brownfield-architecture.md]
         F --> G[po: validate with po-master-checklist]
@@ -9413,12 +9414,12 @@ workflow:
         H -->|Yes| I[Return to relevant agent for fixes]
         H -->|No| J[Move to IDE Environment]
         I --> G
-        
+
         D -->|1 Story| K[pm/po/sm: brownfield-create-story]
         D -->|2-3 Stories| L[pm/po/sm: brownfield-create-epic]
         K --> M[Move to IDE Environment]
         L --> M
-        
+
         style J fill:#90EE90
         style M fill:#90EE90
         style E fill:#FFE4B5
@@ -9525,7 +9526,7 @@ workflow:
         A[Start: Service Enhancement] --> B{Enhancement Complexity?}
         B -->|Complex/Significant| C[analyst: analyze existing service]
         B -->|Simple| D{1 Story or 2-3 Stories?}
-        
+
         C --> E[pm: brownfield-prd.md]
         E --> F[architect: brownfield-architecture.md]
         F --> G[po: validate with po-master-checklist]
@@ -9533,12 +9534,12 @@ workflow:
         H -->|Yes| I[Return to relevant agent for fixes]
         H -->|No| J[Move to IDE Environment]
         I --> G
-        
+
         D -->|1 Story| K[pm/po/sm: brownfield-create-story]
         D -->|2-3 Stories| L[pm/po/sm: brownfield-create-epic]
         K --> M[Move to IDE Environment]
         L --> M
-        
+
         style J fill:#90EE90
         style M fill:#90EE90
         style E fill:#FFE4B5
@@ -9652,7 +9653,7 @@ workflow:
         A[Start: UI Enhancement] --> B{Enhancement Complexity?}
         B -->|Complex/Significant| C[analyst: analyze existing UI]
         B -->|Simple| D{1 Story or 2-3 Stories?}
-        
+
         C --> E[pm: brownfield-prd.md]
         E --> F[ux-expert: front-end-spec.md]
         F --> G[architect: brownfield-architecture.md]
@@ -9661,12 +9662,12 @@ workflow:
         I -->|Yes| J[Return to relevant agent for fixes]
         I -->|No| K[Move to IDE Environment]
         J --> H
-        
+
         D -->|1 Story| L[pm/po/sm: brownfield-create-story]
         D -->|2-3 Stories| M[pm/po/sm: brownfield-create-epic]
         L --> N[Move to IDE Environment]
         M --> N
-        
+
         style K fill:#90EE90
         style N fill:#90EE90
         style E fill:#FFE4B5
@@ -9810,7 +9811,7 @@ workflow:
         A[Start: Greenfield Project] --> B{Project Complexity?}
         B -->|Complex/Production| C[analyst: project-brief.md]
         B -->|Simple/Prototype| D[analyst: focused project-brief.md]
-        
+
         C --> E[pm: prd.md]
         E --> F[ux-expert: front-end-spec.md]
         F --> F2{Generate v0 prompt?}
@@ -9826,16 +9827,16 @@ workflow:
         K -->|Yes| L[Return to relevant agent for fixes]
         K -->|No| M[Move to IDE Environment]
         L --> J
-        
+
         D --> N[pm: simple epic or story]
         N --> O[Move to IDE Environment]
-        
+
         C -.-> C1[Optional: brainstorming]
         C -.-> C2[Optional: market research]
         F -.-> F1[Optional: user research]
         G -.-> G1[Optional: technical research]
         D -.-> D1[Optional: brainstorming]
-        
+
         style M fill:#90EE90
         style O fill:#90EE90
         style F3 fill:#E6E6FA
@@ -9966,7 +9967,7 @@ workflow:
         A[Start: Service Development] --> B{Service Complexity?}
         B -->|Complex/Production| C[analyst: project-brief.md]
         B -->|Simple/Prototype| D[analyst: focused project-brief.md]
-        
+
         C --> E[pm: prd.md]
         E --> F[architect: architecture.md]
         F --> G{Architecture suggests PRD changes?}
@@ -9977,15 +9978,15 @@ workflow:
         J -->|Yes| K[Return to relevant agent for fixes]
         J -->|No| L[Move to IDE Environment]
         K --> I
-        
+
         D --> M[pm: simple epic or story]
         M --> N[Move to IDE Environment]
-        
+
         C -.-> C1[Optional: brainstorming]
         C -.-> C2[Optional: market research]
         F -.-> F1[Optional: technical research]
         D -.-> D1[Optional: brainstorming]
-        
+
         style L fill:#90EE90
         style N fill:#90EE90
         style C fill:#FFE4B5
@@ -10131,7 +10132,7 @@ workflow:
         A[Start: UI Development] --> B{UI Complexity?}
         B -->|Complex/Production| C[analyst: project-brief.md]
         B -->|Simple/Prototype| D[analyst: focused project-brief.md]
-        
+
         C --> E[pm: prd.md]
         E --> F[ux-expert: front-end-spec.md]
         F --> F2{Generate v0 prompt?}
@@ -10147,16 +10148,16 @@ workflow:
         K -->|Yes| L[Return to relevant agent for fixes]
         K -->|No| M[Move to IDE Environment]
         L --> J
-        
+
         D --> N[ux-expert: simple wireframes]
         N --> O[Move to IDE Environment]
-        
+
         C -.-> C1[Optional: brainstorming]
         C -.-> C2[Optional: market research]
         F -.-> F1[Optional: user research]
         G -.-> G1[Optional: technical research]
         D -.-> D1[Optional: brainstorming]
-        
+
         style M fill:#90EE90
         style O fill:#90EE90
         style F3 fill:#E6E6FA

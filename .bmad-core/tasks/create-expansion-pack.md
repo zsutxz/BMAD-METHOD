@@ -39,7 +39,7 @@ Request from the user:
 
 #### 1.3 Create Planning Document
 
-**STOP HERE AND CREATE PLAN FIRST**
+IMPORTANT: STOP HERE AND CREATE PLAN FIRST
 
 Create `expansion-packs/{pack-name}/plan.md` with:
 
@@ -85,7 +85,7 @@ Create `expansion-packs/{pack-name}/plan.md` with:
 User approval received: [ ] Yes
 ```
 
-**Wait for user approval before proceeding to Phase 2**
+Important: Wait for user approval before proceeding to Phase 2
 
 ### Phase 2: Component Design
 
@@ -142,7 +142,7 @@ For each checklist:
 
 ### Phase 3: Implementation
 
-**Only proceed after plan.md is approved**
+IMPORTANT: Only proceed after plan.md is approved
 
 #### 3.1 Create Directory Structure
 
@@ -227,7 +227,7 @@ post_install_message: |
 
 ### Phase 4: Content Creation
 
-**Work through plan.md checklist systematically**
+IMPORTANT: Work through plan.md checklist systematically!
 
 #### 4.1 Create Orchestrator First
 
@@ -308,12 +308,6 @@ For each required data file:
 - **Example**:
 ```
 
-{sample content}
-
-```
-
-```
-
 ## Example: Healthcare Expansion Pack
 
 ```text
@@ -362,38 +356,38 @@ Required user data files:
 
 ### Planning Phase
 
-6. "Here's the proposed plan. Please review and approve before we continue."
+1. "Here's the proposed plan. Please review and approve before we continue."
 
 ### Orchestrator Design
 
-7. "What key commands should the {pack-name} orchestrator support?"
-8. "What's the typical workflow from start to finish?"
-9. "How should it integrate with core BMAD agents?"
+1. "What key commands should the {pack-name} orchestrator support?"
+2. "What's the typical workflow from start to finish?"
+3. "How should it integrate with core BMAD agents?"
 
 ### Agent Planning
 
-10. "For agent '{name}', what is their specific expertise?"
-11. "What tasks will this agent reference? (I'll create them)"
-12. "What templates will this agent use? (I'll create them)"
-13. "What data files will this agent need? (You'll provide these)"
+1. "For agent '{name}', what is their specific expertise?"
+2. "What tasks will this agent reference? (I'll create them)"
+3. "What templates will this agent use? (I'll create them)"
+4. "What data files will this agent need? (You'll provide these)"
 
 ### Task Design
 
-14. "Describe the '{task}' process step-by-step"
-15. "What information is needed to complete this task?"
-16. "What should the output look like?"
+1. "Describe the '{task}' process step-by-step"
+2. "What information is needed to complete this task?"
+3. "What should the output look like?"
 
 ### Template Creation
 
-17. "What sections should the '{template}' document have?"
-18. "Are there any required formats or standards?"
-19. "Can you provide an example of a completed document?"
+1. "What sections should the '{template}' document have?"
+2. "Are there any required formats or standards?"
+3. "Can you provide an example of a completed document?"
 
 ### Data Requirements
 
-20. "For {data-file}, what information should it contain?"
-21. "What format should this data be in?"
-22. "Can you provide a sample?"
+1. "For {data-file}, what information should it contain?"
+2. "What format should this data be in?"
+3. "Can you provide a sample?"
 
 ## Important Considerations
 

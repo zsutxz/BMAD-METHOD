@@ -77,6 +77,7 @@ Required commands per schema:
 ```
 
 Add role-specific commands:
+
 - Use pattern: `^\\*[a-z][a-z0-9-]*( \\{[^}]+\\})?$`
 - Include clear descriptions (10+ chars)
 - Reference tasks when appropriate
@@ -98,9 +99,10 @@ Analyze where this IDE agent fits in workflows:
    - For specialized agents → specific workflow steps
 
 4. **Document recommendations**:
+
    ```markdown
    ## Workflow Integration
-   
+
    This agent enhances the following workflows:
    - `greenfield-service`: API design phase (between architecture and implementation)
    - `brownfield-service`: API refactoring and modernization
@@ -118,9 +120,10 @@ Consider which teams benefit from this IDE agent:
    - Domain experts → relevant specialized teams
 
 3. **Document integration**:
+
    ```markdown
    ## Team Integration
-   
+
    Recommended teams for this agent:
    - `team-fullstack`: Provides specialized {domain} expertise
    - `team-no-ui`: Enhances backend {capability}
@@ -243,7 +246,7 @@ Recommended teams for this agent:
 - [ ] Persona has all 5 required fields
 - [ ] Minimum 3 Core Principles including Numbered Options Protocol
 - [ ] First startup instruction announces name/role with *help
-- [ ] Includes *help and *chat-mode commands
+- [ ] Includes *help and*chat-mode commands
 - [ ] Commands follow pattern requirements
 - [ ] Workflow integration documented
 - [ ] Team integration suggestions provided

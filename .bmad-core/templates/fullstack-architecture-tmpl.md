@@ -18,23 +18,23 @@ This unified approach combines what would traditionally be separate backend and 
 
 1. Review the PRD and other documents for mentions of:
 
-   - Fullstack starter templates (e.g., T3 Stack, MEAN/MERN starters, Django + React templates)
-   - Monorepo templates (e.g., Nx, Turborepo starters)
-   - Platform-specific starters (e.g., Vercel templates, AWS Amplify starters)
-   - Existing projects being extended or cloned
+- Fullstack starter templates (e.g., T3 Stack, MEAN/MERN starters, Django + React templates)
+- Monorepo templates (e.g., Nx, Turborepo starters)
+- Platform-specific starters (e.g., Vercel templates, AWS Amplify starters)
+- Existing projects being extended or cloned
 
 2. If starter templates or existing projects are mentioned:
 
-   - Ask the user to provide access (links, repos, or files)
-   - Analyze to understand pre-configured choices and constraints
-   - Note any architectural decisions already made
-   - Identify what can be modified vs what must be retained
+- Ask the user to provide access (links, repos, or files)
+- Analyze to understand pre-configured choices and constraints
+- Note any architectural decisions already made
+- Identify what can be modified vs what must be retained
 
 3. If no starter is mentioned but this is greenfield:
 
-   - Suggest appropriate fullstack starters based on tech preferences
-   - Consider platform-specific options (Vercel, AWS, etc.)
-   - Let user decide whether to use one
+- Suggest appropriate fullstack starters based on tech preferences
+- Consider platform-specific options (Vercel, AWS, etc.)
+- Let user decide whether to use one
 
 4. Document the decision and any constraints it imposes
 
@@ -333,10 +333,12 @@ servers:
 2. Consider both frontend and backend components
 3. Define clear boundaries and interfaces between components
 4. For each component, specify:
-   - Primary responsibility
-   - Key interfaces/APIs exposed
-   - Dependencies on other components
-   - Technology specifics based on tech stack choices
+
+- Primary responsibility
+- Key interfaces/APIs exposed
+- Dependencies on other components
+- Technology specifics based on tech stack choices
+
 5. Create component diagrams where helpful
 6. After presenting all components, apply `tasks#advanced-elicitation` protocol]]
 

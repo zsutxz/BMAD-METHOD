@@ -19,34 +19,35 @@ If the project includes a significant user interface, a separate Frontend Archit
 
 1. Review the PRD and brainstorming brief for any mentions of:
 
-   - Starter templates (e.g., Create React App, Next.js, Vue CLI, Angular CLI, etc.)
-   - Existing projects or codebases being used as a foundation
-   - Boilerplate projects or scaffolding tools
-   - Previous projects to be cloned or adapted
+- Starter templates (e.g., Create React App, Next.js, Vue CLI, Angular CLI, etc.)
+- Existing projects or codebases being used as a foundation
+- Boilerplate projects or scaffolding tools
+- Previous projects to be cloned or adapted
 
 2. If a starter template or existing project is mentioned:
 
-   - Ask the user to provide access via one of these methods:
-     - Link to the starter template documentation
-     - Upload/attach the project files (for small projects)
-     - Share a link to the project repository (GitHub, GitLab, etc.)
-   - Analyze the starter/existing project to understand:
-     - Pre-configured technology stack and versions
-     - Project structure and organization patterns
-     - Built-in scripts and tooling
-     - Existing architectural patterns and conventions
-     - Any limitations or constraints imposed by the starter
-   - Use this analysis to inform and align your architecture decisions
+- Ask the user to provide access via one of these methods:
+  - Link to the starter template documentation
+  - Upload/attach the project files (for small projects)
+  - Share a link to the project repository (GitHub, GitLab, etc.)
+- Analyze the starter/existing project to understand:
+  - Pre-configured technology stack and versions
+  - Project structure and organization patterns
+  - Built-in scripts and tooling
+  - Existing architectural patterns and conventions
+  - Any limitations or constraints imposed by the starter
+- Use this analysis to inform and align your architecture decisions
 
 3. If no starter template is mentioned but this is a greenfield project:
 
-   - Suggest appropriate starter templates based on the tech stack preferences
-   - Explain the benefits (faster setup, best practices, community support)
-   - Let the user decide whether to use one
+- Suggest appropriate starter templates based on the tech stack preferences
+- Explain the benefits (faster setup, best practices, community support)
+- Let the user decide whether to use one
 
 4. If the user confirms no starter template will be used:
-   - Proceed with architecture design from scratch
-   - Note that manual setup will be required for all tooling and configuration
+
+- Proceed with architecture design from scratch
+- Note that manual setup will be required for all tooling and configuration
 
 Document the decision here before proceeding with the architecture design. In none, just say N/A
 
@@ -222,10 +223,12 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
 2. Consider the repository structure (monorepo/polyrepo) from PRD
 3. Define clear boundaries and interfaces between components
 4. For each component, specify:
-   - Primary responsibility
-   - Key interfaces/APIs exposed
-   - Dependencies on other components
-   - Technology specifics based on tech stack choices
+
+- Primary responsibility
+- Key interfaces/APIs exposed
+- Dependencies on other components
+- Technology specifics based on tech stack choices
+
 5. Create component diagrams where helpful
 6. After presenting all components, apply `tasks#advanced-elicitation` protocol]]
 
@@ -734,15 +737,15 @@ Note: Basic info goes in Coding Standards for dev agent. This detailed section i
 
 1. If project has UI components:
 
-   - Recommend engaging Design Architect agent
-   - Use "Frontend Architecture Mode"
-   - Provide this document as input
+- Recommend engaging Design Architect agent
+- Use "Frontend Architecture Mode"
+- Provide this document as input
 
 2. For all projects:
 
-   - Review with Product Owner
-   - Begin story implementation with Dev agent
-   - Set up infrastructure with DevOps agent
+- Review with Product Owner
+- Begin story implementation with Dev agent
+- Set up infrastructure with DevOps agent
 
 3. Include specific prompts for next agents if needed]]
 

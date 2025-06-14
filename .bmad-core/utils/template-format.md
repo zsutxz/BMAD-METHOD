@@ -6,7 +6,7 @@ Templates in the BMAD method use standardized markup for AI processing. These co
 
 - **{{placeholders}}**: Variables to be replaced with actual content
 - **[[LLM: instructions]]**: Internal processing instructions for AI agents (never shown to users)
-- **<<REPEAT>>** sections: Content blocks that may be repeated as needed
+- **REPEAT** sections: Content blocks that may be repeated as needed
 - **^^CONDITION^^** blocks: Conditional content included only if criteria are met
 - **@{examples}**: Example content for guidance (never output to users)
 

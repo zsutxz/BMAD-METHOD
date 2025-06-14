@@ -53,17 +53,17 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 
 #### Structured Ideation Frameworks
 
-5. **SCAMPER Method**
+1. **SCAMPER Method**
    [[LLM: Guide through each SCAMPER prompt systematically.]]
-   - **S**ubstitute: What can be substituted?
-   - **C**ombine: What can be combined or integrated?
-   - **A**dapt: What can be adapted from elsewhere?
-   - **M**odify/Magnify: What can be emphasized or reduced?
-   - **P**ut to other uses: What else could this be used for?
-   - **E**liminate: What can be removed or simplified?
-   - **R**everse/Rearrange: What can be reversed or reordered?
+   - **S** = Substitute: What can be substituted?
+   - **C** = Combine: What can be combined or integrated?
+   - **A** = Adapt: What can be adapted from elsewhere?
+   - **M** = Modify/Magnify: What can be emphasized or reduced?
+   - **P** = Put to other uses: What else could this be used for?
+   - **E** = Eliminate: What can be removed or simplified?
+   - **R**= Reverse/Rearrange: What can be reversed or reordered?
 
-6. **Six Thinking Hats**
+2. **Six Thinking Hats**
    [[LLM: Cycle through different thinking modes, spending focused time in each.]]
    - White Hat: Facts and information
    - Red Hat: Emotions and intuition
@@ -72,9 +72,10 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
    - Green Hat: Creativity and alternatives
    - Blue Hat: Process and control
 
-7. **Mind Mapping**
+3. **Mind Mapping**
    [[LLM: Create text-based mind maps with clear hierarchical structure.]]
-   ```
+
+   ```plaintext
    Central Concept
    ├── Branch 1
    │   ├── Sub-idea 1.1
@@ -88,21 +89,21 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 
 #### Collaborative Techniques
 
-8. **"Yes, And..." Building**
+1. **"Yes, And..." Building**
    [[LLM: Accept every idea and build upon it without judgment. Encourage wild ideas and defer criticism.]]
    - Accept the premise of each idea
    - Add to it with "Yes, and..."
    - Build chains of connected ideas
    - Explore tangents freely
 
-9. **Brainwriting/Round Robin**
+2. **Brainwriting/Round Robin**
    [[LLM: Simulate multiple perspectives by generating ideas from different viewpoints.]]
    - Generate ideas from stakeholder perspectives
    - Build on previous ideas in rounds
    - Combine unrelated ideas
    - Cross-pollinate concepts
 
-10. **Random Stimulation**
+3. **Random Stimulation**
     [[LLM: Use random words, images, or concepts as creative triggers.]]
     - Random word association
     - Picture/metaphor inspiration
@@ -111,21 +112,21 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 
 #### Deep Exploration Techniques
 
-11. **Five Whys**
+1. **Five Whys**
     [[LLM: Dig deeper into root causes and underlying motivations.]]
     - Why does this problem exist? → Answer → Why? (repeat 5 times)
     - Uncover hidden assumptions
     - Find root causes, not symptoms
     - Identify intervention points
 
-12. **Morphological Analysis**
+2. **Morphological Analysis**
     [[LLM: Break down into parameters and systematically explore combinations.]]
     - List key parameters/dimensions
     - Identify possible values for each
     - Create combination matrix
     - Explore unusual combinations
 
-13. **Provocation Technique (PO)**
+3. **Provocation Technique (PO)**
     [[LLM: Make deliberately provocative statements to jar thinking.]]
     - PO: Cars have square wheels
     - PO: Customers pay us to take products
@@ -137,26 +138,31 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 [[LLM: Help user select appropriate techniques based on their needs.]]
 
 **For Initial Exploration:**
+
 - What If Scenarios
 - First Principles
 - Mind Mapping
 
 **For Stuck/Blocked Thinking:**
+
 - Random Stimulation
 - Reversal/Inversion
 - Provocation Technique
 
 **For Systematic Coverage:**
+
 - SCAMPER
 - Morphological Analysis
 - Six Thinking Hats
 
 **For Deep Understanding:**
+
 - Five Whys
 - Analogical Thinking
 - First Principles
 
 **For Team/Collaborative Settings:**
+
 - Brainwriting
 - "Yes, And..."
 - Six Thinking Hats
@@ -190,17 +196,20 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 [[LLM: Present brainstorming results in an organized, actionable format.]]
 
 **Session Summary:**
+
 - Techniques used
 - Number of ideas generated
 - Key themes identified
 
 **Idea Categories:**
+
 1. **Immediate Opportunities** - Ideas that could be implemented now
 2. **Future Innovations** - Ideas requiring more development
 3. **Moonshots** - Ambitious, transformative ideas
 4. **Insights & Learnings** - Key realizations from the session
 
 **Next Steps:**
+
 - Which ideas to explore further
 - Recommended follow-up techniques
 - Suggested research areas

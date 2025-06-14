@@ -29,7 +29,8 @@
      - Routing configuration
      - Testing setup and patterns
      - Build and development scripts
-   - Use this analysis to ensure your frontend architecture aligns with the starter's patterns
+
+- Use this analysis to ensure your frontend architecture aligns with the starter's patterns
 
 3. If no frontend starter is mentioned but this is a new UI, ensure we know what the ui language and framework is:
 

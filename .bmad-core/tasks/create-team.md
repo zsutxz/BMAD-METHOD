@@ -45,6 +45,7 @@ Based on the schema requirements:
 Based on team purpose, recommend agents:
 
 **For Planning & Strategy Teams:**
+
 - `bmad` (required orchestrator)
 - `analyst` - Requirements gathering and research
 - `pm` - Product strategy and documentation
@@ -52,6 +53,7 @@ Based on team purpose, recommend agents:
 - `architect` - Technical planning (if technical planning needed)
 
 **For Design & UX Teams:**
+
 - `bmad` (required orchestrator)
 - `ux-expert` - User experience design
 - `architect` - Frontend architecture
@@ -59,6 +61,7 @@ Based on team purpose, recommend agents:
 - `po` - Design validation
 
 **For Development Teams:**
+
 - `bmad` (required orchestrator)
 - `sm` - Sprint coordination
 - `dev` - Implementation
@@ -66,6 +69,7 @@ Based on team purpose, recommend agents:
 - `architect` - Technical guidance
 
 **For Full-Stack Teams:**
+
 - `bmad` (required orchestrator)
 - `analyst` - Initial planning
 - `pm` - Product management
@@ -128,7 +132,7 @@ workflows:
 Before finalizing, verify:
 
 1. **Role Coverage**: Does the team have all necessary skills for its workflows?
-2. **Size Optimization**: 
+2. **Size Optimization**:
    - Minimum: 2 agents (bmad + 1)
    - Recommended: 3-7 agents
    - Maximum with wildcard: bmad + "*"
@@ -159,8 +163,8 @@ Document how this team integrates with existing system:
 bundle:
   name: "Team API"
   description: >-
-    Specialized team for API and backend service development. Focuses on 
-    robust service architecture, implementation, and testing without UI 
+    Specialized team for API and backend service development. Focuses on
+    robust service architecture, implementation, and testing without UI
     components. Ideal for microservices, REST APIs, and backend systems.
 
 agents:
@@ -182,8 +186,8 @@ workflows:
 bundle:
   name: "Team Prototype"
   description: >-
-    Agile team for rapid prototyping and proof of concept development. 
-    Combines planning, design, and implementation for quick iterations 
+    Agile team for rapid prototyping and proof of concept development.
+    Combines planning, design, and implementation for quick iterations
     on new ideas and experimental features.
 
 agents:
