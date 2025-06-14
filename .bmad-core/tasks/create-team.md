@@ -45,6 +45,7 @@ Based on the schema requirements:
 Based on team purpose, recommend agents:
 
 **For Planning & Strategy Teams:**
+
 - `bmad` (required orchestrator)
 - `analyst` - Requirements gathering and research
 - `pm` - Product strategy and documentation
@@ -52,6 +53,7 @@ Based on team purpose, recommend agents:
 - `architect` - Technical planning (if technical planning needed)
 
 **For Design & UX Teams:**
+
 - `bmad` (required orchestrator)
 - `ux-expert` - User experience design
 - `architect` - Frontend architecture
@@ -59,14 +61,16 @@ Based on team purpose, recommend agents:
 - `po` - Design validation
 
 **For Development Teams:**
-- `bmad` (required orchestrator)
+
+- `bmad-orchestrator` (required orchestrator)
 - `sm` - Sprint coordination
 - `dev` - Implementation
 - `qa` - Quality assurance
 - `architect` - Technical guidance
 
 **For Full-Stack Teams:**
-- `bmad` (required orchestrator)
+
+- `bmad-orchestrator` (required orchestrator)
 - `analyst` - Initial planning
 - `pm` - Product management
 - `ux-expert` - UI/UX design (if UI work included)
@@ -84,6 +88,7 @@ Based on team purpose, recommend agents:
 Based on the schema's workflow enum values and team composition:
 
 1. **Analyze team capabilities** against available workflows:
+
    - `brownfield-fullstack` - Requires full team with UX
    - `brownfield-service` - Backend-focused team
    - `brownfield-ui` - UI/UX-focused team
@@ -92,6 +97,7 @@ Based on the schema's workflow enum values and team composition:
    - `greenfield-ui` - Frontend team for new UIs
 
 2. **Match workflows to agents**:
+
    - UI workflows require `ux-expert`
    - Service workflows benefit from `architect` and `dev`
    - All workflows benefit from planning agents (`analyst`, `pm`)
@@ -113,13 +119,13 @@ bundle:
 
 agents:
   - bmad # Required orchestrator
-  - {agent-id-1}
-  - {agent-id-2}
+  - { agent-id-1 }
+  - { agent-id-2 }
   # ... additional agents
 
 workflows:
-  - {workflow-1} # From enum list
-  - {workflow-2}
+  - { workflow-1 } # From enum list
+  - { workflow-2 }
   # ... additional workflows
 ```
 
@@ -128,10 +134,10 @@ workflows:
 Before finalizing, verify:
 
 1. **Role Coverage**: Does the team have all necessary skills for its workflows?
-2. **Size Optimization**: 
+2. **Size Optimization**:
    - Minimum: 2 agents (bmad + 1)
    - Recommended: 3-7 agents
-   - Maximum with wildcard: bmad + "*"
+   - Maximum with wildcard: bmad + "\*"
 3. **Workflow Alignment**: Can the selected agents execute all workflows?
 4. **Schema Compliance**: Configuration matches all schema requirements
 
