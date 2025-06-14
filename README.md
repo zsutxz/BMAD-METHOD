@@ -70,7 +70,7 @@ npm run validate       # Validate configurations
 
 ## Project Structure
 
-```
+```plaintext
 .bmad-core/
 ├── agents/          # Individual agent definitions
 ├── agent-teams/     # Team configurations
