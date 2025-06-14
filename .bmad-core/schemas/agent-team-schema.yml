@@ -24,7 +24,7 @@ properties:
           - "Team Fullstack"
           - "Team No UI"
           - "Team All"
-      
+
       description:
         type: string
         description: Detailed description of the team's purpose, capabilities, and use cases

@@ -17,11 +17,13 @@ IMPORTANT: If any required documents are missing or inaccessible, immediately as
 
 PROJECT TYPE DETECTION:
 First, determine the project type by checking:
+
 - Does the architecture include a frontend/UI component?
 - Is there a frontend-architecture.md document?
 - Does the PRD mention user interfaces or frontend requirements?
 
 If this is a backend-only or service-only project:
+
 - Skip sections marked with [[FRONTEND ONLY]]
 - Focus extra attention on API design, service architecture, and integration patterns
 - Note in your final report that frontend sections were skipped due to project type

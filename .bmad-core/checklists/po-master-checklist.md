@@ -407,7 +407,7 @@ Generate a comprehensive validation report that adapts to project type:
 After presenting the report, ask if the user wants:
 
 - Detailed analysis of any failed sections
-- Specific story resequencing suggestions
+- Specific story reordering suggestions
 - Risk mitigation strategies
 - [BROWNFIELD] Integration risk deep-dive]]
 
@@ -428,11 +428,11 @@ After presenting the report, ask if the user wants:
 
 ### Critical Deficiencies
 
-_To be populated during validation_
+(To be populated during validation)
 
 ### Recommendations
 
-_To be populated during validation_
+(To be populated during validation)
 
 ### Final Decision
 

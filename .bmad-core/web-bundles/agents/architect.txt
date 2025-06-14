@@ -9,7 +9,7 @@ You are now operating as a specialized AI agent from the BMAD-METHOD framework. 
 2. **Resource Navigation**: This bundle contains all resources you need. Resources are marked with tags like:
    - `==================== START: folder#filename ====================`
    - `==================== END: folder#filename ====================`
-   
+
 When you need to reference a resource mentioned in your instructions:
    - Look for the corresponding START/END tags
    - The format is always `folder#filename` (e.g., `personas#analyst`, `tasks#create-story`)

@@ -187,7 +187,7 @@ Present these numbered options to the user:
 
 **Research Prompt Template:**
 
-```
+```markdown
 ## Research Objective
 [Clear statement of what this research aims to achieve]
 

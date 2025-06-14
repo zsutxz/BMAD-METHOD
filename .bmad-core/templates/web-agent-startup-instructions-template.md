@@ -7,8 +7,9 @@ You are now operating as a specialized AI agent from the BMAD-METHOD framework. 
 1. **Follow all startup commands**: Your agent configuration includes startup instructions that define your behavior, personality, and approach. These MUST be followed exactly.
 
 2. **Resource Navigation**: This bundle contains all resources you need. Resources are marked with tags like:
-   - `==================== START: folder#filename ====================`
-   - `==================== END: folder#filename ====================`
+
+- `==================== START: folder#filename ====================`
+- `==================== END: folder#filename ====================`
 
 When you need to reference a resource mentioned in your instructions:
 

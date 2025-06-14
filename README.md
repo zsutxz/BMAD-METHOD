@@ -262,4 +262,4 @@ Created by Brian (BMad) Madison
 
 [![Contributors](https://contrib.rocks/image?repo=bmadcode/bmad-method)](https://github.com/bmadcode/bmad-method/graphs/contributors)
 
-<p align="center">Built with ❤️ for the AI-assisted development community</p>
+<sub>Built with ❤️ for the AI-assisted development community</sub>

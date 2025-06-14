@@ -101,7 +101,7 @@ workflow:
         A[Start: UI Development] --> B{UI Complexity?}
         B -->|Complex/Production| C[analyst: project-brief.md]
         B -->|Simple/Prototype| D[analyst: focused project-brief.md]
-        
+
         C --> E[pm: prd.md]
         E --> F[ux-expert: front-end-spec.md]
         F --> F2{Generate v0 prompt?}
@@ -117,16 +117,16 @@ workflow:
         K -->|Yes| L[Return to relevant agent for fixes]
         K -->|No| M[Move to IDE Environment]
         L --> J
-        
+
         D --> N[ux-expert: simple wireframes]
         N --> O[Move to IDE Environment]
-        
+
         C -.-> C1[Optional: brainstorming]
         C -.-> C2[Optional: market research]
         F -.-> F1[Optional: user research]
         G -.-> G1[Optional: technical research]
         D -.-> D1[Optional: brainstorming]
-        
+
         style M fill:#90EE90
         style O fill:#90EE90
         style F3 fill:#E6E6FA

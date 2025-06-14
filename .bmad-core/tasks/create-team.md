@@ -62,7 +62,7 @@ Based on team purpose, recommend agents:
 
 **For Development Teams:**
 
-- `bmad-orchestrator` (required orchestrator)
+- `bmad-orchestrator` (required)
 - `sm` - Sprint coordination
 - `dev` - Implementation
 - `qa` - Quality assurance
@@ -70,7 +70,7 @@ Based on team purpose, recommend agents:
 
 **For Full-Stack Teams:**
 
-- `bmad-orchestrator` (required orchestrator)
+- `bmad-orchestrator` (required)
 - `analyst` - Initial planning
 - `pm` - Product management
 - `ux-expert` - UI/UX design (if UI work included)
@@ -165,8 +165,8 @@ Document how this team integrates with existing system:
 bundle:
   name: "Team API"
   description: >-
-    Specialized team for API and backend service development. Focuses on 
-    robust service architecture, implementation, and testing without UI 
+    Specialized team for API and backend service development. Focuses on
+    robust service architecture, implementation, and testing without UI
     components. Ideal for microservices, REST APIs, and backend systems.
 
 agents:
@@ -188,8 +188,8 @@ workflows:
 bundle:
   name: "Team Prototype"
   description: >-
-    Agile team for rapid prototyping and proof of concept development. 
-    Combines planning, design, and implementation for quick iterations 
+    Agile team for rapid prototyping and proof of concept development.
+    Combines planning, design, and implementation for quick iterations
     on new ideas and experimental features.
 
 agents:

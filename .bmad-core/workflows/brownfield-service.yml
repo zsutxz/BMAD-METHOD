@@ -71,7 +71,7 @@ workflow:
         A[Start: Service Enhancement] --> B{Enhancement Complexity?}
         B -->|Complex/Significant| C[analyst: analyze existing service]
         B -->|Simple| D{1 Story or 2-3 Stories?}
-        
+
         C --> E[pm: brownfield-prd.md]
         E --> F[architect: brownfield-architecture.md]
         F --> G[po: validate with po-master-checklist]
@@ -79,12 +79,12 @@ workflow:
         H -->|Yes| I[Return to relevant agent for fixes]
         H -->|No| J[Move to IDE Environment]
         I --> G
-        
+
         D -->|1 Story| K[pm/po/sm: brownfield-create-story]
         D -->|2-3 Stories| L[pm/po/sm: brownfield-create-epic]
         K --> M[Move to IDE Environment]
         L --> M
-        
+
         style J fill:#90EE90
         style M fill:#90EE90
         style E fill:#FFE4B5

@@ -41,11 +41,11 @@ The actual list depends on which team bundle is loaded. When responding to this 
 
 Example response format:
 
-```
+```text
 Available workflows for [Team Name]:
 1. [workflow-id] - [Brief description based on workflow type]
 2. [workflow-id] - [Brief description based on workflow type]
-...
+[... etc. ...]
 
 Use /workflow-start {number or id} to begin a workflow.
 ```
@@ -62,7 +62,7 @@ Shows current workflow progress, completed artifacts, and next steps.
 
 Example response:
 
-```
+```text
 Current Workflow: Greenfield Full-Stack Development
 Stage: Product Planning (2 of 6)
 Completed:
@@ -82,7 +82,7 @@ Resumes a workflow from where it left off, useful when starting a new chat.
 
 User can provide completed artifacts:
 
-```
+```text
 User: /workflow-resume greenfield-fullstack
       I have completed: project-brief, PRD
 BMad: I see you've completed Discovery and part of Product Planning.
@@ -150,7 +150,7 @@ When user returns after interruption:
 
 Example:
 
-```
+```text
 User: I'm working on a new app. Here's my PRD and architecture doc.
 BMad: I see you have a PRD and architecture document. Based on these artifacts,
       it looks like you're following the greenfield-fullstack workflow and have completed
@@ -173,7 +173,7 @@ When transitioning between agents, pass:
 
 Example transition:
 
-```
+```text
 BMad: Great! John has completed the PRD. According to the greenfield-fullstack workflow,
       the next step is UX Strategy with Sally.
 

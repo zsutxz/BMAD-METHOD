@@ -363,11 +363,11 @@ After presenting the report, ask if the user wants:
 
 ### Critical Deficiencies
 
-_To be populated during validation_
+(To be populated during validation)
 
 ### Recommendations
 
-_To be populated during validation_
+(To be populated during validation)
 
 ### Final Decision
 
