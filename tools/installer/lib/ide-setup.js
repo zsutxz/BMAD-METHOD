@@ -331,7 +331,7 @@ class IdeSetup {
             ? roleDefinitionMatch[1].trim()
             : `You are a ${title} specializing in ${title.toLowerCase()} tasks and responsibilities.`;
 
-          // Build mode entry with proper formatting
+          // Build mode entry with proper formatting (matching exact indentation)
           newModesContent += ` - slug: bmad-${agentId}\n`;
           newModesContent += `   name: '${icon} ${title}'\n`;
           newModesContent += `   roleDefinition: ${roleDefinition}\n`;

@@ -15,6 +15,7 @@ This file contains all BMAD Method agent personas. To use an agent, type its nam
 # Agent Switching
 
 To switch between agents during a conversation:
+
 1. Simply type the new agent name (e.g., "architect" or "dev")
 2. The AI will adopt that agent's persona
 

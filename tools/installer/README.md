@@ -4,7 +4,7 @@ This directory contains the BMAD Method installer implementation.
 
 ## Structure
 
-```
+```text
 installer/
 ├── bin/              # CLI entry points
 │   └── bmad.js      # Main CLI executable
@@ -42,7 +42,7 @@ npx bmad-method install --profile=minimal
 
 # Update existing installation
 npx bmad-method update
-```
+```text
 
 ## Development
 

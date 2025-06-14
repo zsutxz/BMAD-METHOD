@@ -39,19 +39,23 @@ Migrate BMAD-METHOD documents to match V4 template structure exactly, preserving
 ### Content Migration Process
 
 1. **Read Template Structure**
+
    - Extract all Level 2 headings from the V4 template
    - These are the ONLY Level 2 headings allowed in the final document
 
 2. **Analyze Original Document**
+
    - Identify all content blocks
    - Note original section organization
    - Flag any custom sections
 
 3. **Create Backup First**
+
    - Rename original file: `mv filename.md filename.md.bak`
    - This preserves the original completely
 
 4. **Create New File**
+
    - Create new `filename.md` from scratch
    - Start with template structure (all Level 2 headings)
    - For each content block from original:
@@ -72,23 +76,37 @@ Migrate BMAD-METHOD documents to match V4 template structure exactly, preserving
 
 ```markdown
 Original (prd.md):
+
 ## Executive Summary
+
 [content...]
-## Custom Feature Section  
+
+## Custom Feature Section
+
 [content...]
+
 ## Table of Contents
+
 [toc...]
 
 Template (prd-tmpl.md):
+
 ## Goals and Background Context
+
 ## Functional Requirements
+
 ## Success Metrics and KPIs
 
 Result (prd.md):
+
 ## Goals and Background Context
+
 [executive summary content moved here]
+
 ### Custom Feature Section
+
 [content preserved but demoted to Level 3]
+
 ## Functional Requirements
 
 ## Success Metrics and KPIs
