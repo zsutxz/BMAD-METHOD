@@ -26,10 +26,10 @@ class Installer {
       let files = [];
       
       if (config.installType === 'full') {
-        // Full installation - copy entire bmad-core folder as a subdirectory
-        spinner.text = 'Copying complete bmad-core folder...';
+        // Full installation - copy entire .bmad-core folder as a subdirectory
+        spinner.text = 'Copying complete .bmad-core folder...';
         const sourceDir = configLoader.getBmadCorePath();
-        const bmadCoreDestDir = path.join(installDir, 'bmad-core');
+        const bmadCoreDestDir = path.join(installDir, '.bmad-core');
         await fileManager.copyDirectory(sourceDir, bmadCoreDestDir);
         
         // Get list of all files for manifest
@@ -38,7 +38,7 @@ class Installer {
           cwd: bmadCoreDestDir, 
           nodir: true,
           ignore: ['**/.git/**', '**/node_modules/**']
-        }).map(file => path.join('bmad-core', file));
+        }).map(file => path.join('.bmad-core', file));
         
       } else if (config.installType === 'single-agent') {
         // Single agent installation
@@ -60,18 +60,18 @@ class Installer {
           if (dep.includes('*')) {
             // Handle glob patterns
             const copiedFiles = await fileManager.copyGlobPattern(
-              dep.replace('bmad-core/', ''),
+              dep.replace('.bmad-core/', ''),
               sourceBase,
               installDir
             );
             files.push(...copiedFiles);
           } else {
             // Handle single files
-            const sourcePath = path.join(sourceBase, dep.replace('bmad-core/', ''));
-            const destPath = path.join(installDir, dep.replace('bmad-core/', ''));
+            const sourcePath = path.join(sourceBase, dep.replace('.bmad-core/', ''));
+            const destPath = path.join(installDir, dep.replace('.bmad-core/', ''));
             
             if (await fileManager.copyFile(sourcePath, destPath)) {
-              files.push(dep.replace('bmad-core/', ''));
+              files.push(dep.replace('.bmad-core/', ''));
             }
           }
         }
@@ -80,7 +80,7 @@ class Installer {
       // Set up IDE integration if requested
       if (config.ide) {
         spinner.text = `Setting up ${config.ide} integration...`;
-        // For full installations, IDE rules should be in the root install dir, not bmad-core
+        // For full installations, IDE rules should be in the root install dir, not .bmad-core
         await ideSetup.setup(config.ide, installDir, config.agent);
       }
       
@@ -240,11 +240,11 @@ class Installer {
   }
 
   async findInstallation() {
-    // Look for bmad-core in current directory or parent directories
+    // Look for .bmad-core in current directory or parent directories
     let currentDir = process.cwd();
     
     while (currentDir !== path.dirname(currentDir)) {
-      const bmadDir = path.join(currentDir, 'bmad-core');
+      const bmadDir = path.join(currentDir, '.bmad-core');
       const manifestPath = path.join(bmadDir, '.bmad', 'install-manifest.yml');
       
       if (await fileManager.pathExists(manifestPath)) {
@@ -254,8 +254,8 @@ class Installer {
       currentDir = path.dirname(currentDir);
     }
     
-    // Also check if we're inside a bmad-core directory
-    if (path.basename(process.cwd()) === 'bmad-core') {
+    // Also check if we're inside a .bmad-core directory
+    if (path.basename(process.cwd()) === '.bmad-core') {
       const manifestPath = path.join(process.cwd(), '.bmad', 'install-manifest.yml');
       if (await fileManager.pathExists(manifestPath)) {
         return process.cwd();

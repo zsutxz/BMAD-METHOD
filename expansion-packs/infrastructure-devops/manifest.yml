@@ -7,33 +7,33 @@ author: BMAD Team
 files:
   # Agent configuration
   - source: agents/infra-devops-platform.yml
-    destination: bmad-core/agents/infra-devops-platform.yml
+    destination: .bmad-core/agents/infra-devops-platform.yml
 
   # Persona definition
   - source: personas/infra-devops-platform.md
-    destination: bmad-core/personas/infra-devops-platform.md
+    destination: .bmad-core/personas/infra-devops-platform.md
 
   # IDE agent configuration
   - source: ide-agents/infra-devops-platform.ide.md
-    destination: bmad-core/ide-agents/infra-devops-platform.ide.md
+    destination: .bmad-core/ide-agents/infra-devops-platform.ide.md
 
   # Templates
   - source: templates/infrastructure-architecture-tmpl.md
-    destination: bmad-core/templates/infrastructure-architecture-tmpl.md
+    destination: .bmad-core/templates/infrastructure-architecture-tmpl.md
 
   - source: templates/infrastructure-platform-from-arch-tmpl.md
-    destination: bmad-core/templates/infrastructure-platform-from-arch-tmpl.md
+    destination: .bmad-core/templates/infrastructure-platform-from-arch-tmpl.md
 
   # Tasks
   - source: tasks/validate-infrastructure.md
-    destination: bmad-core/tasks/validate-infrastructure.md
+    destination: .bmad-core/tasks/validate-infrastructure.md
 
   - source: tasks/review-infrastructure.md
-    destination: bmad-core/tasks/review-infrastructure.md
+    destination: .bmad-core/tasks/review-infrastructure.md
 
   # Checklists
   - source: checklists/infrastructure-checklist.md
-    destination: bmad-core/checklists/infrastructure-checklist.md
+    destination: .bmad-core/checklists/infrastructure-checklist.md
 
 # Team configurations to update (add devops agent)
 team_updates:

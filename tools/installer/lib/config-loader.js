@@ -50,8 +50,8 @@ class ConfigLoader {
   }
 
   getBmadCorePath() {
-    // Get the path to bmad-core relative to the installer (now under tools)
-    return path.join(__dirname, '..', '..', '..', 'bmad-core');
+    // Get the path to .bmad-core relative to the installer (now under tools)
+    return path.join(__dirname, '..', '..', '..', '.bmad-core');
   }
 
   getAgentPath(agentId) {

@@ -14,8 +14,8 @@ const isNpxExecution = __dirname.includes('_npx') || __dirname.includes('.npm');
 
 // If running via npx, we need to handle things differently
 if (isNpxExecution) {
-  // The actual bmad.js is in tools/installer/bin/
-  const bmadScriptPath = path.join(__dirname, 'tools', 'installer', 'bin', 'bmad.js');
+  // The actual bmad.js is in installer/bin/ (relative to tools directory)
+  const bmadScriptPath = path.join(__dirname, 'installer', 'bin', 'bmad.js');
   
   // Verify the file exists
   if (!fs.existsSync(bmadScriptPath)) {
@@ -28,7 +28,7 @@ if (isNpxExecution) {
   try {
     execSync(`node "${bmadScriptPath}" ${process.argv.slice(2).join(' ')}`, {
       stdio: 'inherit',
-      cwd: __dirname
+      cwd: path.dirname(__dirname)
     });
   } catch (error) {
     // execSync will throw if the command exits with non-zero
@@ -37,5 +37,5 @@ if (isNpxExecution) {
   }
 } else {
   // Local execution - just require the installer directly
-  require('./tools/installer/bin/bmad.js');
+  require('./installer/bin/bmad.js');
 }

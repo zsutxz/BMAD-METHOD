@@ -32,8 +32,8 @@ class IdeSetup {
     await fileManager.ensureDirectory(cursorRulesDir);
     
     for (const agentId of agents) {
-      // Check if bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
-      let agentPath = path.join(installDir, 'bmad-core', 'agents', `${agentId}.md`);
+      // Check if .bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
+      let agentPath = path.join(installDir, '.bmad-core', 'agents', `${agentId}.md`);
       if (!await fileManager.pathExists(agentPath)) {
         agentPath = path.join(installDir, 'agents', `${agentId}.md`);
       }
@@ -63,7 +63,7 @@ class IdeSetup {
         }
         mdcContent += '\n```\n\n';
         mdcContent += '## File Reference\n\n';
-        mdcContent += `The complete agent definition is available in [bmad-core/agents/${agentId}.md](mdc:bmad-core/agents/${agentId}.md).\n\n`;
+        mdcContent += `The complete agent definition is available in [.bmad-core/agents/${agentId}.md](mdc:.bmad-core/agents/${agentId}.md).\n\n`;
         mdcContent += '## Usage\n\n';
         mdcContent += `When the user types \`@${agentId}\`, activate this ${this.getAgentTitle(agentId)} persona and follow all instructions defined in the YML configuration above.\n`;
         
@@ -84,8 +84,8 @@ class IdeSetup {
     await fileManager.ensureDirectory(commandsDir);
     
     for (const agentId of agents) {
-      // Check if bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
-      let agentPath = path.join(installDir, 'bmad-core', 'agents', `${agentId}.md`);
+      // Check if .bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
+      let agentPath = path.join(installDir, '.bmad-core', 'agents', `${agentId}.md`);
       if (!await fileManager.pathExists(agentPath)) {
         agentPath = path.join(installDir, 'agents', `${agentId}.md`);
       }
@@ -117,8 +117,8 @@ class IdeSetup {
     await fileManager.ensureDirectory(windsurfRulesDir);
     
     for (const agentId of agents) {
-      // Check if bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
-      let agentPath = path.join(installDir, 'bmad-core', 'agents', `${agentId}.md`);
+      // Check if .bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
+      let agentPath = path.join(installDir, '.bmad-core', 'agents', `${agentId}.md`);
       if (!await fileManager.pathExists(agentPath)) {
         agentPath = path.join(installDir, 'agents', `${agentId}.md`);
       }
@@ -143,7 +143,7 @@ class IdeSetup {
         }
         mdContent += '\n```\n\n';
         mdContent += '## File Reference\n\n';
-        mdContent += `The complete agent definition is available in [bmad-core/agents/${agentId}.md](bmad-core/agents/${agentId}.md).\n\n`;
+        mdContent += `The complete agent definition is available in [.bmad-core/agents/${agentId}.md](.bmad-core/agents/${agentId}.md).\n\n`;
         mdContent += '## Usage\n\n';
         mdContent += `When the user types \`@${agentId}\`, activate this ${this.getAgentTitle(agentId)} persona and follow all instructions defined in the YML configuration above.\n`;
         
@@ -158,8 +158,8 @@ class IdeSetup {
   }
 
   async getAllAgentIds(installDir) {
-    // Check if bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
-    let agentsDir = path.join(installDir, 'bmad-core', 'agents');
+    // Check if .bmad-core is a subdirectory (full install) or if agents are in root (single agent install)
+    let agentsDir = path.join(installDir, '.bmad-core', 'agents');
     if (!await fileManager.pathExists(agentsDir)) {
       agentsDir = path.join(installDir, 'agents');
     }

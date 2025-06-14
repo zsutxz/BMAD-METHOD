@@ -37,15 +37,15 @@ BMAD-METHOD (Breakthrough Method of AgileAI Driven Development) transforms softw
 
 ### Option 1: Web Bundles (No Installation)
 
-1. Download pre-built bundles from `bmad-core/web-bundles/`
+1. Download pre-built bundles from `.bmad-core/web-bundles/`
 2. Upload to ChatGPT or Gemini
 3. Set instructions: "Your critical operating instructions are attached, you ARE the BMad Agent..."
 4. Start with `/help` command if unsure what to do!
 
 ### Option 2: IDE Integration
 
-1. Copy `bmad-core/` to project root
-2. Use agents from `bmad-core/agents/`
+1. Copy `.bmad-core/` to project root
+2. Use agents from `.bmad-core/agents/`
 3. Configure IDE slash commands
 
 ### Option 3: Build Custom Bundles
@@ -71,7 +71,7 @@ npm run validate       # Validate configurations
 ## Project Structure
 
 ```
-bmad-core/
+.bmad-core/
 ├── agents/          # Individual agent definitions
 ├── agent-teams/     # Team configurations
 ├── workflows/       # Development workflows
