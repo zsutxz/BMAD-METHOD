@@ -75,7 +75,7 @@ class Installer {
       state.type = "v4_existing";
       state.hasV4Manifest = true;
       state.hasBmadCore = true;
-      state.manifest = await fileManager.readManifest(bmadCorePath);
+      state.manifest = await fileManager.readManifest(installDir);
       return state;
     }
 

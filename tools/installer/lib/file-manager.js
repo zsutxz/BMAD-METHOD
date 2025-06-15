@@ -72,7 +72,7 @@ class FileManager {
     );
 
     const manifest = {
-      version: require("../package.json").version,
+      version: require("../../../package.json").version,
       installed_at: new Date().toISOString(),
       install_type: config.installType,
       agent: config.agent || null,
