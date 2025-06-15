@@ -251,6 +251,15 @@ cd bmad-method
 npm install
 ```
 
+## Documentation & Guides
+
+### Workflow Guides
+- 📚 [Universal BMAD Workflow Guide](docs/bmad-workflow-guide.md) - Core workflow that applies to all IDEs
+- 🎯 [Cursor Guide](docs/cursor-guide.md) - Complete workflow for Cursor users
+- 🤖 [Claude Code Guide](docs/claude-code-guide.md) - Complete workflow for Claude Code users
+- 🌊 [Windsurf Guide](docs/windsurf-guide.md) - Complete workflow for Windsurf users
+- 🦘 [Roo Code Guide](docs/roo-code-guide.md) - Complete workflow for Roo Code users
+
 ## Support
 
 - 💬 [Discord Community](https://discord.gg/g6ypHytrCB)
