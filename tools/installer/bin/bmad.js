@@ -3,16 +3,17 @@
 const { program } = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
-const path = require('path');
 
 // Handle both execution contexts (from root via npx or from installer directory)
-let version, installer;
+let version;
+let installer;
 try {
   // Try installer context first (when run from tools/installer/)
   version = require('../package.json').version;
   installer = require('../lib/installer');
 } catch (e) {
   // Fall back to root context (when run via npx from GitHub)
+  console.log(chalk.yellow(`Installer context not found (${e.message}), trying root context...`));
   try {
     version = require('../../../package.json').version;
     installer = require('../../../tools/installer/lib/installer');
@@ -42,7 +43,7 @@ program
     try {
       if (!options.full && !options.agent) {
         // Interactive mode
-        const answers = await promptInstallation(options);
+        const answers = await promptInstallation();
         await installer.install(answers);
       } else {
         // Direct mode
@@ -98,11 +99,11 @@ program
     }
   });
 
-async function promptInstallation(options) {
+async function promptInstallation() {
   console.log(chalk.bold.blue(`\nWelcome to BMAD Method Installer v${version}\n`));
-  
+
   const answers = {};
-  
+
   // Ask for installation directory
   const { directory } = await inquirer.prompt([
     {
@@ -113,7 +114,7 @@ async function promptInstallation(options) {
     }
   ]);
   answers.directory = directory;
-  
+
   // Ask for installation type
   const { installType } = await inquirer.prompt([
     {
@@ -133,7 +134,7 @@ async function promptInstallation(options) {
     }
   ]);
   answers.installType = installType;
-  
+
   // If single agent, ask which one
   if (installType === 'single-agent') {
     const agents = await installer.getAvailableAgents();
@@ -150,7 +151,7 @@ async function promptInstallation(options) {
     ]);
     answers.agent = agent;
   }
-  
+
   // Ask for IDE configuration
   const { ide } = await inquirer.prompt([
     {
@@ -167,7 +168,7 @@ async function promptInstallation(options) {
     }
   ]);
   answers.ide = ide;
-  
+
   return answers;
 }
 

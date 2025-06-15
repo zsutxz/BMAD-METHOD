@@ -254,6 +254,7 @@ npm install
 ## Documentation & Guides
 
 ### Workflow Guides
+
 - 📚 [Universal BMAD Workflow Guide](docs/bmad-workflow-guide.md) - Core workflow that applies to all IDEs
 - 🎯 [Cursor Guide](docs/cursor-guide.md) - Complete workflow for Cursor users
 - 🤖 [Claude Code Guide](docs/claude-code-guide.md) - Complete workflow for Claude Code users

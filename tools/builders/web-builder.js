@@ -1,5 +1,5 @@
-const fs = require('fs').promises;
-const path = require('path');
+const fs = require('node:fs').promises;
+const path = require('node:path');
 const DependencyResolver = require('../lib/dependency-resolver');
 
 class WebBuilder {
@@ -19,6 +19,7 @@ class WebBuilder {
         await fs.rm(dir, { recursive: true, force: true });
         console.log(`Cleaned: ${path.relative(this.rootDir, dir)}`);
       } catch (error) {
+        console.debug(`Failed to clean directory ${dir}:`, error.message);
         // Directory might not exist, that's fine
       }
     }
@@ -26,11 +27,11 @@ class WebBuilder {
 
   async buildAgents() {
     const agents = await this.resolver.listAgents();
-    
+
     for (const agentId of agents) {
       console.log(`  Building agent: ${agentId}`);
       const bundle = await this.buildAgentBundle(agentId);
-      
+
       // Write to all output directories
       for (const outputDir of this.outputDirs) {
         const outputPath = path.join(outputDir, 'agents');
@@ -45,11 +46,11 @@ class WebBuilder {
 
   async buildTeams() {
     const teams = await this.resolver.listTeams();
-    
+
     for (const teamId of teams) {
       console.log(`  Building team: ${teamId}`);
       const bundle = await this.buildTeamBundle(teamId);
-      
+
       // Write to all output directories
       for (const outputDir of this.outputDirs) {
         const outputPath = path.join(outputDir, 'teams');
@@ -65,39 +66,39 @@ class WebBuilder {
   async buildAgentBundle(agentId) {
     const dependencies = await this.resolver.resolveAgentDependencies(agentId);
     const template = await fs.readFile(this.templatePath, 'utf8');
-    
+
     const sections = [template];
-    
+
     // Add agent configuration
     sections.push(this.formatSection(dependencies.agent.path, dependencies.agent.content));
-    
+
     // Add all dependencies
     for (const resource of dependencies.resources) {
       sections.push(this.formatSection(resource.path, resource.content));
     }
-    
+
     return sections.join('\n');
   }
 
   async buildTeamBundle(teamId) {
     const dependencies = await this.resolver.resolveTeamDependencies(teamId);
     const template = await fs.readFile(this.templatePath, 'utf8');
-    
+
     const sections = [template];
-    
+
     // Add team configuration
     sections.push(this.formatSection(dependencies.team.path, dependencies.team.content));
-    
+
     // Add all agents
     for (const agent of dependencies.agents) {
       sections.push(this.formatSection(agent.path, agent.content));
     }
-    
+
     // Add all deduplicated resources
     for (const resource of dependencies.resources) {
       sections.push(this.formatSection(resource.path, resource.content));
     }
-    
+
     return sections.join('\n');
   }
 
