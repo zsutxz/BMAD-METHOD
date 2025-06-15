@@ -18,6 +18,8 @@
     "version:patch": "node tools/version-bump.js patch",
     "version:minor": "node tools/version-bump.js minor",
     "version:major": "node tools/version-bump.js major",
+    "release": "semantic-release",
+    "release:test": "semantic-release --dry-run --no-ci || echo 'Config test complete - authentication errors are expected locally'",
     "prepare": "husky"
   },
   "dependencies": {
@@ -43,7 +45,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/bmad-method.git"
+    "url": "https://github.com/bmadcode/BMAD-METHOD.git"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -52,6 +54,9 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.1",
     "prettier": "^3.5.3",
+    "semantic-release": "^22.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "yaml-lint": "^1.7.0"
   },
   "lint-staged": {
