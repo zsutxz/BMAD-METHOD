@@ -111,7 +111,7 @@ Use appropriate diagram type for clarity.]]
 
 ```mermaid
 {{architecture_diagram}}
-```
+```text
 
 ### Architectural Patterns
 
@@ -262,7 +262,7 @@ interface UserProfile {
   bio?: string;
   preferences: Record<string, any>;
 }
-```
+```text
 
 **Relationships:**
 
@@ -286,17 +286,20 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-```yaml
+```yml
 openapi: 3.0.0
 info:
-  title: { { api_title } }
-  version: { { api_version } }
-  description: { { api_description } }
-
+  title:
+    '[object Object]': null
+  version:
+    '[object Object]': null
+  description:
+    '[object Object]': null
 servers:
-  - url: { { api_base_url } }
-    description: { { environment } }
-# ... OpenAPI specification continues
+  - url:
+      '[object Object]': null
+    description:
+      '[object Object]': null
 ```
 
 ^^/CONDITION: has_rest_api^^
@@ -306,7 +309,7 @@ servers:
 ```graphql
 # GraphQL Schema
 {{graphql_schema}}
-```
+```text
 
 ^^/CONDITION: has_graphql_api^^
 
@@ -464,7 +467,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Component Organization:**
 
-```
+```text
 {{component_structure}}
 ```
 
@@ -476,7 +479,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     component_template;
   }
 }
-```
+```text
 
 ### State Management Architecture
 
@@ -503,7 +506,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Route Organization:**
 
-```
+```text
 {{route_structure}}
 ```
 
@@ -515,7 +518,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     protected_route_example;
   }
 }
-```
+```text
 
 ### Frontend Services Layer
 
@@ -539,7 +542,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     service_example;
   }
 }
-```
+```text
 
 ## Backend Architecture
 
@@ -556,7 +559,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```
 {{function_structure}}
-```
+```text
 
 **Function Template:**
 
@@ -573,7 +576,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ^^CONDITION: traditional_server^^
 **Controller/Route Organization:**
 
-```
+```text
 {{controller_structure}}
 ```
 
@@ -585,7 +588,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     controller_template;
   }
 }
-```
+```text
 
 ^^/CONDITION: traditional_server^^
 
@@ -607,7 +610,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     repository_pattern;
   }
 }
-```
+```text
 
 ### Authentication and Authorization
 
@@ -627,7 +630,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     auth_middleware;
   }
 }
-```
+```text
 
 ## Unified Project Structure
 
@@ -711,7 +714,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```bash
 {{prerequisites_commands}}
-```
+```text
 
 **Initial Setup:**
 
@@ -733,7 +736,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 # Run tests
 {{test_commands}}
-```
+```text
 
 ### Environment Configuration
 
@@ -771,9 +774,9 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### CI/CD Pipeline
 
-```yaml
-{ { cicd_pipeline_config } }
-```
+```yml
+'[object Object]': null
+```text
 
 ### Environments
 
@@ -837,7 +840,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     Integration Tests
    /                  \
  Frontend Unit    Backend Unit
-```
+```text
 
 ### Test Organization
 
@@ -845,19 +848,19 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```
 {{frontend_test_structure}}
-```
+```text
 
 **Backend Tests:**
 
 ```
 {{backend_test_structure}}
-```
+```text
 
 **E2E Tests:**
 
 ```
 {{e2e_test_structure}}
-```
+```text
 
 ### Test Examples
 
@@ -879,7 +882,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     backend_test_example;
   }
 }
-```
+```text
 
 **E2E Test:**
 
@@ -932,7 +935,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{error_flow_diagram}}
-```
+```text
 
 ### Error Response Format
 
@@ -956,7 +959,7 @@ interface ApiError {
     frontend_error_handler;
   }
 }
-```
+```text
 
 ### Backend Error Handling
 
@@ -1000,35 +1003,3 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ## Checklist Results Report
 
 [[LLM: Before running the checklist, offer to output the full architecture document. Once user confirms, execute the `architect-checklist` and populate results here.]]
-
-## Next Steps
-
-[[LLM: Provide specific next steps for implementation.]]
-
-### Implementation Order
-
-1. **Environment Setup**
-
-   - Initialize monorepo structure
-   - Configure development environment
-   - Set up version control
-
-2. **Foundation (Epic 1)**
-
-   - Implement authentication flow
-   - Set up database schema
-   - Create basic API structure
-   - Implement core UI components
-
-3. **Feature Development**
-   - Follow story sequence from PRD
-   - Maintain type safety across stack
-   - Write tests as you go
-
-### Developer Handoff Prompts
-
-**For Scrum Master:**
-"Create stories for {{Project Name}} using the PRD at docs/prd.md and this fullstack architecture at docs/fullstack-architecture.md. Focus on Epic 1 implementation."
-
-**For Developer:**
-"Implement Story 1.1 from docs/stories/epic1/story-1.1.md using the fullstack architecture at docs/fullstack-architecture.md. Follow the coding standards and use the defined tech stack."

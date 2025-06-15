@@ -2541,38 +2541,6 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ## Checklist Results Report
 
 [[LLM: Before running the checklist, offer to output the full architecture document. Once user confirms, execute the `architect-checklist` and populate results here.]]
-
-## Next Steps
-
-[[LLM: Provide specific next steps for implementation.]]
-
-### Implementation Order
-
-1. **Environment Setup**
-
-   - Initialize monorepo structure
-   - Configure development environment
-   - Set up version control
-
-2. **Foundation (Epic 1)**
-
-   - Implement authentication flow
-   - Set up database schema
-   - Create basic API structure
-   - Implement core UI components
-
-3. **Feature Development**
-   - Follow story sequence from PRD
-   - Maintain type safety across stack
-   - Write tests as you go
-
-### Developer Handoff Prompts
-
-**For Scrum Master:**
-"Create stories for {{Project Name}} using the PRD at docs/prd.md and this fullstack architecture at docs/fullstack-architecture.md. Focus on Epic 1 implementation."
-
-**For Developer:**
-"Implement Story 1.1 from docs/stories/epic1/story-1.1.md using the fullstack architecture at docs/fullstack-architecture.md. Follow the coding standards and use the defined tech stack."
 ==================== END: templates#fullstack-architecture-tmpl ====================
 
 ==================== START: templates#brownfield-architecture-tmpl ====================

@@ -91,10 +91,10 @@ workflow:
       notes: "Creates focused project brief for simple project. SAVE OUTPUT: Copy final project-brief.md to your project's docs/ folder."
 
     - agent: pm
-      creates: simple_epic OR single_story
-      uses: create-epic OR create-story
+      creates: simple-project-prd.md
+      uses: create doc simple-project-prd OR create-epic OR create-story
       requires: project-brief.md
-      notes: "Create simple epic or story instead of full PRD for rapid development. Choose based on scope."
+      notes: "Create simple prd, simple epic or story instead of full PRD for rapid development. Choose based on scope."
 
     - workflow_end:
       action: move_to_ide
