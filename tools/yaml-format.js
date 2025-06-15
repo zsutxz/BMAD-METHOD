@@ -4,14 +4,24 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 const { execSync } = require('child_process');
-const chalk = require('chalk');
+
+// Dynamic import for ES module
+let chalk;
+
+// Initialize ES modules
+async function initializeModules() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+}
 
 /**
  * YAML Formatter and Linter for BMAD-METHOD
  * Formats and validates YAML files and YAML embedded in Markdown
  */
 
-function formatYamlContent(content, filename) {
+async function formatYamlContent(content, filename) {
+  await initializeModules();
   try {
     // First try to fix common YAML issues
     let fixedContent = content
@@ -62,7 +72,8 @@ function formatYamlContent(content, filename) {
   }
 }
 
-function processMarkdownFile(filePath) {
+async function processMarkdownFile(filePath) {
+  await initializeModules();
   const content = fs.readFileSync(filePath, 'utf8');
   let modified = false;
   let newContent = content;
@@ -77,22 +88,34 @@ function processMarkdownFile(filePath) {
 
   // Find YAML code blocks
   const yamlBlockRegex = /```ya?ml\n([\s\S]*?)\n```/g;
+  let match;
+  const replacements = [];
   
-  newContent = newContent.replace(yamlBlockRegex, (match, yamlContent) => {
-    const formatted = formatYamlContent(yamlContent, filePath);
-    if (formatted === null) {
-      return match; // Keep original if parsing failed
+  while ((match = yamlBlockRegex.exec(newContent)) !== null) {
+    const [fullMatch, yamlContent] = match;
+    const formatted = await formatYamlContent(yamlContent, filePath);
+    if (formatted !== null) {
+      // Remove trailing newline that js-yaml adds
+      const trimmedFormatted = formatted.replace(/\n$/, '');
+      
+      if (trimmedFormatted !== yamlContent) {
+        modified = true;
+        console.log(chalk.green(`✓ Formatted YAML in ${filePath}`));
+      }
+      
+      replacements.push({
+        start: match.index,
+        end: match.index + fullMatch.length,
+        replacement: `\`\`\`yaml\n${trimmedFormatted}\n\`\`\``
+      });
     }
-    
-    // Remove trailing newline that js-yaml adds
-    const trimmedFormatted = formatted.replace(/\n$/, '');
-    
-    if (trimmedFormatted !== yamlContent) {
-      modified = true;
-    }
-    
-    return `\`\`\`yml\n${trimmedFormatted}\n\`\`\``;
-  });
+  }
+  
+  // Apply replacements in reverse order to maintain indices
+  for (let i = replacements.length - 1; i >= 0; i--) {
+    const { start, end, replacement } = replacements[i];
+    newContent = newContent.slice(0, start) + replacement + newContent.slice(end);
+  }
 
   if (modified) {
     fs.writeFileSync(filePath, newContent);
@@ -101,9 +124,10 @@ function processMarkdownFile(filePath) {
   return false;
 }
 
-function processYamlFile(filePath) {
+async function processYamlFile(filePath) {
+  await initializeModules();
   const content = fs.readFileSync(filePath, 'utf8');
-  const formatted = formatYamlContent(content, filePath);
+  const formatted = await formatYamlContent(content, filePath);
   
   if (formatted === null) {
     return false; // Syntax error
@@ -116,7 +140,8 @@ function processYamlFile(filePath) {
   return false;
 }
 
-function lintYamlFile(filePath) {
+async function lintYamlFile(filePath) {
+  await initializeModules();
   try {
     // Use yaml-lint for additional validation
     execSync(`npx yaml-lint "${filePath}"`, { stdio: 'pipe' });
@@ -128,7 +153,8 @@ function lintYamlFile(filePath) {
   }
 }
 
-function main() {
+async function main() {
+  await initializeModules();
   const args = process.argv.slice(2);
   const glob = require('glob');
   
@@ -170,13 +196,13 @@ function main() {
     try {
       let changed = false;
       if (ext === '.md') {
-        changed = processMarkdownFile(filePath);
+        changed = await processMarkdownFile(filePath);
       } else if (ext === '.yml' || ext === '.yaml' || basename.includes('roomodes') || basename.includes('.yml') || basename.includes('.yaml')) {
         // Handle YAML files and special cases like .roomodes
-        changed = processYamlFile(filePath);
+        changed = await processYamlFile(filePath);
         
         // Also run linting
-        const lintPassed = lintYamlFile(filePath);
+        const lintPassed = await lintYamlFile(filePath);
         if (!lintPassed) hasErrors = true;
       } else {
         // Skip silently for unsupported files
@@ -205,7 +231,10 @@ function main() {
 }
 
 if (require.main === module) {
-  main();
+  main().catch(error => {
+    console.error('Error:', error);
+    process.exit(1);
+  });
 }
 
 module.exports = { formatYamlContent, processMarkdownFile, processYamlFile };
