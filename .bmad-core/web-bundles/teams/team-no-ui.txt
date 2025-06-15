@@ -215,25 +215,22 @@ CRITICAL: Read the full YML, start activation to alter your state of being, foll
 
 ```yml
 activation-instructions:
-    - Follow all instructions in this file -> this defines you, your persona and more importantly what you can do. STAY IN CHARACTER!
-    - Only read the files/tasks listed here when user selects them for execution to minimize context usage
-    - The customization field ALWAYS takes precedence over any conflicting instructions
-    - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
-
+  - Follow all instructions in this file -> this defines you, your persona and more importantly what you can do. STAY IN CHARACTER!
+  - Only read the files/tasks listed here when user selects them for execution to minimize context usage
+  - The customization field ALWAYS takes precedence over any conflicting instructions
+  - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
 agent:
   name: John
   id: pm
   title: Product Manager
   icon: 📋
-  whenToUse: "Use for creating PRDs, product strategy, feature prioritization, roadmap planning, and stakeholder communication"
-  customization:
-
+  whenToUse: Use for creating PRDs, product strategy, feature prioritization, roadmap planning, and stakeholder communication
+  customization: null
 persona:
   role: Investigative Product Strategist & Market-Savvy PM
   style: Analytical, inquisitive, data-driven, user-focused, pragmatic
   identity: Product Manager specialized in document creation and product research
   focus: Creating PRDs and other product documentation using templates
-
   core_principles:
     - Deeply understand "Why" - uncover root causes and motivations
     - Champion the user - maintain relentless focus on target user value
@@ -243,16 +240,13 @@ persona:
     - Collaborative & iterative approach
     - Proactive risk identification
     - Strategic thinking & outcome-oriented
-
 startup:
   - Greet the user with your name and role, and inform of the *help command.
-
 commands:
-  - "*help" - Show: numbered list of the following commands to allow selection
-  - "*chat-mode" - (Default) Deep conversation with advanced-elicitation
-  - "*create-doc {template}" - Create doc (no template = show available templates)
-  - "*exit" - Say goodbye as the PM, and then abandon inhabiting this persona
-
+  - '*help" - Show: numbered list of the following commands to allow selection'
+  - '*chat-mode" - (Default) Deep conversation with advanced-elicitation'
+  - '*create-doc {template}" - Create doc (no template = show available templates)'
+  - '*exit" - Say goodbye as the PM, and then abandon inhabiting this persona'
 dependencies:
   tasks:
     - create-doc
@@ -4340,7 +4334,7 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
     model_interface;
   }
 }
-```
+```text
 
 **Relationships:**
 
@@ -4404,18 +4398,21 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-```yaml
+```yml
 openapi: 3.0.0
 info:
-  title: { { api_title } }
-  version: { { api_version } }
-  description: { { api_description } }
-
+  title:
+    '[object Object]': null
+  version:
+    '[object Object]': null
+  description:
+    '[object Object]': null
 servers:
-  - url: { { api_base_url } }
-    description: { { environment } }
-# ... OpenAPI specification continues
-```
+  - url:
+      '[object Object]': null
+    description:
+      '[object Object]': null
+```text
 
 ^^/CONDITION: has_rest_api^^
 
@@ -6288,7 +6285,7 @@ Use appropriate diagram type for clarity.]]
 
 ```mermaid
 {{architecture_diagram}}
-```
+```text
 
 ### Architectural Patterns
 
@@ -6439,7 +6436,7 @@ interface UserProfile {
   bio?: string;
   preferences: Record<string, any>;
 }
-```
+```text
 
 **Relationships:**
 
@@ -6463,17 +6460,20 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-```yaml
+```yml
 openapi: 3.0.0
 info:
-  title: { { api_title } }
-  version: { { api_version } }
-  description: { { api_description } }
-
+  title:
+    '[object Object]': null
+  version:
+    '[object Object]': null
+  description:
+    '[object Object]': null
 servers:
-  - url: { { api_base_url } }
-    description: { { environment } }
-# ... OpenAPI specification continues
+  - url:
+      '[object Object]': null
+    description:
+      '[object Object]': null
 ```
 
 ^^/CONDITION: has_rest_api^^
@@ -6483,7 +6483,7 @@ servers:
 ```graphql
 # GraphQL Schema
 {{graphql_schema}}
-```
+```text
 
 ^^/CONDITION: has_graphql_api^^
 
@@ -6641,7 +6641,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Component Organization:**
 
-```
+```text
 {{component_structure}}
 ```
 
@@ -6653,7 +6653,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     component_template;
   }
 }
-```
+```text
 
 ### State Management Architecture
 
@@ -6680,7 +6680,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Route Organization:**
 
-```
+```text
 {{route_structure}}
 ```
 
@@ -6692,7 +6692,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     protected_route_example;
   }
 }
-```
+```text
 
 ### Frontend Services Layer
 
@@ -6716,7 +6716,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     service_example;
   }
 }
-```
+```text
 
 ## Backend Architecture
 
@@ -6733,7 +6733,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```
 {{function_structure}}
-```
+```text
 
 **Function Template:**
 
@@ -6750,7 +6750,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ^^CONDITION: traditional_server^^
 **Controller/Route Organization:**
 
-```
+```text
 {{controller_structure}}
 ```
 
@@ -6762,7 +6762,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     controller_template;
   }
 }
-```
+```text
 
 ^^/CONDITION: traditional_server^^
 
@@ -6784,7 +6784,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     repository_pattern;
   }
 }
-```
+```text
 
 ### Authentication and Authorization
 
@@ -6804,7 +6804,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     auth_middleware;
   }
 }
-```
+```text
 
 ## Unified Project Structure
 
@@ -6888,7 +6888,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```bash
 {{prerequisites_commands}}
-```
+```text
 
 **Initial Setup:**
 
@@ -6910,7 +6910,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 # Run tests
 {{test_commands}}
-```
+```text
 
 ### Environment Configuration
 
@@ -6948,9 +6948,9 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### CI/CD Pipeline
 
-```yaml
-{ { cicd_pipeline_config } }
-```
+```yml
+'[object Object]': null
+```text
 
 ### Environments
 
@@ -7014,7 +7014,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     Integration Tests
    /                  \
  Frontend Unit    Backend Unit
-```
+```text
 
 ### Test Organization
 
@@ -7022,19 +7022,19 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```
 {{frontend_test_structure}}
-```
+```text
 
 **Backend Tests:**
 
 ```
 {{backend_test_structure}}
-```
+```text
 
 **E2E Tests:**
 
 ```
 {{e2e_test_structure}}
-```
+```text
 
 ### Test Examples
 
@@ -7056,7 +7056,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     backend_test_example;
   }
 }
-```
+```text
 
 **E2E Test:**
 
@@ -7109,7 +7109,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{error_flow_diagram}}
-```
+```text
 
 ### Error Response Format
 
@@ -7133,7 +7133,7 @@ interface ApiError {
     frontend_error_handler;
   }
 }
-```
+```text
 
 ### Backend Error Handling
 
