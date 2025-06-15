@@ -2,6 +2,8 @@
 
 Thank you for considering contributing to this project! This document outlines the process for contributing and some guidelines to follow.
 
+🆕 **New to GitHub or pull requests?** Check out our [beginner-friendly Pull Request Guide](docs/how-to-contribute-with-pull-requests.md) first!
+
 Also note, we use the discussions feature in GitHub to have a community to discuss potential ideas, uses, additions and enhancements.
 
 ## Code of Conduct

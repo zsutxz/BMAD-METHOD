@@ -241,7 +241,10 @@ Ask the agent you are using for help with /help (in the web) or \*help in the id
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions!
+
+- 🆕 **New to GitHub?** Start with our [Pull Request Guide](docs/how-to-contribute-with-pull-requests.md)
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines
 
 ### Development Setup
 
