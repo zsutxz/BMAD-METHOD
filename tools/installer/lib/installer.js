@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require("node:path");
 const chalk = require("chalk");
 const ora = require("ora");
 const inquirer = require("inquirer");
@@ -12,7 +12,11 @@ class Installer {
 
     try {
       // Resolve installation directory
-      const installDir = path.resolve(config.directory);
+      let installDir = path.resolve(config.directory);
+      if (path.basename(installDir) === '.bmad-core') {
+        // If user points directly to .bmad-core, treat its parent as the project root
+        installDir = path.dirname(installDir);
+      }
 
       // Detect current state
       const state = await this.detectInstallationState(installDir);
@@ -103,9 +107,9 @@ class Installer {
     });
 
     if (files.length > 0) {
-      state.type = "unknown_existing";
+      // Directory has other files, but no BMAD installation.
+      // Treat as clean install but record that it isn't empty.
       state.hasOtherFiles = true;
-      return state;
     }
 
     return state; // clean install
@@ -253,11 +257,12 @@ class Installer {
     ]);
 
     switch (action) {
-      case "upgrade":
+      case "upgrade": {
         console.log(chalk.cyan("\n📦 Starting v3 to v4 upgrade process..."));
         const V3ToV4Upgrader = require("../../upgraders/v3-to-v4-upgrader");
         const upgrader = new V3ToV4Upgrader();
         return await upgrader.upgrade({ projectPath: installDir });
+      }
       case "alongside":
         return await this.performFreshInstall(config, installDir, spinner);
       case "cancel":
@@ -295,7 +300,7 @@ class Installer {
     switch (action) {
       case "force":
         return await this.performFreshInstall(config, installDir, spinner);
-      case "different":
+      case "different": {
         const { newDir } = await inquirer.prompt([
           {
             type: "input",
@@ -306,6 +311,7 @@ class Installer {
         ]);
         config.directory = newDir;
         return await this.install(config);
+      }
       case "cancel":
         console.log("Installation cancelled.");
         return;
@@ -326,7 +332,9 @@ class Installer {
       if (modifiedFiles.length > 0) {
         spinner.warn("Found modified files");
         console.log(chalk.yellow("\nThe following files have been modified:"));
-        modifiedFiles.forEach((file) => console.log(`  - ${file}`));
+        for (const file of modifiedFiles) {
+          console.log(`  - ${file}`);
+        }
 
         const { action } = await inquirer.prompt([
           {
@@ -391,9 +399,9 @@ class Installer {
 
     if (config.ide) {
       const ideConfig = configLoader.getIdeConfiguration(config.ide);
-      if (ideConfig && ideConfig.instructions) {
+      if (ideConfig?.instructions) {
         console.log(
-          chalk.bold("To use BMAD agents in " + ideConfig.name + ":")
+          chalk.bold(`To use BMAD agents in ${ideConfig.name}:`)
         );
         console.log(ideConfig.instructions);
       }
@@ -418,7 +426,7 @@ class Installer {
   }
 
   // Legacy method for backward compatibility
-  async update(options) {
+  async update() {
     console.log(chalk.yellow('The "update" command is deprecated.'));
     console.log(
       'Please use "install" instead - it will detect and offer to update existing installations.'
@@ -432,9 +440,8 @@ class Installer {
         ide: null,
       };
       return await this.install(config);
-    } else {
-      console.log(chalk.red("No BMAD installation found."));
     }
+    console.log(chalk.red("No BMAD installation found."));
   }
 
   async listAgents() {
@@ -442,9 +449,9 @@ class Installer {
 
     console.log(chalk.bold("\nAvailable BMAD Agents:\n"));
 
-    agents.forEach((agent) => {
+    for (const agent of agents) {
       console.log(chalk.cyan(`  ${agent.id.padEnd(20)}`), agent.description);
-    });
+    }
 
     console.log(
       chalk.dim("\nInstall with: npx bmad-method install --agent=<id>\n")
