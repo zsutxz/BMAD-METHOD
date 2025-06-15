@@ -256,6 +256,11 @@ npm install
 
 ## Documentation & Guides
 
+### Architecture & Technical
+
+- 🏗️ [Core Architecture](docs/core-architecture.md) - Complete technical architecture and system design
+- 📖 [User Guide](docs/user-guide.md) - Comprehensive guide to using BMAD-METHOD effectively
+
 ### Workflow Guides
 
 - 📚 [Universal BMAD Workflow Guide](docs/bmad-workflow-guide.md) - Core workflow that applies to all IDEs
@@ -277,7 +282,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Version History
 
-- **Current**: [v4.0.0](https://github.com/bmadcode/bmad-method) - Complete framework rewrite with CLI installer, dynamic dependencies, and expansion packs
+- **Current**: [v4](https://github.com/bmadcode/bmad-method) - Complete framework rewrite with CLI installer, dynamic dependencies, and expansion packs
 - **Previous Versions**:
   - [Version 3](https://github.com/bmadcode/BMAD-METHOD/tree/V3) - Introduced the unified BMAD Agent and Gemini optimization
   - [Version 2](https://github.com/bmadcode/BMAD-METHOD/tree/V2) - Added web agents and template separation

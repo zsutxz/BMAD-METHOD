@@ -55,6 +55,7 @@ dependencies:
     - correct-course
     - create-deep-research-prompt
     - create-doc
+    - document-project
     - create-expansion-pack
     - create-agent
     - create-next-story
