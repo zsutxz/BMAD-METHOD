@@ -14,11 +14,13 @@ Simple document migration that cleans up heading formats and adds epic structure
 ## Migration Rules
 
 ### For PRDs
+
 - Find all level 3 headings that appear to be epics
 - Add a level 2 heading "## Epic #" (incrementing number) before each epic
 - Also apply the heading cleanup rules below
 
 ### For All Documents
+
 - Find all level 2 headings (`## ...`)
 - Remove leading numbers and symbols
 - Keep only alphabetic characters and spaces
@@ -29,6 +31,7 @@ Simple document migration that cleans up heading formats and adds epic structure
   - `## 3) User Experience` → `## User Experience`
 
 ### For Architecture Documents
+
 - **PRIMARY GOAL**: Align level 2 headings to match template level 2 titles exactly
 - **PRESERVE EVERYTHING**: Do not lose any information during migration
 - Map existing content to the closest matching template section
@@ -37,6 +40,7 @@ Simple document migration that cleans up heading formats and adds epic structure
 ## Detection Logic
 
 A document is considered a PRD if:
+
 - Filename contains "prd" (case insensitive)
 - OR main title contains "Product Requirements" or "PRD"
 - OR contains sections like "User Stories", "Functional Requirements", "Acceptance Criteria"
@@ -45,7 +49,7 @@ A document is considered a PRD if:
 
 1. **Backup Original**: Copy `filename.md` to `filename.md.bak`
 2. **Detect Type**: Check if document is a PRD
-3. **Process Headings**: 
+3. **Process Headings**:
    - Clean all level 2 headings
    - If PRD: Add epic structure before level 3 headings that look like epics
 4. **Write Result**: Overwrite original file with migrated content
@@ -53,6 +57,7 @@ A document is considered a PRD if:
 ## Epic Detection for PRDs
 
 Level 3 headings are treated as epics if they:
+
 - Describe features or functionality
 - Are substantial sections (not just "Overview" or "Notes")
 - Common epic patterns: "User Management", "Payment Processing", "Reporting Dashboard"
@@ -62,24 +67,31 @@ The epic numbering starts at 1 and increments for each epic found.
 ## Example
 
 ### Before (PRD):
-```markdown
+
+````markdown
 # Product Requirements Document
 
 ## 1. Executive Summary
+
 Content here...
 
 ## 2.1 Functional Requirements & Specs
+
 Content here...
 
 ### User Management System
+
 Epic content...
 
 ### Payment Processing
+
 Epic content...
 
 ## 3) Success Metrics
+
 Content here...
-```text
+
+````text
 
 ### After (PRD):
 ```markdown
@@ -123,4 +135,5 @@ Content...
 
 ## Technical Stack Tools
 Content...
-```
+````
+````

@@ -16,9 +16,11 @@ The BMAD Method follows a structured approach to AI-assisted software developmen
 ### Phase 1: Project Setup
 
 1. **Install BMAD in your project**:
+
    ```bash
    npx bmad-method install
    ```
+
    - Choose "Complete installation"
    - Select your IDE (Cursor, Claude Code, Windsurf, or Roo Code)
 
@@ -37,16 +39,17 @@ Use Google's Gemini for collaborative planning with the full team:
    - Paste into new Gemini chat
 3. **Collaborate with the team**:
    - Business Analyst: Requirements gathering
-   - Product Manager: Feature prioritization  
+   - Product Manager: Feature prioritization
    - Solution Architect: Technical design
    - UX Expert: User experience design
 
 ### Example Gemini Sessions:
+
 ```text
-"I want to build a [type] application that [core purpose]. 
+"I want to build a [type] application that [core purpose].
 Help me brainstorm features and create a comprehensive PRD."
 
-"Based on this PRD, design a scalable technical architecture 
+"Based on this PRD, design a scalable technical architecture
 that can handle [specific requirements]."
 ```
 
@@ -69,6 +72,7 @@ Switch back to your IDE for document management:
    ```
 
 **Result**: Organized folder structure:
+
 - `docs/prd/` - Broken down PRD sections
 - `docs/architecture/` - Broken down architecture sections
 
@@ -77,13 +81,15 @@ Switch back to your IDE for document management:
 Follow the SM → Dev cycle for systematic story development:
 
 #### Story Creation (Scrum Master)
+
 1. **Start new chat/conversation**
 2. **Load SM agent**
 3. **Execute**: `*create` (runs create-next-story task)
 4. **Review generated story** in `docs/stories/`
 5. **Update status**: Change from "Draft" to "Approved"
 
-#### Story Implementation (Developer)  
+#### Story Implementation (Developer)
+
 1. **Start new chat/conversation**
 2. **Load Dev agent**
 3. **Agent asks**: Which story to implement
@@ -92,6 +98,7 @@ Follow the SM → Dev cycle for systematic story development:
 6. **Update status**: Change to "Done"
 
 #### Repeat Until Complete
+
 - **SM**: Create next story → Review → Approve
 - **Dev**: Implement story → Complete → Mark done
 - **Continue**: Until all features implemented
@@ -99,24 +106,28 @@ Follow the SM → Dev cycle for systematic story development:
 ## IDE-Specific Syntax
 
 ### Agent Loading Syntax by IDE:
+
 - **Claude Code**: `/agent-name` (e.g., `/bmad-master`)
 - **Cursor**: `@agent-name` (e.g., `@bmad-master`)
 - **Windsurf**: `@agent-name` (e.g., `@bmad-master`)
 - **Roo Code**: Select mode from mode selector (e.g., `bmad-bmad-master`)
 
 ### Chat Management:
+
 - **Claude Code, Cursor, Windsurf**: Start new chats when switching agents
 - **Roo Code**: Switch modes within the same conversation
 
 ## Available Agents
 
 ### Core Development Agents:
+
 - **bmad-master**: Universal task executor, document management
 - **sm**: Scrum Master for story creation and agile process
 - **dev**: Full-stack developer for implementation
 - **architect**: Solution architect for technical design
 
 ### Specialized Agents:
+
 - **pm**: Product manager for planning and prioritization
 - **analyst**: Business analyst for requirements
 - **qa**: QA specialist for testing strategies
@@ -134,6 +145,7 @@ Follow the SM → Dev cycle for systematic story development:
 ## Common Commands
 
 Every agent supports these core commands:
+
 - `*help` - Show available commands
 - `*status` - Show current context/progress
 - `*exit` - Exit the agent mode

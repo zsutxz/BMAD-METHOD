@@ -27,17 +27,20 @@ For ideation and planning, use Google's Gemini with the team-fullstack configura
 ### Gemini Planning Phase
 
 In Gemini, ask the BMAD team to help you:
+
 - **Ideate** your project concept
-- **Brainstorm** features and requirements  
+- **Brainstorm** features and requirements
 - **Create a PRD** (Product Requirements Document)
 - **Design the architecture**
 
 Ask questions like:
+
 - "Help me brainstorm a [type of application] that does [core functionality]"
 - "Create a comprehensive PRD for this concept"
 - "Design the technical architecture for this system"
 
 Copy the PRD and architecture documents that Gemini creates into your project's `docs/` folder:
+
 - `docs/prd.md`
 - `docs/architecture.md`
 
@@ -51,6 +54,7 @@ Once you have your PRD and architecture documents in the `docs/` folder:
 4. **Shard the architecture**: Type `*shard-doc docs/architecture.md architecture`
 
 This creates organized folders:
+
 - `docs/prd/` - Contains broken down PRD sections
 - `docs/architecture/` - Contains broken down architecture sections
 
@@ -59,13 +63,15 @@ This creates organized folders:
 Now begin the iterative development cycle:
 
 ### Create Stories (Scrum Master)
+
 1. **Start a new chat**
-2. **Load SM agent**: Type `/sm`  
+2. **Load SM agent**: Type `/sm`
 3. **Create story**: Type `*create` (this runs the create-next-story task)
 4. **Review the generated story**
 5. **If approved**: Set story status to "Approved" in the story file
 
 ### Implement Stories (Developer)
+
 1. **Start a new chat**
 2. **Load Dev agent**: Type `/dev`
 3. **The agent will ask which story to implement**
@@ -73,6 +79,7 @@ Now begin the iterative development cycle:
 5. **When story is complete**: Mark status as "Done"
 
 ### Repeat the Cycle
+
 1. **Start a new chat with SM agent** (`/sm`)
 2. **Create next story**: Type `*create`
 3. **Review and approve**
@@ -105,7 +112,7 @@ All BMAD agents are available as Claude Code commands:
 ## Tips for Success
 
 - **Keep chats focused**: Each chat should have one agent and one primary task
-- **Use *help command**: Every agent supports `*help` to see available commands
+- **Use \*help command**: Every agent supports `*help` to see available commands
 - **Review generated content**: Always review and approve stories before marking them ready
 - **Maintain status updates**: Keep story statuses current (Draft → Approved → InProgress → Done)
 

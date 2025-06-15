@@ -8,7 +8,7 @@ The easiest way to release new versions is through **automatic semantic releases
 
 Use these prefixes to control what type of release happens:
 
-```bash
+````bash
 fix: resolve CLI argument parsing bug      # → patch release (4.1.0 → 4.1.1)
 feat: add new agent orchestration mode     # → minor release (4.1.0 → 4.2.0)
 feat!: redesign CLI interface              # → major release (4.1.0 → 5.0.0)
@@ -35,13 +35,13 @@ git push
 
 # That's it! Release happens automatically 🎉
 # Users can now run: npx bmad-method (and get the new version)
-```
+````
 
 ### Commits That DON'T Trigger Releases
 
 These commit types won't create releases (use them for maintenance):
 
-```bash
+````bash
 chore: update dependencies     # No release
 docs: fix typo in readme      # No release
 style: format code            # No release
@@ -52,7 +52,7 @@ test: add unit tests          # No release
 
 ```bash
 npm run release:test    # Safe to run locally - tests the config
-```
+````
 
 ---
 

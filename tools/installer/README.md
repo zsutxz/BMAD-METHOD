@@ -33,7 +33,7 @@ installer/
 
 ## Usage
 
-```bash
+````bash
 # Interactive installation
 npx bmad-method install
 
@@ -55,4 +55,4 @@ npm test
 
 # Lint code
 npm run lint
-```
+````

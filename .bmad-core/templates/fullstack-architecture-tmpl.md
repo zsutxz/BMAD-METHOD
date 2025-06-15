@@ -109,7 +109,7 @@ Document the choice and key services that will be used.]]
 
 Use appropriate diagram type for clarity.]]
 
-```mermaid
+````mermaid
 {{architecture_diagram}}
 ```text
 
@@ -222,7 +222,7 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
     model_interface;
   }
 }
-```
+````
 
 **Relationships:**
 
@@ -246,7 +246,7 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
 
 **TypeScript Interface:**
 
-```typescript
+````typescript
 interface User {
   id: string;
   email: string;
@@ -300,13 +300,13 @@ servers:
       '[object Object]': null
     description:
       '[object Object]': null
-```
+````
 
 ^^/CONDITION: has_rest_api^^
 
 ^^CONDITION: has_graphql_api^^
 
-```graphql
+````graphql
 # GraphQL Schema
 {{graphql_schema}}
 ```text
@@ -322,7 +322,7 @@ servers:
     trpc_routers;
   }
 }
-```
+````
 
 ^^/CONDITION: has_trpc_api^^
 
@@ -469,11 +469,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```text
 {{component_structure}}
-```
+```text
 
 **Component Template:**
 
-```typescript
+````typescript
 {
   {
     component_template;
@@ -493,7 +493,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     state_structure;
   }
 }
-```
+````
 
 **State Management Patterns:**
 
@@ -512,7 +512,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Protected Route Pattern:**
 
-```typescript
+````typescript
 {
   {
     protected_route_example;
@@ -532,11 +532,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     api_client_setup;
   }
 }
-```
+````
 
 **Service Example:**
 
-```typescript
+````typescript
 {
   {
     service_example;
@@ -557,9 +557,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ^^CONDITION: serverless^^
 **Function Organization:**
 
-```
+````
+
 {{function_structure}}
-```text
+
+````text
 
 **Function Template:**
 
@@ -569,7 +571,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     function_template;
   }
 }
-```
+````
 
 ^^/CONDITION: serverless^^
 
@@ -578,11 +580,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```text
 {{controller_structure}}
-```
+```text
 
 **Controller Template:**
 
-```typescript
+````typescript
 {
   {
     controller_template;
@@ -600,11 +602,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```sql
 {{database_schema}}
-```
+````
 
 **Data Access Layer:**
 
-```typescript
+````typescript
 {
   {
     repository_pattern;
@@ -620,11 +622,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{auth_flow_diagram}}
-```
+````
 
 **Middleware/Guards:**
 
-```typescript
+````typescript
 {
   {
     auth_middleware;
@@ -690,7 +692,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ├── package.json                # Root package.json
 ├── {{monorepo_config}}         # Monorepo configuration
 └── README.md
-```
+````
 
 @{example: vercel_structure}
 apps/
@@ -712,7 +714,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Prerequisites:**
 
-```bash
+````bash
 {{prerequisites_commands}}
 ```text
 
@@ -720,11 +722,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```bash
 {{setup_commands}}
-```
+````
 
 **Development Commands:**
 
-```bash
+````bash
 # Start all services
 {{start_all_command}}
 
@@ -751,7 +753,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 # Shared
 {{shared_env_vars}}
-```
+````
 
 ## Deployment Architecture
 
@@ -774,7 +776,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### CI/CD Pipeline
 
-```yml
+````yaml
 '[object Object]': null
 ```text
 
@@ -834,12 +836,15 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### Testing Pyramid
 
-```
+````
+
         E2E Tests
        /          \
     Integration Tests
-   /                  \
- Frontend Unit    Backend Unit
+
+/ \
+ Frontend Unit Backend Unit
+
 ```text
 
 ### Test Organization
@@ -847,20 +852,26 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 **Frontend Tests:**
 
 ```
+
 {{frontend_test_structure}}
+
 ```text
 
 **Backend Tests:**
 
-```
+```text
+
 {{backend_test_structure}}
+
 ```text
 
 **E2E Tests:**
 
 ```
+
 {{e2e_test_structure}}
-```text
+
+````text
 
 ### Test Examples
 
@@ -872,11 +883,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     frontend_test_example;
   }
 }
-```
+````
 
 **Backend API Test:**
 
-```typescript
+````typescript
 {
   {
     backend_test_example;
@@ -892,7 +903,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     e2e_test_example;
   }
 }
-```
+````
 
 ## Coding Standards
 
@@ -933,7 +944,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### Error Flow
 
-```mermaid
+````mermaid
 {{error_flow_diagram}}
 ```text
 
@@ -949,11 +960,11 @@ interface ApiError {
     requestId: string;
   };
 }
-```
+````
 
 ### Frontend Error Handling
 
-```typescript
+````typescript
 {
   {
     frontend_error_handler;
@@ -969,7 +980,7 @@ interface ApiError {
     backend_error_handler;
   }
 }
-```
+````
 
 ## Monitoring and Observability
 

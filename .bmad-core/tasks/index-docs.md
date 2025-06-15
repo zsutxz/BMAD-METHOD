@@ -56,7 +56,7 @@ You are now operating as a Documentation Indexer. Your goal is to ensure all doc
 
 The index should be organized as follows:
 
-```markdown
+````markdown
 # Documentation Index
 
 ## Root Documents
@@ -88,7 +88,8 @@ Documents within the `another-folder/` directory:
 ### [Nested Document](./another-folder/document.md)
 
 Description of nested document.
-```text
+
+````text
 
 ### Index Entry Format
 
@@ -98,7 +99,8 @@ Each entry should follow this format:
 ### [Document Title](relative/path/to/file.md)
 
 Brief description of the document's purpose and contents.
-```
+````
+````
 
 ### Rules of Operation
 

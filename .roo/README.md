@@ -22,6 +22,7 @@ The `.roomodes` file defines all BMAD agents as custom modes using the proper `c
 ## Usage
 
 In Roo Code:
+
 1. Open the mode selector (usually in the status bar)
 2. Select any BMAD agent mode
 3. The AI will adopt that agent's personality and expertise
@@ -29,6 +30,7 @@ In Roo Code:
 ## File Permissions
 
 Each agent has specific file access permissions:
+
 - **Analysts, PM, PO, SM**: Limited to documentation files (.md, .txt)
 - **Architect**: Architecture docs and configs (.md, .txt, .yml, .yaml, .json)
 - **QA**: Test files and documentation
