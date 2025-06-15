@@ -1,8 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
-const glob = require("glob");
-const { promisify } = require("util");
-const globAsync = promisify(glob);
+const { glob } = require("glob");
 
 // Dynamic imports for ES modules
 let chalk, ora, inquirer;
@@ -242,17 +240,17 @@ class V3ToV4Upgrader {
     }
 
     // Find epic files
-    const epicFiles = await globAsync("epic*.md", { cwd: docsPath });
+    const epicFiles = await glob("epic*.md", { cwd: docsPath });
 
     // Find story files
     const storiesPath = path.join(docsPath, "stories");
     let storyFiles = [];
     if (await this.pathExists(storiesPath)) {
-      storyFiles = await globAsync("*.md", { cwd: storiesPath });
+      storyFiles = await glob("*.md", { cwd: storiesPath });
     }
 
     // Count custom files in bmad-agent
-    const bmadAgentFiles = await globAsync("**/*.md", {
+    const bmadAgentFiles = await glob("**/*.md", {
       cwd: bmadAgentPath,
       ignore: ["node_modules/**"],
     });
@@ -747,13 +745,11 @@ class V3ToV4Upgrader {
 
   async createInstallManifest(projectPath) {
     const fileManager = require("../installer/lib/file-manager");
-    const glob = require("glob");
-    const { promisify } = require("util");
-    const globAsync = promisify(glob);
+    const { glob } = require("glob");
 
     // Get all files in .bmad-core for the manifest
     const bmadCorePath = path.join(projectPath, ".bmad-core");
-    const files = await globAsync("**/*", {
+    const files = await glob("**/*", {
       cwd: bmadCorePath,
       nodir: true,
       ignore: ["**/.git/**", "**/node_modules/**"],
