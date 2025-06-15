@@ -22,10 +22,17 @@ Simple document migration that cleans up heading formats and adds epic structure
 - Find all level 2 headings (`## ...`)
 - Remove leading numbers and symbols
 - Keep only alphabetic characters and spaces
+- **CRITICAL**: Do not lose any information - preserve all content under appropriate headings
 - Examples:
   - `## 1. Foo & Bar` → `## Foo Bar`
   - `## 2.1 Technical Overview` → `## Technical Overview`
   - `## 3) User Experience` → `## User Experience`
+
+### For Architecture Documents
+- **PRIMARY GOAL**: Align level 2 headings to match template level 2 titles exactly
+- **PRESERVE EVERYTHING**: Do not lose any information during migration
+- Map existing content to the closest matching template section
+- If content doesn't fit template sections, create appropriate level 3 subsections
 
 ## Detection Logic
 
@@ -94,7 +101,7 @@ Epic content...
 
 ## Success Metrics
 Content here...
-```
+```text
 
 ### Before (Non-PRD):
 ```markdown

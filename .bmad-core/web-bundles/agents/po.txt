@@ -818,12 +818,12 @@ Manual Test Steps: [[LLM: Include how if possible the user can manually test the
 
 ### Completion Notes List
 
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update]]
+[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update - remove this line to the SM]]
 [[LLM: (Dev Agent) Anything the SM needs to know that deviated from the story that might impact drafting the next story.]]
 
 ### Change Log
 
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update]]
+[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update- remove this line to the SM]]
 [[LLM: (Dev Agent) Track document versions and changes during development that deviate from story dev start]]
 
 | Date | Version | Description | Author |

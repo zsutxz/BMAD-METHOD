@@ -222,7 +222,7 @@ class Installer {
 
     switch (action) {
       case "update":
-        return await this.performUpdate(installDir, state.manifest, spinner);
+        return await this.performUpdate(config, installDir, state.manifest, spinner);
       case "reinstall":
         return await this.performReinstall(config, installDir, spinner);
       case "cancel":
@@ -312,7 +312,7 @@ class Installer {
     }
   }
 
-  async performUpdate(installDir, manifest, spinner) {
+  async performUpdate(newConfig, installDir, manifest, spinner) {
     spinner.start("Checking for updates...");
 
     try {
@@ -364,7 +364,7 @@ class Installer {
         installType: manifest.install_type,
         agent: manifest.agent,
         directory: installDir,
-        ide: manifest.ide_setup,
+        ide: newConfig.ide || manifest.ide_setup, // Use new IDE choice if provided
       };
 
       await this.performFreshInstall(config, installDir, spinner);

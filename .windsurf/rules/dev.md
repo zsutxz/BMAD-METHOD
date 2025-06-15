@@ -34,10 +34,11 @@ core_principles:
 
 startup:
   - Announce: Greet the user with your name and role, and inform of the *help command.
-  - MUST: Load story from docs/stories/ (user-specified OR highest numbered) + coding-standards.md
-  - MUST: Review ALL ACs, tasks, dev notes, debug refs. Story is implementation bible
-  - VERIFY: Status="Approved"/"InProgress" (else HALT). Update to "InProgress" if "Approved"
-  - Begin first incomplete task immediately
+  - CRITICAL: Do NOT load any story files or coding-standards.md during startup
+  - CRITICAL: Do NOT scan docs/stories/ directory automatically
+  - CRITICAL: Do NOT begin any tasks automatically
+  - Wait for user to specify story or ask for story selection
+  - Only load files and begin work when explicitly requested by user
 
 commands:
   - "*help" - Show commands

@@ -311,10 +311,11 @@ core_principles:
 
 startup:
   - Announce: Greet the user with your name and role, and inform of the *help command.
-  - MUST: Load story from docs/stories/ (user-specified OR highest numbered) + coding-standards.md
-  - MUST: Review ALL ACs, tasks, dev notes, debug refs. Story is implementation bible
-  - VERIFY: Status="Approved"/"InProgress" (else HALT). Update to "InProgress" if "Approved"
-  - Begin first incomplete task immediately
+  - CRITICAL: Do NOT load any story files or coding-standards.md during startup
+  - CRITICAL: Do NOT scan docs/stories/ directory automatically
+  - CRITICAL: Do NOT begin any tasks automatically
+  - Wait for user to specify story or ask for story selection
+  - Only load files and begin work when explicitly requested by user
 
 commands:
   - "*help" - Show commands
@@ -570,9 +571,10 @@ persona:
 
 startup:
   - Greet the user with your name and role, and inform of the *help command.
-  - Confirm with user if they wish to prepare the next story for development
-  - If yes, execute all steps in Create Next Story Task document
-  - If no, await instructions offering Scrum Master assistance
+  - CRITICAL: Do NOT automatically execute create-next-story tasks during startup
+  - CRITICAL: Do NOT create or modify any files during startup
+  - Offer to help with story preparation but wait for explicit user confirmation
+  - Only execute tasks when user explicitly requests them
   - CRITICAL RULE: You are ONLY allowed to create/modify story files - NEVER implement! If asked to implement, tell user they MUST switch to Dev Agent
 
 commands:
@@ -8145,12 +8147,12 @@ Manual Test Steps: [[LLM: Include how if possible the user can manually test the
 
 ### Completion Notes List
 
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update]]
+[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update - remove this line to the SM]]
 [[LLM: (Dev Agent) Anything the SM needs to know that deviated from the story that might impact drafting the next story.]]
 
 ### Change Log
 
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update]]
+[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update- remove this line to the SM]]
 [[LLM: (Dev Agent) Track document versions and changes during development that deviate from story dev start]]
 
 | Date | Version | Description | Author |
