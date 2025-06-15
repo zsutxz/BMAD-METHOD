@@ -1,6 +1,6 @@
 {
   "name": "bmad-method",
-  "version": "5.0.0",
+  "version": "4.3.0",
   "description": "Breakthrough Method of Agile AI-driven Development",
   "main": "tools/cli.js",
   "bin": {
@@ -60,13 +60,19 @@
     "yaml-lint": "^1.7.0"
   },
   "lint-staged": {
-    "*.{yml,yaml}": [
+    "**/*.{yml,yaml}": [
       "node tools/yaml-format.js"
     ],
-    "*.md": [
+    "**/*.md": [
       "node tools/yaml-format.js"
     ],
     ".roomodes": [
+      "node tools/yaml-format.js"
+    ],
+    ".bmad-core/**/*.yml": [
+      "node tools/yaml-format.js"
+    ],
+    ".github/**/*.yml": [
       "node tools/yaml-format.js"
     ]
   }
