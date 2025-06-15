@@ -1,11 +1,18 @@
 const fs = require("fs").promises;
 const path = require("path");
-const chalk = require("chalk");
-const ora = require("ora");
 const glob = require("glob");
-const inquirer = require("inquirer");
 const { promisify } = require("util");
 const globAsync = promisify(glob);
+
+// Dynamic imports for ES modules
+let chalk, ora, inquirer;
+
+// Initialize ES modules
+async function initializeModules() {
+  chalk = (await import("chalk")).default;
+  ora = (await import("ora")).default;
+  inquirer = (await import("inquirer")).default;
+}
 
 class V3ToV4Upgrader {
   constructor() {
@@ -14,6 +21,8 @@ class V3ToV4Upgrader {
 
   async upgrade(options = {}) {
     try {
+      // Initialize ES modules
+      await initializeModules();
       // Keep readline open throughout the process
       process.stdin.resume();
 

@@ -2,7 +2,16 @@ const fs = require("fs-extra");
 const path = require("path");
 const crypto = require("crypto");
 const glob = require("glob");
-const chalk = require("chalk");
+
+// Dynamic import for ES module
+let chalk;
+
+// Initialize ES modules
+async function initializeModules() {
+  if (!chalk) {
+    chalk = (await import("chalk")).default;
+  }
+}
 
 class FileManager {
   constructor() {
@@ -16,6 +25,7 @@ class FileManager {
       await fs.copy(source, destination);
       return true;
     } catch (error) {
+      await initializeModules();
       console.error(chalk.red(`Failed to copy ${source}:`), error.message);
       return false;
     }
@@ -27,6 +37,7 @@ class FileManager {
       await fs.copy(source, destination);
       return true;
     } catch (error) {
+      await initializeModules();
       console.error(
         chalk.red(`Failed to copy directory ${source}:`),
         error.message
@@ -77,6 +88,7 @@ class FileManager {
       install_type: config.installType,
       agent: config.agent || null,
       ide_setup: config.ide || null,
+      ides_setup: config.ides || [],
       files: [],
     };
 
@@ -145,7 +157,12 @@ class FileManager {
   }
 
   async ensureDirectory(dirPath) {
-    await fs.ensureDir(dirPath);
+    try {
+      await fs.ensureDir(dirPath);
+      return true;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async pathExists(filePath) {

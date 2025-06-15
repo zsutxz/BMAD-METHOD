@@ -2,7 +2,17 @@
 
 const fs = require('fs');
 const { execSync } = require('child_process');
-const chalk = require('chalk');
+const path = require('path');
+
+// Dynamic import for ES module
+let chalk;
+
+// Initialize ES modules
+async function initializeModules() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+  }
+}
 
 /**
  * Simple version bumping script for BMAD-METHOD
@@ -14,7 +24,9 @@ function getCurrentVersion() {
   return packageJson.version;
 }
 
-function bumpVersion(type = 'patch') {
+async function bumpVersion(type = 'patch') {
+  await initializeModules();
+  
   const validTypes = ['patch', 'minor', 'major'];
   if (!validTypes.includes(type)) {
     console.error(chalk.red(`Invalid version type: ${type}. Use: ${validTypes.join(', ')}`));
@@ -26,10 +38,20 @@ function bumpVersion(type = 'patch') {
   // Use npm version to bump and create git tag
   try {
     const newVersion = execSync(`npm version ${type} --no-git-tag-version`, { encoding: 'utf8' }).trim();
-    console.log(chalk.green(`✅ Version bumped to ${newVersion}`));
+    console.log(chalk.green(`✅ Main package.json version bumped to ${newVersion}`));
     
-    // Stage the package.json change
+    // Also update installer package.json
+    const installerPackageJsonPath = path.join('tools', 'installer', 'package.json');
+    if (fs.existsSync(installerPackageJsonPath)) {
+      const installerPackageJson = JSON.parse(fs.readFileSync(installerPackageJsonPath, 'utf8'));
+      installerPackageJson.version = newVersion.replace('v', ''); // Remove 'v' prefix if present
+      fs.writeFileSync(installerPackageJsonPath, JSON.stringify(installerPackageJson, null, 2) + '\n');
+      console.log(chalk.green(`✅ Installer package.json version bumped to ${newVersion}`));
+    }
+    
+    // Stage both package.json files
     execSync('git add package.json');
+    execSync(`git add ${installerPackageJsonPath}`);
     
     // Create commit and tag
     execSync(`git commit -m "chore: bump version to ${newVersion}"`);
@@ -45,7 +67,9 @@ function bumpVersion(type = 'patch') {
   }
 }
 
-function main() {
+async function main() {
+  await initializeModules();
+  
   const type = process.argv[2] || 'patch';
   const currentVersion = getCurrentVersion();
   
@@ -59,14 +83,17 @@ function main() {
     process.exit(1);
   }
   
-  const newVersion = bumpVersion(type);
+  const newVersion = await bumpVersion(type);
   
   console.log(chalk.green(`\n🎉 Version bump complete!`));
   console.log(chalk.blue(`📦 ${currentVersion} → ${newVersion}`));
 }
 
 if (require.main === module) {
-  main();
+  main().catch(error => {
+    console.error('Error:', error);
+    process.exit(1);
+  });
 }
 
 module.exports = { bumpVersion, getCurrentVersion };

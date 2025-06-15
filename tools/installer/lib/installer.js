@@ -1,13 +1,25 @@
 const path = require("node:path");
-const chalk = require("chalk");
-const ora = require("ora");
-const inquirer = require("inquirer");
 const fileManager = require("./file-manager");
 const configLoader = require("./config-loader");
 const ideSetup = require("./ide-setup");
 
+// Dynamic imports for ES modules
+let chalk, ora, inquirer;
+
+// Initialize ES modules
+async function initializeModules() {
+  if (!chalk) {
+    chalk = (await import("chalk")).default;
+    ora = (await import("ora")).default;
+    inquirer = (await import("inquirer")).default;
+  }
+}
+
 class Installer {
   async install(config) {
+    // Initialize ES modules
+    await initializeModules();
+    
     const spinner = ora("Analyzing installation directory...").start();
 
     try {
@@ -16,6 +28,66 @@ class Installer {
       if (path.basename(installDir) === '.bmad-core') {
         // If user points directly to .bmad-core, treat its parent as the project root
         installDir = path.dirname(installDir);
+      }
+
+      // Check if directory exists and handle non-existent directories
+      if (!(await fileManager.pathExists(installDir))) {
+        spinner.stop();
+        console.log(chalk.yellow(`\nThe directory ${chalk.bold(installDir)} does not exist.`));
+        
+        const { action } = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'action',
+            message: 'What would you like to do?',
+            choices: [
+              {
+                name: 'Create the directory and continue',
+                value: 'create'
+              },
+              {
+                name: 'Choose a different directory',
+                value: 'change'
+              },
+              {
+                name: 'Cancel installation',
+                value: 'cancel'
+              }
+            ]
+          }
+        ]);
+
+        if (action === 'cancel') {
+          console.log(chalk.red('Installation cancelled.'));
+          process.exit(0);
+        } else if (action === 'change') {
+          const { newDirectory } = await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'newDirectory',
+              message: 'Enter the new directory path:',
+              validate: (input) => {
+                if (!input.trim()) {
+                  return 'Please enter a valid directory path';
+                }
+                return true;
+              }
+            }
+          ]);
+          config.directory = newDirectory;
+          return await this.install(config); // Recursive call with new directory
+        } else if (action === 'create') {
+          try {
+            await fileManager.ensureDirectory(installDir);
+            console.log(chalk.green(`✓ Created directory: ${installDir}`));
+          } catch (error) {
+            console.error(chalk.red(`Failed to create directory: ${error.message}`));
+            console.error(chalk.yellow('You may need to check permissions or use a different path.'));
+            process.exit(1);
+          }
+        }
+        
+        spinner.start("Analyzing installation directory...");
       }
 
       // Detect current state
@@ -57,6 +129,8 @@ class Installer {
   }
 
   async detectInstallationState(installDir) {
+    // Ensure modules are initialized
+    await initializeModules();
     const state = {
       type: "clean",
       hasV4Manifest: false,
@@ -116,6 +190,8 @@ class Installer {
   }
 
   async performFreshInstall(config, installDir, spinner) {
+    // Ensure modules are initialized
+    await initializeModules();
     spinner.text = "Installing BMAD Method...";
 
     let files = [];
@@ -186,9 +262,12 @@ class Installer {
     }
 
     // Set up IDE integration if requested
-    if (config.ide) {
-      spinner.text = `Setting up ${config.ide} integration...`;
-      await ideSetup.setup(config.ide, installDir, config.agent);
+    const ides = config.ides || (config.ide ? [config.ide] : []);
+    if (ides.length > 0) {
+      for (const ide of ides) {
+        spinner.text = `Setting up ${ide} integration...`;
+        await ideSetup.setup(ide, installDir, config.agent);
+      }
     }
 
     // Create manifest
@@ -200,6 +279,8 @@ class Installer {
   }
 
   async handleExistingV4Installation(config, installDir, state, spinner) {
+    // Ensure modules are initialized
+    await initializeModules();
     spinner.stop();
 
     console.log(chalk.yellow("\n🔍 Found existing BMAD v4 installation"));
@@ -236,6 +317,8 @@ class Installer {
   }
 
   async handleV3Installation(config, installDir, state, spinner) {
+    // Ensure modules are initialized
+    await initializeModules();
     spinner.stop();
 
     console.log(
@@ -272,6 +355,8 @@ class Installer {
   }
 
   async handleUnknownInstallation(config, installDir, state, spinner) {
+    // Ensure modules are initialized
+    await initializeModules();
     spinner.stop();
 
     console.log(chalk.yellow("\n⚠️  Directory contains existing files"));
@@ -397,13 +482,16 @@ class Installer {
   showSuccessMessage(config, installDir) {
     console.log(chalk.green("\n✓ BMAD Method installed successfully!\n"));
 
-    if (config.ide) {
-      const ideConfig = configLoader.getIdeConfiguration(config.ide);
-      if (ideConfig?.instructions) {
-        console.log(
-          chalk.bold(`To use BMAD agents in ${ideConfig.name}:`)
-        );
-        console.log(ideConfig.instructions);
+    const ides = config.ides || (config.ide ? [config.ide] : []);
+    if (ides.length > 0) {
+      for (const ide of ides) {
+        const ideConfig = configLoader.getIdeConfiguration(ide);
+        if (ideConfig?.instructions) {
+          console.log(
+            chalk.bold(`To use BMAD agents in ${ideConfig.name}:`)
+          );
+          console.log(ideConfig.instructions);
+        }
       }
     } else {
       console.log(chalk.yellow("No IDE configuration was set up."));
@@ -412,6 +500,25 @@ class Installer {
         installDir
       );
     }
+
+    // Information about installation components
+    console.log(chalk.bold("\n🎯 Installation Summary:"));
+    console.log(chalk.green("✓ .bmad-core framework installed with all agents and workflows"));
+    
+    if (ides.length > 0) {
+      const ideNames = ides.map(ide => {
+        const ideConfig = configLoader.getIdeConfiguration(ide);
+        return ideConfig?.name || ide;
+      }).join(", ");
+      console.log(chalk.green(`✓ IDE rules and configurations set up for: ${ideNames}`));
+    }
+
+    // Information about web bundles
+    console.log(chalk.bold("\n📦 Web Bundles Available:"));
+    console.log("Self-contained web bundles have been included in your installation:");
+    console.log(chalk.cyan(`  ${installDir}/.bmad-core/web-bundles/`));
+    console.log("These bundles work independently without this installation and can be");
+    console.log("shared, moved, or used in other projects as standalone files.");
 
     if (config.installType === "single-agent") {
       console.log(
@@ -427,6 +534,8 @@ class Installer {
 
   // Legacy method for backward compatibility
   async update() {
+    // Initialize ES modules
+    await initializeModules();
     console.log(chalk.yellow('The "update" command is deprecated.'));
     console.log(
       'Please use "install" instead - it will detect and offer to update existing installations.'
@@ -445,6 +554,8 @@ class Installer {
   }
 
   async listAgents() {
+    // Initialize ES modules
+    await initializeModules();
     const agents = await configLoader.getAvailableAgents();
 
     console.log(chalk.bold("\nAvailable BMAD Agents:\n"));
@@ -459,6 +570,8 @@ class Installer {
   }
 
   async showStatus() {
+    // Initialize ES modules
+    await initializeModules();
     const installDir = await this.findInstallation();
 
     if (!installDir) {

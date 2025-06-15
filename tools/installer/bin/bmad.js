@@ -1,8 +1,17 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const inquirer = require('inquirer');
-const chalk = require('chalk');
+
+// Dynamic imports for ES modules
+let chalk, inquirer;
+
+// Initialize ES modules
+async function initializeModules() {
+  if (!chalk) {
+    chalk = (await import('chalk')).default;
+    inquirer = (await import('inquirer')).default;
+  }
+}
 
 // Handle both execution contexts (from root via npx or from installer directory)
 let version;
@@ -13,13 +22,13 @@ try {
   installer = require('../lib/installer');
 } catch (e) {
   // Fall back to root context (when run via npx from GitHub)
-  console.log(chalk.yellow(`Installer context not found (${e.message}), trying root context...`));
+  console.log(`Installer context not found (${e.message}), trying root context...`);
   try {
     version = require('../../../package.json').version;
     installer = require('../../../tools/installer/lib/installer');
   } catch (e2) {
-    console.error(chalk.red('Error: Could not load required modules. Please ensure you are running from the correct directory.'));
-    console.error(chalk.yellow('Debug info:'), {
+    console.error('Error: Could not load required modules. Please ensure you are running from the correct directory.');
+    console.error('Debug info:', {
       __dirname,
       cwd: process.cwd(),
       error: e2.message
@@ -38,9 +47,10 @@ program
   .option('-f, --full', 'Install complete .bmad-core folder')
   .option('-a, --agent <agent>', 'Install specific agent with dependencies')
   .option('-d, --directory <path>', 'Installation directory (default: .bmad-core)')
-  .option('-i, --ide <ide>', 'Configure for specific IDE (cursor, claude-code, windsurf, roo)')
+  .option('-i, --ide <ide...>', 'Configure for specific IDE(s) - can specify multiple (cursor, claude-code, windsurf, roo)')
   .action(async (options) => {
     try {
+      await initializeModules();
       if (!options.full && !options.agent) {
         // Interactive mode
         const answers = await promptInstallation();
@@ -51,11 +61,12 @@ program
           installType: options.full ? 'full' : 'single-agent',
           agent: options.agent,
           directory: options.directory || '.bmad-core',
-          ide: options.ide
+          ides: options.ide || []
         };
         await installer.install(config);
       }
     } catch (error) {
+      if (!chalk) await initializeModules();
       console.error(chalk.red('Installation failed:'), error.message);
       process.exit(1);
     }
@@ -70,6 +81,7 @@ program
     try {
       await installer.update();
     } catch (error) {
+      if (!chalk) await initializeModules();
       console.error(chalk.red('Update failed:'), error.message);
       process.exit(1);
     }
@@ -82,6 +94,7 @@ program
     try {
       await installer.listAgents();
     } catch (error) {
+      if (!chalk) await initializeModules();
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
     }
@@ -94,12 +107,14 @@ program
     try {
       await installer.showStatus();
     } catch (error) {
+      if (!chalk) await initializeModules();
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
     }
   });
 
 async function promptInstallation() {
+  await initializeModules();
   console.log(chalk.bold.blue(`\nWelcome to BMAD Method Installer v${version}\n`));
 
   const answers = {};
@@ -153,21 +168,26 @@ async function promptInstallation() {
   }
 
   // Ask for IDE configuration
-  const { ide } = await inquirer.prompt([
+  const { ides } = await inquirer.prompt([
     {
-      type: 'list',
-      name: 'ide',
-      message: 'Which IDE are you using?',
+      type: 'checkbox',
+      name: 'ides',
+      message: 'Which IDE(s) are you using? (Select all that apply)',
       choices: [
         { name: 'Cursor', value: 'cursor' },
         { name: 'Claude Code', value: 'claude-code' },
         { name: 'Windsurf', value: 'windsurf' },
-        { name: 'Roo Code', value: 'roo' },
-        { name: 'Other/Manual setup', value: null }
-      ]
+        { name: 'Roo Code', value: 'roo' }
+      ],
+      validate: (answer) => {
+        if (answer.length < 1) {
+          return 'You must choose at least one IDE, or press Ctrl+C to skip IDE setup.';
+        }
+        return true;
+      }
     }
   ]);
-  answers.ide = ide;
+  answers.ides = ides;
 
   return answers;
 }

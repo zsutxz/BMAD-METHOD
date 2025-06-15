@@ -1,10 +1,20 @@
 const path = require("path");
 const fileManager = require("./file-manager");
 const configLoader = require("./config-loader");
-const chalk = require("chalk");
+
+// Dynamic import for ES module
+let chalk;
+
+// Initialize ES modules
+async function initializeModules() {
+  if (!chalk) {
+    chalk = (await import("chalk")).default;
+  }
+}
 
 class IdeSetup {
   async setup(ide, installDir, selectedAgent = null) {
+    await initializeModules();
     const ideConfig = await configLoader.getIdeConfiguration(ide);
 
     if (!ideConfig) {
