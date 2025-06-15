@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/npm/v/bmad-method?color=blue&label=version)](https://www.npmjs.com/package/bmad-method)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/YOUR_ACTUAL_DISCORD_INVITE)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/g6ypHytrCB)
 
 **AI-Powered Agile Development Framework** - Transform your software development with specialized AI agents that work as your complete Agile team.
 
@@ -24,7 +24,7 @@
 
 **Prerequisites**: Install [Node.js](https://nodejs.org) (v14 or higher)
 
-```bash
+````bash
 npx bmad-method install
 # The installer will automatically detect your project state and guide you through:
 # - Fresh installation or upgrade from v3
@@ -86,7 +86,7 @@ npx bmad-method install
 # Or use command line options for fresh installations
 npx bmad-method install --full --directory ./my-project --ide cursor
 npx bmad-method install --agent pm --directory ./my-project --ide claude-code
-```
+````
 
 **Supported IDEs:**
 
@@ -126,7 +126,7 @@ The BMad Method works with any IDE, but has built-in integration for:
 
 After installation with `--ide` flag:
 
-```bash
+````bash
 # In Cursor
 @pm Create a PRD for a task management app
 
@@ -152,13 +152,13 @@ npx bmad-method install
 
 # Check installation status
 npx bmad-method status
-```
+````
 
 ### Upgrading from V3 to V4
 
 If you have an existing BMAD-METHOD V3 project, simply run the installer in your project directory:
 
-```bash
+````bash
 npx bmad-method install
 # The installer will automatically detect your V3 installation and offer to upgrade
 ```text
@@ -217,7 +217,7 @@ tools/
 └── lib/             # Build utilities
 
 expansion-packs/     # Optional add-ons (DevOps, Mobile, etc.)
-```
+````
 
 ## Advanced Features
 

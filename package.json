@@ -4,8 +4,8 @@
   "description": "Breakthrough Method of Agile AI-driven Development",
   "main": "tools/cli.js",
   "bin": {
-    "bmad": "./tools/bmad-npx-wrapper.js",
-    "bmad-method": "./tools/bmad-npx-wrapper.js"
+    "bmad": "tools/bmad-npx-wrapper.js",
+    "bmad-method": "tools/bmad-npx-wrapper.js"
   },
   "scripts": {
     "build": "node tools/cli.js build",
@@ -45,7 +45,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bmadcode/BMAD-METHOD.git"
+    "url": "git+https://github.com/bmadcode/BMAD-METHOD.git"
   },
   "engines": {
     "node": ">=14.0.0"
