@@ -1,9 +1,9 @@
 # BMAD-METHOD
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](docs/versions.md)
+[![Version](https://img.shields.io/npm/v/bmad-method?color=blue&label=version)](https://www.npmjs.com/package/bmad-method)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org)
-[![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/g6ypHytrCB)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/YOUR_ACTUAL_DISCORD_INVITE)
 
 **AI-Powered Agile Development Framework** - Transform your software development with specialized AI agents that work as your complete Agile team.
 
@@ -30,7 +30,7 @@ npx bmad-method install
 # - Fresh installation or upgrade from v3
 # - Full installation or single agent
 # - Destination folder and IDE configuration
-```
+```text
 
 This installs all agents and configures them for your IDE. If you have an existing v3 installation, it will offer to upgrade it automatically.
 
@@ -135,7 +135,7 @@ After installation with `--ide` flag:
 
 # In Windsurf
 @dev Implement story 1.3
-```
+```text
 
 ### With Web UI (ChatGPT/Claude/Gemini)
 
@@ -161,7 +161,7 @@ If you have an existing BMAD-METHOD V3 project, simply run the installer in your
 ```bash
 npx bmad-method install
 # The installer will automatically detect your V3 installation and offer to upgrade
-```
+```text
 
 The upgrade process will:
 
