@@ -1,9 +1,23 @@
-# [1.1.0](https://github.com/bmadcode/BMAD-METHOD/compare/v1.0.1...v1.1.0) (2025-06-15)
+# [4.2.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.1.0...v4.2.0) (2025-06-15)
+
+
+### Bug Fixes
+
+* auto semantic versioning fix ([166ed04](https://github.com/bmadcode/BMAD-METHOD/commit/166ed047671cccab2874fd327efb1ac293ae7276))
+* auto semantic versioning fix again ([11260e4](https://github.com/bmadcode/BMAD-METHOD/commit/11260e43950b6bf78d68c759dc3ac278bc13f8a8))
+* resolve NPM token configuration ([620b09a](https://github.com/bmadcode/BMAD-METHOD/commit/620b09a556ce8d61ad1a4d8ee7c523d263abd69c))
+* resolve NPM token configuration ([b447a8b](https://github.com/bmadcode/BMAD-METHOD/commit/b447a8bd57625d02692d7e2771241bacd120c631))
 
 
 ### Features
 
 * update badges to use dynamic NPM version ([5a6fe36](https://github.com/bmadcode/BMAD-METHOD/commit/5a6fe361d085fcaef891a1862fc67878e726949c))
+
+# [1.1.0](https://github.com/bmadcode/BMAD-METHOD/compare/v1.0.1...v1.1.0) (2025-06-15)
+
+### Features
+
+- update badges to use dynamic NPM version ([5a6fe36](https://github.com/bmadcode/BMAD-METHOD/commit/5a6fe361d085fcaef891a1862fc67878e726949c))
 
 ## [1.0.1](https://github.com/bmadcode/BMAD-METHOD/compare/v1.0.0...v1.0.1) (2025-06-15)
 
