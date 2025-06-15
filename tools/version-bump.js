@@ -33,38 +33,18 @@ async function bumpVersion(type = 'patch') {
     process.exit(1);
   }
 
-  console.log(chalk.blue(`🔄 Bumping ${type} version...`));
+  console.log(chalk.yellow('⚠️  Manual version bumping is disabled.'));
+  console.log(chalk.blue('🤖 This project uses semantic-release for automated versioning.'));
+  console.log('');
+  console.log(chalk.bold('To create a new release, use conventional commits:'));
+  console.log(chalk.cyan('  feat: new feature (minor version bump)'));
+  console.log(chalk.cyan('  fix: bug fix (patch version bump)'));
+  console.log(chalk.cyan('  feat!: breaking change (major version bump)'));
+  console.log('');
+  console.log(chalk.dim('Example: git commit -m "feat: add new installer features"'));
+  console.log(chalk.dim('Then push to main branch to trigger automatic release.'));
   
-  // Use npm version to bump and create git tag
-  try {
-    const newVersion = execSync(`npm version ${type} --no-git-tag-version`, { encoding: 'utf8' }).trim();
-    console.log(chalk.green(`✅ Main package.json version bumped to ${newVersion}`));
-    
-    // Also update installer package.json
-    const installerPackageJsonPath = path.join('tools', 'installer', 'package.json');
-    if (fs.existsSync(installerPackageJsonPath)) {
-      const installerPackageJson = JSON.parse(fs.readFileSync(installerPackageJsonPath, 'utf8'));
-      installerPackageJson.version = newVersion.replace('v', ''); // Remove 'v' prefix if present
-      fs.writeFileSync(installerPackageJsonPath, JSON.stringify(installerPackageJson, null, 2) + '\n');
-      console.log(chalk.green(`✅ Installer package.json version bumped to ${newVersion}`));
-    }
-    
-    // Stage both package.json files
-    execSync('git add package.json');
-    execSync(`git add ${installerPackageJsonPath}`);
-    
-    // Create commit and tag
-    execSync(`git commit -m "chore: bump version to ${newVersion}"`);
-    execSync(`git tag -a ${newVersion} -m "Release ${newVersion}"`);
-    
-    console.log(chalk.green(`✅ Created git tag: ${newVersion}`));
-    console.log(chalk.yellow(`💡 Run 'git push && git push --tags' to publish`));
-    
-    return newVersion;
-  } catch (error) {
-    console.error(chalk.red('❌ Version bump failed:'), error.message);
-    process.exit(1);
-  }
+  return null;
 }
 
 async function main() {
