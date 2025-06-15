@@ -56,7 +56,7 @@ You are now operating as a Documentation Indexer. Your goal is to ensure all doc
 
 The index should be organized as follows:
 
-````markdown
+`````markdown
 # Documentation Index
 
 ## Root Documents
@@ -100,6 +100,8 @@ Each entry should follow this format:
 
 Brief description of the document's purpose and contents.
 ````
+`````
+
 ````
 
 ### Rules of Operation
@@ -178,3 +180,4 @@ Please provide:
 5. Whether to include hidden files/folders (starting with `.`)
 
 Would you like to proceed with documentation indexing? Please provide the required input above.
+````

@@ -467,7 +467,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Component Organization:**
 
-```text
+`````text
 {{component_structure}}
 ```text
 
@@ -493,7 +493,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     state_structure;
   }
 }
-````
+`````
 
 **State Management Patterns:**
 
@@ -508,7 +508,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```text
 {{route_structure}}
-```
+```text
 
 **Protected Route Pattern:**
 
@@ -578,7 +578,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ^^CONDITION: traditional_server^^
 **Controller/Route Organization:**
 
-```text
+`````text
 {{controller_structure}}
 ```text
 
@@ -602,7 +602,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```sql
 {{database_schema}}
-````
+`````
 
 **Data Access Layer:**
 
@@ -855,7 +855,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 {{frontend_test_structure}}
 
-```text
+````text
 
 **Backend Tests:**
 
@@ -867,7 +867,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **E2E Tests:**
 
-```
+````
 
 {{e2e_test_structure}}
 

@@ -68,7 +68,7 @@ The epic numbering starts at 1 and increments for each epic found.
 
 ### Before (PRD):
 
-````markdown
+`````markdown
 # Product Requirements Document
 
 ## 1. Executive Summary
@@ -136,4 +136,8 @@ Content...
 ## Technical Stack Tools
 Content...
 ````
-````
+`````
+
+```text
+
+```
