@@ -88,7 +88,7 @@
 
 [[LLM: Gather technical decisions that will be used for this simple technical PRD that includes architecture decisions. Steps:
 
-1. Check if `data#technical-preferences` file exists - use it to pre-populate choices
+1. Check if `data#technical-preferences` or an attached `technical-preferences` file exists - use it to pre-populate choices
 2. Ask user about: languages, frameworks, starter templates, libraries, APIs, deployment targets
 3. For unknowns, offer guidance based on project goals and MVP scope
 4. Document ALL technical choices with rationale (why this choice fits the project)

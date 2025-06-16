@@ -136,7 +136,7 @@ Common patterns to consider:
 
 [[LLM: This is the DEFINITIVE technology selection section. Work with the user to make specific choices:
 
-1. Review PRD technical assumptions and any preferences from `data#technical-preferences`
+1. Review PRD technical assumptions and any preferences from `data#technical-preferences` or an attached `technical-preferences`
 2. For each category, present 2-3 viable options with pros/cons
 3. Make a clear recommendation based on project needs
 4. Get explicit user approval for each selection
@@ -344,15 +344,18 @@ Use YAML format for better readability. If no REST API, skip this section.]]
 ```yaml
 openapi: 3.0.0
 info:
-  title: { { api_title } }
-  version: { { api_version } }
-  description: { { api_description } }
-
+  title:
+    '[object Object]': null
+  version:
+    '[object Object]': null
+  description:
+    '[object Object]': null
 servers:
-  - url: { { api_base_url } }
-    description: { { environment } }
-# ... OpenAPI specification continues
-```
+  - url:
+      '[object Object]': null
+    description:
+      '[object Object]': null
+```text
 
 ^^/CONDITION: has_rest_api^^
 
@@ -463,7 +466,7 @@ Get user input on deployment preferences and CI/CD tool choices.]]
 
 ### Environment Promotion Flow
 
-```
+```text
 {{promotion_flow_diagram}}
 ```
 
