@@ -9,8 +9,7 @@ The BMAD orchestrator MUST read the available workflows from the current team co
 **Critical Distinction**:
 
 - When asked "what workflows are available?", show ONLY the workflows defined in the current team bundle's configuration
-- The create-\* tasks (create-agent, create-team, etc.) are for CREATING new configurations, not for listing what's available in the current session
-- Use `/agent-list` to show agents in the current bundle, NOT the create-agent task
+- Use `/agent-list` to show agents in the current bundle
 - Use `/workflows` to show workflows in the current bundle, NOT any creation tasks
 
 ### Workflow Descriptions
@@ -48,7 +47,7 @@ Available workflows for [Team Name]:
 [... etc. ...]
 
 Use /workflow-start {number or id} to begin a workflow.
-```
+```text
 
 ### /workflow-start {workflow-id}
 
@@ -90,7 +89,7 @@ BMad: I see you've completed Discovery and part of Product Planning.
       - UX Strategy with Sally (ux-expert)
 
       Would you like me to load Sally to continue?
-```
+```text
 
 ### /workflow-next
 
@@ -131,11 +130,11 @@ workflow_state:
     project-brief:
       status: completed
       created_by: analyst
-      timestamp: 2024-01-15T10:30:00Z
+      timestamp: 2024-01-15T10:30:00.000Z
     prd:
       status: in-progress
       created_by: pm
-      started: 2024-01-15T11:00:00Z
+      started: 2024-01-15T11:00:00.000Z
 ```
 
 ### 4. Workflow Interruption Handling
@@ -160,7 +159,7 @@ BMad: I see you have a PRD and architecture document. Based on these artifacts,
       - Load Sarah (Product Owner) to validate all artifacts
 
       Would you like to continue with this workflow?
-```
+```text
 
 ## Workflow Context Passing
 
@@ -194,9 +193,9 @@ Some workflows may have multiple paths:
 
 ```yaml
 conditional_paths:
-  - condition: "project_type == 'mobile'"
+  - condition: project_type == 'mobile'
     next_stage: mobile-specific-design
-  - condition: "project_type == 'web'"
+  - condition: project_type == 'web'
     next_stage: web-architecture
   - default: fullstack-architecture
 ```

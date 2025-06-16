@@ -78,9 +78,6 @@ workflow:
 
 dependencies:
   tasks:
-    - create-agent
-    - create-team
-    - create-expansion-pack
     - advanced-elicitation
     - create-doc
   data:

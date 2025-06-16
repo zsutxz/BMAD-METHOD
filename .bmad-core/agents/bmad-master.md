@@ -56,10 +56,7 @@ dependencies:
     - create-deep-research-prompt
     - create-doc
     - document-project
-    - create-expansion-pack
-    - create-agent
     - create-next-story
-    - create-team
     - execute-checklist
     - generate-ai-frontend-prompt
     - index-docs
@@ -70,7 +67,6 @@ dependencies:
     - brownfield-architecture-tmpl
     - brownfield-prd-tmpl
     - competitor-analysis-tmpl
-    - expansion-pack-plan-tmpl
     - front-end-architecture-tmpl
     - front-end-spec-tmpl
     - fullstack-architecture-tmpl

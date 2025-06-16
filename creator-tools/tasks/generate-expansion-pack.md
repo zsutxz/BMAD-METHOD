@@ -83,7 +83,7 @@ Create `expansion-packs/{pack-name}/plan.md` with:
 ## Approval
 
 User approval received: [ ] Yes
-```
+```text
 
 Important: Wait for user approval before proceeding to Phase 2
 
@@ -223,7 +223,7 @@ post_install_message: |
   - {data-file}.{ext}: {description}
 
   To use: npm run agent {pack-name}-orchestrator
-```
+```text
 
 ### Phase 4: Content Creation
 
