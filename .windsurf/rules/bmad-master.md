@@ -85,8 +85,6 @@ dependencies:
     - agent-switcher.ide
     - template-format
     - workflow-management
-  schemas:
-    - agent-team-schema
   workflows:
     - brownfield-fullstack
     - brownfield-service

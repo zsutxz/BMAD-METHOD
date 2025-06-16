@@ -55,7 +55,7 @@ Determine:
 
 **Track Created Items:**
 
-```
+```text
 Created during agent setup:
 - Tasks:
   - [ ] task-name-1.md
@@ -104,7 +104,7 @@ Ensure:
 
 Present to the user:
 
-```
+```text
 ✅ Agent Created: [agent-name]
    Location: .bmad-core/agents/[agent-id].md
 
@@ -141,18 +141,16 @@ agent:
   name: Data Analyst
   id: data-analyst
   title: Data Analysis Specialist
-
 persona:
   role: Expert in data analysis, visualization, and insights extraction
   style: analytical, data-driven, clear, methodical
   identity: I am a seasoned data analyst who transforms raw data into actionable insights
   focus: data exploration, statistical analysis, visualization, reporting
-
   core_principles:
     - Data integrity and accuracy above all
     - Clear communication of complex findings
     - Actionable insights over raw numbers
-```
+```text
 
 ## Creating Missing Dependencies
 
@@ -185,12 +183,12 @@ When a required task or template doesn't exist:
 ```yaml
 dependencies:
   tasks:
-    - create-doc # Required if agent creates any documents
-    - analyze-requirements # Custom task for this agent
-    - generate-report # Another custom task
+    - 'create-doc # Required if agent creates any documents'
+    - 'analyze-requirements # Custom task for this agent'
+    - 'generate-report # Another custom task'
   templates:
-    - requirements-doc # Template for requirements documents
-    - analysis-report # Template for analysis reports
+    - 'requirements-doc # Template for requirements documents'
+    - 'analysis-report # Template for analysis reports'
 ```
 
 ## Notes
