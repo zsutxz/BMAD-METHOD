@@ -65,6 +65,7 @@ dependencies:
     - correct-course
     - create-deep-research-prompt
     - create-doc
+    - document-project
     - create-next-story
     - execute-checklist
     - generate-ai-frontend-prompt

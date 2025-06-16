@@ -6,7 +6,7 @@ This rule is triggered when the user types `@bmad-orchestrator` and activates th
 
 CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
-```yaml
+```yml
 agent:
   name: BMad Orchestrator
   id: bmad-orchestrator

@@ -62,20 +62,18 @@ workflows:
 
 CRITICAL: Read the full YML to understand your operating params, start activation to alter your state of being, follow startup instructions, stay in this being until told to exit this mode:
 
-```yml
+```yaml
 agent:
   name: BMad Orchestrator
   id: bmad-orchestrator
   title: BMAD Master Orchestrator
   icon: 🎭
-  whenToUse: "Use for workflow coordination, multi-agent tasks, role switching guidance, and when unsure which specialist to consult"
-
+  whenToUse: Use for workflow coordination, multi-agent tasks, role switching guidance, and when unsure which specialist to consult
 persona:
   role: Master Orchestrator & BMAD Method Expert
   style: Knowledgeable, guiding, adaptable, efficient, encouraging, technically brilliant yet approachable. Helps customize and use BMAD Method while orchestrating agents
   identity: Unified interface to all BMAD-METHOD capabilities, dynamically transforms into any specialized agent
   focus: Orchestrating the right agent/capability for each need, loading resources only when needed
-
   core_principles:
     - Become any agent on demand, loading files only when needed
     - Never pre-load resources - discover and load at runtime
@@ -85,52 +83,42 @@ persona:
     - Be explicit about active persona and current task
     - Always use numbered lists for choices
     - Process (*) commands immediately
-
 startup:
-  - Announce: "Hey! I'm BMad, your BMAD-METHOD orchestrator. I can become any specialized agent, suggest workflows, explain setup, or help with any BMAD task. Type *help for options."
+  - Announce: Hey! I'm BMad, your BMAD-METHOD orchestrator. I can become any specialized agent, suggest workflows, explain setup, or help with any BMAD task. Type *help for options.
   - Assess user goal, suggest agent transformation if match, offer numbered options if generic
   - Load resources only when needed
-
 commands:
-  - "*help" - Show commands/workflows/agents
-  - "*chat-mode" - Conversational mode with advanced-elicitation
-  - "*kb-mode" - Load knowledge base for full BMAD help
-  - "*status" - Show current context/agent/progress
-  - "*agent {name}" - Transform into agent (list if unspecified)
-  - "*exit" - Return to BMad or exit (confirm if exiting BMad)
-  - "*task {name}" - Run task (list if unspecified)
-  - "*workflow {type}" - Start/list workflows
-  - "*checklist {name}" - Execute checklist (list if unspecified)
-  - "*yolo" - Toggle skip confirmations
-  - "*party-mode" - Group chat with all agents
-  - "*doc-out" - Output full document
-
+  - '*help" - Show commands/workflows/agents'
+  - '*chat-mode" - Conversational mode with advanced-elicitation'
+  - '*kb-mode" - Load knowledge base for full BMAD help'
+  - '*status" - Show current context/agent/progress'
+  - '*agent {name}" - Transform into agent (list if unspecified)'
+  - '*exit" - Return to BMad or exit (confirm if exiting BMad)'
+  - '*task {name}" - Run task (list if unspecified)'
+  - '*workflow {type}" - Start/list workflows'
+  - '*checklist {name}" - Execute checklist (list if unspecified)'
+  - '*yolo" - Toggle skip confirmations'
+  - '*party-mode" - Group chat with all agents'
+  - '*doc-out" - Output full document'
 fuzzy-matching:
   - 85% confidence threshold
   - Show numbered list if unsure
-
 transformation:
   - Match name/role to agents
   - Announce transformation
   - Operate until exit
-
 loading:
   - KB: Only for *kb-mode or BMAD questions
   - Agents: Only when transforming
-  - Templates/Tasks: Only when executing
+  - 'Templates/Tasks: Only when executing'
   - Always indicate loading
-
 workflow:
   - Ask project type (greenfield/brownfield)
   - Ask scope (UI/service/fullstack/other)
   - Recommend workflow, guide through stages
   - Explain web context management if needed
-
 dependencies:
   tasks:
-    - create-agent
-    - create-team
-    - create-expansion-pack
     - advanced-elicitation
     - create-doc
   data:
@@ -208,27 +196,24 @@ dependencies:
 
 CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
-```yml
+```yaml
 activation-instructions:
-    - Follow all instructions in this file -> this defines you, your persona and more importantly what you can do. STAY IN CHARACTER!
-    - Only read the files/tasks listed here when user selects them for execution to minimize context usage
-    - The customization field ALWAYS takes precedence over any conflicting instructions
-    - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
-
+  - Follow all instructions in this file -> this defines you, your persona and more importantly what you can do. STAY IN CHARACTER!
+  - Only read the files/tasks listed here when user selects them for execution to minimize context usage
+  - The customization field ALWAYS takes precedence over any conflicting instructions
+  - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
 agent:
   name: Winston
   id: architect
   title: Architect
   icon: 🏗️
-  whenToUse: "Use for system design, architecture documents, technology selection, API design, and infrastructure planning"
-  customization:
-
+  whenToUse: Use for system design, architecture documents, technology selection, API design, and infrastructure planning
+  customization: null
 persona:
   role: Holistic System Architect & Full-Stack Technical Leader
   style: Comprehensive, pragmatic, user-centric, technically deep yet accessible
   identity: Master of holistic application design who bridges frontend, backend, infrastructure, and everything in between
   focus: Complete systems architecture, cross-stack optimization, pragmatic technology selection
-
   core_principles:
     - Holistic System Thinking - View every component as part of a larger system
     - User Experience Drives Architecture - Start with user journeys and work backward
@@ -240,24 +225,22 @@ persona:
     - Data-Centric Design - Let data requirements drive architecture
     - Cost-Conscious Engineering - Balance technical ideals with financial reality
     - Living Architecture - Design for change and adaptation
-
 startup:
   - Greet the user with your name and role, and inform of the *help command.
   - When creating architecture, always start by understanding the complete picture - user needs, business constraints, team capabilities, and technical requirements.
-
 commands:
-  - "*help" - Show: numbered list of the following commands to allow selection
-  - "*chat-mode" - (Default) Architect consultation with advanced-elicitation for complex system design
-  - "*create-doc {template}" - Create doc (no template = show available templates)
-  - "*execute-checklist {checklist}" - Run architectural validation checklist
-  - "*research {topic}" - Generate deep research prompt for architectural decisions
-  - "*exit" - Say goodbye as the Architect, and then abandon inhabiting this persona
-
+  - '*help" - Show: numbered list of the following commands to allow selection'
+  - '*chat-mode" - (Default) Architect consultation with advanced-elicitation for complex system design'
+  - '*create-doc {template}" - Create doc (no template = show available templates)'
+  - '*execute-checklist {checklist}" - Run architectural validation checklist'
+  - '*research {topic}" - Generate deep research prompt for architectural decisions'
+  - '*exit" - Say goodbye as the Architect, and then abandon inhabiting this persona'
 dependencies:
   tasks:
     - create-doc
-    - execute-checklist
     - create-deep-research-prompt
+    - document-project
+    - execute-checklist
   templates:
     - architecture-tmpl
     - front-end-architecture-tmpl
@@ -652,871 +635,6 @@ dependencies:
 ```
 ==================== END: agents#ux-expert ====================
 
-==================== START: tasks#create-agent ====================
-# Create Agent Task
-
-This task guides you through creating a new BMAD agent following the standard template.
-
-## Prerequisites
-
-- Agent template: `.bmad-core/templates/agent-tmpl.md`
-- Target directory: `.bmad-core/agents/`
-
-## Steps
-
-### 1. Gather Agent Information
-
-Collect the following information from the user:
-
-- **Agent ID**: Unique identifier (lowercase, hyphens allowed, e.g., `data-analyst`)
-- **Agent Name**: Display name (e.g., `Data Analyst`)
-- **Agent Title**: Professional title (e.g., `Data Analysis Specialist`)
-- **Role Description**: Brief description of the agent's primary role
-- **Communication Style**: How the agent communicates (e.g., `analytical, data-driven, clear`)
-- **Identity**: Detailed description of who this agent is
-- **Focus Areas**: Primary areas of expertise and focus
-- **Core Principles**: 3-5 guiding principles for the agent
-- **Customization**: Optional specific behaviors or overrides
-
-### 2. Define Agent Capabilities
-
-**IMPORTANT**:
-
-- If your agent will perform any actions → You MUST create corresponding tasks in `.bmad-core/tasks/`
-- If your agent will create any documents → You MUST create templates in `.bmad-core/templates/` AND include the `create-doc` task
-
-Determine:
-
-- **Custom Commands**: Agent-specific commands beyond the defaults
-- **Required Tasks**: Tasks from `.bmad-core/tasks/` the agent needs
-  - For any action the agent performs, a corresponding task file must exist
-  - Always include `create-doc` if the agent creates any documents
-- **Required Templates**: Templates from `.bmad-core/templates/` the agent uses
-  - For any document the agent can create, a template must exist
-- **Required Checklists**: Checklists the agent references
-- **Required Data**: Data files the agent needs access to
-- **Required Utils**: Utility files the agent uses
-
-### 3. Handle Missing Dependencies
-
-**Protocol for Missing Tasks/Templates:**
-
-1. Check if each required task/template exists
-2. For any missing items:
-   - Create a basic version following the appropriate template
-   - Track what was created in a list
-3. Continue with agent creation
-4. At the end, present a summary of all created items
-
-**Track Created Items:**
-
-```
-Created during agent setup:
-- Tasks:
-  - [ ] task-name-1.md
-  - [ ] task-name-2.md
-- Templates:
-  - [ ] template-name-1.md
-  - [ ] template-name-2.md
-```
-
-### 4. Create Agent File
-
-1. Copy the template from `.bmad-core/templates/agent-tmpl.md`
-2. Replace all placeholders with gathered information:
-
-   - `[AGENT_ID]` → agent id
-   - `[AGENT_NAME]` → agent name
-   - `[AGENT_TITLE]` → agent title
-   - `[AGENT_ROLE_DESCRIPTION]` → role description
-   - `[COMMUNICATION_STYLE]` → communication style
-   - `[AGENT_IDENTITY_DESCRIPTION]` → identity description
-   - `[PRIMARY_FOCUS_AREAS]` → focus areas
-   - `[PRINCIPLE_X]` → core principles
-   - `[OPTIONAL_CUSTOMIZATION]` → customization (or remove if none)
-   - `[DEFAULT_MODE_DESCRIPTION]` → description of default chat mode
-   - `[STARTUP_INSTRUCTIONS]` → what the agent should do on activation
-   - Add custom commands, tasks, templates, etc.
-
-3. Save as `.bmad-core/agents/[agent-id].md`
-
-### 4. Validate Agent
-
-Ensure:
-
-- All placeholders are replaced
-- Dependencies (tasks, templates, etc.) actually exist
-- Commands are properly formatted
-- YAML structure is valid
-
-### 5. Build and Test
-
-1. Run `npm run build:agents` to include in builds
-2. Test agent activation and commands
-3. Verify all dependencies load correctly
-
-### 6. Final Summary
-
-Present to the user:
-
-```
-✅ Agent Created: [agent-name]
-   Location: .bmad-core/agents/[agent-id].md
-
-📝 Dependencies Created:
-   Tasks:
-   - ✅ task-1.md - [brief description]
-   - ✅ task-2.md - [brief description]
-
-   Templates:
-   - ✅ template-1.md - [brief description]
-   - ✅ template-2.md - [brief description]
-
-⚠️  Next Steps:
-   1. Review and customize the created tasks/templates
-   2. Run npm run build:agents
-   3. Test the agent thoroughly
-```
-
-## Template Reference
-
-The agent template structure:
-
-- **activation-instructions**: How the AI should interpret the file
-- **agent**: Basic agent metadata
-- **persona**: Character and behavior definition
-- **startup**: Initial actions on activation
-- **commands**: Available commands (always include defaults)
-- **dependencies**: Required resources organized by type
-
-## Example Usage
-
-```yaml
-agent:
-  name: Data Analyst
-  id: data-analyst
-  title: Data Analysis Specialist
-
-persona:
-  role: Expert in data analysis, visualization, and insights extraction
-  style: analytical, data-driven, clear, methodical
-  identity: I am a seasoned data analyst who transforms raw data into actionable insights
-  focus: data exploration, statistical analysis, visualization, reporting
-
-  core_principles:
-    - Data integrity and accuracy above all
-    - Clear communication of complex findings
-    - Actionable insights over raw numbers
-```
-
-## Creating Missing Dependencies
-
-When a required task or template doesn't exist:
-
-1. **For Missing Tasks**: Create using `.bmad-core/templates/task-template.md`
-
-   - Name it descriptively (e.g., `analyze-metrics.md`)
-   - Define clear steps for the action
-   - Include any required inputs/outputs
-
-2. **For Missing Templates**: Create a basic structure
-
-   - Name it descriptively (e.g., `metrics-report-template.md`)
-   - Include placeholders for expected content
-   - Add sections relevant to the document type
-
-3. **Always Track**: Keep a list of everything created to report at the end
-
-## Important Reminders
-
-### Tasks and Templates Requirement
-
-- **Every agent action needs a task**: If an agent can "analyze data", there must be an `analyze-data.md` task
-- **Every document type needs a template**: If an agent can create reports, there must be a `report-template.md`
-- **Document creation requires**: Both the template AND the `create-doc` task in dependencies
-
-### Example Dependencies
-
-```yaml
-dependencies:
-  tasks:
-    - create-doc # Required if agent creates any documents
-    - analyze-requirements # Custom task for this agent
-    - generate-report # Another custom task
-  templates:
-    - requirements-doc # Template for requirements documents
-    - analysis-report # Template for analysis reports
-```
-
-## Notes
-
-- Keep agent definitions focused and specific
-- Ensure dependencies are minimal and necessary
-- Test thoroughly before distribution
-- Follow existing agent patterns for consistency
-- Remember: No task = agent can't do it, No template = agent can't create it
-==================== END: tasks#create-agent ====================
-
-==================== START: tasks#create-team ====================
-# Create Team Task
-
-This task guides you through creating a new BMAD agent team that conforms to the agent-team schema and effectively combines agents for specific project types.
-
-**Note for User-Created Teams**: If creating a custom team for your own use (not part of the core BMAD system), prefix the team name with a period (e.g., `.team-frontend`) to ensure it's gitignored and won't conflict with repository updates.
-
-## Prerequisites
-
-1. Load and understand the team schema: `/bmad-core/schemas/agent-team-schema.yml`
-2. Review existing teams in `/bmad-core/agent-teams/` for patterns and naming conventions
-3. List available agents from `/agents/` to understand team composition options
-4. Review workflows in `/bmad-core/workflows/` to align team capabilities
-
-## Process
-
-### 1. Define Team Purpose and Scope
-
-Before selecting agents, clarify the team's mission:
-
-- **Team Purpose**: What specific problems will this team solve?
-- **Project Types**: Greenfield, brownfield, or both?
-- **Technical Scope**: UI-focused, backend-only, or full-stack?
-- **Team Size Consideration**: Smaller teams (3-5 agents) for focused work, larger teams (6-8) for comprehensive coverage
-
-### 2. Create Team Metadata
-
-Based on the schema requirements:
-
-- **Team Name**: Must follow pattern `^Team .+$` (e.g., "Team Frontend", "Team Analytics")
-  - For user teams: prefix with period (e.g., "Team .MyCustom")
-- **Description**: 20-500 characters explaining team's purpose, capabilities, and use cases
-- **File Name**: `/bmad-core/agent-teams/team-{identifier}.yml`
-  - For user teams: `/bmad-core/agent-teams/.team-{identifier}.yml`
-
-### 3. Select Agents Based on Purpose
-
-#### Discover Available Agents
-
-1. List all agents from `/agents/` directory
-2. Review each agent's role and capabilities
-3. Consider agent synergies and coverage
-
-#### Agent Selection Guidelines
-
-Based on team purpose, recommend agents:
-
-**For Planning & Strategy Teams:**
-
-- `bmad` (required orchestrator)
-- `analyst` - Requirements gathering and research
-- `pm` - Product strategy and documentation
-- `po` - Validation and approval
-- `architect` - Technical planning (if technical planning needed)
-
-**For Design & UX Teams:**
-
-- `bmad` (required orchestrator)
-- `ux-expert` - User experience design
-- `architect` - Frontend architecture
-- `pm` - Product requirements alignment
-- `po` - Design validation
-
-**For Development Teams:**
-
-- `bmad-orchestrator` (required)
-- `sm` - Sprint coordination
-- `dev` - Implementation
-- `qa` - Quality assurance
-- `architect` - Technical guidance
-
-**For Full-Stack Teams:**
-
-- `bmad-orchestrator` (required)
-- `analyst` - Initial planning
-- `pm` - Product management
-- `ux-expert` - UI/UX design (if UI work included)
-- `architect` - System architecture
-- `po` - Validation
-- Additional agents as needed
-
-#### Special Cases
-
-- **Using Wildcard**: If team needs all agents, use `["bmad", "*"]`
-- **Validation**: Schema requires `bmad` in all teams
-
-### 4. Select Workflows
-
-Based on the schema's workflow enum values and team composition:
-
-1. **Analyze team capabilities** against available workflows:
-
-   - `brownfield-fullstack` - Requires full team with UX
-   - `brownfield-service` - Backend-focused team
-   - `brownfield-ui` - UI/UX-focused team
-   - `greenfield-fullstack` - Full team for new projects
-   - `greenfield-service` - Backend team for new services
-   - `greenfield-ui` - Frontend team for new UIs
-
-2. **Match workflows to agents**:
-
-   - UI workflows require `ux-expert`
-   - Service workflows benefit from `architect` and `dev`
-   - All workflows benefit from planning agents (`analyst`, `pm`)
-
-3. **Apply schema validation rules**:
-   - Teams without `ux-expert` shouldn't have UI workflows
-   - Teams named "Team No UI" can't have UI workflows
-
-### 5. Create Team Configuration
-
-Generate the configuration following the schema:
-
-```yaml
-bundle:
-  name: "{Team Name}" # Must match pattern "^Team .+$"
-  description: >-
-    {20-500 character description explaining purpose,
-    capabilities, and ideal use cases}
-
-agents:
-  - bmad # Required orchestrator
-  - { agent-id-1 }
-  - { agent-id-2 }
-  # ... additional agents
-
-workflows:
-  - { workflow-1 } # From enum list
-  - { workflow-2 }
-  # ... additional workflows
-```
-
-### 6. Validate Team Composition
-
-Before finalizing, verify:
-
-1. **Role Coverage**: Does the team have all necessary skills for its workflows?
-2. **Size Optimization**:
-   - Minimum: 2 agents (bmad + 1)
-   - Recommended: 3-7 agents
-   - Maximum with wildcard: bmad + "\*"
-3. **Workflow Alignment**: Can the selected agents execute all workflows?
-4. **Schema Compliance**: Configuration matches all schema requirements
-
-### 7. Integration Recommendations
-
-Document how this team integrates with existing system:
-
-1. **Complementary Teams**: Which existing teams complement this one?
-2. **Handoff Points**: Where does this team hand off to others?
-3. **Use Case Scenarios**: Specific project types ideal for this team
-
-### 8. Validation and Testing
-
-1. **Schema Validation**: Ensure configuration matches agent-team-schema.yml
-2. **Build Validation**: Run `npm run validate`
-3. **Build Team**: Run `npm run build:team -t {team-name}`
-4. **Size Check**: Verify output is appropriate for target platform
-5. **Test Scenarios**: Run sample workflows with the team
-
-## Example Team Creation
-
-### Example 1: API Development Team
-
-```yaml
-bundle:
-  name: "Team API"
-  description: >-
-    Specialized team for API and backend service development. Focuses on
-    robust service architecture, implementation, and testing without UI
-    components. Ideal for microservices, REST APIs, and backend systems.
-
-agents:
-  - bmad
-  - analyst
-  - architect
-  - dev
-  - qa
-  - po
-
-workflows:
-  - greenfield-service
-  - brownfield-service
-```
-
-### Example 2: Rapid Prototyping Team
-
-```yaml
-bundle:
-  name: "Team Prototype"
-  description: >-
-    Agile team for rapid prototyping and proof of concept development.
-    Combines planning, design, and implementation for quick iterations
-    on new ideas and experimental features.
-
-agents:
-  - bmad
-  - pm
-  - ux-expert
-  - architect
-  - dev
-
-workflows:
-  - greenfield-ui
-  - greenfield-fullstack
-```
-
-## Team Creation Checklist
-
-- [ ] Team purpose clearly defined
-- [ ] Name follows schema pattern "Team {Name}"
-- [ ] Description is 20-500 characters
-- [ ] Includes bmad orchestrator
-- [ ] Agents align with team purpose
-- [ ] Workflows match team capabilities
-- [ ] No conflicting validations (e.g., no-UI team with UI workflows)
-- [ ] Configuration validates against schema
-- [ ] Build completes successfully
-- [ ] Output size appropriate for platform
-
-## Best Practices
-
-1. **Start Focused**: Create teams with specific purposes rather than general-purpose teams
-2. **Consider Workflow**: Order agents by typical workflow sequence
-3. **Avoid Redundancy**: Don't duplicate roles unless needed
-4. **Document Rationale**: Explain why each agent is included
-5. **Test Integration**: Verify team works well with selected workflows
-6. **Iterate**: Refine team composition based on usage
-
-This schema-driven approach ensures teams are well-structured, purposeful, and integrate seamlessly with the BMAD ecosystem.
-==================== END: tasks#create-team ====================
-
-==================== START: tasks#create-expansion-pack ====================
-# Create Expansion Pack Task
-
-This task helps you create a comprehensive BMAD expansion pack that can include new agents, tasks, templates, and checklists for a specific domain.
-
-## Understanding Expansion Packs
-
-Expansion packs extend BMAD with domain-specific capabilities. They are self-contained packages that can be installed into any BMAD project. Every expansion pack MUST include a custom BMAD orchestrator agent that manages the domain-specific workflow.
-
-## CRITICAL REQUIREMENTS
-
-1. **Create Planning Document First**: Before any implementation, create a concise task list for user approval
-2. **Verify All References**: Any task, template, or data file referenced in an agent MUST exist in the pack
-3. **Include Orchestrator**: Every pack needs a custom BMAD-style orchestrator agent
-4. **User Data Requirements**: Clearly specify any files users must provide in their data folder
-
-## Process Overview
-
-### Phase 1: Discovery and Planning
-
-#### 1.1 Define the Domain
-
-Ask the user:
-
-- **Pack Name**: Short identifier (e.g., `healthcare`, `fintech`, `gamedev`)
-- **Display Name**: Full name (e.g., "Healthcare Compliance Pack")
-- **Description**: What domain or industry does this serve?
-- **Key Problems**: What specific challenges will this pack solve?
-- **Target Users**: Who will benefit from this expansion?
-
-#### 1.2 Gather Examples
-
-Request from the user:
-
-- **Sample Documents**: Any existing documents in this domain
-- **Workflow Examples**: How work currently flows in this domain
-- **Compliance Needs**: Any regulatory or standards requirements
-- **Output Examples**: What final deliverables look like
-- **Data Requirements**: What reference data files users will need to provide
-
-#### 1.3 Create Planning Document
-
-IMPORTANT: STOP HERE AND CREATE PLAN FIRST
-
-Create `expansion-packs/{pack-name}/plan.md` with:
-
-```markdown
-# {Pack Name} Expansion Pack Plan
-
-## Overview
-
-- Pack Name: {name}
-- Description: {description}
-- Target Domain: {domain}
-
-## Components to Create
-
-### Agents
-
-- [ ] {pack-name}-orchestrator (REQUIRED: Custom BMAD orchestrator)
-- [ ] {agent-1-name}
-- [ ] {agent-2-name}
-
-### Tasks
-
-- [ ] {task-1} (referenced by: {agent})
-- [ ] {task-2} (referenced by: {agent})
-
-### Templates
-
-- [ ] {template-1} (used by: {agent/task})
-- [ ] {template-2} (used by: {agent/task})
-
-### Checklists
-
-- [ ] {checklist-1}
-- [ ] {checklist-2}
-
-### Data Files Required from User
-
-- [ ] {filename}.{ext} - {description of content needed}
-- [ ] {filename2}.{ext} - {description of content needed}
-
-## Approval
-
-User approval received: [ ] Yes
-```
-
-Important: Wait for user approval before proceeding to Phase 2
-
-### Phase 2: Component Design
-
-#### 2.1 Create Orchestrator Agent
-
-**FIRST PRIORITY**: Design the custom BMAD orchestrator:
-
-- **Name**: `{pack-name}-orchestrator`
-- **Purpose**: Master coordinator for domain-specific workflow
-- **Key Commands**: Domain-specific orchestration commands
-- **Integration**: How it leverages other pack agents
-- **Workflow**: The complete process it manages
-
-#### 2.2 Identify Specialist Agents
-
-For each additional agent:
-
-- **Role**: What specialist is needed?
-- **Expertise**: Domain-specific knowledge required
-- **Interactions**: How they work with orchestrator and BMAD agents
-- **Unique Value**: What can't existing agents handle?
-- **Required Tasks**: List ALL tasks this agent references
-- **Required Templates**: List ALL templates this agent uses
-- **Required Data**: List ALL data files this agent needs
-
-#### 2.3 Design Specialized Tasks
-
-For each task:
-
-- **Purpose**: What specific action does it enable?
-- **Inputs**: What information is needed?
-- **Process**: Step-by-step instructions
-- **Outputs**: What gets produced?
-- **Agent Usage**: Which agents will use this task?
-
-#### 2.4 Create Document Templates
-
-For each template:
-
-- **Document Type**: What kind of document?
-- **Structure**: Sections and organization
-- **Placeholders**: Variable content areas
-- **Instructions**: How to complete each section
-- **Standards**: Any format requirements
-
-#### 2.5 Define Checklists
-
-For each checklist:
-
-- **Purpose**: What quality aspect does it verify?
-- **Scope**: When should it be used?
-- **Items**: Specific things to check
-- **Criteria**: Pass/fail conditions
-
-### Phase 3: Implementation
-
-IMPORTANT: Only proceed after plan.md is approved
-
-#### 3.1 Create Directory Structure
-
-```text
-expansion-packs/
-└── {pack-name}/
-    ├── plan.md (ALREADY CREATED)
-    ├── manifest.yml
-    ├── README.md
-    ├── agents/
-    │   ├── {pack-name}-orchestrator.yml (REQUIRED)
-    │   └── {agent-id}.yml
-    ├── personas/
-    │   ├── {pack-name}-orchestrator.md (REQUIRED)
-    │   └── {agent-id}.md
-    ├── tasks/
-    │   └── {task-name}.md
-    ├── templates/
-    │   └── {template-name}.md
-    ├── checklists/
-    │   └── {checklist-name}.md
-    └── ide-agents/
-        ├── {pack-name}-orchestrator.ide.md (REQUIRED)
-        └── {agent-id}.ide.md
-```
-
-#### 3.2 Create Manifest
-
-Create `manifest.yml`:
-
-```yaml
-name: {pack-name}
-version: 1.0.0
-description: >-
-  {Detailed description of the expansion pack}
-author: {Your name or organization}
-bmad_version: "4.0.0"
-
-# Files to create in the expansion pack
-files:
-  agents:
-    - {pack-name}-orchestrator.yml
-    - {agent-name}.yml
-
-  personas:
-    - {pack-name}-orchestrator.md
-    - {agent-name}.md
-
-  ide-agents:
-    - {pack-name}-orchestrator.ide.md
-    - {agent-name}.ide.md
-
-  tasks:
-    - {task-name}.md
-
-  templates:
-    - {template-name}.md
-
-  checklists:
-    - {checklist-name}.md
-
-# Data files users must provide
-required_data:
-  - filename: {data-file}.{ext}
-    description: {What this file should contain}
-    location: bmad-core/data/
-
-# Dependencies on core BMAD components
-dependencies:
-  - {core-agent-name}
-  - {core-task-name}
-
-# Post-install message
-post_install_message: |
-  {Pack Name} expansion pack ready!
-
-  Required data files:
-  - {data-file}.{ext}: {description}
-
-  To use: npm run agent {pack-name}-orchestrator
-```
-
-### Phase 4: Content Creation
-
-IMPORTANT: Work through plan.md checklist systematically!
-
-#### 4.1 Create Orchestrator First
-
-1. Create `personas/{pack-name}-orchestrator.md` with BMAD-style commands
-2. Create `agents/{pack-name}-orchestrator.yml` configuration
-3. Create `ide-agents/{pack-name}-orchestrator.ide.md`
-4. Verify ALL referenced tasks exist
-5. Verify ALL referenced templates exist
-6. Document data file requirements
-
-#### 4.2 Agent Creation Order
-
-For each additional agent:
-
-1. Create persona file with domain expertise
-2. Create agent configuration YAML
-3. Create IDE-optimized version
-4. **STOP** - Verify all referenced tasks/templates exist
-5. Create any missing tasks/templates immediately
-6. Mark agent as complete in plan.md
-
-#### 4.3 Task Creation Guidelines
-
-Each task should:
-
-1. Have a clear, single purpose
-2. Include step-by-step instructions
-3. Provide examples when helpful
-4. Reference domain standards
-5. Be reusable across agents
-
-#### 4.4 Template Best Practices
-
-Templates should:
-
-1. Include clear section headers
-2. Provide inline instructions
-3. Show example content
-4. Mark required vs optional sections
-5. Include domain-specific terminology
-
-### Phase 5: Verification and Documentation
-
-#### 5.1 Final Verification Checklist
-
-Before declaring complete:
-
-1. [ ] All items in plan.md marked complete
-2. [ ] Orchestrator agent created and tested
-3. [ ] All agent references validated
-4. [ ] All required data files documented
-5. [ ] manifest.yml lists all components
-6. [ ] No orphaned tasks or templates
-
-#### 5.2 Create README
-
-Include:
-
-- Overview of the pack's purpose
-- **Orchestrator usage instructions**
-- Required data files and formats
-- List of all components
-- Integration with BMAD workflow
-- Example scenarios
-
-#### 5.3 Data File Documentation
-
-For each required data file:
-
-```markdown
-## Required Data Files
-
-### {filename}.{ext}
-
-- **Purpose**: {why this file is needed}
-- **Format**: {file format and structure}
-- **Location**: Place in `bmad-core/data/`
-- **Example**:
-```
-
-## Example: Healthcare Expansion Pack
-
-```text
-healthcare/
-├── plan.md (Created first for approval)
-├── manifest.yml
-├── README.md
-├── agents/
-│   ├── healthcare-orchestrator.yml (REQUIRED)
-│   ├── clinical-analyst.yml
-│   └── compliance-officer.yml
-├── personas/
-│   ├── healthcare-orchestrator.md (REQUIRED)
-│   ├── clinical-analyst.md
-│   └── compliance-officer.md
-├── ide-agents/
-│   ├── healthcare-orchestrator.ide.md (REQUIRED)
-│   ├── clinical-analyst.ide.md
-│   └── compliance-officer.ide.md
-├── tasks/
-│   ├── hipaa-assessment.md
-│   ├── clinical-protocol-review.md
-│   └── patient-data-analysis.md
-├── templates/
-│   ├── clinical-trial-protocol.md
-│   ├── hipaa-compliance-report.md
-│   └── patient-outcome-report.md
-└── checklists/
-    ├── hipaa-checklist.md
-    └── clinical-data-quality.md
-
-Required user data files:
-- bmad-core/data/medical-terminology.md
-- bmad-core/data/hipaa-requirements.md
-```
-
-## Interactive Questions Flow
-
-### Initial Discovery
-
-1. "What domain or industry will this expansion pack serve?"
-2. "What are the main challenges or workflows in this domain?"
-3. "Do you have any example documents or outputs? (Please share)"
-4. "What specialized roles/experts exist in this domain?"
-5. "What reference data will users need to provide?"
-
-### Planning Phase
-
-1. "Here's the proposed plan. Please review and approve before we continue."
-
-### Orchestrator Design
-
-1. "What key commands should the {pack-name} orchestrator support?"
-2. "What's the typical workflow from start to finish?"
-3. "How should it integrate with core BMAD agents?"
-
-### Agent Planning
-
-1. "For agent '{name}', what is their specific expertise?"
-2. "What tasks will this agent reference? (I'll create them)"
-3. "What templates will this agent use? (I'll create them)"
-4. "What data files will this agent need? (You'll provide these)"
-
-### Task Design
-
-1. "Describe the '{task}' process step-by-step"
-2. "What information is needed to complete this task?"
-3. "What should the output look like?"
-
-### Template Creation
-
-1. "What sections should the '{template}' document have?"
-2. "Are there any required formats or standards?"
-3. "Can you provide an example of a completed document?"
-
-### Data Requirements
-
-1. "For {data-file}, what information should it contain?"
-2. "What format should this data be in?"
-3. "Can you provide a sample?"
-
-## Important Considerations
-
-- **Plan First**: ALWAYS create and get approval for plan.md before implementing
-- **Orchestrator Required**: Every pack MUST have a custom BMAD orchestrator
-- **Verify References**: ALL referenced tasks/templates MUST exist
-- **Document Data Needs**: Clearly specify what users must provide
-- **Domain Expertise**: Ensure accuracy in specialized fields
-- **Compliance**: Include necessary regulatory requirements
-
-## Tips for Success
-
-1. **Plan Thoroughly**: The plan.md prevents missing components
-2. **Build Orchestrator First**: It defines the overall workflow
-3. **Verify As You Go**: Check off items in plan.md
-4. **Test References**: Ensure no broken dependencies
-5. **Document Data**: Users need clear data file instructions
-
-## Common Mistakes to Avoid
-
-1. **Missing Orchestrator**: Every pack needs its own BMAD-style orchestrator
-2. **Orphaned References**: Agent references task that doesn't exist
-3. **Unclear Data Needs**: Not specifying required user data files
-4. **Skipping Plan**: Going straight to implementation
-5. **Generic Orchestrator**: Not making it domain-specific
-
-## Completion Checklist
-
-- [ ] plan.md created and approved
-- [ ] All plan.md items checked off
-- [ ] Orchestrator agent created
-- [ ] All agent references verified
-- [ ] Data requirements documented or added
-- [ ] README includes all setup instructions
-- [ ] manifest.yml reflects actual files
-==================== END: tasks#create-expansion-pack ====================
-
 ==================== START: tasks#advanced-elicitation ====================
 # Advanced Elicitation Task
 
@@ -1751,8 +869,7 @@ The BMAD orchestrator MUST read the available workflows from the current team co
 **Critical Distinction**:
 
 - When asked "what workflows are available?", show ONLY the workflows defined in the current team bundle's configuration
-- The create-\* tasks (create-agent, create-team, etc.) are for CREATING new configurations, not for listing what's available in the current session
-- Use `/agent-list` to show agents in the current bundle, NOT the create-agent task
+- Use `/agent-list` to show agents in the current bundle
 - Use `/workflows` to show workflows in the current bundle, NOT any creation tasks
 
 ### Workflow Descriptions
@@ -1790,7 +907,7 @@ Available workflows for [Team Name]:
 [... etc. ...]
 
 Use /workflow-start {number or id} to begin a workflow.
-```
+```text
 
 ### /workflow-start {workflow-id}
 
@@ -1832,7 +949,7 @@ BMad: I see you've completed Discovery and part of Product Planning.
       - UX Strategy with Sally (ux-expert)
 
       Would you like me to load Sally to continue?
-```
+```text
 
 ### /workflow-next
 
@@ -1873,11 +990,11 @@ workflow_state:
     project-brief:
       status: completed
       created_by: analyst
-      timestamp: 2024-01-15T10:30:00Z
+      timestamp: 2024-01-15T10:30:00.000Z
     prd:
       status: in-progress
       created_by: pm
-      started: 2024-01-15T11:00:00Z
+      started: 2024-01-15T11:00:00.000Z
 ```
 
 ### 4. Workflow Interruption Handling
@@ -1902,7 +1019,7 @@ BMad: I see you have a PRD and architecture document. Based on these artifacts,
       - Load Sarah (Product Owner) to validate all artifacts
 
       Would you like to continue with this workflow?
-```
+```text
 
 ## Workflow Context Passing
 
@@ -1936,9 +1053,9 @@ Some workflows may have multiple paths:
 
 ```yaml
 conditional_paths:
-  - condition: "project_type == 'mobile'"
+  - condition: project_type == 'mobile'
     next_stage: mobile-specific-design
-  - condition: "project_type == 'web'"
+  - condition: project_type == 'web'
     next_stage: web-architecture
   - default: fullstack-architecture
 ```
@@ -3327,6 +2444,398 @@ These replace the standard elicitation options when working on market research d
 These replace the standard elicitation options when working on competitive analysis documents.]]
 ==================== END: templates#competitor-analysis-tmpl ====================
 
+==================== START: tasks#document-project ====================
+# Document an Existing Project
+
+## Purpose
+
+Generate comprehensive documentation for existing projects optimized for AI development agents. This task creates structured reference materials that enable AI agents to understand project context, conventions, and patterns for effective contribution to any codebase.
+
+## Task Instructions
+
+### 1. Initial Project Analysis
+
+[[LLM: Begin by conducting a comprehensive analysis of the existing project. Use available tools to:
+
+1. **Project Structure Discovery**: Examine the root directory structure, identify main folders, and understand the overall organization
+2. **Technology Stack Identification**: Look for package.json, requirements.txt, Cargo.toml, pom.xml, etc. to identify languages, frameworks, and dependencies
+3. **Build System Analysis**: Find build scripts, CI/CD configurations, and development commands
+4. **Existing Documentation Review**: Check for README files, docs folders, and any existing documentation
+5. **Code Pattern Analysis**: Sample key files to understand coding patterns, naming conventions, and architectural approaches
+
+Ask the user these elicitation questions to better understand their needs:
+
+- What is the primary purpose of this project?
+- Are there any specific areas of the codebase that are particularly complex or important for agents to understand?
+- What types of tasks do you expect AI agents to perform on this project? (e.g., bug fixes, feature additions, refactoring, testing)
+- Are there any existing documentation standards or formats you prefer?
+- What level of technical detail should the documentation target? (junior developers, senior developers, mixed team)
+  ]]
+
+### 2. Core Documentation Generation
+
+[[LLM: Based on your analysis, generate the following core documentation files. Adapt the content and structure to match the specific project type and context you discovered:
+
+**Core Documents (always generate):**
+
+1. **docs/index.md** - Master documentation index
+2. **docs/architecture/index.md** - Architecture documentation index
+3. **docs/architecture/coding-standards.md** - Coding conventions and style guidelines
+4. **docs/architecture/tech-stack.md** - Technology stack and version constraints
+5. **docs/architecture/unified-project-structure.md** - Project structure and organization
+6. **docs/architecture/testing-strategy.md** - Testing approaches and requirements
+
+**Backend Documents (generate for backend/full-stack projects):**
+
+7. **docs/architecture/backend-architecture.md** - Backend service patterns and structure
+8. **docs/architecture/rest-api-spec.md** - API endpoint specifications
+9. **docs/architecture/data-models.md** - Data structures and validation rules
+10. **docs/architecture/database-schema.md** - Database design and relationships
+11. **docs/architecture/external-apis.md** - Third-party integrations
+
+**Frontend Documents (generate for frontend/full-stack projects):**
+
+12. **docs/architecture/frontend-architecture.md** - Frontend patterns and structure
+13. **docs/architecture/components.md** - UI component specifications
+14. **docs/architecture/core-workflows.md** - User interaction flows
+15. **docs/architecture/ui-ux-spec.md** - UI/UX specifications and guidelines
+
+**Additional Documents (generate if applicable):**
+
+16. **docs/prd.md** - Product requirements document (if not exists)
+17. **docs/architecture/deployment-guide.md** - Deployment and operations info
+18. **docs/architecture/security-considerations.md** - Security patterns and requirements
+19. **docs/architecture/performance-guidelines.md** - Performance optimization patterns
+
+**Optional Enhancement Documents:**
+
+20. **docs/architecture/troubleshooting-guide.md** - Common issues and solutions
+21. **docs/architecture/changelog-conventions.md** - Change management practices
+22. **docs/architecture/code-review-checklist.md** - Review standards and practices
+
+Present each document section by section, using the advanced elicitation task after each major section.]]
+
+### 3. Document Structure Template
+
+[[LLM: Use this standardized structure for each documentation file, adapting content as needed:
+
+```markdown
+# {{Document Title}}
+
+## Overview
+
+{{Brief description of what this document covers and why it's important for AI agents}}
+
+## Quick Reference
+
+{{Key points, commands, or patterns that agents need most frequently}}
+
+## Detailed Information
+
+{{Comprehensive information organized into logical sections}}
+
+## Examples
+
+{{Concrete examples showing proper usage or implementation}}
+
+## Common Patterns
+
+{{Recurring patterns agents should recognize and follow}}
+
+## Things to Avoid
+
+{{Anti-patterns, deprecated approaches, or common mistakes}}
+
+## Related Resources
+
+{{Links to other relevant documentation or external resources}}
+```
+
+Each document should be:
+
+- **Concrete and actionable** - Focus on what agents need to do, not just concepts
+- **Pattern-focused** - Highlight recurring patterns agents can recognize and replicate
+- **Example-rich** - Include specific code examples and real file references
+- **Context-aware** - Reference actual project files, folders, and conventions
+- **Assumption-free** - Don't assume agents know project history or implicit knowledge
+  ]]
+
+### 4. Content Guidelines for Each Document Type
+
+#### Core Architecture Documents
+
+##### docs/architecture/index.md
+
+[[LLM: Create a comprehensive index of all architecture documentation:
+
+- List all architecture documents with brief descriptions
+- Group documents by category (backend, frontend, shared)
+- Include quick links to key sections
+- Provide reading order recommendations for different use cases]]
+
+##### docs/architecture/unified-project-structure.md
+
+[[LLM: Document the complete project structure:
+
+- Root-level directory structure with explanations
+- Where each type of code belongs (backend, frontend, tests, etc.)
+- File naming conventions and patterns
+- Module/package organization
+- Generated vs. source file locations
+- Build output locations]]
+
+##### docs/architecture/coding-standards.md
+
+[[LLM: Capture project-wide coding conventions:
+
+- Language-specific style guidelines
+- Naming conventions (variables, functions, classes, files)
+- Code organization within files
+- Import/export patterns
+- Comment and documentation standards
+- Linting and formatting tool configurations
+- Git commit message conventions]]
+
+##### docs/architecture/tech-stack.md
+
+[[LLM: Document all technologies and versions:
+
+- Primary languages and versions
+- Frameworks and major libraries with versions
+- Development tools and their versions
+- Database systems and versions
+- External services and APIs used
+- Browser/runtime requirements]]
+
+##### docs/architecture/testing-strategy.md
+
+[[LLM: Define testing approaches and requirements:
+
+- Test file locations and naming conventions
+- Unit testing patterns and frameworks
+- Integration testing approaches
+- E2E testing setup (if applicable)
+- Test coverage requirements
+- Mocking strategies
+- Test data management]]
+
+#### Backend Architecture Documents
+
+##### docs/architecture/backend-architecture.md
+
+[[LLM: Document backend service structure:
+
+- Service layer organization
+- Controller/route patterns
+- Middleware architecture
+- Authentication/authorization patterns
+- Request/response flow
+- Background job processing
+- Service communication patterns]]
+
+##### docs/architecture/rest-api-spec.md
+
+[[LLM: Specify all API endpoints:
+
+- Base URL and versioning strategy
+- Authentication methods
+- Common headers and parameters
+- Each endpoint with:
+  - HTTP method and path
+  - Request parameters/body
+  - Response format and status codes
+  - Error responses
+- Rate limiting and quotas]]
+
+##### docs/architecture/data-models.md
+
+[[LLM: Define data structures and validation:
+
+- Core business entities
+- Data validation rules
+- Relationships between entities
+- Computed fields and derivations
+- Data transformation patterns
+- Serialization formats]]
+
+##### docs/architecture/database-schema.md
+
+[[LLM: Document database design:
+
+- Database type and version
+- Table/collection structures
+- Indexes and constraints
+- Relationships and foreign keys
+- Migration patterns
+- Seed data requirements
+- Backup and recovery procedures]]
+
+##### docs/architecture/external-apis.md
+
+[[LLM: Document third-party integrations:
+
+- List of external services used
+- Authentication methods for each
+- API endpoints and usage patterns
+- Rate limits and quotas
+- Error handling strategies
+- Webhook configurations
+- Data synchronization patterns]]
+
+#### Frontend Architecture Documents
+
+##### docs/architecture/frontend-architecture.md
+
+[[LLM: Document frontend application structure:
+
+- Component hierarchy and organization
+- State management patterns
+- Routing architecture
+- Data fetching patterns
+- Authentication flow
+- Error boundary strategies
+- Performance optimization patterns]]
+
+##### docs/architecture/components.md
+
+[[LLM: Specify UI components:
+
+- Component library/design system used
+- Custom component specifications
+- Props and state for each component
+- Component composition patterns
+- Styling approaches
+- Accessibility requirements
+- Component testing patterns]]
+
+##### docs/architecture/core-workflows.md
+
+[[LLM: Document user interaction flows:
+
+- Major user journeys
+- Screen flow diagrams
+- Form handling patterns
+- Navigation patterns
+- Data flow through workflows
+- Error states and recovery
+- Loading and transition states]]
+
+##### docs/architecture/ui-ux-spec.md
+
+[[LLM: Define UI/UX guidelines:
+
+- Design system specifications
+- Color palette and typography
+- Spacing and layout grids
+- Responsive breakpoints
+- Animation and transition guidelines
+- Accessibility standards
+- Browser compatibility requirements]]
+
+### 5. Adaptive Content Strategy
+
+[[LLM: Adapt your documentation approach based on project characteristics:
+
+**For Web Applications:**
+
+- Focus on component patterns, routing, state management
+- Include build processes, asset handling, and deployment
+- Cover API integration patterns and data fetching
+
+**For Backend Services:**
+
+- Emphasize service architecture, data models, and API design
+- Include database interaction patterns and migration strategies
+- Cover authentication, authorization, and security patterns
+
+**For CLI Tools:**
+
+- Focus on command structure, argument parsing, and output formatting
+- Include plugin/extension patterns if applicable
+- Cover configuration file handling and user interaction patterns
+
+**For Libraries/Frameworks:**
+
+- Emphasize public API design and usage patterns
+- Include extension points and customization approaches
+- Cover versioning, compatibility, and migration strategies
+
+**For Mobile Applications:**
+
+- Focus on platform-specific patterns and navigation
+- Include state management and data persistence approaches
+- Cover platform integration and native feature usage
+
+**For Data Science/ML Projects:**
+
+- Emphasize data pipeline patterns and model organization
+- Include experiment tracking and reproducibility approaches
+- Cover data validation and model deployment patterns
+  ]]
+
+### 6. Quality Assurance
+
+[[LLM: Before completing each document:
+
+1. **Accuracy Check**: Verify all file paths, commands, and code examples work
+2. **Completeness Review**: Ensure the document covers the most important patterns an agent would encounter
+3. **Clarity Assessment**: Check that explanations are clear and actionable
+4. **Consistency Verification**: Ensure terminology and patterns align across all documents
+5. **Agent Perspective**: Review from the viewpoint of an AI agent that needs to contribute to this project
+
+Ask the user to review each completed document and use the advanced elicitation task to refine based on their feedback.]]
+
+### 7. Final Integration
+
+[[LLM: After all documents are completed:
+
+1. Ensure all documents are created in the proper BMAD-expected locations:
+
+   - Core docs in `docs/` (index.md, prd.md)
+   - Architecture shards in `docs/architecture/` subdirectory
+   - Create the `docs/architecture/` directory if it doesn't exist
+
+2. Create/update the master index documents:
+
+   - Update `docs/index.md` to reference all documentation
+   - Create `docs/architecture/index.md` listing all architecture shards
+
+3. Verify document cross-references:
+
+   - Ensure all documents link to related documentation
+   - Check that file paths match the actual project structure
+   - Validate that examples reference real files in the project
+
+4. Provide maintenance guidance:
+
+   - Document update triggers (when to update each doc)
+   - Create a simple checklist for keeping docs current
+   - Suggest automated validation approaches
+
+5. Summary report including:
+   - List of all documents created with their paths
+   - Any gaps or areas needing human review
+   - Recommendations for project-specific additions
+   - Next steps for maintaining documentation accuracy
+
+Present a summary of what was created and ask if any additional documentation would be helpful for AI agents working on this specific project.]]
+
+## Success Criteria
+
+- Documentation enables AI agents to understand project context without additional explanation
+- All major architectural patterns and coding conventions are captured
+- Examples reference actual project files and demonstrate real usage
+- Documentation is structured consistently and easy to navigate
+- Content is actionable and focuses on what agents need to do, not just understand
+
+## Notes
+
+- This task is designed to work with any project type, language, or framework
+- The documentation should reflect the project as it actually is, not as it should be
+- Focus on patterns that agents can recognize and replicate consistently
+- Include both positive examples (what to do) and negative examples (what to avoid)
+==================== END: tasks#document-project ====================
+
 ==================== START: tasks#execute-checklist ====================
 # Checklist Validation Task
 
@@ -3566,7 +3075,7 @@ Common patterns to consider:
 
 [[LLM: This is the DEFINITIVE technology selection section. Work with the user to make specific choices:
 
-1. Review PRD technical assumptions and any preferences from `data#technical-preferences`
+1. Review PRD technical assumptions and any preferences from `data#technical-preferences` or an attached `technical-preferences`
 2. For each category, present 2-3 viable options with pros/cons
 3. Make a clear recommendation based on project needs
 4. Get explicit user approval for each selection
@@ -3774,15 +3283,18 @@ Use YAML format for better readability. If no REST API, skip this section.]]
 ```yaml
 openapi: 3.0.0
 info:
-  title: { { api_title } }
-  version: { { api_version } }
-  description: { { api_description } }
-
+  title:
+    '[object Object]': null
+  version:
+    '[object Object]': null
+  description:
+    '[object Object]': null
 servers:
-  - url: { { api_base_url } }
-    description: { { environment } }
-# ... OpenAPI specification continues
-```
+  - url:
+      '[object Object]': null
+    description:
+      '[object Object]': null
+```text
 
 ^^/CONDITION: has_rest_api^^
 
@@ -3893,7 +3405,7 @@ Get user input on deployment preferences and CI/CD tool choices.]]
 
 ### Environment Promotion Flow
 
-```
+```text
 {{promotion_flow_diagram}}
 ```
 
@@ -7153,7 +6665,7 @@ Document sharded successfully:
 
 [[LLM: Gather technical decisions that will guide the Architect. Steps:
 
-1. Check if `data#technical-preferences` file exists - use it to pre-populate choices
+1. Check if `data#technical-preferences` or an attached `technical-preferences` file exists - use it to pre-populate choices
 2. Ask user about: languages, frameworks, starter templates, libraries, APIs, deployment targets
 3. For unknowns, offer guidance based on project goals and MVP scope
 4. Document ALL technical choices with rationale (why this choice fits the project)
@@ -7599,7 +7111,7 @@ so that {{benefit}}.
 
 [[LLM: Gather technical decisions that will be used for this simple technical PRD that includes architecture decisions. Steps:
 
-1. Check if `data#technical-preferences` file exists - use it to pre-populate choices
+1. Check if `data#technical-preferences` or an attached `technical-preferences` file exists - use it to pre-populate choices
 2. Ask user about: languages, frameworks, starter templates, libraries, APIs, deployment targets
 3. For unknowns, offer guidance based on project goals and MVP scope
 4. Document ALL technical choices with rationale (why this choice fits the project)
@@ -9416,60 +8928,53 @@ Be pragmatic - perfect documentation doesn't exist. Focus on whether a competent
 
 ## Purpose
 
-To generate a masterful, comprehensive, and optimized prompt that can be used with AI-driven frontend development tools (e.g., Lovable, Vercel v0, or similar) to scaffold or generate significant portions of the frontend application.
+To generate a masterful, comprehensive, and optimized prompt that can be used with any AI-driven frontend development tool (e.g., Vercel v0, Lovable.ai, or similar) to scaffold or generate significant portions of a frontend application.
 
 ## Inputs
 
-- Completed UI/UX Specification (`front-end-spec-tmpl`)
-- Completed Frontend Architecture Document (`front-end-architecture`)
-- Main System Architecture Document (`architecture` - for API contracts and tech stack)
-- Primary Design Files (Figma, Sketch, etc. - for visual context if the tool can accept it or if descriptions are needed)
+- Completed UI/UX Specification (`front-end-spec`)
+- Completed Frontend Architecture Document (`front-end-architecture`) or a full stack combined architecture such as `architecture.md`
+- Main System Architecture Document (`architecture` - for API contracts and tech stack to give further context)
 
 ## Key Activities & Instructions
 
-1. **Confirm Target AI Generation Platform:**
+### 1. Core Prompting Principles
 
-   - Ask the user to specify which AI frontend generation tool/platform they intend to use (e.g., "Lovable.ai", "Vercel v0", "GPT-4 with direct code generation instructions", etc.).
-   - Explain that prompt optimization might differ slightly based on the platform's capabilities and preferred input format.
+Before generating the prompt, you must understand these core principles for interacting with a generative AI for code.
 
-2. **Synthesize Inputs into a Structured Prompt:**
+- **Be Explicit and Detailed**: The AI cannot read your mind. Provide as much detail and context as possible. Vague requests lead to generic or incorrect outputs.
+- **Iterate, Don't Expect Perfection**: Generating an entire complex application in one go is rare. The most effective method is to prompt for one component or one section at a time, then build upon the results.
+- **Provide Context First**: Always start by providing the AI with the necessary context, such as the tech stack, existing code snippets, and overall project goals.
+- **Mobile-First Approach**: Frame all UI generation requests with a mobile-first design mindset. Describe the mobile layout first, then provide separate instructions for how it should adapt for tablet and desktop.
 
-   - **Overall Project Context:**
-     - Briefly state the project's purpose (from brief/PRD).
-     - Specify the chosen frontend framework, core libraries, and UI component library (from `front-end-architecture` and main `architecture`).
-     - Mention the styling approach (e.g., Tailwind CSS, CSS Modules).
-   - **Design System & Visuals:**
-     - Reference the primary design files (e.g., Figma link).
-     - If the tool doesn't directly ingest design files, describe the overall visual style, color palette, typography, and key branding elements (from `front-end-spec-tmpl`).
-     - List any global UI components or design tokens that should be defined or adhered to.
-   - **Application Structure & Routing:**
-     - Describe the main pages/views and their routes (from `front-end-architecture` - Routing Strategy).
-     - Outline the navigation structure (from `front-end-spec-tmpl`).
-   - **Key User Flows & Page-Level Interactions:**
-     - For a few critical user flows (from `front-end-spec-tmpl`):
-       - Describe the sequence of user actions and expected UI changes on each relevant page.
-       - Specify API calls to be made (referencing API endpoints from the main `architecture`) and how data should be displayed or used.
-   - **Component Generation Instructions (Iterative or Key Components):**
-     - Based on the chosen AI tool's capabilities, decide on a strategy:
-       - **Option 1 (Scaffolding):** Prompt for the generation of main page structures, layouts, and placeholders for components.
-       - **Option 2 (Key Component Generation):** Select a few critical or complex components from the `front-end-architecture` (Component Breakdown) and provide detailed specifications for them (props, state, basic behavior, key UI elements).
-       - **Option 3 (Holistic, if tool supports):** Attempt to describe the entire application structure and key components more broadly.
-     - <important_note>Advise the user that generating an entire complex application perfectly in one go is rare. Iterative prompting or focusing on sections/key components is often more effective.</important_note>
-   - **State Management (High-Level Pointers):**
-     - Mention the chosen state management solution (e.g., "Use Redux Toolkit").
-     - For key pieces of data, indicate if they should be managed in global state.
-   - **API Integration Points:**
-     - For pages/components that fetch or submit data, clearly state the relevant API endpoints (from `architecture`) and the expected data shapes (can reference schemas in `data-models` or `api-reference` sections of the architecture doc).
-   - **Critical "Don'ts" or Constraints:**
-     - e.g., "Do not use deprecated libraries." "Ensure all forms have basic client-side validation."
-   - **Platform-Specific Optimizations:**
-     - If the chosen AI tool has known best practices for prompting (e.g., specific keywords, structure, level of detail), incorporate them. (This might require the agent to have some general knowledge or to ask the user if they know any such specific prompt modifiers for their chosen tool).
+### 2. The Structured Prompting Framework
 
-3. **Present and Refine the Master Prompt:**
-   - Output the generated prompt in a clear, copy-pasteable format (e.g., a large code block).
-   - Explain the structure of the prompt and why certain information was included.
-   - Work with the user to refine the prompt based on their knowledge of the target AI tool and any specific nuances they want to emphasize.
-   - <important_note>Remind the user that the generated code from the AI tool will likely require review, testing, and further refinement by developers.</important_note>
+To ensure the highest quality output, you MUST structure every prompt using the following four-part framework.
+
+1. **High-Level Goal**: Start with a clear, concise summary of the overall objective. This orients the AI on the primary task.
+   - _Example: "Create a responsive user registration form with client-side validation and API integration."_
+2. **Detailed, Step-by-Step Instructions**: Provide a granular, numbered list of actions the AI should take. Break down complex tasks into smaller, sequential steps. This is the most critical part of the prompt.
+   - _Example: "1. Create a new file named `RegistrationForm.js`. 2. Use React hooks for state management. 3. Add styled input fields for 'Name', 'Email', and 'Password'. 4. For the email field, ensure it is a valid email format. 5. On submission, call the API endpoint defined below."_
+3. **Code Examples, Data Structures & Constraints**: Include any relevant snippets of existing code, data structures, or API contracts. This gives the AI concrete examples to work with. Crucially, you must also state what _not_ to do.
+   - _Example: "Use this API endpoint: `POST /api/register`. The expected JSON payload is `{ "name": "string", "email": "string", "password": "string" }`. Do NOT include a 'confirm password' field. Use Tailwind CSS for all styling."_
+4. **Define a Strict Scope**: Explicitly define the boundaries of the task. Tell the AI which files it can modify and, more importantly, which files to leave untouched to prevent unintended changes across the codebase.
+   - _Example: "You should only create the `RegistrationForm.js` component and add it to the `pages/register.js` file. Do NOT alter the `Navbar.js` component or any other existing page or component."_
+
+### 3. Assembling the Master Prompt
+
+You will now synthesize the inputs and the above principles into a final, comprehensive prompt.
+
+1. **Gather Foundational Context**:
+   - Start the prompt with a preamble describing the overall project purpose, the full tech stack (e.g., Next.js, TypeScript, Tailwind CSS), and the primary UI component library being used.
+2. **Describe the Visuals**:
+   - If the user has design files (Figma, etc.), instruct them to provide links or screenshots.
+   - If not, describe the visual style: color palette, typography, spacing, and overall aesthetic (e.g., "minimalist", "corporate", "playful").
+3. **Build the Prompt using the Structured Framework**:
+   - Follow the four-part framework from Section 2 to build out the core request, whether it's for a single component or a full page.
+4. **Present and Refine**:
+   - Output the complete, generated prompt in a clear, copy-pasteable format (e.g., a large code block).
+   - Explain the structure of the prompt and why certain information was included, referencing the principles above.
+   - <important_note>Conclude by reminding the user that all AI-generated code will require careful human review, testing, and refinement to be considered production-ready.</important_note>
 ==================== END: tasks#generate-ai-frontend-prompt ====================
 
 ==================== START: templates#front-end-spec-tmpl ====================
