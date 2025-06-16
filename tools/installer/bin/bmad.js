@@ -47,7 +47,8 @@ program
   .option('-f, --full', 'Install complete .bmad-core folder')
   .option('-a, --agent <agent>', 'Install specific agent with dependencies')
   .option('-d, --directory <path>', 'Installation directory (default: .bmad-core)')
-  .option('-i, --ide <ide...>', 'Configure for specific IDE(s) - can specify multiple (cursor, claude-code, windsurf, roo)')
+  .option('-i, --ide <ide...>', 'Configure for specific IDE(s) - can specify multiple (cursor, claude-code, windsurf, roo, other)')
+  .option('-e, --expansion-packs <packs...>', 'Install specific expansion packs (can specify multiple)')
   .action(async (options) => {
     try {
       await initializeModules();
@@ -61,7 +62,8 @@ program
           installType: options.full ? 'full' : 'single-agent',
           agent: options.agent,
           directory: options.directory || '.bmad-core',
-          ides: options.ide || []
+          ides: (options.ide || []).filter(ide => ide !== 'other'),
+          expansionPacks: options.expansionPacks || []
         };
         await installer.install(config);
       }
@@ -93,6 +95,19 @@ program
   .action(async () => {
     try {
       await installer.listAgents();
+    } catch (error) {
+      if (!chalk) await initializeModules();
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('list:expansions')
+  .description('List available expansion packs')
+  .action(async () => {
+    try {
+      await installer.listExpansionPacks();
     } catch (error) {
       if (!chalk) await initializeModules();
       console.error(chalk.red('Error:'), error.message);
@@ -167,6 +182,41 @@ async function promptInstallation() {
     answers.agent = agent;
   }
 
+  // Ask for expansion pack selection (only for full installation)
+  if (installType === 'full') {
+    try {
+      const availableExpansionPacks = await installer.getAvailableExpansionPacks();
+      
+      if (availableExpansionPacks.length > 0) {
+        const { expansionPacks } = await inquirer.prompt([
+          {
+            type: 'checkbox',
+            name: 'expansionPacks',
+            message: 'Select expansion packs to install (optional):',
+            choices: [
+              { name: 'BMAD Core only (no expansion packs)', value: 'none', checked: true },
+              new inquirer.Separator(' --- Expansion Packs ---'),
+              ...availableExpansionPacks.map(pack => ({
+                name: `${pack.name} - ${pack.description}`,
+                value: pack.id
+              }))
+            ]
+          }
+        ]);
+        
+        // Filter out 'none' selection and only include actual expansion packs
+        answers.expansionPacks = expansionPacks.filter(pack => pack !== 'none');
+      } else {
+        answers.expansionPacks = [];
+      }
+    } catch (error) {
+      console.warn(chalk.yellow('Warning: Could not load expansion packs. Continuing without them.'));
+      answers.expansionPacks = [];
+    }
+  } else {
+    answers.expansionPacks = [];
+  }
+
   // Ask for IDE configuration
   const { ides } = await inquirer.prompt([
     {
@@ -177,17 +227,20 @@ async function promptInstallation() {
         { name: 'Cursor', value: 'cursor' },
         { name: 'Claude Code', value: 'claude-code' },
         { name: 'Windsurf', value: 'windsurf' },
-        { name: 'Roo Code', value: 'roo' }
+        { name: 'Roo Code', value: 'roo' },
+        { name: 'Other (skip IDE setup)', value: 'other' }
       ],
       validate: (answer) => {
         if (answer.length < 1) {
-          return 'You must choose at least one IDE, or press Ctrl+C to skip IDE setup.';
+          return 'You must choose at least one IDE option.';
         }
         return true;
       }
     }
   ]);
-  answers.ides = ides;
+  
+  // Filter out 'other' from the list and only include actual IDEs
+  answers.ides = ides.filter(ide => ide !== 'other');
 
   return answers;
 }

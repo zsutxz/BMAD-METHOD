@@ -30,6 +30,43 @@ class ConfigLoader {
     return config['available-agents'] || [];
   }
 
+  async getAvailableExpansionPacks() {
+    const expansionPacksDir = path.join(this.getBmadCorePath(), '..', 'expansion-packs');
+    
+    try {
+      const entries = await fs.readdir(expansionPacksDir, { withFileTypes: true });
+      const expansionPacks = [];
+      
+      for (const entry of entries) {
+        if (entry.isDirectory()) {
+          const manifestPath = path.join(expansionPacksDir, entry.name, 'manifest.yml');
+          
+          try {
+            const manifestContent = await fs.readFile(manifestPath, 'utf8');
+            const manifest = yaml.load(manifestContent);
+            
+            expansionPacks.push({
+              id: entry.name,
+              name: manifest.name || entry.name,
+              description: manifest.description || 'No description available',
+              version: manifest.version || '1.0.0',
+              author: manifest.author || 'Unknown',
+              manifestPath: manifestPath,
+              dependencies: manifest.dependencies || []
+            });
+          } catch (error) {
+            console.warn(`Failed to read manifest for expansion pack ${entry.name}: ${error.message}`);
+          }
+        }
+      }
+      
+      return expansionPacks;
+    } catch (error) {
+      console.warn(`Failed to read expansion packs directory: ${error.message}`);
+      return [];
+    }
+  }
+
   async getAgentDependencies(agentId) {
     // Use DependencyResolver to dynamically parse agent dependencies
     const DependencyResolver = require('../../lib/dependency-resolver');
@@ -77,8 +114,8 @@ class ConfigLoader {
   }
 
   getBmadCorePath() {
-    // Get the path to .bmad-core relative to the installer (now under tools)
-    return path.join(__dirname, '..', '..', '..', '.bmad-core');
+    // Get the path to bmad-core relative to the installer (now under tools)
+    return path.join(__dirname, '..', '..', '..', 'bmad-core');
   }
 
   getAgentPath(agentId) {

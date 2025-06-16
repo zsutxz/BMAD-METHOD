@@ -261,6 +261,10 @@ class Installer {
       }
     }
 
+    // Install expansion packs if requested
+    const expansionFiles = await this.installExpansionPacks(installDir, config.expansionPacks, spinner);
+    files.push(...expansionFiles);
+
     // Set up IDE integration if requested
     const ides = config.ides || (config.ide ? [config.ide] : []);
     if (ides.length > 0) {
@@ -505,6 +509,11 @@ class Installer {
     console.log(chalk.bold("\n🎯 Installation Summary:"));
     console.log(chalk.green("✓ .bmad-core framework installed with all agents and workflows"));
     
+    if (config.expansionPacks && config.expansionPacks.length > 0) {
+      const packNames = config.expansionPacks.join(", ");
+      console.log(chalk.green(`✓ Expansion packs installed: ${packNames}`));
+    }
+    
     if (ides.length > 0) {
       const ideNames = ides.map(ide => {
         const ideConfig = configLoader.getIdeConfiguration(ide);
@@ -569,6 +578,33 @@ class Installer {
     );
   }
 
+  async listExpansionPacks() {
+    // Initialize ES modules
+    await initializeModules();
+    const expansionPacks = await this.getAvailableExpansionPacks();
+
+    console.log(chalk.bold("\nAvailable BMAD Expansion Packs:\n"));
+
+    if (expansionPacks.length === 0) {
+      console.log(chalk.yellow("No expansion packs found."));
+      return;
+    }
+
+    for (const pack of expansionPacks) {
+      console.log(chalk.cyan(`  ${pack.id.padEnd(20)}`), 
+                  `${pack.name} v${pack.version}`);
+      console.log(chalk.dim(`  ${' '.repeat(22)}${pack.description}`));
+      if (pack.author && pack.author !== 'Unknown') {
+        console.log(chalk.dim(`  ${' '.repeat(22)}by ${pack.author}`));
+      }
+      console.log();
+    }
+
+    console.log(
+      chalk.dim("Install with: npx bmad-method install --full --expansion-packs <id>\n")
+    );
+  }
+
   async showStatus() {
     // Initialize ES modules
     await initializeModules();
@@ -622,6 +658,96 @@ class Installer {
 
   async getAvailableAgents() {
     return configLoader.getAvailableAgents();
+  }
+
+  async getAvailableExpansionPacks() {
+    return configLoader.getAvailableExpansionPacks();
+  }
+
+  async installExpansionPacks(installDir, selectedPacks, spinner) {
+    if (!selectedPacks || selectedPacks.length === 0) {
+      return [];
+    }
+
+    const installedFiles = [];
+    const glob = require('glob');
+
+    for (const packId of selectedPacks) {
+      spinner.text = `Installing expansion pack: ${packId}...`;
+      
+      try {
+        const expansionPacks = await this.getAvailableExpansionPacks();
+        const pack = expansionPacks.find(p => p.id === packId);
+        
+        if (!pack) {
+          console.warn(`Expansion pack ${packId} not found, skipping...`);
+          continue;
+        }
+
+        const expansionPackDir = path.dirname(pack.manifestPath);
+        
+        // Define the folders to copy from expansion packs to .bmad-core
+        const foldersToSync = [
+          'agents',
+          'agent-teams',
+          'templates',
+          'tasks',
+          'checklists',
+          'workflows',
+          'data',
+          'utils',
+          'schemas'
+        ];
+
+        // Copy each folder if it exists
+        for (const folder of foldersToSync) {
+          const sourceFolder = path.join(expansionPackDir, folder);
+          
+          // Check if folder exists in expansion pack
+          if (await fileManager.pathExists(sourceFolder)) {
+            // Get all files in this folder
+            const files = glob.sync('**/*', {
+              cwd: sourceFolder,
+              nodir: true
+            });
+
+            // Copy each file to the destination
+            for (const file of files) {
+              const sourcePath = path.join(sourceFolder, file);
+              const destPath = path.join(installDir, '.bmad-core', folder, file);
+              
+              if (await fileManager.copyFile(sourcePath, destPath)) {
+                installedFiles.push(path.join('.bmad-core', folder, file));
+              }
+            }
+          }
+        }
+
+        // Also copy web-bundles if they exist (to a different location)
+        const webBundlesSource = path.join(expansionPackDir, 'web-bundles');
+        if (await fileManager.pathExists(webBundlesSource)) {
+          const files = glob.sync('**/*', {
+            cwd: webBundlesSource,
+            nodir: true
+          });
+
+          for (const file of files) {
+            const sourcePath = path.join(webBundlesSource, file);
+            const destPath = path.join(installDir, '.bmad-core', 'web-bundles', 'expansion-packs', packId, file);
+            
+            if (await fileManager.copyFile(sourcePath, destPath)) {
+              installedFiles.push(path.join('.bmad-core', 'web-bundles', 'expansion-packs', packId, file));
+            }
+          }
+        }
+
+        console.log(chalk.green(`✓ Installed expansion pack: ${pack.name}`));
+      } catch (error) {
+        console.error(chalk.red(`Failed to install expansion pack ${packId}: ${error.message}`));
+      }
+    }
+
+    return installedFiles;
   }
 
   async findInstallation() {

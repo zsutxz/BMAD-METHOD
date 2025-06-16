@@ -8,16 +8,7 @@ The `.roomodes` file defines all BMAD agents as custom modes using the proper `c
 
 ## Available Modes
 
-- **bmad-analyst** - Business Analyst
-- **bmad-architect** - Solution Architect
-- **bmad-bmad-master** - BMAD Master
-- **bmad-bmad-orchestrator** - BMAD Orchestrator
-- **bmad-dev** - Developer
-- **bmad-pm** - Product Manager
-- **bmad-po** - Product Owner
-- **bmad-qa** - QA Specialist
-- **bmad-sm** - Scrum Master
-- **bmad-ux-expert** - UX Expert
+
 
 ## Usage
 
