@@ -324,6 +324,12 @@ class Installer {
     const expansionFiles = await this.installExpansionPacks(installDir, config.expansionPacks, spinner);
     files.push(...expansionFiles);
 
+    // Install web bundles if requested
+    if (config.includeWebBundles && config.webBundlesDirectory) {
+      spinner.text = "Installing web bundles...";
+      await this.installWebBundles(config.webBundlesDirectory, spinner);
+    }
+
     // Set up IDE integration if requested
     const ides = config.ides || (config.ide ? [config.ide] : []);
     if (ides.length > 0) {
@@ -573,6 +579,10 @@ class Installer {
       console.log(chalk.green(`✓ Expansion packs installed: ${packNames}`));
     }
     
+    if (config.includeWebBundles && config.webBundlesDirectory) {
+      console.log(chalk.green(`✓ Web bundles installed to: ${config.webBundlesDirectory}`));
+    }
+    
     if (ides.length > 0) {
       const ideNames = ides.map(ide => {
         const ideConfig = configLoader.getIdeConfiguration(ide);
@@ -582,11 +592,13 @@ class Installer {
     }
 
     // Information about web bundles
-    console.log(chalk.bold("\n📦 Web Bundles Available:"));
-    console.log("Pre-built web bundles are available in the project distribution:");
-    console.log(chalk.cyan(`  ${path.join(path.dirname(installDir), 'dist')}/`));
-    console.log("These bundles work independently and can be shared, moved, or used");
-    console.log("in other projects as standalone files.");
+    if (!config.includeWebBundles) {
+      console.log(chalk.bold("\n📦 Web Bundles Available:"));
+      console.log("Pre-built web bundles are available and can be added later:");
+      console.log(chalk.cyan("  Run the installer again to add them to your project"));
+      console.log("These bundles work independently and can be shared, moved, or used");
+      console.log("in other projects as standalone files.");
+    }
 
     if (config.installType === "single-agent") {
       console.log(
@@ -795,6 +807,31 @@ class Installer {
     }
 
     return installedFiles;
+  }
+
+  async installWebBundles(webBundlesDirectory, spinner) {
+    // Ensure modules are initialized
+    await initializeModules();
+    
+    try {
+      // Find the dist directory in the BMAD installation
+      const distDir = configLoader.getDistPath();
+      
+      if (!(await fileManager.pathExists(distDir))) {
+        console.warn(chalk.yellow('Web bundles not found. Run "npm run build" to generate them.'));
+        return;
+      }
+
+      // Ensure web bundles directory exists
+      await fileManager.ensureDirectory(webBundlesDirectory);
+      
+      // Copy the entire dist directory structure to web bundles directory
+      await fileManager.copyDirectory(distDir, webBundlesDirectory);
+      
+      console.log(chalk.green(`✓ Installed web bundles to: ${webBundlesDirectory}`));
+    } catch (error) {
+      console.error(chalk.red(`Failed to install web bundles: ${error.message}`));
+    }
   }
 
   async findInstallation() {

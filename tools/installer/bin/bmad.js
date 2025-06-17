@@ -289,6 +289,36 @@ async function promptInstallation() {
   // Use selected IDEs directly
   answers.ides = ides;
 
+  // Ask for web bundles installation
+  const { includeWebBundles } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'includeWebBundles',
+      message: 'Would you like to include pre-built web bundles? (standalone agent/team files)',
+      default: true
+    }
+  ]);
+
+  if (includeWebBundles) {
+    const { webBundlesDirectory } = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'webBundlesDirectory',
+        message: 'Enter directory for web bundles:',
+        default: `${directory}/web-bundles`,
+        validate: (input) => {
+          if (!input.trim()) {
+            return 'Please enter a valid directory path';
+          }
+          return true;
+        }
+      }
+    ]);
+    answers.webBundlesDirectory = webBundlesDirectory;
+  }
+
+  answers.includeWebBundles = includeWebBundles;
+
   return answers;
 }
 
