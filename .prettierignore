@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+web-bundles/
+
+# Generated files
+*.log
+*.lock
+
+# BMAD core files (have their own formatting)
+bmad-core/**/*.md
+
+# Specific files that need custom formatting
+.roomodes
+CHANGELOG.md
+
+# IDE files
+.vscode/
+.idea/

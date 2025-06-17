@@ -108,7 +108,7 @@ The BMad Method works with any IDE, but has built-in integration for:
 
 After installation with `--ide` flag:
 
-````bash
+```bash
 # In Cursor
 @pm Create a PRD for a task management app
 
@@ -117,7 +117,7 @@ After installation with `--ide` flag:
 
 # In Windsurf
 @dev Implement story 1.3
-```text
+```
 
 ### With Web UI (ChatGPT/Claude/Gemini)
 
@@ -134,16 +134,16 @@ npx bmad-method install
 
 # Check installation status
 npx bmad-method status
-````
+```
 
 ### Upgrading from V3 to V4
 
 If you have an existing BMAD-METHOD V3 project, simply run the installer in your project directory:
 
-````bash
+```bash
 npx bmad-method install
 # The installer will automatically detect your V3 installation and offer to upgrade
-```text
+```
 
 The upgrade process will:
 
@@ -204,19 +204,21 @@ dist/                # 📦 PRE-BUILT BUNDLES (Ready to use!)
 ├── agents/          # Individual agent bundles (.txt files)
 ├── teams/           # Team bundles (.txt files)
 └── expansion-packs/ # Expansion pack bundles
-```text
+```
 
 ### 📦 Pre-Built Bundles (dist/ folder)
 
 **All ready-to-use bundles are in the `dist/` directory!**
 
 - **Teams**: `dist/teams/` - Complete team configurations
+
   - `team-fullstack.txt` - Full-stack development team
   - `team-ide-minimal.txt` - Minimal IDE workflow team
   - `team-no-ui.txt` - Backend-only team
   - `team-all.txt` - All agents included
 
 - **Individual Agents**: `dist/agents/` - Single agent files
+
   - One `.txt` file per agent (analyst, architect, dev, etc.)
 
 - **Expansion Packs**: `dist/expansion-packs/` - Specialized domains
@@ -257,7 +259,7 @@ We welcome contributions!
 git clone https://github.com/bmadcode/bmad-method.git
 cd bmad-method
 npm install
-````
+```
 
 ## Documentation & Guides
 
