@@ -210,7 +210,7 @@ async function promptInstallation() {
       {
         type: 'list',
         name: 'team',
-        message: 'Select a team to install:',
+        message: 'Select a team to install in your IDE project folder:',
         choices: teams.map(t => ({
           name: `${t.icon || '📋'} ${t.name}: ${t.description}`,
           value: t.id
@@ -294,12 +294,80 @@ async function promptInstallation() {
     {
       type: 'confirm',
       name: 'includeWebBundles',
-      message: 'Would you like to include pre-built web bundles? (standalone agent/team files)',
+      message: 'Would you like to include pre-built web bundles? (standalone files for ChatGPT, Claude, Gemini)',
       default: true
     }
   ]);
 
   if (includeWebBundles) {
+    console.log(chalk.cyan('\n📦 Web bundles are standalone files perfect for web AI platforms.'));
+    console.log(chalk.dim('   You can choose different teams/agents than your IDE installation.\n'));
+
+    const { webBundleType } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'webBundleType',
+        message: 'What web bundles would you like to include?',
+        choices: [
+          {
+            name: 'All available bundles (agents, teams, expansion packs)',
+            value: 'all'
+          },
+          {
+            name: 'Specific teams only',
+            value: 'teams'
+          },
+          {
+            name: 'Individual agents only',
+            value: 'agents'
+          },
+          {
+            name: 'Custom selection',
+            value: 'custom'
+          }
+        ]
+      }
+    ]);
+
+    answers.webBundleType = webBundleType;
+
+    // If specific teams, let them choose which teams
+    if (webBundleType === 'teams' || webBundleType === 'custom') {
+      const teams = await installer.getAvailableTeams();
+      const { selectedTeams } = await inquirer.prompt([
+        {
+          type: 'checkbox',
+          name: 'selectedTeams',
+          message: 'Select team bundles to include:',
+          choices: teams.map(t => ({
+            name: `${t.icon || '📋'} ${t.name}: ${t.description}`,
+            value: t.id,
+            checked: webBundleType === 'teams' // Check all if teams-only mode
+          })),
+          validate: (answer) => {
+            if (answer.length < 1) {
+              return 'You must select at least one team.';
+            }
+            return true;
+          }
+        }
+      ]);
+      answers.selectedWebBundleTeams = selectedTeams;
+    }
+
+    // If custom selection, also ask about individual agents
+    if (webBundleType === 'custom') {
+      const { includeIndividualAgents } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'includeIndividualAgents',
+          message: 'Also include individual agent bundles?',
+          default: true
+        }
+      ]);
+      answers.includeIndividualAgents = includeIndividualAgents;
+    }
+
     const { webBundlesDirectory } = await inquirer.prompt([
       {
         type: 'input',
