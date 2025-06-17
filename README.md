@@ -15,22 +15,16 @@
 
 ### Fastest Start: Web UI (2 minutes) 🏃‍♂️
 
-1. Copy `.bmad-core/web-bundles/teams/team-fullstack.txt`
+1. Copy `bmad-core/web-bundles/teams/team-fullstack.txt`
 2. Create a new Gemini Gem or CustomGPT
 3. Upload the file and set instructions: "Your critical operating instructions are attached, do not break character as directed"
 4. Start chatting! Type `/help` to see available commands
 
 ### IDE Quick Start (5 minutes) 💻
 
-**Prerequisites**: Install [Node.js](https://nodejs.org) (v14 or higher)
+**Prerequisites**: Install [Node.js](https://nodejs.org) (v20 or higher)
 
-````bash
-npx bmad-method install
-# The installer will automatically detect your project state and guide you through:
-# - Fresh installation or upgrade from v3
-# - Full installation or single agent
-# - Destination folder and IDE configuration
-```text
+Run `npx bmad-method install`
 
 This installs all agents and configures them for your IDE. If you have an existing v3 installation, it will offer to upgrade it automatically.
 
@@ -70,23 +64,9 @@ For ChatGPT, Claude, or Gemini web interfaces:
 
 ### Method 2: CLI Installer (For IDEs) 🎯
 
-**Prerequisites**: Install [Node.js](https://nodejs.org) v14+ first
+**Prerequisites**: Install [Node.js](https://nodejs.org) v20+ first
 
-Install directly into your project:
-
-```bash
-# Interactive installation (recommended)
-npx bmad-method install
-# The installer automatically detects your project state and guides you through:
-# - Fresh installation or upgrade from v3
-# - Installation type (full/single agent)
-# - Destination directory
-# - IDE configuration
-
-# Or use command line options for fresh installations
-npx bmad-method install --full --directory ./my-project --ide cursor
-npx bmad-method install --agent pm --directory ./my-project --ide claude-code
-````
+Install directly into your project: `npx bmad-method install`
 
 **Supported IDEs:**
 
@@ -96,7 +76,7 @@ The BMad Method works with any IDE, but has built-in integration for:
 - `claude-code` - Claude Code with /agent commands
 - `windsurf` - Windsurf with @agent commands
 - `roo` - Roo Code with custom modes (see `.roomodes`)
-- More coming soon - BUT ITS easy to use with ANY IDE!
+- More coming soon - BUT ITS easy to use with ANY IDE - just copy the bmad-code folder to your project, and rename it .bmad-code.
 
 ## Available Agents
 
