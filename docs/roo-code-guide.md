@@ -13,7 +13,7 @@ This guide walks you through the complete BMAD workflow using Roo Code as your A
    - **Installation Type**: Choose "Complete installation (recommended)"
    - **IDE**: Select "Roo Code"
 
-This creates a `.bmad-core` folder with all agents and a `.roo/.roomodes` file with custom modes.
+This creates a `.bmad-core` folder with all agents and a `.roomodes` file (in the project root) with custom modes.
 
 ## Step 2: Set Up Team Fullstack in Gemini
 
@@ -103,7 +103,7 @@ All BMAD agents are available as custom modes:
 
 ## Roo Code-Specific Features
 
-- **Custom modes are stored in**: `.roo/.roomodes` file
+- **Custom modes are stored in**: `.roomodes` file (in the project root)
 - **Mode switching**: Use the mode selector in Roo Code's interface
 - **File permissions**: Each agent has specific file access permissions
   - **Documentation agents** (SM, PM, PO, Analyst): Limited to `.md` and `.txt` files

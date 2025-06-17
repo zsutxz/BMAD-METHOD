@@ -241,8 +241,8 @@ class IdeSetup {
     const rooDir = path.join(installDir, ".roo");
     await fileManager.ensureDirectory(rooDir);
 
-    // Check for existing .roomodes file inside .roo directory
-    const roomodesPath = path.join(rooDir, ".roomodes");
+    // Check for existing .roomodes file in project root
+    const roomodesPath = path.join(installDir, ".roomodes");
     let existingModes = [];
     let existingContent = "";
 
@@ -349,7 +349,7 @@ class IdeSetup {
           newModesContent += `   customInstructions: CRITICAL Read the full YML from .bmad-core/agents/${agentId}.md start activation to alter your state of being follow startup section instructions stay in this being until told to exit this mode\n`;
           newModesContent += `   groups:\n`;
           newModesContent += `    - read\n`;
-          
+
           // Add permissions based on agent type
           const permissions = agentPermissions[agentId];
           if (permissions) {
@@ -379,7 +379,7 @@ class IdeSetup {
 
     // Write .roomodes file
     await fileManager.writeFile(roomodesPath, roomodesContent);
-    console.log(chalk.green("✓ Created .roo/.roomodes file"));
+    console.log(chalk.green("✓ Created .roomodes file in project root"));
 
     // Create README in .roo directory
     const rooReadme = `# Roo Code Custom Modes for BMAD-METHOD
