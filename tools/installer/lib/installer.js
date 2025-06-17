@@ -583,10 +583,10 @@ class Installer {
 
     // Information about web bundles
     console.log(chalk.bold("\n📦 Web Bundles Available:"));
-    console.log("Self-contained web bundles have been included in your installation:");
-    console.log(chalk.cyan(`  ${installDir}/.bmad-core/web-bundles/`));
-    console.log("These bundles work independently without this installation and can be");
-    console.log("shared, moved, or used in other projects as standalone files.");
+    console.log("Pre-built web bundles are available in the project distribution:");
+    console.log(chalk.cyan(`  ${path.join(path.dirname(installDir), 'dist')}/`));
+    console.log("These bundles work independently and can be shared, moved, or used");
+    console.log("in other projects as standalone files.");
 
     if (config.installType === "single-agent") {
       console.log(
@@ -786,23 +786,7 @@ class Installer {
           }
         }
 
-        // Also copy web-bundles if they exist (to a different location)
-        const webBundlesSource = path.join(expansionPackDir, 'web-bundles');
-        if (await fileManager.pathExists(webBundlesSource)) {
-          const files = glob.sync('**/*', {
-            cwd: webBundlesSource,
-            nodir: true
-          });
-
-          for (const file of files) {
-            const sourcePath = path.join(webBundlesSource, file);
-            const destPath = path.join(installDir, '.bmad-core', 'web-bundles', 'expansion-packs', packId, file);
-            
-            if (await fileManager.copyFile(sourcePath, destPath)) {
-              installedFiles.push(path.join('.bmad-core', 'web-bundles', 'expansion-packs', packId, file));
-            }
-          }
-        }
+        // Web bundles are now available in the dist/ directory and don't need to be copied
 
         console.log(chalk.green(`✓ Installed expansion pack: ${pack.name}`));
       } catch (error) {

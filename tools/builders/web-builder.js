@@ -6,8 +6,7 @@ class WebBuilder {
   constructor(options = {}) {
     this.rootDir = options.rootDir || process.cwd();
     this.outputDirs = options.outputDirs || [
-      path.join(this.rootDir, 'dist'),
-      path.join(this.rootDir, 'bmad-core', 'web-bundles')
+      path.join(this.rootDir, 'dist')
     ];
     this.resolver = new DependencyResolver(this.rootDir);
     this.templatePath = path.join(this.rootDir, 'bmad-core', 'templates', 'web-agent-startup-instructions-template.md');
@@ -152,7 +151,6 @@ class WebBuilder {
   async buildExpansionPack(packName, options = {}) {
     const packDir = path.join(this.rootDir, 'expansion-packs', packName);
     const outputDirs = [
-      path.join(packDir, 'web-bundles'),
       path.join(this.rootDir, 'dist', 'expansion-packs', packName)
     ];
 

@@ -15,10 +15,12 @@
 
 ### Fastest Start: Web UI (2 minutes) 🏃‍♂️
 
-1. Copy `bmad-core/web-bundles/teams/team-fullstack.txt`
-2. Create a new Gemini Gem or CustomGPT
-3. Upload the file and set instructions: "Your critical operating instructions are attached, do not break character as directed"
-4. Start chatting! Type `/help` to see available commands
+1. **Get the bundle**: Copy `dist/teams/team-fullstack.txt` (from this repository)
+2. **Create AI agent**: Create a new Gemini Gem or CustomGPT
+3. **Upload & configure**: Upload the file and set instructions: "Your critical operating instructions are attached, do not break character as directed"
+4. **Start Ideating and Planning**: Start chatting! Type `*help` to see available commands or pick an agent like `*analyst` to start right in on creating a brief.
+
+> 💡 **All pre-built bundles are in the `dist/` folder** - ready to copy and use immediately!
 
 ### IDE Quick Start (5 minutes) 💻
 
@@ -56,8 +58,8 @@ BMAD-METHOD (Breakthrough Method of Agile AI-Driven Development) revolutionizes 
 For ChatGPT, Claude, or Gemini web interfaces:
 
 1. Choose a bundle:
-   - **Recommended**: `.bmad-core/web-bundles/teams/team-fullstack.txt` (complete development team)
-   - Or pick from individual agents in `.bmad-core/web-bundles/agents/`
+   - **Recommended**: `dist/teams/team-fullstack.txt` (complete development team)
+   - Or pick from individual agents in `dist/agents/`
 2. Upload to your AI platform (Gemini Gem, CustomGPT, or directly in chat)
 3. Set instructions: "Your critical operating instructions are attached, do not break character as directed"
 4. Type `/help` to see available commands
@@ -189,7 +191,7 @@ Structured approaches for different scenarios:
 ├── tasks/           # Reusable task definitions
 ├── checklists/      # Quality checklists
 ├── data/            # Knowledge base
-└── web-bundles/     # Pre-built bundles
+└── web-bundles/     # Pre-built bundles (deprecated - use dist/ instead)
 
 tools/
 ├── cli.js           # Build tool
@@ -197,7 +199,30 @@ tools/
 └── lib/             # Build utilities
 
 expansion-packs/     # Optional add-ons (DevOps, Mobile, etc.)
-````
+
+dist/                # 📦 PRE-BUILT BUNDLES (Ready to use!)
+├── agents/          # Individual agent bundles (.txt files)
+├── teams/           # Team bundles (.txt files)
+└── expansion-packs/ # Expansion pack bundles
+```text
+
+### 📦 Pre-Built Bundles (dist/ folder)
+
+**All ready-to-use bundles are in the `dist/` directory!**
+
+- **Teams**: `dist/teams/` - Complete team configurations
+  - `team-fullstack.txt` - Full-stack development team
+  - `team-ide-minimal.txt` - Minimal IDE workflow team
+  - `team-no-ui.txt` - Backend-only team
+  - `team-all.txt` - All agents included
+
+- **Individual Agents**: `dist/agents/` - Single agent files
+  - One `.txt` file per agent (analyst, architect, dev, etc.)
+
+- **Expansion Packs**: `dist/expansion-packs/` - Specialized domains
+  - Game development, DevOps, etc.
+
+**For Web UI usage**: Simply copy any `.txt` file from `dist/` and upload to your AI platform!`
 
 ## Advanced Features
 
@@ -279,3 +304,4 @@ Created by Brian (BMad) Madison
 [![Contributors](https://contrib.rocks/image?repo=bmadcode/bmad-method)](https://github.com/bmadcode/bmad-method/graphs/contributors)
 
 <sub>Built with ❤️ for the AI-assisted development community</sub>
+````
