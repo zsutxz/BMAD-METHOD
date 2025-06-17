@@ -139,8 +139,13 @@ async function promptInstallation() {
     {
       type: 'input',
       name: 'directory',
-      message: 'Where would you like to install BMAD?',
-      default: '.bmad-core'
+      message: 'Enter the full path to your project directory where BMAD should be installed:',
+      validate: (input) => {
+        if (!input.trim()) {
+          return 'Please enter a valid project path';
+        }
+        return true;
+      }
     }
   ]);
   answers.directory = directory;
