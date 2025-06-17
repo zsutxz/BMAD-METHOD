@@ -1,9 +1,15 @@
-## [4.4.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.4.0...v4.4.1) (2025-06-17)
+## [4.4.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.4.1...v4.4.2) (2025-06-17)
 
 
 ### Bug Fixes
 
-* installer no longer suggests the bmad-method directory as defauly ([e2e1658](https://github.com/bmadcode/BMAD-METHOD/commit/e2e1658c07f6957fea4e3aa9e7657a650205ee71))
+* single agent install and team installation support ([18a382b](https://github.com/bmadcode/BMAD-METHOD/commit/18a382baa4e4a82db20affa3525eb951af1081e0))
+
+## [4.4.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.4.0...v4.4.1) (2025-06-17)
+
+### Bug Fixes
+
+- installer no longer suggests the bmad-method directory as defauly ([e2e1658](https://github.com/bmadcode/BMAD-METHOD/commit/e2e1658c07f6957fea4e3aa9e7657a650205ee71))
 
 # [4.4.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.3.0...v4.4.0) (2025-06-16)
 
