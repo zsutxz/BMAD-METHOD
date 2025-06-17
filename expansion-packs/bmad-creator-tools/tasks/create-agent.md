@@ -63,7 +63,7 @@ Created during agent setup:
 - Templates:
   - [ ] template-name-1.md
   - [ ] template-name-2.md
-```
+```text
 
 ### 4. Create Agent File
 

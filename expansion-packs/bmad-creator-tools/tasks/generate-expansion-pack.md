@@ -167,7 +167,7 @@ expansion-packs/
     └── ide-agents/
         ├── {pack-name}-orchestrator.ide.md (REQUIRED)
         └── {agent-id}.ide.md
-```
+```text
 
 #### 3.2 Create Manifest
 
