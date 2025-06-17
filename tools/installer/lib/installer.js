@@ -23,11 +23,22 @@ class Installer {
     const spinner = ora("Analyzing installation directory...").start();
 
     try {
-      // Resolve installation directory
-      let installDir = path.resolve(config.directory);
+      // Store the original CWD where npx was executed
+      const originalCwd = process.env.INIT_CWD || process.env.PWD || process.cwd();
+      
+      // Resolve installation directory relative to where the user ran the command
+      let installDir = path.isAbsolute(config.directory) 
+        ? config.directory 
+        : path.resolve(originalCwd, config.directory);
+        
       if (path.basename(installDir) === '.bmad-core') {
         // If user points directly to .bmad-core, treat its parent as the project root
         installDir = path.dirname(installDir);
+      }
+      
+      // Log resolved path for clarity
+      if (!path.isAbsolute(config.directory)) {
+        spinner.text = `Resolving "${config.directory}" to: ${installDir}`;
       }
 
       // Check if directory exists and handle non-existent directories
@@ -74,6 +85,7 @@ class Installer {
               }
             }
           ]);
+          // Preserve the original CWD for the recursive call
           config.directory = newDirectory;
           return await this.install(config); // Recursive call with new directory
         } else if (action === 'create') {
