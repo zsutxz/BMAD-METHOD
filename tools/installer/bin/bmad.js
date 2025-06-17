@@ -46,21 +46,29 @@ program
   .description('Install BMAD Method agents and tools')
   .option('-f, --full', 'Install complete .bmad-core folder')
   .option('-a, --agent <agent>', 'Install specific agent with dependencies')
+  .option('-t, --team <team>', 'Install specific team with required agents and dependencies')
+  .option('-x, --expansion-only', 'Install only expansion packs (no bmad-core)')
   .option('-d, --directory <path>', 'Installation directory (default: .bmad-core)')
   .option('-i, --ide <ide...>', 'Configure for specific IDE(s) - can specify multiple (cursor, claude-code, windsurf, roo, other)')
   .option('-e, --expansion-packs <packs...>', 'Install specific expansion packs (can specify multiple)')
   .action(async (options) => {
     try {
       await initializeModules();
-      if (!options.full && !options.agent) {
+      if (!options.full && !options.agent && !options.team && !options.expansionOnly) {
         // Interactive mode
         const answers = await promptInstallation();
         await installer.install(answers);
       } else {
         // Direct mode
+        let installType = 'full';
+        if (options.agent) installType = 'single-agent';
+        else if (options.team) installType = 'team';
+        else if (options.expansionOnly) installType = 'expansion-only';
+        
         const config = {
-          installType: options.full ? 'full' : 'single-agent',
+          installType,
           agent: options.agent,
+          team: options.team,
           directory: options.directory || '.bmad-core',
           ides: (options.ide || []).filter(ide => ide !== 'other'),
           expansionPacks: options.expansionPacks || []
@@ -162,8 +170,16 @@ async function promptInstallation() {
           value: 'full'
         },
         {
+          name: 'Team installation - Install a specific team with required agents',
+          value: 'team'
+        },
+        {
           name: 'Single agent - Choose one agent to install',
           value: 'single-agent'
+        },
+        {
+          name: 'Expansion packs only - Install expansion packs without bmad-core',
+          value: 'expansion-only'
         }
       ]
     }
@@ -187,25 +203,62 @@ async function promptInstallation() {
     answers.agent = agent;
   }
 
-  // Ask for expansion pack selection (only for full installation)
-  if (installType === 'full') {
+  // If team installation, ask which team
+  if (installType === 'team') {
+    const teams = await installer.getAvailableTeams();
+    const { team } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'team',
+        message: 'Select a team to install:',
+        choices: teams.map(t => ({
+          name: `${t.icon || '📋'} ${t.name}: ${t.description}`,
+          value: t.id
+        }))
+      }
+    ]);
+    answers.team = team;
+  }
+
+  // Ask for expansion pack selection
+  if (installType === 'full' || installType === 'team' || installType === 'expansion-only') {
     try {
       const availableExpansionPacks = await installer.getAvailableExpansionPacks();
       
       if (availableExpansionPacks.length > 0) {
+        let choices;
+        let message;
+        
+        if (installType === 'expansion-only') {
+          message = 'Select expansion packs to install (required):'
+          choices = availableExpansionPacks.map(pack => ({
+            name: `${pack.name} - ${pack.description}`,
+            value: pack.id
+          }));
+        } else {
+          message = 'Select expansion packs to install (optional):';
+          choices = [
+            { name: 'Skip expansion packs', value: 'none', checked: true },
+            new inquirer.Separator(' --- Expansion Packs ---'),
+            ...availableExpansionPacks.map(pack => ({
+              name: `${pack.name} - ${pack.description}`,
+              value: pack.id
+            }))
+          ];
+        }
+        
         const { expansionPacks } = await inquirer.prompt([
           {
             type: 'checkbox',
             name: 'expansionPacks',
-            message: 'Select expansion packs to install (optional):',
-            choices: [
-              { name: 'BMAD Core only (no expansion packs)', value: 'none', checked: true },
-              new inquirer.Separator(' --- Expansion Packs ---'),
-              ...availableExpansionPacks.map(pack => ({
-                name: `${pack.name} - ${pack.description}`,
-                value: pack.id
-              }))
-            ]
+            message,
+            choices,
+            validate: installType === 'expansion-only' ? (answer) => {
+              if (answer.length < 1) {
+                return 'You must select at least one expansion pack for expansion-only installation.';
+              }
+              return true;
+            } : undefined
           }
         ]);
         

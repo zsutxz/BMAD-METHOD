@@ -1,7 +1,7 @@
 bundle:
   name: Team No UI
   icon: 🔧
-  description: This is a team that is responsible for planning the project without any UI/UX design. This is for projects that do not require UI/UX design.
+  description: Team with no UX or UI Planning.
 agents:
   - bmad-orchestrator
   - analyst

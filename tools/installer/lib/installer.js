@@ -220,11 +220,12 @@ class Installer {
       const agentPath = configLoader.getAgentPath(config.agent);
       const destAgentPath = path.join(
         installDir,
+        ".bmad-core",
         "agents",
         `${config.agent}.md`
       );
       await fileManager.copyFile(agentPath, destAgentPath);
-      files.push(`agents/${config.agent}.md`);
+      files.push(`.bmad-core/agents/${config.agent}.md`);
 
       // Copy dependencies
       const dependencies = await configLoader.getAgentDependencies(
@@ -240,9 +241,9 @@ class Installer {
           const copiedFiles = await fileManager.copyGlobPattern(
             dep.replace(".bmad-core/", ""),
             sourceBase,
-            installDir
+            path.join(installDir, ".bmad-core")
           );
-          files.push(...copiedFiles);
+          files.push(...copiedFiles.map(f => `.bmad-core/${f}`));
         } else {
           // Handle single files
           const sourcePath = path.join(
@@ -251,13 +252,71 @@ class Installer {
           );
           const destPath = path.join(
             installDir,
-            dep.replace(".bmad-core/", "")
+            dep
           );
 
           if (await fileManager.copyFile(sourcePath, destPath)) {
-            files.push(dep.replace(".bmad-core/", ""));
+            files.push(dep);
           }
         }
+      }
+    } else if (config.installType === "team") {
+      // Team installation
+      spinner.text = `Installing ${config.team} team...`;
+      
+      // Get team dependencies
+      const teamDependencies = await configLoader.getTeamDependencies(config.team);
+      const sourceBase = configLoader.getBmadCorePath();
+      
+      // Install all team dependencies
+      for (const dep of teamDependencies) {
+        spinner.text = `Copying team dependency: ${dep}`;
+        
+        if (dep.includes("*")) {
+          // Handle glob patterns
+          const copiedFiles = await fileManager.copyGlobPattern(
+            dep.replace(".bmad-core/", ""),
+            sourceBase,
+            path.join(installDir, ".bmad-core")
+          );
+          files.push(...copiedFiles.map(f => `.bmad-core/${f}`));
+        } else {
+          // Handle single files
+          const sourcePath = path.join(sourceBase, dep.replace(".bmad-core/", ""));
+          const destPath = path.join(installDir, dep);
+          
+          if (await fileManager.copyFile(sourcePath, destPath)) {
+            files.push(dep);
+          }
+        }
+      }
+    } else if (config.installType === "expansion-only") {
+      // Expansion-only installation - create minimal .bmad-core structure
+      spinner.text = "Creating minimal .bmad-core structure for expansion packs...";
+      
+      const bmadCoreDestDir = path.join(installDir, ".bmad-core");
+      await fileManager.ensureDirectory(bmadCoreDestDir);
+      
+      // Create basic directory structure
+      const dirs = ['agents', 'agent-teams', 'templates', 'tasks', 'checklists', 'workflows', 'data', 'utils', 'schemas'];
+      for (const dir of dirs) {
+        await fileManager.ensureDirectory(path.join(bmadCoreDestDir, dir));
+      }
+      
+      // Copy minimal required files (schemas, utils, etc.)
+      const sourceBase = configLoader.getBmadCorePath();
+      const essentialFiles = [
+        'schemas/**/*',
+        'utils/**/*'
+      ];
+      
+      for (const pattern of essentialFiles) {
+        const copiedFiles = await fileManager.copyGlobPattern(
+          pattern,
+          sourceBase,
+          bmadCoreDestDir
+        );
+        files.push(...copiedFiles.map(f => `.bmad-core/${f}`));
       }
     }
 
@@ -662,6 +721,10 @@ class Installer {
 
   async getAvailableExpansionPacks() {
     return configLoader.getAvailableExpansionPacks();
+  }
+
+  async getAvailableTeams() {
+    return configLoader.getAvailableTeams();
   }
 
   async installExpansionPacks(installDir, selectedPacks, spinner) {
