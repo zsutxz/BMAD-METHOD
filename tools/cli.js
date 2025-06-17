@@ -52,21 +52,6 @@ program
         }
       }
 
-      // Generate IDE configuration folders
-      console.log('Generating IDE configuration folders...');
-      const installDir = process.cwd();
-      
-      // Generate configurations for all supported IDEs
-      const ides = ['cursor', 'claude-code', 'windsurf', 'roo'];
-      for (const ide of ides) {
-        try {
-          console.log(`Setting up ${ide} integration...`);
-          await IdeSetup.setup(ide, installDir);
-        } catch (error) {
-          console.warn(`Warning: Failed to setup ${ide}:`, error.message);
-        }
-      }
-
       console.log('Build completed successfully!');
     } catch (error) {
       console.error('Build failed:', error.message);

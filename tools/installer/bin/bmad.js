@@ -236,15 +236,11 @@ async function promptInstallation() {
             value: pack.id
           }));
         } else {
-          message = 'Select expansion packs to install (optional):';
-          choices = [
-            { name: 'Skip expansion packs', value: 'none', checked: true },
-            new inquirer.Separator(' --- Expansion Packs ---'),
-            ...availableExpansionPacks.map(pack => ({
-              name: `${pack.name} - ${pack.description}`,
-              value: pack.id
-            }))
-          ];
+          message = 'Select expansion packs to install (press Enter to skip, or check any to install):';
+          choices = availableExpansionPacks.map(pack => ({
+            name: `${pack.name} - ${pack.description}`,
+            value: pack.id
+          }));
         }
         
         const { expansionPacks } = await inquirer.prompt([
@@ -262,8 +258,8 @@ async function promptInstallation() {
           }
         ]);
         
-        // Filter out 'none' selection and only include actual expansion packs
-        answers.expansionPacks = expansionPacks.filter(pack => pack !== 'none');
+        // Use selected expansion packs directly
+        answers.expansionPacks = expansionPacks;
       } else {
         answers.expansionPacks = [];
       }
@@ -280,25 +276,18 @@ async function promptInstallation() {
     {
       type: 'checkbox',
       name: 'ides',
-      message: 'Which IDE(s) are you using? (Select all that apply)',
+      message: 'Which IDE(s) are you using? (press Enter to skip IDE setup, or select any to configure):',
       choices: [
         { name: 'Cursor', value: 'cursor' },
         { name: 'Claude Code', value: 'claude-code' },
         { name: 'Windsurf', value: 'windsurf' },
-        { name: 'Roo Code', value: 'roo' },
-        { name: 'Other (skip IDE setup)', value: 'other' }
-      ],
-      validate: (answer) => {
-        if (answer.length < 1) {
-          return 'You must choose at least one IDE option.';
-        }
-        return true;
-      }
+        { name: 'Roo Code', value: 'roo' }
+      ]
     }
   ]);
   
-  // Filter out 'other' from the list and only include actual IDEs
-  answers.ides = ides.filter(ide => ide !== 'other');
+  // Use selected IDEs directly
+  answers.ides = ides;
 
   return answers;
 }

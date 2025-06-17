@@ -200,7 +200,7 @@ class WebBuilder {
     const agentTeamsDir = path.join(packDir, 'agent-teams');
     try {
       const teamFiles = await fs.readdir(agentTeamsDir);
-      const teamFile = teamFiles.find(f => f.startsWith('team-') && f.endsWith('.yml'));
+      const teamFile = teamFiles.find(f => f.endsWith('.yml'));
       
       if (teamFile) {
         console.log(`    Building team bundle for ${packName}`);
