@@ -1,3 +1,21 @@
+# [4.5.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.4.2...v4.5.0) (2025-06-17)
+
+
+### Bug Fixes
+
+* installer relative path issue for npx resolved ([8b9bda5](https://github.com/bmadcode/BMAD-METHOD/commit/8b9bda5639ec882f1887f20b4610a6c2183042c6))
+* readme updated to indicate move of web-bundles ([7e9574f](https://github.com/bmadcode/BMAD-METHOD/commit/7e9574f571f41ae5003a1664d999c282dd7398be))
+* temp disable yml linting ([296c2fb](https://github.com/bmadcode/BMAD-METHOD/commit/296c2fbcbd9ac40b3c68633ba7454aacf1e31204))
+* update documentation and installer to reflect .roomodes file location in project root ([#236](https://github.com/bmadcode/BMAD-METHOD/issues/236)) ([bd7f030](https://github.com/bmadcode/BMAD-METHOD/commit/bd7f03016bfa13e39cb39aedb24db9fccbed18a7))
+
+
+### Features
+
+* bmad the creator expansion with some basic tools for modifying bmad method ([2d61df4](https://github.com/bmadcode/BMAD-METHOD/commit/2d61df419ac683f5691b6ee3fab81174f3d2cdde))
+* can now select different web bundles from what ide agents are installed ([0c41633](https://github.com/bmadcode/BMAD-METHOD/commit/0c41633b07d7dd4d7dda8d3a14d572eac0dcbb47))
+* installer offers option to install web bundles ([e934769](https://github.com/bmadcode/BMAD-METHOD/commit/e934769a5e35dba99f59b4e2e6bb49131c43a526))
+* robust installer ([1fbeed7](https://github.com/bmadcode/BMAD-METHOD/commit/1fbeed75ea446b0912277cfec376ee34f0b3d853))
+
 ## [4.4.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.4.1...v4.4.2) (2025-06-17)
 
 
