@@ -4046,9 +4046,9 @@ Document the choice and key services that will be used.]]
 
 Use appropriate diagram type for clarity.]]
 
-````mermaid
+```mermaid
 {{architecture_diagram}}
-```text
+```
 
 ### Architectural Patterns
 
@@ -4159,7 +4159,7 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
     model_interface;
   }
 }
-````
+```
 
 **Relationships:**
 
@@ -4183,7 +4183,7 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
 
 **TypeScript Interface:**
 
-````typescript
+```typescript
 interface User {
   id: string;
   email: string;
@@ -4237,16 +4237,16 @@ servers:
       '[object Object]': null
     description:
       '[object Object]': null
-````
+```
 
 ^^/CONDITION: has_rest_api^^
 
 ^^CONDITION: has_graphql_api^^
 
-````graphql
+```graphql
 # GraphQL Schema
 {{graphql_schema}}
-```text
+```
 
 ^^/CONDITION: has_graphql_api^^
 
@@ -4259,7 +4259,7 @@ servers:
     trpc_routers;
   }
 }
-````
+```
 
 ^^/CONDITION: has_trpc_api^^
 
@@ -4404,19 +4404,19 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Component Organization:**
 
-`````text
-{{component_structure}}
 ```text
+{{component_structure}}
+```
 
 **Component Template:**
 
-````typescript
+```typescript
 {
   {
     component_template;
   }
 }
-```text
+```
 
 ### State Management Architecture
 
@@ -4430,7 +4430,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     state_structure;
   }
 }
-`````
+```
 
 **State Management Patterns:**
 
@@ -4449,13 +4449,13 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Protected Route Pattern:**
 
-````typescript
+```typescript
 {
   {
     protected_route_example;
   }
 }
-```text
+```
 
 ### Frontend Services Layer
 
@@ -4469,17 +4469,17 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     api_client_setup;
   }
 }
-````
+```
 
 **Service Example:**
 
-````typescript
+```typescript
 {
   {
     service_example;
   }
 }
-```text
+```
 
 ## Backend Architecture
 
@@ -4494,11 +4494,11 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ^^CONDITION: serverless^^
 **Function Organization:**
 
-````
+```text
 
 {{function_structure}}
 
-````text
+```
 
 **Function Template:**
 
@@ -4508,26 +4508,26 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     function_template;
   }
 }
-````
+```
 
 ^^/CONDITION: serverless^^
 
 ^^CONDITION: traditional_server^^
 **Controller/Route Organization:**
 
-`````text
-{{controller_structure}}
 ```text
+{{controller_structure}}
+```
 
 **Controller Template:**
 
-````typescript
+```typescript
 {
   {
     controller_template;
   }
 }
-```text
+```
 
 ^^/CONDITION: traditional_server^^
 
@@ -4539,17 +4539,17 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```sql
 {{database_schema}}
-`````
+```
 
 **Data Access Layer:**
 
-````typescript
+```typescript
 {
   {
     repository_pattern;
   }
 }
-```text
+```
 
 ### Authentication and Authorization
 
@@ -4559,17 +4559,17 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{auth_flow_diagram}}
-````
+```
 
 **Middleware/Guards:**
 
-````typescript
+```typescript
 {
   {
     auth_middleware;
   }
 }
-```text
+```
 
 ## Unified Project Structure
 
@@ -4629,7 +4629,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 ├── package.json                # Root package.json
 ├── {{monorepo_config}}         # Monorepo configuration
 └── README.md
-````
+```
 
 @{example: vercel_structure}
 apps/
@@ -4651,19 +4651,19 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 **Prerequisites:**
 
-````bash
+```bash
 {{prerequisites_commands}}
-```text
+```
 
 **Initial Setup:**
 
 ```bash
 {{setup_commands}}
-````
+```
 
 **Development Commands:**
 
-````bash
+```bash
 # Start all services
 {{start_all_command}}
 
@@ -4675,7 +4675,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 # Run tests
 {{test_commands}}
-```text
+```
 
 ### Environment Configuration
 
@@ -4690,7 +4690,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 # Shared
 {{shared_env_vars}}
-````
+```
 
 ## Deployment Architecture
 
@@ -4713,9 +4713,9 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### CI/CD Pipeline
 
-````yaml
+```yaml
 '[object Object]': null
-```text
+```
 
 ### Environments
 
@@ -4773,7 +4773,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### Testing Pyramid
 
-````
+```text
 
         E2E Tests
        /          \
@@ -4782,17 +4782,17 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 / \
  Frontend Unit Backend Unit
 
-```text
+```
 
 ### Test Organization
 
 **Frontend Tests:**
 
-```
+```text
 
 {{frontend_test_structure}}
 
-````text
+```
 
 **Backend Tests:**
 
@@ -4800,15 +4800,15 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 {{backend_test_structure}}
 
-```text
+```
 
 **E2E Tests:**
 
-````
+```text
 
 {{e2e_test_structure}}
 
-````text
+```
 
 ### Test Examples
 
@@ -4820,17 +4820,17 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     frontend_test_example;
   }
 }
-````
+```
 
 **Backend API Test:**
 
-````typescript
+```typescript
 {
   {
     backend_test_example;
   }
 }
-```text
+```
 
 **E2E Test:**
 
@@ -4840,7 +4840,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
     e2e_test_example;
   }
 }
-````
+```
 
 ## Coding Standards
 
@@ -4881,9 +4881,9 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ### Error Flow
 
-````mermaid
+```mermaid
 {{error_flow_diagram}}
-```text
+```
 
 ### Error Response Format
 
@@ -4897,17 +4897,17 @@ interface ApiError {
     requestId: string;
   };
 }
-````
+```
 
 ### Frontend Error Handling
 
-````typescript
+```typescript
 {
   {
     frontend_error_handler;
   }
 }
-```text
+```
 
 ### Backend Error Handling
 
@@ -4917,7 +4917,7 @@ interface ApiError {
     backend_error_handler;
   }
 }
-````
+```
 
 ## Monitoring and Observability
 
@@ -7205,13 +7205,13 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
 
 **TypeScript Interface:**
 
-````typescript
+```typescript
 {
   {
     model_interface;
   }
 }
-```text
+```
 
 **Relationships:**
 
@@ -7251,7 +7251,7 @@ interface UserProfile {
   bio?: string;
   preferences: Record<string, any>;
 }
-````
+```
 
 **Relationships:**
 
@@ -7275,7 +7275,7 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-````yml
+```yml
 openapi: 3.0.0
 info:
   title:
@@ -7289,7 +7289,7 @@ servers:
       '[object Object]': null
     description:
       '[object Object]': null
-```text
+```
 
 ^^/CONDITION: has_rest_api^^
 
@@ -7298,7 +7298,7 @@ servers:
 ```graphql
 # GraphQL Schema
 {{graphql_schema}}
-````
+```
 
 ^^/CONDITION: has_graphql_api^^
 
@@ -9450,16 +9450,11 @@ workflow:
     - modernization
     - integration-enhancement
 
-  # For Complex Enhancements (Multiple Stories, Architectural Changes)
-  complex_enhancement_sequence:
-    - step: scope_assessment
-      agent: any
-      action: assess complexity
-      notes: "First, assess if this is a simple change (use simple_enhancement_sequence) or complex enhancement requiring full planning."
-
+  sequence:
     - step: project_analysis
-      agent: analyst
-      action: analyze existing project
+      agent: architect
+      action: analyze existing project and use task document-project
+      creates: multiple documents per the document-project template
       notes: "Review existing documentation, codebase structure, and identify integration points. Document current system understanding before proceeding."
 
     - agent: pm
@@ -9488,71 +9483,37 @@ workflow:
       action: move_to_ide
       notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  # For Simple Enhancements (1-3 Stories, Following Existing Patterns)
-  simple_enhancement_sequence:
-    - step: enhancement_type
-      action: choose approach
-      notes: "Choose between creating single story (very small change) or epic (1-3 related stories)."
-
-    - agent: pm|po|sm
-      creates: brownfield_epic OR brownfield_story
-      uses: brownfield-create-epic OR brownfield-create-story
-      notes: "Create focused enhancement with existing system integration. Choose agent based on team preference and context."
-
-    - workflow_end:
-      action: move_to_ide
-      notes: "Enhancement defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
-
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: Brownfield Enhancement] --> B{Enhancement Complexity?}
-        B -->|Complex/Significant| C[analyst: analyze existing project]
-        B -->|Simple| D{1 Story or 2-3 Stories?}
+        A[Start: Brownfield Enhancement] --> B[analyst: analyze existing project]
+        B --> C[pm: brownfield-prd.md]
+        C --> D[architect: brownfield-architecture.md]
+        D --> E[po: validate with po-master-checklist]
+        E --> F{PO finds issues?}
+        F -->|Yes| G[Return to relevant agent for fixes]
+        F -->|No| H[Move to IDE Environment]
+        G --> E
 
-        C --> E[pm: brownfield-prd.md]
-        E --> F[architect: brownfield-architecture.md]
-        F --> G[po: validate with po-master-checklist]
-        G --> H{PO finds issues?}
-        H -->|Yes| I[Return to relevant agent for fixes]
-        H -->|No| J[Move to IDE Environment]
-        I --> G
-
-        D -->|1 Story| K[pm/po/sm: brownfield-create-story]
-        D -->|2-3 Stories| L[pm/po/sm: brownfield-create-epic]
-        K --> M[Move to IDE Environment]
-        L --> M
-
-        style J fill:#90EE90
-        style M fill:#90EE90
-        style E fill:#FFE4B5
-        style F fill:#FFE4B5
-        style K fill:#FFB6C1
-        style L fill:#FFB6C1
+        style H fill:#90EE90
+        style C fill:#FFE4B5
+        style D fill:#FFE4B5
     ```
 
   decision_guidance:
-    use_complex_sequence_when:
-      - Enhancement requires multiple coordinated stories (4+)
+    when_to_use:
+      - Enhancement requires coordinated stories
       - Architectural changes are needed
       - Significant integration work required
       - Risk assessment and mitigation planning necessary
       - Multiple team members will work on related changes
-
-    use_simple_sequence_when:
-      - Enhancement can be completed in 1-3 stories
-      - Follows existing project patterns
-      - Integration complexity is minimal
-      - Risk to existing system is low
-      - Change is isolated with clear boundaries
 
   handoff_prompts:
     analyst_to_pm: "Existing project analysis complete. Create comprehensive brownfield PRD with integration strategy."
     pm_to_architect: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the integration architecture."
     architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for integration safety."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    simple_to_ide: "Enhancement defined with existing system integration. Move to IDE environment to begin development."
-    complex_complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#brownfield-fullstack ====================
 
 ==================== START: workflows#brownfield-service ====================
@@ -9570,16 +9531,11 @@ workflow:
     - performance-optimization
     - integration-enhancement
 
-  # For Complex Service Enhancements (Multiple Stories, Architectural Changes)
-  complex_enhancement_sequence:
-    - step: scope_assessment
-      agent: any
-      action: assess complexity
-      notes: "First, assess if this is a simple service change (use simple_enhancement_sequence) or complex enhancement requiring full planning."
-
+  sequence:
     - step: service_analysis
-      agent: analyst
-      action: analyze existing service
+     agent: architect
+      action: analyze existing project and use task document-project
+      creates: multiple documents per the document-project template
       notes: "Review existing service documentation, codebase, performance metrics, and identify integration dependencies."
 
     - agent: pm
@@ -9608,71 +9564,37 @@ workflow:
       action: move_to_ide
       notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  # For Simple Service Enhancements (1-3 Stories, Following Existing Patterns)
-  simple_enhancement_sequence:
-    - step: enhancement_type
-      action: choose approach
-      notes: "Choose between creating single story (simple API endpoint) or epic (1-3 related service changes)."
-
-    - agent: pm|po|sm
-      creates: brownfield_epic OR brownfield_story
-      uses: brownfield-create-epic OR brownfield-create-story
-      notes: "Create focused service enhancement with existing API integration. Choose agent based on team preference and context."
-
-    - workflow_end:
-      action: move_to_ide
-      notes: "Service enhancement defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
-
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: Service Enhancement] --> B{Enhancement Complexity?}
-        B -->|Complex/Significant| C[analyst: analyze existing service]
-        B -->|Simple| D{1 Story or 2-3 Stories?}
+        A[Start: Service Enhancement] --> B[analyst: analyze existing service]
+        B --> C[pm: brownfield-prd.md]
+        C --> D[architect: brownfield-architecture.md]
+        D --> E[po: validate with po-master-checklist]
+        E --> F{PO finds issues?}
+        F -->|Yes| G[Return to relevant agent for fixes]
+        F -->|No| H[Move to IDE Environment]
+        G --> E
 
-        C --> E[pm: brownfield-prd.md]
-        E --> F[architect: brownfield-architecture.md]
-        F --> G[po: validate with po-master-checklist]
-        G --> H{PO finds issues?}
-        H -->|Yes| I[Return to relevant agent for fixes]
-        H -->|No| J[Move to IDE Environment]
-        I --> G
-
-        D -->|1 Story| K[pm/po/sm: brownfield-create-story]
-        D -->|2-3 Stories| L[pm/po/sm: brownfield-create-epic]
-        K --> M[Move to IDE Environment]
-        L --> M
-
-        style J fill:#90EE90
-        style M fill:#90EE90
-        style E fill:#FFE4B5
-        style F fill:#FFE4B5
-        style K fill:#FFB6C1
-        style L fill:#FFB6C1
+        style H fill:#90EE90
+        style C fill:#FFE4B5
+        style D fill:#FFE4B5
     ```
 
   decision_guidance:
-    use_complex_sequence_when:
-      - Service enhancement requires multiple coordinated stories (4+)
+    when_to_use:
+      - Service enhancement requires coordinated stories
       - API versioning or breaking changes needed
       - Database schema changes required
       - Performance or scalability improvements needed
       - Multiple integration points affected
-
-    use_simple_sequence_when:
-      - Adding simple endpoints or modifying existing ones
-      - Enhancement follows existing service patterns
-      - API compatibility maintained
-      - Risk to existing service is low
-      - Change is isolated with clear boundaries
 
   handoff_prompts:
     analyst_to_pm: "Service analysis complete. Create comprehensive brownfield PRD with service integration strategy."
     pm_to_architect: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the service architecture."
     architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for service integration safety."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    simple_to_ide: "Service enhancement defined with existing API integration. Move to IDE environment to begin development."
-    complex_complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#brownfield-service ====================
 
 ==================== START: workflows#brownfield-ui ====================
@@ -9689,16 +9611,11 @@ workflow:
     - design-refresh
     - frontend-enhancement
 
-  # For Complex UI Enhancements (Multiple Stories, Design Changes)
-  complex_enhancement_sequence:
-    - step: scope_assessment
-      agent: any
-      action: assess complexity
-      notes: "First, assess if this is a simple UI change (use simple_enhancement_sequence) or complex enhancement requiring full planning."
-
+  sequence:
     - step: ui_analysis
-      agent: analyst
-      action: analyze existing UI
+      agent: architect
+      action: analyze existing project and use task document-project
+      creates: multiple documents per the document-project template
       notes: "Review existing frontend application, user feedback, analytics data, and identify improvement areas."
 
     - agent: pm
@@ -9735,65 +9652,32 @@ workflow:
       action: move_to_ide
       notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  # For Simple UI Enhancements (1-3 Stories, Following Existing Design)
-  simple_enhancement_sequence:
-    - step: enhancement_type
-      action: choose approach
-      notes: "Choose between creating single story (simple component change) or epic (1-3 related UI changes)."
-
-    - agent: pm|po|sm
-      creates: brownfield_epic OR brownfield_story
-      uses: brownfield-create-epic OR brownfield-create-story
-      notes: "Create focused UI enhancement with existing design system integration. Choose agent based on team preference and context."
-
-    - workflow_end:
-      action: move_to_ide
-      notes: "UI enhancement defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
-
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: UI Enhancement] --> B{Enhancement Complexity?}
-        B -->|Complex/Significant| C[analyst: analyze existing UI]
-        B -->|Simple| D{1 Story or 2-3 Stories?}
+        A[Start: UI Enhancement] --> B[analyst: analyze existing UI]
+        B --> C[pm: brownfield-prd.md]
+        C --> D[ux-expert: front-end-spec.md]
+        D --> E[architect: brownfield-architecture.md]
+        E --> F[po: validate with po-master-checklist]
+        F --> G{PO finds issues?}
+        G -->|Yes| H[Return to relevant agent for fixes]
+        G -->|No| I[Move to IDE Environment]
+        H --> F
 
-        C --> E[pm: brownfield-prd.md]
-        E --> F[ux-expert: front-end-spec.md]
-        F --> G[architect: brownfield-architecture.md]
-        G --> H[po: validate with po-master-checklist]
-        H --> I{PO finds issues?}
-        I -->|Yes| J[Return to relevant agent for fixes]
-        I -->|No| K[Move to IDE Environment]
-        J --> H
-
-        D -->|1 Story| L[pm/po/sm: brownfield-create-story]
-        D -->|2-3 Stories| M[pm/po/sm: brownfield-create-epic]
-        L --> N[Move to IDE Environment]
-        M --> N
-
-        style K fill:#90EE90
-        style N fill:#90EE90
+        style I fill:#90EE90
+        style C fill:#FFE4B5
+        style D fill:#FFE4B5
         style E fill:#FFE4B5
-        style F fill:#FFE4B5
-        style G fill:#FFE4B5
-        style L fill:#FFB6C1
-        style M fill:#FFB6C1
     ```
 
   decision_guidance:
-    use_complex_sequence_when:
-      - UI enhancement requires multiple coordinated stories (4+)
+    when_to_use:
+      - UI enhancement requires coordinated stories
       - Design system changes needed
       - New component patterns required
       - User research and testing needed
       - Multiple team members will work on related changes
-
-    use_simple_sequence_when:
-      - Enhancement can be completed in 1-3 stories
-      - Follows existing design patterns exactly
-      - Component changes are isolated
-      - Risk to existing UI is low
-      - Change maintains current user experience
 
   handoff_prompts:
     analyst_to_pm: "UI analysis complete. Create comprehensive brownfield PRD with UI integration strategy."
@@ -9801,8 +9685,7 @@ workflow:
     ux_to_architect: "UI/UX spec complete. Save it as docs/front-end-spec.md, then create the frontend architecture."
     architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for UI integration safety."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    simple_to_ide: "UI enhancement defined with existing design integration. Move to IDE environment to begin development."
-    complex_complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#brownfield-ui ====================
 
 ==================== START: workflows#greenfield-fullstack ====================
@@ -9820,8 +9703,7 @@ workflow:
     - prototype
     - mvp
 
-  # For Complex Projects (Production-Ready, Multiple Features)
-  complex_project_sequence:
+  sequence:
     - agent: analyst
       creates: project-brief.md
       optional_steps:
@@ -9886,91 +9768,50 @@ workflow:
       action: move_to_ide
       notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  # For Simple Projects (Prototypes, MVPs, Quick Experiments)
-  simple_project_sequence:
-    - step: project_scope
-      action: assess complexity
-      notes: "First, assess if this needs full planning (use complex_project_sequence) or can be a simple prototype/MVP."
-
-    - agent: analyst
-      creates: project-brief.md
-      optional_steps:
-        - brainstorming_session
-      notes: "Creates focused project brief for simple project. SAVE OUTPUT: Copy final project-brief.md to your project's docs/ folder."
-
-    - agent: pm
-      creates: simple-project-prd.md
-      uses: create doc simple-project-prd OR create-epic OR create-story
-      requires: project-brief.md
-      notes: "Create simple prd, simple epic or story instead of full PRD for rapid development. Choose based on scope."
-
-    - workflow_end:
-      action: move_to_ide
-      notes: "Simple project defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
-
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: Greenfield Project] --> B{Project Complexity?}
-        B -->|Complex/Production| C[analyst: project-brief.md]
-        B -->|Simple/Prototype| D[analyst: focused project-brief.md]
+        A[Start: Greenfield Project] --> B[analyst: project-brief.md]
+        B --> C[pm: prd.md]
+        C --> D[ux-expert: front-end-spec.md]
+        D --> D2{Generate v0 prompt?}
+        D2 -->|Yes| D3[ux-expert: create v0 prompt]
+        D2 -->|No| E[architect: fullstack-architecture.md]
+        D3 --> D4[User: generate UI in v0/Lovable]
+        D4 --> E
+        E --> F{Architecture suggests PRD changes?}
+        F -->|Yes| G[pm: update prd.md]
+        F -->|No| H[po: validate all artifacts]
+        G --> H
+        H --> I{PO finds issues?}
+        I -->|Yes| J[Return to relevant agent for fixes]
+        I -->|No| K[Move to IDE Environment]
+        J --> H
 
-        C --> E[pm: prd.md]
-        E --> F[ux-expert: front-end-spec.md]
-        F --> F2{Generate v0 prompt?}
-        F2 -->|Yes| F3[ux-expert: create v0 prompt]
-        F2 -->|No| G[architect: fullstack-architecture.md]
-        F3 --> F4[User: generate UI in v0/Lovable]
-        F4 --> G
-        G --> H{Architecture suggests PRD changes?}
-        H -->|Yes| I[pm: update prd.md]
-        H -->|No| J[po: validate all artifacts]
-        I --> J
-        J --> K{PO finds issues?}
-        K -->|Yes| L[Return to relevant agent for fixes]
-        K -->|No| M[Move to IDE Environment]
-        L --> J
+        B -.-> B1[Optional: brainstorming]
+        B -.-> B2[Optional: market research]
+        D -.-> D1[Optional: user research]
+        E -.-> E1[Optional: technical research]
 
-        D --> N[pm: simple epic or story]
-        N --> O[Move to IDE Environment]
-
-        C -.-> C1[Optional: brainstorming]
-        C -.-> C2[Optional: market research]
-        F -.-> F1[Optional: user research]
-        G -.-> G1[Optional: technical research]
-        D -.-> D1[Optional: brainstorming]
-
-        style M fill:#90EE90
-        style O fill:#90EE90
-        style F3 fill:#E6E6FA
-        style F4 fill:#E6E6FA
+        style K fill:#90EE90
+        style D3 fill:#E6E6FA
+        style D4 fill:#E6E6FA
+        style B fill:#FFE4B5
         style C fill:#FFE4B5
+        style D fill:#FFE4B5
         style E fill:#FFE4B5
-        style F fill:#FFE4B5
-        style G fill:#FFE4B5
-        style D fill:#FFB6C1
-        style N fill:#FFB6C1
     ```
 
   decision_guidance:
-    use_complex_sequence_when:
+    when_to_use:
       - Building production-ready applications
       - Multiple team members will be involved
-      - Complex feature requirements (4+ stories)
+      - Complex feature requirements
       - Need comprehensive documentation
       - Long-term maintenance expected
       - Enterprise or customer-facing applications
 
-    use_simple_sequence_when:
-      - Building prototypes or MVPs
-      - Solo developer or small team
-      - Simple requirements (1-3 stories)
-      - Quick experiments or proof-of-concepts
-      - Short-term or throwaway projects
-      - Learning or educational projects
-
   handoff_prompts:
-    # Complex sequence prompts
     analyst_to_pm: "Project brief is complete. Save it as docs/project-brief.md in your project, then create the PRD."
     pm_to_ux: "PRD is ready. Save it as docs/prd.md in your project, then create the UI/UX specification."
     ux_to_architect: "UI/UX spec complete. Save it as docs/front-end-spec.md in your project, then create the fullstack architecture."
@@ -9978,11 +9819,7 @@ workflow:
     architect_to_pm: "Please update the PRD with the suggested story changes, then re-export the complete prd.md to docs/."
     updated_to_po: "All documents ready in docs/ folder. Please validate all artifacts for consistency."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complex_complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
-
-    # Simple sequence prompts
-    simple_analyst_to_pm: "Focused project brief complete. Save it as docs/project-brief.md, then create simple epic or story for rapid development."
-    simple_complete: "Simple project defined. Move to IDE environment to begin development."
+    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#greenfield-fullstack ====================
 
 ==================== START: workflows#greenfield-service ====================
@@ -10001,8 +9838,7 @@ workflow:
     - api-prototype
     - simple-service
 
-  # For Complex Services (Production APIs, Multiple Endpoints)
-  complex_service_sequence:
+  sequence:
     - agent: analyst
       creates: project-brief.md
       optional_steps:
@@ -10042,65 +9878,33 @@ workflow:
       action: move_to_ide
       notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  # For Simple Services (Simple APIs, Single Purpose Services)
-  simple_service_sequence:
-    - step: service_scope
-      action: assess complexity
-      notes: "First, assess if this needs full planning (use complex_service_sequence) or can be a simple API/service."
-
-    - agent: analyst
-      creates: project-brief.md
-      optional_steps:
-        - brainstorming_session
-      notes: "Creates focused project brief for simple service. SAVE OUTPUT: Copy final project-brief.md to your project's docs/ folder."
-
-    - agent: pm
-      creates: simple_epic OR single_story
-      uses: create-epic OR create-story
-      requires: project-brief.md
-      notes: "Create simple epic or story for API endpoints instead of full PRD for rapid development."
-
-    - workflow_end:
-      action: move_to_ide
-      notes: "Simple service defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
-
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: Service Development] --> B{Service Complexity?}
-        B -->|Complex/Production| C[analyst: project-brief.md]
-        B -->|Simple/Prototype| D[analyst: focused project-brief.md]
+        A[Start: Service Development] --> B[analyst: project-brief.md]
+        B --> C[pm: prd.md]
+        C --> D[architect: architecture.md]
+        D --> E{Architecture suggests PRD changes?}
+        E -->|Yes| F[pm: update prd.md]
+        E -->|No| G[po: validate all artifacts]
+        F --> G
+        G --> H{PO finds issues?}
+        H -->|Yes| I[Return to relevant agent for fixes]
+        H -->|No| J[Move to IDE Environment]
+        I --> G
 
-        C --> E[pm: prd.md]
-        E --> F[architect: architecture.md]
-        F --> G{Architecture suggests PRD changes?}
-        G -->|Yes| H[pm: update prd.md]
-        G -->|No| I[po: validate all artifacts]
-        H --> I
-        I --> J{PO finds issues?}
-        J -->|Yes| K[Return to relevant agent for fixes]
-        J -->|No| L[Move to IDE Environment]
-        K --> I
+        B -.-> B1[Optional: brainstorming]
+        B -.-> B2[Optional: market research]
+        D -.-> D1[Optional: technical research]
 
-        D --> M[pm: simple epic or story]
-        M --> N[Move to IDE Environment]
-
-        C -.-> C1[Optional: brainstorming]
-        C -.-> C2[Optional: market research]
-        F -.-> F1[Optional: technical research]
-        D -.-> D1[Optional: brainstorming]
-
-        style L fill:#90EE90
-        style N fill:#90EE90
+        style J fill:#90EE90
+        style B fill:#FFE4B5
         style C fill:#FFE4B5
-        style E fill:#FFE4B5
-        style F fill:#FFE4B5
-        style D fill:#FFB6C1
-        style M fill:#FFB6C1
+        style D fill:#FFE4B5
     ```
 
   decision_guidance:
-    use_complex_sequence_when:
+    when_to_use:
       - Building production APIs or microservices
       - Multiple endpoints and complex business logic
       - Need comprehensive documentation and testing
@@ -10108,27 +9912,14 @@ workflow:
       - Long-term maintenance expected
       - Enterprise or external-facing APIs
 
-    use_simple_sequence_when:
-      - Building simple APIs or single-purpose services
-      - Few endpoints with straightforward logic
-      - Prototyping or proof-of-concept APIs
-      - Solo developer or small team
-      - Internal tools or utilities
-      - Learning or experimental projects
-
   handoff_prompts:
-    # Complex sequence prompts
     analyst_to_pm: "Project brief is complete. Save it as docs/project-brief.md in your project, then create the PRD."
     pm_to_architect: "PRD is ready. Save it as docs/prd.md in your project, then create the service architecture."
     architect_review: "Architecture complete. Save it as docs/architecture.md. Do you suggest any changes to the PRD stories or need new stories added?"
     architect_to_pm: "Please update the PRD with the suggested story changes, then re-export the complete prd.md to docs/."
     updated_to_po: "All documents ready in docs/ folder. Please validate all artifacts for consistency."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complex_complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
-
-    # Simple sequence prompts
-    simple_analyst_to_pm: "Focused project brief complete. Save it as docs/project-brief.md, then create simple epic or story for API development."
-    simple_complete: "Simple service defined. Move to IDE environment to begin development."
+    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#greenfield-service ====================
 
 ==================== START: workflows#greenfield-ui ====================
@@ -10147,8 +9938,7 @@ workflow:
     - ui-prototype
     - simple-interface
 
-  # For Complex UIs (Production Apps, Multiple Views)
-  complex_ui_sequence:
+  sequence:
     - agent: analyst
       creates: project-brief.md
       optional_steps:
@@ -10207,74 +9997,42 @@ workflow:
       action: move_to_ide
       notes: "All planning artifacts complete. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
 
-  # For Simple UIs (Simple Interfaces, Few Components)
-  simple_ui_sequence:
-    - step: ui_scope
-      action: assess complexity
-      notes: "First, assess if this needs full planning (use complex_ui_sequence) or can be a simple interface."
-
-    - agent: analyst
-      creates: project-brief.md
-      optional_steps:
-        - brainstorming_session
-      notes: "Creates focused project brief for simple UI. SAVE OUTPUT: Copy final project-brief.md to your project's docs/ folder."
-
-    - agent: ux-expert
-      creates: simple_wireframes OR quick_spec
-      uses: create-epic OR create-story
-      requires: project-brief.md
-      notes: "Create simple wireframes and component list instead of full UI/UX spec for rapid development."
-
-    - workflow_end:
-      action: move_to_ide
-      notes: "Simple UI defined. Move to IDE environment to begin development. Explain to the user the IDE Development Workflow next steps: data#bmad-kb:IDE Development Workflow"
-
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: UI Development] --> B{UI Complexity?}
-        B -->|Complex/Production| C[analyst: project-brief.md]
-        B -->|Simple/Prototype| D[analyst: focused project-brief.md]
+        A[Start: UI Development] --> B[analyst: project-brief.md]
+        B --> C[pm: prd.md]
+        C --> D[ux-expert: front-end-spec.md]
+        D --> D2{Generate v0 prompt?}
+        D2 -->|Yes| D3[ux-expert: create v0 prompt]
+        D2 -->|No| E[architect: front-end-architecture.md]
+        D3 --> D4[User: generate UI in v0/Lovable]
+        D4 --> E
+        E --> F{Architecture suggests PRD changes?}
+        F -->|Yes| G[pm: update prd.md]
+        F -->|No| H[po: validate all artifacts]
+        G --> H
+        H --> I{PO finds issues?}
+        I -->|Yes| J[Return to relevant agent for fixes]
+        I -->|No| K[Move to IDE Environment]
+        J --> H
 
-        C --> E[pm: prd.md]
-        E --> F[ux-expert: front-end-spec.md]
-        F --> F2{Generate v0 prompt?}
-        F2 -->|Yes| F3[ux-expert: create v0 prompt]
-        F2 -->|No| G[architect: front-end-architecture.md]
-        F3 --> F4[User: generate UI in v0/Lovable]
-        F4 --> G
-        G --> H{Architecture suggests PRD changes?}
-        H -->|Yes| I[pm: update prd.md]
-        H -->|No| J[po: validate all artifacts]
-        I --> J
-        J --> K{PO finds issues?}
-        K -->|Yes| L[Return to relevant agent for fixes]
-        K -->|No| M[Move to IDE Environment]
-        L --> J
+        B -.-> B1[Optional: brainstorming]
+        B -.-> B2[Optional: market research]
+        D -.-> D1[Optional: user research]
+        E -.-> E1[Optional: technical research]
 
-        D --> N[ux-expert: simple wireframes]
-        N --> O[Move to IDE Environment]
-
-        C -.-> C1[Optional: brainstorming]
-        C -.-> C2[Optional: market research]
-        F -.-> F1[Optional: user research]
-        G -.-> G1[Optional: technical research]
-        D -.-> D1[Optional: brainstorming]
-
-        style M fill:#90EE90
-        style O fill:#90EE90
-        style F3 fill:#E6E6FA
-        style F4 fill:#E6E6FA
+        style K fill:#90EE90
+        style D3 fill:#E6E6FA
+        style D4 fill:#E6E6FA
+        style B fill:#FFE4B5
         style C fill:#FFE4B5
+        style D fill:#FFE4B5
         style E fill:#FFE4B5
-        style F fill:#FFE4B5
-        style G fill:#FFE4B5
-        style D fill:#FFB6C1
-        style N fill:#FFB6C1
     ```
 
   decision_guidance:
-    use_complex_sequence_when:
+    when_to_use:
       - Building production frontend applications
       - Multiple views/pages with complex interactions
       - Need comprehensive UI/UX design and testing
@@ -10282,16 +10040,7 @@ workflow:
       - Long-term maintenance expected
       - Customer-facing applications
 
-    use_simple_sequence_when:
-      - Building simple interfaces or prototypes
-      - Few views with straightforward interactions
-      - Internal tools or admin interfaces
-      - Solo developer or small team
-      - Quick experiments or proof-of-concepts
-      - Learning or educational projects
-
   handoff_prompts:
-    # Complex sequence prompts
     analyst_to_pm: "Project brief is complete. Save it as docs/project-brief.md in your project, then create the PRD."
     pm_to_ux: "PRD is ready. Save it as docs/prd.md in your project, then create the UI/UX specification."
     ux_to_architect: "UI/UX spec complete. Save it as docs/front-end-spec.md in your project, then create the frontend architecture."
@@ -10299,9 +10048,5 @@ workflow:
     architect_to_pm: "Please update the PRD with the suggested story changes, then re-export the complete prd.md to docs/."
     updated_to_po: "All documents ready in docs/ folder. Please validate all artifacts for consistency."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complex_complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
-
-    # Simple sequence prompts
-    simple_analyst_to_ux: "Focused project brief complete. Save it as docs/project-brief.md, then create simple wireframes for rapid development."
-    simple_complete: "Simple UI defined. Move to IDE environment to begin development."
+    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#greenfield-ui ====================

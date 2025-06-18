@@ -48,7 +48,6 @@ dependencies:
   templates:
     - prd-tmpl
     - brownfield-prd-tmpl
-    - simple-project-prd-tmpl
   checklists:
     - pm-checklist
     - change-checklist
