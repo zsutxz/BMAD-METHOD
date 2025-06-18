@@ -1,3 +1,10 @@
+## [4.5.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.5.0...v4.5.1) (2025-06-18)
+
+
+### Bug Fixes
+
+* docs had some ide specific errors ([a954c7e](https://github.com/bmadcode/BMAD-METHOD/commit/a954c7e24284a6637483a9e47fc63a8f9d7dfbad))
+
 # [4.5.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.4.2...v4.5.0) (2025-06-17)
 
 
