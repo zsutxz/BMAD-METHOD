@@ -137,13 +137,13 @@ After presenting all data models, apply `tasks#advanced-elicitation` protocol]]
 
 **TypeScript Interface:**
 
-````typescript
+```typescript
 {
   {
     model_interface;
   }
 }
-```text
+```
 
 **Relationships:**
 
@@ -183,7 +183,7 @@ interface UserProfile {
   bio?: string;
   preferences: Record<string, any>;
 }
-````
+```
 
 **Relationships:**
 
@@ -207,7 +207,7 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-````yml
+```yml
 openapi: 3.0.0
 info:
   title:
@@ -221,7 +221,7 @@ servers:
       '[object Object]': null
     description:
       '[object Object]': null
-```text
+```
 
 ^^/CONDITION: has_rest_api^^
 
@@ -230,7 +230,7 @@ servers:
 ```graphql
 # GraphQL Schema
 {{graphql_schema}}
-````
+```
 
 ^^/CONDITION: has_graphql_api^^
 
