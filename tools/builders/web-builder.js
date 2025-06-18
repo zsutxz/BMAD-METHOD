@@ -12,6 +12,11 @@ class WebBuilder {
     this.templatePath = path.join(this.rootDir, 'bmad-core', 'templates', 'web-agent-startup-instructions-template.md');
   }
 
+  parseYaml(content) {
+    const yaml = require('js-yaml');
+    return yaml.load(content);
+  }
+
   async cleanOutputDirs() {
     for (const dir of this.outputDirs) {
       try {
@@ -268,28 +273,51 @@ class WebBuilder {
 
     const sections = [template];
 
-    // Add team configuration
+    // Add team configuration and parse to get agent list
     const teamContent = await fs.readFile(teamConfigPath, 'utf8');
     const teamFileName = path.basename(teamConfigPath, '.yml');
+    const teamConfig = this.parseYaml(teamContent);
     sections.push(this.formatSection(`agent-teams#${teamFileName}`, teamContent));
 
-    // Add bmad-orchestrator (required for all teams)
-    const orchestratorPath = path.join(this.rootDir, 'bmad-core', 'agents', 'bmad-orchestrator.md');
-    const orchestratorContent = await fs.readFile(orchestratorPath, 'utf8');
-    sections.push(this.formatSection('agents#bmad-orchestrator', orchestratorContent));
-
-    // Add expansion pack agents
+    // Get list of expansion pack agents
+    const expansionAgents = new Set();
     const agentsDir = path.join(packDir, 'agents');
     try {
       const agentFiles = await fs.readdir(agentsDir);
       for (const agentFile of agentFiles.filter(f => f.endsWith('.md'))) {
-        const agentPath = path.join(agentsDir, agentFile);
-        const agentContent = await fs.readFile(agentPath, 'utf8');
         const agentName = agentFile.replace('.md', '');
-        sections.push(this.formatSection(`agents#${agentName}`, agentContent));
+        expansionAgents.add(agentName);
       }
     } catch (error) {
       console.warn(`    ⚠ No agents directory found in ${packName}`);
+    }
+
+    // Process all agents listed in team configuration
+    const agentsToProcess = teamConfig.agents || [];
+    
+    // Ensure bmad-orchestrator is always included for teams
+    if (!agentsToProcess.includes('bmad-orchestrator')) {
+      console.warn(`    ⚠ Team ${teamFileName} missing bmad-orchestrator, adding automatically`);
+      agentsToProcess.unshift('bmad-orchestrator');
+    }
+
+    for (const agentId of agentsToProcess) {
+
+      if (expansionAgents.has(agentId)) {
+        // Use expansion pack version (override)
+        const agentPath = path.join(agentsDir, `${agentId}.md`);
+        const agentContent = await fs.readFile(agentPath, 'utf8');
+        sections.push(this.formatSection(`agents#${agentId}`, agentContent));
+      } else {
+        // Use core BMAD version
+        try {
+          const coreAgentPath = path.join(this.rootDir, 'bmad-core', 'agents', `${agentId}.md`);
+          const coreAgentContent = await fs.readFile(coreAgentPath, 'utf8');
+          sections.push(this.formatSection(`agents#${agentId}`, coreAgentContent));
+        } catch (error) {
+          console.warn(`    ⚠ Agent ${agentId} not found in core or expansion pack`);
+        }
+      }
     }
 
     // Add expansion pack resources (templates, tasks, checklists)
