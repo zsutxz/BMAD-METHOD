@@ -1,3 +1,15 @@
+# [4.6.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.5.1...v4.6.0) (2025-06-18)
+
+
+### Bug Fixes
+
+* orchestractor yml ([3727cc7](https://github.com/bmadcode/BMAD-METHOD/commit/3727cc764a7c7295932ff872e2e5be8b4c4e6859))
+
+
+### Features
+
+* removed some templates that are not ready for use ([b03aece](https://github.com/bmadcode/BMAD-METHOD/commit/b03aece79e52cfe9585225de5aff7659293d9295))
+
 ## [4.5.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.5.0...v4.5.1) (2025-06-18)
 
 
