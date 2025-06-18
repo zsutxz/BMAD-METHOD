@@ -131,7 +131,7 @@ Create subsections for each major flow. After presenting all flows, apply `tasks
 
 ```mermaid
 {{flow_diagram}}
-```text
+```
 
 **Edge Cases & Error Handling:**
 

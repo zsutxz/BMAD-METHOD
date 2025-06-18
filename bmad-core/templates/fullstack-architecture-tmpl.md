@@ -84,7 +84,7 @@ Document the choice and key services that will be used.]]
 
 ### Repository Structure
 
-[[LLM: Define the repository approach based on PRD requirements and platform choice:
+[[LLM: Define the repository approach based on PRD requirements and platform choice, explain your rationale or ask quetsions to the user if unsure:
 
 1. For modern fullstack apps, monorepo is often preferred
 2. Consider tooling (Nx, Turborepo, Lerna, npm workspaces)
@@ -262,7 +262,7 @@ interface UserProfile {
   bio?: string;
   preferences: Record<string, any>;
 }
-```text
+```
 
 **Relationships:**
 
@@ -508,7 +508,7 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ```text
 {{route_structure}}
-```text
+```
 
 **Protected Route Pattern:**
 
