@@ -1,3 +1,10 @@
+## [4.9.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.9.1...v4.9.2) (2025-06-19)
+
+
+### Bug Fixes
+
+* bad brownfield yml ([09d2ad6](https://github.com/bmadcode/BMAD-METHOD/commit/09d2ad6aea187996d0a2e1dff27d9bf7e3e6dc06))
+
 ## [4.9.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.9.0...v4.9.1) (2025-06-19)
 
 
