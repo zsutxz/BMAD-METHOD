@@ -109,8 +109,59 @@ class WebBuilder {
     return sections.join("\n");
   }
 
+  processAgentContent(content) {
+    // First, replace content before YAML with the template
+    const yamlMatch = content.match(/```ya?ml\n([\s\S]*?)\n```/);
+    if (!yamlMatch) return content;
+
+    const yamlContent = yamlMatch[1];
+    const yamlStartIndex = content.indexOf(yamlMatch[0]);
+    const yamlEndIndex = yamlStartIndex + yamlMatch[0].length;
+    
+    // Parse YAML and remove root and IDE-FILE-RESOLUTION properties
+    try {
+      const yaml = require("js-yaml");
+      const parsed = yaml.load(yamlContent);
+      
+      // Remove the properties if they exist at root level
+      delete parsed.root;
+      delete parsed['IDE-FILE-RESOLUTION'];
+      delete parsed['REQUEST-RESOLUTION'];
+      
+      // Also remove from activation-instructions if they exist
+      if (parsed['activation-instructions'] && Array.isArray(parsed['activation-instructions'])) {
+        parsed['activation-instructions'] = parsed['activation-instructions'].filter(instruction => {
+          return !instruction.startsWith('IDE-FILE-RESOLUTION:') && 
+                 !instruction.startsWith('REQUEST-RESOLUTION:');
+        });
+      }
+      
+      // Reconstruct the YAML
+      const cleanedYaml = yaml.dump(parsed, { lineWidth: -1 });
+      
+      // Get the agent name from the YAML for the header
+      const agentName = parsed.agent?.id || 'agent';
+      
+      // Build the new content with just the agent header and YAML
+      const newHeader = `# ${agentName}\n\nCRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n`;
+      const afterYaml = content.substring(yamlEndIndex);
+      
+      return newHeader + "```yaml\n" + cleanedYaml.trim() + "\n```" + afterYaml;
+    } catch (error) {
+      console.warn("Failed to process agent YAML:", error.message);
+      // If parsing fails, return original content
+      return content;
+    }
+  }
+
   formatSection(path, content) {
     const separator = "====================";
+    
+    // Process agent content if this is an agent file
+    if (path.startsWith("agents#")) {
+      content = this.processAgentContent(content);
+    }
+    
     return [
       `${separator} START: ${path} ${separator}`,
       content.trim(),
