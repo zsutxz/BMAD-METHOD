@@ -58,7 +58,9 @@ program
       if (!options.full && !options.agent && !options.team && !options.expansionOnly) {
         // Interactive mode
         const answers = await promptInstallation();
-        await installer.install(answers);
+        if (!answers._alreadyInstalled) {
+          await installer.install(answers);
+        }
       } else {
         // Direct mode
         let installType = 'full';
@@ -181,7 +183,9 @@ async function promptInstallation() {
     if (shouldUpdate) {
       // Skip other prompts and go directly to update
       answers.installType = 'update';
-      return await installer.install(answers);
+      answers._alreadyInstalled = true; // Flag to prevent double installation
+      await installer.install(answers);
+      return answers; // Return the answers object
     }
     // If user doesn't want to update, continue with normal flow
   }
@@ -401,7 +405,7 @@ async function promptInstallation() {
         type: 'input',
         name: 'webBundlesDirectory',
         message: 'Enter directory for web bundles:',
-        default: `${directory}/web-bundles`,
+        default: `${answers.directory}/web-bundles`,
         validate: (input) => {
           if (!input.trim()) {
             return 'Please enter a valid directory path';
