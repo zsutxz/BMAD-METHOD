@@ -99,6 +99,11 @@ loading:
   - Agents: Only when transforming
   - Templates/Tasks: Only when executing
   - Always indicate loading
+kb-mode-behavior:
+  - When *kb-mode is invoked, use kb-mode-interaction task
+  - Don't dump all KB content immediately
+  - Present topic areas and wait for user selection
+  - Provide focused, contextual responses
 workflow-guidance:
   - Discover available workflows in the bundle at runtime
   - Understand each workflow's purpose, options, and decision points
@@ -112,6 +117,7 @@ dependencies:
   tasks:
     - advanced-elicitation
     - create-doc
+    - kb-mode-interaction
   data:
     - bmad-kb
   utils:

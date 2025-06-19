@@ -884,6 +884,248 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 When creating custom web bundles or uploading to AI platforms, include your `technical-preferences.md` content to ensure agents have your preferences from the start of any conversation.
 
+### Core Configuration (core-config.yml)
+
+The `bmad-core/core-config.yml` file is a critical V4 innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+
+#### Understanding core-config.yml
+
+This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It's what makes V4 agents intelligent enough to work with V3 projects, custom layouts, or any document organization you prefer.
+
+#### Configuration Structure
+
+```yaml
+core-project-information:
+  dev-story-location: docs/stories # Where completed stories are saved
+
+  prd:
+    prd-file: docs/prd.md
+    prdVersion: v4 # v3 or v4
+    prdSharded: true # false if epics are embedded in PRD
+    prdShardedLocation: docs/prd # Where sharded epics live
+    epicFilePattern: epic-{n}*.md # Pattern for epic files
+
+  architecture:
+    architecture-file: docs/architecture.md
+    architectureVersion: v4 # v3 or v4
+    architectureSharded: true # false if monolithic
+    architectureShardedLocation: docs/architecture
+
+  customTechnicalDocuments: null # Additional docs for SM
+
+  devLoadAlwaysFiles: # Files dev agent always loads
+    - docs/architecture/coding-standards.md
+    - docs/architecture/tech-stack.md
+    - docs/architecture/project-structure.md
+
+  devDebugLog: .ai/debug-log.md # Dev agent debug tracking
+  agentCoreDump: .ai/core-dump{n}.md # Export chat contents
+```
+
+#### Key Configuration Options
+
+##### PRD Configuration
+
+The Scrum Master agent uses these settings to locate epics:
+
+**V4 Sharded Structure:**
+
+```yaml
+prd:
+  prd-file: docs/prd.md
+  prdVersion: v4
+  prdSharded: true
+  prdShardedLocation: docs/prd
+  epicFilePattern: epic-{n}*.md
+```
+
+**V3 Embedded Epics:**
+
+```yaml
+prd:
+  prd-file: docs/prd.md
+  prdVersion: v3
+  prdSharded: false # Epics are inside PRD
+```
+
+**Custom Sharded Location:**
+
+```yaml
+prd:
+  prd-file: docs/product-requirements.md
+  prdVersion: v4
+  prdSharded: true
+  prdShardedLocation: docs # Epics in docs/ not docs/prd/
+  epicFilePattern: epic-*.md
+```
+
+##### Architecture Configuration
+
+Similar flexibility for architecture documents:
+
+**V4 Sharded Architecture:**
+
+```yaml
+architecture:
+  architecture-file: docs/architecture.md
+  architectureVersion: v4
+  architectureSharded: true
+  architectureShardedLocation: docs/architecture
+```
+
+**V3 Monolithic Architecture:**
+
+```yaml
+architecture:
+  architecture-file: docs/technical-architecture.md
+  architectureVersion: v3
+  architectureSharded: false # All in one file
+```
+
+##### Developer Context Files
+
+Define which files the dev agent should always load:
+
+```yaml
+devLoadAlwaysFiles:
+  - docs/architecture/coding-standards.md
+  - docs/architecture/tech-stack.md
+  - docs/architecture/project-structure.md
+  - docs/api-contracts.yaml
+  - docs/database-schema.md
+  - .env.example
+```
+
+This ensures the dev agent always has critical context without needing to search for it.
+
+##### Debug and Export Options
+
+**Debug Log:**
+
+```yaml
+devDebugLog: .ai/debug-log.md
+```
+
+When the dev agent encounters repeated failures implementing a story, it logs issues here to avoid repeating the same mistakes.
+
+**Core Dump:**
+
+```yaml
+agentCoreDump: .ai/core-dump{n}.md
+```
+
+Export entire chat conversations for preservation or analysis. The `{n}` is replaced with a number.
+
+#### Common Configurations
+
+##### Legacy V3 Project
+
+```yaml
+core-project-information:
+  dev-story-location: docs/stories
+  prd:
+    prd-file: docs/prd.md
+    prdVersion: v3
+    prdSharded: false
+  architecture:
+    architecture-file: docs/architecture.md
+    architectureVersion: v3
+    architectureSharded: false
+  devLoadAlwaysFiles: []
+```
+
+##### Hybrid Project (V3 PRD, V4 Architecture)
+
+```yaml
+core-project-information:
+  dev-story-location: .ai/stories
+  prd:
+    prd-file: docs/product-requirements.md
+    prdVersion: v3
+    prdSharded: false
+  architecture:
+    architecture-file: docs/architecture.md
+    architectureVersion: v4
+    architectureSharded: true
+    architectureShardedLocation: docs/architecture
+  devLoadAlwaysFiles:
+    - docs/architecture/tech-stack.md
+```
+
+##### Custom Organization
+
+```yaml
+core-project-information:
+  dev-story-location: development/completed-stories
+  prd:
+    prd-file: planning/requirements.md
+    prdVersion: v4
+    prdSharded: true
+    prdShardedLocation: planning/epics
+    epicFilePattern: requirement-{n}.md
+  architecture:
+    architecture-file: technical/system-design.md
+    architectureVersion: v4
+    architectureSharded: true
+    architectureShardedLocation: technical/components
+  customTechnicalDocuments:
+    - technical/api-guide.md
+    - technical/deployment.md
+  devLoadAlwaysFiles:
+    - technical/coding-guidelines.md
+    - technical/git-workflow.md
+```
+
+#### Migration Strategies
+
+##### Gradual V3 to V4 Migration
+
+Start with V3 documents and gradually adopt V4 patterns:
+
+1. **Initial State**: Set `prdVersion: v3` and `prdSharded: false`
+2. **Shard PRD**: Use PO agent to shard, then update to `prdSharded: true`
+3. **Update Version**: Change to `prdVersion: v4` after using V4 templates
+4. **Repeat for Architecture**: Same process for architecture documents
+
+##### Working with Mixed Teams
+
+If some team members use V3 and others use V4:
+
+```yaml
+# Support both patterns
+customTechnicalDocuments:
+  - docs/legacy-requirements.md # V3 format
+  - docs/prd.md # V4 format
+```
+
+#### Best Practices
+
+1. **Always Configure for Your Structure**: Don't force your project to match BMAD defaults
+2. **Keep devLoadAlwaysFiles Focused**: Only include files needed for every dev task
+3. **Use Debug Log**: Enable when troubleshooting story implementation issues
+4. **Version Control core-config.yml**: Track changes to understand project evolution
+5. **Document Custom Patterns**: If using custom epicFilePattern, document it
+
+#### Troubleshooting
+
+**Scrum Master Can't Find Epics:**
+
+- Check `prdSharded` matches your structure
+- Verify `prdShardedLocation` path exists
+- Confirm `epicFilePattern` matches your files
+
+**Dev Agent Missing Context:**
+
+- Add critical files to `devLoadAlwaysFiles`
+- Ensure file paths are correct
+- Check files exist and are readable
+
+**Architecture Not Loading:**
+
+- Verify `architecture-file` path
+- Check `architectureVersion` setting
+- Confirm sharding configuration matches reality
+
 ### Extension Packs
 
 Add specialized capabilities:
