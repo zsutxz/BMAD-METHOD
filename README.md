@@ -11,6 +11,23 @@
 
 ⭐ **If you find this project helpful or useful, please give it a star!** It helps others discover BMAD-METHOD and you will be notified of updates!
 
+## 🔄 Important: Keeping Your BMAD Installation Updated
+
+**Stay up-to-date effortlessly!** If you already have BMAD-METHOD installed in your project, simply run:
+
+```bash
+npx bmad-method install
+```
+
+The installer will:
+
+- ✅ Automatically detect your existing v4 installation
+- ✅ Update only the files that have changed
+- ✅ Create `.bak` backup files for any custom modifications you've made
+- ✅ Preserve your project-specific configurations
+
+This makes it easy to benefit from the latest improvements, bug fixes, and new agents without losing your customizations!
+
 ## 🚀 Quick Start
 
 ### Fastest Start: Web UI (2 minutes) 🏃‍♂️
@@ -191,7 +208,7 @@ Structured approaches for different scenarios:
 ├── tasks/           # Reusable task definitions
 ├── checklists/      # Quality checklists
 ├── data/            # Knowledge base
-└── web-bundles/     # Pre-built bundles (deprecated - use dist/ instead)
+└── web-bundles/     # Optional can be added if you use the install command and select this folder as a destination for the build bundle files
 
 tools/
 ├── cli.js           # Build tool
