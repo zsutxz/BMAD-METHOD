@@ -425,7 +425,10 @@ class Installer {
         console.log(chalk.cyan("\n📦 Starting v3 to v4 upgrade process..."));
         const V3ToV4Upgrader = require("../../upgraders/v3-to-v4-upgrader");
         const upgrader = new V3ToV4Upgrader();
-        return await upgrader.upgrade({ projectPath: installDir });
+        return await upgrader.upgrade({ 
+          projectPath: installDir,
+          ides: config.ides || [] // Pass IDE selections from initial config
+        });
       }
       case "alongside":
         return await this.performFreshInstall(config, installDir, spinner);
