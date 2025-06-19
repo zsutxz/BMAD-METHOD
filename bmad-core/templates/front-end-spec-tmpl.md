@@ -1,5 +1,7 @@
 # {{Project Name}} UI/UX Specification
 
+[[LLM: The default path and filename unless specified is docs/front-end-spec.md]]
+
 [[LLM: Review provided documents including Project Brief, PRD, and any user research to gather context. Focus on understanding user needs, pain points, and desired outcomes before beginning the specification.]]
 
 ## Introduction

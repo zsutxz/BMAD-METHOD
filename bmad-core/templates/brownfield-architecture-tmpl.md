@@ -1,5 +1,7 @@
 # {{Project Name}} Brownfield Enhancement Architecture
 
+[[LLM: The default path and filename unless specified is docs/architecture.md]]
+
 [[LLM: IMPORTANT - SCOPE AND ASSESSMENT REQUIRED:
 
 This architecture document is for SIGNIFICANT enhancements to existing projects that require comprehensive architectural planning. Before proceeding:

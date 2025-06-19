@@ -237,7 +237,7 @@ class WebBuilder {
     const agentContent = await fs.readFile(agentPath, 'utf8');
     sections.push(this.formatSection(`agents#${agentName}`, agentContent));
 
-    // Resolve and add agent dependencies from expansion pack
+    // Resolve and add agent dependencies
     const agentYaml = agentContent.match(/```yaml\n([\s\S]*?)\n```/);
     if (agentYaml) {
       try {
@@ -245,16 +245,43 @@ class WebBuilder {
         const agentConfig = yaml.load(agentYaml[1]);
         
         if (agentConfig.dependencies) {
-          // Add resources from expansion pack
+          // Add resources, first try expansion pack, then core
           for (const [resourceType, resources] of Object.entries(agentConfig.dependencies)) {
             if (Array.isArray(resources)) {
               for (const resourceName of resources) {
-                const resourcePath = path.join(packDir, resourceType, `${resourceName}.md`);
-                try {
-                  const resourceContent = await fs.readFile(resourcePath, 'utf8');
-                  sections.push(this.formatSection(`${resourceType}#${resourceName}`, resourceContent));
-                } catch (error) {
-                  // Resource might not exist in expansion pack, that's ok
+                let found = false;
+                const extensions = ['.md', '.yml', '.yaml'];
+                
+                // Try expansion pack first
+                for (const ext of extensions) {
+                  const resourcePath = path.join(packDir, resourceType, `${resourceName}${ext}`);
+                  try {
+                    const resourceContent = await fs.readFile(resourcePath, 'utf8');
+                    sections.push(this.formatSection(`${resourceType}#${resourceName}`, resourceContent));
+                    found = true;
+                    break;
+                  } catch (error) {
+                    // Not in expansion pack, continue
+                  }
+                }
+                
+                // If not found in expansion pack, try core
+                if (!found) {
+                  for (const ext of extensions) {
+                    const corePath = path.join(this.rootDir, 'bmad-core', resourceType, `${resourceName}${ext}`);
+                    try {
+                      const coreContent = await fs.readFile(corePath, 'utf8');
+                      sections.push(this.formatSection(`${resourceType}#${resourceName}`, coreContent));
+                      found = true;
+                      break;
+                    } catch (error) {
+                      // Not in core either, continue
+                    }
+                  }
+                }
+                
+                if (!found) {
+                  console.warn(`    ⚠ Dependency ${resourceType}#${resourceName} not found in expansion pack or core`);
                 }
               }
             }
@@ -292,6 +319,22 @@ class WebBuilder {
       console.warn(`    ⚠ No agents directory found in ${packName}`);
     }
 
+    // Build a map of all available expansion pack resources for override checking
+    const expansionResources = new Map();
+    const resourceDirs = ['templates', 'tasks', 'checklists', 'workflows', 'data'];
+    for (const resourceDir of resourceDirs) {
+      const resourcePath = path.join(packDir, resourceDir);
+      try {
+        const resourceFiles = await fs.readdir(resourcePath);
+        for (const resourceFile of resourceFiles.filter(f => f.endsWith('.md') || f.endsWith('.yml'))) {
+          const fileName = resourceFile.replace(/\.(md|yml)$/, '');
+          expansionResources.set(`${resourceDir}#${fileName}`, true);
+        }
+      } catch (error) {
+        // Directory might not exist, that's fine
+      }
+    }
+
     // Process all agents listed in team configuration
     const agentsToProcess = teamConfig.agents || [];
     
@@ -301,6 +344,9 @@ class WebBuilder {
       agentsToProcess.unshift('bmad-orchestrator');
     }
 
+    // Track all dependencies from all agents (deduplicated)
+    const allDependencies = new Map();
+
     for (const agentId of agentsToProcess) {
 
       if (expansionAgents.has(agentId)) {
@@ -308,20 +354,110 @@ class WebBuilder {
         const agentPath = path.join(agentsDir, `${agentId}.md`);
         const agentContent = await fs.readFile(agentPath, 'utf8');
         sections.push(this.formatSection(`agents#${agentId}`, agentContent));
+
+        // Parse and collect dependencies from expansion agent
+        const agentYaml = agentContent.match(/```yaml\n([\s\S]*?)\n```/);
+        if (agentYaml) {
+          try {
+            const agentConfig = this.parseYaml(agentYaml[1]);
+            if (agentConfig.dependencies) {
+              for (const [resourceType, resources] of Object.entries(agentConfig.dependencies)) {
+                if (Array.isArray(resources)) {
+                  for (const resourceName of resources) {
+                    const key = `${resourceType}#${resourceName}`;
+                    if (!allDependencies.has(key)) {
+                      allDependencies.set(key, { type: resourceType, name: resourceName });
+                    }
+                  }
+                }
+              }
+            }
+          } catch (error) {
+            console.debug(`Failed to parse agent YAML for ${agentId}:`, error.message);
+          }
+        }
       } else {
         // Use core BMAD version
         try {
           const coreAgentPath = path.join(this.rootDir, 'bmad-core', 'agents', `${agentId}.md`);
           const coreAgentContent = await fs.readFile(coreAgentPath, 'utf8');
           sections.push(this.formatSection(`agents#${agentId}`, coreAgentContent));
+
+          // Parse and collect dependencies from core agent
+          const agentYaml = coreAgentContent.match(/```yaml\n([\s\S]*?)\n```/);
+          if (agentYaml) {
+            try {
+              // Clean up the YAML to handle command descriptions after dashes
+              let yamlContent = agentYaml[1];
+              yamlContent = yamlContent.replace(/^(\s*-)(\s*"[^"]+")(\s*-\s*.*)$/gm, '$1$2');
+              
+              const agentConfig = this.parseYaml(yamlContent);
+              if (agentConfig.dependencies) {
+                for (const [resourceType, resources] of Object.entries(agentConfig.dependencies)) {
+                  if (Array.isArray(resources)) {
+                    for (const resourceName of resources) {
+                      const key = `${resourceType}#${resourceName}`;
+                      if (!allDependencies.has(key)) {
+                        allDependencies.set(key, { type: resourceType, name: resourceName });
+                      }
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              console.debug(`Failed to parse agent YAML for ${agentId}:`, error.message);
+            }
+          }
         } catch (error) {
           console.warn(`    ⚠ Agent ${agentId} not found in core or expansion pack`);
         }
       }
     }
 
-    // Add expansion pack resources (templates, tasks, checklists)
-    const resourceDirs = ['templates', 'tasks', 'checklists', 'workflows', 'data'];
+    // Add all collected dependencies from agents
+    // Always prefer expansion pack versions if they exist
+    for (const [key, dep] of allDependencies) {
+      let found = false;
+      const extensions = ['.md', '.yml', '.yaml'];
+      
+      // Always check expansion pack first, even if the dependency came from a core agent
+      if (expansionResources.has(key)) {
+        // We know it exists in expansion pack, find and load it
+        for (const ext of extensions) {
+          const expansionPath = path.join(packDir, dep.type, `${dep.name}${ext}`);
+          try {
+            const content = await fs.readFile(expansionPath, 'utf8');
+            sections.push(this.formatSection(key, content));
+            console.log(`      ✓ Using expansion override for ${key}`);
+            found = true;
+            break;
+          } catch (error) {
+            // Try next extension
+          }
+        }
+      }
+      
+      // If not found in expansion pack (or doesn't exist there), try core
+      if (!found) {
+        for (const ext of extensions) {
+          const corePath = path.join(this.rootDir, 'bmad-core', dep.type, `${dep.name}${ext}`);
+          try {
+            const content = await fs.readFile(corePath, 'utf8');
+            sections.push(this.formatSection(key, content));
+            found = true;
+            break;
+          } catch (error) {
+            // Not in core either, continue
+          }
+        }
+      }
+      
+      if (!found) {
+        console.warn(`    ⚠ Dependency ${key} not found in expansion pack or core`);
+      }
+    }
+
+    // Add remaining expansion pack resources not already included as dependencies
     for (const resourceDir of resourceDirs) {
       const resourcePath = path.join(packDir, resourceDir);
       try {
@@ -330,7 +466,12 @@ class WebBuilder {
           const filePath = path.join(resourcePath, resourceFile);
           const fileContent = await fs.readFile(filePath, 'utf8');
           const fileName = resourceFile.replace(/\.(md|yml)$/, '');
-          sections.push(this.formatSection(`${resourceDir}#${fileName}`, fileContent));
+          
+          // Only add if not already included as a dependency
+          const resourceKey = `${resourceDir}#${fileName}`;
+          if (!allDependencies.has(resourceKey)) {
+            sections.push(this.formatSection(resourceKey, fileContent));
+          }
         }
       } catch (error) {
         // Directory might not exist, that's fine

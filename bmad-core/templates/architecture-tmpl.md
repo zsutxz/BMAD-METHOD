@@ -2,6 +2,8 @@
 
 [[LLM: If available, review any provided relevant documents to gather all relevant context before beginning. If at a minimum you cannot local `docs/prd.md` ask the user what docs will provide the basis for the architecture.]]
 
+[[LLM: The default path and filename unless specified is docs/architecture.md]]
+
 ## Introduction
 
 [[LLM: This section establishes the document's purpose and scope. Keep the content below but ensure project name is properly substituted.

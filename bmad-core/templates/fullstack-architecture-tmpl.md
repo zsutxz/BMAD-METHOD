@@ -1,5 +1,7 @@
 # {{Project Name}} Fullstack Architecture Document
 
+[[LLM: The default path and filename unless specified is docs/architecture.md]]
+
 [[LLM: If available, review any provided relevant documents to gather all relevant context before beginning. At minimum, you should have access to docs/prd.md and docs/front-end-spec.md. Ask the user for any documents you need but cannot locate. This template creates a unified architecture that covers both backend and frontend concerns to guide AI-driven fullstack development.]]
 
 ## Introduction

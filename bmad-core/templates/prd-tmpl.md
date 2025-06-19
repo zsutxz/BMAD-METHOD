@@ -1,5 +1,7 @@
 # {{Project Name}} Product Requirements Document (PRD)
 
+[[LLM: The default path and filename unless specified is docs/prd.md]]
+
 [[LLM: If available, review any provided document or ask if any are optionally available: Project Brief]]
 
 ## Goals and Background Context
