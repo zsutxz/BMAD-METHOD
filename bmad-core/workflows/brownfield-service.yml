@@ -14,7 +14,7 @@ workflow:
 
   sequence:
     - step: service_analysis
-     agent: architect
+      agent: architect
       action: analyze existing project and use task document-project
       creates: multiple documents per the document-project template
       notes: "Review existing service documentation, codebase, performance metrics, and identify integration dependencies."
