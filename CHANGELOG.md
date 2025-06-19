@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.9.0...v4.9.1) (2025-06-19)
+
+
+### Bug Fixes
+
+* dist bundles updated ([d9a989d](https://github.com/bmadcode/BMAD-METHOD/commit/d9a989dbe50da62cf598afa07a8588229c56b69c))
+
 # [4.9.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.8.0...v4.9.0) (2025-06-19)
 
 
