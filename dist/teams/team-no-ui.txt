@@ -1076,7 +1076,7 @@ Available workflows for [Team Name]:
 [... etc. ...]
 
 Use /workflow-start {number or id} to begin a workflow.
-```text
+```
 
 ### /workflow-start {workflow-id}
 
@@ -1102,7 +1102,7 @@ In Progress:
     - Create PRD (John) - awaiting input
 
 Next: Technical Architecture
-```text
+```
 
 ### /workflow-resume
 
@@ -1118,7 +1118,7 @@ BMad: I see you've completed Discovery and part of Product Planning.
       - UX Strategy with Sally (ux-expert)
 
       Would you like me to load Sally to continue?
-```text
+```
 
 ### /workflow-next
 
@@ -1188,7 +1188,7 @@ BMad: I see you have a PRD and architecture document. Based on these artifacts,
       - Load Sarah (Product Owner) to validate all artifacts
 
       Would you like to continue with this workflow?
-```text
+```
 
 ## Workflow Context Passing
 
@@ -1214,7 +1214,7 @@ Sally: I see we're in the Product Planning stage of the greenfield-fullstack wor
 
        Let's create the UX strategy and UI specifications. First, let me review
        the PRD to understand the features we're designing for...
-```text
+```
 
 ## Multi-Path Workflows
 
@@ -3223,7 +3223,7 @@ Create an `index.md` file in the sharded folder that:
 - [Section Name 2](./section-name-2.md)
 - [Section Name 3](./section-name-3.md)
   ...
-```text
+```
 
 ### 5. Preserve Special Content
 
@@ -5055,7 +5055,7 @@ servers:
       '[object Object]': null
     description:
       '[object Object]': null
-```text
+```
 
 ^^/CONDITION: has_rest_api^^
 
@@ -5118,7 +5118,6 @@ After presenting the structure, apply `tasks#advanced-elicitation` protocol to r
 ├── {{package-manifest}}        # Dependencies manifest
 ├── {{config-files}}            # Language/framework configs
 └── README.md                   # Project documentation
-```text
 
 @{example: monorepo-structure}
 project-root/
@@ -5130,6 +5129,7 @@ project-root/
 ├── scripts/ # Monorepo management scripts
 └── package.json # Root package.json with workspaces
 @{/example}
+```
 
 [[LLM: After presenting the source tree structure, apply `tasks#advanced-elicitation` protocol]]
 
@@ -6902,7 +6902,7 @@ Present component architecture and apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{component_interaction_diagram}}
-```text
+```
 
 ## API Design and Integration
 
@@ -6942,7 +6942,7 @@ Present API design and apply `tasks#advanced-elicitation` protocol]]
 
 ```json
 {{response_schema}}
-```text
+```
 
 <</REPEAT>>
 

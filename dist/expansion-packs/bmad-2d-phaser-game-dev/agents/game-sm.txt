@@ -109,6 +109,7 @@ Create detailed, actionable game development stories that enable AI developers t
 ## Prerequisites
 
 Before creating stories, ensure you have:
+
 - Completed Game Design Document (GDD)
 - Game Architecture Document
 - Epic definition this story belongs to
@@ -119,12 +120,14 @@ Before creating stories, ensure you have:
 ### 1. Story Identification
 
 **Review Epic Context:**
+
 - Understand the epic's overall goal
 - Identify specific features that need implementation
 - Review any existing stories in the epic
 - Ensure no duplicate work
 
 **Feature Analysis:**
+
 - Reference specific GDD sections
 - Understand player experience goals
 - Identify technical complexity
@@ -133,12 +136,14 @@ Before creating stories, ensure you have:
 ### 2. Story Scoping
 
 **Single Responsibility:**
+
 - Focus on one specific game feature
 - Ensure story is completable in 1-3 days
 - Break down complex features into multiple stories
 - Maintain clear boundaries with other stories
 
 **Implementation Clarity:**
+
 - Define exactly what needs to be built
 - Specify all technical requirements
 - Include all necessary integration points
@@ -150,6 +155,7 @@ Before creating stories, ensure you have:
 Use `templates#game-story-tmpl` following all embedded LLM instructions
 
 **Key Focus Areas:**
+
 - Clear, actionable description
 - Specific acceptance criteria
 - Detailed technical specifications
@@ -159,18 +165,21 @@ Use `templates#game-story-tmpl` following all embedded LLM instructions
 ### 4. Story Validation
 
 **Technical Review:**
+
 - Verify all technical specifications are complete
 - Ensure integration points are clearly defined
 - Confirm file paths match architecture
 - Validate TypeScript interfaces and classes
 
 **Game Design Alignment:**
+
 - Confirm story implements GDD requirements
 - Verify player experience goals are met
 - Check balance parameters are included
 - Ensure game mechanics are correctly interpreted
 
 **Implementation Readiness:**
+
 - All dependencies identified
 - Assets requirements specified
 - Testing criteria defined
@@ -182,6 +191,7 @@ Use `templates#game-story-tmpl` following all embedded LLM instructions
 Execute `checklists#game-story-dod-checklist` against completed story
 
 **Story Criteria:**
+
 - Story is immediately actionable
 - No design decisions left to developer
 - Technical requirements are complete
@@ -191,12 +201,14 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ### 6. Story Refinement
 
 **Developer Perspective:**
+
 - Can a developer start implementation immediately?
 - Are all technical questions answered?
 - Is the scope appropriate for the estimated points?
 - Are all dependencies clearly identified?
 
 **Iterative Improvement:**
+
 - Address any gaps or ambiguities
 - Clarify complex technical requirements
 - Ensure story fits within epic scope
@@ -205,6 +217,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Story Elements Checklist
 
 ### Required Sections
+
 - [ ] Clear, specific description
 - [ ] Complete acceptance criteria (functional, technical, game design)
 - [ ] Detailed technical specifications
@@ -218,6 +231,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 - [ ] Definition of Done checklist
 
 ### Game-Specific Requirements
+
 - [ ] GDD section references
 - [ ] Game mechanic implementation details
 - [ ] Player experience goals
@@ -227,6 +241,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 - [ ] Cross-platform considerations
 
 ### Technical Quality
+
 - [ ] TypeScript strict mode compliance
 - [ ] Architecture document alignment
 - [ ] Code organization follows standards
@@ -237,18 +252,21 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Common Pitfalls
 
 **Scope Issues:**
+
 - Story too large (break into multiple stories)
 - Story too vague (add specific requirements)
 - Missing dependencies (identify all prerequisites)
 - Unclear boundaries (define what's in/out of scope)
 
 **Technical Issues:**
+
 - Missing integration details
 - Incomplete technical specifications
 - Undefined interfaces or classes
 - Missing performance requirements
 
 **Game Design Issues:**
+
 - Not referencing GDD properly
 - Missing player experience context
 - Unclear game mechanic implementation
@@ -257,6 +275,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Success Criteria
 
 **Story Readiness:**
+
 - [ ] Developer can start implementation immediately
 - [ ] No additional design decisions required
 - [ ] All technical questions answered
@@ -265,6 +284,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 - [ ] Story fits within epic scope
 
 **Quality Validation:**
+
 - [ ] Game story DOD checklist passes
 - [ ] Architecture alignment confirmed
 - [ ] GDD requirements covered
@@ -274,6 +294,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Handoff Protocol
 
 **To Game Developer:**
+
 1. Provide story document
 2. Confirm GDD and architecture access
 3. Verify all dependencies are met
@@ -281,6 +302,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 5. Establish check-in schedule
 
 **Story Status Updates:**
+
 - Draft → Ready for Development
 - In Development → Code Review
 - Code Review → Testing
@@ -633,6 +655,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Story Completeness
 
 ### Basic Story Elements
+
 - [ ] **Story Title** - Clear, descriptive title that identifies the feature
 - [ ] **Epic Assignment** - Story is properly assigned to relevant epic
 - [ ] **Priority Level** - Appropriate priority assigned (High/Medium/Low)
@@ -640,6 +663,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Description** - Clear, concise description of what needs to be implemented
 
 ### Game Design Alignment
+
 - [ ] **GDD Reference** - Specific Game Design Document section referenced
 - [ ] **Game Mechanic Context** - Clear connection to game mechanics defined in GDD
 - [ ] **Player Experience Goal** - Describes the intended player experience
@@ -649,6 +673,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Technical Specifications
 
 ### Architecture Compliance
+
 - [ ] **File Organization** - Follows game architecture document structure
 - [ ] **Class Definitions** - TypeScript interfaces and classes are properly defined
 - [ ] **Integration Points** - Clear specification of how feature integrates with existing systems
@@ -656,6 +681,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Dependencies** - All system dependencies clearly identified
 
 ### Phaser 3 Requirements
+
 - [ ] **Scene Integration** - Specifies which scenes are affected and how
 - [ ] **Game Object Usage** - Proper use of Phaser 3 game objects and components
 - [ ] **Physics Integration** - Physics requirements specified if applicable
@@ -663,6 +689,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Performance Considerations** - 60 FPS target and optimization requirements
 
 ### Code Quality Standards
+
 - [ ] **TypeScript Strict Mode** - All code must comply with strict TypeScript
 - [ ] **Error Handling** - Error scenarios and handling requirements specified
 - [ ] **Memory Management** - Object pooling and cleanup requirements where needed
@@ -672,6 +699,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Implementation Readiness
 
 ### Acceptance Criteria
+
 - [ ] **Functional Requirements** - All functional acceptance criteria are specific and testable
 - [ ] **Technical Requirements** - Technical acceptance criteria are complete and verifiable
 - [ ] **Game Design Requirements** - Game-specific requirements match GDD specifications
@@ -679,6 +707,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Completeness** - No acceptance criteria are vague or unmeasurable
 
 ### Implementation Tasks
+
 - [ ] **Task Breakdown** - Story broken into specific, ordered implementation tasks
 - [ ] **Task Scope** - Each task is completable in 1-4 hours
 - [ ] **Task Clarity** - Each task has clear, actionable instructions
@@ -686,6 +715,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Development Flow** - Tasks follow logical implementation order
 
 ### Dependencies
+
 - [ ] **Story Dependencies** - All prerequisite stories identified with IDs
 - [ ] **Technical Dependencies** - Required systems and files identified
 - [ ] **Asset Dependencies** - All needed assets specified with locations
@@ -695,6 +725,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Testing Requirements
 
 ### Test Coverage
+
 - [ ] **Unit Test Requirements** - Specific unit test files and scenarios defined
 - [ ] **Integration Test Cases** - Integration testing with other game systems specified
 - [ ] **Manual Test Cases** - Game-specific manual testing procedures defined
@@ -702,6 +733,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Edge Case Testing** - Edge cases and error conditions covered
 
 ### Test Implementation
+
 - [ ] **Test File Paths** - Exact test file locations specified
 - [ ] **Test Scenarios** - All test scenarios are complete and executable
 - [ ] **Expected Behaviors** - Clear expected outcomes for all tests defined
@@ -711,6 +743,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Game-Specific Quality
 
 ### Gameplay Implementation
+
 - [ ] **Mechanic Accuracy** - Implementation matches GDD mechanic specifications
 - [ ] **Player Controls** - Input handling requirements are complete
 - [ ] **Game Feel** - Requirements for juice, feedback, and responsiveness specified
@@ -718,6 +751,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **State Management** - Game state changes and persistence requirements defined
 
 ### User Experience
+
 - [ ] **UI Requirements** - User interface elements and behaviors specified
 - [ ] **Audio Integration** - Sound effect and music requirements defined
 - [ ] **Visual Feedback** - Animation and visual effect requirements specified
@@ -725,6 +759,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Error Recovery** - User-facing error handling and recovery specified
 
 ### Performance Optimization
+
 - [ ] **Frame Rate Targets** - Specific FPS requirements for different platforms
 - [ ] **Memory Usage** - Memory consumption limits and monitoring requirements
 - [ ] **Asset Optimization** - Texture, audio, and data optimization requirements
@@ -734,6 +769,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Documentation and Communication
 
 ### Story Documentation
+
 - [ ] **Implementation Notes** - Additional context and implementation guidance provided
 - [ ] **Design Decisions** - Key design choices documented with rationale
 - [ ] **Future Considerations** - Potential future enhancements or modifications noted
@@ -741,6 +777,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Reference Materials** - Links to relevant GDD sections and architecture docs
 
 ### Developer Handoff
+
 - [ ] **Immediate Actionability** - Developer can start implementation without additional questions
 - [ ] **Complete Context** - All necessary context provided within the story
 - [ ] **Clear Boundaries** - What is and isn't included in the story scope is clear
@@ -750,6 +787,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 ## Final Validation
 
 ### Story Readiness
+
 - [ ] **No Ambiguity** - No sections require interpretation or additional design decisions
 - [ ] **Technical Completeness** - All technical requirements are specified and actionable
 - [ ] **Scope Appropriateness** - Story scope matches assigned story points
@@ -757,6 +795,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - [ ] **Review Completion** - Story has been reviewed for completeness and accuracy
 
 ### Implementation Preparedness
+
 - [ ] **Environment Ready** - Development environment requirements specified
 - [ ] **Resources Available** - All required resources (assets, docs, dependencies) accessible
 - [ ] **Testing Prepared** - Testing environment and data requirements specified

@@ -1335,7 +1335,7 @@ servers:
       '[object Object]': null
     description:
       '[object Object]': null
-```text
+```
 
 ^^/CONDITION: has_rest_api^^
 
@@ -1398,7 +1398,6 @@ After presenting the structure, apply `tasks#advanced-elicitation` protocol to r
 ├── {{package-manifest}}        # Dependencies manifest
 ├── {{config-files}}            # Language/framework configs
 └── README.md                   # Project documentation
-```text
 
 @{example: monorepo-structure}
 project-root/
@@ -1410,6 +1409,7 @@ project-root/
 ├── scripts/ # Monorepo management scripts
 └── package.json # Root package.json with workspaces
 @{/example}
+```
 
 [[LLM: After presenting the source tree structure, apply `tasks#advanced-elicitation` protocol]]
 
@@ -3182,7 +3182,7 @@ Present component architecture and apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{component_interaction_diagram}}
-```text
+```
 
 ## API Design and Integration
 
@@ -3222,7 +3222,7 @@ Present API design and apply `tasks#advanced-elicitation` protocol]]
 
 ```json
 {{response_schema}}
-```text
+```
 
 <</REPEAT>>
 

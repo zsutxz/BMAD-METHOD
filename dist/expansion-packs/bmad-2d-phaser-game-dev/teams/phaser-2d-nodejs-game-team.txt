@@ -1147,6 +1147,7 @@ This elicitation task is specifically designed for game development and should b
 - **Platform Considerations**: When adapting designs for different devices and input methods
 
 The questions and perspectives offered should always consider:
+
 - Player psychology and motivation
 - Technical feasibility with Phaser 3 and TypeScript
 - Performance implications for 60 FPS targets
@@ -2283,7 +2284,7 @@ Available workflows for [Team Name]:
 [... etc. ...]
 
 Use /workflow-start {number or id} to begin a workflow.
-```text
+```
 
 ### /workflow-start {workflow-id}
 
@@ -2309,7 +2310,7 @@ In Progress:
     - Create PRD (John) - awaiting input
 
 Next: Technical Architecture
-```text
+```
 
 ### /workflow-resume
 
@@ -2325,7 +2326,7 @@ BMad: I see you've completed Discovery and part of Product Planning.
       - UX Strategy with Sally (ux-expert)
 
       Would you like me to load Sally to continue?
-```text
+```
 
 ### /workflow-next
 
@@ -2395,7 +2396,7 @@ BMad: I see you have a PRD and architecture document. Based on these artifacts,
       - Load Sarah (Product Owner) to validate all artifacts
 
       Would you like to continue with this workflow?
-```text
+```
 
 ## Workflow Context Passing
 
@@ -2421,7 +2422,7 @@ Sally: I see we're in the Product Planning stage of the greenfield-fullstack wor
 
        Let's create the UX strategy and UI specifications. First, let me review
        the PRD to understand the features we're designing for...
-```text
+```
 
 ## Multi-Path Workflows
 
@@ -2571,6 +2572,7 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 [[LLM: Begin by understanding the game design context and goals. Ask clarifying questions if needed to determine the best approach for game-specific ideation.]]
 
 1. **Establish Game Context**
+
    - Understand the game genre or opportunity area
    - Identify target audience and platform constraints
    - Determine session goals (concept exploration vs. mechanic refinement)
@@ -2726,26 +2728,31 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 [[LLM: Help user select appropriate techniques based on their specific game design needs.]]
 
 **For Initial Game Concepts:**
+
 - What If Game Scenarios
 - Cross-Genre Fusion
 - Emotion-First Design
 
 **For Stuck/Blocked Creativity:**
+
 - Player Motivation Reversal
 - Constraint-Based Creativity
 - Genre Expectation Subversion
 
 **For Mechanic Development:**
+
 - SCAMPER for Game Mechanics
 - Core Loop Deconstruction
 - Player Agency Spectrum
 
 **For Player Experience:**
+
 - Player Archetype Brainstorming
 - Emotion-First Design
 - Accessibility-First Innovation
 
 **For World Building:**
+
 - Environmental Storytelling
 - Player-Generated Narrative
 - Platform-Specific Design
@@ -2755,16 +2762,19 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 [[LLM: Guide the brainstorming session with appropriate pacing for game design exploration.]]
 
 1. **Inspiration Phase** (10-15 min)
+
    - Reference existing games and mechanics
    - Explore player experiences and emotions
    - Gather visual and thematic inspiration
 
 2. **Divergent Exploration** (25-35 min)
+
    - Generate many game concepts or mechanics
    - Use expansion and fusion techniques
    - Encourage wild and impossible ideas
 
 3. **Player-Centered Filtering** (15-20 min)
+
    - Consider target audience reactions
    - Evaluate emotional impact and engagement
    - Group ideas by player experience goals
@@ -2779,6 +2789,7 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 [[LLM: Present brainstorming results in a format useful for game development.]]
 
 **Session Summary:**
+
 - Techniques used and focus areas
 - Total concepts/mechanics generated
 - Key themes and patterns identified
@@ -2794,21 +2805,25 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 **Development Readiness:**
 
 **Prototype-Ready Ideas:**
+
 - Ideas that can be tested immediately
 - Minimum viable implementations
 - Quick validation approaches
 
 **Research-Required Ideas:**
+
 - Concepts needing technical investigation
 - Player testing and market research needs
 - Competitive analysis requirements
 
 **Future Innovation Pipeline:**
+
 - Ideas requiring significant development
 - Technology-dependent concepts
 - Market timing considerations
 
 **Next Steps:**
+
 - Which concepts to prototype first
 - Recommended research areas
 - Suggested playtesting approaches
@@ -2817,24 +2832,28 @@ This task provides a comprehensive toolkit of creative brainstorming techniques 
 ## Game Design Specific Considerations
 
 ### Platform and Audience Awareness
+
 - Always consider target platform limitations and advantages
 - Keep target audience preferences and expectations in mind
 - Balance innovation with familiar game design patterns
 - Consider monetization and business model implications
 
 ### Rapid Prototyping Mindset
+
 - Focus on ideas that can be quickly tested
 - Emphasize core mechanics over complex features
 - Design for iteration and player feedback
 - Consider digital and paper prototyping approaches
 
 ### Player Psychology Integration
+
 - Understand motivation and engagement drivers
 - Consider learning curves and skill development
 - Design for different play session lengths
 - Balance challenge and reward appropriately
 
 ### Technical Feasibility
+
 - Keep development resources and timeline in mind
 - Consider art and audio asset requirements
 - Think about performance and optimization needs
@@ -2908,6 +2927,7 @@ If available, review any provided documents or ask if any are optionally availab
 [[LLM: Define the 30-60 second loop that players will repeat. Be specific about timing and player actions.]]
 
 **Primary Loop ({{duration}} seconds):**
+
 1. {{action_1}} ({{time_1}}s)
 2. {{action_2}} ({{time_2}}s)
 3. {{action_3}} ({{time_3}}s)
@@ -2918,10 +2938,12 @@ If available, review any provided documents or ask if any are optionally availab
 [[LLM: Clearly define success and failure states]]
 
 **Victory Conditions:**
+
 - {{win_condition_1}}
 - {{win_condition_2}}
 
 **Failure States:**
+
 - {{loss_condition_1}}
 - {{loss_condition_2}}
 
@@ -2942,6 +2964,7 @@ If available, review any provided documents or ask if any are optionally availab
 **System Response:** {{game_response}}
 
 **Implementation Notes:**
+
 - {{tech_requirement_1}}
 - {{tech_requirement_2}}
 - {{performance_consideration}}
@@ -2954,8 +2977,8 @@ If available, review any provided documents or ask if any are optionally availab
 
 [[LLM: Define all input methods for different platforms]]
 
-| Action | Desktop | Mobile | Gamepad |
-|--------|---------|--------|---------|
+| Action       | Desktop | Mobile      | Gamepad    |
+| ------------ | ------- | ----------- | ---------- |
 | {{action_1}} | {{key}} | {{gesture}} | {{button}} |
 | {{action_2}} | {{key}} | {{gesture}} | {{button}} |
 
@@ -2968,6 +2991,7 @@ If available, review any provided documents or ask if any are optionally availab
 **Progression Type:** {{linear|branching|metroidvania}}
 
 **Key Milestones:**
+
 1. **{{milestone_1}}** - {{unlock_description}}
 2. **{{milestone_2}}** - {{unlock_description}}
 3. **{{milestone_3}}** - {{unlock_description}}
@@ -2987,9 +3011,9 @@ If available, review any provided documents or ask if any are optionally availab
 
 [[LLM: Define any in-game currencies, resources, or collectibles]]
 
-| Resource | Earn Rate | Spend Rate | Purpose | Cap |
-|----------|-----------|------------|---------|-----|
-| {{resource_1}} | {{rate}} | {{rate}} | {{use}} | {{max}} |
+| Resource       | Earn Rate | Spend Rate | Purpose | Cap     |
+| -------------- | --------- | ---------- | ------- | ------- |
+| {{resource_1}} | {{rate}}  | {{rate}}   | {{use}} | {{max}} |
 
 ^^/CONDITION: has_economy^^
 
@@ -3009,6 +3033,7 @@ If available, review any provided documents or ask if any are optionally availab
 **Difficulty:** {{relative_difficulty}}
 
 **Structure Template:**
+
 - Introduction: {{intro_description}}
 - Challenge: {{main_challenge}}
 - Resolution: {{completion_requirement}}
@@ -3035,11 +3060,13 @@ If available, review any provided documents or ask if any are optionally availab
 ### Platform Specific
 
 **Desktop:**
+
 - Resolution: {{min_resolution}} - {{max_resolution}}
 - Input: Keyboard, Mouse, Gamepad
 - Browser: Chrome 80+, Firefox 75+, Safari 13+
 
 **Mobile:**
+
 - Resolution: {{mobile_min}} - {{mobile_max}}
 - Input: Touch, Tilt (optional)
 - OS: iOS 13+, Android 8+
@@ -3049,12 +3076,14 @@ If available, review any provided documents or ask if any are optionally availab
 [[LLM: Define asset specifications for the art and audio teams]]
 
 **Visual Assets:**
+
 - Art Style: {{style_description}}
 - Color Palette: {{color_specification}}
 - Animation: {{animation_requirements}}
 - UI Resolution: {{ui_specs}}
 
 **Audio Assets:**
+
 - Music Style: {{music_genre}}
 - Sound Effects: {{sfx_requirements}}
 - Voice Acting: {{voice_needs}}
@@ -3066,6 +3095,7 @@ If available, review any provided documents or ask if any are optionally availab
 ### Engine Configuration
 
 **Phaser 3 Setup:**
+
 - TypeScript: Strict mode enabled
 - Physics: {{physics_system}} (Arcade/Matter)
 - Renderer: WebGL with Canvas fallback
@@ -3074,6 +3104,7 @@ If available, review any provided documents or ask if any are optionally availab
 ### Code Architecture
 
 **Required Systems:**
+
 - Scene Management
 - State Management
 - Asset Loading
@@ -3085,6 +3116,7 @@ If available, review any provided documents or ask if any are optionally availab
 ### Data Management
 
 **Save Data:**
+
 - Progress tracking
 - Settings persistence
 - Statistics collection
@@ -3097,12 +3129,14 @@ If available, review any provided documents or ask if any are optionally availab
 ### Phase 1: Core Systems ({{duration}})
 
 **Epic: Foundation**
+
 - Engine setup and configuration
 - Basic scene management
 - Core input handling
 - Asset loading pipeline
 
 **Epic: Core Mechanics**
+
 - {{primary_mechanic}} implementation
 - Basic physics and collision
 - Player controller
@@ -3110,11 +3144,13 @@ If available, review any provided documents or ask if any are optionally availab
 ### Phase 2: Gameplay Features ({{duration}})
 
 **Epic: Game Systems**
+
 - {{mechanic_2}} implementation
 - {{mechanic_3}} implementation
 - Game state management
 
 **Epic: Content Creation**
+
 - Level loading system
 - First playable levels
 - Basic UI implementation
@@ -3122,11 +3158,13 @@ If available, review any provided documents or ask if any are optionally availab
 ### Phase 3: Polish & Optimization ({{duration}})
 
 **Epic: Performance**
+
 - Optimization and profiling
 - Mobile platform testing
 - Memory management
 
 **Epic: User Experience**
+
 - Audio implementation
 - Visual effects and polish
 - Final UI/UX refinement
@@ -3136,12 +3174,14 @@ If available, review any provided documents or ask if any are optionally availab
 [[LLM: Define measurable goals for the game]]
 
 **Technical Metrics:**
+
 - Frame rate: {{fps_target}}
 - Load time: {{load_target}}
 - Crash rate: <{{crash_threshold}}%
 - Memory usage: <{{memory_target}}MB
 
 **Gameplay Metrics:**
+
 - Tutorial completion: {{completion_rate}}%
 - Average session: {{session_length}} minutes
 - Level completion: {{level_completion}}%
@@ -3232,19 +3272,23 @@ This framework ensures consistency across all levels while providing flexibility
 **Difficulty Range:** {{difficulty_scale}}
 
 **Key Mechanics Featured:**
+
 - {{mechanic_1}} - {{usage_description}}
 - {{mechanic_2}} - {{usage_description}}
 
 **Player Objectives:**
+
 - Primary: {{primary_objective}}
 - Secondary: {{secondary_objective}}
 - Hidden: {{secret_objective}}
 
 **Success Criteria:**
+
 - {{completion_requirement_1}}
 - {{completion_requirement_2}}
 
 **Technical Requirements:**
+
 - Maximum entities: {{entity_limit}}
 - Performance target: {{fps_target}} FPS
 - Memory budget: {{memory_limit}}MB
@@ -3265,6 +3309,7 @@ This framework ensures consistency across all levels while providing flexibility
 **Total Level Count:** {{number}}
 
 **World Breakdown:**
+
 - World 1: {{level_count}} levels - {{theme}} - {{difficulty_range}}
 - World 2: {{level_count}} levels - {{theme}} - {{difficulty_range}}
 - World 3: {{level_count}} levels - {{theme}} - {{difficulty_range}}
@@ -3274,7 +3319,8 @@ This framework ensures consistency across all levels while providing flexibility
 [[LLM: Define how challenge increases across the game]]
 
 **Progression Curve:**
-```text
+
+````text
 Difficulty
     ^     ___/```
     |    /
@@ -3284,9 +3330,10 @@ Difficulty
     |/     /
     +-----------> Level Number
    Tutorial  Early  Mid  Late
-```text
+````
 
 **Scaling Parameters:**
+
 - Enemy count: {{start_count}} → {{end_count}}
 - Enemy difficulty: {{start_diff}} → {{end_diff}}
 - Level complexity: {{start_complex}} → {{end_complex}}
@@ -3297,6 +3344,7 @@ Difficulty
 [[LLM: Define how players access new levels]]
 
 **Progression Gates:**
+
 - Linear progression: Complete previous level
 - Star requirements: {{star_count}} stars to unlock
 - Skill gates: Demonstrate {{skill_requirement}}
@@ -3311,14 +3359,17 @@ Difficulty
 [[LLM: Define all environmental components that can be used in levels]]
 
 **Terrain Types:**
+
 - {{terrain_1}}: {{properties_and_usage}}
 - {{terrain_2}}: {{properties_and_usage}}
 
 **Interactive Objects:**
+
 - {{object_1}}: {{behavior_and_purpose}}
 - {{object_2}}: {{behavior_and_purpose}}
 
 **Hazards and Obstacles:**
+
 - {{hazard_1}}: {{damage_and_behavior}}
 - {{hazard_2}}: {{damage_and_behavior}}
 
@@ -3327,15 +3378,18 @@ Difficulty
 [[LLM: Define all collectible items and their placement rules]]
 
 **Collectible Types:**
+
 - {{collectible_1}}: {{value_and_purpose}}
 - {{collectible_2}}: {{value_and_purpose}}
 
 **Placement Guidelines:**
+
 - Mandatory collectibles: {{placement_rules}}
 - Optional collectibles: {{placement_rules}}
 - Secret collectibles: {{placement_rules}}
 
 **Reward Distribution:**
+
 - Easy to find: {{percentage}}%
 - Moderate challenge: {{percentage}}%
 - High skill required: {{percentage}}%
@@ -3345,15 +3399,18 @@ Difficulty
 [[LLM: Define how enemies should be placed and balanced in levels]]
 
 **Enemy Categories:**
+
 - {{enemy_type_1}}: {{behavior_and_usage}}
 - {{enemy_type_2}}: {{behavior_and_usage}}
 
 **Placement Principles:**
+
 - Introduction encounters: {{guideline}}
 - Standard encounters: {{guideline}}
 - Challenge encounters: {{guideline}}
 
 **Difficulty Scaling:**
+
 - Enemy count progression: {{scaling_rule}}
 - Enemy type introduction: {{pacing_rule}}
 - Encounter complexity: {{complexity_rule}}
@@ -3365,12 +3422,14 @@ Difficulty
 ### Level Layout Principles
 
 **Spatial Design:**
+
 - Grid size: {{grid_dimensions}}
 - Minimum path width: {{width_units}}
 - Maximum vertical distance: {{height_units}}
 - Safe zones placement: {{safety_guidelines}}
 
 **Navigation Design:**
+
 - Clear path indication: {{visual_cues}}
 - Landmark placement: {{landmark_rules}}
 - Dead end avoidance: {{dead_end_policy}}
@@ -3381,11 +3440,13 @@ Difficulty
 [[LLM: Define how to control the rhythm and pace of gameplay within levels]]
 
 **Action Sequences:**
+
 - High intensity duration: {{max_duration}}
 - Rest period requirement: {{min_rest_time}}
 - Intensity variation: {{pacing_pattern}}
 
 **Learning Sequences:**
+
 - New mechanic introduction: {{teaching_method}}
 - Practice opportunity: {{practice_duration}}
 - Skill application: {{application_context}}
@@ -3395,12 +3456,14 @@ Difficulty
 [[LLM: Define how to create appropriate challenges for each level type]]
 
 **Challenge Types:**
+
 - Execution challenges: {{skill_requirements}}
 - Puzzle challenges: {{complexity_guidelines}}
 - Time challenges: {{time_pressure_rules}}
 - Resource challenges: {{resource_management}}
 
 **Difficulty Calibration:**
+
 - Skill check frequency: {{frequency_guidelines}}
 - Failure recovery: {{retry_mechanics}}
 - Hint system integration: {{help_system}}
@@ -3414,11 +3477,13 @@ Difficulty
 [[LLM: Define how level data should be structured for implementation]]
 
 **Level File Format:**
+
 - Data format: {{json|yaml|custom}}
 - File naming: `level_{{world}}_{{number}}.{{extension}}`
 - Data organization: {{structure_description}}
 
 **Required Data Fields:**
+
 ```json
 {
   "levelId": "{{unique_identifier}}",
@@ -3450,12 +3515,14 @@ Difficulty
 [[LLM: Define how level assets are organized and loaded]]
 
 **Tilemap Requirements:**
+
 - Tile size: {{tile_dimensions}}px
 - Tileset organization: {{tileset_structure}}
 - Layer organization: {{layer_system}}
 - Collision data: {{collision_format}}
 
 **Audio Integration:**
+
 - Background music: {{music_requirements}}
 - Ambient sounds: {{ambient_system}}
 - Dynamic audio: {{dynamic_audio_rules}}
@@ -3465,16 +3532,19 @@ Difficulty
 [[LLM: Define performance requirements for level systems]]
 
 **Entity Limits:**
+
 - Maximum active entities: {{entity_limit}}
 - Maximum particles: {{particle_limit}}
 - Maximum audio sources: {{audio_limit}}
 
 **Memory Management:**
+
 - Texture memory budget: {{texture_memory}}MB
 - Audio memory budget: {{audio_memory}}MB
 - Level loading time: <{{load_time}}s
 
 **Culling and LOD:**
+
 - Off-screen culling: {{culling_distance}}
 - Level-of-detail rules: {{lod_system}}
 - Asset streaming: {{streaming_requirements}}
@@ -3486,11 +3556,13 @@ Difficulty
 ### Automated Testing
 
 **Performance Testing:**
+
 - Frame rate validation: Maintain {{fps_target}} FPS
 - Memory usage monitoring: Stay under {{memory_limit}}MB
 - Loading time verification: Complete in <{{load_time}}s
 
 **Gameplay Testing:**
+
 - Completion path validation: All objectives achievable
 - Collectible accessibility: All items reachable
 - Softlock prevention: No unwinnable states
@@ -3498,6 +3570,7 @@ Difficulty
 ### Manual Testing Protocol
 
 **Playtesting Checklist:**
+
 - [ ] Level completes within target time range
 - [ ] All mechanics function correctly
 - [ ] Difficulty feels appropriate for level category
@@ -3505,6 +3578,7 @@ Difficulty
 - [ ] No exploits or sequence breaks (unless intended)
 
 **Player Experience Testing:**
+
 - [ ] Tutorial levels teach effectively
 - [ ] Challenge feels fair and rewarding
 - [ ] Flow and pacing maintain engagement
@@ -3513,12 +3587,14 @@ Difficulty
 ### Balance Validation
 
 **Metrics Collection:**
+
 - Completion rate: Target {{completion_percentage}}%
 - Average completion time: {{target_time}} ± {{variance}}
 - Death count per level: <{{max_deaths}}
 - Collectible discovery rate: {{discovery_percentage}}%
 
 **Iteration Guidelines:**
+
 - Adjustment criteria: {{criteria_for_changes}}
 - Testing sample size: {{minimum_testers}}
 - Validation period: {{testing_duration}}
@@ -3530,12 +3606,14 @@ Difficulty
 ### Design Phase
 
 **Concept Development:**
+
 1. Define level purpose and goals
 2. Create rough layout sketch
 3. Identify key mechanics and challenges
 4. Estimate difficulty and duration
 
 **Documentation Requirements:**
+
 - Level design brief
 - Layout diagrams
 - Mechanic integration notes
@@ -3544,6 +3622,7 @@ Difficulty
 ### Implementation Phase
 
 **Technical Implementation:**
+
 1. Create level data file
 2. Build tilemap and layout
 3. Place entities and objects
@@ -3551,6 +3630,7 @@ Difficulty
 5. Integrate audio and visual effects
 
 **Quality Assurance:**
+
 1. Automated testing execution
 2. Internal playtesting
 3. Performance validation
@@ -3559,12 +3639,14 @@ Difficulty
 ### Integration Phase
 
 **Game Integration:**
+
 1. Level progression integration
 2. Save system compatibility
 3. Analytics integration
 4. Achievement system integration
 
 **Final Validation:**
+
 1. Full game context testing
 2. Performance regression testing
 3. Platform compatibility verification
@@ -3575,18 +3657,21 @@ Difficulty
 [[LLM: Define how to measure level design success]]
 
 **Player Engagement:**
+
 - Level completion rate: {{target_rate}}%
 - Replay rate: {{replay_target}}%
 - Time spent per level: {{engagement_time}}
 - Player satisfaction scores: {{satisfaction_target}}/10
 
 **Technical Performance:**
+
 - Frame rate consistency: {{fps_consistency}}%
 - Loading time compliance: {{load_compliance}}%
 - Memory usage efficiency: {{memory_efficiency}}%
 - Crash rate: <{{crash_threshold}}%
 
 **Design Quality:**
+
 - Difficulty curve adherence: {{curve_accuracy}}
 - Mechanic integration effectiveness: {{integration_score}}
 - Player guidance clarity: {{guidance_score}}
@@ -3656,11 +3741,13 @@ This brief is typically created early in the ideation process, often after brain
 [[LLM: List the 3-5 most important gameplay mechanics that define the player experience]]
 
 **Core Mechanic 1: {{mechanic_name}}**
+
 - **Description:** {{how_it_works}}
 - **Player Value:** {{why_its_fun}}
 - **Implementation Scope:** {{complexity_estimate}}
 
 **Core Mechanic 2: {{mechanic_name}}**
+
 - **Description:** {{how_it_works}}
 - **Player Value:** {{why_its_fun}}
 - **Implementation Scope:** {{complexity_estimate}}
@@ -3687,10 +3774,12 @@ This brief is typically created early in the ideation process, often after brain
 ### Technical Constraints
 
 **Platform Requirements:**
+
 - Primary: {{platform_1}} - {{requirements}}
 - Secondary: {{platform_2}} - {{requirements}}
 
 **Technical Specifications:**
+
 - Engine: Phaser 3 + TypeScript
 - Performance Target: {{fps_target}} FPS on {{target_device}}
 - Memory Budget: <{{memory_limit}}MB
@@ -3721,6 +3810,7 @@ This brief is typically created early in the ideation process, often after brain
 ### Inspiration Games
 
 **Primary References:**
+
 1. **{{reference_game_1}}** - {{what_we_learn_from_it}}
 2. **{{reference_game_2}}** - {{what_we_learn_from_it}}
 3. **{{reference_game_3}}** - {{what_we_learn_from_it}}
@@ -3728,6 +3818,7 @@ This brief is typically created early in the ideation process, often after brain
 ### Competitive Analysis
 
 **Direct Competitors:**
+
 - {{competitor_1}}: {{strengths_and_weaknesses}}
 - {{competitor_2}}: {{strengths_and_weaknesses}}
 
@@ -3753,13 +3844,16 @@ This brief is typically created early in the ideation process, often after brain
 ### Content Categories
 
 **Core Content:**
+
 - {{content_type_1}}: {{quantity_and_description}}
 - {{content_type_2}}: {{quantity_and_description}}
 
 **Optional Content:**
+
 - {{optional_content_type}}: {{quantity_and_description}}
 
 **Replay Elements:**
+
 - {{replayability_features}}
 
 ### Difficulty and Accessibility
@@ -3797,23 +3891,23 @@ This brief is typically created early in the ideation process, often after brain
 
 ### Technical Risks
 
-| Risk | Probability | Impact | Mitigation Strategy |
-|------|-------------|--------|-------------------|
-| {{technical_risk_1}} | {{high|med|low}} | {{high|med|low}} | {{mitigation_approach}} |
-| {{technical_risk_2}} | {{high|med|low}} | {{high|med|low}} | {{mitigation_approach}} |
+| Risk                 | Probability | Impact | Mitigation Strategy |
+| -------------------- | ----------- | ------ | ------------------- | ------ | --- | ----- | ----------------------- |
+| {{technical_risk_1}} | {{high      | med    | low}}               | {{high | med | low}} | {{mitigation_approach}} |
+| {{technical_risk_2}} | {{high      | med    | low}}               | {{high | med | low}} | {{mitigation_approach}} |
 
 ### Design Risks
 
-| Risk | Probability | Impact | Mitigation Strategy |
-|------|-------------|--------|-------------------|
-| {{design_risk_1}} | {{high|med|low}} | {{high|med|low}} | {{mitigation_approach}} |
-| {{design_risk_2}} | {{high|med|low}} | {{high|med|low}} | {{mitigation_approach}} |
+| Risk              | Probability | Impact | Mitigation Strategy |
+| ----------------- | ----------- | ------ | ------------------- | ------ | --- | ----- | ----------------------- |
+| {{design_risk_1}} | {{high      | med    | low}}               | {{high | med | low}} | {{mitigation_approach}} |
+| {{design_risk_2}} | {{high      | med    | low}}               | {{high | med | low}} | {{mitigation_approach}} |
 
 ### Market Risks
 
-| Risk | Probability | Impact | Mitigation Strategy |
-|------|-------------|--------|-------------------|
-| {{market_risk_1}} | {{high|med|low}} | {{high|med|low}} | {{mitigation_approach}} |
+| Risk              | Probability | Impact | Mitigation Strategy |
+| ----------------- | ----------- | ------ | ------------------- | ------ | --- | ----- | ----------------------- |
+| {{market_risk_1}} | {{high      | med    | low}}               | {{high | med | low}} | {{mitigation_approach}} |
 
 ## Success Criteria
 
@@ -3822,11 +3916,13 @@ This brief is typically created early in the ideation process, often after brain
 ### Player Experience Metrics
 
 **Engagement Goals:**
+
 - Tutorial completion rate: >{{percentage}}%
 - Average session length: {{duration}} minutes
 - Player retention: D1 {{d1}}%, D7 {{d7}}%, D30 {{d30}}%
 
 **Quality Benchmarks:**
+
 - Player satisfaction: >{{rating}}/10
 - Completion rate: >{{percentage}}%
 - Technical performance: {{fps_target}} FPS consistent
@@ -3834,11 +3930,13 @@ This brief is typically created early in the ideation process, often after brain
 ### Development Metrics
 
 **Technical Targets:**
+
 - Zero critical bugs at launch
 - Performance targets met on all platforms
 - Load times under {{seconds}}s
 
 **Process Goals:**
+
 - Development timeline adherence
 - Feature scope completion
 - Quality assurance standards
@@ -3848,6 +3946,7 @@ This brief is typically created early in the ideation process, often after brain
 ### Business Metrics
 
 **Commercial Goals:**
+
 - {{revenue_target}} in first {{time_period}}
 - {{user_acquisition_target}} players in first {{time_period}}
 - {{retention_target}} monthly active users
@@ -3867,16 +3966,19 @@ This brief is typically created early in the ideation process, often after brain
 ### Development Roadmap
 
 **Phase 1: Pre-Production** ({{duration}})
+
 - Detailed Game Design Document creation
 - Technical architecture planning
 - Art style exploration and pipeline setup
 
 **Phase 2: Prototype** ({{duration}})
+
 - Core mechanic implementation
 - Technical proof of concept
 - Initial playtesting and iteration
 
 **Phase 3: Production** ({{duration}})
+
 - Full feature development
 - Content creation and integration
 - Comprehensive testing and optimization
@@ -3884,6 +3986,7 @@ This brief is typically created early in the ideation process, often after brain
 ### Documentation Pipeline
 
 **Required Documents:**
+
 1. Game Design Document (GDD) - {{target_completion}}
 2. Technical Architecture Document - {{target_completion}}
 3. Art Style Guide - {{target_completion}}
@@ -3892,10 +3995,12 @@ This brief is typically created early in the ideation process, often after brain
 ### Validation Plan
 
 **Concept Testing:**
+
 - {{validation_method_1}} - {{timeline}}
 - {{validation_method_2}} - {{timeline}}
 
 **Prototype Testing:**
+
 - {{testing_approach}} - {{timeline}}
 - {{feedback_collection_method}} - {{timeline}}
 
@@ -3927,6 +4032,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Document Completeness
 
 ### Executive Summary
+
 - [ ] **Core Concept** - Game concept is clearly explained in 2-3 sentences
 - [ ] **Target Audience** - Primary and secondary audiences defined with demographics
 - [ ] **Platform Requirements** - Technical platforms and requirements specified
@@ -3934,6 +4040,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Technical Foundation** - Phaser 3 + TypeScript requirements confirmed
 
 ### Game Design Foundation
+
 - [ ] **Game Pillars** - 3-5 core design pillars defined and actionable
 - [ ] **Core Gameplay Loop** - 30-60 second loop documented with specific timings
 - [ ] **Win/Loss Conditions** - Clear victory and failure states defined
@@ -3943,6 +4050,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Gameplay Mechanics
 
 ### Core Mechanics Documentation
+
 - [ ] **Primary Mechanics** - 3-5 core mechanics detailed with implementation notes
 - [ ] **Mechanic Integration** - How mechanics work together is clear
 - [ ] **Player Input** - All input methods specified for each platform
@@ -3950,6 +4058,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Performance Impact** - Performance considerations for each mechanic noted
 
 ### Controls and Interaction
+
 - [ ] **Multi-Platform Controls** - Desktop, mobile, and gamepad controls defined
 - [ ] **Input Responsiveness** - Requirements for responsive game feel specified
 - [ ] **Accessibility Options** - Control customization and accessibility considered
@@ -3959,6 +4068,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Progression and Balance
 
 ### Player Progression
+
 - [ ] **Progression Type** - Linear, branching, or metroidvania approach defined
 - [ ] **Key Milestones** - Major progression points documented
 - [ ] **Unlock System** - What players unlock and when is specified
@@ -3966,6 +4076,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Player Agency** - Meaningful player choices and consequences defined
 
 ### Game Balance
+
 - [ ] **Balance Parameters** - Numeric values for key game systems provided
 - [ ] **Difficulty Curve** - Appropriate challenge progression designed
 - [ ] **Economy Design** - Resource systems balanced for engagement
@@ -3975,6 +4086,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Level Design Framework
 
 ### Level Structure
+
 - [ ] **Level Types** - Different level categories defined with purposes
 - [ ] **Level Progression** - How players move through levels specified
 - [ ] **Duration Targets** - Expected play time for each level type
@@ -3982,6 +4094,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Replay Value** - Elements that encourage repeated play designed
 
 ### Content Guidelines
+
 - [ ] **Level Creation Rules** - Clear guidelines for level designers
 - [ ] **Mechanic Introduction** - How new mechanics are taught in levels
 - [ ] **Pacing Variety** - Mix of action, puzzle, and rest moments planned
@@ -3991,6 +4104,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Technical Implementation Readiness
 
 ### Performance Requirements
+
 - [ ] **Frame Rate Targets** - 60 FPS target with minimum acceptable rates
 - [ ] **Memory Budgets** - Maximum memory usage limits defined
 - [ ] **Load Time Goals** - Acceptable loading times for different content
@@ -3998,6 +4112,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Scalability Plan** - How performance scales across different devices
 
 ### Platform Specifications
+
 - [ ] **Desktop Requirements** - Minimum and recommended PC/Mac specs
 - [ ] **Mobile Optimization** - iOS and Android specific requirements
 - [ ] **Browser Compatibility** - Supported browsers and versions listed
@@ -4005,6 +4120,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Update Strategy** - Plan for post-launch updates and patches
 
 ### Asset Requirements
+
 - [ ] **Art Style Definition** - Clear visual style with reference materials
 - [ ] **Asset Specifications** - Technical requirements for all asset types
 - [ ] **Audio Requirements** - Music and sound effect specifications
@@ -4014,6 +4130,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Development Planning
 
 ### Implementation Phases
+
 - [ ] **Phase Breakdown** - Development divided into logical phases
 - [ ] **Epic Definitions** - Major development epics identified
 - [ ] **Dependency Mapping** - Prerequisites between features documented
@@ -4021,6 +4138,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Milestone Planning** - Key deliverables and deadlines established
 
 ### Team Requirements
+
 - [ ] **Role Definitions** - Required team roles and responsibilities
 - [ ] **Skill Requirements** - Technical skills needed for implementation
 - [ ] **Resource Allocation** - Time and effort estimates for major features
@@ -4030,6 +4148,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Quality Assurance
 
 ### Success Metrics
+
 - [ ] **Technical Metrics** - Measurable technical performance goals
 - [ ] **Gameplay Metrics** - Player engagement and retention targets
 - [ ] **Quality Benchmarks** - Standards for bug rates and polish level
@@ -4037,6 +4156,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Business Objectives** - Commercial or project success criteria
 
 ### Testing Strategy
+
 - [ ] **Playtesting Plan** - How and when player feedback will be gathered
 - [ ] **Technical Testing** - Performance and compatibility testing approach
 - [ ] **Balance Validation** - Methods for confirming game balance
@@ -4046,6 +4166,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Documentation Quality
 
 ### Clarity and Completeness
+
 - [ ] **Clear Writing** - All sections are well-written and understandable
 - [ ] **Complete Coverage** - No major game systems left undefined
 - [ ] **Actionable Detail** - Enough detail for developers to create implementation stories
@@ -4053,6 +4174,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Reference Materials** - Links to inspiration, research, and additional resources
 
 ### Maintainability
+
 - [ ] **Version Control** - Change log established for tracking revisions
 - [ ] **Update Process** - Plan for maintaining document during development
 - [ ] **Team Access** - All team members can access and reference the document
@@ -4062,6 +4184,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Stakeholder Alignment
 
 ### Team Understanding
+
 - [ ] **Shared Vision** - All team members understand and agree with the game vision
 - [ ] **Role Clarity** - Each team member understands their contribution
 - [ ] **Decision Framework** - Process for making design decisions during development
@@ -4069,6 +4192,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Communication Channels** - Regular meetings and feedback sessions planned
 
 ### External Validation
+
 - [ ] **Market Validation** - Competitive analysis and market fit assessment
 - [ ] **Technical Validation** - Feasibility confirmed with technical team
 - [ ] **Resource Validation** - Required resources available and committed
@@ -4078,6 +4202,7 @@ This brief is typically created early in the ideation process, often after brain
 ## Final Readiness Assessment
 
 ### Implementation Preparedness
+
 - [ ] **Story Creation Ready** - Document provides sufficient detail for story creation
 - [ ] **Architecture Alignment** - Game design aligns with technical capabilities
 - [ ] **Asset Production** - Asset requirements enable art and audio production
@@ -4085,6 +4210,7 @@ This brief is typically created early in the ideation process, often after brain
 - [ ] **Quality Assurance** - Testing and validation processes established
 
 ### Document Approval
+
 - [ ] **Design Review Complete** - Document reviewed by all relevant stakeholders
 - [ ] **Technical Review Complete** - Technical feasibility confirmed
 - [ ] **Business Review Complete** - Project scope and goals approved
@@ -4187,7 +4313,7 @@ This architecture is designed to support the gameplay mechanics defined in the G
 │   ├── stories/         # Development stories
 │   └── architecture/    # Technical docs
 └── dist/                # Built game files
-```text
+```
 
 ### Module Organization
 
@@ -4472,7 +4598,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     },
     // Additional configuration...
 };
-```text
+```
 
 ### Game Balance Configuration
 
@@ -4673,6 +4799,7 @@ export const GameBalance = {
 ## Story Completeness
 
 ### Basic Story Elements
+
 - [ ] **Story Title** - Clear, descriptive title that identifies the feature
 - [ ] **Epic Assignment** - Story is properly assigned to relevant epic
 - [ ] **Priority Level** - Appropriate priority assigned (High/Medium/Low)
@@ -4680,6 +4807,7 @@ export const GameBalance = {
 - [ ] **Description** - Clear, concise description of what needs to be implemented
 
 ### Game Design Alignment
+
 - [ ] **GDD Reference** - Specific Game Design Document section referenced
 - [ ] **Game Mechanic Context** - Clear connection to game mechanics defined in GDD
 - [ ] **Player Experience Goal** - Describes the intended player experience
@@ -4689,6 +4817,7 @@ export const GameBalance = {
 ## Technical Specifications
 
 ### Architecture Compliance
+
 - [ ] **File Organization** - Follows game architecture document structure
 - [ ] **Class Definitions** - TypeScript interfaces and classes are properly defined
 - [ ] **Integration Points** - Clear specification of how feature integrates with existing systems
@@ -4696,6 +4825,7 @@ export const GameBalance = {
 - [ ] **Dependencies** - All system dependencies clearly identified
 
 ### Phaser 3 Requirements
+
 - [ ] **Scene Integration** - Specifies which scenes are affected and how
 - [ ] **Game Object Usage** - Proper use of Phaser 3 game objects and components
 - [ ] **Physics Integration** - Physics requirements specified if applicable
@@ -4703,6 +4833,7 @@ export const GameBalance = {
 - [ ] **Performance Considerations** - 60 FPS target and optimization requirements
 
 ### Code Quality Standards
+
 - [ ] **TypeScript Strict Mode** - All code must comply with strict TypeScript
 - [ ] **Error Handling** - Error scenarios and handling requirements specified
 - [ ] **Memory Management** - Object pooling and cleanup requirements where needed
@@ -4712,6 +4843,7 @@ export const GameBalance = {
 ## Implementation Readiness
 
 ### Acceptance Criteria
+
 - [ ] **Functional Requirements** - All functional acceptance criteria are specific and testable
 - [ ] **Technical Requirements** - Technical acceptance criteria are complete and verifiable
 - [ ] **Game Design Requirements** - Game-specific requirements match GDD specifications
@@ -4719,6 +4851,7 @@ export const GameBalance = {
 - [ ] **Completeness** - No acceptance criteria are vague or unmeasurable
 
 ### Implementation Tasks
+
 - [ ] **Task Breakdown** - Story broken into specific, ordered implementation tasks
 - [ ] **Task Scope** - Each task is completable in 1-4 hours
 - [ ] **Task Clarity** - Each task has clear, actionable instructions
@@ -4726,6 +4859,7 @@ export const GameBalance = {
 - [ ] **Development Flow** - Tasks follow logical implementation order
 
 ### Dependencies
+
 - [ ] **Story Dependencies** - All prerequisite stories identified with IDs
 - [ ] **Technical Dependencies** - Required systems and files identified
 - [ ] **Asset Dependencies** - All needed assets specified with locations
@@ -4735,6 +4869,7 @@ export const GameBalance = {
 ## Testing Requirements
 
 ### Test Coverage
+
 - [ ] **Unit Test Requirements** - Specific unit test files and scenarios defined
 - [ ] **Integration Test Cases** - Integration testing with other game systems specified
 - [ ] **Manual Test Cases** - Game-specific manual testing procedures defined
@@ -4742,6 +4877,7 @@ export const GameBalance = {
 - [ ] **Edge Case Testing** - Edge cases and error conditions covered
 
 ### Test Implementation
+
 - [ ] **Test File Paths** - Exact test file locations specified
 - [ ] **Test Scenarios** - All test scenarios are complete and executable
 - [ ] **Expected Behaviors** - Clear expected outcomes for all tests defined
@@ -4751,6 +4887,7 @@ export const GameBalance = {
 ## Game-Specific Quality
 
 ### Gameplay Implementation
+
 - [ ] **Mechanic Accuracy** - Implementation matches GDD mechanic specifications
 - [ ] **Player Controls** - Input handling requirements are complete
 - [ ] **Game Feel** - Requirements for juice, feedback, and responsiveness specified
@@ -4758,6 +4895,7 @@ export const GameBalance = {
 - [ ] **State Management** - Game state changes and persistence requirements defined
 
 ### User Experience
+
 - [ ] **UI Requirements** - User interface elements and behaviors specified
 - [ ] **Audio Integration** - Sound effect and music requirements defined
 - [ ] **Visual Feedback** - Animation and visual effect requirements specified
@@ -4765,6 +4903,7 @@ export const GameBalance = {
 - [ ] **Error Recovery** - User-facing error handling and recovery specified
 
 ### Performance Optimization
+
 - [ ] **Frame Rate Targets** - Specific FPS requirements for different platforms
 - [ ] **Memory Usage** - Memory consumption limits and monitoring requirements
 - [ ] **Asset Optimization** - Texture, audio, and data optimization requirements
@@ -4774,6 +4913,7 @@ export const GameBalance = {
 ## Documentation and Communication
 
 ### Story Documentation
+
 - [ ] **Implementation Notes** - Additional context and implementation guidance provided
 - [ ] **Design Decisions** - Key design choices documented with rationale
 - [ ] **Future Considerations** - Potential future enhancements or modifications noted
@@ -4781,6 +4921,7 @@ export const GameBalance = {
 - [ ] **Reference Materials** - Links to relevant GDD sections and architecture docs
 
 ### Developer Handoff
+
 - [ ] **Immediate Actionability** - Developer can start implementation without additional questions
 - [ ] **Complete Context** - All necessary context provided within the story
 - [ ] **Clear Boundaries** - What is and isn't included in the story scope is clear
@@ -4790,6 +4931,7 @@ export const GameBalance = {
 ## Final Validation
 
 ### Story Readiness
+
 - [ ] **No Ambiguity** - No sections require interpretation or additional design decisions
 - [ ] **Technical Completeness** - All technical requirements are specified and actionable
 - [ ] **Scope Appropriateness** - Story scope matches assigned story points
@@ -4797,6 +4939,7 @@ export const GameBalance = {
 - [ ] **Review Completion** - Story has been reviewed for completeness and accuracy
 
 ### Implementation Preparedness
+
 - [ ] **Environment Ready** - Development environment requirements specified
 - [ ] **Resources Available** - All required resources (assets, docs, dependencies) accessible
 - [ ] **Testing Prepared** - Testing environment and data requirements specified
@@ -4825,6 +4968,7 @@ This document establishes coding standards, architectural patterns, and developm
 ### Strict Mode Configuration
 
 **Required tsconfig.json settings:**
+
 ```json
 {
   "compilerOptions": {
@@ -4838,11 +4982,12 @@ This document establishes coding standards, architectural patterns, and developm
     "exactOptionalPropertyTypes": true
   }
 }
-```text
+```
 
 ### Type Definitions
 
 **Game Object Interfaces:**
+
 ```typescript
 // Core game entity interface
 interface GameEntity {
@@ -4866,9 +5011,10 @@ interface GameSystem {
   update(delta: number): void;
   shutdown(): void;
 }
-```text
+```
 
 **Scene Data Interfaces:**
+
 ```typescript
 // Scene transition data
 interface SceneData {
@@ -4886,28 +5032,32 @@ interface GameState {
 interface GameSettings {
   musicVolume: number;
   sfxVolume: number;
-  difficulty: 'easy' | 'normal' | 'hard';
+  difficulty: "easy" | "normal" | "hard";
   controls: ControlScheme;
 }
-```text
+```
 
 ### Naming Conventions
 
 **Classes and Interfaces:**
+
 - PascalCase for classes: `PlayerSprite`, `GameManager`, `AudioSystem`
 - PascalCase with 'I' prefix for interfaces: `IGameEntity`, `IPlayerController`
 - Descriptive names that indicate purpose: `CollisionManager` not `CM`
 
 **Methods and Variables:**
+
 - camelCase for methods and variables: `updatePosition()`, `playerSpeed`
 - Descriptive names: `calculateDamage()` not `calcDmg()`
 - Boolean variables with is/has/can prefix: `isActive`, `hasCollision`, `canMove`
 
 **Constants:**
+
 - UPPER_SNAKE_CASE for constants: `MAX_PLAYER_SPEED`, `DEFAULT_VOLUME`
 - Group related constants in enums or const objects
 
 **Files and Directories:**
+
 - kebab-case for file names: `player-controller.ts`, `audio-manager.ts`
 - PascalCase for scene files: `MenuScene.ts`, `GameScene.ts`
 
@@ -4916,88 +5066,91 @@ interface GameSettings {
 ### Scene Organization
 
 **Scene Lifecycle Management:**
+
 ```typescript
 class GameScene extends Phaser.Scene {
   private gameManager!: GameManager;
   private inputManager!: InputManager;
-  
+
   constructor() {
-    super({ key: 'GameScene' });
+    super({ key: "GameScene" });
   }
-  
+
   preload(): void {
     // Load only scene-specific assets
-    this.load.image('player', 'assets/player.png');
+    this.load.image("player", "assets/player.png");
   }
-  
+
   create(data: SceneData): void {
     // Initialize game systems
     this.gameManager = new GameManager(this);
     this.inputManager = new InputManager(this);
-    
+
     // Set up scene-specific logic
     this.setupGameObjects();
     this.setupEventListeners();
   }
-  
+
   update(time: number, delta: number): void {
     // Update all game systems
     this.gameManager.update(delta);
     this.inputManager.update(delta);
   }
-  
+
   shutdown(): void {
     // Clean up resources
     this.gameManager.destroy();
     this.inputManager.destroy();
-    
+
     // Remove event listeners
-    this.events.off('*');
+    this.events.off("*");
   }
 }
 ```
 
 **Scene Transitions:**
+
 ```typescript
 // Proper scene transitions with data
-this.scene.start('NextScene', {
+this.scene.start("NextScene", {
   playerScore: this.playerScore,
-  currentLevel: this.currentLevel + 1
+  currentLevel: this.currentLevel + 1,
 });
 
 // Scene overlays for UI
-this.scene.launch('PauseMenuScene');
+this.scene.launch("PauseMenuScene");
 this.scene.pause();
-```text
+```
 
 ### Game Object Patterns
 
 **Component-Based Architecture:**
+
 ```typescript
 // Base game entity
 abstract class GameEntity extends Phaser.GameObjects.Sprite {
   protected components: Map<string, GameComponent> = new Map();
-  
+
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
     scene.add.existing(this);
   }
-  
+
   addComponent<T extends GameComponent>(component: T): T {
     this.components.set(component.name, component);
     return component;
   }
-  
+
   getComponent<T extends GameComponent>(name: string): T | undefined {
     return this.components.get(name) as T;
   }
-  
+
   update(delta: number): void {
-    this.components.forEach(component => component.update(delta));
+    this.components.forEach((component) => component.update(delta));
   }
-  
+
   destroy(): void {
-    this.components.forEach(component => component.destroy());
+    this.components.forEach((component) => component.destroy());
     this.components.clear();
     super.destroy();
   }
@@ -5007,65 +5160,67 @@ abstract class GameEntity extends Phaser.GameObjects.Sprite {
 class Player extends GameEntity {
   private movement!: MovementComponent;
   private health!: HealthComponent;
-  
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene, x, y, 'player');
-    
+    super(scene, x, y, "player");
+
     this.movement = this.addComponent(new MovementComponent(this));
     this.health = this.addComponent(new HealthComponent(this, 100));
   }
 }
-```text
+```
 
 ### System Management
 
 **Singleton Managers:**
+
 ```typescript
 class GameManager {
   private static instance: GameManager;
   private scene: Phaser.Scene;
   private gameState: GameState;
-  
+
   constructor(scene: Phaser.Scene) {
     if (GameManager.instance) {
-      throw new Error('GameManager already exists!');
+      throw new Error("GameManager already exists!");
     }
-    
+
     this.scene = scene;
     this.gameState = this.loadGameState();
     GameManager.instance = this;
   }
-  
+
   static getInstance(): GameManager {
     if (!GameManager.instance) {
-      throw new Error('GameManager not initialized!');
+      throw new Error("GameManager not initialized!");
     }
     return GameManager.instance;
   }
-  
+
   update(delta: number): void {
     // Update game logic
   }
-  
+
   destroy(): void {
     GameManager.instance = null!;
   }
 }
-```text
+```
 
 ## Performance Optimization
 
 ### Object Pooling
 
 **Required for High-Frequency Objects:**
+
 ```typescript
 class BulletPool {
   private pool: Bullet[] = [];
   private scene: Phaser.Scene;
-  
+
   constructor(scene: Phaser.Scene, initialSize: number = 50) {
     this.scene = scene;
-    
+
     // Pre-create bullets
     for (let i = 0; i < initialSize; i++) {
       const bullet = new Bullet(scene, 0, 0);
@@ -5074,20 +5229,20 @@ class BulletPool {
       this.pool.push(bullet);
     }
   }
-  
+
   getBullet(): Bullet | null {
-    const bullet = this.pool.find(b => !b.active);
+    const bullet = this.pool.find((b) => !b.active);
     if (bullet) {
       bullet.setActive(true);
       bullet.setVisible(true);
       return bullet;
     }
-    
+
     // Pool exhausted - create new bullet
-    console.warn('Bullet pool exhausted, creating new bullet');
+    console.warn("Bullet pool exhausted, creating new bullet");
     return new Bullet(this.scene, 0, 0);
   }
-  
+
   releaseBullet(bullet: Bullet): void {
     bullet.setActive(false);
     bullet.setVisible(false);
@@ -5099,45 +5254,47 @@ class BulletPool {
 ### Frame Rate Optimization
 
 **Performance Monitoring:**
+
 ```typescript
 class PerformanceMonitor {
   private frameCount: number = 0;
   private lastTime: number = 0;
   private frameRate: number = 60;
-  
+
   update(time: number): void {
     this.frameCount++;
-    
+
     if (time - this.lastTime >= 1000) {
       this.frameRate = this.frameCount;
       this.frameCount = 0;
       this.lastTime = time;
-      
+
       if (this.frameRate < 55) {
         console.warn(`Low frame rate detected: ${this.frameRate} FPS`);
         this.optimizePerformance();
       }
     }
   }
-  
+
   private optimizePerformance(): void {
     // Reduce particle counts, disable effects, etc.
   }
 }
-```text
+```
 
 **Update Loop Optimization:**
+
 ```typescript
 // Avoid expensive operations in update loops
 class GameScene extends Phaser.Scene {
   private updateTimer: number = 0;
   private readonly UPDATE_INTERVAL = 100; // ms
-  
+
   update(time: number, delta: number): void {
     // High-frequency updates (every frame)
     this.updatePlayer(delta);
     this.updatePhysics(delta);
-    
+
     // Low-frequency updates (10 times per second)
     this.updateTimer += delta;
     if (this.updateTimer >= this.UPDATE_INTERVAL) {
@@ -5147,13 +5304,14 @@ class GameScene extends Phaser.Scene {
     }
   }
 }
-```text
+```
 
 ## Input Handling
 
 ### Cross-Platform Input
 
 **Input Abstraction:**
+
 ```typescript
 interface InputState {
   moveLeft: boolean;
@@ -5169,26 +5327,26 @@ class InputManager {
     moveRight: false,
     jump: false,
     action: false,
-    pause: false
+    pause: false,
   };
-  
+
   private keys!: { [key: string]: Phaser.Input.Keyboard.Key };
   private pointer!: Phaser.Input.Pointer;
-  
+
   constructor(private scene: Phaser.Scene) {
     this.setupKeyboard();
     this.setupTouch();
   }
-  
+
   private setupKeyboard(): void {
-    this.keys = this.scene.input.keyboard.addKeys('W,A,S,D,SPACE,ESC,UP,DOWN,LEFT,RIGHT');
+    this.keys = this.scene.input.keyboard.addKeys("W,A,S,D,SPACE,ESC,UP,DOWN,LEFT,RIGHT");
   }
-  
+
   private setupTouch(): void {
-    this.scene.input.on('pointerdown', this.handlePointerDown, this);
-    this.scene.input.on('pointerup', this.handlePointerUp, this);
+    this.scene.input.on("pointerdown", this.handlePointerDown, this);
+    this.scene.input.on("pointerup", this.handlePointerUp, this);
   }
-  
+
   update(): void {
     // Update input state from multiple sources
     this.inputState.moveLeft = this.keys.A.isDown || this.keys.LEFT.isDown;
@@ -5196,42 +5354,43 @@ class InputManager {
     this.inputState.jump = Phaser.Input.Keyboard.JustDown(this.keys.SPACE);
     // ... handle touch input
   }
-  
+
   getInputState(): InputState {
     return { ...this.inputState };
   }
 }
-```text
+```
 
 ## Error Handling
 
 ### Graceful Degradation
 
 **Asset Loading Error Handling:**
+
 ```typescript
 class AssetManager {
   loadAssets(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.scene.load.on('filecomplete', this.handleFileComplete, this);
-      this.scene.load.on('loaderror', this.handleLoadError, this);
-      this.scene.load.on('complete', () => resolve());
-      
+      this.scene.load.on("filecomplete", this.handleFileComplete, this);
+      this.scene.load.on("loaderror", this.handleLoadError, this);
+      this.scene.load.on("complete", () => resolve());
+
       this.scene.load.start();
     });
   }
-  
+
   private handleLoadError(file: Phaser.Loader.File): void {
     console.error(`Failed to load asset: ${file.key}`);
-    
+
     // Use fallback assets
     this.loadFallbackAsset(file.key);
   }
-  
+
   private loadFallbackAsset(key: string): void {
     // Load placeholder or default assets
     switch (key) {
-      case 'player':
-        this.scene.load.image('player', 'assets/defaults/default-player.png');
+      case "player":
+        this.scene.load.image("player", "assets/defaults/default-player.png");
         break;
       default:
         console.warn(`No fallback for asset: ${key}`);
@@ -5243,25 +5402,26 @@ class AssetManager {
 ### Runtime Error Recovery
 
 **System Error Handling:**
+
 ```typescript
 class GameSystem {
   protected handleError(error: Error, context: string): void {
     console.error(`Error in ${context}:`, error);
-    
+
     // Report to analytics/logging service
     this.reportError(error, context);
-    
+
     // Attempt recovery
     this.attemptRecovery(context);
   }
-  
+
   private attemptRecovery(context: string): void {
     switch (context) {
-      case 'update':
+      case "update":
         // Reset system state
         this.reset();
         break;
-      case 'render':
+      case "render":
         // Disable visual effects
         this.disableEffects();
         break;
@@ -5271,64 +5431,66 @@ class GameSystem {
     }
   }
 }
-```text
+```
 
 ## Testing Standards
 
 ### Unit Testing
 
 **Game Logic Testing:**
+
 ```typescript
 // Example test for game mechanics
-describe('HealthComponent', () => {
+describe("HealthComponent", () => {
   let healthComponent: HealthComponent;
-  
+
   beforeEach(() => {
     const mockEntity = {} as GameEntity;
     healthComponent = new HealthComponent(mockEntity, 100);
   });
-  
-  test('should initialize with correct health', () => {
+
+  test("should initialize with correct health", () => {
     expect(healthComponent.currentHealth).toBe(100);
     expect(healthComponent.maxHealth).toBe(100);
   });
-  
-  test('should handle damage correctly', () => {
+
+  test("should handle damage correctly", () => {
     healthComponent.takeDamage(25);
     expect(healthComponent.currentHealth).toBe(75);
     expect(healthComponent.isAlive()).toBe(true);
   });
-  
-  test('should handle death correctly', () => {
+
+  test("should handle death correctly", () => {
     healthComponent.takeDamage(150);
     expect(healthComponent.currentHealth).toBe(0);
     expect(healthComponent.isAlive()).toBe(false);
   });
 });
-```text
+```
 
 ### Integration Testing
 
 **Scene Testing:**
+
 ```typescript
-describe('GameScene Integration', () => {
+describe("GameScene Integration", () => {
   let scene: GameScene;
   let mockGame: Phaser.Game;
-  
+
   beforeEach(() => {
     // Mock Phaser game instance
     mockGame = createMockGame();
     scene = new GameScene();
   });
-  
-  test('should initialize all systems', () => {
+
+  test("should initialize all systems", () => {
     scene.create({});
-    
+
     expect(scene.gameManager).toBeDefined();
     expect(scene.inputManager).toBeDefined();
   });
 });
-```text
+```
 
 ## File Organization
 
@@ -5382,21 +5544,25 @@ src/
 ### Story Implementation Process
 
 1. **Read Story Requirements:**
+
    - Understand acceptance criteria
    - Identify technical requirements
    - Review performance constraints
 
 2. **Plan Implementation:**
+
    - Identify files to create/modify
    - Consider component architecture
    - Plan testing approach
 
 3. **Implement Feature:**
+
    - Follow TypeScript strict mode
    - Use established patterns
    - Maintain 60 FPS performance
 
 4. **Test Implementation:**
+
    - Write unit tests for game logic
    - Test cross-platform functionality
    - Validate performance targets
@@ -5409,6 +5575,7 @@ src/
 ### Code Review Checklist
 
 **Before Committing:**
+
 - [ ] TypeScript compiles without errors
 - [ ] All tests pass
 - [ ] Performance targets met (60 FPS)
@@ -5422,17 +5589,20 @@ src/
 ## Performance Targets
 
 ### Frame Rate Requirements
+
 - **Desktop**: Maintain 60 FPS at 1080p
 - **Mobile**: Maintain 60 FPS on mid-range devices, minimum 30 FPS on low-end
 - **Optimization**: Implement dynamic quality scaling when performance drops
 
 ### Memory Management
+
 - **Total Memory**: Under 100MB for full game
 - **Per Scene**: Under 50MB per gameplay scene
 - **Asset Loading**: Progressive loading to stay under limits
 - **Garbage Collection**: Minimize object creation in update loops
 
 ### Loading Performance
+
 - **Initial Load**: Under 5 seconds for game start
 - **Scene Transitions**: Under 2 seconds between scenes
 - **Asset Streaming**: Background loading for upcoming content
@@ -5457,6 +5627,7 @@ Create detailed, actionable game development stories that enable AI developers t
 ## Prerequisites
 
 Before creating stories, ensure you have:
+
 - Completed Game Design Document (GDD)
 - Game Architecture Document
 - Epic definition this story belongs to
@@ -5467,12 +5638,14 @@ Before creating stories, ensure you have:
 ### 1. Story Identification
 
 **Review Epic Context:**
+
 - Understand the epic's overall goal
 - Identify specific features that need implementation
 - Review any existing stories in the epic
 - Ensure no duplicate work
 
 **Feature Analysis:**
+
 - Reference specific GDD sections
 - Understand player experience goals
 - Identify technical complexity
@@ -5481,12 +5654,14 @@ Before creating stories, ensure you have:
 ### 2. Story Scoping
 
 **Single Responsibility:**
+
 - Focus on one specific game feature
 - Ensure story is completable in 1-3 days
 - Break down complex features into multiple stories
 - Maintain clear boundaries with other stories
 
 **Implementation Clarity:**
+
 - Define exactly what needs to be built
 - Specify all technical requirements
 - Include all necessary integration points
@@ -5498,6 +5673,7 @@ Before creating stories, ensure you have:
 Use `templates#game-story-tmpl` following all embedded LLM instructions
 
 **Key Focus Areas:**
+
 - Clear, actionable description
 - Specific acceptance criteria
 - Detailed technical specifications
@@ -5507,18 +5683,21 @@ Use `templates#game-story-tmpl` following all embedded LLM instructions
 ### 4. Story Validation
 
 **Technical Review:**
+
 - Verify all technical specifications are complete
 - Ensure integration points are clearly defined
 - Confirm file paths match architecture
 - Validate TypeScript interfaces and classes
 
 **Game Design Alignment:**
+
 - Confirm story implements GDD requirements
 - Verify player experience goals are met
 - Check balance parameters are included
 - Ensure game mechanics are correctly interpreted
 
 **Implementation Readiness:**
+
 - All dependencies identified
 - Assets requirements specified
 - Testing criteria defined
@@ -5530,6 +5709,7 @@ Use `templates#game-story-tmpl` following all embedded LLM instructions
 Execute `checklists#game-story-dod-checklist` against completed story
 
 **Story Criteria:**
+
 - Story is immediately actionable
 - No design decisions left to developer
 - Technical requirements are complete
@@ -5539,12 +5719,14 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ### 6. Story Refinement
 
 **Developer Perspective:**
+
 - Can a developer start implementation immediately?
 - Are all technical questions answered?
 - Is the scope appropriate for the estimated points?
 - Are all dependencies clearly identified?
 
 **Iterative Improvement:**
+
 - Address any gaps or ambiguities
 - Clarify complex technical requirements
 - Ensure story fits within epic scope
@@ -5553,6 +5735,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Story Elements Checklist
 
 ### Required Sections
+
 - [ ] Clear, specific description
 - [ ] Complete acceptance criteria (functional, technical, game design)
 - [ ] Detailed technical specifications
@@ -5566,6 +5749,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 - [ ] Definition of Done checklist
 
 ### Game-Specific Requirements
+
 - [ ] GDD section references
 - [ ] Game mechanic implementation details
 - [ ] Player experience goals
@@ -5575,6 +5759,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 - [ ] Cross-platform considerations
 
 ### Technical Quality
+
 - [ ] TypeScript strict mode compliance
 - [ ] Architecture document alignment
 - [ ] Code organization follows standards
@@ -5585,18 +5770,21 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Common Pitfalls
 
 **Scope Issues:**
+
 - Story too large (break into multiple stories)
 - Story too vague (add specific requirements)
 - Missing dependencies (identify all prerequisites)
 - Unclear boundaries (define what's in/out of scope)
 
 **Technical Issues:**
+
 - Missing integration details
 - Incomplete technical specifications
 - Undefined interfaces or classes
 - Missing performance requirements
 
 **Game Design Issues:**
+
 - Not referencing GDD properly
 - Missing player experience context
 - Unclear game mechanic implementation
@@ -5605,6 +5793,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Success Criteria
 
 **Story Readiness:**
+
 - [ ] Developer can start implementation immediately
 - [ ] No additional design decisions required
 - [ ] All technical questions answered
@@ -5613,6 +5802,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 - [ ] Story fits within epic scope
 
 **Quality Validation:**
+
 - [ ] Game story DOD checklist passes
 - [ ] Architecture alignment confirmed
 - [ ] GDD requirements covered
@@ -5622,6 +5812,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 ## Handoff Protocol
 
 **To Game Developer:**
+
 1. Provide story document
 2. Confirm GDD and architecture access
 3. Verify all dependencies are met
@@ -5629,6 +5820,7 @@ Execute `checklists#game-story-dod-checklist` against completed story
 5. Establish check-in schedule
 
 **Story Status Updates:**
+
 - Draft → Ready for Development
 - In Development → Code Review
 - Code Review → Testing
