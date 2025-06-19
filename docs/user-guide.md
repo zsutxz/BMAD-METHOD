@@ -56,12 +56,9 @@ Best for: ChatGPT, Claude, Gemini users
 
 Best for: Cursor, Claude Code, Windsurf, VS Code users
 
-```bash
+````bash
 # Interactive installation (recommended)
 npx bmad-method install
-
-# Command line installation
-npx bmad-method install --full --directory ./my-project --ide cursor
 ```text
 
 ### First Steps
@@ -109,7 +106,7 @@ dependencies:
     - shard-doc.md
   data:
     - bmad-kb.md
-```
+````
 
 **Key Points:**
 
@@ -121,7 +118,7 @@ dependencies:
 
 **In IDE:**
 
-```bash
+````bash
 # Cursor or Windsurf (manual rules - loaded with @)
 @pm Create a PRD for a task management app
 @architect Design the system architecture
@@ -138,7 +135,7 @@ dependencies:
 /pm create-doc prd
 /architect review system design
 /dev implement story 1.2
-```
+````
 
 ## Templates and Document Creation
 
@@ -178,7 +175,7 @@ Templates follow the `template-format.md` specification:
 
 - **Template**: `architecture-template.md`
 - **Agent**: Architect
-- **Use Case**: System design, technical planning  
+- **Use Case**: System design, technical planning
 - **Command**: `/architect create-doc architecture`
 - **💡 Cost-Saving Tip**: For Gemini users, create architecture docs in the web UI to avoid high IDE token costs. Copy the final markdown output to `docs/architecture.md` in your project.
 
@@ -203,10 +200,12 @@ For cost efficiency, especially with Gemini:
 #### File Naming Conventions
 
 **Required Names for Framework Integration:**
+
 - `docs/prd.md` - Product Requirements Document
 - `docs/architecture.md` - System Architecture Document
 
 **Why These Names Matter:**
+
 - Agents automatically reference these files during development
 - Sharding tasks expect these specific filenames
 - Workflow automation depends on standard naming
@@ -214,6 +213,7 @@ For cost efficiency, especially with Gemini:
 #### IDE Document Creation
 
 When working directly in IDEs:
+
 - Agents should create documents in `docs/` folder automatically
 - If agents name files differently (e.g., `product-requirements.md`), rename to `prd.md`
 - Verify document location matches `docs/prd.md` and `docs/architecture.md`
@@ -224,9 +224,10 @@ When working directly in IDEs:
 
 Templates can include `advanced-elicitation.md` for enhanced interaction:
 
-```markdown
+`````markdown
 [[LLM: Use advanced-elicitation actions 0-3 to refine requirements]]
-```text
+
+````text
 
 This provides 10 structured brainstorming actions:
 
@@ -262,12 +263,15 @@ graph TD
     I --> L["📁 Switch to IDE"]
     L --> M["PO: Shard Documents"]
     M --> N["Ready for SM/Dev Cycle"]
-    
+
     style I fill:#34a853,color:#fff
     style G fill:#f9ab00,color:#fff
     style L fill:#1a73e8,color:#fff
     style N fill:#34a853,color:#fff
-```
+````
+`````
+
+`````
 
 #### Web UI to IDE Transition
 
@@ -282,7 +286,7 @@ graph TD
 
 Once planning is complete and documents are sharded, BMAD follows a structured development workflow:
 
-```mermaid
+````mermaid
 graph TD
     A["Start: Planning Artifacts Complete"] --> B["PO: Shard Epics"]
     B --> C["PO: Shard Arch"]
@@ -387,7 +391,7 @@ agents:
   - qa
 workflows:
   - greenfield-fullstack
-```
+`````
 
 ## IDE Integration
 
@@ -487,11 +491,13 @@ workflows:
 Web UI agents focus on planning and documentation. Here's how to interact with each:
 
 #### Agent Switching and Conversation
+
 - **Switch Agents**: Use `/pm`, `/architect`, `/analyst`, `/po` to switch between roles
 - **Agent Consultation**: Each agent offers their specialized options and capabilities
 - **Natural Conversation**: Agents guide you through their processes with questions and suggestions
 
 #### Planning Phase Agents
+
 - **Analyst**: `/analyst` - Brainstorming, market research, competitive analysis
 - **PM**: `/pm` - Product requirements, feature definition, roadmaps
 - **Architect**: `/architect` - System design, technical architecture
@@ -511,12 +517,13 @@ Web UI agents focus on planning and documentation. Here's how to interact with e
 
 1. **Use Web UI for PRD and Architecture**: These are token-heavy documents, especially in Gemini
 2. **Copy Final Output**: Save complete markdown to your project
-3. **Standard File Names**: 
+3. **Standard File Names**:
    - Save PRD as `docs/prd.md`
    - Save Architecture as `docs/architecture.md`
 4. **IDE for Development**: Switch to IDE agents for implementation tasks
 
 **Why This Saves Money:**
+
 - Web UI pricing is typically more cost-effective for large context windows
 - PRD and architecture creation involves extensive back-and-forth refinement
 - IDE token costs can accumulate quickly with large document generation
@@ -536,7 +543,7 @@ BMAD's dependency system ensures agents only load necessary resources:
 
 Create custom templates following `template-format.md`:
 
-```markdown
+`````markdown
 ---
 title: Custom Template
 description: Your custom document type
@@ -557,7 +564,8 @@ dependencies:
 ## Section 2
 
 {{section_2_content}}
-```text
+
+````text
 
 ### Workflow Customization
 
@@ -586,7 +594,10 @@ phases:
     deliverables:
       - implementation
       - tests
-```
+````
+`````
+
+`````
 
 ### Creating Custom Templates
 
@@ -594,7 +605,7 @@ Templates are self-contained documents that embed both output structure and proc
 
 #### Template Structure
 
-```markdown
+````markdown
 # {{Project Name}} Document Title
 
 [[LLM: Opening instruction for AI processing]]
@@ -611,10 +622,13 @@ Templates are self-contained documents that embed both output structure and proc
 @{example: Example content for AI guidance}
 
 ^^CONDITION: condition_name^^
+
 ## Conditional Section
+
 [[LLM: Only include if condition is met]]
 ^^/CONDITION^^
-```text
+
+````text
 
 #### Key Template Patterns
 
@@ -634,23 +648,30 @@ Templates are self-contained documents that embed both output structure and proc
 ## User Interface Section
 [[LLM: Only include for UI projects]]
 ^^/CONDITION^^
-```
+`````
+
+`````
 
 #### Document Sharding
 
 Level 2 headings (`##`) in templates can be automatically sharded into separate documents:
 
 **Original PRD:**
-```markdown
+
+````markdown
 ## Goals and Background Context
-## Requirements  
+
+## Requirements
+
 ## User Interface Design Goals
+
 ## Success Metrics
-```text
+
+````text
 
 **After Sharding:**
 - `docs/prd/goals-and-background-context.md`
-- `docs/prd/requirements.md`  
+- `docs/prd/requirements.md`
 - `docs/prd/user-interface-design-goals.md`
 - `docs/prd/success-metrics.md`
 
@@ -676,32 +697,40 @@ Tasks are reusable automation instructions that agents can execute. They follow 
 - Detailed instructions for the agent
 - Specific behaviors and outputs expected
 
-### 2. Step Two  
+### 2. Step Two
 - Additional processing steps
 - Integration with other resources
 
 ## Examples
 
 @{example: Concrete usage examples}
-```
+`````
+
+`````
 
 #### Task Patterns
 
 **Resource Integration:**
-```markdown
+
+````markdown
 [[LLM: Check if docs/coding-standards.md exists and reference it]]
 [[LLM: Load docs/openapi-spec.yaml for API context]]
-```text
+
+````text
 
 **Advanced Elicitation:**
 ```markdown
 [[LLM: Apply tasks#advanced-elicitation protocol after completion]]
-```
+`````
+
+`````
 
 **Conditional Logic:**
-```markdown
+
+````markdown
 [[LLM: If project has UI components, also check frontend standards]]
-```text
+
+````text
 
 ### Creating Custom Agents
 
@@ -735,13 +764,15 @@ dependencies:
     - custom-task.md
   data:
     - domain-knowledge.md
-```
+`````
+
+`````
 
 #### Agent Startup Instructions
 
 Agents can load project-specific documents and provide custom context:
 
-```yaml
+````yaml
 startup:
   - Load docs/coding-standards.md if available
   - Review docs/project-structure.md for context
@@ -764,10 +795,10 @@ Agents can reference and load documents from the `docs/` folder:
 ```markdown
 [[LLM: Before beginning, check for and load relevant context:
 - docs/coding-standards.md for development standards
-- docs/brand-guidelines.md for design consistency  
+- docs/brand-guidelines.md for design consistency
 - docs/third-party-apis/ for integration requirements
 - Any project-specific documentation in docs/ folder]]
-```
+`````
 
 ### Technical Preferences System
 
@@ -780,23 +811,28 @@ This file allows you to define your preferred technologies, patterns, and standa
 #### What to Include
 
 **Technology Stack Preferences:**
-```markdown
+
+`````markdown
 ## Preferred Technologies
 
 ### Frontend
+
 - React with TypeScript
 - Tailwind CSS for styling
 - Next.js for full-stack applications
 
-### Backend  
+### Backend
+
 - Node.js with Express
 - PostgreSQL for relational data
 - Redis for caching
 
 ### Deployment
+
 - Vercel for frontend
 - Railway for backend services
-```text
+
+````text
 
 **Design Patterns & Standards:**
 ```markdown
@@ -810,20 +846,27 @@ This file allows you to define your preferred technologies, patterns, and standa
 - Microservices for complex applications
 - RESTful APIs with OpenAPI documentation
 - Event-driven architecture for real-time features
-```
+````
+`````
+
+`````
 
 **External Services & APIs:**
-```markdown
+
+````markdown
 ## Preferred External Services
+
 - Auth0 for authentication
 - Stripe for payments
 - SendGrid for email
 - Cloudinary for image processing
 
 ## APIs to Avoid
+
 - Legacy SOAP services
 - Services without proper documentation
-```text
+
+````text
 
 #### How Agents Use This File
 
@@ -847,7 +890,9 @@ This file allows you to define your preferred technologies, patterns, and standa
 - Want to try Framework A on next appropriate project
 - Interested in Pattern B for microservices
 - Consider Service C for better performance
-```
+`````
+
+````
 
 #### Using with Web Bundles
 
@@ -1005,3 +1050,4 @@ Remember: BMAD is designed to enhance your development process, not replace your
 ---
 
 For additional support, join our [Discord community](https://discord.gg/g6ypHytrCB) or check out the [YouTube channel](https://www.youtube.com/@BMadCode) for video tutorials and walkthroughs.
+````
