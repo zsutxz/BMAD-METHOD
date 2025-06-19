@@ -1,3 +1,20 @@
+# [4.8.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.7.0...v4.8.0) (2025-06-19)
+
+
+### Bug Fixes
+
+* installer has fast v4 update option now to keep the bmad method up to date with changes easily without breaking any customizations from the user. The SM and DEV are much more configurable to find epics stories and architectureal information when the prd and architecture are deviant from v4 templates and/or have not been sharded. so a config will give the user the option to configure the SM to use the full large documents or the sharded versions! ([aea7f3c](https://github.com/bmadcode/BMAD-METHOD/commit/aea7f3cc86e749d25ed18bed761dc2839023b3b3))
+* prevent double installation when updating v4 ([af0e767](https://github.com/bmadcode/BMAD-METHOD/commit/af0e767ecf1b91d41f114e1a5d7bf5da08de57d6))
+* resolve undefined config properties in performUpdate ([0185e01](https://github.com/bmadcode/BMAD-METHOD/commit/0185e012bb579948a4de1ea3950db4e399761619))
+* update file-manager to properly handle YAML manifest files ([724cdd0](https://github.com/bmadcode/BMAD-METHOD/commit/724cdd07a199cb12b82236ad34ca1a0c61eb43e2))
+
+
+### Features
+
+* add early v4 detection for improved update flow ([29e7bbf](https://github.com/bmadcode/BMAD-METHOD/commit/29e7bbf4c5aa7e17854061a5ee695f44324f307a))
+* add file resolution context for IDE agents ([74d9bb4](https://github.com/bmadcode/BMAD-METHOD/commit/74d9bb4b2b70a341673849a1df704f6eac70c3de))
+* update web builder to remove IDE-specific properties from agent bundles ([2f2a1e7](https://github.com/bmadcode/BMAD-METHOD/commit/2f2a1e72d6a70f8127db6ba58a563d0f289621c3))
+
 # [4.7.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.6.3...v4.7.0) (2025-06-19)
 
 
