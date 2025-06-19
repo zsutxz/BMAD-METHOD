@@ -102,6 +102,17 @@ class Installer {
         spinner.start("Analyzing installation directory...");
       }
 
+      // If this is an update request from early detection, handle it directly
+      if (config.installType === 'update') {
+        const state = await this.detectInstallationState(installDir);
+        if (state.type === 'v4_existing') {
+          return await this.performUpdate(config, installDir, state.manifest, spinner);
+        } else {
+          spinner.fail('No existing v4 installation found to update');
+          throw new Error('No existing v4 installation found');
+        }
+      }
+
       // Detect current state
       const state = await this.detectInstallationState(installDir);
 

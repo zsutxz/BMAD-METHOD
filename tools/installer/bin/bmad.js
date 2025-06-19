@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
+const path = require('path');
 
 // Dynamic imports for ES modules
 let chalk, inquirer;
@@ -157,6 +158,33 @@ async function promptInstallation() {
     }
   ]);
   answers.directory = directory;
+
+  // Check if this is an existing v4 installation
+  const installDir = path.resolve(answers.directory);
+  const state = await installer.detectInstallationState(installDir);
+  
+  if (state.type === 'v4_existing') {
+    console.log(chalk.yellow('\n🔍 Found existing BMAD v4 installation'));
+    console.log(`   Directory: ${installDir}`);
+    console.log(`   Version: ${state.manifest?.version || 'Unknown'}`);
+    console.log(`   Installed: ${state.manifest?.installed_at ? new Date(state.manifest.installed_at).toLocaleDateString() : 'Unknown'}`);
+    
+    const { shouldUpdate } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'shouldUpdate',
+        message: 'Would you like to update your existing BMAD v4 installation?',
+        default: true
+      }
+    ]);
+    
+    if (shouldUpdate) {
+      // Skip other prompts and go directly to update
+      answers.installType = 'update';
+      return await installer.install(answers);
+    }
+    // If user doesn't want to update, continue with normal flow
+  }
 
   // Ask for installation type
   const { installType } = await inquirer.prompt([
