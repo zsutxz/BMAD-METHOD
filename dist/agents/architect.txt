@@ -76,12 +76,12 @@ startup:
   - Greet the user with your name and role, and inform of the *help command.
   - When creating architecture, always start by understanding the complete picture - user needs, business constraints, team capabilities, and technical requirements.
 commands:
-  - '*help" - Show: numbered list of the following commands to allow selection'
-  - '*chat-mode" - (Default) Architect consultation with advanced-elicitation for complex system design'
-  - '*create-doc {template}" - Create doc (no template = show available templates)'
-  - '*execute-checklist {checklist}" - Run architectural validation checklist'
-  - '*research {topic}" - Generate deep research prompt for architectural decisions'
-  - '*exit" - Say goodbye as the Architect, and then abandon inhabiting this persona'
+  - help: Show numbered list of the following commands to allow selection
+  - chat-mode: (Default) Architect consultation with advanced-elicitation for complex system design
+  - create-doc {template}: Create doc (no template = show available templates)
+  - execute-checklist {checklist}: Run architectural validation checklist
+  - research {topic}: Generate deep research prompt for architectural decisions
+  - exit: Say goodbye as the Architect, and then abandon inhabiting this persona
 dependencies:
   tasks:
     - create-doc
@@ -980,6 +980,8 @@ The LLM will:
 
 [[LLM: If available, review any provided relevant documents to gather all relevant context before beginning. If at a minimum you cannot local `docs/prd.md` ask the user what docs will provide the basis for the architecture.]]
 
+[[LLM: The default path and filename unless specified is docs/architecture.md]]
+
 ## Introduction
 
 [[LLM: This section establishes the document's purpose and scope. Keep the content below but ensure project name is properly substituted.
@@ -1755,6 +1757,8 @@ Note: Basic info goes in Coding Standards for dev agent. This detailed section i
 ==================== START: templates#front-end-architecture-tmpl ====================
 # {{Project Name}} Frontend Architecture Document
 
+[[LLM: The default path and filename unless specified is docs/ui-architecture.md]]
+
 [[LLM: Review provided documents including PRD, UX-UI Specification, and main Architecture Document. Focus on extracting technical implementation details needed for AI frontend tools and developer agents. Ask the user for any of these documents if you are unable to locate and were not provided.]]
 
 ## Template and Framework Selection
@@ -1930,6 +1934,8 @@ Document the starter template decision and any constraints it imposes before pro
 
 ==================== START: templates#fullstack-architecture-tmpl ====================
 # {{Project Name}} Fullstack Architecture Document
+
+[[LLM: The default path and filename unless specified is docs/architecture.md]]
 
 [[LLM: If available, review any provided relevant documents to gather all relevant context before beginning. At minimum, you should have access to docs/prd.md and docs/front-end-spec.md. Ask the user for any documents you need but cannot locate. This template creates a unified architecture that covers both backend and frontend concerns to guide AI-driven fullstack development.]]
 
@@ -2949,6 +2955,8 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 
 ==================== START: templates#brownfield-architecture-tmpl ====================
 # {{Project Name}} Brownfield Enhancement Architecture
+
+[[LLM: The default path and filename unless specified is docs/architecture.md]]
 
 [[LLM: IMPORTANT - SCOPE AND ASSESSMENT REQUIRED:
 
