@@ -110,6 +110,7 @@ The system maintains a clean separation of concerns: template markup is processe
 BMAD includes a personalization layer through the `technical-preferences.md` file in `.bmad-core/data/`. This file serves as a persistent technical profile that influences agent behavior across all projects.
 
 **Purpose and Benefits:**
+
 - **Consistency**: Ensures all agents reference the same technical preferences
 - **Efficiency**: Eliminates the need to repeatedly specify preferred technologies
 - **Personalization**: Agents provide recommendations aligned with user preferences
@@ -119,6 +120,7 @@ BMAD includes a personalization layer through the `technical-preferences.md` fil
 The file typically includes preferred technology stacks, design patterns, external services, coding standards, and anti-patterns to avoid. Agents automatically reference this file during planning and development to provide contextually appropriate suggestions.
 
 **Integration Points:**
+
 - Templates can reference technical preferences during document generation
 - Agents suggest preferred technologies when appropriate for project requirements
 - When preferences don't fit project needs, agents explain alternatives

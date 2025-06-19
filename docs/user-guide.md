@@ -226,7 +226,6 @@ Templates can include `advanced-elicitation.md` for enhanced interaction:
 
 ```markdown
 [[LLM: Use advanced-elicitation actions 0-3 to refine requirements]]
-
 ```
 
 This provides 10 structured brainstorming actions:
@@ -561,7 +560,6 @@ dependencies:
 ## Section 2
 
 {{section_2_content}}
-
 ```
 
 ### Workflow Customization
@@ -621,25 +619,29 @@ Templates are self-contained documents that embed both output structure and proc
 
 [[LLM: Only include if condition is met]]
 ^^/CONDITION^^
-
 ```
 
 #### Key Template Patterns
 
 **Variable Substitution:**
+
 - `{{Project Name}}` - Dynamic project name
 - `{{document_title}}` - Document-specific title
 - `{{section_content}}` - Placeholder for generated content
 
 **AI Processing Instructions:**
+
 - `[[LLM: Instructions for AI behavior]]` - AI-only processing directives
 - `@{example: Sample content}` - Guidance examples (not output)
 - `tasks#advanced-elicitation` - Reference to embedded tasks
 
 **Conditional Content:**
+
 ```markdown
 ^^CONDITION: has_ui^^
+
 ## User Interface Section
+
 [[LLM: Only include for UI projects]]
 ^^/CONDITION^^
 ```
@@ -658,10 +660,10 @@ Level 2 headings (`##`) in templates can be automatically sharded into separate 
 ## User Interface Design Goals
 
 ## Success Metrics
-
 ```
 
 **After Sharding:**
+
 - `docs/prd/goals-and-background-context.md`
 - `docs/prd/requirements.md`
 - `docs/prd/user-interface-design-goals.md`
@@ -686,10 +688,12 @@ Tasks are reusable automation instructions that agents can execute. They follow 
 ## Instructions
 
 ### 1. Step One
+
 - Detailed instructions for the agent
 - Specific behaviors and outputs expected
 
 ### 2. Step Two
+
 - Additional processing steps
 - Integration with other resources
 
@@ -705,10 +709,10 @@ Tasks are reusable automation instructions that agents can execute. They follow 
 ```markdown
 [[LLM: Check if docs/coding-standards.md exists and reference it]]
 [[LLM: Load docs/openapi-spec.yaml for API context]]
-
 ```
 
 **Advanced Elicitation:**
+
 ```markdown
 [[LLM: Apply tasks#advanced-elicitation protocol after completion]]
 ```
@@ -717,7 +721,6 @@ Tasks are reusable automation instructions that agents can execute. They follow 
 
 ```markdown
 [[LLM: If project has UI components, also check frontend standards]]
-
 ```
 
 ### Creating Custom Agents
@@ -780,6 +783,7 @@ Agents can reference and load documents from the `docs/` folder:
 
 ```markdown
 [[LLM: Before beginning, check for and load relevant context:
+
 - docs/coding-standards.md for development standards
 - docs/brand-guidelines.md for design consistency
 - docs/third-party-apis/ for integration requirements
@@ -817,18 +821,20 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 - Vercel for frontend
 - Railway for backend services
-
 ```
 
 **Design Patterns & Standards:**
+
 ```markdown
 ## Code Standards
+
 - Use functional programming patterns where possible
 - Prefer composition over inheritance
 - Always include comprehensive error handling
 - Write tests for all business logic
 
 ## Architecture Preferences
+
 - Microservices for complex applications
 - RESTful APIs with OpenAPI documentation
 - Event-driven architecture for real-time features
@@ -848,7 +854,6 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 - Legacy SOAP services
 - Services without proper documentation
-
 ```
 
 #### How Agents Use This File
@@ -864,16 +869,18 @@ This file allows you to define your preferred technologies, patterns, and standa
 **Learning and Evolution**: As you work on projects, add discoveries to your preferences file:
 
 ## Lessons Learned
+
 - Avoid using Library X for large datasets (performance issues)
 - Pattern Y works well for real-time features
 - Service Z has excellent documentation and support
 
 ## Future Exploration
+
 - Want to try Framework A on next appropriate project
 - Interested in Pattern B for microservices
 - Consider Service C for better performance
 
-#### Using with Web Bundles
+### Using with Web Bundles
 
 When creating custom web bundles or uploading to AI platforms, include your `technical-preferences.md` content to ensure agents have your preferences from the start of any conversation.
 
