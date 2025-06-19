@@ -552,7 +552,8 @@ class Installer {
         installType: manifest.install_type,
         agent: manifest.agent,
         directory: installDir,
-        ide: newConfig.ide || manifest.ide_setup, // Use new IDE choice if provided
+        ide: newConfig?.ide || manifest.ide_setup, // Use new IDE choice if provided
+        ides: newConfig?.ides || manifest.ides_setup || [],
       };
 
       await this.performFreshInstall(config, installDir, spinner);
