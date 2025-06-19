@@ -27,7 +27,7 @@ BMAD-METHOD (Breakthrough Method of Agile AI-driven Development) is a framework 
 #### Option 1: Web UI
 **Best for**: ChatGPT, Claude, Gemini users who want to start immediately
 
-1. Navigate to `.bmad-core/web-bundles/teams/`
+1. Navigate to `dist/teams/`
 2. Copy `team-fullstack.txt` content
 3. Create new Gemini Gem or CustomGPT
 4. Upload file with instructions: "Your critical operating instructions are attached, do not break character as directed"
@@ -200,14 +200,16 @@ The BMAD-Method is built around a modular architecture centered on the `bmad-cor
 ### Dual Environment Architecture
 
 #### IDE Environment
+
 - Users interact directly with agent markdown files
 - Agents can access all dependencies dynamically
 - Supports real-time file operations and project integration
 - Optimized for development workflow execution
 
 #### Web UI Environment
-- Uses pre-built bundles from `bmad-core/web-bundles/`
-- Single text files containing all agent dependencies
+
+- Uses pre-built bundles from `dist/teams` for stand alone 1 upload files for all agents and their assest with an orchestrating agent
+- Single text files containing all agent dependencies are in `dist/agents/` - these are unnecessary unless you want to create a web agent that is only a single agent and not a team
 - Created by the web-builder tool for upload to web interfaces
 - Provides complete context in one package
 
@@ -220,6 +222,7 @@ BMAD employs a sophisticated template system with three key components:
 3. **Advanced Elicitation** (`tasks/advanced-elicitation.md`): Provides interactive refinement through structured brainstorming
 
 **Template Features**:
+
 - **Self-contained**: Templates embed both output structure and processing instructions
 - **Variable Substitution**: `{{placeholders}}` for dynamic content
 - **AI Processing Directives**: `[[LLM: instructions]]` for AI-only processing
