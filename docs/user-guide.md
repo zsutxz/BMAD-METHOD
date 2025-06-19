@@ -56,10 +56,10 @@ Best for: ChatGPT, Claude, Gemini users
 
 Best for: Cursor, Claude Code, Windsurf, VS Code users
 
-````bash
+```bash
 # Interactive installation (recommended)
 npx bmad-method install
-```text
+```
 
 ### First Steps
 
@@ -106,7 +106,7 @@ dependencies:
     - shard-doc.md
   data:
     - bmad-kb.md
-````
+```
 
 **Key Points:**
 
@@ -118,7 +118,7 @@ dependencies:
 
 **In IDE:**
 
-````bash
+```bash
 # Cursor or Windsurf (manual rules - loaded with @)
 @pm Create a PRD for a task management app
 @architect Design the system architecture
@@ -127,7 +127,7 @@ dependencies:
 # Claude Code (files in commands folder - loaded with /)
 /pm Create user stories
 /dev Fix the login bug
-```text
+```
 
 **In Web UI:**
 
@@ -135,7 +135,7 @@ dependencies:
 /pm create-doc prd
 /architect review system design
 /dev implement story 1.2
-````
+```
 
 ## Templates and Document Creation
 
@@ -224,10 +224,10 @@ When working directly in IDEs:
 
 Templates can include `advanced-elicitation.md` for enhanced interaction:
 
-`````markdown
+```markdown
 [[LLM: Use advanced-elicitation actions 0-3 to refine requirements]]
 
-````text
+```
 
 This provides 10 structured brainstorming actions:
 
@@ -268,10 +268,7 @@ graph TD
     style G fill:#f9ab00,color:#fff
     style L fill:#1a73e8,color:#fff
     style N fill:#34a853,color:#fff
-````
-`````
-
-`````
+```
 
 #### Web UI to IDE Transition
 
@@ -286,7 +283,7 @@ graph TD
 
 Once planning is complete and documents are sharded, BMAD follows a structured development workflow:
 
-````mermaid
+```mermaid
 graph TD
     A["Start: Planning Artifacts Complete"] --> B["PO: Shard Epics"]
     B --> C["PO: Shard Arch"]
@@ -302,7 +299,7 @@ graph TD
     J --> E
 
     style J fill:#34a853,color:#fff
-```text
+```
 
 ### Workflow Phases
 
@@ -391,7 +388,7 @@ agents:
   - qa
 workflows:
   - greenfield-fullstack
-`````
+```
 
 ## IDE Integration
 
@@ -543,7 +540,7 @@ BMAD's dependency system ensures agents only load necessary resources:
 
 Create custom templates following `template-format.md`:
 
-`````markdown
+```markdown
 ---
 title: Custom Template
 description: Your custom document type
@@ -565,7 +562,7 @@ dependencies:
 
 {{section_2_content}}
 
-````text
+```
 
 ### Workflow Customization
 
@@ -594,10 +591,7 @@ phases:
     deliverables:
       - implementation
       - tests
-````
-`````
-
-`````
+```
 
 ### Creating Custom Templates
 
@@ -605,7 +599,7 @@ Templates are self-contained documents that embed both output structure and proc
 
 #### Template Structure
 
-````markdown
+```markdown
 # {{Project Name}} Document Title
 
 [[LLM: Opening instruction for AI processing]]
@@ -628,7 +622,7 @@ Templates are self-contained documents that embed both output structure and proc
 [[LLM: Only include if condition is met]]
 ^^/CONDITION^^
 
-````text
+```
 
 #### Key Template Patterns
 
@@ -648,9 +642,7 @@ Templates are self-contained documents that embed both output structure and proc
 ## User Interface Section
 [[LLM: Only include for UI projects]]
 ^^/CONDITION^^
-`````
-
-`````
+```
 
 #### Document Sharding
 
@@ -658,7 +650,7 @@ Level 2 headings (`##`) in templates can be automatically sharded into separate 
 
 **Original PRD:**
 
-````markdown
+```markdown
 ## Goals and Background Context
 
 ## Requirements
@@ -667,7 +659,7 @@ Level 2 headings (`##`) in templates can be automatically sharded into separate 
 
 ## Success Metrics
 
-````text
+```
 
 **After Sharding:**
 - `docs/prd/goals-and-background-context.md`
@@ -704,33 +696,29 @@ Tasks are reusable automation instructions that agents can execute. They follow 
 ## Examples
 
 @{example: Concrete usage examples}
-`````
-
-`````
+```
 
 #### Task Patterns
 
 **Resource Integration:**
 
-````markdown
+```markdown
 [[LLM: Check if docs/coding-standards.md exists and reference it]]
 [[LLM: Load docs/openapi-spec.yaml for API context]]
 
-````text
+```
 
 **Advanced Elicitation:**
 ```markdown
 [[LLM: Apply tasks#advanced-elicitation protocol after completion]]
-`````
-
-`````
+```
 
 **Conditional Logic:**
 
-````markdown
+```markdown
 [[LLM: If project has UI components, also check frontend standards]]
 
-````text
+```
 
 ### Creating Custom Agents
 
@@ -764,21 +752,19 @@ dependencies:
     - custom-task.md
   data:
     - domain-knowledge.md
-`````
-
-`````
+```
 
 #### Agent Startup Instructions
 
 Agents can load project-specific documents and provide custom context:
 
-````yaml
+```yaml
 startup:
   - Load docs/coding-standards.md if available
   - Review docs/project-structure.md for context
   - Check for docs/third-party-apis/ folder
   - Announce specialized capabilities
-```text
+```
 
 #### Loading Project Documents
 
@@ -798,7 +784,7 @@ Agents can reference and load documents from the `docs/` folder:
 - docs/brand-guidelines.md for design consistency
 - docs/third-party-apis/ for integration requirements
 - Any project-specific documentation in docs/ folder]]
-`````
+```
 
 ### Technical Preferences System
 
@@ -812,7 +798,7 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 **Technology Stack Preferences:**
 
-`````markdown
+```markdown
 ## Preferred Technologies
 
 ### Frontend
@@ -832,7 +818,7 @@ This file allows you to define your preferred technologies, patterns, and standa
 - Vercel for frontend
 - Railway for backend services
 
-````text
+```
 
 **Design Patterns & Standards:**
 ```markdown
@@ -846,14 +832,11 @@ This file allows you to define your preferred technologies, patterns, and standa
 - Microservices for complex applications
 - RESTful APIs with OpenAPI documentation
 - Event-driven architecture for real-time features
-````
-`````
-
-`````
+```
 
 **External Services & APIs:**
 
-````markdown
+```markdown
 ## Preferred External Services
 
 - Auth0 for authentication
@@ -866,7 +849,7 @@ This file allows you to define your preferred technologies, patterns, and standa
 - Legacy SOAP services
 - Services without proper documentation
 
-````text
+```
 
 #### How Agents Use This File
 
@@ -880,7 +863,6 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 **Learning and Evolution**: As you work on projects, add discoveries to your preferences file:
 
-```markdown
 ## Lessons Learned
 - Avoid using Library X for large datasets (performance issues)
 - Pattern Y works well for real-time features
@@ -890,9 +872,6 @@ This file allows you to define your preferred technologies, patterns, and standa
 - Want to try Framework A on next appropriate project
 - Interested in Pattern B for microservices
 - Consider Service C for better performance
-`````
-
-````
 
 #### Using with Web Bundles
 
@@ -1050,4 +1029,3 @@ Remember: BMAD is designed to enhance your development process, not replace your
 ---
 
 For additional support, join our [Discord community](https://discord.gg/g6ypHytrCB) or check out the [YouTube channel](https://www.youtube.com/@BMadCode) for video tutorials and walkthroughs.
-````

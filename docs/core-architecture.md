@@ -16,7 +16,7 @@ The system facilitates a full development lifecycle:
 
 The entire BMAD-Method ecosystem is designed around the `.bmad-core` directory, which acts as the brain of the operation. The `tools` directory provides the means to process and package this brain for different environments.
 
-````mermaid
+```mermaid
 graph TD
     subgraph BMAD Method Project
         subgraph Core Framework
@@ -59,7 +59,7 @@ graph TD
     style A fill:#1a73e8,color:#fff
     style I fill:#f9ab00,color:#fff
     style J fill:#34a853,color:#fff
-```text
+```
 
 ## 3. Core Components
 
@@ -173,7 +173,7 @@ graph TD
     style G fill:#f9ab00,color:#fff
     style L fill:#1a73e8,color:#fff
     style N fill:#34a853,color:#fff
-````
+```
 
 **Key Planning Phases:**
 

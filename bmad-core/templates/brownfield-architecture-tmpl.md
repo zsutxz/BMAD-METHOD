@@ -226,7 +226,7 @@ Present component architecture and apply `tasks#advanced-elicitation` protocol]]
 
 ```mermaid
 {{component_interaction_diagram}}
-```text
+```
 
 ## API Design and Integration
 
@@ -266,7 +266,7 @@ Present API design and apply `tasks#advanced-elicitation` protocol]]
 
 ```json
 {{response_schema}}
-```text
+```
 
 <</REPEAT>>
 
