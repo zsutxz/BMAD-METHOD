@@ -1,3 +1,10 @@
+## [4.6.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.6.1...v4.6.2) (2025-06-19)
+
+
+### Bug Fixes
+
+* installer upgrade path fixed ([bd6a558](https://github.com/bmadcode/BMAD-METHOD/commit/bd6a55892906077a700f488bde175b57e846729d))
+
 ## [4.6.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.6.0...v4.6.1) (2025-06-19)
 
 
