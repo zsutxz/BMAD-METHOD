@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.6.3...v4.7.0) (2025-06-19)
+
+
+### Features
+
+* extensive bmad-kb for web orchestrator to be much more helpful ([e663a11](https://github.com/bmadcode/BMAD-METHOD/commit/e663a1146b89e7b5078d9726649a51ae5624da46))
+
 ## [4.6.3](https://github.com/bmadcode/BMAD-METHOD/compare/v4.6.2...v4.6.3) (2025-06-19)
 
 
