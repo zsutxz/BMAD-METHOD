@@ -157,6 +157,11 @@ loading:
   - Agents: Only when transforming
   - Templates/Tasks: Only when executing
   - Always indicate loading
+kb-mode-behavior:
+  - When *kb-mode is invoked, use kb-mode-interaction task
+  - Don't dump all KB content immediately
+  - Present topic areas and wait for user selection
+  - Provide focused, contextual responses
 workflow-guidance:
   - Discover available workflows in the bundle at runtime
   - Understand each workflow's purpose, options, and decision points
@@ -170,6 +175,7 @@ dependencies:
   tasks:
     - advanced-elicitation
     - create-doc
+    - kb-mode-interaction
   data:
     - bmad-kb
   utils:
@@ -663,6 +669,79 @@ If template specifies a checklist:
 - Template markup is for AI processing only - never expose to users
 ==================== END: tasks#create-doc ====================
 
+==================== START: tasks#kb-mode-interaction ====================
+# KB Mode Interaction Task
+
+## Purpose
+Provide a user-friendly interface to the BMAD knowledge base without overwhelming users with information upfront.
+
+## Instructions
+
+When entering KB mode (*kb-mode), follow these steps:
+
+### 1. Welcome and Guide
+Announce entering KB mode with a brief, friendly introduction:
+
+"I've entered KB mode and have access to the full BMAD knowledge base. I can help you with detailed information about any aspect of BMAD-METHOD."
+
+### 2. Present Topic Areas
+Offer a concise list of main topic areas the user might want to explore:
+
+**What would you like to know more about?**
+
+1. **Setup & Installation** - Getting started with BMAD
+2. **Workflows** - Choosing the right workflow for your project
+3. **Web vs IDE** - When to use each environment
+4. **Agents** - Understanding specialized agents and their roles
+5. **Documents** - PRDs, Architecture, Stories, and more
+6. **Agile Process** - How BMAD implements Agile methodologies
+7. **Configuration** - Customizing BMAD for your needs
+8. **Best Practices** - Tips for effective BMAD usage
+
+Or ask me about anything else related to BMAD-METHOD!
+
+### 3. Respond Contextually
+- Wait for user's specific question or topic selection
+- Provide focused, relevant information from the knowledge base
+- Offer to dive deeper or explore related topics
+- Keep responses concise unless user asks for detailed explanations
+
+### 4. Interactive Exploration
+- After answering, suggest related topics they might find helpful
+- Maintain conversational flow rather than data dumping
+- Use examples when appropriate
+- Reference specific documentation sections when relevant
+
+### 5. Exit Gracefully
+When user is done or wants to exit KB mode:
+- Summarize key points discussed if helpful
+- Remind them they can return to KB mode anytime with *kb-mode
+- Suggest next steps based on what was discussed
+
+## Example Interaction
+
+**User**: *kb-mode
+
+**Assistant**: I've entered KB mode and have access to the full BMAD knowledge base. I can help you with detailed information about any aspect of BMAD-METHOD.
+
+**What would you like to know more about?**
+
+1. **Setup & Installation** - Getting started with BMAD
+2. **Workflows** - Choosing the right workflow for your project
+3. **Web vs IDE** - When to use each environment
+4. **Agents** - Understanding specialized agents and their roles
+5. **Documents** - PRDs, Architecture, Stories, and more
+6. **Agile Process** - How BMAD implements Agile methodologies
+7. **Configuration** - Customizing BMAD for your needs
+8. **Best Practices** - Tips for effective BMAD usage
+
+Or ask me about anything else related to BMAD-METHOD!
+
+**User**: Tell me about workflows
+
+**Assistant**: [Provides focused information about workflows from the KB, then offers to explore specific workflow types or related topics]
+==================== END: tasks#kb-mode-interaction ====================
+
 ==================== START: data#bmad-kb ====================
 # BMAD Knowledge Base
 
@@ -731,6 +810,64 @@ npx bmad-method install
 - Implementation workflow (SM/Dev cycles)
 
 **Cost-Saving Tip**: Create large documents (PRDs, architecture) in web UI, then copy to `docs/prd.md` and `docs/architecture.md` in your project before switching to IDE for development.
+
+## Core Configuration (core-config.yml)
+
+**New in V4**: The `bmad-core/core-config.yml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+
+### What is core-config.yml?
+
+This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It enables:
+
+- **Version Flexibility**: Work with V3, V4, or custom document structures
+- **Custom Locations**: Define where your documents and shards live
+- **Developer Context**: Specify which files the dev agent should always load
+- **Debug Support**: Built-in logging for troubleshooting
+
+### Key Configuration Areas
+
+#### PRD Configuration
+- **prdVersion**: Tells agents if PRD follows v3 or v4 conventions
+- **prdSharded**: Whether epics are embedded (false) or in separate files (true)
+- **prdShardedLocation**: Where to find sharded epic files
+- **epicFilePattern**: Pattern for epic filenames (e.g., `epic-{n}*.md`)
+
+#### Architecture Configuration
+- **architectureVersion**: v3 (monolithic) or v4 (sharded)
+- **architectureSharded**: Whether architecture is split into components
+- **architectureShardedLocation**: Where sharded architecture files live
+
+#### Developer Files
+- **devLoadAlwaysFiles**: List of files the dev agent loads for every task
+- **devDebugLog**: Where dev agent logs repeated failures
+- **agentCoreDump**: Export location for chat conversations
+
+### Why It Matters
+
+1. **No Forced Migrations**: Keep your existing document structure
+2. **Gradual Adoption**: Start with V3 and migrate to V4 at your pace
+3. **Custom Workflows**: Configure BMAD to match your team's process
+4. **Intelligent Agents**: Agents automatically adapt to your configuration
+
+### Common Configurations
+
+**Legacy V3 Project**:
+```yaml
+prdVersion: v3
+prdSharded: false
+architectureVersion: v3
+architectureSharded: false
+```
+
+**V4 Optimized Project**:
+```yaml
+prdVersion: v4
+prdSharded: true
+prdShardedLocation: docs/prd
+architectureVersion: v4
+architectureSharded: true
+architectureShardedLocation: docs/architecture
+```
 
 ## Core Philosophy
 
@@ -8809,7 +8946,7 @@ workflow:
 
   sequence:
     - step: service_analysis
-     agent: architect
+      agent: architect
       action: analyze existing project and use task document-project
       creates: multiple documents per the document-project template
       notes: "Review existing service documentation, codebase, performance metrics, and identify integration dependencies."
