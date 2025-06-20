@@ -1,3 +1,10 @@
+## [4.10.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.10.1...v4.10.2) (2025-06-20)
+
+
+### Bug Fixes
+
+* file formatting ([c78a35f](https://github.com/bmadcode/BMAD-METHOD/commit/c78a35f547459b07a15d94c827ec05921cd21571))
+
 ## [4.10.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.10.0...v4.10.1) (2025-06-20)
 
 
