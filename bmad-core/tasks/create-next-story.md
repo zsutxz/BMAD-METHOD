@@ -57,12 +57,40 @@ To identify the next logical story based on project progress and epic definition
     ```
 
   - Proceed only if user selects option 3 (Override) or if the last story was 'Done'.
-  - If proceeding: Look for the Epic File for `{lastEpicNum}` (e.g., `epic-{lastEpicNum}*.md`) and parse it to find ALL stories in that epic. Select the lowest numbered story that is higher than `{lastStoryNum}` and has prerequisites met. This is the next story.
-  - Else (no remaining stories in current epic or prerequisites not met): The next story is the first story in the next Epic File (e.g., look for `epic-{lastEpicNum + 1}*.md`, then `epic-{lastEpicNum + 2}*.md`, etc.) whose prerequisites are met.
+  - If proceeding: Look for the Epic File for `{lastEpicNum}` (e.g., `epic-{lastEpicNum}*.md`) and parse it to find ALL stories in that epic. **ALWAYS select the next sequential story** (e.g., if last was 2.2, next MUST be 2.3).
+  - If the next sequential story has unmet prerequisites, present this to the user:
+    
+    ```plaintext
+    ALERT: Next story has unmet prerequisites:
+    Story: {epicNum}.{storyNum} - {Story Title}
+    Prerequisites not met: [list specific prerequisites]
+    
+    Would you like to:
+    1. Create the story anyway (mark prerequisites as pending)
+    2. Skip to a different story (requires your specific instruction)
+    3. Cancel story creation
+    
+    Please choose an option (1/2/3):
+    ```
+    
+  - If there are no more stories in the current epic (e.g., 2.9 was done and there is no 2.10):
+    
+    ```plaintext
+    Epic {epicNum} Complete: All stories in Epic {epicNum} have been completed.
+    
+    Would you like to:
+    1. Begin Epic {epicNum + 1} with story {epicNum + 1}.1
+    2. Select a specific story to work on
+    3. Cancel story creation
+    
+    Please choose an option (1/2/3):
+    ```
+    
+  - **CRITICAL**: NEVER automatically skip to another epic or non-sequential story. The user MUST explicitly instruct which story to create if skipping the sequential order.
 
 - **If no story files exist in `docs/stories/`:**
-  - The next story is the first story in the first epic file (look for `epic-1-*.md`, then `epic-2-*.md`, etc.) whose prerequisites are met.
-- If no suitable story with met prerequisites is found, report to the user that story creation is blocked, specifying what prerequisites are pending. HALT task.
+  - The next story is ALWAYS 1.1 (the first story of the first epic).
+  - If story 1.1 has unmet prerequisites, follow the same alert process as above.
 - Announce the identified story to the user: "Identified next story for preparation: {epicNum}.{storyNum} - {Story Title}".
 
 ### 2. Gather Core Story Requirements (from Epic)
