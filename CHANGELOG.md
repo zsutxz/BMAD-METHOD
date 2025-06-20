@@ -1,3 +1,10 @@
+## [4.10.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.10.0...v4.10.1) (2025-06-20)
+
+
+### Bug Fixes
+
+* SM sometimes would skip the rest of the epic stories, fixed ([1148b32](https://github.com/bmadcode/BMAD-METHOD/commit/1148b32fa97586d2f86d07a70ffbf9bb8c327261))
+
 # [4.10.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.9.2...v4.10.0) (2025-06-19)
 
 
