@@ -57,8 +57,8 @@ To identify the next logical story based on project progress and epic definition
     ```
 
   - Proceed only if user selects option 3 (Override) or if the last story was 'Done'.
-  - If proceeding: Look for the Epic File for `{lastEpicNum}` (e.g., `epic-{lastEpicNum}*.md`) and check for a story numbered `{lastStoryNum + 1}`. If it exists and its prerequisites (per Epic File) are met, this is the next story.
-  - Else (story not found or prerequisites not met): The next story is the first story in the next Epic File (e.g., look for `epic-{lastEpicNum + 1}*.md`, then `epic-{lastEpicNum + 2}*.md`, etc.) whose prerequisites are met.
+  - If proceeding: Look for the Epic File for `{lastEpicNum}` (e.g., `epic-{lastEpicNum}*.md`) and parse it to find ALL stories in that epic. Select the lowest numbered story that is higher than `{lastStoryNum}` and has prerequisites met. This is the next story.
+  - Else (no remaining stories in current epic or prerequisites not met): The next story is the first story in the next Epic File (e.g., look for `epic-{lastEpicNum + 1}*.md`, then `epic-{lastEpicNum + 2}*.md`, etc.) whose prerequisites are met.
 
 - **If no story files exist in `docs/stories/`:**
   - The next story is the first story in the first epic file (look for `epic-1-*.md`, then `epic-2-*.md`, etc.) whose prerequisites are met.
