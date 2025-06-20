@@ -21,6 +21,6 @@ core-project-information:
   devLoadAlwaysFiles:
     - docs/architecture/coding-standards.md
     - docs/architecture/tech-stack.md
-    - docs/architecture/project-structure.md
+    - docs/architecture/source-tree.md
   devDebugLog: .ai/debug-log.md
   agentCoreDump: .ai/core-dump{n}.md
