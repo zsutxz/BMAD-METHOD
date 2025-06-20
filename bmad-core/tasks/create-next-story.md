@@ -59,7 +59,7 @@ To identify the next logical story based on project progress and epic definition
   - Proceed only if user selects option 3 (Override) or if the last story was 'Done'.
   - If proceeding: Look for the Epic File for `{lastEpicNum}` (e.g., `epic-{lastEpicNum}*.md`) and parse it to find ALL stories in that epic. **ALWAYS select the next sequential story** (e.g., if last was 2.2, next MUST be 2.3).
   - If the next sequential story has unmet prerequisites, present this to the user:
-    
+
     ```plaintext
     ALERT: Next story has unmet prerequisites:
     Story: {epicNum}.{storyNum} - {Story Title}
@@ -72,9 +72,9 @@ To identify the next logical story based on project progress and epic definition
     
     Please choose an option (1/2/3):
     ```
-    
+
   - If there are no more stories in the current epic (e.g., 2.9 was done and there is no 2.10):
-    
+
     ```plaintext
     Epic {epicNum} Complete: All stories in Epic {epicNum} have been completed.
     
@@ -85,7 +85,7 @@ To identify the next logical story based on project progress and epic definition
     
     Please choose an option (1/2/3):
     ```
-    
+
   - **CRITICAL**: NEVER automatically skip to another epic or non-sequential story. The user MUST explicitly instruct which story to create if skipping the sequential order.
 
 - **If no story files exist in `docs/stories/`:**
