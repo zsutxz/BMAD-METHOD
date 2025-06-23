@@ -1,3 +1,10 @@
+# [4.12.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.11.0...v4.12.0) (2025-06-23)
+
+
+### Features
+
+* **dev-agent:** add quality gates to prevent task completion with failing validations ([#261](https://github.com/bmadcode/BMAD-METHOD/issues/261)) ([45110ff](https://github.com/bmadcode/BMAD-METHOD/commit/45110ffffe6d29cc08e227e22a901892185dfbd2))
+
 # [4.11.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.10.3...v4.11.0) (2025-06-21)
 
 
