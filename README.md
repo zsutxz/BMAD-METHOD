@@ -241,7 +241,7 @@ tools/
 ├── installer/       # NPX installer
 └── lib/             # Build utilities
 
-expansion-packs/     # Optional add-ons (DevOps, Mobile, etc.)
+expansion-packs/     # Domain-specific add-ons (Technical & Non-Technical)
 
 dist/                # 📦 PRE-BUILT BUNDLES (Ready to use!)
 ├── agents/          # Individual agent bundles (.txt files)
@@ -289,12 +289,60 @@ Rich templates for all document types:
 
 Ask the agent you are using for help with /help (in the web) or \*help in the ide to see what commands are available!
 
+## Expansion Packs - Beyond Software Development
+
+BMAD Method's natural language framework isn't limited to software development. Create specialized agents for ANY domain:
+
+### Technical Expansion Packs
+
+- 🎮 **Game Development** - Game designers, level creators, narrative writers
+- 🏗️ **Infrastructure/DevOps** - Cloud architects, security specialists, SRE agents
+- 📱 **Mobile Development** - iOS/Android specialists, UX designers
+- 🔗 **Blockchain/Web3** - Smart contract developers, DeFi architects
+
+### Non-Technical Expansion Packs
+
+- 💼 **Business Strategy** - Strategic planners, market analysts, business coaches
+- 💪 **Health & Wellness** - Fitness coaches, nutrition advisors, meditation guides
+- 🎨 **Creative Arts** - Story writers, world builders, character developers
+- 📚 **Education** - Curriculum designers, tutors, learning coaches
+- 🧠 **Personal Development** - Life coaches, goal setters, habit builders
+- 🏢 **Professional Services** - Legal advisors, medical protocols, research assistants
+
+### Creating Your Own Expansion Pack
+
+The BMAD framework can support any domain where structured AI assistance is valuable:
+
+1. Define specialized agents with domain expertise
+2. Create task procedures for common workflows
+3. Build templates for domain-specific outputs
+4. Package as an expansion pack for others to use
+
+📖 **[Read the full Expansion Packs Guide](docs/expansion-packs.md)** for detailed examples and inspiration!
+
+🛠️ **[Use the Expansion Pack Creator](expansion-packs/expansion-creator/README.md)** to build your own!
+
 ## Contributing
 
-We welcome contributions!
+**We're excited about contributions and welcome your ideas, improvements, and expansion packs!** 🎉
 
-- 🆕 **New to GitHub?** Start with our [Pull Request Guide](docs/how-to-contribute-with-pull-requests.md)
-- See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines
+### Before Contributing - MUST READ
+
+To ensure your contribution aligns with the BMAD Method and gets merged smoothly:
+
+1. 📋 **Read [CONTRIBUTING.md](CONTRIBUTING.md)** - Our contribution guidelines, PR requirements, and process
+2. 🎯 **Read [GUIDING-PRINCIPLES.md](GUIDING-PRINCIPLES.md)** - Core principles that keep BMAD powerful through simplicity
+3. 🆕 **New to GitHub?** Start with our [Pull Request Guide](docs/how-to-contribute-with-pull-requests.md)
+
+### Key Points to Remember
+
+- Keep dev agents lean (save context for coding!)
+- Use small, focused files over large branching ones
+- Reuse existing tasks (like `create-doc`) instead of creating duplicates
+- Consider expansion packs for domain-specific features
+- All contributions must follow our natural language, markdown-based approach
+
+We're building something amazing together - let's keep it simple, powerful, and focused! 💪
 
 ### Development Setup
 
@@ -310,6 +358,7 @@ npm install
 
 - 🏗️ [Core Architecture](docs/core-architecture.md) - Complete technical architecture and system design
 - 📖 [User Guide](docs/user-guide.md) - Comprehensive guide to using BMAD-METHOD effectively
+- 🚀 [Expansion Packs Guide](docs/expansion-packs.md) - Extend BMAD to any domain beyond software development
 
 ### Workflow Guides
 
