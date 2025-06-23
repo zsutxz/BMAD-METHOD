@@ -97,7 +97,7 @@ Example breakdown:
 
 ## Pull Request Description Guidelines
 
-PRs with a wall of AI Generated marketing hype that is unclear in what is being proposed will be closed and rejected. Your best chance to contribute is with a small clear PR description explaining what is the issue being solved or gap in the system being filled. Also explain how it leads to the core guiding principles of the project.
+Keep PR descriptions short and to the point following this template:
 
 ### PR Description Template
 
