@@ -77,39 +77,6 @@ See [Expansion Packs Guide](../docs/expansion-packs.md) for detailed examples an
 5. NEVER display template markup or LLM instructions to users
 6. Focus on clean output - all processing instructions stay internal
 
-## Examples
-
-### Good Dev Agent
-
-```yaml
-name: API Developer
-role: Creates REST APIs
-dependencies:
-  templates:
-    - api-endpoint-tmpl
-  tasks:
-    - implement-endpoint
-```
-
-### Good Planning Agent (Web)
-
-```yaml
-name: PRD Writer
-role: Creates comprehensive PRDs
-dependencies:
-  templates:
-    - prd-tmpl
-    - epic-tmpl
-    - story-tmpl
-  tasks:
-    - elicit-requirements
-    - analyze-market
-    - define-features
-  data:
-    - prd-best-practices
-    - market-analysis-guide
-```
-
 ## Remember
 
 - The power is in natural language orchestration, not code

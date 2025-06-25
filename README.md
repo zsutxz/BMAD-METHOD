@@ -188,14 +188,14 @@ The reason #2 and 3 are optional is because now BMad V4 makes sharding optional 
 
 This configuration file tells BMAD agents exactly where to find your project documents and how they're structured. It's the key to V4's flexibility and backwards compatibility.
 
-#### Key Features:
+#### Key Features
 
 - **Version Awareness**: Agents understand if your PRD/Architecture follows V4 conventions or earlier versions
 - **Flexible Document Locations**: Works whether your epics are embedded in PRD or properly sharded
 - **Developer Context**: Define which files the dev agent should always load
 - **Debug Support**: Built-in logging for troubleshooting story implementation
 
-#### Why It Matters:
+#### Why It Matters
 
 - **Use BMAD with ANY project structure** - V3, V4, or custom layouts
 - **No forced migrations** - Keep your existing document organization
@@ -363,6 +363,7 @@ npm install
 ### Workflow Guides
 
 - 📚 [Universal BMAD Workflow Guide](docs/bmad-workflow-guide.md) - Core workflow that applies to all IDEs
+- 🏗️ [Working in the Brownfield Guide](docs/working-in-the-brownfield.md) - Complete guide for enhancing existing projects
 - 🎯 [Cursor Guide](docs/cursor-guide.md) - Complete workflow for Cursor users
 - 🤖 [Claude Code Guide](docs/claude-code-guide.md) - Complete workflow for Claude Code users
 - 🌊 [Windsurf Guide](docs/windsurf-guide.md) - Complete workflow for Windsurf users

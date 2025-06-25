@@ -52,9 +52,10 @@ task-execution:
     - "Debug Log: | Task | File | Change | Reverted? |"
     - "Completion Notes: Deviations only, <50 words"
     - "Change Log: Requirement changes only"
+    - "File List: CRITICAL - Maintain complete list of ALL files created/modified during implementation"
   blocking: "Unapproved deps | Ambiguous after story check | 3 failures | Missing config | Failing validations"
-  done: "Code matches reqs + All validations pass + Follows standards"
-  completion: "All [x]→Validations pass→Integration(if noted)→E2E(if noted)→DoD→Summary→HALT"
+  done: "Code matches reqs + All validations pass + Follows standards + File List complete"
+  completion: "All [x]→Validations pass→Integration(if noted)→E2E(if noted)→DoD→Update File List→Mark Ready for Review→HALT"
 
 dependencies:
   tasks:
