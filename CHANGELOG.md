@@ -1,3 +1,10 @@
+## [4.14.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.14.0...v4.14.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* add updated web builds ([6dabbcb](https://github.com/bmadcode/BMAD-METHOD/commit/6dabbcb670ef22708db6c01dac82069547ca79d6))
+
 # [4.14.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.13.0...v4.14.0) (2025-06-25)
 
 
