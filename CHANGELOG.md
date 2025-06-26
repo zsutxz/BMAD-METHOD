@@ -1,3 +1,10 @@
+## [4.16.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.16.0...v4.16.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* remove accidental folder add ([b1c2de1](https://github.com/bmadcode/BMAD-METHOD/commit/b1c2de1fb58029f68e021faa90cd5d5faf345198))
+
 # [4.16.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.15.0...v4.16.0) (2025-06-26)
 
 
