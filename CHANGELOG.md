@@ -1,3 +1,10 @@
+# [4.17.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.16.1...v4.17.0) (2025-06-27)
+
+
+### Features
+
+* add GEMINI.md to agent context files ([#272](https://github.com/bmadcode/BMAD-METHOD/issues/272)) ([b557570](https://github.com/bmadcode/BMAD-METHOD/commit/b557570081149352e4efbef8046935650f6ecea1))
+
 ## [4.16.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.16.0...v4.16.1) (2025-06-26)
 
 
