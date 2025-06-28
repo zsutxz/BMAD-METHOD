@@ -116,7 +116,7 @@ The analyst will generate comprehensive documentation of everything.
 
 #### Option A: Full Brownfield Workflow (Recommended for Major Changes)
 
-**1. Create Brownfield PRD**
+**1. Create Brownfield PRD**:
 
 ```bash
 @pm
@@ -143,7 +143,7 @@ The PM agent will:
 - "What are the critical constraints we must respect?"
 - "What is your timeline and team size?"
 
-**2. Create Brownfield Architecture**
+**2. Create Brownfield Architecture**:
 
 ```bash
 @architect
