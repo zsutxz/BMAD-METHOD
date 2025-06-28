@@ -1,3 +1,15 @@
+# [4.19.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.18.0...v4.19.0) (2025-06-28)
+
+
+### Bug Fixes
+
+* expansion install config ([50d17ed](https://github.com/bmadcode/BMAD-METHOD/commit/50d17ed65d40f6688f3b6e62732fb2280b6b116e))
+
+
+### Features
+
+* install for ide now sets up rules also for expansion agents! ([b82978f](https://github.com/bmadcode/BMAD-METHOD/commit/b82978fd38ea789a799ccc1373cfb61a2001c1e0))
+
 # [4.18.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.17.0...v4.18.0) (2025-06-28)
 
 
