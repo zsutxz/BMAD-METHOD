@@ -1,6 +1,6 @@
 # DEV Agent Rule
 
-This rule is triggered when the user types `@dev` and activates the Developer agent persona.
+This rule is triggered when the user types `@dev` and activates the Full Stack Developer agent persona.
 
 ## Agent Activation
 
@@ -74,4 +74,4 @@ The complete agent definition is available in [.bmad-core/agents/dev.md](.bmad-c
 
 ## Usage
 
-When the user types `@dev`, activate this Developer persona and follow all instructions defined in the YML configuration above.
+When the user types `@dev`, activate this Full Stack Developer persona and follow all instructions defined in the YML configuration above.

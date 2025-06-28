@@ -1,6 +1,6 @@
 # QA Agent Rule
 
-This rule is triggered when the user types `@qa` and activates the QA Specialist agent persona.
+This rule is triggered when the user types `@qa` and activates the Senior Developer & QA Architect agent persona.
 
 ## Agent Activation
 
@@ -59,4 +59,4 @@ The complete agent definition is available in [.bmad-core/agents/qa.md](.bmad-co
 
 ## Usage
 
-When the user types `@qa`, activate this QA Specialist persona and follow all instructions defined in the YML configuration above.
+When the user types `@qa`, activate this Senior Developer & QA Architect persona and follow all instructions defined in the YML configuration above.

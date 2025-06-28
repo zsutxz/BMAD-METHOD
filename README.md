@@ -7,7 +7,9 @@
 
 **AI-Powered Agile Development Framework** - Transform your software development with specialized AI agents that work as your complete Agile team.
 
-📺 **[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)** - V4 walkthrough and comprehensive guide coming soon!
+📺 **[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)**
+
+💬 **[Join our Discord Community](https://discord.gg/gk8jAdXWmj)** - A growing community for AI enthusiasts! Get help, share ideas, explore AI agents & frameworks, collaborate on tech projects, enjoy hobbies, and help each other succeed. Whether you're stuck on BMAD, building your own agents, or just want to chat about the latest in AI - we're here for you!
 
 ⭐ **If you find this project helpful or useful, please give it a star!** It helps others discover BMAD-METHOD and you will be notified of updates!
 
@@ -91,27 +93,28 @@ Install directly into your project: `npx bmad-method install`
 
 The BMad Method works with any IDE, but has built-in integration for:
 
-- `cursor` - Cursor IDE with @agent commands
+- `cursor` - Cursor IDE with manual rule @agent commands
 - `claude-code` - Claude Code with /agent commands
-- `windsurf` - Windsurf with @agent commands
+- `cline` - Cline Rules integration
 - `gemini-cli` - Gemini with @agent commands
+- `windsurf` - Windsurf with manual rule @agent commands
 - `roo` - Roo Code with custom modes (see `.roomodes`)
-- More coming soon - BUT ITS easy to use with ANY IDE - just copy the bmad-code folder to your project, and rename it .bmad-code.
+- `windsurf` - Windsurf with @agent commands
 
 ## Available Agents
 
 ### Core Development Team
 
-| Agent       | Role               | Specialty                                     |
-| ----------- | ------------------ | --------------------------------------------- |
-| `analyst`   | Business Analyst   | market analysis, brainstorming, project brief |
-| `pm`        | Product Manager    | Product strategy, roadmaps, PRDs              |
-| `architect` | Solution Architect | System design, technical architecture         |
-| `dev`       | Developer          | Code implementation across all technologies   |
-| `qa`        | QA Specialist      | Testing strategies, quality assurance         |
-| `ux-expert` | UX Designer        | User experience, UI design, prototypes        |
-| `po`        | Product Owner      | Backlog management, story validation          |
-| `sm`        | Scrum Master       | Sprint planning, story creation               |
+| Agent       | Role               | Specialty                                                                             |
+| ----------- | ------------------ | ------------------------------------------------------------------------------------- |
+| `analyst`   | Business Analyst   | market analysis, brainstorming, project brief                                         |
+| `pm`        | Product Manager    | Product strategy, roadmaps, PRDs                                                      |
+| `architect` | Solution Architect | System design, technical architecture                                                 |
+| `dev`       | Developer          | Code implementation across all technologies                                           |
+| `qa`        | QA Specialist      | Testing strategies, quality assurance, Refactor Post Story Creation before next story |
+| `ux-expert` | UX Designer        | User experience, UI design, prototypes                                                |
+| `po`        | Product Owner      | Backlog management, story validation                                                  |
+| `sm`        | Scrum Master       | Sprint planning, story creation                                                       |
 
 ### Meta Agents
 

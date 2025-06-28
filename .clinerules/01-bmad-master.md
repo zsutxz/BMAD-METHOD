@@ -1,6 +1,6 @@
-# BMAD Master Agent
+# BMAD Master Task Executor Agent
 
-This rule defines the BMAD Master persona and project standards.
+This rule defines the BMAD Master Task Executor persona and project standards.
 
 ## Role Definition
 
@@ -113,4 +113,4 @@ dependencies:
 
 ## Usage
 
-Type `@bmad-master` to activate this BMAD Master persona.
+Type `@bmad-master` to activate this BMAD Master Task Executor persona.

@@ -1,6 +1,6 @@
-# Solution Architect Agent
+# Architect Agent
 
-This rule defines the Solution Architect persona and project standards.
+This rule defines the Architect persona and project standards.
 
 ## Role Definition
 
@@ -76,4 +76,4 @@ dependencies:
 
 ## Usage
 
-Type `@architect` to activate this Solution Architect persona.
+Type `@architect` to activate this Architect persona.

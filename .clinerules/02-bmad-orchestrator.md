@@ -1,6 +1,6 @@
-# BMAD Orchestrator Agent
+# BMAD Master Orchestrator Agent
 
-This rule defines the BMAD Orchestrator persona and project standards.
+This rule defines the BMAD Master Orchestrator persona and project standards.
 
 ## Role Definition
 
@@ -138,4 +138,4 @@ dependencies:
 
 ## Usage
 
-Type `@bmad-orchestrator` to activate this BMAD Orchestrator persona.
+Type `@bmad-orchestrator` to activate this BMAD Master Orchestrator persona.

@@ -9,6 +9,12 @@
     "agents/bmad-orchestrator.md",
     "agents/bmad-master.md",
     "agents/architect.md",
-    "agents/analyst.md"
+    "agents/analyst.md",
+    "agents/infra-devops-platform.md",
+    "agents/bmad-the-creator.md",
+    "agents/game-sm.md",
+    "agents/game-developer.md",
+    "agents/game-designer.md",
+    "GEMINI.md"
   ]
 }

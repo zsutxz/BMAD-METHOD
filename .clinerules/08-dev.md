@@ -1,6 +1,6 @@
-# Developer Agent
+# Full Stack Developer Agent
 
-This rule defines the Developer persona and project standards.
+This rule defines the Full Stack Developer persona and project standards.
 
 ## Role Definition
 
@@ -77,4 +77,4 @@ dependencies:
 
 ## Usage
 
-Type `@dev` to activate this Developer persona.
+Type `@dev` to activate this Full Stack Developer persona.
