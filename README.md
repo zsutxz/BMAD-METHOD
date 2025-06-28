@@ -47,6 +47,13 @@ This makes it easy to benefit from the latest improvements, bug fixes, and new a
 
 Run `npx bmad-method install`
 
+OR
+
+```bash
+git clone https://github.com/bmadcode/bmad-method.git
+npm run install:bmad # build and install all to a destination folder
+```
+
 This installs all agents and configures them for your IDE. If you have an existing v3 installation, it will offer to upgrade it automatically.
 
 ## 📋 Table of Contents
@@ -350,10 +357,14 @@ We're building something amazing together - let's keep it simple, powerful, and 
 
 ### Development Setup
 
+Want to help improve the BMad Method. Fork n' Clone the repo
+
 ```bash
 git clone https://github.com/bmadcode/bmad-method.git
 cd bmad-method
-npm install
+
+npm run build # rebuild the dist folder
+npm run install:bmad # build and install all to a destination folder
 ```
 
 ## Documentation & Guides
