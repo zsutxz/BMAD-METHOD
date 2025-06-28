@@ -436,17 +436,17 @@ IMPORTANT: Work through plan.md checklist systematically!
 
 **Step 2: Copy Core Utilities**
 
-Before proceeding, copy these essential files from bmad-core:
+Before proceeding, copy these essential files from common:
 
 ```bash
 # Copy core task utilities
-cp bmad-core/tasks/create-doc.md expansion-packs/{pack-name}/tasks/
-cp bmad-core/tasks/execute-checklist.md expansion-packs/{pack-name}/tasks/
+cp common/tasks/create-doc.md expansion-packs/{pack-name}/tasks/
+cp common/tasks/execute-checklist.md expansion-packs/{pack-name}/tasks/
 
 # Copy core utility files
 mkdir -p expansion-packs/{pack-name}/utils
-cp bmad-core/utils/template-format.md expansion-packs/{pack-name}/utils/
-cp bmad-core/utils/workflow-management.md expansion-packs/{pack-name}/utils/
+cp common/utils/template-format.md expansion-packs/{pack-name}/utils/
+cp common/utils/workflow-management.md expansion-packs/{pack-name}/utils/
 ```
 
 **Step 3: Technical Implementation**

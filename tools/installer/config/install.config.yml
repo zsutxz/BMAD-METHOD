@@ -12,8 +12,8 @@ agent-dependencies:
   core-files:
     - bmad-core/utils/template-format.md
   dev:
-    - bmad-core/templates/story-tmpl.md
-    - bmad-core/checklists/story-dod-checklist.md
+    - common/templates/story-tmpl.md
+    - common/checklists/story-dod-checklist.md
   pm:
     - bmad-core/templates/prd-tmpl.md
     - bmad-core/templates/brownfield-prd-tmpl.md

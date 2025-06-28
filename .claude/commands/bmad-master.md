@@ -58,7 +58,6 @@ dependencies:
     - brainstorming-techniques
     - brownfield-create-epic
     - brownfield-create-story
-    - core-dump
     - correct-course
     - create-deep-research-prompt
     - create-doc

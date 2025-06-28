@@ -225,6 +225,10 @@ class Installer {
       const sourceDir = configLoader.getBmadCorePath();
       const bmadCoreDestDir = path.join(installDir, ".bmad-core");
       await fileManager.copyDirectory(sourceDir, bmadCoreDestDir);
+      
+      // Copy common/ items to .bmad-core
+      spinner.text = "Copying common utilities...";
+      await this.copyCommonItems(installDir, ".bmad-core", spinner);
 
       // Get list of all files for manifest
       const glob = require("glob");
@@ -283,6 +287,11 @@ class Installer {
           }
         }
       }
+      
+      // Copy common/ items to .bmad-core
+      spinner.text = "Copying common utilities...";
+      const commonFiles = await this.copyCommonItems(installDir, ".bmad-core", spinner);
+      files.push(...commonFiles);
     } else if (config.installType === "team") {
       // Team installation
       spinner.text = `Installing ${config.team} team...`;
@@ -313,6 +322,11 @@ class Installer {
           }
         }
       }
+      
+      // Copy common/ items to .bmad-core
+      spinner.text = "Copying common utilities...";
+      const commonFiles = await this.copyCommonItems(installDir, ".bmad-core", spinner);
+      files.push(...commonFiles);
     } else if (config.installType === "expansion-only") {
       // Expansion-only installation - create minimal .bmad-core structure
       spinner.text = "Creating minimal .bmad-core structure for expansion packs...";
@@ -341,6 +355,10 @@ class Installer {
         );
         files.push(...copiedFiles.map(f => `.bmad-core/${f}`));
       }
+      
+      // Copy common/ items to .bmad-core
+      spinner.text = "Copying common utilities...";
+      await this.copyCommonItems(installDir, ".bmad-core", spinner);
     }
 
     // Install expansion packs if requested
@@ -607,8 +625,10 @@ class Installer {
     console.log(chalk.green("✓ .bmad-core framework installed with all agents and workflows"));
     
     if (config.expansionPacks && config.expansionPacks.length > 0) {
-      const packNames = config.expansionPacks.join(", ");
-      console.log(chalk.green(`✓ Expansion packs installed: ${packNames}`));
+      console.log(chalk.green(`✓ Expansion packs installed:`));
+      for (const packId of config.expansionPacks) {
+        console.log(chalk.green(`  - ${packId} → .${packId}/`));
+      }
     }
     
     if (config.includeWebBundles && config.webBundlesDirectory) {
@@ -799,7 +819,11 @@ class Installer {
 
         const expansionPackDir = path.dirname(pack.manifestPath);
         
-        // Define the folders to copy from expansion packs to .bmad-core
+        // Create dedicated dot folder for this expansion pack
+        const expansionDotFolder = path.join(installDir, `.${packId}`);
+        await fileManager.ensureDirectory(expansionDotFolder);
+        
+        // Define the folders to copy from expansion packs
         const foldersToSync = [
           'agents',
           'agent-teams',
@@ -824,27 +848,93 @@ class Installer {
               nodir: true
             });
 
-            // Copy each file to the destination
+            // Copy each file to the expansion pack's dot folder
             for (const file of files) {
               const sourcePath = path.join(sourceFolder, file);
-              const destPath = path.join(installDir, '.bmad-core', folder, file);
+              const destPath = path.join(expansionDotFolder, folder, file);
               
               if (await fileManager.copyFile(sourcePath, destPath)) {
-                installedFiles.push(path.join('.bmad-core', folder, file));
+                installedFiles.push(path.join(`.${packId}`, folder, file));
               }
             }
           }
         }
 
-        // Web bundles are now available in the dist/ directory and don't need to be copied
+        // Copy manifest to the expansion pack's dot folder
+        const manifestDestPath = path.join(expansionDotFolder, 'manifest.yml');
+        if (await fileManager.copyFile(pack.manifestPath, manifestDestPath)) {
+          installedFiles.push(path.join(`.${packId}`, 'manifest.yml'));
+        }
 
-        console.log(chalk.green(`✓ Installed expansion pack: ${pack.name}`));
+        // Copy common/ items to expansion pack folder
+        spinner.text = `Copying common utilities to ${packId}...`;
+        await this.copyCommonItems(installDir, `.${packId}`, spinner);
+        
+        // Check and resolve core dependencies
+        await this.resolveExpansionPackCoreDependencies(installDir, expansionDotFolder, packId, spinner);
+
+        console.log(chalk.green(`✓ Installed expansion pack: ${pack.name} to ${`.${packId}`}`));
       } catch (error) {
         console.error(chalk.red(`Failed to install expansion pack ${packId}: ${error.message}`));
       }
     }
 
     return installedFiles;
+  }
+
+  async resolveExpansionPackCoreDependencies(installDir, expansionDotFolder, packId, spinner) {
+    const glob = require('glob');
+    const yaml = require('yaml');
+    const fs = require('fs').promises;
+    
+    // Find all agent files in the expansion pack
+    const agentFiles = glob.sync('agents/*.md', {
+      cwd: expansionDotFolder
+    });
+
+    for (const agentFile of agentFiles) {
+      const agentPath = path.join(expansionDotFolder, agentFile);
+      const agentContent = await fs.readFile(agentPath, 'utf8');
+      
+      // Extract YAML frontmatter to check dependencies
+      const yamlMatch = agentContent.match(/```yaml\n([\s\S]*?)```/);
+      if (yamlMatch) {
+        try {
+          const agentConfig = yaml.parse(yamlMatch[1]);
+          const dependencies = agentConfig.dependencies || {};
+          
+          // Check for core dependencies (those that don't exist in the expansion pack)
+          for (const depType of ['tasks', 'templates', 'checklists', 'workflows', 'utils', 'data']) {
+            const deps = dependencies[depType] || [];
+            
+            for (const dep of deps) {
+              const depFileName = dep.endsWith('.md') ? dep : `${dep}.md`;
+              const expansionDepPath = path.join(expansionDotFolder, depType, depFileName);
+              
+              // Check if dependency exists in expansion pack
+              if (!(await fileManager.pathExists(expansionDepPath))) {
+                // Try to find it in core
+                const coreDepPath = path.join(configLoader.getBmadCorePath(), depType, depFileName);
+                
+                if (await fileManager.pathExists(coreDepPath)) {
+                  spinner.text = `Copying core dependency ${dep} for ${packId}...`;
+                  
+                  // Copy from core to expansion pack dot folder
+                  const destPath = path.join(expansionDotFolder, depType, depFileName);
+                  await fileManager.copyFile(coreDepPath, destPath);
+                  
+                  console.log(chalk.dim(`  Added core dependency: ${depType}/${depFileName}`));
+                } else {
+                  console.warn(chalk.yellow(`  Warning: Dependency ${depType}/${dep} not found in core or expansion pack`));
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.warn(chalk.yellow(`  Warning: Could not parse agent dependencies: ${error.message}`));
+        }
+      }
+    }
   }
 
   getWebBundleInfo(config) {
@@ -942,6 +1032,48 @@ class Installer {
     } catch (error) {
       console.error(chalk.red(`Failed to install web bundles: ${error.message}`));
     }
+  }
+
+  async copyCommonItems(installDir, targetSubdir, spinner) {
+    const glob = require('glob');
+    const fs = require('fs').promises;
+    const sourceBase = path.dirname(path.dirname(path.dirname(path.dirname(__filename)))); // Go up to project root
+    const commonPath = path.join(sourceBase, 'common');
+    const targetPath = path.join(installDir, targetSubdir);
+    const copiedFiles = [];
+    
+    // Check if common/ exists
+    if (!(await fileManager.pathExists(commonPath))) {
+      console.warn(chalk.yellow('Warning: common/ folder not found'));
+      return copiedFiles;
+    }
+    
+    // Copy all items from common/ to target
+    const commonItems = glob.sync('**/*', {
+      cwd: commonPath,
+      nodir: true
+    });
+    
+    for (const item of commonItems) {
+      const sourcePath = path.join(commonPath, item);
+      const destPath = path.join(targetPath, item);
+      
+      // Read the file content
+      const content = await fs.readFile(sourcePath, 'utf8');
+      
+      // Replace {root} with the target subdirectory
+      const updatedContent = content.replace(/\{root\}/g, targetSubdir);
+      
+      // Ensure directory exists
+      await fileManager.ensureDirectory(path.dirname(destPath));
+      
+      // Write the updated content
+      await fs.writeFile(destPath, updatedContent, 'utf8');
+      copiedFiles.push(path.join(targetSubdir, item));
+    }
+    
+    console.log(chalk.dim(`  Added ${commonItems.length} common utilities`));
+    return copiedFiles;
   }
 
   async findInstallation() {
