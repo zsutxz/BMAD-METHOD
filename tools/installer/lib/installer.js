@@ -817,7 +817,7 @@ class Installer {
           continue;
         }
 
-        const expansionPackDir = path.dirname(pack.manifestPath);
+        const expansionPackDir = pack.packPath;
         
         // Create dedicated dot folder for this expansion pack
         const expansionDotFolder = path.join(installDir, `.${packId}`);
@@ -860,10 +860,22 @@ class Installer {
           }
         }
 
-        // Copy manifest to the expansion pack's dot folder
-        const manifestDestPath = path.join(expansionDotFolder, 'manifest.yml');
-        if (await fileManager.copyFile(pack.manifestPath, manifestDestPath)) {
-          installedFiles.push(path.join(`.${packId}`, 'manifest.yml'));
+        // Copy config.yml
+        const configPath = path.join(expansionPackDir, 'config.yml');
+        if (await fileManager.pathExists(configPath)) {
+          const configDestPath = path.join(expansionDotFolder, 'config.yml');
+          if (await fileManager.copyFile(configPath, configDestPath)) {
+            installedFiles.push(path.join(`.${packId}`, 'config.yml'));
+          }
+        }
+        
+        // Copy README if it exists
+        const readmePath = path.join(expansionPackDir, 'README.md');
+        if (await fileManager.pathExists(readmePath)) {
+          const readmeDestPath = path.join(expansionDotFolder, 'README.md');
+          if (await fileManager.copyFile(readmePath, readmeDestPath)) {
+            installedFiles.push(path.join(`.${packId}`, 'README.md'));
+          }
         }
 
         // Copy common/ items to expansion pack folder

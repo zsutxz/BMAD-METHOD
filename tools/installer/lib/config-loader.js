@@ -77,24 +77,45 @@ class ConfigLoader {
       const expansionPacks = [];
       
       for (const entry of entries) {
-        if (entry.isDirectory()) {
-          const manifestPath = path.join(expansionPacksDir, entry.name, 'manifest.yml');
+        if (entry.isDirectory() && !entry.name.startsWith('.')) {
+          const packPath = path.join(expansionPacksDir, entry.name);
+          const configPath = path.join(packPath, 'config.yml');
           
           try {
-            const manifestContent = await fs.readFile(manifestPath, 'utf8');
-            const manifest = yaml.load(manifestContent);
+            // Read config.yml
+            const configContent = await fs.readFile(configPath, 'utf8');
+            const config = yaml.load(configContent);
             
             expansionPacks.push({
               id: entry.name,
-              name: manifest.name || entry.name,
-              description: manifest.description || 'No description available',
-              version: manifest.version || '1.0.0',
-              author: manifest.author || 'Unknown',
-              manifestPath: manifestPath,
-              dependencies: manifest.dependencies || []
+              name: config.name || entry.name,
+              description: config['short-title'] || config.description || 'No description available',
+              fullDescription: config.description || config['short-title'] || 'No description available',
+              version: config.version || '1.0.0',
+              author: config.author || 'BMAD Team',
+              packPath: packPath,
+              dependencies: config.dependencies?.agents || []
             });
           } catch (error) {
-            console.warn(`Failed to read manifest for expansion pack ${entry.name}: ${error.message}`);
+            // Fallback if config.yml doesn't exist or can't be read
+            console.warn(`Failed to read config for expansion pack ${entry.name}: ${error.message}`);
+            
+            // Try to derive info from directory name as fallback
+            const name = entry.name
+              .split('-')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+            
+            expansionPacks.push({
+              id: entry.name,
+              name: name,
+              description: 'No description available',
+              fullDescription: 'No description available',
+              version: '1.0.0',
+              author: 'BMAD Team',
+              packPath: packPath,
+              dependencies: []
+            });
           }
         }
       }
