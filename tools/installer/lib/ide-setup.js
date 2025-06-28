@@ -65,8 +65,9 @@ class IdeSetup {
         mdcContent += "alwaysApply: false\n";
         mdcContent += "---\n\n";
         mdcContent += `# ${agentId.toUpperCase()} Agent Rule\n\n`;
-        mdcContent += `This rule is triggered when the user types \`@${agentId}\` and activates the ${this.getAgentTitle(
-          agentId
+        mdcContent += `This rule is triggered when the user types \`@${agentId}\` and activates the ${await this.getAgentTitle(
+          agentId,
+          installDir
         )} agent persona.\n\n`;
         mdcContent += "## Agent Activation\n\n";
         mdcContent +=
@@ -84,8 +85,9 @@ class IdeSetup {
         mdcContent += "## File Reference\n\n";
         mdcContent += `The complete agent definition is available in [.bmad-core/agents/${agentId}.md](mdc:.bmad-core/agents/${agentId}.md).\n\n`;
         mdcContent += "## Usage\n\n";
-        mdcContent += `When the user types \`@${agentId}\`, activate this ${this.getAgentTitle(
-          agentId
+        mdcContent += `When the user types \`@${agentId}\`, activate this ${await this.getAgentTitle(
+          agentId,
+          installDir
         )} persona and follow all instructions defined in the YML configuration above.\n`;
 
         await fileManager.writeFile(mdcPath, mdcContent);
@@ -150,8 +152,9 @@ class IdeSetup {
 
         // Create MD content (similar to Cursor but without frontmatter)
         let mdContent = `# ${agentId.toUpperCase()} Agent Rule\n\n`;
-        mdContent += `This rule is triggered when the user types \`@${agentId}\` and activates the ${this.getAgentTitle(
-          agentId
+        mdContent += `This rule is triggered when the user types \`@${agentId}\` and activates the ${await this.getAgentTitle(
+          agentId,
+          installDir
         )} agent persona.\n\n`;
         mdContent += "## Agent Activation\n\n";
         mdContent +=
@@ -169,8 +172,9 @@ class IdeSetup {
         mdContent += "## File Reference\n\n";
         mdContent += `The complete agent definition is available in [.bmad-core/agents/${agentId}.md](.bmad-core/agents/${agentId}.md).\n\n`;
         mdContent += "## Usage\n\n";
-        mdContent += `When the user types \`@${agentId}\`, activate this ${this.getAgentTitle(
-          agentId
+        mdContent += `When the user types \`@${agentId}\`, activate this ${await this.getAgentTitle(
+          agentId,
+          installDir
         )} persona and follow all instructions defined in the YML configuration above.\n`;
 
         await fileManager.writeFile(mdPath, mdContent);
@@ -195,20 +199,34 @@ class IdeSetup {
     return agentFiles.map((file) => path.basename(file, ".md"));
   }
 
-  getAgentTitle(agentId) {
-    const agentTitles = {
-      analyst: "Business Analyst",
-      architect: "Solution Architect",
-      "bmad-master": "BMAD Master",
-      "bmad-orchestrator": "BMAD Orchestrator",
-      dev: "Developer",
-      pm: "Product Manager",
-      po: "Product Owner",
-      qa: "QA Specialist",
-      sm: "Scrum Master",
-      "ux-expert": "UX Expert",
-    };
-    return agentTitles[agentId] || agentId;
+  async getAgentTitle(agentId, installDir) {
+    // Try to read the actual agent file to get the title
+    let agentPath = path.join(installDir, ".bmad-core", "agents", `${agentId}.md`);
+    if (!(await fileManager.pathExists(agentPath))) {
+      agentPath = path.join(installDir, "agents", `${agentId}.md`);
+    }
+    
+    if (await fileManager.pathExists(agentPath)) {
+      try {
+        const agentContent = await fileManager.readFile(agentPath);
+        const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
+        
+        if (yamlMatch) {
+          const yaml = yamlMatch[1];
+          const titleMatch = yaml.match(/title:\s*(.+)/);
+          if (titleMatch) {
+            return titleMatch[1].trim();
+          }
+        }
+      } catch (error) {
+        console.warn(`Failed to read agent title for ${agentId}: ${error.message}`);
+      }
+    }
+    
+    // Fallback to formatted agent ID
+    return agentId.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
   }
 
   async setupRoo(installDir, selectedAgent) {
@@ -294,7 +312,7 @@ class IdeSetup {
           const whenToUseMatch = yaml.match(/whenToUse:\s*"(.+)"/);
           const roleDefinitionMatch = yaml.match(/roleDefinition:\s*"(.+)"/);
 
-          const title = titleMatch ? titleMatch[1].trim() : this.getAgentTitle(agentId);
+          const title = titleMatch ? titleMatch[1].trim() : await this.getAgentTitle(agentId, installDir);
           const icon = iconMatch ? iconMatch[1].trim() : "🤖";
           const whenToUse = whenToUseMatch ? whenToUseMatch[1].trim() : `Use for ${title} tasks`;
           const roleDefinition = roleDefinitionMatch
@@ -381,8 +399,8 @@ class IdeSetup {
         const mdPath = path.join(clineRulesDir, `${prefix}-${agentId}.md`);
 
         // Create MD content for Cline (focused on project standards and role)
-        let mdContent = `# ${this.getAgentTitle(agentId)} Agent\n\n`;
-        mdContent += `This rule defines the ${this.getAgentTitle(agentId)} persona and project standards.\n\n`;
+        let mdContent = `# ${await this.getAgentTitle(agentId, installDir)} Agent\n\n`;
+        mdContent += `This rule defines the ${await this.getAgentTitle(agentId, installDir)} persona and project standards.\n\n`;
         mdContent += "## Role Definition\n\n";
         mdContent +=
           "When the user types `@" + agentId + "`, adopt this persona and follow these guidelines:\n\n";
@@ -402,7 +420,7 @@ class IdeSetup {
         mdContent += `- Update relevant project files when making changes\n`;
         mdContent += `- Reference the complete agent definition in [.bmad-core/agents/${agentId}.md](.bmad-core/agents/${agentId}.md)\n\n`;
         mdContent += "## Usage\n\n";
-        mdContent += `Type \`@${agentId}\` to activate this ${this.getAgentTitle(agentId)} persona.\n`;
+        mdContent += `Type \`@${agentId}\` to activate this ${await this.getAgentTitle(agentId, installDir)} persona.\n`;
 
         await fileManager.writeFile(mdPath, mdContent);
         console.log(chalk.green(`✓ Created rule: ${prefix}-${agentId}.md`));
