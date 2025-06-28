@@ -872,6 +872,9 @@ class Installer {
         
         // Check and resolve core dependencies
         await this.resolveExpansionPackCoreDependencies(installDir, expansionDotFolder, packId, spinner);
+        
+        // Check and resolve core agents referenced by teams
+        await this.resolveExpansionPackCoreAgents(installDir, expansionDotFolder, packId, spinner);
 
         console.log(chalk.green(`✓ Installed expansion pack: ${pack.name} to ${`.${packId}`}`));
       } catch (error) {
@@ -933,6 +936,113 @@ class Installer {
         } catch (error) {
           console.warn(chalk.yellow(`  Warning: Could not parse agent dependencies: ${error.message}`));
         }
+      }
+    }
+  }
+
+  async resolveExpansionPackCoreAgents(installDir, expansionDotFolder, packId, spinner) {
+    const glob = require('glob');
+    const yaml = require('yaml');
+    const fs = require('fs').promises;
+    
+    // Find all team files in the expansion pack
+    const teamFiles = glob.sync('agent-teams/*.yml', {
+      cwd: expansionDotFolder
+    });
+
+    // Also get existing agents in the expansion pack
+    const existingAgents = new Set();
+    const agentFiles = glob.sync('agents/*.md', {
+      cwd: expansionDotFolder
+    });
+    for (const agentFile of agentFiles) {
+      const agentName = path.basename(agentFile, '.md');
+      existingAgents.add(agentName);
+    }
+
+    // Process each team file
+    for (const teamFile of teamFiles) {
+      const teamPath = path.join(expansionDotFolder, teamFile);
+      const teamContent = await fs.readFile(teamPath, 'utf8');
+      
+      try {
+        const teamConfig = yaml.parse(teamContent);
+        const agents = teamConfig.agents || [];
+        
+        // Add bmad-orchestrator if not present (required for all teams)
+        if (!agents.includes('bmad-orchestrator')) {
+          agents.unshift('bmad-orchestrator');
+        }
+        
+        // Check each agent in the team
+        for (const agentId of agents) {
+          if (!existingAgents.has(agentId)) {
+            // Agent not in expansion pack, try to get from core
+            const coreAgentPath = path.join(configLoader.getBmadCorePath(), 'agents', `${agentId}.md`);
+            
+            if (await fileManager.pathExists(coreAgentPath)) {
+              spinner.text = `Copying core agent ${agentId} for ${packId}...`;
+              
+              // Copy agent file
+              const destPath = path.join(expansionDotFolder, 'agents', `${agentId}.md`);
+              await fileManager.copyFile(coreAgentPath, destPath);
+              existingAgents.add(agentId);
+              
+              console.log(chalk.dim(`  Added core agent: ${agentId}`));
+              
+              // Now resolve this agent's dependencies too
+              const agentContent = await fs.readFile(coreAgentPath, 'utf8');
+              const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
+              
+              if (yamlMatch) {
+                try {
+                  // Clean up the YAML to handle command descriptions
+                  let yamlContent = yamlMatch[1];
+                  yamlContent = yamlContent.replace(/^(\s*-)(\s*"[^"]+")(\s*-\s*.*)$/gm, '$1$2');
+                  
+                  const agentConfig = yaml.parse(yamlContent);
+                  const dependencies = agentConfig.dependencies || {};
+                  
+                  // Copy all dependencies for this agent
+                  for (const depType of ['tasks', 'templates', 'checklists', 'workflows', 'utils', 'data']) {
+                    const deps = dependencies[depType] || [];
+                    
+                    for (const dep of deps) {
+                      const depFileName = dep.endsWith('.md') || dep.endsWith('.yml') ? dep : `${dep}.md`;
+                      const expansionDepPath = path.join(expansionDotFolder, depType, depFileName);
+                      
+                      // Check if dependency exists in expansion pack
+                      if (!(await fileManager.pathExists(expansionDepPath))) {
+                        // Try to find it in core
+                        const coreDepPath = path.join(configLoader.getBmadCorePath(), depType, depFileName);
+                        
+                        if (await fileManager.pathExists(coreDepPath)) {
+                          const destDepPath = path.join(expansionDotFolder, depType, depFileName);
+                          await fileManager.copyFile(coreDepPath, destDepPath);
+                          console.log(chalk.dim(`    Added agent dependency: ${depType}/${depFileName}`));
+                        } else {
+                          // Try common folder
+                          const commonDepPath = path.join(this.rootDir, 'common', depType, depFileName);
+                          if (await fileManager.pathExists(commonDepPath)) {
+                            const destDepPath = path.join(expansionDotFolder, depType, depFileName);
+                            await fileManager.copyFile(commonDepPath, destDepPath);
+                            console.log(chalk.dim(`    Added agent dependency from common: ${depType}/${depFileName}`));
+                          }
+                        }
+                      }
+                    }
+                  }
+                } catch (error) {
+                  console.warn(chalk.yellow(`  Warning: Could not parse agent ${agentId} dependencies: ${error.message}`));
+                }
+              }
+            } else {
+              console.warn(chalk.yellow(`  Warning: Core agent ${agentId} not found for team ${path.basename(teamFile, '.yml')}`));
+            }
+          }
+        }
+      } catch (error) {
+        console.warn(chalk.yellow(`  Warning: Could not parse team file ${teamFile}: ${error.message}`));
       }
     }
   }
