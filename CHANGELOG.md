@@ -1,3 +1,10 @@
+## [4.19.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.19.0...v4.19.1) (2025-06-28)
+
+
+### Bug Fixes
+
+* discord link ([2ea806b](https://github.com/bmadcode/BMAD-METHOD/commit/2ea806b3af58ad37fcb695146883a9cd3003363d))
+
 # [4.19.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.18.0...v4.19.0) (2025-06-28)
 
 
