@@ -1,3 +1,11 @@
+# [4.18.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.17.0...v4.18.0) (2025-06-28)
+
+
+### Features
+
+* expansion teams can now include core agents and include their assets automatically ([c70f1a0](https://github.com/bmadcode/BMAD-METHOD/commit/c70f1a056b0f6e3c805096ee5d27f0a3640fb00c))
+* remove hardcoding from installer for agents, improve expansion pack installation to its own locations, common files moved to common folder ([95e833b](https://github.com/bmadcode/BMAD-METHOD/commit/95e833beebc3a60f73a7a1c67d534c8eb6bf48fd))
+
 # [4.17.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.16.1...v4.17.0) (2025-06-27)
 
 
