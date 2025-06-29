@@ -1466,7 +1466,7 @@ Expansion packs extend BMAD-METHOD beyond traditional software development into 
 ### Using Expansion Packs
 
 1. **Browse Available Packs**: Check `expansion-packs/` directory
-2. **Get Inspiration**: See `docs/expansion-pack-ideas.md` for detailed examples
+2. **Get Inspiration**: See `docs/expansion-packs.md` for detailed examples and ideas
 3. **Install via CLI**: 
    ```bash
    npx bmad-method install
@@ -8930,21 +8930,21 @@ workflow:
       notes: "Review existing documentation, codebase structure, and identify integration points. Document current system understanding before proceeding."
 
     - agent: pm
-      creates: brownfield-prd.md
+      creates: prd.md
       uses: brownfield-prd-tmpl
       requires: existing_project_analysis
-      notes: "Creates comprehensive brownfield PRD with existing system analysis and enhancement planning. SAVE OUTPUT: Copy final brownfield-prd.md to your project's docs/ folder."
+      notes: "Creates comprehensive PRD with existing system analysis and enhancement planning. SAVE OUTPUT: Copy final prd.md to your project's docs/ folder."
 
     - agent: architect
-      creates: brownfield-architecture.md
+      creates: architecture.md
       uses: brownfield-architecture-tmpl
-      requires: brownfield-prd.md
-      notes: "Creates brownfield architecture with integration strategy and existing system constraints. SAVE OUTPUT: Copy final brownfield-architecture.md to your project's docs/ folder."
+      requires: prd.md
+      notes: "Creates architecture with integration strategy and existing system constraints. SAVE OUTPUT: Copy final architecture.md to your project's docs/ folder."
 
     - agent: po
       validates: all_artifacts
       uses: po-master-checklist
-      notes: "Validates all brownfield documents for integration safety and completeness. May require updates to any document."
+      notes: "Validates all documents for integration safety and completeness. May require updates to any document."
 
     - agent: various
       updates: any_flagged_documents
@@ -8994,8 +8994,8 @@ workflow:
     ```mermaid
     graph TD
         A[Start: Brownfield Enhancement] --> B[analyst: analyze existing project]
-        B --> C[pm: brownfield-prd.md]
-        C --> D[architect: brownfield-architecture.md]
+        B --> C[pm: prd.md]
+        C --> D[architect: architecture.md]
         D --> E[po: validate with po-master-checklist]
         E --> F{PO finds issues?}
         F -->|Yes| G[Return to relevant agent for fixes]
@@ -9016,11 +9016,11 @@ workflow:
       - Multiple team members will work on related changes
 
   handoff_prompts:
-    analyst_to_pm: "Existing project analysis complete. Create comprehensive brownfield PRD with integration strategy."
-    pm_to_architect: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the integration architecture."
-    architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for integration safety."
+    analyst_to_pm: "Existing project analysis complete. Create comprehensive PRD with integration strategy."
+    pm_to_architect: "PRD ready. Save it as docs/prd.md, then create the integration architecture."
+    architect_to_po: "Architecture complete. Save it as docs/architecture.md. Please validate all artifacts for integration safety."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#brownfield-fullstack ====================
 
 ==================== START: workflows#brownfield-service ====================
@@ -9046,21 +9046,21 @@ workflow:
       notes: "Review existing service documentation, codebase, performance metrics, and identify integration dependencies."
 
     - agent: pm
-      creates: brownfield-prd.md
+      creates: prd.md
       uses: brownfield-prd-tmpl
       requires: existing_service_analysis
-      notes: "Creates comprehensive brownfield PRD focused on service enhancement with existing system analysis. SAVE OUTPUT: Copy final brownfield-prd.md to your project's docs/ folder."
+      notes: "Creates comprehensive PRD focused on service enhancement with existing system analysis. SAVE OUTPUT: Copy final prd.md to your project's docs/ folder."
 
     - agent: architect
-      creates: brownfield-architecture.md
+      creates: architecture.md
       uses: brownfield-architecture-tmpl
-      requires: brownfield-prd.md
-      notes: "Creates brownfield architecture with service integration strategy and API evolution planning. SAVE OUTPUT: Copy final brownfield-architecture.md to your project's docs/ folder."
+      requires: prd.md
+      notes: "Creates architecture with service integration strategy and API evolution planning. SAVE OUTPUT: Copy final architecture.md to your project's docs/ folder."
 
     - agent: po
       validates: all_artifacts
       uses: po-master-checklist
-      notes: "Validates all brownfield documents for service integration safety and API compatibility. May require updates to any document."
+      notes: "Validates all documents for service integration safety and API compatibility. May require updates to any document."
 
     - agent: various
       updates: any_flagged_documents
@@ -9110,8 +9110,8 @@ workflow:
     ```mermaid
     graph TD
         A[Start: Service Enhancement] --> B[analyst: analyze existing service]
-        B --> C[pm: brownfield-prd.md]
-        C --> D[architect: brownfield-architecture.md]
+        B --> C[pm: prd.md]
+        C --> D[architect: architecture.md]
         D --> E[po: validate with po-master-checklist]
         E --> F{PO finds issues?}
         F -->|Yes| G[Return to relevant agent for fixes]
@@ -9132,11 +9132,11 @@ workflow:
       - Multiple integration points affected
 
   handoff_prompts:
-    analyst_to_pm: "Service analysis complete. Create comprehensive brownfield PRD with service integration strategy."
-    pm_to_architect: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the service architecture."
-    architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for service integration safety."
+    analyst_to_pm: "Service analysis complete. Create comprehensive PRD with service integration strategy."
+    pm_to_architect: "PRD ready. Save it as docs/prd.md, then create the service architecture."
+    architect_to_po: "Architecture complete. Save it as docs/architecture.md. Please validate all artifacts for service integration safety."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#brownfield-service ====================
 
 ==================== START: workflows#brownfield-ui ====================
@@ -9161,29 +9161,29 @@ workflow:
       notes: "Review existing frontend application, user feedback, analytics data, and identify improvement areas."
 
     - agent: pm
-      creates: brownfield-prd.md
+      creates: prd.md
       uses: brownfield-prd-tmpl
       requires: existing_ui_analysis
-      notes: "Creates comprehensive brownfield PRD focused on UI enhancement with existing system analysis. SAVE OUTPUT: Copy final brownfield-prd.md to your project's docs/ folder."
+      notes: "Creates comprehensive PRD focused on UI enhancement with existing system analysis. SAVE OUTPUT: Copy final prd.md to your project's docs/ folder."
 
     - agent: ux-expert
       creates: front-end-spec.md
       uses: front-end-spec-tmpl
-      requires: brownfield-prd.md
-      notes: "Creates UI/UX specification for brownfield enhancement that integrates with existing design patterns. SAVE OUTPUT: Copy final front-end-spec.md to your project's docs/ folder."
+      requires: prd.md
+      notes: "Creates UI/UX specification that integrates with existing design patterns. SAVE OUTPUT: Copy final front-end-spec.md to your project's docs/ folder."
 
     - agent: architect
-      creates: brownfield-architecture.md
+      creates: architecture.md
       uses: brownfield-architecture-tmpl
       requires:
-        - brownfield-prd.md
+        - prd.md
         - front-end-spec.md
-      notes: "Creates brownfield frontend architecture with component integration strategy and migration planning. SAVE OUTPUT: Copy final brownfield-architecture.md to your project's docs/ folder."
+      notes: "Creates frontend architecture with component integration strategy and migration planning. SAVE OUTPUT: Copy final architecture.md to your project's docs/ folder."
 
     - agent: po
       validates: all_artifacts
       uses: po-master-checklist
-      notes: "Validates all brownfield documents for UI integration safety and design consistency. May require updates to any document."
+      notes: "Validates all documents for UI integration safety and design consistency. May require updates to any document."
 
     - agent: various
       updates: any_flagged_documents
@@ -9233,9 +9233,9 @@ workflow:
     ```mermaid
     graph TD
         A[Start: UI Enhancement] --> B[analyst: analyze existing UI]
-        B --> C[pm: brownfield-prd.md]
+        B --> C[pm: prd.md]
         C --> D[ux-expert: front-end-spec.md]
-        D --> E[architect: brownfield-architecture.md]
+        D --> E[architect: architecture.md]
         E --> F[po: validate with po-master-checklist]
         F --> G{PO finds issues?}
         G -->|Yes| H[Return to relevant agent for fixes]
@@ -9257,12 +9257,12 @@ workflow:
       - Multiple team members will work on related changes
 
   handoff_prompts:
-    analyst_to_pm: "UI analysis complete. Create comprehensive brownfield PRD with UI integration strategy."
-    pm_to_ux: "Brownfield PRD ready. Save it as docs/brownfield-prd.md, then create the UI/UX specification."
+    analyst_to_pm: "UI analysis complete. Create comprehensive PRD with UI integration strategy."
+    pm_to_ux: "PRD ready. Save it as docs/prd.md, then create the UI/UX specification."
     ux_to_architect: "UI/UX spec complete. Save it as docs/front-end-spec.md, then create the frontend architecture."
-    architect_to_po: "Architecture complete. Save it as docs/brownfield-architecture.md. Please validate all artifacts for UI integration safety."
+    architect_to_po: "Architecture complete. Save it as docs/architecture.md. Please validate all artifacts for UI integration safety."
     po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complete: "All brownfield planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
 ==================== END: workflows#brownfield-ui ====================
 
 ==================== START: workflows#greenfield-fullstack ====================
