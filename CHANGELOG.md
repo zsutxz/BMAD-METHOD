@@ -1,3 +1,10 @@
+# [4.20.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.19.2...v4.20.0) (2025-06-29)
+
+
+### Features
+
+* Massive documentation refactor, added explanation of the new expanded role of the QA agent that will make your code quality MUCH better. 2 new diagram clearly explain the role of the pre dev ideation cycle (prd and architecture) and the details of how the dev cycle works. ([c881dcc](https://github.com/bmadcode/BMAD-METHOD/commit/c881dcc48ff827ddfe8653aa364a021a66ce66eb))
+
 ## [4.19.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.19.1...v4.19.2) (2025-06-28)
 
 
