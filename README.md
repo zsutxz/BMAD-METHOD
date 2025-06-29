@@ -5,13 +5,32 @@
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/gk8jAdXWmj)
 
-**AI-Powered Agile Development Framework** - Transform your software development with specialized AI agents that work as your complete Agile team.
+**Universal AI Agent Framework** - Transform any domain with specialized AI expertise. From software development to creative writing, business strategy to personal wellness.
 
 📺 **[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)**
 
 💬 **[Join our Discord Community](https://discord.gg/gk8jAdXWmj)** - A growing community for AI enthusiasts! Get help, share ideas, explore AI agents & frameworks, collaborate on tech projects, enjoy hobbies, and help each other succeed. Whether you're stuck on BMAD, building your own agents, or just want to chat about the latest in AI - we're here for you!
 
 ⭐ **If you find this project helpful or useful, please give it a star!** It helps others discover BMAD-METHOD and you will be notified of updates!
+
+## 🧭 Quick Navigation - Find Your Path
+
+### I want to...
+
+- **🚀 [Build software with AI agents](#-quick-start)** → Start here for development teams
+- **🎨 [Explore non-technical uses](#-beyond-software-development---expansion-packs)** → Creative writing, business, wellness, education
+- **🛠️ [Create my own AI agents](#creating-your-own-expansion-pack)** → Build agents for your domain
+- **📦 [Browse ready-made expansion packs](expansion-packs/)** → Game dev, DevOps, infrastructure
+- **💡 [See expansion pack ideas](docs/expansion-pack-ideas.md)** → Get inspired
+- **🏗️ [Understand the architecture](docs/core-architecture.md)** → Technical deep dive
+
+### Popular Use Cases:
+
+- **Software Development** - [Quick Start](#-quick-start) | [User Guide](docs/user-guide.md) | [Workflow Guides](#documentation--guides)
+- **Game Development** - [2D Phaser Pack](expansion-packs/bmad-2d-phaser-game-dev/)
+- **Business Strategy** - [Ideas](docs/expansion-pack-ideas.md#business-strategy-pack) | [Full Guide](docs/expansion-packs.md#business-strategy-pack)
+- **Creative Writing** - [Ideas](docs/expansion-pack-ideas.md#creative-writing-pack) | [Full Guide](docs/expansion-packs.md#creative-writing-pack)
+- **DevOps/Infrastructure** - [Infrastructure Pack](expansion-packs/bmad-infrastructure-devops/)
 
 ## 🔄 Important: Keeping Your BMAD Installation Updated
 
@@ -76,6 +95,7 @@ BMAD-METHOD (Breakthrough Method of Agile AI-Driven Development) revolutionizes 
 - **📦 Modular Design**: Use one agent or an entire team
 - **🛠️ IDE Integration**: Works seamlessly with Cursor, Claude Code, Windsurf, and Gemini
 - **🌐 Platform Agnostic**: Use with ChatGPT, Claude, Gemini, or any AI platform
+- **🌍 Universal Framework**: Not just for coding - structure any expertise into AI-accessible formats
 
 ## Installation
 
@@ -129,6 +149,44 @@ The BMad Method works with any IDE, but has built-in integration for:
 | ------------------- | ---------------- | ------------------------------------------------------------------- |
 | `bmad-orchestrator` | Team Coordinator | Multi-agent workflows, role switching, is part of every team bundle |
 | `bmad-master`       | Universal Expert | All capabilities without switching                                  |
+
+## 🌟 Beyond Software Development - Expansion Packs
+
+While BMAD excels at software development, its natural language framework can structure expertise in ANY domain. Expansion packs transform BMAD into a universal AI agent system for creative writing, business strategy, health & wellness, education, and much more.
+
+### Available Expansion Packs
+
+#### Technical Domains
+
+- 🎮 **[Game Development](expansion-packs/bmad-2d-phaser-game-dev/)** - Complete game studio team with designers, developers, and narrative writers
+- 🏗️ **[Infrastructure/DevOps](expansion-packs/bmad-infrastructure-devops/)** - Cloud architects, security specialists, SRE experts
+- 📱 **Mobile Development** - iOS/Android specialists, mobile UX designers
+- 🔗 **Blockchain/Web3** - Smart contract developers, DeFi architects
+
+#### Non-Technical Domains
+
+- 💼 **Business Strategy** - Strategic planners, market analysts, business coaches
+- 💪 **Health & Wellness** - Fitness coaches, nutrition advisors, meditation guides
+- 🎨 **Creative Arts** - Story writers, world builders, character developers
+- 📚 **Education** - Curriculum designers, tutors, learning coaches
+- 🧠 **Personal Development** - Life coaches, goal setters, habit builders
+- 🏢 **Professional Services** - Legal advisors, content creators, research assistants
+
+### Creating Your Own Expansion Pack
+
+Transform your expertise into AI agents:
+
+1. **Identify your domain** - What knowledge do you want to share?
+2. **Design specialized agents** - Each with unique expertise and personality
+3. **Create reusable tasks** - Standard procedures in your field
+4. **Build professional templates** - Structured outputs for consistency
+5. **Share with the community** - Help others benefit from your expertise
+
+📖 **[Read the full Expansion Packs Guide](docs/expansion-packs.md)** - Detailed examples, inspiration, and technical details
+
+🛠️ **[Use the Expansion Pack Creator](expansion-packs/bmad-creator-tools/)** - Automated tools to build your own pack
+
+💡 **[Browse Expansion Pack Ideas](docs/expansion-pack-ideas.md)** - Get inspired by possibilities
 
 ## Usage
 
@@ -299,39 +357,6 @@ Rich templates for all document types:
 ### Slash Star Commands
 
 Ask the agent you are using for help with /help (in the web) or \*help in the ide to see what commands are available!
-
-## Expansion Packs - Beyond Software Development
-
-BMAD Method's natural language framework isn't limited to software development. Create specialized agents for ANY domain:
-
-### Technical Expansion Packs
-
-- 🎮 **Game Development** - Game designers, level creators, narrative writers
-- 🏗️ **Infrastructure/DevOps** - Cloud architects, security specialists, SRE agents
-- 📱 **Mobile Development** - iOS/Android specialists, UX designers
-- 🔗 **Blockchain/Web3** - Smart contract developers, DeFi architects
-
-### Non-Technical Expansion Packs
-
-- 💼 **Business Strategy** - Strategic planners, market analysts, business coaches
-- 💪 **Health & Wellness** - Fitness coaches, nutrition advisors, meditation guides
-- 🎨 **Creative Arts** - Story writers, world builders, character developers
-- 📚 **Education** - Curriculum designers, tutors, learning coaches
-- 🧠 **Personal Development** - Life coaches, goal setters, habit builders
-- 🏢 **Professional Services** - Legal advisors, medical protocols, research assistants
-
-### Creating Your Own Expansion Pack
-
-The BMAD framework can support any domain where structured AI assistance is valuable:
-
-1. Define specialized agents with domain expertise
-2. Create task procedures for common workflows
-3. Build templates for domain-specific outputs
-4. Package as an expansion pack for others to use
-
-📖 **[Read the full Expansion Packs Guide](docs/expansion-packs.md)** for detailed examples and inspiration!
-
-🛠️ **[Use the Expansion Pack Creator](expansion-packs/expansion-creator/README.md)** to build your own!
 
 ## Contributing
 
