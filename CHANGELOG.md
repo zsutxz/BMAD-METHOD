@@ -1,3 +1,10 @@
+## [4.21.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.21.0...v4.21.1) (2025-06-30)
+
+
+### Bug Fixes
+
+* readme clarifies that the installer handles installs upgrades and expansion installation ([9371a57](https://github.com/bmadcode/BMAD-METHOD/commit/9371a5784f6a6f2ad358a72ea0cde9c980357167))
+
 # [4.21.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.20.0...v4.21.0) (2025-06-30)
 
 
