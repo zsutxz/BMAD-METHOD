@@ -83,12 +83,22 @@ class FileManager {
       this.manifestFile
     );
 
+    // Read version from core-config.yml
+    const coreConfigPath = path.join(__dirname, "../../../bmad-core/core-config.yml");
+    let coreVersion = "unknown";
+    try {
+      const coreConfigContent = await fs.readFile(coreConfigPath, "utf8");
+      const coreConfig = yaml.load(coreConfigContent);
+      coreVersion = coreConfig.version || "unknown";
+    } catch (error) {
+      console.warn("Could not read version from core-config.yml, using 'unknown'");
+    }
+
     const manifest = {
-      version: require("../../../package.json").version,
+      version: coreVersion,
       installed_at: new Date().toISOString(),
       install_type: config.installType,
       agent: config.agent || null,
-      ide_setup: config.ide || null,
       ides_setup: config.ides || [],
       expansion_packs: config.expansionPacks || [],
       files: [],
@@ -128,6 +138,21 @@ class FileManager {
     }
   }
 
+  async readExpansionPackManifest(installDir, packId) {
+    const manifestPath = path.join(
+      installDir,
+      `.${packId}`,
+      this.manifestFile
+    );
+
+    try {
+      const content = await fs.readFile(manifestPath, "utf8");
+      return yaml.load(content);
+    } catch (error) {
+      return null;
+    }
+  }
+
   async checkModifiedFiles(installDir, manifest) {
     const modified = [];
 
@@ -141,6 +166,33 @@ class FileManager {
     }
 
     return modified;
+  }
+
+  async checkFileIntegrity(installDir, manifest) {
+    const result = {
+      missing: [],
+      modified: []
+    };
+
+    for (const file of manifest.files) {
+      const filePath = path.join(installDir, file.path);
+      
+      // Skip checking the manifest file itself - it will always be different due to timestamps
+      if (file.path.endsWith('install-manifest.yml')) {
+        continue;
+      }
+      
+      if (!(await this.pathExists(filePath))) {
+        result.missing.push(file.path);
+      } else {
+        const currentHash = await this.calculateFileHash(filePath);
+        if (currentHash && currentHash !== file.hash) {
+          result.modified.push(file.path);
+        }
+      }
+    }
+
+    return result;
   }
 
   async backupFile(filePath) {
@@ -182,6 +234,42 @@ class FileManager {
 
   async removeDirectory(dirPath) {
     await fs.remove(dirPath);
+  }
+
+  async createExpansionPackManifest(installDir, packId, config, files) {
+    const manifestPath = path.join(
+      installDir,
+      `.${packId}`,
+      this.manifestFile
+    );
+
+    const manifest = {
+      version: config.expansionPackVersion || require("../../../package.json").version,
+      installed_at: new Date().toISOString(),
+      install_type: config.installType,
+      expansion_pack_id: config.expansionPackId,
+      expansion_pack_name: config.expansionPackName,
+      ides_setup: config.ides || [],
+      files: [],
+    };
+
+    // Add file information
+    for (const file of files) {
+      const filePath = path.join(installDir, file);
+      const hash = await this.calculateFileHash(filePath);
+
+      manifest.files.push({
+        path: file,
+        hash: hash,
+        modified: false,
+      });
+    }
+
+    // Write manifest
+    await fs.ensureDir(path.dirname(manifestPath));
+    await fs.writeFile(manifestPath, yaml.dump(manifest, { indent: 2 }));
+
+    return manifest;
   }
 }
 

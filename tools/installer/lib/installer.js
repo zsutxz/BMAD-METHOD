@@ -16,6 +16,20 @@ async function initializeModules() {
 }
 
 class Installer {
+  async getCoreVersion() {
+    const yaml = require("js-yaml");
+    const fs = require("fs-extra");
+    const coreConfigPath = path.join(__dirname, "../../../bmad-core/core-config.yml");
+    try {
+      const coreConfigContent = await fs.readFile(coreConfigPath, "utf8");
+      const coreConfig = yaml.load(coreConfigContent);
+      return coreConfig.version || "unknown";
+    } catch (error) {
+      console.warn("Could not read version from core-config.yml, using 'unknown'");
+      return "unknown";
+    }
+  }
+
   async install(config) {
     // Initialize ES modules
     await initializeModules();
@@ -161,6 +175,7 @@ class Installer {
       hasBmadCore: false,
       hasOtherFiles: false,
       manifest: null,
+      expansionPacks: {},
     };
 
     // Check if directory exists
@@ -209,10 +224,14 @@ class Installer {
       state.hasOtherFiles = true;
     }
 
+    // Check for expansion packs (folders starting with .)
+    const expansionPacks = await this.detectExpansionPacks(installDir);
+    state.expansionPacks = expansionPacks;
+
     return state; // clean install
   }
 
-  async performFreshInstall(config, installDir, spinner) {
+  async performFreshInstall(config, installDir, spinner, options = {}) {
     // Ensure modules are initialized
     await initializeModules();
     spinner.text = "Installing BMAD Method...";
@@ -328,41 +347,13 @@ class Installer {
       const commonFiles = await this.copyCommonItems(installDir, ".bmad-core", spinner);
       files.push(...commonFiles);
     } else if (config.installType === "expansion-only") {
-      // Expansion-only installation - create minimal .bmad-core structure
-      spinner.text = "Creating minimal .bmad-core structure for expansion packs...";
-      
-      const bmadCoreDestDir = path.join(installDir, ".bmad-core");
-      await fileManager.ensureDirectory(bmadCoreDestDir);
-      
-      // Create basic directory structure
-      const dirs = ['agents', 'agent-teams', 'templates', 'tasks', 'checklists', 'workflows', 'data', 'utils', 'schemas'];
-      for (const dir of dirs) {
-        await fileManager.ensureDirectory(path.join(bmadCoreDestDir, dir));
-      }
-      
-      // Copy minimal required files (schemas, utils, etc.)
-      const sourceBase = configLoader.getBmadCorePath();
-      const essentialFiles = [
-        'schemas/**/*',
-        'utils/**/*'
-      ];
-      
-      for (const pattern of essentialFiles) {
-        const copiedFiles = await fileManager.copyGlobPattern(
-          pattern,
-          sourceBase,
-          bmadCoreDestDir
-        );
-        files.push(...copiedFiles.map(f => `.bmad-core/${f}`));
-      }
-      
-      // Copy common/ items to .bmad-core
-      spinner.text = "Copying common utilities...";
-      await this.copyCommonItems(installDir, ".bmad-core", spinner);
+      // Expansion-only installation - DO NOT create .bmad-core
+      // Only install expansion packs
+      spinner.text = "Installing expansion packs only...";
     }
 
     // Install expansion packs if requested
-    const expansionFiles = await this.installExpansionPacks(installDir, config.expansionPacks, spinner);
+    const expansionFiles = await this.installExpansionPacks(installDir, config.expansionPacks, spinner, config);
     files.push(...expansionFiles);
 
     // Install web bundles if requested
@@ -385,12 +376,14 @@ class Installer {
       }
     }
 
-    // Create manifest
-    spinner.text = "Creating installation manifest...";
-    await fileManager.createManifest(installDir, config, files);
+    // Create manifest (skip for expansion-only installations)
+    if (config.installType !== "expansion-only") {
+      spinner.text = "Creating installation manifest...";
+      await fileManager.createManifest(installDir, config, files);
+    }
 
     spinner.succeed("Installation complete!");
-    this.showSuccessMessage(config, installDir);
+    this.showSuccessMessage(config, installDir, options);
   }
 
   async handleExistingV4Installation(config, installDir, state, spinner) {
@@ -398,13 +391,80 @@ class Installer {
     await initializeModules();
     spinner.stop();
 
+    const currentVersion = state.manifest.version;
+    const newVersion = await this.getCoreVersion();
+    const versionCompare = this.compareVersions(currentVersion, newVersion);
+
     console.log(chalk.yellow("\n🔍 Found existing BMAD v4 installation"));
     console.log(`   Directory: ${installDir}`);
-    console.log(`   Version: ${state.manifest.version}`);
+    console.log(`   Current version: ${currentVersion}`);
+    console.log(`   Available version: ${newVersion}`);
     console.log(
       `   Installed: ${new Date(
         state.manifest.installed_at
       ).toLocaleDateString()}`
+    );
+
+    // Check file integrity
+    spinner.start("Checking installation integrity...");
+    const integrity = await fileManager.checkFileIntegrity(installDir, state.manifest);
+    spinner.stop();
+    
+    const hasMissingFiles = integrity.missing.length > 0;
+    const hasModifiedFiles = integrity.modified.length > 0;
+    const hasIntegrityIssues = hasMissingFiles || hasModifiedFiles;
+    
+    if (hasIntegrityIssues) {
+      console.log(chalk.red("\n⚠️  Installation issues detected:"));
+      if (hasMissingFiles) {
+        console.log(chalk.red(`   Missing files: ${integrity.missing.length}`));
+        if (integrity.missing.length <= 5) {
+          integrity.missing.forEach(file => console.log(chalk.dim(`     - ${file}`)));
+        }
+      }
+      if (hasModifiedFiles) {
+        console.log(chalk.yellow(`   Modified files: ${integrity.modified.length}`));
+        if (integrity.modified.length <= 5) {
+          integrity.modified.forEach(file => console.log(chalk.dim(`     - ${file}`)));
+        }
+      }
+    }
+
+    // Show existing expansion packs
+    if (Object.keys(state.expansionPacks).length > 0) {
+      console.log(chalk.cyan("\n📦 Installed expansion packs:"));
+      for (const [packId, packInfo] of Object.entries(state.expansionPacks)) {
+        if (packInfo.hasManifest && packInfo.manifest) {
+          console.log(`   - ${packId} (v${packInfo.manifest.version || 'unknown'})`);
+        } else {
+          console.log(`   - ${packId} (no manifest)`);
+        }
+      }
+    }
+
+    let choices = [];
+    
+    if (versionCompare < 0) {
+      console.log(chalk.cyan("\n⬆️  Upgrade available for BMAD core"));
+      choices.push({ name: `Upgrade BMAD core (v${currentVersion} → v${newVersion})`, value: "upgrade" });
+    } else if (versionCompare === 0) {
+      if (hasIntegrityIssues) {
+        // Offer repair option when files are missing or modified
+        choices.push({ 
+          name: "Repair installation (restore missing/modified files)", 
+          value: "repair" 
+        });
+      }
+      console.log(chalk.yellow("\n⚠️  Same version already installed"));
+      choices.push({ name: `Force reinstall BMAD core (v${currentVersion} - reinstall)`, value: "reinstall" });
+    } else {
+      console.log(chalk.yellow("\n⬇️  Installed version is newer than available"));
+      choices.push({ name: `Downgrade BMAD core (v${currentVersion} → v${newVersion})`, value: "reinstall" });
+    }
+    
+    choices.push(
+      { name: "Add/update expansion packs only", value: "expansions" },
+      { name: "Cancel", value: "cancel" }
     );
 
     const { action } = await inquirer.prompt([
@@ -412,19 +472,56 @@ class Installer {
         type: "list",
         name: "action",
         message: "What would you like to do?",
-        choices: [
-          { name: "Update existing installation", value: "update" },
-          { name: "Reinstall (overwrite)", value: "reinstall" },
-          { name: "Cancel", value: "cancel" },
-        ],
+        choices: choices,
       },
     ]);
 
     switch (action) {
-      case "update":
+      case "upgrade":
         return await this.performUpdate(config, installDir, state.manifest, spinner);
+      case "repair":
+        // For repair, restore missing/modified files while backing up modified ones
+        return await this.performRepair(config, installDir, state.manifest, integrity, spinner);
       case "reinstall":
+        // For reinstall, don't check for modifications - just overwrite
         return await this.performReinstall(config, installDir, spinner);
+      case "expansions":
+        // Ask which expansion packs to install
+        const availableExpansionPacks = await this.getAvailableExpansionPacks();
+        
+        if (availableExpansionPacks.length === 0) {
+          console.log(chalk.yellow("No expansion packs available."));
+          return;
+        }
+        
+        const { selectedPacks } = await inquirer.prompt([
+          {
+            type: 'checkbox',
+            name: 'selectedPacks',
+            message: 'Select expansion packs to install/update:',
+            choices: availableExpansionPacks.map(pack => ({
+              name: `${pack.name} v${pack.version} - ${pack.description}`,
+              value: pack.id,
+              checked: state.expansionPacks[pack.id] !== undefined
+            }))
+          }
+        ]);
+        
+        if (selectedPacks.length === 0) {
+          console.log(chalk.yellow("No expansion packs selected."));
+          return;
+        }
+        
+        spinner.start("Installing expansion packs...");
+        const expansionFiles = await this.installExpansionPacks(installDir, selectedPacks, spinner, { ides: config.ides || [] });
+        spinner.succeed("Expansion packs installed successfully!");
+        
+        console.log(chalk.green("\n✓ Installation complete!"));
+        console.log(chalk.green(`✓ Expansion packs installed/updated:`));
+        for (const packId of selectedPacks) {
+          console.log(chalk.green(`  - ${packId} → .${packId}/`));
+        }
+        return;
       case "cancel":
         console.log("Installation cancelled.");
         return;
@@ -525,12 +622,20 @@ class Installer {
     spinner.start("Checking for updates...");
 
     try {
-      // Check for modified files
-      spinner.text = "Checking for modified files...";
-      const modifiedFiles = await fileManager.checkModifiedFiles(
-        installDir,
-        manifest
-      );
+      // Get current and new versions
+      const currentVersion = manifest.version;
+      const newVersion = await this.getCoreVersion();
+      const versionCompare = this.compareVersions(currentVersion, newVersion);
+      
+      // Only check for modified files if it's an actual version upgrade
+      let modifiedFiles = [];
+      if (versionCompare !== 0) {
+        spinner.text = "Checking for modified files...";
+        modifiedFiles = await fileManager.checkModifiedFiles(
+          installDir,
+          manifest
+        );
+      }
 
       if (modifiedFiles.length > 0) {
         spinner.warn("Found modified files");
@@ -570,35 +675,117 @@ class Installer {
       }
 
       // Perform update by re-running installation
-      spinner.text = "Updating files...";
+      spinner.text = versionCompare === 0 ? "Reinstalling files..." : "Updating files...";
       const config = {
         installType: manifest.install_type,
         agent: manifest.agent,
         directory: installDir,
-        ide: newConfig?.ide || manifest.ide_setup, // Use new IDE choice if provided
         ides: newConfig?.ides || manifest.ides_setup || [],
       };
 
-      await this.performFreshInstall(config, installDir, spinner);
+      await this.performFreshInstall(config, installDir, spinner, { isUpdate: true });
     } catch (error) {
       spinner.fail("Update failed");
       throw error;
     }
   }
 
+  async performRepair(config, installDir, manifest, integrity, spinner) {
+    spinner.start("Preparing to repair installation...");
+
+    try {
+      // Back up modified files
+      if (integrity.modified.length > 0) {
+        spinner.text = "Backing up modified files...";
+        for (const file of integrity.modified) {
+          const filePath = path.join(installDir, file);
+          if (await fileManager.pathExists(filePath)) {
+            const backupPath = await fileManager.backupFile(filePath);
+            console.log(chalk.dim(`  Backed up: ${file} → ${path.basename(backupPath)}`));
+          }
+        }
+      }
+
+      // Restore missing and modified files
+      spinner.text = "Restoring files...";
+      const sourceBase = configLoader.getBmadCorePath();
+      const filesToRestore = [...integrity.missing, ...integrity.modified];
+      
+      for (const file of filesToRestore) {
+        // Skip the manifest file itself
+        if (file.endsWith('install-manifest.yml')) continue;
+        
+        const relativePath = file.replace('.bmad-core/', '');
+        const destPath = path.join(installDir, file);
+        
+        // Check if this is a common/ file that needs special processing
+        const commonBase = path.dirname(path.dirname(path.dirname(path.dirname(__filename))));
+        const commonSourcePath = path.join(commonBase, 'common', relativePath);
+        
+        if (await fileManager.pathExists(commonSourcePath)) {
+          // This is a common/ file - needs template processing
+          const fs = require('fs').promises;
+          const content = await fs.readFile(commonSourcePath, 'utf8');
+          const updatedContent = content.replace(/\{root\}/g, '.bmad-core');
+          await fileManager.ensureDirectory(path.dirname(destPath));
+          await fs.writeFile(destPath, updatedContent, 'utf8');
+          spinner.text = `Restored: ${file}`;
+        } else {
+          // Regular file from bmad-core
+          const sourcePath = path.join(sourceBase, relativePath);
+          if (await fileManager.pathExists(sourcePath)) {
+            await fileManager.copyFile(sourcePath, destPath);
+            spinner.text = `Restored: ${file}`;
+          } else {
+            console.warn(chalk.yellow(`  Warning: Source file not found: ${file}`));
+          }
+        }
+      }
+      
+      spinner.succeed("Repair completed successfully!");
+      
+      // Show summary
+      console.log(chalk.green("\n✓ Installation repaired!"));
+      if (integrity.missing.length > 0) {
+        console.log(chalk.green(`  Restored ${integrity.missing.length} missing files`));
+      }
+      if (integrity.modified.length > 0) {
+        console.log(chalk.green(`  Restored ${integrity.modified.length} modified files (backups created)`));
+      }
+      
+      // Warning for Cursor custom modes if agents were repaired
+      const ides = manifest.ides_setup || [];
+      if (ides.includes('cursor')) {
+        console.log(chalk.yellow.bold("\n⚠️  IMPORTANT: Cursor Custom Modes Update Required"));
+        console.log(chalk.yellow("Since agent files have been repaired, you need to manually update your Cursor custom modes:"));
+        console.log(chalk.yellow("1. Open Cursor Settings (Cmd/Ctrl + ,)"));
+        console.log(chalk.yellow("2. Go to: Features > Cursor Tab > Custom Modes"));
+        console.log(chalk.yellow("3. Update each custom mode with the latest agent templates from:"));
+        console.log(chalk.yellow(`   ${path.join(installDir, '.bmad-core', 'agents')}`));
+        console.log(chalk.yellow("4. Copy the full content of each agent file into the corresponding custom mode"));
+      }
+      
+    } catch (error) {
+      spinner.fail("Repair failed");
+      throw error;
+    }
+  }
+
   async performReinstall(config, installDir, spinner) {
-    spinner.start("Reinstalling BMAD Method...");
+    spinner.start("Preparing to reinstall BMAD Method...");
 
     // Remove existing .bmad-core
     const bmadCorePath = path.join(installDir, ".bmad-core");
     if (await fileManager.pathExists(bmadCorePath)) {
+      spinner.text = "Removing existing installation...";
       await fileManager.removeDirectory(bmadCorePath);
     }
-
-    return await this.performFreshInstall(config, installDir, spinner);
+    
+    spinner.text = "Installing fresh copy...";
+    return await this.performFreshInstall(config, installDir, spinner, { isUpdate: true });
   }
 
-  showSuccessMessage(config, installDir) {
+  showSuccessMessage(config, installDir, options = {}) {
     console.log(chalk.green("\n✓ BMAD Method installed successfully!\n"));
 
     const ides = config.ides || (config.ide ? [config.ide] : []);
@@ -622,7 +809,9 @@ class Installer {
 
     // Information about installation components
     console.log(chalk.bold("\n🎯 Installation Summary:"));
-    console.log(chalk.green("✓ .bmad-core framework installed with all agents and workflows"));
+    if (config.installType !== "expansion-only") {
+      console.log(chalk.green("✓ .bmad-core framework installed with all agents and workflows"));
+    }
     
     if (config.expansionPacks && config.expansionPacks.length > 0) {
       console.log(chalk.green(`✓ Expansion packs installed:`));
@@ -667,6 +856,17 @@ class Installer {
       console.log(
         chalk.dim("Need everything? Run: npx bmad-method install --full")
       );
+    }
+
+    // Warning for Cursor custom modes if agents were updated
+    if (options.isUpdate && ides.includes('cursor')) {
+      console.log(chalk.yellow.bold("\n⚠️  IMPORTANT: Cursor Custom Modes Update Required"));
+      console.log(chalk.yellow("Since agents have been updated, you need to manually update your Cursor custom modes:"));
+      console.log(chalk.yellow("1. Open Cursor Settings (Cmd/Ctrl + ,)"));
+      console.log(chalk.yellow("2. Go to: Features > Cursor Tab > Custom Modes"));
+      console.log(chalk.yellow("3. Update each custom mode with the latest agent templates from:"));
+      console.log(chalk.yellow(`   ${path.join(installDir, '.bmad-core', 'agents')}`));
+      console.log(chalk.yellow("4. Copy the full content of each agent file into the corresponding custom mode"));
     }
   }
 
@@ -767,8 +967,8 @@ class Installer {
       console.log(`  Agent:          ${manifest.agent}`);
     }
 
-    if (manifest.ide_setup) {
-      console.log(`  IDE Setup:      ${manifest.ide_setup}`);
+    if (manifest.ides_setup && manifest.ides_setup.length > 0) {
+      console.log(`  IDE Setup:      ${manifest.ides_setup.join(', ')}`);
     }
 
     console.log(`  Total Files:    ${manifest.files.length}`);
@@ -797,7 +997,7 @@ class Installer {
     return configLoader.getAvailableTeams();
   }
 
-  async installExpansionPacks(installDir, selectedPacks, spinner) {
+  async installExpansionPacks(installDir, selectedPacks, spinner, config = {}) {
     if (!selectedPacks || selectedPacks.length === 0) {
       return [];
     }
@@ -816,11 +1016,112 @@ class Installer {
           console.warn(`Expansion pack ${packId} not found, skipping...`);
           continue;
         }
+        
+        // Check if expansion pack already exists
+        let expansionDotFolder = path.join(installDir, `.${packId}`);
+        const existingManifestPath = path.join(expansionDotFolder, 'install-manifest.yml');
+        
+        if (await fileManager.pathExists(existingManifestPath)) {
+          spinner.stop();
+          const existingManifest = await fileManager.readExpansionPackManifest(installDir, packId);
+          
+          console.log(chalk.yellow(`\n🔍 Found existing ${pack.name} installation`));
+          console.log(`   Current version: ${existingManifest.version || 'unknown'}`);
+          console.log(`   New version: ${pack.version}`);
+          
+          // Check integrity of existing expansion pack
+          const packIntegrity = await fileManager.checkFileIntegrity(installDir, existingManifest);
+          const hasPackIntegrityIssues = packIntegrity.missing.length > 0 || packIntegrity.modified.length > 0;
+          
+          if (hasPackIntegrityIssues) {
+            console.log(chalk.red("   ⚠️  Installation issues detected:"));
+            if (packIntegrity.missing.length > 0) {
+              console.log(chalk.red(`     Missing files: ${packIntegrity.missing.length}`));
+            }
+            if (packIntegrity.modified.length > 0) {
+              console.log(chalk.yellow(`     Modified files: ${packIntegrity.modified.length}`));
+            }
+          }
+          
+          const versionCompare = this.compareVersions(existingManifest.version || '0.0.0', pack.version);
+          
+          if (versionCompare === 0) {
+            console.log(chalk.yellow('   ⚠️  Same version already installed'));
+            
+            const choices = [];
+            if (hasPackIntegrityIssues) {
+              choices.push({ name: 'Repair (restore missing/modified files)', value: 'repair' });
+            }
+            choices.push(
+              { name: 'Force reinstall (overwrite)', value: 'overwrite' },
+              { name: 'Skip this expansion pack', value: 'skip' },
+              { name: 'Cancel installation', value: 'cancel' }
+            );
+            
+            const { action } = await inquirer.prompt([{
+              type: 'list',
+              name: 'action',
+              message: `${pack.name} v${pack.version} is already installed. What would you like to do?`,
+              choices: choices
+            }]);
+            
+            if (action === 'skip') {
+              spinner.start();
+              continue;
+            } else if (action === 'cancel') {
+              console.log(chalk.red('Installation cancelled.'));
+              process.exit(0);
+            } else if (action === 'repair') {
+              // Repair the expansion pack
+              await this.repairExpansionPack(installDir, packId, pack, packIntegrity, spinner);
+              continue;
+            }
+          } else if (versionCompare < 0) {
+            console.log(chalk.cyan('   ⬆️  Upgrade available'));
+            
+            const { proceed } = await inquirer.prompt([{
+              type: 'confirm',
+              name: 'proceed',
+              message: `Upgrade ${pack.name} from v${existingManifest.version} to v${pack.version}?`,
+              default: true
+            }]);
+            
+            if (!proceed) {
+              spinner.start();
+              continue;
+            }
+          } else {
+            console.log(chalk.yellow('   ⬇️  Installed version is newer than available version'));
+            
+            const { action } = await inquirer.prompt([{
+              type: 'list',
+              name: 'action',
+              message: 'What would you like to do?',
+              choices: [
+                { name: 'Keep current version', value: 'skip' },
+                { name: 'Downgrade to available version', value: 'downgrade' },
+                { name: 'Cancel installation', value: 'cancel' }
+              ]
+            }]);
+            
+            if (action === 'skip') {
+              spinner.start();
+              continue;
+            } else if (action === 'cancel') {
+              console.log(chalk.red('Installation cancelled.'));
+              process.exit(0);
+            }
+          }
+          
+          // If we get here, we're proceeding with installation
+          spinner.start(`Removing old ${pack.name} installation...`);
+          await fileManager.removeDirectory(expansionDotFolder);
+        }
 
         const expansionPackDir = pack.packPath;
         
-        // Create dedicated dot folder for this expansion pack
-        const expansionDotFolder = path.join(installDir, `.${packId}`);
+        // Ensure dedicated dot folder exists for this expansion pack
+        expansionDotFolder = path.join(installDir, `.${packId}`);
         await fileManager.ensureDirectory(expansionDotFolder);
         
         // Define the folders to copy from expansion packs
@@ -888,9 +1189,28 @@ class Installer {
         // Check and resolve core agents referenced by teams
         await this.resolveExpansionPackCoreAgents(installDir, expansionDotFolder, packId, spinner);
 
+        // Create manifest for this expansion pack
+        spinner.text = `Creating manifest for ${packId}...`;
+        const expansionConfig = {
+          installType: 'expansion-pack',
+          expansionPackId: packId,
+          expansionPackName: pack.name,
+          expansionPackVersion: pack.version,
+          ides: config.ides || []  // Use ides_setup instead of ide_setup
+        };
+        
+        // Get all files installed in this expansion pack
+        const expansionPackFiles = glob.sync('**/*', {
+          cwd: expansionDotFolder,
+          nodir: true
+        }).map(f => path.join(`.${packId}`, f));
+        
+        await fileManager.createExpansionPackManifest(installDir, packId, expansionConfig, expansionPackFiles);
+
         console.log(chalk.green(`✓ Installed expansion pack: ${pack.name} to ${`.${packId}`}`));
       } catch (error) {
         console.error(chalk.red(`Failed to install expansion pack ${packId}: ${error.message}`));
+        console.error(chalk.red(`Stack trace: ${error.stack}`));
       }
     }
 
@@ -1034,7 +1354,8 @@ class Installer {
                           console.log(chalk.dim(`    Added agent dependency: ${depType}/${depFileName}`));
                         } else {
                           // Try common folder
-                          const commonDepPath = path.join(this.rootDir, 'common', depType, depFileName);
+                          const sourceBase = path.dirname(path.dirname(path.dirname(path.dirname(__filename)))); // Go up to project root
+                          const commonDepPath = path.join(sourceBase, 'common', depType, depFileName);
                           if (await fileManager.pathExists(commonDepPath)) {
                             const destDepPath = path.join(expansionDotFolder, depType, depFileName);
                             await fileManager.copyFile(commonDepPath, destDepPath);
@@ -1157,6 +1478,9 @@ class Installer {
   }
 
   async copyCommonItems(installDir, targetSubdir, spinner) {
+    // Ensure modules are initialized
+    await initializeModules();
+    
     const glob = require('glob');
     const fs = require('fs').promises;
     const sourceBase = path.dirname(path.dirname(path.dirname(path.dirname(__filename)))); // Go up to project root
@@ -1196,6 +1520,133 @@ class Installer {
     
     console.log(chalk.dim(`  Added ${commonItems.length} common utilities`));
     return copiedFiles;
+  }
+
+  async detectExpansionPacks(installDir) {
+    const expansionPacks = {};
+    const glob = require("glob");
+    
+    // Find all dot folders that might be expansion packs
+    const dotFolders = glob.sync(".*", {
+      cwd: installDir,
+      ignore: [".git", ".git/**", ".bmad-core", ".bmad-core/**"],
+    });
+    
+    for (const folder of dotFolders) {
+      const folderPath = path.join(installDir, folder);
+      const stats = await fileManager.pathExists(folderPath);
+      
+      if (stats) {
+        // Check if it has a manifest
+        const manifestPath = path.join(folderPath, "install-manifest.yml");
+        if (await fileManager.pathExists(manifestPath)) {
+          const manifest = await fileManager.readExpansionPackManifest(installDir, folder.substring(1));
+          if (manifest) {
+            expansionPacks[folder.substring(1)] = {
+              path: folderPath,
+              manifest: manifest,
+              hasManifest: true
+            };
+          }
+        } else {
+          // Check if it has a config.yml (expansion pack without manifest)
+          const configPath = path.join(folderPath, "config.yml");
+          if (await fileManager.pathExists(configPath)) {
+            expansionPacks[folder.substring(1)] = {
+              path: folderPath,
+              manifest: null,
+              hasManifest: false
+            };
+          }
+        }
+      }
+    }
+    
+    return expansionPacks;
+  }
+
+  async repairExpansionPack(installDir, packId, pack, integrity, spinner) {
+    spinner.start(`Repairing ${pack.name}...`);
+    
+    try {
+      const expansionDotFolder = path.join(installDir, `.${packId}`);
+      
+      // Back up modified files
+      if (integrity.modified.length > 0) {
+        spinner.text = "Backing up modified files...";
+        for (const file of integrity.modified) {
+          const filePath = path.join(installDir, file);
+          if (await fileManager.pathExists(filePath)) {
+            const backupPath = await fileManager.backupFile(filePath);
+            console.log(chalk.dim(`  Backed up: ${file} → ${path.basename(backupPath)}`));
+          }
+        }
+      }
+      
+      // Restore missing and modified files
+      spinner.text = "Restoring files...";
+      const filesToRestore = [...integrity.missing, ...integrity.modified];
+      
+      for (const file of filesToRestore) {
+        // Skip the manifest file itself
+        if (file.endsWith('install-manifest.yml')) continue;
+        
+        const relativePath = file.replace(`.${packId}/`, '');
+        const sourcePath = path.join(pack.packPath, relativePath);
+        const destPath = path.join(installDir, file);
+        
+        // Check if this is a common/ file that needs special processing
+        const commonBase = path.dirname(path.dirname(path.dirname(path.dirname(__filename))));
+        const commonSourcePath = path.join(commonBase, 'common', relativePath);
+        
+        if (await fileManager.pathExists(commonSourcePath)) {
+          // This is a common/ file - needs template processing
+          const fs = require('fs').promises;
+          const content = await fs.readFile(commonSourcePath, 'utf8');
+          const updatedContent = content.replace(/\{root\}/g, `.${packId}`);
+          await fileManager.ensureDirectory(path.dirname(destPath));
+          await fs.writeFile(destPath, updatedContent, 'utf8');
+          spinner.text = `Restored: ${file}`;
+        } else if (await fileManager.pathExists(sourcePath)) {
+          // Regular file from expansion pack
+          await fileManager.copyFile(sourcePath, destPath);
+          spinner.text = `Restored: ${file}`;
+        } else {
+          console.warn(chalk.yellow(`  Warning: Source file not found: ${file}`));
+        }
+      }
+      
+      spinner.succeed(`${pack.name} repaired successfully!`);
+      
+      // Show summary
+      console.log(chalk.green(`\n✓ ${pack.name} repaired!`));
+      if (integrity.missing.length > 0) {
+        console.log(chalk.green(`  Restored ${integrity.missing.length} missing files`));
+      }
+      if (integrity.modified.length > 0) {
+        console.log(chalk.green(`  Restored ${integrity.modified.length} modified files (backups created)`));
+      }
+      
+    } catch (error) {
+      spinner.fail(`Failed to repair ${pack.name}`);
+      console.error(chalk.red(`Error: ${error.message}`));
+    }
+  }
+
+  compareVersions(v1, v2) {
+    // Simple semver comparison
+    const parts1 = v1.split('.').map(Number);
+    const parts2 = v2.split('.').map(Number);
+    
+    for (let i = 0; i < 3; i++) {
+      const part1 = parts1[i] || 0;
+      const part2 = parts2[i] || 0;
+      
+      if (part1 > part2) return 1;
+      if (part1 < part2) return -1;
+    }
+    
+    return 0;
   }
 
   async findInstallation() {

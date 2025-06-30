@@ -2,6 +2,8 @@
 
 const { program } = require('commander');
 const path = require('path');
+const fs = require('fs').promises;
+const yaml = require('js-yaml');
 
 // Dynamic imports for ES modules
 let chalk, inquirer;
@@ -45,17 +47,15 @@ program
 program
   .command('install')
   .description('Install BMAD Method agents and tools')
-  .option('-f, --full', 'Install complete .bmad-core folder')
-  .option('-a, --agent <agent>', 'Install specific agent with dependencies')
-  .option('-t, --team <team>', 'Install specific team with required agents and dependencies')
+  .option('-f, --full', 'Install complete BMAD Method')
   .option('-x, --expansion-only', 'Install only expansion packs (no bmad-core)')
-  .option('-d, --directory <path>', 'Installation directory (default: .bmad-core)')
+  .option('-d, --directory <path>', 'Installation directory')
   .option('-i, --ide <ide...>', 'Configure for specific IDE(s) - can specify multiple (cursor, claude-code, windsurf, roo, cline, gemini, other)')
   .option('-e, --expansion-packs <packs...>', 'Install specific expansion packs (can specify multiple)')
   .action(async (options) => {
     try {
       await initializeModules();
-      if (!options.full && !options.agent && !options.team && !options.expansionOnly) {
+      if (!options.full && !options.expansionOnly) {
         // Interactive mode
         const answers = await promptInstallation();
         if (!answers._alreadyInstalled) {
@@ -64,15 +64,11 @@ program
       } else {
         // Direct mode
         let installType = 'full';
-        if (options.agent) installType = 'single-agent';
-        else if (options.team) installType = 'team';
-        else if (options.expansionOnly) installType = 'expansion-only';
+        if (options.expansionOnly) installType = 'expansion-only';
 
         const config = {
           installType,
-          agent: options.agent,
-          team: options.team,
-          directory: options.directory || '.bmad-core',
+          directory: options.directory || '.',
           ides: (options.ide || []).filter(ide => ide !== 'other'),
           expansionPacks: options.expansionPacks || []
         };
@@ -96,19 +92,6 @@ program
     } catch (error) {
       if (!chalk) await initializeModules();
       console.error(chalk.red('Update failed:'), error.message);
-      process.exit(1);
-    }
-  });
-
-program
-  .command('list')
-  .description('List available agents')
-  .action(async () => {
-    try {
-      await installer.listAgents();
-    } catch (error) {
-      if (!chalk) await initializeModules();
-      console.error(chalk.red('Error:'), error.message);
       process.exit(1);
     }
   });
@@ -145,7 +128,7 @@ async function promptInstallation() {
 
   const answers = {};
 
-  // Ask for installation directory
+  // Ask for installation directory first
   const { directory } = await inquirer.prompt([
     {
       type: 'input',
@@ -161,147 +144,85 @@ async function promptInstallation() {
   ]);
   answers.directory = directory;
 
-  // Check if this is an existing v4 installation
-  const installDir = path.resolve(answers.directory);
+  // Detect existing installations
+  const installDir = path.resolve(directory);
   const state = await installer.detectInstallationState(installDir);
-
+  
+  // Check for existing expansion packs
+  const existingExpansionPacks = state.expansionPacks || {};
+  
+  // Get available expansion packs
+  const availableExpansionPacks = await installer.getAvailableExpansionPacks();
+  
+  // Build choices list
+  const choices = [];
+  
+  // Load core config to get short-title
+  const coreConfigPath = path.join(__dirname, '..', '..', '..', 'bmad-core', 'core-config.yml');
+  const coreConfig = yaml.load(await fs.readFile(coreConfigPath, 'utf8'));
+  const coreShortTitle = coreConfig['short-title'] || 'BMad Agile Core System';
+  
+  // Add BMAD core option
+  let bmadOptionText;
   if (state.type === 'v4_existing') {
-    console.log(chalk.yellow('\n🔍 Found existing BMAD v4 installation'));
-    console.log(`   Directory: ${installDir}`);
-    console.log(`   Version: ${state.manifest?.version || 'Unknown'}`);
-    console.log(`   Installed: ${state.manifest?.installed_at ? new Date(state.manifest.installed_at).toLocaleDateString() : 'Unknown'}`);
-
-    const { shouldUpdate } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'shouldUpdate',
-        message: 'Would you like to update your existing BMAD v4 installation?',
-        default: true
-      }
-    ]);
-
-    if (shouldUpdate) {
-      // Skip other prompts and go directly to update
-      answers.installType = 'update';
-      answers._alreadyInstalled = true; // Flag to prevent double installation
-      await installer.install(answers);
-      return answers; // Return the answers object
-    }
-    // If user doesn't want to update, continue with normal flow
+    const currentVersion = state.manifest?.version || 'unknown';
+    const newVersion = coreConfig.version || 'unknown'; // Use version from core-config.yml
+    const versionInfo = currentVersion === newVersion 
+      ? `(v${currentVersion} - reinstall)`
+      : `(v${currentVersion} → v${newVersion})`;
+    bmadOptionText = `Update ${coreShortTitle} ${versionInfo} .bmad-core`;
+  } else {
+    bmadOptionText = `Install ${coreShortTitle} (v${coreConfig.version || version}) .bmad-core`;
   }
-
-  // Ask for installation type
-  const { installType } = await inquirer.prompt([
+  
+  choices.push({
+    name: bmadOptionText,
+    value: 'bmad-core',
+    checked: true
+  });
+  
+  // Add expansion pack options
+  for (const pack of availableExpansionPacks) {
+    const existing = existingExpansionPacks[pack.id];
+    let packOptionText;
+    
+    if (existing) {
+      const currentVersion = existing.manifest?.version || 'unknown';
+      const newVersion = pack.version;
+      const versionInfo = currentVersion === newVersion 
+        ? `(v${currentVersion} - reinstall)`
+        : `(v${currentVersion} → v${newVersion})`;
+      packOptionText = `Update ${pack.description} ${versionInfo} .${pack.id}`;
+    } else {
+      packOptionText = `Install ${pack.description} (v${pack.version}) .${pack.id}`;
+    }
+    
+    choices.push({
+      name: packOptionText,
+      value: pack.id,
+      checked: false
+    });
+  }
+  
+  // Ask what to install
+  const { selectedItems } = await inquirer.prompt([
     {
-      type: 'list',
-      name: 'installType',
-      message: 'How would you like to install BMAD?',
-      choices: [
-        {
-          name: 'Complete installation (recommended) - All agents and tools',
-          value: 'full'
-        },
-        {
-          name: 'Team installation - Install a specific team with required agents',
-          value: 'team'
-        },
-        {
-          name: 'Single agent - Choose one agent to install',
-          value: 'single-agent'
-        },
-        {
-          name: 'Expansion packs only - Install expansion packs without bmad-core',
-          value: 'expansion-only'
+      type: 'checkbox',
+      name: 'selectedItems',
+      message: 'Select what to install/update (use space to select, enter to continue):',
+      choices: choices,
+      validate: (selected) => {
+        if (selected.length === 0) {
+          return 'Please select at least one item to install';
         }
-      ]
+        return true;
+      }
     }
   ]);
-  answers.installType = installType;
-
-  // If single agent, ask which one
-  if (installType === 'single-agent') {
-    const agents = await installer.getAvailableAgents();
-    const { agent } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'agent',
-        message: 'Select an agent to install:',
-        choices: agents.map(a => ({
-          name: `${a.id} - ${a.name} (${a.description})`,
-          value: a.id
-        }))
-      }
-    ]);
-    answers.agent = agent;
-  }
-
-  // If team installation, ask which team
-  if (installType === 'team') {
-    const teams = await installer.getAvailableTeams();
-    const { team } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'team',
-        message: 'Select a team to install in your IDE project folder:',
-        choices: teams.map(t => ({
-          name: `${t.icon || '📋'} ${t.name}: ${t.description}`,
-          value: t.id
-        }))
-      }
-    ]);
-    answers.team = team;
-  }
-
-  // Ask for expansion pack selection
-  if (installType === 'full' || installType === 'team' || installType === 'expansion-only') {
-    try {
-      const availableExpansionPacks = await installer.getAvailableExpansionPacks();
-
-      if (availableExpansionPacks.length > 0) {
-        let choices;
-        let message;
-
-        if (installType === 'expansion-only') {
-          message = 'Select expansion packs to install (required):'
-          choices = availableExpansionPacks.map(pack => ({
-            name: `${pack.name} - ${pack.description}`,
-            value: pack.id
-          }));
-        } else {
-          message = 'Select expansion packs to install (press Enter to skip, or check any to install):';
-          choices = availableExpansionPacks.map(pack => ({
-            name: `${pack.name} - ${pack.description}`,
-            value: pack.id
-          }));
-        }
-
-        const { expansionPacks } = await inquirer.prompt([
-          {
-            type: 'checkbox',
-            name: 'expansionPacks',
-            message,
-            choices,
-            validate: installType === 'expansion-only' ? (answer) => {
-              if (answer.length < 1) {
-                return 'You must select at least one expansion pack for expansion-only installation.';
-              }
-              return true;
-            } : undefined
-          }
-        ]);
-
-        // Use selected expansion packs directly
-        answers.expansionPacks = expansionPacks;
-      } else {
-        answers.expansionPacks = [];
-      }
-    } catch (error) {
-      console.warn(chalk.yellow('Warning: Could not load expansion packs. Continuing without them.'));
-      answers.expansionPacks = [];
-    }
-  } else {
-    answers.expansionPacks = [];
-  }
+  
+  // Process selections
+  answers.installType = selectedItems.includes('bmad-core') ? 'full' : 'expansion-only';
+  answers.expansionPacks = selectedItems.filter(item => item !== 'bmad-core');
 
   // Ask for IDE configuration
   const { ides } = await inquirer.prompt([
