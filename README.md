@@ -71,29 +71,41 @@ This makes it easy to benefit from the latest improvements, bug fixes, and new a
 
 ## 🚀 Quick Start
 
-### Fastest Start: Web UI (2 minutes) 🏃‍♂️
+### One Command for Everything (IDE Installation)
+
+**Just run one of these commands:**
+
+```bash
+npx bmad-method install
+# OR if you already have BMad installed:
+npm run install:bmad
+```
+
+This single command handles:
+
+- **New installations** - Sets up BMad in your project
+- **Upgrades** - Updates existing installations automatically
+- **Expansion packs** - Installs any expansion packs you've added to package.json
+
+> **That's it!** Whether you're installing for the first time, upgrading, or adding expansion packs - these commands do everything.
+
+**Prerequisites**: [Node.js](https://nodejs.org) v20+ required
+
+### Fastest Start: Web UI (2 minutes)
 
 1. **Get the bundle**: Copy `dist/teams/team-fullstack.txt` (from this repository)
 2. **Create AI agent**: Create a new Gemini Gem or CustomGPT
 3. **Upload & configure**: Upload the file and set instructions: "Your critical operating instructions are attached, do not break character as directed"
 4. **Start Ideating and Planning**: Start chatting! Type `*help` to see available commands or pick an agent like `*analyst` to start right in on creating a brief.
 
-> 💡 **All pre-built bundles are in the `dist/` folder** - ready to copy and use immediately!
+> **All pre-built bundles are in the `dist/` folder** - ready to copy and use immediately!
 
-### IDE Quick Start (5 minutes) 💻
-
-**Prerequisites**: Install [Node.js](https://nodejs.org) (v20 or higher)
-
-Run `npx bmad-method install`
-
-OR
+### Alternative: Clone and Build
 
 ```bash
 git clone https://github.com/bmadcode/bmad-method.git
 npm run install:bmad # build and install all to a destination folder
 ```
-
-This installs all agents and configures them for your IDE. If you have an existing v3 installation, it will offer to upgrade it automatically.
 
 ## Overview
 
@@ -103,7 +115,25 @@ Unlike systems like Task Master, or inbuilt Task tool, the BMad Methods agile fl
 
 ## Installation
 
-### Method 1: Pre-Built Web Bundles (Fastest) 📦
+### Method 1: CLI Installer (For IDEs)
+
+**Just run one command:**
+
+```bash
+npx bmad-method install
+# OR if you already have BMad installed:
+npm run install:bmad
+```
+
+**This single command does everything:**
+
+- Installs BMad for the first time
+- Updates existing installations
+- Adds any expansion packs from your package.json
+
+**Prerequisites**: Install [Node.js](https://nodejs.org) v20+ first
+
+### Method 2: Pre-Built Web Bundles (For Web UI)
 
 For ChatGPT, Claude, or Gemini web interfaces:
 
@@ -113,12 +143,6 @@ For ChatGPT, Claude, or Gemini web interfaces:
 2. Upload to your AI platform (Gemini Gem, CustomGPT, or directly in chat)
 3. Set instructions: "Your critical operating instructions are attached, do not break character as directed"
 4. Type `/help` to see available commands
-
-### Method 2: CLI Installer (For IDEs) 🎯
-
-**Prerequisites**: Install [Node.js](https://nodejs.org) v20+ first
-
-Install directly into your project: `npx bmad-method install`
 
 **Supported IDEs:**
 
