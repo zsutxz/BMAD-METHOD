@@ -1,3 +1,10 @@
+## [4.21.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.21.1...v4.21.2) (2025-06-30)
+
+
+### Bug Fixes
+
+* improve create-doc task clarity for template execution ([86d5139](https://github.com/bmadcode/BMAD-METHOD/commit/86d5139aea7097cc5d4ee9da0f7d3e395ce0835e))
+
 ## [4.21.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.21.0...v4.21.1) (2025-06-30)
 
 
