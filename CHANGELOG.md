@@ -1,3 +1,10 @@
+# [4.22.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.21.2...v4.22.0) (2025-06-30)
+
+
+### Features
+
+* create doc more explicit and readme improvement ([a1b30d9](https://github.com/bmadcode/BMAD-METHOD/commit/a1b30d9341d2ceff79db2c7e178860c5ef0d99e5))
+
 ## [4.21.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.21.1...v4.21.2) (2025-06-30)
 
 
