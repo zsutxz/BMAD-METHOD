@@ -13,7 +13,7 @@ Foundations in Agentic Agile Driven Development, known as the Breakthrough Metho
 
 ⭐ **If you find this project helpful or useful, please give it a star in the upper right hand corner!** It helps others discover BMad-METHOD and you will be notified of updates!
 
-## 🧭 Quick Navigation - Find Your Path
+## Quick Navigation
 
 ### 🚨 MUST READ: Understanding the BMAD Workflow
 
@@ -50,13 +50,14 @@ Foundations in Agentic Agile Driven Development, known as the Breakthrough Metho
 - **[Contributing](#contributing)** → Help improve BMAD
 - **[Support](#support)** → Get help and connect
 
-## 🔄 Important: Keeping Your BMad Installation Updated
+## Important: Keep Your BMad Installation Updated
 
 **Stay up-to-date effortlessly!** If you already have BMad-METHOD installed in your project, simply run:
 
 ```bash
 npx bmad-method install
 # OR
+git pull
 npm run install:bmad
 ```
 
@@ -69,7 +70,7 @@ This will:
 
 This makes it easy to benefit from the latest improvements, bug fixes, and new agents without losing your customizations! If for some reason this fails, you can rename or remove your .bmad-code folder and run the install again. The main thing to look out for is if you have set up custom modes that are not file driven (Cursor is the only one at this time that is not done through project files lagging behind) - you will want to ensure your sm and dev custom modes especially are kept up to date.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### One Command for Everything (IDE Installation)
 
@@ -78,6 +79,7 @@ This makes it easy to benefit from the latest improvements, bug fixes, and new a
 ```bash
 npx bmad-method install
 # OR if you already have BMad installed:
+git pull
 npm run install:bmad
 ```
 
