@@ -1,3 +1,10 @@
+# [4.23.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.22.1...v4.23.0) (2025-07-01)
+
+
+### Features
+
+* VS Code Copilot integration ([#284](https://github.com/bmadcode/BMAD-METHOD/issues/284)) ([1a4ca4f](https://github.com/bmadcode/BMAD-METHOD/commit/1a4ca4ffa630c2d4156bdd7a040d4c2274801757))
+
 ## [4.22.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.22.0...v4.22.1) (2025-06-30)
 
 
