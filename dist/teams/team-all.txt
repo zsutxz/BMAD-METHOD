@@ -86,6 +86,9 @@ startup:
   - Announce: Introduce yourself as the BMAD Orchestrator, explain you can coordinate agents and workflows
   - IMPORTANT: Tell users that all commands start with * (e.g., *help, *agent, *workflow)
   - Mention *help shows all available commands and options
+  - Check for active workflow plan using utils#plan-management
+  - 'If plan exists: Show 📋 Active plan: {workflow} ({progress}% complete). Use *plan-status for details.'
+  - 'If plan exists: Suggest next action based on plan progress'
   - Assess user goal against available agents and workflows in this bundle
   - If clear match to an agent's expertise, suggest transformation with *agent command
   - If project-oriented, suggest *workflow-guidance to explore options
@@ -100,6 +103,9 @@ commands:
   task: Run a specific task (list if name not specified)
   workflow: Start a specific workflow (list if name not specified)
   workflow-guidance: Get personalized help selecting the right workflow
+  plan: Create detailed workflow plan before starting
+  plan-status: Show current workflow plan progress
+  plan-update: Update workflow plan status
   checklist: Execute a checklist (list if name not specified)
   yolo: Toggle skip confirmations mode
   party-mode: Group chat with all agents
@@ -123,6 +129,9 @@ help-display-template: |
   Workflow Commands:
   *workflow [name] .... Start specific workflow (list if no name)
   *workflow-guidance .. Get personalized help selecting the right workflow
+  *plan ............... Create detailed workflow plan before starting
+  *plan-status ........ Show current workflow plan progress
+  *plan-update ........ Update workflow plan status
 
   Other Commands:
   *yolo ............... Toggle skip confirmations mode
@@ -163,6 +172,8 @@ workflow-guidance:
   - Understand each workflow's purpose, options, and decision points
   - Ask clarifying questions based on the workflow's structure
   - Guide users through workflow selection when multiple options exist
+  - For complex projects, offer to create a workflow plan using create-workflow-plan task
+  - When appropriate, suggest: Would you like me to create a detailed workflow plan before starting?
   - For workflows with divergent paths, help users choose the right path
   - Adapt questions to the specific domain (e.g., game dev vs infrastructure vs web dev)
   - Only recommend workflows that actually exist in the current bundle
@@ -171,10 +182,13 @@ dependencies:
   tasks:
     - advanced-elicitation
     - create-doc
+    - create-workflow-plan
     - kb-mode-interaction
+    - update-workflow-plan
   data:
     - bmad-kb
   utils:
+    - plan-management
     - workflow-management
     - template-format
 ```
@@ -766,11 +780,22 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ## Execution Flow
 
+### 0. Check Workflow Plan (if configured)
+
+[[LLM: Check if plan tracking is enabled in core-config.yml]]
+
+- If `workflow.trackProgress: true`, check for active plan using utils#plan-management
+- If plan exists and this document creation is part of the plan:
+  - Verify this is the expected next step
+  - If out of sequence and `enforceSequence: true`, warn user and halt without user override
+  - If out of sequence and `enforceSequence: false`, ask for confirmation
+- Continue with normal execution after plan check
+
 ### 1. Identify Template
 
 - Load from `templates#*` or `{root}/templates directory`
 - Agent-specific templates are listed in agent's dependencies
-- If agent has `templates: [prd-tmpl, architecture-tmpl]`, offer to create "PRD" and "Architecture" documents
+- If agent has `templates: [prd-tmpl, architecture-tmpl]` for example, then offer to create "PRD" and "Architecture" documents
 
 ### 2. Ask Interaction Mode
 
@@ -807,6 +832,15 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 - Begin directly with content (no preamble)
 - Include any handoff prompts from template
 
+### 6. Update Workflow Plan (if applicable)
+
+[[LLM: After successful document creation]]
+
+- If plan tracking is enabled and document was part of plan:
+  - Call update-workflow-plan task to mark step complete
+  - Parameters: task: create-doc, step_id: {from plan}, status: complete
+  - Show next recommended step from plan
+
 ## Common Mistakes to Avoid
 
 ❌ Skipping elicitation tasks
@@ -823,6 +857,298 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 Templates contain precise instructions for a reason. Follow them exactly to ensure document quality and completeness.
 ==================== END: tasks#create-doc ====================
+
+==================== START: tasks#create-workflow-plan ====================
+# Create Workflow Plan Task
+
+## Purpose
+
+Guide users through workflow selection and create a detailed plan document that outlines the selected workflow steps, decision points, and expected outputs. This task helps users understand what will happen before starting a complex workflow and provides a checklist to track progress.
+
+## Task Instructions
+
+### 1. Understand User's Goal
+
+[[LLM: Start with discovery questions to understand what the user wants to accomplish]]
+
+Ask the user:
+
+1. **Project Type**:
+   - Are you starting a new project (greenfield) or enhancing an existing one (brownfield)?
+   - What type of application? (web app, service/API, UI only, full-stack)
+
+2. **For Greenfield**:
+   - Do you need a quick prototype or production-ready application?
+   - Will this have a UI component?
+   - Single service or multiple services?
+
+3. **For Brownfield**:
+   - What's the scope of the enhancement?
+     - Single bug fix or small feature (few hours)
+     - Small enhancement (1-3 stories)
+     - Major feature requiring coordination
+     - Architectural changes or modernization
+   - Do you have existing documentation?
+   - Are you following existing patterns or introducing new ones?
+
+### 2. Recommend Appropriate Workflow
+
+Based on the answers, recommend:
+
+**Greenfield Options:**
+
+- `greenfield-fullstack` - Complete web application
+- `greenfield-service` - Backend API/service only
+- `greenfield-ui` - Frontend only
+
+**Brownfield Options:**
+
+- `brownfield-create-story` - Single small change
+- `brownfield-create-epic` - Small feature (1-3 stories)
+- `brownfield-fullstack` - Major enhancement
+
+**Simplified Option:**
+
+- For users unsure or wanting flexibility, suggest starting with individual agent tasks
+
+### 3. Explain Selected Workflow
+
+[[LLM: Once workflow is selected, provide clear explanation]]
+
+For the selected workflow, explain:
+
+1. **Overview**: What this workflow accomplishes
+2. **Duration**: Estimated time for planning phase
+3. **Outputs**: What documents will be created
+4. **Decision Points**: Where user input will be needed
+5. **Requirements**: What information should be ready
+
+### 4. Create Workflow Plan Document
+
+[[LLM: Generate a comprehensive plan document with the following structure]]
+
+```markdown
+# Workflow Plan: {{Workflow Name}}
+
+<!-- WORKFLOW-PLAN-META
+workflow-id: {{workflow-id}}
+status: active
+created: {{ISO-8601 timestamp}}
+updated: {{ISO-8601 timestamp}}
+version: 1.0
+-->
+
+**Created Date**: {{current date}}
+**Project**: {{project name}}
+**Type**: {{greenfield/brownfield}}
+**Status**: Active
+**Estimated Planning Duration**: {{time estimate}}
+
+## Objective
+
+{{Clear description of what will be accomplished}}
+
+## Selected Workflow
+
+**Workflow**: `{{workflow-id}}`
+**Reason**: {{Why this workflow fits the user's needs}}
+
+## Workflow Steps
+
+### Planning Phase
+
+- [ ] Step 1: {{step name}} <!-- step-id: 1.1, agent: {{agent}}, task: {{task}} -->
+  - **Agent**: {{agent name}}
+  - **Action**: {{what happens}}
+  - **Output**: {{what's created}}
+  - **User Input**: {{if any}}
+
+- [ ] Step 2: {{step name}} <!-- step-id: 1.2, agent: {{agent}}, task: {{task}} -->
+  - **Agent**: {{agent name}}
+  - **Action**: {{what happens}}
+  - **Output**: {{what's created}}
+  - **Decision Point**: {{if any}} <!-- decision-id: D1 -->
+
+{{Continue for all planning steps}}
+
+### Development Phase (IDE)
+
+- [ ] Document Sharding <!-- step-id: 2.1, agent: po, task: shard-doc -->
+  - Prepare documents for story creation
+
+- [ ] Story Development Cycle <!-- step-id: 2.2, repeats: true -->
+  - [ ] Create story (SM agent) <!-- step-id: 2.2.1, agent: sm, task: create-next-story -->
+  - [ ] Review story (optional) <!-- step-id: 2.2.2, agent: analyst, optional: true -->
+  - [ ] Implement story (Dev agent) <!-- step-id: 2.2.3, agent: dev -->
+  - [ ] QA review (optional) <!-- step-id: 2.2.4, agent: qa, optional: true -->
+  - [ ] Repeat for all stories
+
+- [ ] Epic Retrospective (optional) <!-- step-id: 2.3, agent: po, optional: true -->
+
+## Key Decision Points
+
+1. **{{Decision Name}}** (Step {{n}}): <!-- decision-id: D1, status: pending -->
+   - Trigger: {{what causes this decision}}
+   - Options: {{available choices}}
+   - Impact: {{how it affects the workflow}}
+   - Decision Made: _Pending_
+
+{{List all decision points}}
+
+## Expected Outputs
+
+### Planning Documents
+- [ ] {{document 1}} - {{description}}
+- [ ] {{document 2}} - {{description}}
+{{etc...}}
+
+### Development Artifacts
+- [ ] Stories in `docs/stories/`
+- [ ] Implementation code
+- [ ] Tests
+- [ ] Updated documentation
+
+## Prerequisites Checklist
+
+Before starting this workflow, ensure you have:
+
+- [ ] {{prerequisite 1}}
+- [ ] {{prerequisite 2}}
+- [ ] {{prerequisite 3}}
+{{etc...}}
+
+## Customization Options
+
+Based on your project needs, you may:
+- Skip {{optional step}} if {{condition}}
+- Add {{additional step}} if {{condition}}
+- Choose {{alternative}} instead of {{default}}
+
+## Risk Considerations
+
+{{For brownfield only}}
+- Integration complexity: {{assessment}}
+- Rollback strategy: {{approach}}
+- Testing requirements: {{special needs}}
+
+## Next Steps
+
+1. Review this plan and confirm it matches your expectations
+2. Gather any missing prerequisites
+3. Start workflow with: `*task workflow {{workflow-id}}`
+4. Or begin with first agent: `@{{first-agent}}`
+
+## Notes
+
+{{Any additional context or warnings}}
+
+---
+*This plan can be updated as you progress through the workflow. Check off completed items to track progress.*
+```
+
+### 5. Save and Present Plan
+
+1. Save the plan as `docs/workflow-plan.md`
+2. Inform user: "Workflow plan created at docs/workflow-plan.md"
+3. Offer options:
+   - Review the plan together
+   - Start the workflow now
+   - Gather prerequisites first
+   - Modify the plan
+
+### 6. Plan Variations
+
+[[LLM: Adjust plan detail based on workflow complexity]]
+
+**For Simple Workflows** (create-story, create-epic):
+
+- Simpler checklist format
+- Focus on immediate next steps
+- Less detailed explanations
+
+**For Complex Workflows** (full greenfield/brownfield):
+
+- Detailed step breakdowns
+- All decision points documented
+- Comprehensive output descriptions
+- Risk mitigation sections
+
+**For Brownfield Workflows**:
+
+- Include existing system impact analysis
+- Document integration checkpoints
+- Add rollback considerations
+- Note documentation dependencies
+
+### 7. Interactive Planning Mode
+
+[[LLM: If user wants to customize the workflow]]
+
+If user wants to modify the standard workflow:
+
+1. Present workflow steps as options
+2. Allow skipping optional steps
+3. Let user reorder certain steps
+4. Document customizations in plan
+5. Warn about dependencies if steps are skipped
+
+### 8. Execution Guidance
+
+After plan is created, provide clear guidance:
+
+```text
+Your workflow plan is ready! Here's how to proceed:
+
+1. **Review the plan**: Check that all steps align with your goals
+2. **Gather prerequisites**: Use the checklist to ensure you're ready
+3. **Start execution**:
+   - Full workflow: `*task workflow {{workflow-id}}`
+   - Step by step: Start with `@{{first-agent}}`
+4. **Track progress**: Check off steps in the plan as completed
+
+Would you like to:
+a) Review the plan together
+b) Start the workflow now
+c) Gather prerequisites first
+d) Modify the plan
+```
+
+## Success Criteria
+
+The workflow plan is successful when:
+
+1. User clearly understands what will happen
+2. All decision points are documented
+3. Prerequisites are identified
+4. Expected outputs are clear
+5. User feels confident to proceed
+6. Plan serves as useful progress tracker
+
+## Integration with BMad Master and Orchestrator
+
+When used by BMad Master or BMad Orchestrator, this task should:
+
+1. Be offered when user asks about workflows
+2. Be suggested before starting complex workflows
+3. Create a plan that the agent can reference during execution
+4. Allow the agent to track progress against the plan
+
+## Example Usage
+
+```text
+User: "I need to add a payment system to my existing app"
+
+BMad Orchestrator: "Let me help you create a workflow plan for that enhancement. I'll ask a few questions to recommend the best approach..."
+
+[Runs through discovery questions]
+
+BMad Orchestrator: "Based on your answers, I recommend the brownfield-fullstack workflow. Let me create a detailed plan for you..."
+
+[Creates and saves plan]
+
+BMad Orchestrator: "I've created a workflow plan at docs/workflow-plan.md. This shows all the steps we'll go through, what documents will be created, and where you'll need to make decisions. Would you like to review it together?"
+```
+==================== END: tasks#create-workflow-plan ====================
 
 ==================== START: tasks#kb-mode-interaction ====================
 # KB Mode Interaction Task
@@ -896,6 +1222,257 @@ Or ask me about anything else related to BMAD-METHOD!
 
 **Assistant**: [Provides focused information about workflows from the KB, then offers to explore specific workflow types or related topics]
 ==================== END: tasks#kb-mode-interaction ====================
+
+==================== START: tasks#update-workflow-plan ====================
+# Update Workflow Plan Task
+
+## Purpose
+
+Update the status of steps in an active workflow plan, mark completions, add notes about deviations, and maintain an accurate record of workflow progress. This task can be called directly by users or automatically by other tasks upon completion.
+
+## Task Instructions
+
+### 0. Load Plan Configuration
+
+[[LLM: First load core-config.yml to get plan settings]]
+
+Check workflow configuration:
+
+- `workflow.planFile` - Location of the plan (default: docs/workflow-plan.md)
+- `workflow.trackProgress` - Whether tracking is enabled
+- `workflow.updateOnCompletion` - Whether to auto-update on task completion
+
+If tracking is disabled, inform user and exit.
+
+### 1. Verify Plan Exists
+
+[[LLM: Check if workflow plan exists at configured location]]
+
+If no plan exists:
+
+```
+No active workflow plan found at {location}.
+Would you like to create one? Use *plan command.
+```
+
+### 2. Determine Update Type
+
+[[LLM: Ask user what type of update they want to make]]
+
+Present options:
+
+```
+What would you like to update in the workflow plan?
+
+1. Mark step as complete
+2. Update current step
+3. Add deviation note
+4. Mark decision point resolution
+5. Update overall status
+6. View current plan status only
+
+Please select an option (1-6):
+```
+
+### 3. Parse Current Plan
+
+[[LLM: Read and parse the plan to understand current state]]
+
+Extract:
+
+- All steps with their checkbox status
+- Step IDs from comments (if present)
+- Current completion percentage
+- Any existing deviation notes
+- Decision points and their status
+
+### 4. Execute Updates
+
+#### 4.1 Mark Step Complete
+
+If user selected option 1:
+
+1. Show numbered list of incomplete steps
+2. Ask which step to mark complete
+3. Update the checkbox from `[ ]` to `[x]`
+4. Add completion timestamp: `<!-- completed: YYYY-MM-DD HH:MM -->`
+5. If this was the current step, identify next step
+
+#### 4.2 Update Current Step
+
+If user selected option 2:
+
+1. Show all steps with current status
+2. Ask which step is now current
+3. Add/move `<!-- current-step -->` marker
+4. Optionally add note about why sequence changed
+
+#### 4.3 Add Deviation Note
+
+If user selected option 3:
+
+1. Ask for deviation description
+2. Ask which step this relates to (or general)
+3. Insert note in appropriate location:
+
+```markdown
+> **Deviation Note** (YYYY-MM-DD): {user_note}
+> Related to: Step X.Y or General workflow
+```
+
+#### 4.4 Mark Decision Resolution
+
+If user selected option 4:
+
+1. Show pending decision points
+2. Ask which decision was made
+3. Record the decision and chosen path
+4. Update related steps based on decision
+
+#### 4.5 Update Overall Status
+
+If user selected option 5:
+
+1. Show current overall status
+2. Provide options:
+   - Active (continuing with plan)
+   - Paused (temporarily stopped)
+   - Abandoned (no longer following)
+   - Complete (all steps done)
+3. Update plan header with new status
+
+### 5. Automatic Updates (When Called by Tasks)
+
+[[LLM: When called automatically by another task]]
+
+If called with parameters:
+
+```
+task: {task_name}
+step_id: {step_identifier}
+status: complete|skipped|failed
+note: {optional_note}
+```
+
+Automatically:
+
+1. Find the corresponding step
+2. Update its status
+3. Add completion metadata
+4. Add note if provided
+5. Calculate new progress percentage
+
+### 6. Generate Update Summary
+
+After updates, show summary:
+
+```
+✅ Workflow Plan Updated
+
+Changes made:
+- {change_1}
+- {change_2}
+
+New Status:
+- Progress: {X}% complete ({completed}/{total} steps)
+- Current Step: {current_step}
+- Next Recommended: {next_step}
+
+Plan location: {file_path}
+```
+
+### 7. Integration with Other Tasks
+
+[[LLM: How other tasks should call this]]
+
+Other tasks can integrate by:
+
+1. **After Task Completion**:
+
+```
+At end of task execution:
+- Check if task corresponds to a plan step
+- If yes, call update-workflow-plan with:
+  - task: {current_task_name}
+  - step_id: {matching_step}
+  - status: complete
+```
+
+2. **On Task Failure**:
+
+```
+If task fails:
+- Call update-workflow-plan with:
+  - task: {current_task_name}
+  - status: failed
+  - note: {failure_reason}
+```
+
+### 8. Plan Status Display
+
+[[LLM: When user selects view status only]]
+
+Display comprehensive status:
+
+```markdown
+📋 Workflow Plan Status
+━━━━━━━━━━━━━━━━━━━━
+Workflow: {workflow_name}
+Status: {Active|Paused|Complete}
+Progress: {X}% complete ({completed}/{total} steps)
+Last Updated: {timestamp}
+
+✅ Completed Steps:
+- [x] Step 1.1: {description} (completed: {date})
+- [x] Step 1.2: {description} (completed: {date})
+
+🔄 Current Step:
+- [ ] Step 2.1: {description} <!-- current-step -->
+  Agent: {agent_name}
+  Task: {task_name}
+
+📌 Upcoming Steps:
+- [ ] Step 2.2: {description}
+- [ ] Step 3.1: {description}
+
+⚠️ Deviations/Notes:
+{any_deviation_notes}
+
+📊 Decision Points:
+- Decision 1: {status} - {choice_made}
+- Decision 2: Pending
+
+💡 Next Action:
+Based on the plan, you should {recommended_action}
+```
+
+## Success Criteria
+
+The update is successful when:
+
+1. Plan accurately reflects current workflow state
+2. All updates are clearly timestamped
+3. Deviations are documented with reasons
+4. Progress calculation is correct
+5. Next steps are clear to user
+6. Plan remains readable and well-formatted
+
+## Error Handling
+
+- **Plan file not found**: Offer to create new plan
+- **Malformed plan**: Attempt basic updates, warn user
+- **Write permission error**: Show changes that would be made
+- **Step not found**: Show available steps, ask for clarification
+- **Concurrent updates**: Implement simple locking or warn about conflicts
+
+## Notes
+
+- Always preserve plan history (don't delete old information)
+- Keep updates atomic to prevent corruption
+- Consider creating backup before major updates
+- Updates should enhance, not complicate, the workflow experience
+- If plan becomes too cluttered, suggest creating fresh plan for next phase
+==================== END: tasks#update-workflow-plan ====================
 
 ==================== START: data#bmad-kb ====================
 # BMAD Knowledge Base
@@ -993,6 +1570,7 @@ npx bmad-method install
   - **Windsurf**: Built-in AI capabilities
   - **Cline**: VS Code extension with AI features
   - **Roo Code**: Web-based IDE with agent support
+  - **VS Code Copilot**: AI-powered coding assistant
 
 **Note for VS Code Users**: BMAD-METHOD assumes when you mention "VS Code" that you're using it with an AI-powered extension like GitHub Copilot, Cline, or Roo. Standard VS Code without AI capabilities cannot run BMAD agents. The installer includes built-in support for Cline and Roo.
 
@@ -1178,6 +1756,7 @@ You are the "Vibe CEO" - thinking like a CEO with unlimited resources and a sing
 - **Cursor**: `@agent-name` (e.g., `@bmad-master`)
 - **Windsurf**: `@agent-name` (e.g., `@bmad-master`)
 - **Roo Code**: Select mode from mode selector (e.g., `bmad-bmad-master`)
+- **VS Code Copilot**: Open the Chat view (`⌃⌘I` on Mac, `Ctrl+Alt+I` on Windows/Linux) and select **Agent** from the chat mode selector.
 
 **Chat Management Guidelines**:
 - **Claude Code, Cursor, Windsurf**: Start new chats when switching agents
@@ -1646,6 +2225,232 @@ Use the **expansion-creator** pack to build your own:
 - **Community**: Discord and GitHub resources available for support
 - **Contributing**: See `CONTRIBUTING.md` for full guidelines
 ==================== END: data#bmad-kb ====================
+
+==================== START: utils#plan-management ====================
+# Plan Management Utility
+
+## Purpose
+
+Provides utilities for agents and tasks to interact with workflow plans, check progress, update status, and ensure workflow steps are executed in the appropriate sequence.
+
+## Core Functions
+
+### 1. Check Plan Existence
+
+[[LLM: When any agent starts or task begins, check if a workflow plan exists]]
+
+```
+Check for workflow plan:
+1. Look for docs/workflow-plan.md (default location)
+2. Check core-config.yml for custom plan location
+3. Return plan status (exists/not exists)
+```
+
+### 2. Parse Plan Status
+
+[[LLM: Extract current progress from the plan document]]
+
+**Plan Parsing Logic:**
+
+1. **Identify Step Structure**:
+   - Look for checkbox lines: `- [ ]` or `- [x]`
+   - Extract step IDs from comments: `<!-- step-id: X.Y -->`
+   - Identify agent assignments: `<!-- agent: pm -->`
+
+2. **Determine Current State**:
+   - Last completed step (highest numbered `[x]`)
+   - Next expected step (first `[ ]` after completed steps)
+   - Overall progress percentage
+
+3. **Extract Metadata**:
+   - Workflow type from plan header
+   - Decision points and their status
+   - Any deviation notes
+
+### 3. Sequence Validation
+
+[[LLM: Check if requested action aligns with plan sequence]]
+
+**Validation Rules:**
+
+1. **Strict Mode** (enforceSequence: true):
+   - Must complete steps in exact order
+   - Warn and block if out of sequence
+   - Require explicit override justification
+
+2. **Flexible Mode** (enforceSequence: false):
+   - Warn about sequence deviation
+   - Allow with confirmation
+   - Log deviation reason
+
+**Warning Templates:**
+
+```
+SEQUENCE WARNING: 
+The workflow plan shows you should complete "{expected_step}" next.
+You're attempting to: "{requested_action}"
+
+In strict mode: Block and require plan update
+In flexible mode: Allow with confirmation
+```
+
+### 4. Plan Update Operations
+
+[[LLM: Provide consistent way to update plan progress]]
+
+**Update Actions:**
+
+1. **Mark Step Complete**:
+   - Change `- [ ]` to `- [x]`
+   - Add completion timestamp comment
+   - Update any status metadata
+
+2. **Add Deviation Note**:
+   - Insert note explaining why sequence changed
+   - Reference the deviation in plan
+
+3. **Update Current Step Pointer**:
+   - Add/move `<!-- current-step -->` marker
+   - Update last-modified timestamp
+
+### 5. Integration Instructions
+
+[[LLM: How agents and tasks should use this utility]]
+
+**For Agents (startup sequence)**:
+
+```
+1. Check if plan exists using this utility
+2. If exists:
+   - Parse current status
+   - Show user: "Active workflow plan detected. Current step: {X}"
+   - Suggest: "Next recommended action: {next_step}"
+3. Continue with normal startup
+```
+
+**For Tasks (pre-execution)**:
+
+```
+1. Check if plan exists
+2. If exists:
+   - Verify this task aligns with plan
+   - If not aligned:
+     - In strict mode: Show warning and stop
+     - In flexible mode: Show warning and ask for confirmation
+3. After task completion:
+   - Update plan if task was a planned step
+   - Add note if task was unplanned
+```
+
+### 6. Plan Status Report Format
+
+[[LLM: Standard format for showing plan status]]
+
+```
+📋 Workflow Plan Status
+━━━━━━━━━━━━━━━━━━━━
+Workflow: {workflow_name}
+Progress: {X}% complete ({completed}/{total} steps)
+
+✅ Completed:
+- {completed_step_1}
+- {completed_step_2}
+
+🔄 Current Step:
+- {current_step_description}
+
+📌 Upcoming:
+- {next_step_1}
+- {next_step_2}
+
+⚠️ Notes:
+- {any_deviations_or_notes}
+```
+
+### 7. Decision Point Handling
+
+[[LLM: Special handling for workflow decision points]]
+
+When encountering a decision point in the plan:
+
+1. **Identify Decision Marker**: `<!-- decision: {decision_id} -->`
+2. **Check Decision Status**: Made/Pending
+3. **If Pending**: 
+   - Block progress until decision made
+   - Show options to user
+   - Record decision when made
+4. **If Made**: 
+   - Verify current path aligns with decision
+   - Warn if attempting alternate path
+
+### 8. Plan Abandonment
+
+[[LLM: Graceful handling when user wants to stop following plan]]
+
+If user wants to abandon plan:
+
+1. Confirm abandonment intent
+2. Add abandonment note to plan
+3. Mark plan as "Abandoned" in header
+4. Stop plan checking for remainder of session
+5. Suggest creating new plan if needed
+
+## Usage Examples
+
+### Example 1: Agent Startup Check
+
+```
+BMad Master starting...
+
+[Check for plan]
+Found active workflow plan: brownfield-fullstack
+Progress: 40% complete (4/10 steps)
+Current step: Create PRD (pm agent)
+
+Suggestion: Based on your plan, you should work with the PM agent next.
+Use *agent pm to switch, or *plan-status to see full progress.
+```
+
+### Example 2: Task Sequence Warning
+
+```
+User: *task create-next-story
+
+[Plan check triggered]
+⚠️ SEQUENCE WARNING: 
+Your workflow plan indicates the PRD hasn't been created yet.
+Creating stories before the PRD may lead to incomplete requirements.
+
+Would you like to:
+1. Continue anyway (will note deviation in plan)
+2. Switch to creating PRD first (*agent pm)
+3. View plan status (*plan-status)
+```
+
+### Example 3: Automatic Plan Update
+
+```
+[After completing create-doc task for PRD]
+
+✅ Plan Updated: Marked "Create PRD" as complete
+📍 Next step: Create Architecture Document (architect agent)
+```
+
+## Implementation Notes
+
+- This utility should be lightweight and fast
+- Plan parsing should be resilient to format variations
+- Always preserve user agency - warnings not blocks (unless strict mode)
+- Plan updates should be atomic to prevent corruption
+- Consider plan versioning for rollback capability
+
+## Error Handling
+
+- Missing plan: Return null, don't error
+- Malformed plan: Warn but continue, treat as no plan
+- Update failures: Log but don't block task completion
+- Parse errors: Fallback to basic text search
+==================== END: utils#plan-management ====================
 
 ==================== START: utils#workflow-management ====================
 # Workflow Management
@@ -7396,34 +8201,45 @@ Do not proceed with any recommendations until the user has validated your unders
 
 ### Existing Project Overview
 
-[[LLM: If working in IDE with project loaded, analyze the project structure and existing documentation. If working in web interface, request project upload or detailed project information from user.]]
+[[LLM: Check if document-project analysis was already performed. If yes, reference that output instead of re-analyzing.]]
 
-**Project Location**: [[LLM: Note if this is IDE-based analysis or user-provided information]]
+**Analysis Source**: [[LLM: Indicate one of the following:
+- Document-project output available at: {{path}}
+- IDE-based fresh analysis
+- User-provided information
+]]
 
-**Current Project State**: [[LLM: Brief description of what the project currently does and its primary purpose]]
+**Current Project State**: [[LLM: 
+- If document-project output exists: Extract summary from "High Level Architecture" and "Technical Summary" sections
+- Otherwise: Brief description of what the project currently does and its primary purpose
+]]
 
 ### Available Documentation Analysis
 
-[[LLM: Check for existing documentation in docs folder or provided by user. List what documentation is available and assess its completeness. Required documents include:
+[[LLM: 
+If document-project was run:
+- Note: "Document-project analysis available - using existing technical documentation"
+- List key documents created by document-project
+- Skip the missing documentation check below
 
-- Tech stack documentation
-- Source tree/architecture overview
-- Coding standards
-- API documentation or OpenAPI specs
-- External API integrations
-- UX/UI guidelines or existing patterns]]
+Otherwise, check for existing documentation:
+]]
 
 **Available Documentation**:
 
-- [ ] Tech Stack Documentation
-- [ ] Source Tree/Architecture
-- [ ] Coding Standards
-- [ ] API Documentation
-- [ ] External API Documentation
-- [ ] UX/UI Guidelines
+- [ ] Tech Stack Documentation [[LLM: If from document-project, check ✓]]
+- [ ] Source Tree/Architecture [[LLM: If from document-project, check ✓]]
+- [ ] Coding Standards [[LLM: If from document-project, may be partial]]
+- [ ] API Documentation [[LLM: If from document-project, check ✓]]
+- [ ] External API Documentation [[LLM: If from document-project, check ✓]]
+- [ ] UX/UI Guidelines [[LLM: May not be in document-project]]
+- [ ] Technical Debt Documentation [[LLM: If from document-project, check ✓]]
 - [ ] Other: \***\*\_\_\_\*\***
 
-[[LLM: If critical documentation is missing, STOP and recommend: "I recommend running the document-project task first to generate baseline documentation including tech-stack, source-tree, coding-standards, APIs, external-APIs, and UX/UI information. This will provide the foundation needed for a comprehensive brownfield PRD."]]
+[[LLM: 
+- If document-project was already run: "Using existing project analysis from document-project output."
+- If critical documentation is missing and no document-project: "I recommend running the document-project task first..."
+]]
 
 ### Enhancement Scope Definition
 
@@ -7513,13 +8329,19 @@ Do not proceed with any recommendations until the user has validated your unders
 
 ### Existing Technology Stack
 
-[[LLM: Document the current technology stack that must be maintained or integrated with]]
+[[LLM: 
+If document-project output available:
+- Extract from "Actual Tech Stack" table in High Level Architecture section
+- Include version numbers and any noted constraints
 
-**Languages**: [[LLM: Current programming languages in use]]
-**Frameworks**: [[LLM: Current frameworks and their versions]]
-**Database**: [[LLM: Current database technology and schema considerations]]
-**Infrastructure**: [[LLM: Current deployment and hosting infrastructure]]
-**External Dependencies**: [[LLM: Current third-party services and APIs]]
+Otherwise, document the current technology stack:
+]]
+
+**Languages**: [[LLM: From document-project or fresh analysis]]
+**Frameworks**: [[LLM: From document-project or fresh analysis]]
+**Database**: [[LLM: From document-project or fresh analysis]]
+**Infrastructure**: [[LLM: From document-project or fresh analysis]]
+**External Dependencies**: [[LLM: From document-project "External Services" section or fresh analysis]]
 
 ### Integration Approach
 
@@ -7550,12 +8372,19 @@ Do not proceed with any recommendations until the user has validated your unders
 
 ### Risk Assessment and Mitigation
 
-[[LLM: Identify risks specific to working with existing codebase]]
+[[LLM: 
+If document-project output available:
+- Reference "Technical Debt and Known Issues" section
+- Include "Workarounds and Gotchas" that might impact enhancement
+- Note any identified constraints from "Critical Technical Debt"
 
-**Technical Risks**: [[LLM: Risks related to modifying existing code]]
-**Integration Risks**: [[LLM: Risks in integrating with existing systems]]
-**Deployment Risks**: [[LLM: Risks in deploying alongside existing features]]
-**Mitigation Strategies**: [[LLM: Specific strategies to address identified risks]]
+Build risk assessment incorporating existing known issues:
+]]
+
+**Technical Risks**: [[LLM: Include risks from document-project + new enhancement risks]]
+**Integration Risks**: [[LLM: Reference integration constraints from document-project]]
+**Deployment Risks**: [[LLM: Include deployment gotchas from document-project]]
+**Mitigation Strategies**: [[LLM: Address both existing and new risks]]
 
 ## Epic and Story Structure
 
@@ -8862,6 +9691,22 @@ To identify the next logical story based on project progress and epic definition
   - `architecture.architectureSharded`: Whether architecture is sharded
   - `architecture.architectureFile`: Location of monolithic architecture
   - `architecture.architectureShardedLocation`: Location of sharded architecture files
+  - `workflow.trackProgress`: Whether workflow plan tracking is enabled
+  - `workflow.planFile`: Location of workflow plan (if tracking enabled)
+
+### 0.5 Check Workflow Plan (if configured)
+
+[[LLM: Check if workflow plan tracking is enabled]]
+
+- If `workflow.trackProgress: true`, check for active plan at `workflow.planFile`
+- If plan exists:
+  - Parse plan to check if story creation is the expected next step
+  - If out of sequence and `workflow.enforceSequence: true`:
+    - Show warning: "The workflow plan indicates you should complete {expected_step} before creating stories."
+    - Block execution unless user explicitly overrides
+  - If out of sequence and `workflow.enforceSequence: false`:
+    - Show warning but allow continuation with confirmation
+- Continue with story identification after plan check
 
 ### 1. Identify Next Story for Preparation
 
@@ -9084,6 +9929,15 @@ Provide a summary to the user including:
 - Any deviations or conflicts noted between epic and architecture
 - Recommendations for story review before approval
 - Next steps: Story should be reviewed by PO for approval before dev work begins
+
+### 10. Update Workflow Plan (if applicable)
+
+[[LLM: After successful story creation]]
+
+- If `workflow.trackProgress: true` and `workflow.updateOnCompletion: true`:
+  - Call update-workflow-plan task to mark story creation step complete
+  - Parameters: task: create-next-story, step_id: {from plan}, status: complete
+  - If plan shows next step, mention it in completion message
 
 [[LLM: Remember - The success of this task depends on extracting real, specific technical details from the architecture shards. The dev agent should have everything they need in the story file without having to search through multiple documents.]]
 ==================== END: tasks#create-next-story ====================
@@ -9732,23 +10586,76 @@ workflow:
     - integration-enhancement
 
   sequence:
+    - step: enhancement_classification
+      agent: analyst
+      action: classify enhancement scope
+      notes: |
+        Determine enhancement complexity to route to appropriate path:
+        - Single story (< 4 hours) → Use brownfield-create-story task
+        - Small feature (1-3 stories) → Use brownfield-create-epic task  
+        - Major enhancement (multiple epics) → Continue with full workflow
+        
+        Ask user: "Can you describe the enhancement scope? Is this a small fix, a feature addition, or a major enhancement requiring architectural changes?"
+
+    - step: routing_decision
+      condition: based_on_classification
+      routes:
+        single_story:
+          agent: pm
+          uses: brownfield-create-story
+          notes: "Create single story for immediate implementation. Exit workflow after story creation."
+        small_feature:
+          agent: pm
+          uses: brownfield-create-epic
+          notes: "Create focused epic with 1-3 stories. Exit workflow after epic creation."
+        major_enhancement:
+          continue: to_next_step
+          notes: "Continue with comprehensive planning workflow below."
+
+    - step: documentation_check
+      agent: analyst
+      action: check existing documentation
+      condition: major_enhancement_path
+      notes: |
+        Check if adequate project documentation exists:
+        - Look for existing architecture docs, API specs, coding standards
+        - Assess if documentation is current and comprehensive
+        - If adequate: Skip document-project, proceed to PRD
+        - If inadequate: Run document-project first
+
     - step: project_analysis
       agent: architect
       action: analyze existing project and use task document-project
-      creates: multiple documents per the document-project template
-      notes: "Review existing documentation, codebase structure, and identify integration points. Document current system understanding before proceeding."
+      creates: brownfield-architecture.md (or multiple documents)
+      condition: documentation_inadequate
+      notes: "Run document-project to capture current system state, technical debt, and constraints. Pass findings to PRD creation."
 
     - agent: pm
       creates: prd.md
       uses: brownfield-prd-tmpl
-      requires: existing_project_analysis
-      notes: "Creates comprehensive PRD with existing system analysis and enhancement planning. SAVE OUTPUT: Copy final prd.md to your project's docs/ folder."
+      requires: existing_documentation_or_analysis
+      notes: |
+        Creates PRD for major enhancement. If document-project was run, reference its output to avoid re-analysis.
+        If skipped, use existing project documentation.
+        SAVE OUTPUT: Copy final prd.md to your project's docs/ folder.
+
+    - step: architecture_decision
+      agent: pm/architect
+      action: determine if architecture document needed
+      condition: after_prd_creation
+      notes: |
+        Review PRD to determine if architectural planning is needed:
+        - New architectural patterns → Create architecture doc
+        - New libraries/frameworks → Create architecture doc
+        - Platform/infrastructure changes → Create architecture doc
+        - Following existing patterns → Skip to story creation
 
     - agent: architect
       creates: architecture.md
       uses: brownfield-architecture-tmpl
       requires: prd.md
-      notes: "Creates architecture with integration strategy and existing system constraints. SAVE OUTPUT: Copy final architecture.md to your project's docs/ folder."
+      condition: architecture_changes_needed
+      notes: "Creates architecture ONLY for significant architectural changes. SAVE OUTPUT: Copy final architecture.md to your project's docs/ folder."
 
     - agent: po
       validates: all_artifacts
@@ -9760,60 +10667,162 @@ workflow:
       condition: po_checklist_issues
       notes: "If PO finds issues, return to relevant agent to fix and re-export updated documents to docs/ folder."
 
-    - workflow_end:
-      action: move_to_ide
+    - agent: po
+      action: shard_documents
+      creates: sharded_docs
+      requires: all_artifacts_in_project
       notes: |
-        Planning phase complete! Now transition to IDE Development:
-        
-        1. ENSURE DOCUMENTS ARE IN PROJECT:
-           - Copy final prd.md to project's docs/prd.md
-           - Copy final architecture.md to project's docs/architecture.md
-           - All documents must be in the project before proceeding
-        
-        2. SHARD DOCUMENTS (in IDE):
-           - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
-           - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
-           - This creates docs/prd/ and docs/architecture/ folders with sharded content
-        
-        3. START DEVELOPMENT CYCLE:
-           a. SM Agent (New Chat): @sm → *create
-              - Creates next story from sharded docs
-              - Review and approve story (Draft → Approved)
-           
-           b. Dev Agent (New Chat): @dev
-              - Implements approved story
-              - Updates File List with all changes
-              - Marks story as "Review" when complete
-           
-           c. QA Agent (New Chat): @qa → review-story
-              - Senior dev review with refactoring ability
-              - Fixes small issues directly
-              - Leaves checklist for remaining items
-              - Updates story status (Review → Done or stays Review)
-           
-           d. If QA left unchecked items:
-              - Dev Agent (New Chat): Address remaining items
-              - Return to QA for final approval
-        
-        4. REPEAT: Continue cycle for all epic stories
+        Shard documents for IDE development:
+        - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
+        - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
+        - Creates docs/prd/ and docs/architecture/ folders with sharded content
+
+    - agent: sm
+      action: create_story
+      creates: story.md
+      requires: sharded_docs_or_brownfield_docs
+      repeats: for_each_epic_or_enhancement
+      notes: |
+        Story creation cycle:
+        - For sharded PRD: @sm → *create (uses create-next-story)
+        - For brownfield docs: @sm → use create-brownfield-story task
+        - Creates story from available documentation
+        - Story starts in "Draft" status
+        - May require additional context gathering for brownfield
+
+    - agent: analyst/pm
+      action: review_draft_story
+      updates: story.md
+      requires: story.md
+      optional: true
+      condition: user_wants_story_review
+      notes: |
+        OPTIONAL: Review and approve draft story
+        - NOTE: story-review task coming soon
+        - Review story completeness and alignment
+        - Update story status: Draft → Approved
+
+    - agent: dev
+      action: implement_story
+      creates: implementation_files
+      requires: story.md
+      notes: |
+        Dev Agent (New Chat): @dev
+        - Implements approved story
+        - Updates File List with all changes
+        - Marks story as "Review" when complete
+
+    - agent: qa
+      action: review_implementation
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Senior dev review with refactoring ability
+        - Fixes small issues directly
+        - Leaves checklist for remaining items
+        - Updates story status (Review → Done or stays Review)
+
+    - agent: dev
+      action: address_qa_feedback
+      updates: implementation_files
+      condition: qa_left_unchecked_items
+      notes: |
+        If QA left unchecked items:
+        - Dev Agent (New Chat): Address remaining items
+        - Return to QA for final approval
+
+    - repeat_development_cycle:
+      action: continue_for_all_stories
+      notes: |
+        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Continue until all stories in PRD are complete
+
+    - agent: po
+      action: epic_retrospective
+      creates: epic-retrospective.md
+      condition: epic_complete
+      optional: true
+      notes: |
+        OPTIONAL: After epic completion
+        - NOTE: epic-retrospective task coming soon
+        - Validate epic was completed correctly
+        - Document learnings and improvements
+
+    - workflow_end:
+      action: project_complete
+      notes: |
+        All stories implemented and reviewed!
+        Project development phase complete.
         
         Reference: data#bmad-kb:IDE Development Workflow
 
   flow_diagram: |
     ```mermaid
     graph TD
-        A[Start: Brownfield Enhancement] --> B[analyst: analyze existing project]
-        B --> C[pm: prd.md]
-        C --> D[architect: architecture.md]
-        D --> E[po: validate with po-master-checklist]
-        E --> F{PO finds issues?}
-        F -->|Yes| G[Return to relevant agent for fixes]
-        F -->|No| H[Move to IDE Environment]
-        G --> E
+        A[Start: Brownfield Enhancement] --> B[analyst: classify enhancement scope]
+        B --> C{Enhancement Size?}
+        
+        C -->|Single Story| D[pm: brownfield-create-story]
+        C -->|1-3 Stories| E[pm: brownfield-create-epic]
+        C -->|Major Enhancement| F[analyst: check documentation]
+        
+        D --> END1[To Dev Implementation]
+        E --> END2[To Story Creation]
+        
+        F --> G{Docs Adequate?}
+        G -->|No| H[architect: document-project]
+        G -->|Yes| I[pm: brownfield PRD]
+        H --> I
+        
+        I --> J{Architecture Needed?}
+        J -->|Yes| K[architect: architecture.md]
+        J -->|No| L[po: validate artifacts]
+        K --> L
+        
+        L --> M{PO finds issues?}
+        M -->|Yes| N[Fix issues]
+        M -->|No| O[po: shard documents]
+        N --> L
+        
+        O --> P[sm: create story]
+        P --> Q{Story Type?}
+        Q -->|Sharded PRD| R[create-next-story]
+        Q -->|Brownfield Docs| S[create-brownfield-story]
+        
+        R --> T{Review draft?}
+        S --> T
+        T -->|Yes| U[review & approve]
+        T -->|No| V[dev: implement]
+        U --> V
+        
+        V --> W{QA review?}
+        W -->|Yes| X[qa: review]
+        W -->|No| Y{More stories?}
+        X --> Z{Issues?}
+        Z -->|Yes| AA[dev: fix]
+        Z -->|No| Y
+        AA --> X
+        Y -->|Yes| P
+        Y -->|No| AB{Retrospective?}
+        AB -->|Yes| AC[po: retrospective]
+        AB -->|No| AD[Complete]
+        AC --> AD
 
-        style H fill:#90EE90
-        style C fill:#FFE4B5
-        style D fill:#FFE4B5
+        style AD fill:#90EE90
+        style END1 fill:#90EE90
+        style END2 fill:#90EE90
+        style D fill:#87CEEB
+        style E fill:#87CEEB
+        style I fill:#FFE4B5
+        style K fill:#FFE4B5
+        style O fill:#ADD8E6
+        style P fill:#ADD8E6
+        style V fill:#ADD8E6
+        style U fill:#F0E68C
+        style X fill:#F0E68C
+        style AC fill:#F0E68C
     ```
 
   decision_guidance:
@@ -9825,11 +10834,41 @@ workflow:
       - Multiple team members will work on related changes
 
   handoff_prompts:
-    analyst_to_pm: "Existing project analysis complete. Create comprehensive PRD with integration strategy."
-    pm_to_architect: "PRD ready. Save it as docs/prd.md, then create the integration architecture."
+    classification_complete: |
+      Enhancement classified as: {{enhancement_type}}
+      {{if single_story}}: Proceeding with brownfield-create-story task for immediate implementation.
+      {{if small_feature}}: Creating focused epic with brownfield-create-epic task.
+      {{if major_enhancement}}: Continuing with comprehensive planning workflow.
+    
+    documentation_assessment: |
+      Documentation assessment complete:
+      {{if adequate}}: Existing documentation is sufficient. Proceeding directly to PRD creation.
+      {{if inadequate}}: Running document-project to capture current system state before PRD.
+    
+    document_project_to_pm: |
+      Project analysis complete. Key findings documented in:
+      - {{document_list}}
+      Use these findings to inform PRD creation and avoid re-analyzing the same aspects.
+    
+    pm_to_architect_decision: |
+      PRD complete and saved as docs/prd.md. 
+      Architectural changes identified: {{yes/no}}
+      {{if yes}}: Proceeding to create architecture document for: {{specific_changes}}
+      {{if no}}: No architectural changes needed. Proceeding to validation.
+    
     architect_to_po: "Architecture complete. Save it as docs/architecture.md. Please validate all artifacts for integration safety."
-    po_issues: "PO found issues with [document]. Please return to [agent] to fix and re-save the updated document."
-    complete: "All planning artifacts validated and saved in docs/ folder. Move to IDE environment to begin development."
+    
+    po_to_sm: |
+      All artifacts validated. 
+      Documentation type available: {{sharded_prd / brownfield_docs}}
+      {{if sharded}}: Use standard create-next-story task.
+      {{if brownfield}}: Use create-brownfield-story task to handle varied documentation formats.
+    
+    sm_story_creation: |
+      Creating story from {{documentation_type}}.
+      {{if missing_context}}: May need to gather additional context from user during story creation.
+    
+    complete: "All planning artifacts validated and development can begin. Stories will be created based on available documentation format."
 ==================== END: workflows#brownfield-fullstack ====================
 
 ==================== START: workflows#brownfield-service ====================
@@ -9876,42 +10915,92 @@ workflow:
       condition: po_checklist_issues
       notes: "If PO finds issues, return to relevant agent to fix and re-export updated documents to docs/ folder."
 
-    - workflow_end:
-      action: move_to_ide
+    - agent: po
+      action: shard_documents
+      creates: sharded_docs
+      requires: all_artifacts_in_project
       notes: |
-        Planning phase complete! Now transition to IDE Development:
-        
-        1. ENSURE DOCUMENTS ARE IN PROJECT:
-           - Copy final prd.md to project's docs/prd.md
-           - Copy final architecture.md to project's docs/architecture.md
-           - All documents must be in the project before proceeding
-        
-        2. SHARD DOCUMENTS (in IDE):
-           - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
-           - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
-           - This creates docs/prd/ and docs/architecture/ folders with sharded content
-        
-        3. START DEVELOPMENT CYCLE:
-           a. SM Agent (New Chat): @sm → *create
-              - Creates next story from sharded docs
-              - Review and approve story (Draft → Approved)
-           
-           b. Dev Agent (New Chat): @dev
-              - Implements approved story
-              - Updates File List with all changes
-              - Marks story as "Review" when complete
-           
-           c. QA Agent (New Chat): @qa → review-story
-              - Senior dev review with refactoring ability
-              - Fixes small issues directly
-              - Leaves checklist for remaining items
-              - Updates story status (Review → Done or stays Review)
-           
-           d. If QA left unchecked items:
-              - Dev Agent (New Chat): Address remaining items
-              - Return to QA for final approval
-        
-        4. REPEAT: Continue cycle for all epic stories
+        Shard documents for IDE development:
+        - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
+        - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
+        - Creates docs/prd/ and docs/architecture/ folders with sharded content
+
+    - agent: sm
+      action: create_story
+      creates: story.md
+      requires: sharded_docs
+      repeats: for_each_epic
+      notes: |
+        Story creation cycle:
+        - SM Agent (New Chat): @sm → *create
+        - Creates next story from sharded docs
+        - Story starts in "Draft" status
+
+    - agent: analyst/pm
+      action: review_draft_story
+      updates: story.md
+      requires: story.md
+      optional: true
+      condition: user_wants_story_review
+      notes: |
+        OPTIONAL: Review and approve draft story
+        - NOTE: story-review task coming soon
+        - Review story completeness and alignment
+        - Update story status: Draft → Approved
+
+    - agent: dev
+      action: implement_story
+      creates: implementation_files
+      requires: story.md
+      notes: |
+        Dev Agent (New Chat): @dev
+        - Implements approved story
+        - Updates File List with all changes
+        - Marks story as "Review" when complete
+
+    - agent: qa
+      action: review_implementation
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Senior dev review with refactoring ability
+        - Fixes small issues directly
+        - Leaves checklist for remaining items
+        - Updates story status (Review → Done or stays Review)
+
+    - agent: dev
+      action: address_qa_feedback
+      updates: implementation_files
+      condition: qa_left_unchecked_items
+      notes: |
+        If QA left unchecked items:
+        - Dev Agent (New Chat): Address remaining items
+        - Return to QA for final approval
+
+    - repeat_development_cycle:
+      action: continue_for_all_stories
+      notes: |
+        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Continue until all stories in PRD are complete
+
+    - agent: po
+      action: epic_retrospective
+      creates: epic-retrospective.md
+      condition: epic_complete
+      optional: true
+      notes: |
+        OPTIONAL: After epic completion
+        - NOTE: epic-retrospective task coming soon
+        - Validate epic was completed correctly
+        - Document learnings and improvements
+
+    - workflow_end:
+      action: project_complete
+      notes: |
+        All stories implemented and reviewed!
+        Project development phase complete.
         
         Reference: data#bmad-kb:IDE Development Workflow
 
@@ -9924,12 +11013,36 @@ workflow:
         D --> E[po: validate with po-master-checklist]
         E --> F{PO finds issues?}
         F -->|Yes| G[Return to relevant agent for fixes]
-        F -->|No| H[Move to IDE Environment]
+        F -->|No| H[po: shard documents]
         G --> E
+        
+        H --> I[sm: create story]
+        I --> J{Review draft story?}
+        J -->|Yes| K[analyst/pm: review & approve story]
+        J -->|No| L[dev: implement story]
+        K --> L
+        L --> M{QA review?}
+        M -->|Yes| N[qa: review implementation]
+        M -->|No| O{More stories?}
+        N --> P{QA found issues?}
+        P -->|Yes| Q[dev: address QA feedback]
+        P -->|No| O
+        Q --> N
+        O -->|Yes| I
+        O -->|No| R{Epic retrospective?}
+        R -->|Yes| S[po: epic retrospective]
+        R -->|No| T[Project Complete]
+        S --> T
 
-        style H fill:#90EE90
+        style T fill:#90EE90
+        style H fill:#ADD8E6
+        style I fill:#ADD8E6
+        style L fill:#ADD8E6
         style C fill:#FFE4B5
         style D fill:#FFE4B5
+        style K fill:#F0E68C
+        style N fill:#F0E68C
+        style S fill:#F0E68C
     ```
 
   decision_guidance:
@@ -9999,42 +11112,92 @@ workflow:
       condition: po_checklist_issues
       notes: "If PO finds issues, return to relevant agent to fix and re-export updated documents to docs/ folder."
 
-    - workflow_end:
-      action: move_to_ide
+    - agent: po
+      action: shard_documents
+      creates: sharded_docs
+      requires: all_artifacts_in_project
       notes: |
-        Planning phase complete! Now transition to IDE Development:
-        
-        1. ENSURE DOCUMENTS ARE IN PROJECT:
-           - Copy final prd.md to project's docs/prd.md
-           - Copy final architecture.md to project's docs/architecture.md
-           - All documents must be in the project before proceeding
-        
-        2. SHARD DOCUMENTS (in IDE):
-           - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
-           - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
-           - This creates docs/prd/ and docs/architecture/ folders with sharded content
-        
-        3. START DEVELOPMENT CYCLE:
-           a. SM Agent (New Chat): @sm → *create
-              - Creates next story from sharded docs
-              - Review and approve story (Draft → Approved)
-           
-           b. Dev Agent (New Chat): @dev
-              - Implements approved story
-              - Updates File List with all changes
-              - Marks story as "Review" when complete
-           
-           c. QA Agent (New Chat): @qa → review-story
-              - Senior dev review with refactoring ability
-              - Fixes small issues directly
-              - Leaves checklist for remaining items
-              - Updates story status (Review → Done or stays Review)
-           
-           d. If QA left unchecked items:
-              - Dev Agent (New Chat): Address remaining items
-              - Return to QA for final approval
-        
-        4. REPEAT: Continue cycle for all epic stories
+        Shard documents for IDE development:
+        - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
+        - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
+        - Creates docs/prd/ and docs/architecture/ folders with sharded content
+
+    - agent: sm
+      action: create_story
+      creates: story.md
+      requires: sharded_docs
+      repeats: for_each_epic
+      notes: |
+        Story creation cycle:
+        - SM Agent (New Chat): @sm → *create
+        - Creates next story from sharded docs
+        - Story starts in "Draft" status
+
+    - agent: analyst/pm
+      action: review_draft_story
+      updates: story.md
+      requires: story.md
+      optional: true
+      condition: user_wants_story_review
+      notes: |
+        OPTIONAL: Review and approve draft story
+        - NOTE: story-review task coming soon
+        - Review story completeness and alignment
+        - Update story status: Draft → Approved
+
+    - agent: dev
+      action: implement_story
+      creates: implementation_files
+      requires: story.md
+      notes: |
+        Dev Agent (New Chat): @dev
+        - Implements approved story
+        - Updates File List with all changes
+        - Marks story as "Review" when complete
+
+    - agent: qa
+      action: review_implementation
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Senior dev review with refactoring ability
+        - Fixes small issues directly
+        - Leaves checklist for remaining items
+        - Updates story status (Review → Done or stays Review)
+
+    - agent: dev
+      action: address_qa_feedback
+      updates: implementation_files
+      condition: qa_left_unchecked_items
+      notes: |
+        If QA left unchecked items:
+        - Dev Agent (New Chat): Address remaining items
+        - Return to QA for final approval
+
+    - repeat_development_cycle:
+      action: continue_for_all_stories
+      notes: |
+        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Continue until all stories in PRD are complete
+
+    - agent: po
+      action: epic_retrospective
+      creates: epic-retrospective.md
+      condition: epic_complete
+      optional: true
+      notes: |
+        OPTIONAL: After epic completion
+        - NOTE: epic-retrospective task coming soon
+        - Validate epic was completed correctly
+        - Document learnings and improvements
+
+    - workflow_end:
+      action: project_complete
+      notes: |
+        All stories implemented and reviewed!
+        Project development phase complete.
         
         Reference: data#bmad-kb:IDE Development Workflow
 
@@ -10048,13 +11211,37 @@ workflow:
         E --> F[po: validate with po-master-checklist]
         F --> G{PO finds issues?}
         G -->|Yes| H[Return to relevant agent for fixes]
-        G -->|No| I[Move to IDE Environment]
+        G -->|No| I[po: shard documents]
         H --> F
+        
+        I --> J[sm: create story]
+        J --> K{Review draft story?}
+        K -->|Yes| L[analyst/pm: review & approve story]
+        K -->|No| M[dev: implement story]
+        L --> M
+        M --> N{QA review?}
+        N -->|Yes| O[qa: review implementation]
+        N -->|No| P{More stories?}
+        O --> Q{QA found issues?}
+        Q -->|Yes| R[dev: address QA feedback]
+        Q -->|No| P
+        R --> O
+        P -->|Yes| J
+        P -->|No| S{Epic retrospective?}
+        S -->|Yes| T[po: epic retrospective]
+        S -->|No| U[Project Complete]
+        T --> U
 
-        style I fill:#90EE90
+        style U fill:#90EE90
+        style I fill:#ADD8E6
+        style J fill:#ADD8E6
+        style M fill:#ADD8E6
         style C fill:#FFE4B5
         style D fill:#FFE4B5
         style E fill:#FFE4B5
+        style L fill:#F0E68C
+        style O fill:#F0E68C
+        style T fill:#F0E68C
     ```
 
   decision_guidance:
@@ -10150,42 +11337,92 @@ workflow:
       action: guide_development_sequence
       notes: "Based on PRD stories: If stories are frontend-heavy, start with frontend project/directory first. If backend-heavy or API-first, start with backend. For tightly coupled features, follow story sequence in monorepo setup. Reference sharded PRD epics for development order."
 
-    - workflow_end:
-      action: move_to_ide
+    - agent: po
+      action: shard_documents
+      creates: sharded_docs
+      requires: all_artifacts_in_project
       notes: |
-        Planning phase complete! Now transition to IDE Development:
-        
-        1. ENSURE DOCUMENTS ARE IN PROJECT:
-           - Copy final prd.md to project's docs/prd.md
-           - Copy final architecture.md to project's docs/architecture.md
-           - All documents must be in the project before proceeding
-        
-        2. SHARD DOCUMENTS (in IDE):
-           - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
-           - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
-           - This creates docs/prd/ and docs/architecture/ folders with sharded content
-        
-        3. START DEVELOPMENT CYCLE:
-           a. SM Agent (New Chat): @sm → *create
-              - Creates next story from sharded docs
-              - Review and approve story (Draft → Approved)
-           
-           b. Dev Agent (New Chat): @dev
-              - Implements approved story
-              - Updates File List with all changes
-              - Marks story as "Review" when complete
-           
-           c. QA Agent (New Chat): @qa → review-story
-              - Senior dev review with refactoring ability
-              - Fixes small issues directly
-              - Leaves checklist for remaining items
-              - Updates story status (Review → Done or stays Review)
-           
-           d. If QA left unchecked items:
-              - Dev Agent (New Chat): Address remaining items
-              - Return to QA for final approval
-        
-        4. REPEAT: Continue cycle for all epic stories
+        Shard documents for IDE development:
+        - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
+        - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
+        - Creates docs/prd/ and docs/architecture/ folders with sharded content
+
+    - agent: sm
+      action: create_story
+      creates: story.md
+      requires: sharded_docs
+      repeats: for_each_epic
+      notes: |
+        Story creation cycle:
+        - SM Agent (New Chat): @sm → *create
+        - Creates next story from sharded docs
+        - Story starts in "Draft" status
+
+    - agent: analyst/pm
+      action: review_draft_story
+      updates: story.md
+      requires: story.md
+      optional: true
+      condition: user_wants_story_review
+      notes: |
+        OPTIONAL: Review and approve draft story
+        - NOTE: story-review task coming soon
+        - Review story completeness and alignment
+        - Update story status: Draft → Approved
+
+    - agent: dev
+      action: implement_story
+      creates: implementation_files
+      requires: story.md
+      notes: |
+        Dev Agent (New Chat): @dev
+        - Implements approved story
+        - Updates File List with all changes
+        - Marks story as "Review" when complete
+
+    - agent: qa
+      action: review_implementation
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Senior dev review with refactoring ability
+        - Fixes small issues directly
+        - Leaves checklist for remaining items
+        - Updates story status (Review → Done or stays Review)
+
+    - agent: dev
+      action: address_qa_feedback
+      updates: implementation_files
+      condition: qa_left_unchecked_items
+      notes: |
+        If QA left unchecked items:
+        - Dev Agent (New Chat): Address remaining items
+        - Return to QA for final approval
+
+    - repeat_development_cycle:
+      action: continue_for_all_stories
+      notes: |
+        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Continue until all stories in PRD are complete
+
+    - agent: po
+      action: epic_retrospective
+      creates: epic-retrospective.md
+      condition: epic_complete
+      optional: true
+      notes: |
+        OPTIONAL: After epic completion
+        - NOTE: epic-retrospective task coming soon
+        - Validate epic was completed correctly
+        - Document learnings and improvements
+
+    - workflow_end:
+      action: project_complete
+      notes: |
+        All stories implemented and reviewed!
+        Project development phase complete.
         
         Reference: data#bmad-kb:IDE Development Workflow
 
@@ -10206,21 +11443,45 @@ workflow:
         G --> H
         H --> I{PO finds issues?}
         I -->|Yes| J[Return to relevant agent for fixes]
-        I -->|No| K[Move to IDE Environment]
+        I -->|No| K[po: shard documents]
         J --> H
+        
+        K --> L[sm: create story]
+        L --> M{Review draft story?}
+        M -->|Yes| N[analyst/pm: review & approve story]
+        M -->|No| O[dev: implement story]
+        N --> O
+        O --> P{QA review?}
+        P -->|Yes| Q[qa: review implementation]
+        P -->|No| R{More stories?}
+        Q --> S{QA found issues?}
+        S -->|Yes| T[dev: address QA feedback]
+        S -->|No| R
+        T --> Q
+        R -->|Yes| L
+        R -->|No| U{Epic retrospective?}
+        U -->|Yes| V[po: epic retrospective]
+        U -->|No| W[Project Complete]
+        V --> W
 
         B -.-> B1[Optional: brainstorming]
         B -.-> B2[Optional: market research]
         D -.-> D1[Optional: user research]
         E -.-> E1[Optional: technical research]
 
-        style K fill:#90EE90
+        style W fill:#90EE90
+        style K fill:#ADD8E6
+        style L fill:#ADD8E6
+        style O fill:#ADD8E6
         style D3 fill:#E6E6FA
         style D4 fill:#E6E6FA
         style B fill:#FFE4B5
         style C fill:#FFE4B5
         style D fill:#FFE4B5
         style E fill:#FFE4B5
+        style N fill:#F0E68C
+        style Q fill:#F0E68C
+        style V fill:#F0E68C
     ```
 
   decision_guidance:
@@ -10295,42 +11556,92 @@ workflow:
       condition: po_checklist_issues
       notes: "If PO finds issues, return to relevant agent to fix and re-export updated documents to docs/ folder."
 
-    - workflow_end:
-      action: move_to_ide
+    - agent: po
+      action: shard_documents
+      creates: sharded_docs
+      requires: all_artifacts_in_project
       notes: |
-        Planning phase complete! Now transition to IDE Development:
-        
-        1. ENSURE DOCUMENTS ARE IN PROJECT:
-           - Copy final prd.md to project's docs/prd.md
-           - Copy final architecture.md to project's docs/architecture.md
-           - All documents must be in the project before proceeding
-        
-        2. SHARD DOCUMENTS (in IDE):
-           - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
-           - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
-           - This creates docs/prd/ and docs/architecture/ folders with sharded content
-        
-        3. START DEVELOPMENT CYCLE:
-           a. SM Agent (New Chat): @sm → *create
-              - Creates next story from sharded docs
-              - Review and approve story (Draft → Approved)
-           
-           b. Dev Agent (New Chat): @dev
-              - Implements approved story
-              - Updates File List with all changes
-              - Marks story as "Review" when complete
-           
-           c. QA Agent (New Chat): @qa → review-story
-              - Senior dev review with refactoring ability
-              - Fixes small issues directly
-              - Leaves checklist for remaining items
-              - Updates story status (Review → Done or stays Review)
-           
-           d. If QA left unchecked items:
-              - Dev Agent (New Chat): Address remaining items
-              - Return to QA for final approval
-        
-        4. REPEAT: Continue cycle for all epic stories
+        Shard documents for IDE development:
+        - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
+        - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
+        - Creates docs/prd/ and docs/architecture/ folders with sharded content
+
+    - agent: sm
+      action: create_story
+      creates: story.md
+      requires: sharded_docs
+      repeats: for_each_epic
+      notes: |
+        Story creation cycle:
+        - SM Agent (New Chat): @sm → *create
+        - Creates next story from sharded docs
+        - Story starts in "Draft" status
+
+    - agent: analyst/pm
+      action: review_draft_story
+      updates: story.md
+      requires: story.md
+      optional: true
+      condition: user_wants_story_review
+      notes: |
+        OPTIONAL: Review and approve draft story
+        - NOTE: story-review task coming soon
+        - Review story completeness and alignment
+        - Update story status: Draft → Approved
+
+    - agent: dev
+      action: implement_story
+      creates: implementation_files
+      requires: story.md
+      notes: |
+        Dev Agent (New Chat): @dev
+        - Implements approved story
+        - Updates File List with all changes
+        - Marks story as "Review" when complete
+
+    - agent: qa
+      action: review_implementation
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Senior dev review with refactoring ability
+        - Fixes small issues directly
+        - Leaves checklist for remaining items
+        - Updates story status (Review → Done or stays Review)
+
+    - agent: dev
+      action: address_qa_feedback
+      updates: implementation_files
+      condition: qa_left_unchecked_items
+      notes: |
+        If QA left unchecked items:
+        - Dev Agent (New Chat): Address remaining items
+        - Return to QA for final approval
+
+    - repeat_development_cycle:
+      action: continue_for_all_stories
+      notes: |
+        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Continue until all stories in PRD are complete
+
+    - agent: po
+      action: epic_retrospective
+      creates: epic-retrospective.md
+      condition: epic_complete
+      optional: true
+      notes: |
+        OPTIONAL: After epic completion
+        - NOTE: epic-retrospective task coming soon
+        - Validate epic was completed correctly
+        - Document learnings and improvements
+
+    - workflow_end:
+      action: project_complete
+      notes: |
+        All stories implemented and reviewed!
+        Service development phase complete.
         
         Reference: data#bmad-kb:IDE Development Workflow
 
@@ -10346,17 +11657,41 @@ workflow:
         F --> G
         G --> H{PO finds issues?}
         H -->|Yes| I[Return to relevant agent for fixes]
-        H -->|No| J[Move to IDE Environment]
+        H -->|No| J[po: shard documents]
         I --> G
+        
+        J --> K[sm: create story]
+        K --> L{Review draft story?}
+        L -->|Yes| M[analyst/pm: review & approve story]
+        L -->|No| N[dev: implement story]
+        M --> N
+        N --> O{QA review?}
+        O -->|Yes| P[qa: review implementation]
+        O -->|No| Q{More stories?}
+        P --> R{QA found issues?}
+        R -->|Yes| S[dev: address QA feedback]
+        R -->|No| Q
+        S --> P
+        Q -->|Yes| K
+        Q -->|No| T{Epic retrospective?}
+        T -->|Yes| U[po: epic retrospective]
+        T -->|No| V[Project Complete]
+        U --> V
 
         B -.-> B1[Optional: brainstorming]
         B -.-> B2[Optional: market research]
         D -.-> D1[Optional: technical research]
 
-        style J fill:#90EE90
+        style V fill:#90EE90
+        style J fill:#ADD8E6
+        style K fill:#ADD8E6
+        style N fill:#ADD8E6
         style B fill:#FFE4B5
         style C fill:#FFE4B5
         style D fill:#FFE4B5
+        style M fill:#F0E68C
+        style P fill:#F0E68C
+        style U fill:#F0E68C
     ```
 
   decision_guidance:
@@ -10449,42 +11784,92 @@ workflow:
       condition: user_has_generated_ui
       notes: "If user generated UI with v0/Lovable: For polyrepo setup, place downloaded project in separate frontend repo. For monorepo, place in apps/web or frontend/ directory. Review architecture document for specific guidance."
 
-    - workflow_end:
-      action: move_to_ide
+    - agent: po
+      action: shard_documents
+      creates: sharded_docs
+      requires: all_artifacts_in_project
       notes: |
-        Planning phase complete! Now transition to IDE Development:
-        
-        1. ENSURE DOCUMENTS ARE IN PROJECT:
-           - Copy final prd.md to project's docs/prd.md
-           - Copy final architecture.md to project's docs/architecture.md
-           - All documents must be in the project before proceeding
-        
-        2. SHARD DOCUMENTS (in IDE):
-           - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
-           - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
-           - This creates docs/prd/ and docs/architecture/ folders with sharded content
-        
-        3. START DEVELOPMENT CYCLE:
-           a. SM Agent (New Chat): @sm → *create
-              - Creates next story from sharded docs
-              - Review and approve story (Draft → Approved)
-           
-           b. Dev Agent (New Chat): @dev
-              - Implements approved story
-              - Updates File List with all changes
-              - Marks story as "Review" when complete
-           
-           c. QA Agent (New Chat): @qa → review-story
-              - Senior dev review with refactoring ability
-              - Fixes small issues directly
-              - Leaves checklist for remaining items
-              - Updates story status (Review → Done or stays Review)
-           
-           d. If QA left unchecked items:
-              - Dev Agent (New Chat): Address remaining items
-              - Return to QA for final approval
-        
-        4. REPEAT: Continue cycle for all epic stories
+        Shard documents for IDE development:
+        - Option A: Use PO agent to shard: @po then ask to shard docs/prd.md
+        - Option B: Manual: Drag shard-doc task + docs/prd.md into chat
+        - Creates docs/prd/ and docs/architecture/ folders with sharded content
+
+    - agent: sm
+      action: create_story
+      creates: story.md
+      requires: sharded_docs
+      repeats: for_each_epic
+      notes: |
+        Story creation cycle:
+        - SM Agent (New Chat): @sm → *create
+        - Creates next story from sharded docs
+        - Story starts in "Draft" status
+
+    - agent: analyst/pm
+      action: review_draft_story
+      updates: story.md
+      requires: story.md
+      optional: true
+      condition: user_wants_story_review
+      notes: |
+        OPTIONAL: Review and approve draft story
+        - NOTE: story-review task coming soon
+        - Review story completeness and alignment
+        - Update story status: Draft → Approved
+
+    - agent: dev
+      action: implement_story
+      creates: implementation_files
+      requires: story.md
+      notes: |
+        Dev Agent (New Chat): @dev
+        - Implements approved story
+        - Updates File List with all changes
+        - Marks story as "Review" when complete
+
+    - agent: qa
+      action: review_implementation
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Senior dev review with refactoring ability
+        - Fixes small issues directly
+        - Leaves checklist for remaining items
+        - Updates story status (Review → Done or stays Review)
+
+    - agent: dev
+      action: address_qa_feedback
+      updates: implementation_files
+      condition: qa_left_unchecked_items
+      notes: |
+        If QA left unchecked items:
+        - Dev Agent (New Chat): Address remaining items
+        - Return to QA for final approval
+
+    - repeat_development_cycle:
+      action: continue_for_all_stories
+      notes: |
+        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Continue until all stories in PRD are complete
+
+    - agent: po
+      action: epic_retrospective
+      creates: epic-retrospective.md
+      condition: epic_complete
+      optional: true
+      notes: |
+        OPTIONAL: After epic completion
+        - NOTE: epic-retrospective task coming soon
+        - Validate epic was completed correctly
+        - Document learnings and improvements
+
+    - workflow_end:
+      action: project_complete
+      notes: |
+        All stories implemented and reviewed!
+        Project development phase complete.
         
         Reference: data#bmad-kb:IDE Development Workflow
 
@@ -10505,21 +11890,45 @@ workflow:
         G --> H
         H --> I{PO finds issues?}
         I -->|Yes| J[Return to relevant agent for fixes]
-        I -->|No| K[Move to IDE Environment]
+        I -->|No| K[po: shard documents]
         J --> H
+        
+        K --> L[sm: create story]
+        L --> M{Review draft story?}
+        M -->|Yes| N[analyst/pm: review & approve story]
+        M -->|No| O[dev: implement story]
+        N --> O
+        O --> P{QA review?}
+        P -->|Yes| Q[qa: review implementation]
+        P -->|No| R{More stories?}
+        Q --> S{QA found issues?}
+        S -->|Yes| T[dev: address QA feedback]
+        S -->|No| R
+        T --> Q
+        R -->|Yes| L
+        R -->|No| U{Epic retrospective?}
+        U -->|Yes| V[po: epic retrospective]
+        U -->|No| W[Project Complete]
+        V --> W
 
         B -.-> B1[Optional: brainstorming]
         B -.-> B2[Optional: market research]
         D -.-> D1[Optional: user research]
         E -.-> E1[Optional: technical research]
 
-        style K fill:#90EE90
+        style W fill:#90EE90
+        style K fill:#ADD8E6
+        style L fill:#ADD8E6
+        style O fill:#ADD8E6
         style D3 fill:#E6E6FA
         style D4 fill:#E6E6FA
         style B fill:#FFE4B5
         style C fill:#FFE4B5
         style D fill:#FFE4B5
         style E fill:#FFE4B5
+        style N fill:#F0E68C
+        style Q fill:#F0E68C
+        style V fill:#F0E68C
     ```
 
   decision_guidance:

@@ -125,7 +125,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 - If `workflow.trackProgress: true`, check for active plan using utils#plan-management
 - If plan exists and this document creation is part of the plan:
   - Verify this is the expected next step
-  - If out of sequence and `enforceSequence: true`, warn user
+  - If out of sequence and `enforceSequence: true`, warn user and halt without user override
   - If out of sequence and `enforceSequence: false`, ask for confirmation
 - Continue with normal execution after plan check
 
@@ -133,7 +133,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 - Load from `templates#*` or `{root}/templates directory`
 - Agent-specific templates are listed in agent's dependencies
-- If agent has `templates: [prd-tmpl, architecture-tmpl]`, offer to create "PRD" and "Architecture" documents
+- If agent has `templates: [prd-tmpl, architecture-tmpl]` for example, then offer to create "PRD" and "Architecture" documents
 
 ### 2. Ask Interaction Mode
 

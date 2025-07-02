@@ -757,12 +757,7 @@ class Installer {
       const ides = manifest.ides_setup || [];
       if (ides.includes('cursor')) {
         console.log(chalk.yellow.bold("\n⚠️  IMPORTANT: Cursor Custom Modes Update Required"));
-        console.log(chalk.yellow("Since agent files have been repaired, you need to manually update your Cursor custom modes:"));
-        console.log(chalk.yellow("1. Open Cursor Settings (Cmd/Ctrl + ,)"));
-        console.log(chalk.yellow("2. Go to: Features > Cursor Tab > Custom Modes"));
-        console.log(chalk.yellow("3. Update each custom mode with the latest agent templates from:"));
-        console.log(chalk.yellow(`   ${path.join(installDir, '.bmad-core', 'agents')}`));
-        console.log(chalk.yellow("4. Copy the full content of each agent file into the corresponding custom mode"));
+        console.log(chalk.yellow("Since agent files have been repaired, you need to update any custom agent modes configured in the Cursor custom agent GUI per the Cursor docs."));
       }
       
     } catch (error) {
@@ -861,12 +856,7 @@ class Installer {
     // Warning for Cursor custom modes if agents were updated
     if (options.isUpdate && ides.includes('cursor')) {
       console.log(chalk.yellow.bold("\n⚠️  IMPORTANT: Cursor Custom Modes Update Required"));
-      console.log(chalk.yellow("Since agents have been updated, you need to manually update your Cursor custom modes:"));
-      console.log(chalk.yellow("1. Open Cursor Settings (Cmd/Ctrl + ,)"));
-      console.log(chalk.yellow("2. Go to: Features > Cursor Tab > Custom Modes"));
-      console.log(chalk.yellow("3. Update each custom mode with the latest agent templates from:"));
-      console.log(chalk.yellow(`   ${path.join(installDir, '.bmad-core', 'agents')}`));
-      console.log(chalk.yellow("4. Copy the full content of each agent file into the corresponding custom mode"));
+      console.log(chalk.yellow("Since agents have been updated, you need to update any custom agent modes configured in the Cursor custom agent GUI per the Cursor docs."));
     }
   }
 

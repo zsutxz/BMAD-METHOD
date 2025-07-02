@@ -1009,7 +1009,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 - If `workflow.trackProgress: true`, check for active plan using utils#plan-management
 - If plan exists and this document creation is part of the plan:
   - Verify this is the expected next step
-  - If out of sequence and `enforceSequence: true`, warn user
+  - If out of sequence and `enforceSequence: true`, warn user and halt without user override
   - If out of sequence and `enforceSequence: false`, ask for confirmation
 - Continue with normal execution after plan check
 
@@ -1017,7 +1017,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 - Load from `templates#*` or `{root}/templates directory`
 - Agent-specific templates are listed in agent's dependencies
-- If agent has `templates: [prd-tmpl, architecture-tmpl]`, offer to create "PRD" and "Architecture" documents
+- If agent has `templates: [prd-tmpl, architecture-tmpl]` for example, then offer to create "PRD" and "Architecture" documents
 
 ### 2. Ask Interaction Mode
 
@@ -2972,6 +2972,7 @@ Update the status of steps in an active workflow plan, mark completions, add not
 [[LLM: First load core-config.yml to get plan settings]]
 
 Check workflow configuration:
+
 - `workflow.planFile` - Location of the plan (default: docs/workflow-plan.md)
 - `workflow.trackProgress` - Whether tracking is enabled
 - `workflow.updateOnCompletion` - Whether to auto-update on task completion
@@ -2983,6 +2984,7 @@ If tracking is disabled, inform user and exit.
 [[LLM: Check if workflow plan exists at configured location]]
 
 If no plan exists:
+
 ```
 No active workflow plan found at {location}.
 Would you like to create one? Use *plan command.
@@ -3012,6 +3014,7 @@ Please select an option (1-6):
 [[LLM: Read and parse the plan to understand current state]]
 
 Extract:
+
 - All steps with their checkbox status
 - Step IDs from comments (if present)
 - Current completion percentage
@@ -3078,6 +3081,7 @@ If user selected option 5:
 [[LLM: When called automatically by another task]]
 
 If called with parameters:
+
 ```
 task: {task_name}
 step_id: {step_identifier}
@@ -3086,6 +3090,7 @@ note: {optional_note}
 ```
 
 Automatically:
+
 1. Find the corresponding step
 2. Update its status
 3. Add completion metadata
@@ -3118,6 +3123,7 @@ Plan location: {file_path}
 Other tasks can integrate by:
 
 1. **After Task Completion**:
+
 ```
 At end of task execution:
 - Check if task corresponds to a plan step
@@ -3128,6 +3134,7 @@ At end of task execution:
 ```
 
 2. **On Task Failure**:
+
 ```
 If task fails:
 - Call update-workflow-plan with:
