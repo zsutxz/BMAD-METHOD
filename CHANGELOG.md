@@ -1,3 +1,15 @@
+# [4.24.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.23.0...v4.24.0) (2025-07-02)
+
+
+### Bug Fixes
+
+* corrected cursor agent update instructions ([84e394a](https://github.com/bmadcode/BMAD-METHOD/commit/84e394ac11136d9cf8164cefc9ca8e298e8ef0ec))
+
+
+### Features
+
+* workflow plans introduced, preliminary feature under review ([731589a](https://github.com/bmadcode/BMAD-METHOD/commit/731589aa287c31ea120e232b4dcc07e9790500ff))
+
 # [4.23.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.22.1...v4.23.0) (2025-07-01)
 
 
