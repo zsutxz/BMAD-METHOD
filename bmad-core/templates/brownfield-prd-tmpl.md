@@ -22,34 +22,45 @@ Do not proceed with any recommendations until the user has validated your unders
 
 ### Existing Project Overview
 
-[[LLM: If working in IDE with project loaded, analyze the project structure and existing documentation. If working in web interface, request project upload or detailed project information from user.]]
+[[LLM: Check if document-project analysis was already performed. If yes, reference that output instead of re-analyzing.]]
 
-**Project Location**: [[LLM: Note if this is IDE-based analysis or user-provided information]]
+**Analysis Source**: [[LLM: Indicate one of the following:
+- Document-project output available at: {{path}}
+- IDE-based fresh analysis
+- User-provided information
+]]
 
-**Current Project State**: [[LLM: Brief description of what the project currently does and its primary purpose]]
+**Current Project State**: [[LLM: 
+- If document-project output exists: Extract summary from "High Level Architecture" and "Technical Summary" sections
+- Otherwise: Brief description of what the project currently does and its primary purpose
+]]
 
 ### Available Documentation Analysis
 
-[[LLM: Check for existing documentation in docs folder or provided by user. List what documentation is available and assess its completeness. Required documents include:
+[[LLM: 
+If document-project was run:
+- Note: "Document-project analysis available - using existing technical documentation"
+- List key documents created by document-project
+- Skip the missing documentation check below
 
-- Tech stack documentation
-- Source tree/architecture overview
-- Coding standards
-- API documentation or OpenAPI specs
-- External API integrations
-- UX/UI guidelines or existing patterns]]
+Otherwise, check for existing documentation:
+]]
 
 **Available Documentation**:
 
-- [ ] Tech Stack Documentation
-- [ ] Source Tree/Architecture
-- [ ] Coding Standards
-- [ ] API Documentation
-- [ ] External API Documentation
-- [ ] UX/UI Guidelines
+- [ ] Tech Stack Documentation [[LLM: If from document-project, check ✓]]
+- [ ] Source Tree/Architecture [[LLM: If from document-project, check ✓]]
+- [ ] Coding Standards [[LLM: If from document-project, may be partial]]
+- [ ] API Documentation [[LLM: If from document-project, check ✓]]
+- [ ] External API Documentation [[LLM: If from document-project, check ✓]]
+- [ ] UX/UI Guidelines [[LLM: May not be in document-project]]
+- [ ] Technical Debt Documentation [[LLM: If from document-project, check ✓]]
 - [ ] Other: \***\*\_\_\_\*\***
 
-[[LLM: If critical documentation is missing, STOP and recommend: "I recommend running the document-project task first to generate baseline documentation including tech-stack, source-tree, coding-standards, APIs, external-APIs, and UX/UI information. This will provide the foundation needed for a comprehensive brownfield PRD."]]
+[[LLM: 
+- If document-project was already run: "Using existing project analysis from document-project output."
+- If critical documentation is missing and no document-project: "I recommend running the document-project task first..."
+]]
 
 ### Enhancement Scope Definition
 
@@ -139,13 +150,19 @@ Do not proceed with any recommendations until the user has validated your unders
 
 ### Existing Technology Stack
 
-[[LLM: Document the current technology stack that must be maintained or integrated with]]
+[[LLM: 
+If document-project output available:
+- Extract from "Actual Tech Stack" table in High Level Architecture section
+- Include version numbers and any noted constraints
 
-**Languages**: [[LLM: Current programming languages in use]]
-**Frameworks**: [[LLM: Current frameworks and their versions]]
-**Database**: [[LLM: Current database technology and schema considerations]]
-**Infrastructure**: [[LLM: Current deployment and hosting infrastructure]]
-**External Dependencies**: [[LLM: Current third-party services and APIs]]
+Otherwise, document the current technology stack:
+]]
+
+**Languages**: [[LLM: From document-project or fresh analysis]]
+**Frameworks**: [[LLM: From document-project or fresh analysis]]
+**Database**: [[LLM: From document-project or fresh analysis]]
+**Infrastructure**: [[LLM: From document-project or fresh analysis]]
+**External Dependencies**: [[LLM: From document-project "External Services" section or fresh analysis]]
 
 ### Integration Approach
 
@@ -176,12 +193,19 @@ Do not proceed with any recommendations until the user has validated your unders
 
 ### Risk Assessment and Mitigation
 
-[[LLM: Identify risks specific to working with existing codebase]]
+[[LLM: 
+If document-project output available:
+- Reference "Technical Debt and Known Issues" section
+- Include "Workarounds and Gotchas" that might impact enhancement
+- Note any identified constraints from "Critical Technical Debt"
 
-**Technical Risks**: [[LLM: Risks related to modifying existing code]]
-**Integration Risks**: [[LLM: Risks in integrating with existing systems]]
-**Deployment Risks**: [[LLM: Risks in deploying alongside existing features]]
-**Mitigation Strategies**: [[LLM: Specific strategies to address identified risks]]
+Build risk assessment incorporating existing known issues:
+]]
+
+**Technical Risks**: [[LLM: Include risks from document-project + new enhancement risks]]
+**Integration Risks**: [[LLM: Reference integration constraints from document-project]]
+**Deployment Risks**: [[LLM: Include deployment gotchas from document-project]]
+**Mitigation Strategies**: [[LLM: Address both existing and new risks]]
 
 ## Epic and Story Structure
 

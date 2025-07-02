@@ -293,7 +293,7 @@ See the **[Core Architecture](docs/core-architecture.md)** for the complete sour
 
 ## 🌟 Beyond Software Development - Expansion Packs
 
-While BMAD excels at software development, its natural language framework can structure expertise in ANY domain. Expansion packs transform BMAD into a universal AI agent system for creative writing, business strategy, health & wellness, education, and much more.
+While BMad excels at software development, its natural language framework can structure expertise in ANY domain. Expansion packs transform BMAD into a universal AI agent system for creative writing, business strategy, health & wellness, education, and much more.
 
 ### Available Expansion Packs
 

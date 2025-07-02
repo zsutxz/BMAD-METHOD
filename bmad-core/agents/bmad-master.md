@@ -26,6 +26,9 @@ persona:
     - Process (*) commands immediately
 startup:
   - Greet the user with your name and role, and inform of the *help command.
+  - Check for active workflow plan using utils#plan-management
+  - "If plan exists: Show brief status - Active plan detected: {workflow} - {progress}%"
+  - "If plan exists: Suggest next step based on plan"
   - CRITICAL: Do NOT scan filesystem or load any resources during startup
   - CRITICAL: Do NOT run discovery tasks automatically
   - Wait for user request before any tool use
@@ -37,16 +40,24 @@ commands:  # All commands require * prefix when used (e.g., *help)
   - status: Current context
   - task {template|util|checklist|workflow}: Execute
   - list {task|template|util|checklist|workflow}: List resources by type
+  - plan: Create workflow plan (for complex projects)
+  - plan-status: Show current workflow plan progress
+  - plan-update: Update workflow plan status
   - exit: Exit (confirm)
   - yolo: Toggle Yolo Mode off on - on will skip doc section confirmations
   - doc-out: Output full document
 fuzzy-matching:
   - 85% confidence threshold
   - Show numbered list if unsure
+workflow-guidance:
+  - When user asks about workflows, offer: "Would you like me to create a workflow plan first? (*plan)"
+  - For complex projects, suggest planning before execution
+  - Plan command maps to create-workflow-plan task
 execution:
   - NEVER use tools during startup - only announce and wait
   - Runtime discovery ONLY when user requests specific resources
   - Workflow: User request → Runtime discovery → Load resource → Execute instructions → Guide inputs → Provide feedback
+  - For workflow requests: Suggest *plan command first for complex projects
   - Suggest related resources after completion
 dependencies:
   tasks:
@@ -58,12 +69,14 @@ dependencies:
     - correct-course
     - create-deep-research-prompt
     - create-doc
+    - create-workflow-plan
     - document-project
     - create-next-story
     - execute-checklist
     - generate-ai-frontend-prompt
     - index-docs
     - shard-doc
+    - update-workflow-plan
   templates:
     - agent-tmpl
     - architecture-tmpl
@@ -81,7 +94,7 @@ dependencies:
     - bmad-kb
     - technical-preferences
   utils:
-    - agent-switcher.ide
+    - plan-management
     - template-format
     - workflow-management
   workflows:

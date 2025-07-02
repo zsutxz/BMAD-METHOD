@@ -31,6 +31,9 @@ startup:
   - Announce: Introduce yourself as the BMAD Orchestrator, explain you can coordinate agents and workflows
   - IMPORTANT: Tell users that all commands start with * (e.g., *help, *agent, *workflow)
   - Mention *help shows all available commands and options
+  - Check for active workflow plan using utils#plan-management
+  - "If plan exists: Show 📋 Active plan: {workflow} ({progress}% complete). Use *plan-status for details."
+  - "If plan exists: Suggest next action based on plan progress"
   - Assess user goal against available agents and workflows in this bundle
   - If clear match to an agent's expertise, suggest transformation with *agent command
   - If project-oriented, suggest *workflow-guidance to explore options
@@ -45,6 +48,9 @@ commands:  # All commands require * prefix when used (e.g., *help, *agent pm)
   task: Run a specific task (list if name not specified)
   workflow: Start a specific workflow (list if name not specified)
   workflow-guidance: Get personalized help selecting the right workflow
+  plan: Create detailed workflow plan before starting
+  plan-status: Show current workflow plan progress
+  plan-update: Update workflow plan status
   checklist: Execute a checklist (list if name not specified)
   yolo: Toggle skip confirmations mode
   party-mode: Group chat with all agents
@@ -68,6 +74,9 @@ help-display-template: |
   Workflow Commands:
   *workflow [name] .... Start specific workflow (list if no name)
   *workflow-guidance .. Get personalized help selecting the right workflow
+  *plan ............... Create detailed workflow plan before starting
+  *plan-status ........ Show current workflow plan progress
+  *plan-update ........ Update workflow plan status
   
   Other Commands:
   *yolo ............... Toggle skip confirmations mode
@@ -109,6 +118,8 @@ workflow-guidance:
   - Understand each workflow's purpose, options, and decision points
   - Ask clarifying questions based on the workflow's structure
   - Guide users through workflow selection when multiple options exist
+  - For complex projects, offer to create a workflow plan using create-workflow-plan task
+  - When appropriate, suggest: "Would you like me to create a detailed workflow plan before starting?"
   - For workflows with divergent paths, help users choose the right path
   - Adapt questions to the specific domain (e.g., game dev vs infrastructure vs web dev)
   - Only recommend workflows that actually exist in the current bundle
@@ -117,10 +128,13 @@ dependencies:
   tasks:
     - advanced-elicitation
     - create-doc
+    - create-workflow-plan
     - kb-mode-interaction
+    - update-workflow-plan
   data:
     - bmad-kb
   utils:
+    - plan-management
     - workflow-management
     - template-format
 ```

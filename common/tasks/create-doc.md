@@ -13,11 +13,22 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ## Execution Flow
 
+### 0. Check Workflow Plan (if configured)
+
+[[LLM: Check if plan tracking is enabled in core-config.yml]]
+
+- If `workflow.trackProgress: true`, check for active plan using utils#plan-management
+- If plan exists and this document creation is part of the plan:
+  - Verify this is the expected next step
+  - If out of sequence and `enforceSequence: true`, warn user and halt without user override
+  - If out of sequence and `enforceSequence: false`, ask for confirmation
+- Continue with normal execution after plan check
+
 ### 1. Identify Template
 
 - Load from `templates#*` or `{root}/templates directory`
 - Agent-specific templates are listed in agent's dependencies
-- If agent has `templates: [prd-tmpl, architecture-tmpl]`, offer to create "PRD" and "Architecture" documents
+- If agent has `templates: [prd-tmpl, architecture-tmpl]` for example, then offer to create "PRD" and "Architecture" documents
 
 ### 2. Ask Interaction Mode
 
@@ -53,6 +64,15 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 - No truncation or summarization
 - Begin directly with content (no preamble)
 - Include any handoff prompts from template
+
+### 6. Update Workflow Plan (if applicable)
+
+[[LLM: After successful document creation]]
+
+- If plan tracking is enabled and document was part of plan:
+  - Call update-workflow-plan task to mark step complete
+  - Parameters: task: create-doc, step_id: {from plan}, status: complete
+  - Show next recommended step from plan
 
 ## Common Mistakes to Avoid
 
