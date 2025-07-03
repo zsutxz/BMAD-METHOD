@@ -1,3 +1,10 @@
+## [4.24.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.1...v4.24.2) (2025-07-03)
+
+
+### Bug Fixes
+
+* version bump and restore dist folder ([87c451a](https://github.com/bmadcode/BMAD-METHOD/commit/87c451a5c3161fbc86f88619a2bfcfc322eb247e))
+
 ## [4.24.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.0...v4.24.1) (2025-07-03)
 
 
