@@ -1,3 +1,12 @@
+## [4.24.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.0...v4.24.1) (2025-07-03)
+
+
+### Bug Fixes
+
+* centralized yamlExtraction function and all now fix character issues for windows ([e2985d6](https://github.com/bmadcode/BMAD-METHOD/commit/e2985d6093136575e8d8c91ce53c82abc4097de6))
+* filtering extension stripping logic update ([405954a](https://github.com/bmadcode/BMAD-METHOD/commit/405954ad924d8bd66f94c918643f6e9c091d4d09))
+* standardize on file extension .yaml instead of a mix of yml and yaml ([a4c0b18](https://github.com/bmadcode/BMAD-METHOD/commit/a4c0b1839d12d2ad21b7949aa30f4f7d82ec6c9c))
+
 # [4.24.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.23.0...v4.24.0) (2025-07-02)
 
 
