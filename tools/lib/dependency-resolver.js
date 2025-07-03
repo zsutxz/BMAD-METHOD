@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const yaml = require('js-yaml');
+const { extractYamlFromAgent } = require('./yaml-utils');
 
 class DependencyResolver {
   constructor(rootDir) {
@@ -14,16 +15,11 @@ class DependencyResolver {
     const agentPath = path.join(this.bmadCore, 'agents', `${agentId}.md`);
     const agentContent = await fs.readFile(agentPath, 'utf8');
     
-    // Extract YAML from markdown content
-    const yamlMatch = agentContent.replace(/\r/g, "").match(/```ya?ml\n([\s\S]*?)\n```/);
-    if (!yamlMatch) {
+    // Extract YAML from markdown content with command cleaning
+    const yamlContent = extractYamlFromAgent(agentContent, true);
+    if (!yamlContent) {
       throw new Error(`No YAML configuration found in agent ${agentId}`);
     }
-    
-    // Clean up the YAML to handle command descriptions after dashes
-    let yamlContent = yamlMatch[1];
-    // Fix commands section: convert "- command - description" to just "- command"
-    yamlContent = yamlContent.replace(/^(\s*-)(\s*"[^"]+")(\s*-\s*.*)$/gm, '$1$2');
     
     const agentConfig = yaml.load(yamlContent);
     

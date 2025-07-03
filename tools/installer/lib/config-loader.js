@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
+const { extractYamlFromAgent } = require('../../lib/yaml-utils');
 
 class ConfigLoader {
   constructor() {
@@ -41,9 +42,9 @@ class ConfigLoader {
             const agentContent = await fs.readFile(agentPath, 'utf8');
             
             // Extract YAML block from agent file
-            const yamlMatch = agentContent.match(/```yaml\n([\s\S]*?)\n```/);
-            if (yamlMatch) {
-              const yamlContent = yaml.load(yamlMatch[1]);
+            const yamlContentText = extractYamlFromAgent(agentContent);
+            if (yamlContentText) {
+              const yamlContent = yaml.load(yamlContentText);
               const agentConfig = yamlContent.agent || {};
               
               agents.push({

@@ -1,6 +1,7 @@
 const fs = require("node:fs").promises;
 const path = require("node:path");
 const DependencyResolver = require("../lib/dependency-resolver");
+const yamlUtils = require("../lib/yaml-utils");
 
 class WebBuilder {
   constructor(options = {}) {
@@ -111,10 +112,12 @@ class WebBuilder {
 
   processAgentContent(content) {
     // First, replace content before YAML with the template
+    const yamlContent = yamlUtils.extractYamlFromAgent(content);
+    if (!yamlContent) return content;
+
     const yamlMatch = content.match(/```ya?ml\n([\s\S]*?)\n```/);
     if (!yamlMatch) return content;
-
-    const yamlContent = yamlMatch[1];
+    
     const yamlStartIndex = content.indexOf(yamlMatch[0]);
     const yamlEndIndex = yamlStartIndex + yamlMatch[0].length;
 
@@ -294,11 +297,11 @@ class WebBuilder {
     sections.push(this.formatSection(`agents#${agentName}`, agentContent));
 
     // Resolve and add agent dependencies
-    const agentYaml = agentContent.match(/```yaml\n([\s\S]*?)\n```/);
-    if (agentYaml) {
+    const yamlContent = yamlUtils.extractYamlFromAgent(agentContent);
+    if (yamlContent) {
       try {
         const yaml = require("js-yaml");
-        const agentConfig = yaml.load(agentYaml[1]);
+        const agentConfig = yaml.load(yamlContent);
 
         if (agentConfig.dependencies) {
           // Add resources, first try expansion pack, then core
@@ -474,13 +477,9 @@ class WebBuilder {
           sections.push(this.formatSection(`agents#${agentId}`, coreAgentContent));
 
           // Parse and collect dependencies from core agent
-          const agentYaml = coreAgentContent.match(/```yaml\n([\s\S]*?)\n```/);
-          if (agentYaml) {
+          const yamlContent = yamlUtils.extractYamlFromAgent(coreAgentContent, true);
+          if (yamlContent) {
             try {
-              // Clean up the YAML to handle command descriptions after dashes
-              let yamlContent = agentYaml[1];
-              yamlContent = yamlContent.replace(/^(\s*-)(\s*"[^"]+")(\s*-\s*.*)$/gm, "$1$2");
-
               const agentConfig = this.parseYaml(yamlContent);
               if (agentConfig.dependencies) {
                 for (const [resourceType, resources] of Object.entries(agentConfig.dependencies)) {

@@ -2,6 +2,7 @@ const path = require("node:path");
 const fileManager = require("./file-manager");
 const configLoader = require("./config-loader");
 const ideSetup = require("./ide-setup");
+const { extractYamlFromAgent } = require("../../lib/yaml-utils");
 
 // Dynamic imports for ES modules
 let chalk, ora, inquirer;
@@ -1222,10 +1223,10 @@ class Installer {
       const agentContent = await fs.readFile(agentPath, 'utf8');
       
       // Extract YAML frontmatter to check dependencies
-      const yamlMatch = agentContent.match(/```yaml\n([\s\S]*?)```/);
-      if (yamlMatch) {
+      const yamlContent = extractYamlFromAgent(agentContent);
+      if (yamlContent) {
         try {
-          const agentConfig = yaml.parse(yamlMatch[1]);
+          const agentConfig = yaml.parse(yamlContent);
           const dependencies = agentConfig.dependencies || {};
           
           // Check for core dependencies (those that don't exist in the expansion pack)
@@ -1314,13 +1315,10 @@ class Installer {
               
               // Now resolve this agent's dependencies too
               const agentContent = await fs.readFile(coreAgentPath, 'utf8');
-              const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
+              const yamlContent = extractYamlFromAgent(agentContent, true);
               
-              if (yamlMatch) {
+              if (yamlContent) {
                 try {
-                  // Clean up the YAML to handle command descriptions
-                  let yamlContent = yamlMatch[1];
-                  yamlContent = yamlContent.replace(/^(\s*-)(\s*"[^"]+")(\s*-\s*.*)$/gm, '$1$2');
                   
                   const agentConfig = yaml.parse(yamlContent);
                   const dependencies = agentConfig.dependencies || {};

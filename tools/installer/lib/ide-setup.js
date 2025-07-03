@@ -3,6 +3,7 @@ const fs = require("fs-extra");
 const yaml = require("js-yaml");
 const fileManager = require("./file-manager");
 const configLoader = require("./config-loader");
+const { extractYamlFromAgent } = require("../../lib/yaml-utils");
 
 // Dynamic import for ES module
 let chalk;
@@ -100,9 +101,9 @@ class IdeSetup {
           "CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
         mdcContent += "```yaml\n";
         // Extract just the YAML content from the agent file
-        const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
-        if (yamlMatch) {
-          mdcContent += yamlMatch[1].trim();
+        const yamlContent = extractYamlFromAgent(agentContent);
+        if (yamlContent) {
+          mdcContent += yamlContent;
         } else {
           // If no YAML found, include the whole content minus the header
           mdcContent += agentContent.replace(/^#.*$/m, "").trim();
@@ -182,9 +183,9 @@ class IdeSetup {
           "CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
         mdContent += "```yaml\n";
         // Extract just the YAML content from the agent file
-        const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
-        if (yamlMatch) {
-          mdContent += yamlMatch[1].trim();
+        const yamlContent = extractYamlFromAgent(agentContent);
+        if (yamlContent) {
+          mdContent += yamlContent;
         } else {
           // If no YAML found, include the whole content minus the header
           mdContent += agentContent.replace(/^#.*$/m, "").trim();
@@ -430,9 +431,9 @@ class IdeSetup {
           "When the user types `@" + agentId + "`, adopt this persona and follow these guidelines:\n\n";
         mdContent += "```yaml\n";
         // Extract just the YAML content from the agent file
-        const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
-        if (yamlMatch) {
-          mdContent += yamlMatch[1].trim();
+        const yamlContent = extractYamlFromAgent(agentContent);
+        if (yamlContent) {
+          mdContent += yamlContent;
         } else {
           // If no YAML found, include the whole content minus the header
           mdContent += agentContent.replace(/^#.*$/m, "").trim();
