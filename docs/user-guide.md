@@ -104,7 +104,7 @@ After upgrading:
 2. Optionally run the `doc-migration-task` to align your documents with V4 templates - you can do this with your agent by saying something like: 'run {drag in task} against {drag prd or arch file from docs} to align with {drag the template from .bmad-core/templates/full-stack-architecture.md}'
 3. If you have separate front-end and backend architecture docs you can modify step 2 to merge both into a single full stack architecture or separate Front and Back end.
 
-The reason #2 and #3 are optional is because now BMAD V4 makes sharding optional for the SM. See [Core Configuration](#core-configuration-coreconfigyml)
+The reason #2 and #3 are optional is because now BMAD V4 makes sharding optional for the SM. See [Core Configuration](#core-configuration)
 
 **Note**: The agents in `.bmad-core/` fully replace the items in `bmad-agent/` - you can remove the backup folder versions.
 
@@ -1131,7 +1131,7 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 When creating custom web bundles or uploading to AI platforms, include your `technical-preferences.md` content to ensure agents have your preferences from the start of any conversation.
 
-### Core Configuration (core-config.yaml)
+### Core Configuration
 
 The `bmad-core/core-config.yaml` file is a critical V4 innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 

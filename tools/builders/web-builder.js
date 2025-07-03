@@ -572,7 +572,7 @@ class WebBuilder {
         )) {
           const filePath = path.join(resourcePath, resourceFile);
           const fileContent = await fs.readFile(filePath, "utf8");
-          const fileName = resourceFile.replace(/\.(md|yml)$/, "");
+          const fileName = resourceFile.replace(/\.(md|yaml)$/, "");
 
           // Only add if not already included as a dependency
           const resourceKey = `${resourceDir}#${fileName}`;

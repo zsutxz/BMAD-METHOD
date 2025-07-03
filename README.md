@@ -234,7 +234,7 @@ After uploading a bundle, type `/help` to see available commands.
 - **[Complete User Guide](docs/user-guide.md)** - Full walkthrough from project inception to completion
 - **[CLI Commands](docs/user-guide.md#cli-commands)** - Installation, updates, and management
 - **[Upgrading from V3](docs/user-guide.md#upgrading-from-v3-to-v4)** - Migration instructions
-- **[Core Configuration](docs/user-guide.md#core-configuration-coreconfigyml)** - V4's flexible project structure support
+- **[Core Configuration](docs/user-guide.md#core-configuration)** - V4's flexible project structure support
 - **[Teams & Workflows](docs/user-guide.md#team-configurations)** - Pre-configured agent teams
 
 ## Project Structure
