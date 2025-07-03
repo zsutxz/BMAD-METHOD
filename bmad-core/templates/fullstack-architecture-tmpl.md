@@ -288,7 +288,7 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-```yml
+```yaml
 openapi: 3.0.0
 info:
   title:
@@ -644,8 +644,8 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 {{project-name}}/
 ├── .github/                    # CI/CD workflows
 │   └── workflows/
-│       ├── ci.yml
-│       └── deploy.yml
+│       ├── ci.yaml
+│       └── deploy.yaml
 ├── apps/                       # Application packages
 │   ├── web/                    # Frontend application
 │   │   ├── src/

@@ -32,7 +32,7 @@ async function bumpAllVersions() {
   const updatedItems = [];
   
   // First, bump the core version
-  const coreConfigPath = path.join(__dirname, '..', 'bmad-core', 'core-config.yml');
+  const coreConfigPath = path.join(__dirname, '..', 'bmad-core', 'core-config.yaml');
   try {
     const coreConfigContent = fs.readFileSync(coreConfigPath, 'utf8');
     const coreConfig = yaml.load(coreConfigContent);
@@ -59,7 +59,7 @@ async function bumpAllVersions() {
     for (const entry of entries) {
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'README.md') {
         const packId = entry.name;
-        const configPath = path.join(expansionPacksDir, packId, 'config.yml');
+        const configPath = path.join(expansionPacksDir, packId, 'config.yaml');
         
         if (fs.existsSync(configPath)) {
           try {

@@ -53,7 +53,7 @@ class DependencyResolver {
   }
 
   async resolveTeamDependencies(teamId) {
-    const teamPath = path.join(this.bmadCore, 'agent-teams', `${teamId}.yml`);
+    const teamPath = path.join(this.bmadCore, 'agent-teams', `${teamId}.yaml`);
     const teamContent = await fs.readFile(teamPath, 'utf8');
     const teamConfig = yaml.load(teamContent);
     
@@ -120,7 +120,7 @@ class DependencyResolver {
     }
 
     try {
-      const extensions = ['.md', '.yml', '.yaml'];
+      const extensions = ['.md', '.yaml'];
       let content = null;
       let filePath = null;
 
@@ -183,8 +183,8 @@ class DependencyResolver {
     try {
       const files = await fs.readdir(path.join(this.bmadCore, 'agent-teams'));
       return files
-        .filter(f => f.endsWith('.yml'))
-        .map(f => f.replace('.yml', ''));
+        .filter(f => f.endsWith('.yaml'))
+        .map(f => f.replace('.yaml', ''));
     } catch (error) {
       return [];
     }

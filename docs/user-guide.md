@@ -456,7 +456,7 @@ The SM agent serves as a critical bridge between high-level planning and technic
 
 When the SM agent executes the `create-next-story` task:
 
-1. **Loads Configuration**: Reads `core-config.yml` to understand project structure
+1. **Loads Configuration**: Reads `core-config.yaml` to understand project structure
 2. **Identifies Next Story**: Sequentially processes stories from epics (1.1, 1.2, 2.1, etc.)
 3. **Gathers Architecture Context**: Reads relevant sharded architecture documents based on story type:
 
@@ -1131,11 +1131,11 @@ This file allows you to define your preferred technologies, patterns, and standa
 
 When creating custom web bundles or uploading to AI platforms, include your `technical-preferences.md` content to ensure agents have your preferences from the start of any conversation.
 
-### Core Configuration (core-config.yml)
+### Core Configuration (core-config.yaml)
 
-The `bmad-core/core-config.yml` file is a critical V4 innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+The `bmad-core/core-config.yaml` file is a critical V4 innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 
-#### Understanding core-config.yml
+#### Understanding core-config.yaml
 
 This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It's what makes V4 agents intelligent enough to work with V3 projects, custom layouts, or any document organization you prefer.
 
@@ -1350,7 +1350,7 @@ customTechnicalDocuments:
 1. **Always Configure for Your Structure**: Don't force your project to match BMAD defaults
 2. **Keep devLoadAlwaysFiles Focused**: Only include files needed for every dev task
 3. **Use Debug Log**: Enable when troubleshooting story implementation issues
-4. **Version Control core-config.yml**: Track changes to understand project evolution
+4. **Version Control core-config.yaml**: Track changes to understand project evolution
 5. **Document Custom Patterns**: If using custom epicFilePattern, document it
 
 #### Troubleshooting

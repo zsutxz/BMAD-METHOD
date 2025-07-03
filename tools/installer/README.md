@@ -16,7 +16,7 @@ installer/
 │   ├── ide-setup.js     # IDE-specific setup
 │   └── prompts.js       # Interactive CLI prompts
 ├── config/          # Configuration files
-│   └── install.config.yml # Installation profiles
+│   └── install.config.yaml # Installation profiles
 ├── templates/       # IDE template files
 │   ├── cursor-rules.md     # Cursor template
 │   ├── claude-commands.md  # Claude Code template

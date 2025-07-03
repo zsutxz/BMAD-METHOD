@@ -161,11 +161,11 @@ npx bmad-method install
 5. **MUST switch to Dev agent** for implementation
 6. Keep planning and coding in separate chat sessions
 
-## Core Configuration (core-config.yml)
+## Core Configuration (core-config.yaml)
 
-**New in V4**: The `bmad-core/core-config.yml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+**New in V4**: The `bmad-core/core-config.yaml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 
-### What is core-config.yml?
+### What is core-config.yaml?
 
 This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It enables:
 
@@ -337,7 +337,7 @@ The BMAD-Method is built around a modular architecture centered on the `bmad-cor
 
 #### 2. Agent Teams (`bmad-core/agent-teams/`)
 - **Purpose**: Define collections of agents bundled together for specific purposes
-- **Examples**: `team-all.yml` (comprehensive bundle), `team-fullstack.yml` (full-stack development)
+- **Examples**: `team-all.yaml` (comprehensive bundle), `team-fullstack.yaml` (full-stack development)
 - **Usage**: Creates pre-packaged contexts for web UI environments
 
 #### 3. Workflows (`bmad-core/workflows/`)

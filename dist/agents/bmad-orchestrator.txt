@@ -290,7 +290,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ### 0. Check Workflow Plan (if configured)
 
-[[LLM: Check if plan tracking is enabled in core-config.yml]]
+[[LLM: Check if plan tracking is enabled in core-config.yaml]]
 
 - If `workflow.trackProgress: true`, check for active plan using utils#plan-management
 - If plan exists and this document creation is part of the plan:
@@ -742,7 +742,7 @@ Update the status of steps in an active workflow plan, mark completions, add not
 
 ### 0. Load Plan Configuration
 
-[[LLM: First load core-config.yml to get plan settings]]
+[[LLM: First load core-config.yaml to get plan settings]]
 
 Check workflow configuration:
 
@@ -1146,11 +1146,11 @@ npx bmad-method install
 5. **MUST switch to Dev agent** for implementation
 6. Keep planning and coding in separate chat sessions
 
-## Core Configuration (core-config.yml)
+## Core Configuration (core-config.yaml)
 
-**New in V4**: The `bmad-core/core-config.yml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+**New in V4**: The `bmad-core/core-config.yaml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 
-### What is core-config.yml?
+### What is core-config.yaml?
 
 This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It enables:
 
@@ -1322,7 +1322,7 @@ The BMAD-Method is built around a modular architecture centered on the `bmad-cor
 
 #### 2. Agent Teams (`bmad-core/agent-teams/`)
 - **Purpose**: Define collections of agents bundled together for specific purposes
-- **Examples**: `team-all.yml` (comprehensive bundle), `team-fullstack.yml` (full-stack development)
+- **Examples**: `team-all.yaml` (comprehensive bundle), `team-fullstack.yaml` (full-stack development)
 - **Usage**: Creates pre-packaged contexts for web UI environments
 
 #### 3. Workflows (`bmad-core/workflows/`)
@@ -1750,7 +1750,7 @@ Provides utilities for agents and tasks to interact with workflow plans, check p
 ```
 Check for workflow plan:
 1. Look for docs/workflow-plan.md (default location)
-2. Check core-config.yml for custom plan location
+2. Check core-config.yaml for custom plan location
 3. Return plan status (exists/not exists)
 ```
 

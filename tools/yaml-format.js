@@ -197,7 +197,7 @@ async function main() {
       let changed = false;
       if (ext === '.md') {
         changed = await processMarkdownFile(filePath);
-      } else if (ext === '.yml' || ext === '.yaml' || basename.includes('roomodes') || basename.includes('.yml') || basename.includes('.yaml')) {
+      } else if (ext === '.yaml' || ext === '.yml' || basename.includes('roomodes') || basename.includes('.yaml') || basename.includes('.yml')) {
         // Handle YAML files and special cases like .roomodes
         changed = await processYamlFile(filePath);
         

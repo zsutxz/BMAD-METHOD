@@ -158,7 +158,7 @@ async function promptInstallation() {
   const choices = [];
   
   // Load core config to get short-title
-  const coreConfigPath = path.join(__dirname, '..', '..', '..', 'bmad-core', 'core-config.yml');
+  const coreConfigPath = path.join(__dirname, '..', '..', '..', 'bmad-core', 'core-config.yaml');
   const coreConfig = yaml.load(await fs.readFile(coreConfigPath, 'utf8'));
   const coreShortTitle = coreConfig['short-title'] || 'BMad Agile Core System';
   
@@ -166,7 +166,7 @@ async function promptInstallation() {
   let bmadOptionText;
   if (state.type === 'v4_existing') {
     const currentVersion = state.manifest?.version || 'unknown';
-    const newVersion = coreConfig.version || 'unknown'; // Use version from core-config.yml
+    const newVersion = coreConfig.version || 'unknown'; // Use version from core-config.yaml
     const versionInfo = currentVersion === newVersion 
       ? `(v${currentVersion} - reinstall)`
       : `(v${currentVersion} → v${newVersion})`;

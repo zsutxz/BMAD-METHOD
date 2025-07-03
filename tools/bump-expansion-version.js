@@ -38,7 +38,7 @@ function bumpVersion(currentVersion, type) {
 
 async function updateVersion() {
   try {
-    const configPath = path.join(__dirname, '..', 'expansion-packs', packId, 'config.yml');
+    const configPath = path.join(__dirname, '..', 'expansion-packs', packId, 'config.yaml');
     
     if (!fs.existsSync(configPath)) {
       console.error(`Error: Expansion pack '${packId}' not found`);

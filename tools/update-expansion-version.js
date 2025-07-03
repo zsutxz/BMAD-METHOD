@@ -22,8 +22,8 @@ if (!/^\d+\.\d+\.\d+$/.test(newVersion)) {
 
 async function updateVersion() {
   try {
-    // Update in config.yml
-    const configPath = path.join(__dirname, '..', 'expansion-packs', packId, 'config.yml');
+    // Update in config.yaml
+    const configPath = path.join(__dirname, '..', 'expansion-packs', packId, 'config.yaml');
     
     if (!fs.existsSync(configPath)) {
       console.error(`Error: Expansion pack '${packId}' not found`);
@@ -39,7 +39,7 @@ async function updateVersion() {
     const updatedYaml = yaml.dump(config, { indent: 2 });
     fs.writeFileSync(configPath, updatedYaml);
     
-    console.log(`✓ Updated ${packId}/config.yml: ${oldVersion} → ${newVersion}`);
+    console.log(`✓ Updated ${packId}/config.yaml: ${oldVersion} → ${newVersion}`);
     console.log(`\n✓ Successfully updated ${packId} to version ${newVersion}`);
     console.log('\nNext steps:');
     console.log('1. Test the changes');

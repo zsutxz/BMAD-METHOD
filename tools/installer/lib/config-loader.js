@@ -4,7 +4,7 @@ const yaml = require('js-yaml');
 
 class ConfigLoader {
   constructor() {
-    this.configPath = path.join(__dirname, '..', 'config', 'install.config.yml');
+    this.configPath = path.join(__dirname, '..', 'config', 'install.config.yaml');
     this.config = null;
   }
 
@@ -41,7 +41,7 @@ class ConfigLoader {
             const agentContent = await fs.readFile(agentPath, 'utf8');
             
             // Extract YAML block from agent file
-            const yamlMatch = agentContent.match(/```yml\n([\s\S]*?)\n```/);
+            const yamlMatch = agentContent.match(/```yaml\n([\s\S]*?)\n```/);
             if (yamlMatch) {
               const yamlContent = yaml.load(yamlMatch[1]);
               const agentConfig = yamlContent.agent || {};
@@ -79,10 +79,10 @@ class ConfigLoader {
       for (const entry of entries) {
         if (entry.isDirectory() && !entry.name.startsWith('.')) {
           const packPath = path.join(expansionPacksDir, entry.name);
-          const configPath = path.join(packPath, 'config.yml');
+          const configPath = path.join(packPath, 'config.yaml');
           
           try {
-            // Read config.yml
+            // Read config.yaml
             const configContent = await fs.readFile(configPath, 'utf8');
             const config = yaml.load(configContent);
             
@@ -97,7 +97,7 @@ class ConfigLoader {
               dependencies: config.dependencies?.agents || []
             });
           } catch (error) {
-            // Fallback if config.yml doesn't exist or can't be read
+            // Fallback if config.yaml doesn't exist or can't be read
             console.warn(`Failed to read config for expansion pack ${entry.name}: ${error.message}`);
             
             // Try to derive info from directory name as fallback
@@ -180,7 +180,7 @@ class ConfigLoader {
       const teams = [];
       
       for (const entry of entries) {
-        if (entry.isFile() && entry.name.endsWith('.yml')) {
+        if (entry.isFile() && entry.name.endsWith('.yaml')) {
           const teamPath = path.join(teamsDir, entry.name);
           
           try {
@@ -189,7 +189,7 @@ class ConfigLoader {
             
             if (teamConfig.bundle) {
               teams.push({
-                id: path.basename(entry.name, '.yml'),
+                id: path.basename(entry.name, '.yaml'),
                 name: teamConfig.bundle.name || entry.name,
                 description: teamConfig.bundle.description || 'Team configuration',
                 icon: teamConfig.bundle.icon || '📋'
@@ -209,7 +209,7 @@ class ConfigLoader {
   }
 
   getTeamPath(teamId) {
-    return path.join(this.getBmadCorePath(), 'agent-teams', `${teamId}.yml`);
+    return path.join(this.getBmadCorePath(), 'agent-teams', `${teamId}.yaml`);
   }
 
   async getTeamDependencies(teamId) {
@@ -224,7 +224,7 @@ class ConfigLoader {
       const depPaths = [];
       
       // Add team config file
-      depPaths.push(`.bmad-core/agent-teams/${teamId}.yml`);
+      depPaths.push(`.bmad-core/agent-teams/${teamId}.yaml`);
       
       // Add all agents
       for (const agent of teamDeps.agents) {
@@ -236,7 +236,7 @@ class ConfigLoader {
       
       // Add all resolved resources
       for (const resource of teamDeps.resources) {
-        const filePath = `.bmad-core/${resource.type}/${resource.id}.${resource.type === 'workflows' ? 'yml' : 'md'}`;
+        const filePath = `.bmad-core/${resource.type}/${resource.id}.${resource.type === 'workflows' ? 'yaml' : 'md'}`;
         if (!depPaths.includes(filePath)) {
           depPaths.push(filePath);
         }

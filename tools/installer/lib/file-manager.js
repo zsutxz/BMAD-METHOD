@@ -17,7 +17,7 @@ async function initializeModules() {
 class FileManager {
   constructor() {
     this.manifestDir = ".bmad-core";
-    this.manifestFile = "install-manifest.yml";
+    this.manifestFile = "install-manifest.yaml";
   }
 
   async copyFile(source, destination) {
@@ -83,15 +83,15 @@ class FileManager {
       this.manifestFile
     );
 
-    // Read version from core-config.yml
-    const coreConfigPath = path.join(__dirname, "../../../bmad-core/core-config.yml");
+    // Read version from core-config.yaml
+    const coreConfigPath = path.join(__dirname, "../../../bmad-core/core-config.yaml");
     let coreVersion = "unknown";
     try {
       const coreConfigContent = await fs.readFile(coreConfigPath, "utf8");
       const coreConfig = yaml.load(coreConfigContent);
       coreVersion = coreConfig.version || "unknown";
     } catch (error) {
-      console.warn("Could not read version from core-config.yml, using 'unknown'");
+      console.warn("Could not read version from core-config.yaml, using 'unknown'");
     }
 
     const manifest = {
@@ -178,7 +178,7 @@ class FileManager {
       const filePath = path.join(installDir, file.path);
       
       // Skip checking the manifest file itself - it will always be different due to timestamps
-      if (file.path.endsWith('install-manifest.yml')) {
+      if (file.path.endsWith('install-manifest.yaml')) {
         continue;
       }
       

@@ -8,7 +8,7 @@ Update the status of steps in an active workflow plan, mark completions, add not
 
 ### 0. Load Plan Configuration
 
-[[LLM: First load core-config.yml to get plan settings]]
+[[LLM: First load core-config.yaml to get plan settings]]
 
 Check workflow configuration:
 

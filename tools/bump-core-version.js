@@ -30,7 +30,7 @@ function bumpVersion(currentVersion, type) {
 
 async function bumpCoreVersion() {
   try {
-    const coreConfigPath = path.join(__dirname, '..', 'bmad-core', 'core-config.yml');
+    const coreConfigPath = path.join(__dirname, '..', 'bmad-core', 'core-config.yaml');
     
     const coreConfigContent = fs.readFileSync(coreConfigPath, 'utf8');
     const coreConfig = yaml.load(coreConfigContent);

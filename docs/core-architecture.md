@@ -75,12 +75,12 @@ The `.bmad-core` directory contains all the definitions and resources that give 
 
 ### 3.2. Agent Teams (`.bmad-core/agent-teams/`)
 
-- **Purpose**: Team files (e.g., `team-all.yml`) define collections of agents and workflows that are bundled together for a specific purpose, like "full-stack development" or "backend-only". This creates a larger, pre-packaged context for web UI environments.
+- **Purpose**: Team files (e.g., `team-all.yaml`) define collections of agents and workflows that are bundled together for a specific purpose, like "full-stack development" or "backend-only". This creates a larger, pre-packaged context for web UI environments.
 - **Structure**: A team file lists the agents to include. It can use wildcards, such as `"*"` to include all agents. This allows for the creation of comprehensive bundles like `team-all`.
 
 ### 3.3. Workflows (`.bmad-core/workflows/`)
 
-- **Purpose**: Workflows are YAML files (e.g., `greenfield-fullstack.yml`) that define a prescribed sequence of steps and agent interactions for a specific project type. They act as a strategic guide for the user and the `bmad-orchestrator` agent.
+- **Purpose**: Workflows are YAML files (e.g., `greenfield-fullstack.yaml`) that define a prescribed sequence of steps and agent interactions for a specific project type. They act as a strategic guide for the user and the `bmad-orchestrator` agent.
 - **Structure**: A workflow defines sequences for both complex and simple projects, lists the agents involved at each step, the artifacts they create, and the conditions for moving from one step to the next. It often includes a Mermaid diagram for visualization.
 
 ### 3.4. Reusable Resources (`templates`, `tasks`, `checklists`, `data`)
@@ -239,10 +239,10 @@ bmad-method/
 │   │   ├── sm.md                 # Scrum master agent
 │   │   └── ux-expert.md          # UX designer agent
 │   ├── agent-teams/              # Pre-configured agent teams
-│   │   ├── team-all.yml          # All agents bundle
-│   │   ├── team-fullstack.yml    # Full-stack development team
-│   │   ├── team-ide-minimal.yml  # Minimal IDE-focused team
-│   │   └── team-no-ui.yml        # Backend-only team
+│   │   ├── team-all.yaml         # All agents bundle
+│   │   ├── team-fullstack.yaml   # Full-stack development team
+│   │   ├── team-ide-minimal.yaml # Minimal IDE-focused team
+│   │   └── team-no-ui.yaml       # Backend-only team
 │   ├── checklists/               # Quality assurance checklists
 │   │   ├── architect-checklist.md
 │   │   ├── po-master-checklist.md
@@ -268,11 +268,11 @@ bmad-method/
 │   │   ├── template-format.md    # Template markup spec
 │   │   └── workflow-management.md # Workflow helpers
 │   ├── workflows/                # Development workflows
-│   │   ├── brownfield-enhancement.yml
-│   │   ├── greenfield-fullstack.yml
-│   │   ├── greenfield-service.yml
-│   │   └── greenfield-simple.yml
-│   └── core-config.yml           # V4 configuration system
+│   │   ├── brownfield-enhancement.yaml
+│   │   ├── greenfield-fullstack.yaml
+│   │   ├── greenfield-service.yaml
+│   │   └── greenfield-simple.yaml
+│   └── core-config.yaml          # V4 configuration system
 │
 ├── dist/                         # Pre-built bundles (generated)
 │   ├── agents/                   # Individual agent bundles
@@ -378,7 +378,7 @@ bmad-method/
 
 ### Key Files
 
-- **core-config.yml**: V4's flexible configuration system
+- **core-config.yaml**: V4's flexible configuration system
 - **bmad-kb.md**: Central knowledge base loaded by most agents
 - **template-format.md**: Specification for BMAD's template markup
 - **dependency-resolver.js**: Manages agent resource loading

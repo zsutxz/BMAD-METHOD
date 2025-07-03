@@ -477,7 +477,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ### 0. Check Workflow Plan (if configured)
 
-[[LLM: Check if plan tracking is enabled in core-config.yml]]
+[[LLM: Check if plan tracking is enabled in core-config.yaml]]
 
 - If `workflow.trackProgress: true`, check for active plan using utils#plan-management
 - If plan exists and this document creation is part of the plan:

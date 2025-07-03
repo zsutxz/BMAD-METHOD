@@ -396,7 +396,7 @@ After presenting the structure, apply `tasks#advanced-elicitation` protocol to r
 {{project-root}}/
 ├── .github/                    # CI/CD workflows
 │   └── workflows/
-│       └── main.yml
+│       └── main.yaml
 ├── .vscode/                    # VSCode settings (optional)
 │   └── settings.json
 ├── build/                      # Compiled output (git-ignored)

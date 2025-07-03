@@ -213,7 +213,7 @@
 
 ### Features
 
-* dev can use debug log configured in core-config.yml ([0e5aaf0](https://github.com/bmadcode/BMAD-METHOD/commit/0e5aaf07bbc6fd9f2706ea26e35f5f38fd72147a))
+* dev can use debug log configured in core-config.yaml ([0e5aaf0](https://github.com/bmadcode/BMAD-METHOD/commit/0e5aaf07bbc6fd9f2706ea26e35f5f38fd72147a))
 
 # [4.8.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.7.0...v4.8.0) (2025-06-19)
 

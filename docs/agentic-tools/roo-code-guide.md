@@ -33,7 +33,7 @@ Select mode from the mode selector (usually in status bar):
 ### File Permission Summary
 
 - **Documentation agents** (analyst, pm, po, sm): `.md`, `.txt` only
-- **bmad-architect**: `.md`, `.txt`, `.yml`, `.yaml`, `.json`
+- **bmad-architect**: `.md`, `.txt`, `.yaml`, `.yaml`, `.json`
 - **bmad-qa**: Test files (`.test.*`, `.spec.*`) and `.md`
 - **bmad-ux-expert**: `.md`, `.css`, `.scss`, `.html`, `.jsx`, `.tsx`
 - **Full access**: `bmad-dev`, `bmad-bmad-master`, `bmad-orchestrator`

@@ -28,7 +28,7 @@ Create detailed, implementation-ready stories for brownfield projects where trad
 
 #### 0.1 Check Workflow Plan
 
-- Load core-config.yml and check if `workflow.trackProgress: true`
+- Load core-config.yaml and check if `workflow.trackProgress: true`
 - If yes, check for active plan at `workflow.planFile`
 - If plan exists:
   - Verify story creation aligns with current plan step

@@ -27,7 +27,7 @@ class IdeSetup {
     if (this.ideAgentConfig) return this.ideAgentConfig;
     
     try {
-      const configPath = path.join(__dirname, '..', 'config', 'ide-agent-config.yml');
+      const configPath = path.join(__dirname, '..', 'config', 'ide-agent-config.yaml');
       const configContent = await fs.readFile(configPath, 'utf8');
       this.ideAgentConfig = yaml.load(configContent);
       return this.ideAgentConfig;
@@ -98,7 +98,7 @@ class IdeSetup {
         mdcContent += "## Agent Activation\n\n";
         mdcContent +=
           "CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
-        mdcContent += "```yml\n";
+        mdcContent += "```yaml\n";
         // Extract just the YAML content from the agent file
         const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
         if (yamlMatch) {
@@ -180,7 +180,7 @@ class IdeSetup {
         mdContent += "## Agent Activation\n\n";
         mdContent +=
           "CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
-        mdContent += "```yml\n";
+        mdContent += "```yaml\n";
         // Extract just the YAML content from the agent file
         const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
         if (yamlMatch) {
@@ -428,7 +428,7 @@ class IdeSetup {
         mdContent += "## Role Definition\n\n";
         mdContent +=
           "When the user types `@" + agentId + "`, adopt this persona and follow these guidelines:\n\n";
-        mdContent += "```yml\n";
+        mdContent += "```yaml\n";
         // Extract just the YAML content from the agent file
         const yamlMatch = agentContent.match(/```ya?ml\n([\s\S]*?)```/);
         if (yamlMatch) {

@@ -1004,7 +1004,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ### 0. Check Workflow Plan (if configured)
 
-[[LLM: Check if plan tracking is enabled in core-config.yml]]
+[[LLM: Check if plan tracking is enabled in core-config.yaml]]
 
 - If `workflow.trackProgress: true`, check for active plan using utils#plan-management
 - If plan exists and this document creation is part of the plan:
@@ -2969,7 +2969,7 @@ Update the status of steps in an active workflow plan, mark completions, add not
 
 ### 0. Load Plan Configuration
 
-[[LLM: First load core-config.yml to get plan settings]]
+[[LLM: First load core-config.yaml to get plan settings]]
 
 Check workflow configuration:
 
@@ -3225,7 +3225,7 @@ Provides utilities for agents and tasks to interact with workflow plans, check p
 ```
 Check for workflow plan:
 1. Look for docs/workflow-plan.md (default location)
-2. Check core-config.yml for custom plan location
+2. Check core-config.yaml for custom plan location
 3. Return plan status (exists/not exists)
 ```
 
@@ -7110,7 +7110,7 @@ class {{ClassName}} extends {{PhaseClass}} {
 - {{future_optimization_1}}
 ==================== END: templates#game-story-tmpl ====================
 
-==================== START: workflows#game-dev-greenfield ====================
+==================== START: workflows#game-dev-greenfield.yaml ====================
 workflow:
   id: game-dev-greenfield
   name: Game Development - Greenfield Project
@@ -7294,9 +7294,9 @@ workflow:
       - Testing framework in place
       - Team roles and responsibilities defined
       - First implementation stories created and ready
-==================== END: workflows#game-dev-greenfield ====================
+==================== END: workflows#game-dev-greenfield.yaml ====================
 
-==================== START: workflows#game-prototype ====================
+==================== START: workflows#game-prototype.yaml ====================
 workflow:
   id: game-prototype
   name: Game Prototype Development
@@ -7472,4 +7472,4 @@ workflow:
     technical_to_stories: Technical plan complete. Create focused implementation stories for prototype development.
     stories_to_implementation: Stories ready. Begin iterative implementation with frequent playtesting and design validation.
     prototype_to_evaluation: Prototype playable. Evaluate core mechanics, gather feedback, and determine next development steps.
-==================== END: workflows#game-prototype ====================
+==================== END: workflows#game-prototype.yaml ====================

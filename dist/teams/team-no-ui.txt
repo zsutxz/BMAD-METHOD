@@ -558,7 +558,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ### 0. Check Workflow Plan (if configured)
 
-[[LLM: Check if plan tracking is enabled in core-config.yml]]
+[[LLM: Check if plan tracking is enabled in core-config.yaml]]
 
 - If `workflow.trackProgress: true`, check for active plan using utils#plan-management
 - If plan exists and this document creation is part of the plan:
@@ -1010,7 +1010,7 @@ Update the status of steps in an active workflow plan, mark completions, add not
 
 ### 0. Load Plan Configuration
 
-[[LLM: First load core-config.yml to get plan settings]]
+[[LLM: First load core-config.yaml to get plan settings]]
 
 Check workflow configuration:
 
@@ -1414,11 +1414,11 @@ npx bmad-method install
 5. **MUST switch to Dev agent** for implementation
 6. Keep planning and coding in separate chat sessions
 
-## Core Configuration (core-config.yml)
+## Core Configuration (core-config.yaml)
 
-**New in V4**: The `bmad-core/core-config.yml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+**New in V4**: The `bmad-core/core-config.yaml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 
-### What is core-config.yml?
+### What is core-config.yaml?
 
 This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It enables:
 
@@ -1590,7 +1590,7 @@ The BMAD-Method is built around a modular architecture centered on the `bmad-cor
 
 #### 2. Agent Teams (`bmad-core/agent-teams/`)
 - **Purpose**: Define collections of agents bundled together for specific purposes
-- **Examples**: `team-all.yml` (comprehensive bundle), `team-fullstack.yml` (full-stack development)
+- **Examples**: `team-all.yaml` (comprehensive bundle), `team-fullstack.yaml` (full-stack development)
 - **Usage**: Creates pre-packaged contexts for web UI environments
 
 #### 3. Workflows (`bmad-core/workflows/`)
@@ -2018,7 +2018,7 @@ Provides utilities for agents and tasks to interact with workflow plans, check p
 ```
 Check for workflow plan:
 1. Look for docs/workflow-plan.md (default location)
-2. Check core-config.yml for custom plan location
+2. Check core-config.yaml for custom plan location
 3. Return plan status (exists/not exists)
 ```
 
@@ -4483,20 +4483,20 @@ The LLM will:
 
 ## Primary Method: Automatic with markdown-tree
 
-[[LLM: First, check if markdownExploder is set to true in bmad-core/core-config.yml. If it is, attempt to run the command: `md-tree explode {input file} {output path}`.
+[[LLM: First, check if markdownExploder is set to true in bmad-core/core-config.yaml. If it is, attempt to run the command: `md-tree explode {input file} {output path}`.
 
 If the command succeeds, inform the user that the document has been sharded successfully and STOP - do not proceed further.
 
 If the command fails (especially with an error indicating the command is not found or not available), inform the user: "The markdownExploder setting is enabled but the md-tree command is not available. Please either:
 
 1. Install @kayvan/markdown-tree-parser globally with: `npm install -g @kayvan/markdown-tree-parser`
-2. Or set markdownExploder to false in bmad-core/core-config.yml
+2. Or set markdownExploder to false in bmad-core/core-config.yaml
 
 **IMPORTANT: STOP HERE - do not proceed with manual sharding until one of the above actions is taken.**"
 
 If markdownExploder is set to false, inform the user: "The markdownExploder setting is currently false. For better performance and reliability, you should:
 
-1. Set markdownExploder to true in bmad-core/core-config.yml
+1. Set markdownExploder to true in bmad-core/core-config.yaml
 2. Install @kayvan/markdown-tree-parser globally with: `npm install -g @kayvan/markdown-tree-parser`
 
 I will now proceed with the manual sharding process."
@@ -6108,7 +6108,7 @@ After presenting the structure, apply `tasks#advanced-elicitation` protocol to r
 {{project-root}}/
 ├── .github/                    # CI/CD workflows
 │   └── workflows/
-│       └── main.yml
+│       └── main.yaml
 ├── .vscode/                    # VSCode settings (optional)
 │   └── settings.json
 ├── build/                      # Compiled output (git-ignored)
@@ -6957,7 +6957,7 @@ Use appropriate format for the chosen API style. If no API (e.g., static site), 
 
 ^^CONDITION: has_rest_api^^
 
-```yml
+```yaml
 openapi: 3.0.0
 info:
   title:
@@ -7313,8 +7313,8 @@ After presenting this section, apply `tasks#advanced-elicitation` protocol]]
 {{project-name}}/
 ├── .github/                    # CI/CD workflows
 │   └── workflows/
-│       ├── ci.yml
-│       └── deploy.yml
+│       ├── ci.yaml
+│       └── deploy.yaml
 ├── apps/                       # Application packages
 │   ├── web/                    # Frontend application
 │   │   ├── src/

@@ -13,7 +13,7 @@ Provides utilities for agents and tasks to interact with workflow plans, check p
 ```
 Check for workflow plan:
 1. Look for docs/workflow-plan.md (default location)
-2. Check core-config.yml for custom plan location
+2. Check core-config.yaml for custom plan location
 3. Return plan status (exists/not exists)
 ```
 
