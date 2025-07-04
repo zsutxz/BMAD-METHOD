@@ -1,6 +1,6 @@
 # Template Format Conventions
 
-Templates in the BMAD method use standardized markup for AI processing. These conventions ensure consistent document generation.
+Templates in the BMad method use standardized markup for AI processing. These conventions ensure consistent document generation.
 
 ## Template Markup Elements
 

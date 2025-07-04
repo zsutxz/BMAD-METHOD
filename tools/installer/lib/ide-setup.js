@@ -560,7 +560,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
     }
 
     console.log(chalk.green(`\n✓ VS Code Copilot setup complete!`));
-    console.log(chalk.dim(`You can now find the BMAD agents in the Chat view's mode selector.`));
+    console.log(chalk.dim(`You can now find the BMad agents in the Chat view's mode selector.`));
 
     return true;
   }
@@ -578,7 +578,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
       try {
         const existingContent = await fileManager.readFile(settingsPath);
         existingSettings = JSON.parse(existingContent);
-        console.log(chalk.yellow("Found existing .vscode/settings.json. Merging BMAD settings..."));
+        console.log(chalk.yellow("Found existing .vscode/settings.json. Merging BMad settings..."));
       } catch (error) {
         console.warn(chalk.yellow("Could not parse existing settings.json. Creating new one."));
         existingSettings = {};
@@ -588,7 +588,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
     // Clear any previous output and add spacing to avoid conflicts with loaders
     console.log('\n'.repeat(2));
     console.log(chalk.blue("🔧 VS Code Copilot Agent Settings Configuration"));
-    console.log(chalk.dim("BMAD works best with specific VS Code settings for optimal agent experience."));
+    console.log(chalk.dim("BMad works best with specific VS Code settings for optimal agent experience."));
     console.log(''); // Add extra spacing
     
     const { configChoice } = await inquirer.prompt([
@@ -638,7 +638,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
         "github.copilot.chat.agent.autoFix": true,
         "chat.tools.autoApprove": false
       };
-      console.log(chalk.green("✓ Using recommended BMAD defaults for VS Code Copilot settings"));
+      console.log(chalk.green("✓ Using recommended BMad defaults for VS Code Copilot settings"));
     } else {
       // Manual configuration
       console.log(chalk.blue("\n📋 Let's configure each setting for your preferences:"));
@@ -696,7 +696,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
       }
       
       bmadSettings = {
-        "chat.agent.enabled": true, // Always enabled - required for BMAD agents
+        "chat.agent.enabled": true, // Always enabled - required for BMad agents
         "chat.agent.maxRequests": parseInt(manualSettings.maxRequests),
         "github.copilot.chat.agent.runTasks": manualSettings.runTasks,
         "chat.mcp.discovery.enabled": manualSettings.mcpDiscovery,

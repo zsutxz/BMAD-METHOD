@@ -470,7 +470,7 @@ class WebBuilder {
           }
         }
       } else {
-        // Use core BMAD version
+        // Use core BMad version
         try {
           const coreAgentPath = path.join(this.rootDir, "bmad-core", "agents", `${agentId}.md`);
           const coreAgentContent = await fs.readFile(coreAgentPath, "utf8");

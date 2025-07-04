@@ -11,7 +11,7 @@ Create detailed, implementation-ready stories for brownfield projects where trad
 - Working on brownfield projects with non-standard documentation
 - Stories need to be created from document-project output
 - Working from brownfield epics without full PRD/architecture
-- Existing project documentation doesn't follow BMAD v4+ structure
+- Existing project documentation doesn't follow BMad v4+ structure
 - Need to gather additional context from user during story creation
 
 **Use create-next-story when:**
@@ -117,7 +117,7 @@ If using brownfield PRD:
 
 #### 2.3 From User Documentation
 
-[[LLM: When working with non-BMAD documentation, actively extract and organize the information into categories the Dev agent will need]]
+[[LLM: When working with non-BMad documentation, actively extract and organize the information into categories the Dev agent will need]]
 
 Ask the user to help identify:
 

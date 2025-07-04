@@ -13,8 +13,8 @@ To identify the next logical story based on project progress and epic definition
 - Load `.bmad-core/core-config.yaml` from the project root
 - If the file does not exist:
   - HALT and inform the user: "core-config.yaml not found. This file is required for story creation. You can:
-    1. Copy it from GITHUB BMAD-METHOD/bmad-core/core-config.yaml and configure it for your project
-    2. Run the BMAD installer against your project to upgrade and add the file automatically
+    1. Copy it from GITHUB BMad-Method/bmad-core/core-config.yaml and configure it for your project
+    2. Run the BMad installer against your project to upgrade and add the file automatically
     Please add and configure core-config.yaml before proceeding."
 - Extract the following key configurations:
   - `devStoryLocation`: Where to save story files

@@ -9,7 +9,7 @@ dist/
 *.log
 *.lock
 
-# BMAD core files (have their own formatting)
+# BMad core files (have their own formatting)
 bmad-core/**/*.md
 
 # Specific files that need custom formatting

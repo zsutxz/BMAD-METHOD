@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * BMAD Method CLI - Direct execution wrapper for npx
+ * BMad Method CLI - Direct execution wrapper for npx
  * This file ensures proper execution when run via npx from GitHub
  */
 

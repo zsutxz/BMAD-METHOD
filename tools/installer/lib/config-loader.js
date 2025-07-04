@@ -93,7 +93,7 @@ class ConfigLoader {
               description: config['short-title'] || config.description || 'No description available',
               fullDescription: config.description || config['short-title'] || 'No description available',
               version: config.version || '1.0.0',
-              author: config.author || 'BMAD Team',
+              author: config.author || 'BMad Team',
               packPath: packPath,
               dependencies: config.dependencies?.agents || []
             });
@@ -113,7 +113,7 @@ class ConfigLoader {
               description: 'No description available',
               fullDescription: 'No description available',
               version: '1.0.0',
-              author: 'BMAD Team',
+              author: 'BMad Team',
               packPath: packPath,
               dependencies: []
             });

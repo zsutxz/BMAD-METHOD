@@ -1,8 +1,8 @@
-# BMAD Knowledge Base
+# BMad Knowledge Base
 
 ## Overview
 
-BMAD-METHOD (Breakthrough Method of Agile AI-driven Development) is a framework that combines AI agents with Agile development methodologies. The v4 system introduces a modular architecture with improved dependency management, bundle optimization, and support for both web and IDE environments.
+BMad-Method (Breakthrough Method of Agile AI-driven Development) is a framework that combines AI agents with Agile development methodologies. The v4 system introduces a modular architecture with improved dependency management, bundle optimization, and support for both web and IDE environments.
 
 ### Key Features
 
@@ -12,7 +12,7 @@ BMAD-METHOD (Breakthrough Method of Agile AI-driven Development) is a framework 
 - **Reusable Resources**: Portable templates, tasks, and checklists
 - **Slash Command Integration**: Quick agent switching and control
 
-### When to Use BMAD
+### When to Use BMad
 
 - **New Projects (Greenfield)**: Complete end-to-end development
 - **Existing Projects (Brownfield)**: Feature additions and enhancements
@@ -20,11 +20,11 @@ BMAD-METHOD (Breakthrough Method of Agile AI-driven Development) is a framework 
 - **Quality Assurance**: Structured testing and validation
 - **Documentation**: Professional PRDs, architecture docs, user stories
 
-## How BMAD Works
+## How BMad Works
 
 ### The Core Method
 
-BMAD transforms you into a "Vibe CEO" - directing a team of specialized AI agents through structured workflows. Here's how:
+BMad transforms you into a "Vibe CEO" - directing a team of specialized AI agents through structured workflows. Here's how:
 
 1. **You Direct, AI Executes**: You provide vision and decisions; agents handle implementation details
 2. **Specialized Agents**: Each agent masters one role (PM, Developer, Architect, etc.)
@@ -95,14 +95,14 @@ npx bmad-method install
   - **Roo Code**: Web-based IDE with agent support
   - **VS Code Copilot**: AI-powered coding assistant
 
-**Note for VS Code Users**: BMAD-METHOD assumes when you mention "VS Code" that you're using it with an AI-powered extension like GitHub Copilot, Cline, or Roo. Standard VS Code without AI capabilities cannot run BMAD agents. The installer includes built-in support for Cline and Roo.
+**Note for VS Code Users**: BMad-Method assumes when you mention "VS Code" that you're using it with an AI-powered extension like GitHub Copilot, Cline, or Roo. Standard VS Code without AI capabilities cannot run BMad agents. The installer includes built-in support for Cline and Roo.
 
 **Verify Installation**:
 - `.bmad-core/` folder created with all agents
 - IDE-specific integration files created
 - All agent commands/rules/modes available
 
-**Remember**: At its core, BMAD-METHOD is about mastering and harnessing prompt engineering. Any IDE with AI agent support can use BMAD - the framework provides the structured prompts and workflows that make AI development effective
+**Remember**: At its core, BMad-Method is about mastering and harnessing prompt engineering. Any IDE with AI agent support can use BMad - the framework provides the structured prompts and workflows that make AI development effective
 
 ### Environment Selection Guide
 
@@ -163,11 +163,11 @@ npx bmad-method install
 
 ## Core Configuration (core-config.yaml)
 
-**New in V4**: The `bmad-core/core-config.yaml` file is a critical innovation that enables BMAD to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+**New in V4**: The `bmad-core/core-config.yaml` file is a critical innovation that enables BMad to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 
 ### What is core-config.yaml?
 
-This configuration file acts as a map for BMAD agents, telling them exactly where to find your project documents and how they're structured. It enables:
+This configuration file acts as a map for BMad agents, telling them exactly where to find your project documents and how they're structured. It enables:
 
 - **Version Flexibility**: Work with V3, V4, or custom document structures
 - **Custom Locations**: Define where your documents and shards live
@@ -196,7 +196,7 @@ This configuration file acts as a map for BMAD agents, telling them exactly wher
 
 1. **No Forced Migrations**: Keep your existing document structure
 2. **Gradual Adoption**: Start with V3 and migrate to V4 at your pace
-3. **Custom Workflows**: Configure BMAD to match your team's process
+3. **Custom Workflows**: Configure BMad to match your team's process
 4. **Intelligent Agents**: Agents automatically adapt to your configuration
 
 ### Common Configurations
@@ -325,7 +325,7 @@ You are the "Vibe CEO" - thinking like a CEO with unlimited resources and a sing
 
 ### System Overview
 
-The BMAD-Method is built around a modular architecture centered on the `bmad-core` directory, which serves as the brain of the entire system. This design enables the framework to operate effectively in both IDE environments (like Cursor, VS Code) and web-based AI interfaces (like ChatGPT, Gemini).
+The BMad-Method is built around a modular architecture centered on the `bmad-core` directory, which serves as the brain of the entire system. This design enables the framework to operate effectively in both IDE environments (like Cursor, VS Code) and web-based AI interfaces (like ChatGPT, Gemini).
 
 ### Key Architectural Components
 
@@ -369,7 +369,7 @@ The BMAD-Method is built around a modular architecture centered on the `bmad-cor
 
 ### Template Processing System
 
-BMAD employs a sophisticated template system with three key components:
+BMad employs a sophisticated template system with three key components:
 
 1. **Template Format** (`utils/template-format.md`): Defines markup language for variable substitution and AI processing directives
 2. **Document Creation** (`tasks/create-doc.md`): Orchestrates template selection and user interaction
@@ -398,7 +398,7 @@ The `web-builder.js` tool creates web-ready bundles by:
 3. Concatenating content into single text files with clear separators
 4. Outputting ready-to-upload bundles for web AI interfaces
 
-This architecture enables seamless operation across environments while maintaining the rich, interconnected agent ecosystem that makes BMAD powerful.
+This architecture enables seamless operation across environments while maintaining the rich, interconnected agent ecosystem that makes BMad powerful.
 
 ## Complete Development Workflow
 
@@ -659,7 +659,7 @@ Use the `shard-doc` task or `@kayvan/markdown-tree-parser` tool for automatic sh
 - **Keep conversations focused** - One agent, one task per conversation
 - **Review everything** - Always review and approve before marking complete
 
-## Contributing to BMAD-METHOD
+## Contributing to BMad-Method
 
 ### Quick Contribution Guidelines
 
@@ -688,7 +688,7 @@ For full details, see `CONTRIBUTING.md`. Key points:
 
 ### What Are Expansion Packs?
 
-Expansion packs extend BMAD-METHOD beyond traditional software development into ANY domain. They provide specialized agent teams, templates, and workflows while keeping the core framework lean and focused on development.
+Expansion packs extend BMad-Method beyond traditional software development into ANY domain. They provide specialized agent teams, templates, and workflows while keeping the core framework lean and focused on development.
 
 ### Why Use Expansion Packs?
 

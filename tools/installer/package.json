@@ -1,7 +1,7 @@
 {
   "name": "bmad-method",
   "version": "4.24.3",
-  "description": "BMAD Method installer - AI-powered Agile development framework",
+  "description": "BMad Method installer - AI-powered Agile development framework",
   "main": "lib/installer.js",
   "bin": {
     "bmad": "./bin/bmad.js",
@@ -19,7 +19,7 @@
     "installer",
     "agents"
   ],
-  "author": "BMAD Team",
+  "author": "BMad Team",
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.4.1",
