@@ -1,3 +1,10 @@
+## [4.24.5](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.4...v4.24.5) (2025-07-04)
+
+
+### Bug Fixes
+
+* yaml standardization in files and installer actions ([094f9f3](https://github.com/bmadcode/BMAD-METHOD/commit/094f9f3eabf563c9a89ecaf360fed63386b46ed4))
+
 ## [4.24.4](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.3...v4.24.4) (2025-07-04)
 
 
