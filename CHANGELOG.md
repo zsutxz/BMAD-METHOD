@@ -1,3 +1,10 @@
+## [4.24.3](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.2...v4.24.3) (2025-07-04)
+
+
+### Bug Fixes
+
+* update YAML library from 'yaml' to 'js-yaml' in resolveExpansionPackCoreAgents for consistency ([#295](https://github.com/bmadcode/BMAD-METHOD/issues/295)) ([03f30ad](https://github.com/bmadcode/BMAD-METHOD/commit/03f30ad28b282fbb4fa5a6ed6b57d0327218cce0))
+
 ## [4.24.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.1...v4.24.2) (2025-07-03)
 
 
