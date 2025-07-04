@@ -32,5 +32,4 @@ Type `/agent-name` in your chat to activate an agent:
 ## Tips for Claude Code Users
 
 - Commands are auto-suggested as you type `/`
-- Each agent supports `*help` to see available commands
-- Claude Code maintains excellent context within each chat
+- More coming soon...

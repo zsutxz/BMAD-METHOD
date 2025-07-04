@@ -26,7 +26,7 @@ Foundations in Agentic Agile Driven Development, known as the Breakthrough Metho
 
 ### What would you like to do?
 
-- **[Build software with Full Stack Agile AI Team](#-quick-start)** → Quick Start Instruction
+- **[Build software with Full Stack Agile AI Team](quick-start)** → Quick Start Instruction
 - **[Learn how to use BMad](docs/user-guide.md)** → Complete user guide and walkthrough
 - **[See available AI agents](#available-agents)** → Specialized roles for your team
 - **[Explore non-technical uses](#-beyond-software-development---expansion-packs)** → Creative writing, business, wellness, education
@@ -37,7 +37,7 @@ Foundations in Agentic Agile Driven Development, known as the Breakthrough Metho
 
 ### Popular Use Cases
 
-- **Software Development** - [Quick Start](#-quick-start) | [User Guide](docs/user-guide.md) | [Workflow Guides](#documentation--guides)
+- **Software Development** - [Quick Start](quick-start) | [User Guide](docs/user-guide.md) | [Workflow Guides](#documentation--guides)
 - **Game Development** - [2D Phaser Pack](expansion-packs/bmad-2d-phaser-game-dev/)
 - **Business Strategy** - [Full Guide](docs/expansion-packs.md#business-strategy-pack)
 - **Creative Writing** - [Full Guide](docs/expansion-packs.md#creative-writing-pack)
@@ -111,9 +111,9 @@ npm run install:bmad # build and install all to a destination folder
 
 ## Overview
 
-The BMad Method (Breakthrough Method of Agile Agentic-Driven Development) elevates 'Vibe Coding' by providing specialized AI agents for every role in an Agile team. Each agent has deep expertise in their domain helping you really plan and execute on your vision while keeping the agents on the rails even through complex application plans.
+The BMad Method (Breakthrough Method of Agile Agentic-Driven Development) elevates 'Vibe Coding' by utilizing advanced prompt engineering techniques and critical context management at the most critical stages of development implementation. By providing specialized AI agents for every role in an Agile team, each agent has deep expertise in their domain helping you really plan and execute on your vision while keeping the agents on the rails even through complex application plans.
 
-Unlike systems like Task Master, or inbuilt Task tool, the BMad Methods agile flow does so much more. With most systems, you give your idea in a few sentences at most, and the system churns out a plan, task list, lets you review it and then starts executing. Where the BMad agile flow is different is you can choose to have more upfront planning and architecture specification to ensure the system is built in a sustainable way, not a vibe coded spaghetti mess. When producing the PRD and Architectures (full stack, front end and or backend), the Agents work with you back and forth using advanced proven LLM techniques and techniques also based in psychology to produce beyond the average slop LLMs and Task generators will on their own. This truly is a system of Human in the Loop produces markedly better results.
+Unlike systems like Task Master, or inbuilt Task tools, the BMad Methods agile flow does so much more. With most systems, you give your idea, and the system churns out a plan, task list, lets you review it and then starts executing. Where the BMad agile flow is different is you can choose to have more upfront planning and architecture specification to ensure the system is built in a sustainable way, not a vibe coded spaghetti mess. When producing the PRD and Architectures (full stack, front end and or backend), the Agents work with you back and forth using advanced proven LLM prompt engineering advanced techniques to produce anything beyond what the average slop LLMs and Task generators will produce on their own. This truly is a system of Human in the Loop producing markedly better results.
 
 ## Installation
 
@@ -156,7 +156,7 @@ The BMad Method works with any IDE, but has built-in integration for:
 - `gemini-cli` - Gemini with @agent commands
 - `windsurf` - Windsurf with manual rule @agent commands
 - `roo` - Roo Code with custom modes (see `.roomodes`)
-- `vs-code-copilot` - VS Code with GitHub Copilot agent mode integration
+- `github-copilot` - GitHub Copilot agent mode integration
 
 ## Available Agents
 
@@ -290,7 +290,7 @@ See the **[Core Architecture](docs/core-architecture.md)** for the complete sour
 - 🦘 [Roo Code Guide](docs/agentic-tools/roo-code-guide.md) - Setup and usage for Roo Code
 - 🔧 [Cline Guide](docs/agentic-tools/cline-guide.md) - Setup and usage for Cline (VS Code)
 - ✨ [Gemini CLI Guide](docs/agentic-tools/gemini-cli-guide.md) - Setup and usage for Gemini CLI
-- 💻 [VS Code Copilot Guide](docs/agentic-tools/vs-code-copilot-guide.md) - Setup and usage for VS Code with GitHub Copilot
+- 💻 [Github Copilot Guide](docs/agentic-tools/github-copilot-guide.md) - Setup and usage for VS Code with GitHub Copilot
 
 ## 🌟 Beyond Software Development - Expansion Packs
 

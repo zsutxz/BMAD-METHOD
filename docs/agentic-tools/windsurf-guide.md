@@ -11,27 +11,4 @@ When running `npx bmad-method install`, select **Windsurf** as your IDE. This cr
 
 ## Using BMad Agents in Windsurf
 
-Type `@agent-name` in chat to activate an agent:
-
-- `@bmad-master` - Universal task executor
-- `@sm` - Scrum Master
-- `@dev` - Full-stack developer
-- `@architect` - Solution architect
-- `@pm` - Product manager
-- `@analyst` - Business analyst
-- `@qa` - QA specialist
-- `@po` - Product owner
-- `@ux-expert` - UX specialist
-
-## Windsurf-Specific Features
-
-- **Rule files**: Stored in `.windsurf/rules/` as `.md` files
-- **Activation**: Use `@` prefix to mention agents
-- **Collaborative features**: Works well with BMad's agent-switching pattern
-- **Project context**: Agents have access to your full project context
-
-## Tips for Windsurf Users
-
-- Start new chats when switching agents
-- Each agent supports `*help` to see available commands
-- Leverage Windsurf's collaboration features for team reviews
+Type `@agent-name` in chat to activate an agent.

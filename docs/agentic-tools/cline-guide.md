@@ -34,9 +34,3 @@ All agents use `@` prefix:
 - **Rule files**: Stored as numbered files in `.clinerules/` (e.g., `01-bmad-master.md`)
 - **Agent ordering**: Prioritized list with core agents first
 - **VS Code integration**: Works within VS Code's Cline extension panel
-
-## Tips for Cline Users
-
-- Cline maintains conversation context well
-- Use `@agent-name` at the start of your message for best results
-- Agent rules are loaded automatically when mentioned

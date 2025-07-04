@@ -67,13 +67,13 @@ ide-configurations:
       # 2. It also configures .gemini/settings.json to load all agent files.
       # 3. Simply mention the agent in your prompt (e.g., "As @dev, ...").
       # 4. The Gemini CLI will automatically have the context for that agent.
-  vs-code-copilot:
-    name: VS Code Copilot
+  github-copilot:
+    name: Github Copilot
     rule-dir: .github/chatmodes/
     format: multi-file
     command-suffix: .md
     instructions: |
-      # To use BMad agents with VS Code Copilot:
+      # To use BMad agents with Github Copilot:
       # 1. The installer creates a .github/chatmodes/ directory in your project
       # 2. Open the Chat view (`⌃⌘I` on Mac, `Ctrl+Alt+I` on Windows/Linux) and select **Agent** from the chat mode selector.
       # 3. The agent will adopt that persona for the conversation

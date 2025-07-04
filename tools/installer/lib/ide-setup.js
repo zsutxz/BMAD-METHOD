@@ -63,7 +63,7 @@ class IdeSetup {
         return this.setupCline(installDir, selectedAgent);
       case "gemini":
         return this.setupGeminiCli(installDir, selectedAgent);
-      case "vs-code-copilot":
+      case "github-copilot":
         return this.setupVsCodeCopilot(installDir, selectedAgent, spinner);
       default:
         console.log(chalk.yellow(`\nIDE ${ide} not yet supported`));
@@ -559,7 +559,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
       }
     }
 
-    console.log(chalk.green(`\n✓ VS Code Copilot setup complete!`));
+    console.log(chalk.green(`\n✓ Github Copilot setup complete!`));
     console.log(chalk.dim(`You can now find the BMad agents in the Chat view's mode selector.`));
 
     return true;
@@ -587,7 +587,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
     
     // Clear any previous output and add spacing to avoid conflicts with loaders
     console.log('\n'.repeat(2));
-    console.log(chalk.blue("🔧 VS Code Copilot Agent Settings Configuration"));
+    console.log(chalk.blue("🔧 Github Copilot Agent Settings Configuration"));
     console.log(chalk.dim("BMad works best with specific VS Code settings for optimal agent experience."));
     console.log(''); // Add extra spacing
     
@@ -595,7 +595,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
       {
         type: 'list',
         name: 'configChoice',
-        message: 'How would you like to configure VS Code Copilot settings?',
+        message: 'How would you like to configure Github Copilot settings?',
         choices: [
           {
             name: 'Use recommended defaults (fastest setup)',
@@ -638,7 +638,7 @@ tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'problems
         "github.copilot.chat.agent.autoFix": true,
         "chat.tools.autoApprove": false
       };
-      console.log(chalk.green("✓ Using recommended BMad defaults for VS Code Copilot settings"));
+      console.log(chalk.green("✓ Using recommended BMad defaults for Github Copilot settings"));
     } else {
       // Manual configuration
       console.log(chalk.blue("\n📋 Let's configure each setting for your preferences:"));
