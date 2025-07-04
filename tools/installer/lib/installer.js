@@ -685,6 +685,10 @@ class Installer {
       };
 
       await this.performFreshInstall(config, installDir, spinner, { isUpdate: true });
+      
+      // Clean up .yml files that now have .yaml counterparts
+      spinner.text = "Cleaning up legacy .yml files...";
+      await this.cleanupLegacyYmlFiles(installDir, spinner);
     } catch (error) {
       spinner.fail("Update failed");
       throw error;
@@ -737,11 +741,26 @@ class Installer {
           if (await fileManager.pathExists(sourcePath)) {
             await fileManager.copyFile(sourcePath, destPath);
             spinner.text = `Restored: ${file}`;
+            
+            // If this is a .yaml file, check for and remove corresponding .yml file
+            if (file.endsWith('.yaml')) {
+              const ymlFile = file.replace(/\.yaml$/, '.yml');
+              const ymlPath = path.join(installDir, ymlFile);
+              if (await fileManager.pathExists(ymlPath)) {
+                const fs = require('fs').promises;
+                await fs.unlink(ymlPath);
+                console.log(chalk.dim(`  Removed legacy: ${ymlFile} (replaced by ${file})`));
+              }
+            }
           } else {
             console.warn(chalk.yellow(`  Warning: Source file not found: ${file}`));
           }
         }
       }
+      
+      // Clean up .yml files that now have .yaml counterparts
+      spinner.text = "Cleaning up legacy .yml files...";
+      await this.cleanupLegacyYmlFiles(installDir, spinner);
       
       spinner.succeed("Repair completed successfully!");
       
@@ -778,7 +797,13 @@ class Installer {
     }
     
     spinner.text = "Installing fresh copy...";
-    return await this.performFreshInstall(config, installDir, spinner, { isUpdate: true });
+    const result = await this.performFreshInstall(config, installDir, spinner, { isUpdate: true });
+    
+    // Clean up .yml files that now have .yaml counterparts
+    spinner.text = "Cleaning up legacy .yml files...";
+    await this.cleanupLegacyYmlFiles(installDir, spinner);
+    
+    return result;
   }
 
   showSuccessMessage(config, installDir, options = {}) {
@@ -1635,6 +1660,42 @@ class Installer {
     }
     
     return 0;
+  }
+
+  async cleanupLegacyYmlFiles(installDir, spinner) {
+    const glob = require('glob');
+    const fs = require('fs').promises;
+    
+    try {
+      // Find all .yml files in the installation directory
+      const ymlFiles = glob.sync('**/*.yml', {
+        cwd: installDir,
+        ignore: ['**/node_modules/**', '**/.git/**']
+      });
+      
+      let deletedCount = 0;
+      
+      for (const ymlFile of ymlFiles) {
+        // Check if corresponding .yaml file exists
+        const yamlFile = ymlFile.replace(/\.yml$/, '.yaml');
+        const ymlPath = path.join(installDir, ymlFile);
+        const yamlPath = path.join(installDir, yamlFile);
+        
+        if (await fileManager.pathExists(yamlPath)) {
+          // .yaml counterpart exists, delete the .yml file
+          await fs.unlink(ymlPath);
+          deletedCount++;
+          console.log(chalk.dim(`  Removed legacy: ${ymlFile} (replaced by ${yamlFile})`));
+        }
+      }
+      
+      if (deletedCount > 0) {
+        console.log(chalk.green(`✓ Cleaned up ${deletedCount} legacy .yml files`));
+      }
+      
+    } catch (error) {
+      console.warn(chalk.yellow(`Warning: Could not cleanup legacy .yml files: ${error.message}`));
+    }
   }
 
   async findInstallation() {

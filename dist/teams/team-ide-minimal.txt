@@ -54,7 +54,7 @@ workflows: null
 ==================== START: agents#bmad-orchestrator ====================
 # bmad-orchestrator
 
-CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
 ```yaml
 agent:
@@ -193,7 +193,7 @@ dependencies:
 ==================== START: agents#po ====================
 # po
 
-CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
 ```yaml
 activation-instructions:
@@ -256,7 +256,7 @@ dependencies:
 ==================== START: agents#sm ====================
 # sm
 
-CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
 ```yaml
 activation-instructions:
@@ -307,7 +307,7 @@ dependencies:
 ==================== START: agents#dev ====================
 # dev
 
-CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
 ```yaml
 agent:
@@ -366,7 +366,7 @@ dependencies:
 ==================== START: agents#qa ====================
 # qa
 
-CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
 ```yaml
 activation-instructions:

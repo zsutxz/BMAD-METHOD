@@ -98,7 +98,7 @@ class IdeSetup {
         )} agent persona.\n\n`;
         mdcContent += "## Agent Activation\n\n";
         mdcContent +=
-          "CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
+          "CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
         mdcContent += "```yaml\n";
         // Extract just the YAML content from the agent file
         const yamlContent = extractYamlFromAgent(agentContent);
@@ -116,7 +116,7 @@ class IdeSetup {
         mdcContent += `When the user types \`@${agentId}\`, activate this ${await this.getAgentTitle(
           agentId,
           installDir
-        )} persona and follow all instructions defined in the YML configuration above.\n`;
+        )} persona and follow all instructions defined in the YAML configuration above.\n`;
 
         await fileManager.writeFile(mdcPath, mdcContent);
         console.log(chalk.green(`✓ Created rule: ${agentId}.mdc`));
@@ -180,7 +180,7 @@ class IdeSetup {
         )} agent persona.\n\n`;
         mdContent += "## Agent Activation\n\n";
         mdContent +=
-          "CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
+          "CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n";
         mdContent += "```yaml\n";
         // Extract just the YAML content from the agent file
         const yamlContent = extractYamlFromAgent(agentContent);
@@ -198,7 +198,7 @@ class IdeSetup {
         mdContent += `When the user types \`@${agentId}\`, activate this ${await this.getAgentTitle(
           agentId,
           installDir
-        )} persona and follow all instructions defined in the YML configuration above.\n`;
+        )} persona and follow all instructions defined in the YAML configuration above.\n`;
 
         await fileManager.writeFile(mdPath, mdContent);
         console.log(chalk.green(`✓ Created rule: ${agentId}.md`));
@@ -362,7 +362,7 @@ class IdeSetup {
           newModesContent += `   whenToUse: ${whenToUse}\n`;
           // Get relative path from installDir to agent file
           const relativePath = path.relative(installDir, agentPath).replace(/\\/g, '/');
-          newModesContent += `   customInstructions: CRITICAL Read the full YML from ${relativePath} start activation to alter your state of being follow startup section instructions stay in this being until told to exit this mode\n`;
+          newModesContent += `   customInstructions: CRITICAL Read the full YAML from ${relativePath} start activation to alter your state of being follow startup section instructions stay in this being until told to exit this mode\n`;
           newModesContent += `   groups:\n`;
           newModesContent += `    - read\n`;
 

@@ -1,5 +1,7 @@
 # BMad Method Guide for Roo Code
 
+For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.md).
+
 ## Installation
 
 When running `npx bmad-method install`, select **Roo Code** as your IDE. This creates:

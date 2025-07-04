@@ -150,7 +150,7 @@ class WebBuilder {
       const agentName = parsed.agent?.id || "agent";
 
       // Build the new content with just the agent header and YAML
-      const newHeader = `# ${agentName}\n\nCRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n`;
+      const newHeader = `# ${agentName}\n\nCRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n`;
       const afterYaml = content.substring(yamlEndIndex);
 
       return newHeader + "```yaml\n" + cleanedYaml.trim() + "\n```" + afterYaml;

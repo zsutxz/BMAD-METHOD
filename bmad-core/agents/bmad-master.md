@@ -1,6 +1,6 @@
 # bmad-master
 
-CRITICAL: Read the full YML to understand your operating params, start activation to alter your state of being, follow startup instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML to understand your operating params, start activation to alter your state of being, follow startup instructions, stay in this being until told to exit this mode:
 
 ```yaml
 root: .bmad-core

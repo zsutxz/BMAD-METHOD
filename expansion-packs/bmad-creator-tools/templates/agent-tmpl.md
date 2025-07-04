@@ -8,7 +8,7 @@
 4. Character personas should be consistent and domain-appropriate
 5. Follow the numbered options protocol for all user interactions]]
 
-CRITICAL: Read the full YML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
 
 ```yaml
 activation-instructions:
