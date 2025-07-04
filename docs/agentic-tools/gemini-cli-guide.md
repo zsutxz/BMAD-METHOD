@@ -1,6 +1,6 @@
 # BMad Method Guide for Gemini CLI
 
-This guide covers Gemini CLI-specific setup and usage with BMad Method. For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.md).
+For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.md).
 
 ## Installation
 
@@ -18,20 +18,6 @@ Simply mention the agent in your prompt:
 - "@sm, create the next story for our project"
 
 The Gemini CLI automatically loads the appropriate agent context.
-
-## Available Agents
-
-All agents are referenced with `@` in prompts:
-
-- `@bmad-master` - Universal task executor
-- `@sm` - Scrum Master
-- `@dev` - Full-stack developer
-- `@architect` - Solution architect
-- `@pm` - Product manager
-- `@analyst` - Business analyst
-- `@qa` - QA specialist
-- `@po` - Product owner
-- `@ux-expert` - UX specialist
 
 ## Gemini CLI-Specific Features
 

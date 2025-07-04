@@ -1,12 +1,11 @@
 # Working in the Brownfield: A Complete Guide
 
-> 🚀 **HIGHLY RECOMMENDED: Use Gemini Web or Gemini CLI for Brownfield Documentation!**
+> **HIGHLY RECOMMENDED: Use Gemini Web or Gemini CLI for Brownfield Documentation Generation!**
 >
-> Gemini Web's 1M+ token context window or Gemini CLI (when its working) can analyze your ENTIRE codebase at once:
+> Gemini Web's 1M+ token context window or Gemini CLI (when its working) can analyze your ENTIRE codebase or critical sections of it all at once (obviously within reason):
 >
-> - Upload via GitHub URL
-> - Upload up to 1000 files
-> - Upload zipped project
+> - Upload via GitHub URL or use gemini cli in the project folder
+> - If in the web: Upload up to 1000 files or the zipped project or just give it the github url
 
 ## What is Brownfield Development?
 
@@ -20,6 +19,10 @@ Brownfield development refers to adding features, fixing bugs, or modernizing ex
 - Refactor complex systems
 - Fix bugs that require architectural understanding
 - Document undocumented systems
+
+## When NOT to use a Brownfield Flow
+
+If you have just completed an MVP with BMad, and you want to continue with post-MVP, its easier to just talk to the PM and ask him to work with you to create a new epic to add into the PRD, shard out the epic, update any architecture documents with the architect, and just go from there.
 
 ## The Complete Brownfield Workflow
 

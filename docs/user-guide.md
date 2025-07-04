@@ -1,6 +1,6 @@
 # BMad-Method Agentic Agile Driven Development User Guide
 
-This comprehensive guide will help you understand and effectively use the BMad Method framework for AI-assisted software development.
+This comprehensive guide will help you understand and effectively use the BMad Method framework for AI-assisted software development along with many expansion purposes.
 
 ## Table of Contents
 
@@ -9,18 +9,15 @@ This comprehensive guide will help you understand and effectively use the BMad M
 3. [Agent System](#agent-system)
 4. [Templates and Document Creation](#templates-and-document-creation)
 5. [Development Workflow](#development-workflow)
-6. [Team Configurations](#team-configurations)
-7. [IDE Integration](#ide-integration)
-8. [Web UI Usage](#web-ui-usage)
-9. [Advanced Features](#advanced-features)
-10. [Troubleshooting](#troubleshooting)
-11. [Best Practices](#best-practices)
+6. [IDE Integration](#ide-integration)
+7. [Web UI Usage](#web-ui-usage)
+8. [Advanced Features](#advanced-features)
 
 ## Understanding BMad
 
 ### What is BMad-Method?
 
-BMad-Method (Breakthrough Method of Agile AI-Driven Development) is an AI agent orchestration framework that provides specialized AI agents for every role in a complete Agile development team. Unlike generic AI assistants, each BMad agent has deep expertise in their specific domain and can collaborate to deliver complete software projects.
+BMad-Method (Breakthrough Method of Agile AI-Driven Development) is an AI agent orchestration framework that provides specialized AI agents for every role in a complete Agile development team. Unlike generic AI assistants, each BMad agent has deep expertise in their specific domain and can collaborate with you using advanced elicitation techniques, and guided workflows
 
 ### Core Principles
 
@@ -28,7 +25,7 @@ BMad-Method (Breakthrough Method of Agile AI-Driven Development) is an AI agent 
 2. **True Agile Workflow**: Follows real Agile methodologies with proper story management
 3. **Self-Contained Templates**: Documents embed both output and processing instructions
 4. **Dynamic Dependencies**: Agents only load resources they need
-5. **Platform Agnostic**: Works with any AI platform or IDE
+5. **Platform Agnostic**: Works with any Project Type or Agentic IDE
 
 ### When to Use BMad
 
@@ -44,7 +41,7 @@ BMad-Method (Breakthrough Method of Agile AI-Driven Development) is an AI agent 
 
 #### Option 1: Web UI (Fastest - 2 minutes)
 
-Best for: ChatGPT, Claude, Gemini users
+If you want to do the planning int he Web:
 
 1. Navigate to `dist/teams/`
 2. Copy `team-fullstack.txt` content
@@ -53,8 +50,6 @@ Best for: ChatGPT, Claude, Gemini users
 5. Type `/help` to see available commands
 
 #### Option 2: IDE Integration (5 minutes)
-
-Best for: Cursor, Claude Code, Windsurf, VS Code users
 
 ```bash
 # Interactive installation (recommended)
@@ -73,40 +68,6 @@ npx bmad-method install
 # Check installation status
 npx bmad-method status
 ```
-
-### First Steps
-
-1. **Choose Your Environment**: Web UI or IDE
-2. **Select Agent/Team**: Individual agent or full team
-3. **Initialize Project**: Run `/help` or `*help` to see capabilities
-4. **Start Development**: Begin with planning or jump into coding
-
-### Upgrading from V3 to V4
-
-If you have an existing BMad-Method V3 project, simply run the installer in your project directory:
-
-```bash
-npx bmad-method install
-# The installer will automatically detect your V3 installation and offer to upgrade
-```
-
-The upgrade process will:
-
-1. Create a backup of your V3 files in `.bmad-v3-backup/`
-2. Install the new V4 `.bmad-core/` structure
-3. Migrate your documents (PRD, Architecture, Stories, Epics)
-4. Set up IDE integration for all V4 agents
-5. Create an install manifest for future updates
-
-After upgrading:
-
-1. Review your documents in the `docs/` folder - if you had a PRD or architecture in your old project, copy it from the backup to the docs folder if they are not there.
-2. Optionally run the `doc-migration-task` to align your documents with V4 templates - you can do this with your agent by saying something like: 'run {drag in task} against {drag prd or arch file from docs} to align with {drag the template from .bmad-core/templates/full-stack-architecture.md}'
-3. If you have separate front-end and backend architecture docs you can modify step 2 to merge both into a single full stack architecture or separate Front and Back end.
-
-The reason #2 and #3 are optional is because now BMad V4 makes sharding optional for the SM. See [Core Configuration](#core-configuration)
-
-**Note**: The agents in `.bmad-core/` fully replace the items in `bmad-agent/` - you can remove the backup folder versions.
 
 ## Agent System
 
@@ -233,8 +194,8 @@ Templates follow the `template-format.md` specification:
 For cost efficiency, especially with Gemini:
 
 1. **Create Large Documents in Web UI**: Use web bundles for PRD and architecture creation
-2. **Copy to Project**: Save the final markdown output to your project's `docs/` folder
-3. **Standard Naming**: Use `prd.md` and `architecture.md` for consistency
+2. **Copy to Project**: Save the final markdown output to your project's `docs/` folder (use the ... menu)
+3. **Standard Naming**: Use `prd.md` and `architecture.md` for consistent file name
 4. **Continue in IDE**: Use IDE agents for development tasks and smaller documents
 
 #### File Naming Conventions
@@ -468,27 +429,7 @@ When the SM agent executes the `create-next-story` task:
 
 #### The Story Template Structure
 
-The story template contains embedded LLM instructions for different agents:
-
-**SM Agent Instructions**:
-
-- Populate Dev Notes with specific technical details from architecture
-- Include source references for all technical guidance
-- Create detailed tasks based on architecture constraints
-- Add testing requirements from testing strategy
-
-**Dev Agent Instructions**:
-
-- Update Debug Log References during implementation
-- Document any deviations in Completion Notes
-- Maintain comprehensive File List of all changes
-- Track requirement changes in Change Log
-
-**QA Agent Instructions**:
-
-- Append review results in QA Results section
-- Document refactoring performed with explanations
-- Note security and performance considerations
+The story template contains embedded LLM instructions for the SM Dev and QA Agent.
 
 #### How Agents Pass Information
 
@@ -525,57 +466,6 @@ The QA agent contributes:
 - **Improvements Checklist**: Items completed (marked [x]) vs. items for Dev to address (marked [ ])
 - **Learning Opportunities**: Explanations for junior/mid-level developer growth
 
-#### Example: How Notes Flow Between Stories
-
-**Story 1.1 Completion**:
-
-```markdown
-### Completion Notes List
-
-- Discovered that user authentication requires additional session management not specified in architecture
-- Created new SessionManager service in services/auth/session-manager.ts
-- Recommend updating architecture to include session management patterns
-```
-
-**Story 1.2 Creation** (SM uses the above notes):
-
-```markdown
-## Dev Notes
-
-### Previous Story Insights
-
-- Story 1.1 created SessionManager service for auth (services/auth/session-manager.ts)
-- Consider using SessionManager for this story's user profile feature
-- Architecture update pending for session management patterns
-```
-
-This continuous feedback loop ensures each story benefits from lessons learned in previous implementations.
-
-#### QA Agent Key Principles
-
-When the QA agent performs the review-story task:
-
-- **Senior Developer Authority**: Reviews as a senior developer with authority to refactor directly
-- **Active Improvement**: Makes code improvements rather than just identifying issues
-- **Teaching Focus**: Explains all changes for developer learning and growth
-- **Pragmatic Balance**: Focuses on significant improvements, not nitpicks
-- **Quality Gates**: Can block story completion if critical issues exist
-
-**QA Blocking Conditions**:
-The QA will stop and request clarification if:
-
-- Story file is incomplete or missing critical sections
-- File List is empty or clearly incomplete
-- No tests exist when they were required
-- Code changes don't align with story requirements
-- Critical architectural issues require discussion
-
-- **Benefits of QA Review**:
-  - Code quality improvements and refactoring
-  - Knowledge transfer through documented explanations
-  - Catching edge cases and security issues
-  - Ensuring architectural consistency
-
 ### Workflow Types
 
 #### Greenfield Development
@@ -598,85 +488,11 @@ For existing projects:
 4. Incremental development
 5. Integration testing
 
-## Team Configurations
-
-### Pre-Built Teams
-
-#### Team All
-
-- **Includes**: All 10 agents + orchestrator
-- **Use Case**: Complete projects requiring all roles
-- **Bundle**: `team-all.txt`
-
-#### Team Fullstack
-
-- **Includes**: PM, Architect, Developer, QA, UX Expert
-- **Use Case**: End-to-end web/mobile development
-- **Bundle**: `team-fullstack.txt`
-
-#### Team No-UI
-
-- **Includes**: PM, Architect, Developer, QA (no UX Expert)
-- **Use Case**: Backend services, APIs, system development
-- **Bundle**: `team-no-ui.txt`
-
-### Custom Team Configuration
-
-Create custom teams by modifying `.bmad-core/agent-teams/`:
-
-```yaml
-name: Custom Development Team
-description: Specialized team for specific needs
-agents:
-  - pm
-  - architect
-  - dev
-  - qa
-workflows:
-  - greenfield-fullstack
-```
-
 ## IDE Integration
-
-### Supported IDEs
-
-#### Cursor IDE
-
-- **Commands**: `@agent-name task` (manual rules)
-- **Example**: `@pm Create a PRD for user management`
-- **Features**: Inline suggestions, context awareness
-- **Integration**: Agents loaded as manual rules
-
-#### Claude Code
-
-- **Commands**: `/agent-name task` (command files)
-- **Example**: `/architect Design microservices architecture`
-- **Features**: File integration, project context
-- **Integration**: Agents installed as files in commands folder
-
-#### Windsurf
-
-- **Commands**: `@agent-name task` (manual rules)
-- **Example**: `@dev Implement authentication`
-- **Features**: Multi-file editing, project awareness
-- **Integration**: Agents loaded as manual rules
-
-#### VS Code (Generic)
-
-- **Setup**: Manual installation
-- **Usage**: Copy agent content to chat
-- **Features**: Basic integration
-
-### IDE Setup Process
-
-1. **Install CLI**: `npx bmad-method install`
-2. **Select IDE**: Choose during installation
-3. **Configure Integration**: Automatic setup for supported IDEs
-4. **Verify Installation**: Test with `@agent-name help`
 
 ### IDE Best Practices
 
-- **Context Management**: Keep relevant files open
+- **Context Management**: Keep relevant files only in context, keep files as lean and focused as necessary
 - **Agent Selection**: Use appropriate agent for task
 - **Iterative Development**: Work in small, focused tasks
 - **File Organization**: Maintain clean project structure
@@ -685,91 +501,13 @@ workflows:
 
 **Important**: Web UI is primarily designed for planning and documentation phases, not development. Use IDE integration for coding tasks.
 
-### Platform Setup
-
-#### ChatGPT Custom GPT
-
-1. Create new Custom GPT
-2. Upload team bundle as knowledge
-3. Set instructions: "Your critical operating instructions are attached, do not break character as directed"
-4. Configure capabilities as needed
-
-#### Claude Projects
-
-1. Create new project
-2. Add team bundle to project knowledge
-3. Set project instructions with agent behavior
-4. Start conversation with `/help`
-
-#### Gemini Gems
-
-1. Create new Gem
-2. Upload bundle as instruction file
-3. Set system instructions for agent behavior
-4. Initialize with `/help` command
-
 ### Web UI Commands
 
-#### Universal Commands
-
-- `/help` - Show available commands
-- `/status` - Current agent status
-- `/switch agent-name` - Change active agent (if orchestrator available)
-
-#### Document Commands
-
-- `/create-doc type` - Create document of specified type
-- `/review-doc` - Review current document
-- `/refine-doc` - Improve document quality
-
-#### Planning Commands
-
-- `/pm create-doc prd` - Create Product Requirements Document
-- `/architect create-doc architecture` - Create system architecture
-- `/analyst create-doc project-brief` - Create project brief
-- `/po run-checklist` - Validate document alignment
+type #help when in the Gem or Custom GPT with one of the teams, and the BMad-Orchestrator will give you an up to date list of commands.
 
 ### Web UI Agent Interaction
 
 Web UI agents focus on planning and documentation. Here's how to interact with each:
-
-#### Agent Switching and Conversation
-
-- **Switch Agents**: Use `/pm`, `/architect`, `/analyst`, `/po` to switch between roles
-- **Agent Consultation**: Each agent offers their specialized options and capabilities
-- **Natural Conversation**: Agents guide you through their processes with questions and suggestions
-
-#### Planning Phase Agents
-
-- **Analyst**: `/analyst` - Brainstorming, market research, competitive analysis
-- **PM**: `/pm` - Product requirements, feature definition, roadmaps
-- **Architect**: `/architect` - System design, technical architecture
-- **PO**: `/po` - Document validation, epic management, story alignment
-
-### Web UI Best Practices
-
-- **Clear Instructions**: Be specific about requirements
-- **Context Sharing**: Provide relevant background
-- **Iterative Refinement**: Use built-in elicitation features
-- **Document Management**: Keep generated docs organized
-- **Stay in Planning**: Use web UI for documentation, switch to IDE for development
-
-#### Cost-Effective Document Creation
-
-**Recommended Workflow for Large Documents:**
-
-1. **Use Web UI for PRD and Architecture**: These are token-heavy documents, especially in Gemini
-2. **Copy Final Output**: Save complete markdown to your project
-3. **Standard File Names**:
-   - Save PRD as `docs/prd.md`
-   - Save Architecture as `docs/architecture.md`
-4. **IDE for Development**: Switch to IDE agents for implementation tasks
-
-**Why This Saves Money:**
-
-- Web UI pricing is typically more cost-effective for large context windows
-- PRD and architecture creation involves extensive back-and-forth refinement
-- IDE token costs can accumulate quickly with large document generation
 
 ## Advanced Features
 
@@ -784,7 +522,7 @@ BMad's dependency system ensures agents only load necessary resources:
 
 ### Custom Templates
 
-Create custom templates following `template-format.md`:
+Create custom templates following `utils/template-format.md`:
 
 ```markdown
 ---
@@ -1384,131 +1122,12 @@ Add specialized capabilities:
 
 ## Troubleshooting Guide
 
-### Common Issues
+## Getting Help
 
-#### Agent Not Responding
-
-- **Cause**: Incorrect agent name or command
-- **Solution**: Check available agents with `/help`
-- **Prevention**: Use tab completion in supported IDEs
-
-#### Template Errors
-
-- **Cause**: Malformed template syntax
-- **Solution**: Validate against `template-format.md`
-- **Prevention**: Use provided templates as starting point
-
-#### Context Overload
-
-- **Cause**: Too many dependencies loaded
-- **Solution**: Use specific agents instead of `bmad-master`
-- **Prevention**: Choose appropriate team size
-
-#### Installation Issues
-
-- **Cause**: Node.js version, permissions
-- **Solution**: Update Node.js, check permissions
-- **Prevention**: Use recommended Node.js version (14+)
-
-### Debugging Steps
-
-1. **Check Installation**: `npx bmad-method status`
-2. **Verify Agent**: Test with simple command
-3. **Review Dependencies**: Ensure required files exist
-4. **Clear Cache**: Restart IDE/browser
-5. **Reinstall**: `npx bmad-method install --force`
-
-### Getting Help
-
-- **Discord Community**: [Join Discord](https://discord.gg/g6ypHytrCB)
+- **Discord Community**: [Join Discord](https://discord.gg/gk8jAdXWmj)
 - **GitHub Issues**: [Report bugs](https://github.com/bmadcode/bmad-method/issues)
 - **Documentation**: [Browse docs](https://github.com/bmadcode/bmad-method/tree/main/docs)
 - **YouTube**: [BMadCode Channel](https://www.youtube.com/@BMadCode)
-
-## Best Practices and Tips
-
-### Project Organization
-
-#### Folder Structure
-
-```text
-project/
-├── .bmad-core/          # BMad agents and resources
-├── docs/                # Generated documentation
-│   ├── prd.md
-│   ├── architecture.md
-│   └── stories/
-├── src/                 # Source code
-└── tests/               # Test files
-```
-
-#### Document Management
-
-- Keep generated docs in `docs/` folder
-- Version control all BMad-generated content
-- Regular backups of `.bmad-core/` customizations
-
-### Recommended Development Flow
-
-#### Planning Phase
-
-1. **Start with Analysis**: Use analyst for market research
-2. **Create PRD**: PM agent for comprehensive requirements
-3. **Design Architecture**: Architect for technical foundation
-4. **Plan UX**: UX Expert for user experience
-
-#### Development Phase
-
-1. **Shard Work**: PO to break down epics
-2. **Story Development**: SM for manageable tasks
-3. **Implementation**: Dev for coding
-4. **Quality Assurance**: QA for testing
-
-#### Review Process
-
-1. **Code Review**: Dev agent for code quality
-2. **Functional Testing**: QA for feature validation
-3. **User Acceptance**: PO for business requirements
-4. **Documentation**: Update docs as needed
-
-### Quality Assurance
-
-#### Code Quality
-
-- Use dev agent for code reviews
-- Implement suggested improvements
-- Follow established coding standards
-- Regular refactoring sessions
-
-#### Documentation Standards
-
-- Keep docs updated with changes
-- Use templates for consistency
-- Regular doc reviews with PO
-- Clear, actionable user stories
-
-#### Process Quality
-
-- Follow Agile ceremonies
-- Regular retrospectives
-- Continuous improvement
-- Stakeholder feedback integration
-
-### Performance Optimization
-
-#### Context Management
-
-- Use specific agents vs. bmad-master
-- Minimal team configurations
-- Regular dependency cleanup
-- Archive completed projects
-
-#### Resource Efficiency
-
-- Appropriate bundle sizes
-- Selective agent usage
-- Efficient template design
-- Regular cache clearing
 
 ## Conclusion
 
@@ -1521,7 +1140,3 @@ BMad-Method provides a comprehensive framework for AI-assisted software developm
 - Maintain high quality standards
 
 Remember: BMad is designed to enhance your development process, not replace your expertise. Use it as a powerful tool to accelerate your projects while maintaining control over design decisions and implementation details.
-
----
-
-For additional support, join our [Discord community](https://discord.gg/g6ypHytrCB) or check out the [YouTube channel](https://www.youtube.com/@BMadCode) for video tutorials and walkthroughs.
