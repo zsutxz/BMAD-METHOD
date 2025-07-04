@@ -1,3 +1,10 @@
+## [4.24.6](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.5...v4.24.6) (2025-07-04)
+
+
+### Bug Fixes
+
+* version bump and web build fix ([1c845e5](https://github.com/bmadcode/BMAD-METHOD/commit/1c845e5b2c77a77d887d8216152ba09110c72e40))
+
 ## [4.24.5](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.4...v4.24.5) (2025-07-04)
 
 
