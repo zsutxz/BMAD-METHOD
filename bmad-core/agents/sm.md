@@ -41,7 +41,7 @@ dependencies:
   tasks:
     - create-next-story
     - execute-checklist
-    - course-correct
+    - correct-course
   templates:
     - story-tmpl
   checklists:

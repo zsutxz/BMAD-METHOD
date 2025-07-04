@@ -65,7 +65,6 @@ dependencies:
     - brainstorming-techniques
     - brownfield-create-epic
     - brownfield-create-story
-    - core-dump
     - correct-course
     - create-deep-research-prompt
     - create-doc
@@ -78,7 +77,6 @@ dependencies:
     - shard-doc
     - update-workflow-plan
   templates:
-    - agent-tmpl
     - architecture-tmpl
     - brownfield-architecture-tmpl
     - brownfield-prd-tmpl
