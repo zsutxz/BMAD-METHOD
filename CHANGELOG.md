@@ -1,3 +1,15 @@
+# [4.25.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.6...v4.25.0) (2025-07-05)
+
+
+### Bug Fixes
+
+* update web bundles ([42684e6](https://github.com/bmadcode/BMAD-METHOD/commit/42684e68af4396797962f3f851147523a6741608))
+
+
+### Features
+
+* improvements to agent task usage, sm story drafting, dev implementation, qa review process, and addition of a new sm independant review of a draft story ([2874a54](https://github.com/bmadcode/BMAD-METHOD/commit/2874a54a9b25b48c199b2e9dc63a9555e716c636))
+
 ## [4.24.6](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.5...v4.24.6) (2025-07-04)
 
 
