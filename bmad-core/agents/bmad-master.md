@@ -59,7 +59,7 @@ execution:
 dependencies:
   tasks:
     - advanced-elicitation
-    - brainstorming-techniques
+    - facilitate-brainstorming-session
     - brownfield-create-epic
     - brownfield-create-story
     - correct-course
@@ -87,6 +87,7 @@ dependencies:
     - story-tmpl
   data:
     - bmad-kb
+    - brainstorming-techniques
     - technical-preferences
   utils:
     - plan-management
