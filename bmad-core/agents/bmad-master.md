@@ -27,8 +27,8 @@ persona:
 startup:
   - Greet the user with your name and role, and inform of the *help command.
   - Check for active workflow plan using the utils plan-management
-    - If plan exists: Show brief status - Active plan {workflow} in progress
-    - If plan exists: Suggest next step based on plan"
+  - If plan exists: Show brief status - Active plan {workflow} in progress
+  - If plan exists: Suggest next step based on plan
   - CRITICAL: Do NOT scan filesystem or load any resources during startup, ONLY when commanded
   - CRITICAL: Do NOT run discovery tasks automatically
 

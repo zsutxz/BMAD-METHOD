@@ -76,14 +76,16 @@ startup:
   - Greet the user with your name and role, and inform of the *help command.
 commands:
   - help: Show numbered list of the following commands to allow selection
-  - chat-mode: (Default) Product Owner consultation with advanced-elicitation
-  - create-doc {template}: Create doc (no template = show available templates)
-  - execute-checklist {checklist}: Run validation checklist (default->po-master-checklist)
-  - shard-doc {document}: Break down document into actionable parts
-  - correct-course: Analyze and suggest project course corrections
+  - create-doc {template}: execute task create-doc (no template = ONLY show available templates listed under dependencies/templates below)
+  - execute-checklist {checklist}: Run task execute-checklist (default->po-master-checklist)
+  - shard-doc {document} {destination}: run the task shard-doc against the optionally provided document to the specified destination
+  - correct-course: execute the correct-course task
   - create-epic: Create epic for brownfield projects (task brownfield-create-epic)
   - create-story: Create user story from requirements (task brownfield-create-story)
-  - exit: Say goodbye as the Product Owner, and then abandon inhabiting this persona
+  - yolo: Toggle Yolo Mode off on - on will skip doc section confirmations
+  - doc-out: Output full document to current destination file
+  - validate-story-draft {story}: run the task validate-next-story against the provided story file
+  - exit: Exit (confirm)
 dependencies:
   tasks:
     - execute-checklist
@@ -91,6 +93,7 @@ dependencies:
     - correct-course
     - brownfield-create-epic
     - brownfield-create-story
+    - validate-next-story
   templates:
     - story-tmpl
   checklists:
@@ -780,18 +783,170 @@ The story creation is successful when:
 - Stories should take no more than 4 hours of focused development work
 ==================== END: tasks#brownfield-create-story ====================
 
+==================== START: tasks#validate-next-story ====================
+# Validate Next Story Task
+
+## Purpose
+
+To comprehensively validate a story draft before implementation begins, ensuring it is complete, accurate, and provides sufficient context for successful development. This task identifies issues and gaps that need to be addressed, preventing hallucinations and ensuring implementation readiness.
+
+## SEQUENTIAL Task Execution (Do not proceed until current Task is complete)
+
+### 0. Load Core Configuration and Inputs
+
+- Load `.bmad-core/core-config.yaml` from the project root
+- If the file does not exist, HALT and inform the user: "core-config.yaml not found. This file is required for story validation."
+- Extract key configurations: `devStoryLocation`, `prd.*`, `architecture.*`
+- Identify and load the following inputs:
+  - **Story file**: The drafted story to validate (provided by user or discovered in `devStoryLocation`)
+  - **Parent epic**: The epic containing this story's requirements
+  - **Architecture documents**: Based on configuration (sharded or monolithic)
+  - **Story template**: `bmad-core/templates/story-tmpl.md` for completeness validation
+
+### 1. Template Completeness Validation
+
+- Load `bmad-core/templates/story-tmpl.md` and extract all section headings from the template
+- **Missing sections check**: Compare story sections against template sections to verify all required sections are present
+- **Placeholder validation**: Ensure no template placeholders remain unfilled (e.g., `{{EpicNum}}`, `{{role}}`, `_TBD_`)
+- **Agent section verification**: Confirm all sections from template exist for future agent use
+- **Structure compliance**: Verify story follows template structure and formatting
+
+### 2. File Structure and Source Tree Validation
+
+- **File paths clarity**: Are new/existing files to be created/modified clearly specified?
+- **Source tree relevance**: Is relevant project structure included in Dev Notes?
+- **Directory structure**: Are new directories/components properly located according to project structure?
+- **File creation sequence**: Do tasks specify where files should be created in logical order?
+- **Path accuracy**: Are file paths consistent with project structure from architecture docs?
+
+### 3. UI/Frontend Completeness Validation (if applicable)
+
+- **Component specifications**: Are UI components sufficiently detailed for implementation?
+- **Styling/design guidance**: Is visual implementation guidance clear?
+- **User interaction flows**: Are UX patterns and behaviors specified?
+- **Responsive/accessibility**: Are these considerations addressed if required?
+- **Integration points**: Are frontend-backend integration points clear?
+
+### 4. Acceptance Criteria Satisfaction Assessment
+
+- **AC coverage**: Will all acceptance criteria be satisfied by the listed tasks?
+- **AC testability**: Are acceptance criteria measurable and verifiable?
+- **Missing scenarios**: Are edge cases or error conditions covered?
+- **Success definition**: Is "done" clearly defined for each AC?
+- **Task-AC mapping**: Are tasks properly linked to specific acceptance criteria?
+
+### 5. Validation and Testing Instructions Review
+
+- **Test approach clarity**: Are testing methods clearly specified?
+- **Test scenarios**: Are key test cases identified?
+- **Validation steps**: Are acceptance criteria validation steps clear?
+- **Testing tools/frameworks**: Are required testing tools specified?
+- **Test data requirements**: Are test data needs identified?
+
+### 6. Security Considerations Assessment (if applicable)
+
+- **Security requirements**: Are security needs identified and addressed?
+- **Authentication/authorization**: Are access controls specified?
+- **Data protection**: Are sensitive data handling requirements clear?
+- **Vulnerability prevention**: Are common security issues addressed?
+- **Compliance requirements**: Are regulatory/compliance needs addressed?
+
+### 7. Tasks/Subtasks Sequence Validation
+
+- **Logical order**: Do tasks follow proper implementation sequence?
+- **Dependencies**: Are task dependencies clear and correct?
+- **Granularity**: Are tasks appropriately sized and actionable?
+- **Completeness**: Do tasks cover all requirements and acceptance criteria?
+- **Blocking issues**: Are there any tasks that would block others?
+
+### 8. Anti-Hallucination Verification
+
+- **Source verification**: Every technical claim must be traceable to source documents
+- **Architecture alignment**: Dev Notes content matches architecture specifications
+- **No invented details**: Flag any technical decisions not supported by source documents
+- **Reference accuracy**: Verify all source references are correct and accessible
+- **Fact checking**: Cross-reference claims against epic and architecture documents
+
+### 9. Dev Agent Implementation Readiness
+
+- **Self-contained context**: Can the story be implemented without reading external docs?
+- **Clear instructions**: Are implementation steps unambiguous?
+- **Complete technical context**: Are all required technical details present in Dev Notes?
+- **Missing information**: Identify any critical information gaps
+- **Actionability**: Are all tasks actionable by a development agent?
+
+### 10. Generate Validation Report
+
+Provide a structured validation report including:
+
+#### Template Compliance Issues
+
+- Missing sections from story template
+- Unfilled placeholders or template variables
+- Structural formatting issues
+
+#### Critical Issues (Must Fix - Story Blocked)
+
+- Missing essential information for implementation
+- Inaccurate or unverifiable technical claims
+- Incomplete acceptance criteria coverage
+- Missing required sections
+
+#### Should-Fix Issues (Important Quality Improvements)
+
+- Unclear implementation guidance
+- Missing security considerations
+- Task sequencing problems
+- Incomplete testing instructions
+
+#### Nice-to-Have Improvements (Optional Enhancements)
+
+- Additional context that would help implementation
+- Clarifications that would improve efficiency
+- Documentation improvements
+
+#### Anti-Hallucination Findings
+
+- Unverifiable technical claims
+- Missing source references
+- Inconsistencies with architecture documents
+- Invented libraries, patterns, or standards
+
+#### Final Assessment
+
+- **GO**: Story is ready for implementation
+- **NO-GO**: Story requires fixes before implementation
+- **Implementation Readiness Score**: 1-10 scale
+- **Confidence Level**: High/Medium/Low for successful implementation
+==================== END: tasks#validate-next-story ====================
+
 ==================== START: templates#story-tmpl ====================
+---
+defaultOutput: docs/stories/{{EpicNum}}.{{StoryNum}}.{{Short Title Copied from Epic File specific story}}.md
+smAgent:
+  editableSections: Status, Story, Acceptance Criteria, Tasks / Subtasks, Dev Notes, Testing, Change Log
+  sectionSpecificInstructions:
+    "Dev Notes":
+      - Populate relevant information, only what was pulled from actual artifacts from docs folder, relevant to this story
+      - Do not invent information.
+      - If known add Relevant Source Tree info that relates to this story.
+      - If there were important notes from previous story that are relevant to this one, include them here.
+      - Put enough information in this section so that the dev agent should NEVER need to read the architecture documents, these notes along with the tasks and subtasks must give the Dev Agent the complete context it needs to comprehend with the least amount of overhead the information to complete the story,  meeting all AC and completing all tasks+subtasks.
+    Testing:
+      - List Relevant Testing Standards from Architecture the Developer needs to conform to (test file location, test standards, etc) 
+---
+
 # Story {{EpicNum}}.{{StoryNum}}: {{Short Title Copied from Epic File specific story}}
 
 ## Status: {{ Draft | Approved | InProgress | Review | Done }}
 
 ## Story
 
-- As a {{role}}
-- I want {{action}}
-- so that {{benefit}}
+**As a** {{role}},\
+**I want** {{action}},\
+**so that** {{benefit}}
 
-## Acceptance Criteria (ACs)
+## Acceptance Criteria
 
 {{ Copy of Acceptance Criteria numbered list }}
 
@@ -806,20 +961,12 @@ The story creation is successful when:
 
 ## Dev Notes
 
-[[LLM: populates relevant information, only what was pulled from actual artifacts from docs folder, relevant to this story. Do not invent information. Critical: If known add Relevant Source Tree info that relates to this story. If there were important notes from previous story that are relevant to this one, also include them here if it will help the dev agent. You do NOT need to repeat anything from coding standards or test standards as the dev agent is already aware of those. The dev agent should NEVER need to read the PRD or architecture documents or child documents though to complete this self contained story, because your critical mission is to share the specific items needed here extremely concisely for the Dev Agent LLM to comprehend with the least about of context overhead token usage needed.]]
-
 ### Testing
 
-[[LLM: Scrum Master use `test-strategy-and-standards.md` to leave instruction for developer agent in the following concise format, leave unchecked if no specific test requirement of that type]]
-Dev Note: Story Requires the following tests:
+## Change Log
 
-- [ ] {{type f.e. Jest}} Unit Tests: (nextToFile: {{true|false}}), coverage requirement: {{from strategy or default 80%}}
-- [ ] {{type f.e. Jest with in memory db}} Integration Test (Test Location): location: {{Integration test location f.e. `/tests/story-name/foo.spec.cs` or `next to handler`}}
-- [ ] {{type f.e. Cypress}} E2E: location: {{f.e. `/e2e/{epic-name/bar.test.ts`}}
-
-Manual Test Steps: [[LLM: Include how if possible the user can manually test the functionality when story is Ready for Review, if any]]
-
-{{ f.e. `- dev will create a script with task 3 above that you can run with "npm run test-initiate-launch-sequence" and validate Armageddon is initiated`}}
+| Date | Version | Description | Author |
+| :--- | :------ | :---------- | :----- |
 
 ## Dev Agent Record
 
@@ -827,29 +974,11 @@ Manual Test Steps: [[LLM: Include how if possible the user can manually test the
 
 ### Debug Log References
 
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update]]
-[[LLM: (Dev Agent) If the debug is logged to during the current story progress, create a table with the debug log and the specific task section in the debug log - do not repeat all the details in the story]]
-
 ### Completion Notes List
-
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update - remove this line to the SM]]
-[[LLM: (Dev Agent) Anything the SM needs to know that deviated from the story that might impact drafting the next story.]]
 
 ### File List
 
-[[LLM: (Dev Agent) List every new file created, or existing file modified in a bullet list.]]
-
-### Change Log
-
-[[LLM: (SM Agent) When Drafting Story, leave next prompt in place for dev agent to remove and update- remove this line to the SM]]
-[[LLM: (Dev Agent) Track document versions and changes during development that deviate from story dev start]]
-
-| Date | Version | Description | Author |
-| :--- | :------ | :---------- | :----- |
-
 ## QA Results
-
-[[LLM: QA Agent Results]]
 ==================== END: templates#story-tmpl ====================
 
 ==================== START: checklists#po-master-checklist ====================
