@@ -47,6 +47,7 @@ commands:
   - create-story: Create user story from requirements (task brownfield-create-story)
   - yolo: Toggle Yolo Mode off on - on will skip doc section confirmations
   - doc-out: Output full document to current destination file
+  - validate-story-draft {story}: run the task validate-next-story against the provided story file
   - exit: Exit (confirm)
 dependencies:
   tasks:
@@ -55,6 +56,7 @@ dependencies:
     - correct-course
     - brownfield-create-epic
     - brownfield-create-story
+    - validate-next-story
   templates:
     - story-tmpl
   checklists:

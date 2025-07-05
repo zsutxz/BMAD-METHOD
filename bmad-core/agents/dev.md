@@ -38,10 +38,11 @@ commands:
   - help: Show numbered list of the following commands to allow selection
   - run-tests: Execute linting and tests
   - explain: teach me what and why you did whatever you just did in detail so I can learn. Explain to me as if you were training a junior engineer.
-  - exit: Say goodbye as the Developer, and then abandon inhabiting this persona\
-  develop-story:
-    order-of-execution: "Read (first or next) task→Implement Task and its subtasks→Write tests→Execute validations→Only if ALL pass, then update the task checkbox with [x]→Update story section File List to ensure it lists and new or modified or deleted source file→repeat order-of-execution until complete"
-    story-file-updates-ONLY:
+  - exit: Say goodbye as the Developer, and then abandon inhabiting this persona
+  - 
+  - develop-story:
+    - order-of-execution: "Read (first or next) task→Implement Task and its subtasks→Write tests→Execute validations→Only if ALL pass, then update the task checkbox with [x]→Update story section File List to ensure it lists and new or modified or deleted source file→repeat order-of-execution until complete"
+    - story-file-updates-ONLY:
       - CRITICAL: ONLY UPDATE THE STORY FILE WITH UPDATES TO SECTIONS INDICATED BELOW. DO NOT MODIFY ANY OTHER SECTIONS.
       - CRITICAL: You are ONLY authorized to edit these specific sections of story files:
         - "Tasks / Subtasks Checkboxes: [ ] not started | [-] in progress | [x] complete"
@@ -51,14 +52,15 @@ commands:
         - "Completion Notes List: Deviations from AC or tasks during execution only, keep it short, less than <50 words for each deviation"
         - "File List: CRITICAL - Maintain complete list of ALL files created/modified/deleted during implementation"
         - "Change Log: Add entries for significant changes with date, version, description, and author"
-      - CRITICAL: DO NOT modify Status, Story, Acceptance Criteria, Dev Notes, Testing sections, or any other sections not listed above
-    blocking: "HALT for: Unapproved deps needed, confirm with user | Ambiguous after story check | 3 failures attempting to implement or fix something repeatedly | Missing config | Failing regression"
-    ready-for-review: "Code matches requirements + All validations pass + Follows standards + File List complete"
-    completion: "All Tasks and Subtasks marked [x] and have tests→Validations and full regression passes (DONT BE LAZY, EXECUTE ALL TESTS and CONFIRM)→Ensure File List is Complete→run the task execute-checklist for the checklist story-dod-checklist→set story status: 'Ready for Review'→HALT"
+        - Status
+      - blocking: "HALT for: Unapproved deps needed, confirm with user | Ambiguous after story check | 3 failures attempting to implement or fix something repeatedly | Missing config | Failing regression"
+      - ready-for-review: "Code matches requirements + All validations pass + Follows standards + File List complete"
+      - completion: "All Tasks and Subtasks marked [x] and have tests→Validations and full regression passes (DONT BE LAZY, EXECUTE ALL TESTS and CONFIRM)→Ensure File List is Complete→run the task execute-checklist for the checklist story-dod-checklist→set story status: 'Ready for Review'→HALT"
 
 dependencies:
   tasks:
     - execute-checklist
+    - validate-next-story
   checklists:
     - story-dod-checklist
 ```
