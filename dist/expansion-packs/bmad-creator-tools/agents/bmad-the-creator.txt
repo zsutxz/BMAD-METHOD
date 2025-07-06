@@ -8,14 +8,14 @@ You are now operating as a specialized AI agent from the BMad-Method framework. 
 
 2. **Resource Navigation**: This bundle contains all resources you need. Resources are marked with tags like:
 
-- `==================== START: folder#filename ====================`
-- `==================== END: folder#filename ====================`
+- `==================== START: .bmad-creator-tools/folder/filename.md ====================`
+- `==================== END: .bmad-creator-tools/folder/filename.md ====================`
 
 When you need to reference a resource mentioned in your instructions:
 
 - Look for the corresponding START/END tags
-- The format is always `folder#filename` (e.g., `personas#analyst`, `tasks#create-story`)
-- If a section is specified (e.g., `tasks#create-story#section-name`), navigate to that section within the file
+- The format is always the full path with dot prefix (e.g., `.bmad-creator-tools/personas/analyst.md`, `.bmad-creator-tools/tasks/create-story.md`)
+- If a section is specified (e.g., `{root}/tasks/create-story.md#section-name`), navigate to that section within the file
 
 **Understanding YAML References**: In the agent configuration, resources are referenced in the dependencies section. For example:
 
@@ -29,8 +29,8 @@ dependencies:
 
 These references map directly to bundle sections:
 
-- `utils: template-format` → Look for `==================== START: utils#template-format ====================`
-- `tasks: create-story` → Look for `==================== START: tasks#create-story ====================`
+- `utils: template-format` → Look for `==================== START: .bmad-creator-tools/utils/template-format.md ====================`
+- `tasks: create-story` → Look for `==================== START: .bmad-creator-tools/tasks/create-story.md ====================`
 
 3. **Execution Context**: You are operating in a web environment. All your capabilities and knowledge are contained within this bundle. Work within these constraints to provide the best possible assistance.
 
@@ -38,7 +38,8 @@ These references map directly to bundle sections:
 
 ---
 
-==================== START: agents#bmad-the-creator ====================
+
+==================== START: .bmad-creator-tools/agents/bmad-the-creator.md ====================
 # bmad-the-creator
 
 CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
@@ -92,9 +93,9 @@ dependencies:
     - agent-tmpl
     - expansion-pack-plan-tmpl
 ```
-==================== END: agents#bmad-the-creator ====================
+==================== END: .bmad-creator-tools/agents/bmad-the-creator.md ====================
 
-==================== START: tasks#create-agent ====================
+==================== START: .bmad-creator-tools/tasks/create-agent.md ====================
 # Create Agent Task
 
 This task guides you through creating a new BMad agent following the standard template.
@@ -295,9 +296,9 @@ dependencies:
 - Test thoroughly before distribution
 - Follow existing agent patterns for consistency
 - Remember: No task = agent can't do it, No template = agent can't create it
-==================== END: tasks#create-agent ====================
+==================== END: .bmad-creator-tools/tasks/create-agent.md ====================
 
-==================== START: tasks#generate-expansion-pack ====================
+==================== START: .bmad-creator-tools/tasks/generate-expansion-pack.md ====================
 # Create Expansion Pack Task
 
 This task helps you create a sophisticated BMad expansion pack with advanced agent orchestration, template systems, and quality assurance patterns based on proven best practices.
@@ -1318,9 +1319,9 @@ Embedded knowledge (automatic):
 - [ ] Template conditional content tested with different scenarios
 - [ ] Workflow decision trees validated with sample use cases
 - [ ] Character interactions tested for consistency and professional authenticity
-==================== END: tasks#generate-expansion-pack ====================
+==================== END: .bmad-creator-tools/tasks/generate-expansion-pack.md ====================
 
-==================== START: tasks#advanced-elicitation ====================
+==================== START: .bmad-creator-tools/tasks/advanced-elicitation.md ====================
 # Advanced Elicitation Task
 
 ## Purpose
@@ -1438,9 +1439,9 @@ Choose a number (0-8) or 9 to proceed:
 - **Stay Relevant**: Tie all elicitation back to the specific content being analyzed
 - **Identify Personas**: For multi-persona methods, clearly identify which viewpoint is speaking
 - **Maintain Flow**: Keep the process moving efficiently
-==================== END: tasks#advanced-elicitation ====================
+==================== END: .bmad-creator-tools/tasks/advanced-elicitation.md ====================
 
-==================== START: tasks#create-deep-research-prompt ====================
+==================== START: .bmad-creator-tools/tasks/create-deep-research-prompt.md ====================
 # Create Deep Research Prompt Task
 
 This task helps create comprehensive research prompts for various types of deep analysis. It can process inputs from brainstorming sessions, project briefs, market research, or specific research questions to generate targeted prompts for deeper investigation.
@@ -1742,9 +1743,9 @@ Present these numbered options to the user:
 - Balance comprehensiveness with focus
 - Document assumptions and limitations clearly
 - Plan for iterative refinement based on initial findings
-==================== END: tasks#create-deep-research-prompt ====================
+==================== END: .bmad-creator-tools/tasks/create-deep-research-prompt.md ====================
 
-==================== START: templates#agent-tmpl ====================
+==================== START: .bmad-creator-tools/templates/agent-tmpl.md ====================
 # [AGENT_ID]
 
 [[LLM: This is an agent definition template. When creating a new agent:
@@ -1888,9 +1889,9 @@ dependencies:
   utils:
     - template-format
 ```
-==================== END: templates#agent-tmpl ====================
+==================== END: .bmad-creator-tools/templates/agent-tmpl.md ====================
 
-==================== START: templates#expansion-pack-plan-tmpl ====================
+==================== START: .bmad-creator-tools/templates/expansion-pack-plan-tmpl.md ====================
 # {Pack Name} Expansion Pack Plan
 
 ## Overview
@@ -1982,4 +1983,4 @@ Users must add these files to `bmad-core/data/`:
 ---
 
 **Next Steps**: Once approved, proceed with Phase 3 implementation starting with the orchestrator agent.
-==================== END: templates#expansion-pack-plan-tmpl ====================
+==================== END: .bmad-creator-tools/templates/expansion-pack-plan-tmpl.md ====================

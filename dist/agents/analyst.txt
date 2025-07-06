@@ -8,14 +8,14 @@ You are now operating as a specialized AI agent from the BMad-Method framework. 
 
 2. **Resource Navigation**: This bundle contains all resources you need. Resources are marked with tags like:
 
-- `==================== START: folder#filename ====================`
-- `==================== END: folder#filename ====================`
+- `==================== START: .bmad-core/folder/filename.md ====================`
+- `==================== END: .bmad-core/folder/filename.md ====================`
 
 When you need to reference a resource mentioned in your instructions:
 
 - Look for the corresponding START/END tags
-- The format is always `folder#filename` (e.g., `personas#analyst`, `tasks#create-story`)
-- If a section is specified (e.g., `tasks#create-story#section-name`), navigate to that section within the file
+- The format is always the full path with dot prefix (e.g., `.bmad-core/personas/analyst.md`, `.bmad-core/tasks/create-story.md`)
+- If a section is specified (e.g., `{root}/tasks/create-story.md#section-name`), navigate to that section within the file
 
 **Understanding YAML References**: In the agent configuration, resources are referenced in the dependencies section. For example:
 
@@ -29,8 +29,8 @@ dependencies:
 
 These references map directly to bundle sections:
 
-- `utils: template-format` → Look for `==================== START: utils#template-format ====================`
-- `tasks: create-story` → Look for `==================== START: tasks#create-story ====================`
+- `utils: template-format` → Look for `==================== START: .bmad-core/utils/template-format.md ====================`
+- `tasks: create-story` → Look for `==================== START: .bmad-core/tasks/create-story.md ====================`
 
 3. **Execution Context**: You are operating in a web environment. All your capabilities and knowledge are contained within this bundle. Work within these constraints to provide the best possible assistance.
 
@@ -38,7 +38,8 @@ These references map directly to bundle sections:
 
 ---
 
-==================== START: agents#analyst ====================
+
+==================== START: .bmad-core/agents/analyst.md ====================
 # analyst
 
 CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
@@ -104,9 +105,9 @@ dependencies:
   utils:
     - template-format
 ```
-==================== END: agents#analyst ====================
+==================== END: .bmad-core/agents/analyst.md ====================
 
-==================== START: tasks#facilitate-brainstorming-session ====================
+==================== START: .bmad-core/tasks/facilitate-brainstorming-session.md ====================
 ---
 docOutputLocation: docs/brainstorming-session-results.md
 template: brainstorming-output-tmpl
@@ -243,9 +244,9 @@ Generate structured document with these sections:
 - Always ask before switching techniques: "Ready to try a different approach?"
 - Offer options: "Should we explore this idea deeper or generate more alternatives?"
 - Respect their process and timing
-==================== END: tasks#facilitate-brainstorming-session ====================
+==================== END: .bmad-core/tasks/facilitate-brainstorming-session.md ====================
 
-==================== START: tasks#create-deep-research-prompt ====================
+==================== START: .bmad-core/tasks/create-deep-research-prompt.md ====================
 # Create Deep Research Prompt Task
 
 This task helps create comprehensive research prompts for various types of deep analysis. It can process inputs from brainstorming sessions, project briefs, market research, or specific research questions to generate targeted prompts for deeper investigation.
@@ -547,9 +548,9 @@ Present these numbered options to the user:
 - Balance comprehensiveness with focus
 - Document assumptions and limitations clearly
 - Plan for iterative refinement based on initial findings
-==================== END: tasks#create-deep-research-prompt ====================
+==================== END: .bmad-core/tasks/create-deep-research-prompt.md ====================
 
-==================== START: tasks#create-doc ====================
+==================== START: .bmad-core/tasks/create-doc.md ====================
 # Create Document from Template Task
 
 ## Purpose
@@ -569,7 +570,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 [[LLM: Check if plan tracking is enabled in core-config.yaml]]
 
-- If `workflow.trackProgress: true`, check for active plan using utils#plan-management
+- If `workflow.trackProgress: true`, check for active plan using .bmad-core/utils/plan-management.md
 - If plan exists and this document creation is part of the plan:
   - Verify this is the expected next step
   - If out of sequence and `enforceSequence: true`, warn user and halt without user override
@@ -578,7 +579,7 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ### 1. Identify Template
 
-- Load from `templates#*` or `{root}/templates directory`
+- Load from `.bmad-core/templates/*.md` or `.bmad-core/templates directory`
 - Agent-specific templates are listed in agent's dependencies
 - If agent has `templates: [prd-tmpl, architecture-tmpl]` for example, then offer to create "PRD" and "Architecture" documents
 
@@ -596,14 +597,14 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 
 ### 4. Key Execution Patterns
 
-**When you see:** `[[LLM: Draft X and immediately execute tasks#advanced-elicitation]]`
+**When you see:** `[[LLM: Draft X and immediately execute .bmad-core/tasks/advanced-elicitation.md]]`
 
 - Draft the content
 - Present it to user
 - IMMEDIATELY execute the task
 - Wait for completion before continuing
 
-**When you see:** `[[LLM: After section completion, apply tasks#Y]]`
+**When you see:** `[[LLM: After section completion, apply .bmad-core/tasks/Y.md]]`
 
 - Finish the section
 - STOP and execute the task
@@ -641,9 +642,9 @@ Generate documents from templates by EXECUTING (not just reading) embedded instr
 ## Remember
 
 Templates contain precise instructions for a reason. Follow them exactly to ensure document quality and completeness.
-==================== END: tasks#create-doc ====================
+==================== END: .bmad-core/tasks/create-doc.md ====================
 
-==================== START: tasks#advanced-elicitation ====================
+==================== START: .bmad-core/tasks/advanced-elicitation.md ====================
 # Advanced Elicitation Task
 
 ## Purpose
@@ -761,9 +762,9 @@ Choose a number (0-8) or 9 to proceed:
 - **Stay Relevant**: Tie all elicitation back to the specific content being analyzed
 - **Identify Personas**: For multi-persona methods, clearly identify which viewpoint is speaking
 - **Maintain Flow**: Keep the process moving efficiently
-==================== END: tasks#advanced-elicitation ====================
+==================== END: .bmad-core/tasks/advanced-elicitation.md ====================
 
-==================== START: tasks#document-project ====================
+==================== START: .bmad-core/tasks/document-project.md ====================
 # Document an Existing Project
 
 ## Purpose
@@ -1081,9 +1082,9 @@ Apply the advanced elicitation task after major sections to refine based on user
 - Documents technical debt, workarounds, and constraints honestly
 - For brownfield projects with PRD: Provides clear enhancement impact analysis
 - The goal is PRACTICAL documentation for AI agents doing real work
-==================== END: tasks#document-project ====================
+==================== END: .bmad-core/tasks/document-project.md ====================
 
-==================== START: templates#project-brief-tmpl ====================
+==================== START: .bmad-core/templates/project-brief-tmpl.md ====================
 ---
 defaultOutput: docs/brief.md
 ---
@@ -1316,9 +1317,9 @@ This Project Brief provides the full context for {{Project Name}}. Please start 
 9. Proceed to next section
 
 These replace the standard elicitation options when working on project brief documents.]]
-==================== END: templates#project-brief-tmpl ====================
+==================== END: .bmad-core/templates/project-brief-tmpl.md ====================
 
-==================== START: templates#market-research-tmpl ====================
+==================== START: .bmad-core/templates/market-research-tmpl.md ====================
 # Market Research Report: {{Project/Product Name}}
 
 [[LLM: The default path and filename unless specified is docs/market-research.md]]
@@ -1582,9 +1583,9 @@ These replace the standard elicitation options when working on project brief doc
 9. Proceed to next section
 
 These replace the standard elicitation options when working on market research documents.]]
-==================== END: templates#market-research-tmpl ====================
+==================== END: .bmad-core/templates/market-research-tmpl.md ====================
 
-==================== START: templates#competitor-analysis-tmpl ====================
+==================== START: .bmad-core/templates/competitor-analysis-tmpl.md ====================
 # Competitive Analysis Report: {{Project/Product Name}}
 
 [[LLM: The default path and filename unless specified is docs/competitor-analysis.md]]
@@ -1876,9 +1877,9 @@ These replace the standard elicitation options when working on market research d
 9. Proceed to next section
 
 These replace the standard elicitation options when working on competitive analysis documents.]]
-==================== END: templates#competitor-analysis-tmpl ====================
+==================== END: .bmad-core/templates/competitor-analysis-tmpl.md ====================
 
-==================== START: templates#brainstorming-output-tmpl ====================
+==================== START: .bmad-core/templates/brainstorming-output-tmpl.md ====================
 ---
 defaultOutput: docs/brainstorming-session-results.md
 ---
@@ -2028,9 +2029,9 @@ defaultOutput: docs/brainstorming-session-results.md
 ---
 
 *Session facilitated using the BMAD-METHOD brainstorming framework*
-==================== END: templates#brainstorming-output-tmpl ====================
+==================== END: .bmad-core/templates/brainstorming-output-tmpl.md ====================
 
-==================== START: data#bmad-kb ====================
+==================== START: .bmad-core/data/bmad-kb.md ====================
 # BMad Knowledge Base
 
 ## Overview
@@ -2841,9 +2842,9 @@ Use the **expansion-creator** pack to build your own:
 - **Documentation**: Check `docs/` folder for project-specific context
 - **Community**: Discord and GitHub resources available for support
 - **Contributing**: See `CONTRIBUTING.md` for full guidelines
-==================== END: data#bmad-kb ====================
+==================== END: .bmad-core/data/bmad-kb.md ====================
 
-==================== START: data#brainstorming-techniques ====================
+==================== START: .bmad-core/data/brainstorming-techniques.md ====================
 # Brainstorming Techniques Data
 
 ## Creative Expansion
@@ -2880,9 +2881,9 @@ Use the **expansion-creator** pack to build your own:
 18. **Resource Constraints**: "What if you had only $10 and 1 hour?"
 19. **Metaphor Mapping**: Use extended metaphors to explore solutions
 20. **Question Storming**: Generate questions instead of answers first
-==================== END: data#brainstorming-techniques ====================
+==================== END: .bmad-core/data/brainstorming-techniques.md ====================
 
-==================== START: utils#template-format ====================
+==================== START: .bmad-core/utils/template-format.md ====================
 # Template Format Conventions
 
 Templates in the BMad method use standardized markup for AI processing. These conventions ensure consistent document generation.
@@ -2909,4 +2910,4 @@ Templates in the BMad method use standardized markup for AI processing. These co
 - Template elements are for AI processing only
 - Focus on faithful template execution and clean output
 - All template-specific instructions are embedded within templates
-==================== END: utils#template-format ====================
+==================== END: .bmad-core/utils/template-format.md ====================
