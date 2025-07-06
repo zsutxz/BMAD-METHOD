@@ -1,3 +1,10 @@
+## [4.25.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.25.0...v4.25.1) (2025-07-06)
+
+
+### Bug Fixes
+
+* spelling errors in documentation. ([#297](https://github.com/bmadcode/BMAD-METHOD/issues/297)) ([47b9d9f](https://github.com/bmadcode/BMAD-METHOD/commit/47b9d9f3e87be62c8520ed6cb0048df727a9534f))
+
 # [4.25.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.24.6...v4.25.0) (2025-07-05)
 
 
