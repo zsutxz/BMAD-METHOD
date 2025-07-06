@@ -1,3 +1,10 @@
+# [4.26.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.25.1...v4.26.0) (2025-07-06)
+
+
+### Features
+
+* **trae:** add support for trae ide integration ([#298](https://github.com/bmadcode/BMAD-METHOD/issues/298)) ([fae0f5f](https://github.com/bmadcode/BMAD-METHOD/commit/fae0f5ff73a603dc1aacc29f184e2a4138446524))
+
 ## [4.25.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.25.0...v4.25.1) (2025-07-06)
 
 
