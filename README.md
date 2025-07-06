@@ -292,7 +292,7 @@ See the **[Core Architecture](docs/core-architecture.md)** for the complete sour
 - 🦘 [Roo Code Guide](docs/agentic-tools/roo-code-guide.md) - Setup and usage for Roo Code
 - 🔧 [Cline Guide](docs/agentic-tools/cline-guide.md) - Setup and usage for Cline (VS Code)
 - ✨ [Gemini CLI Guide](docs/agentic-tools/gemini-cli-guide.md) - Setup and usage for Gemini CLI
-- 💻 [Github Copilot Guide](docs/agentic-tools/github-copilot-guide.md) - Setup and usage for VS Code with GitHub Copilot
+- 💻 [GitHub Copilot Guide](docs/agentic-tools/github-copilot-guide.md) - Setup and usage for GitHub Copilot
 
 ## 🌟 Beyond Software Development - Expansion Packs
 
