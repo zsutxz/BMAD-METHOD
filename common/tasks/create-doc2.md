@@ -43,7 +43,7 @@ After user selects elicitation method (2-9):
 3. Offer options:
    - **1. Apply changes and update section**
    - **2. Return to elicitation menu**
-   - **Free text: Questions about this elicitation**
+   - **3. Ask any questions or engage further with this elicitation**
 
 ## YOLO Mode
 
