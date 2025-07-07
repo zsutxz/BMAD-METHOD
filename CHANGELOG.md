@@ -1,3 +1,10 @@
+## [4.27.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.27.1...v4.27.2) (2025-07-07)
+
+
+### Bug Fixes
+
+* improve output ([a5ffe7b](https://github.com/bmadcode/BMAD-METHOD/commit/a5ffe7b9b209ae02a9d97adf60fe73c0bc9701e4))
+
 ## [4.27.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.27.0...v4.27.1) (2025-07-07)
 
 
