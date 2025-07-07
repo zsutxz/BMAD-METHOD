@@ -1,3 +1,10 @@
+## [4.27.3](https://github.com/bmadcode/BMAD-METHOD/compare/v4.27.2...v4.27.3) (2025-07-07)
+
+
+### Bug Fixes
+
+* remove test zoo folder ([908dcd7](https://github.com/bmadcode/BMAD-METHOD/commit/908dcd7e9afae3fd23cd894c0d09855fc9c42d0e))
+
 ## [4.27.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.27.1...v4.27.2) (2025-07-07)
 
 
