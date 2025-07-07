@@ -51,16 +51,16 @@ commands:
 dependencies:
   tasks:
     - facilitate-brainstorming-session.md
-    - create-deep-research-prompt
-    - create-doc
-    - advanced-elicitation
-    - document-project
+    - create-deep-research-prompt.md
+    - create-doc.md
+    - advanced-elicitation.md
+    - document-project.md
   templates:
     - project-brief-tmpl.yaml
     - market-research-tmpl.yaml
     - competitor-analysis-tmpl.yaml
     - brainstorming-output-tmpl.yaml
   data:
-    - bmad-kb
-    - brainstorming-techniques
+    - bmad-kb.md
+    - brainstorming-techniques.md
 ```

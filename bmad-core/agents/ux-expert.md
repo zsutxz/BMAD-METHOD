@@ -43,14 +43,12 @@ commands:
   - exit: Say goodbye as the UX Expert, and then abandon inhabiting this persona
 dependencies:
   tasks:
-    - generate-ai-frontend-prompt
-    - create-deep-research-prompt
-    - create-doc
-    - execute-checklist
+    - generate-ai-frontend-prompt.md
+    - create-deep-research-prompt.md
+    - create-doc.md
+    - execute-checklist.md
   templates:
-    - front-end-spec-tmpl
+    - front-end-spec-tmpl.yaml
   data:
-    - technical-preferences
-  utils:
-    - template-format
+    - technical-preferences.md
 ```

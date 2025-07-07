@@ -50,8 +50,8 @@ develop-story:
 
 dependencies:
   tasks:
-    - execute-checklist
-    - validate-next-story
+    - execute-checklist.md
+    - validate-next-story.md
   checklists:
-    - story-dod-checklist
+    - story-dod-checklist.md
 ```
