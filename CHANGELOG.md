@@ -1,3 +1,10 @@
+## [4.27.5](https://github.com/bmadcode/BMAD-METHOD/compare/v4.27.4...v4.27.5) (2025-07-08)
+
+
+### Bug Fixes
+
+* installer for github copilot asks follow up questions right away now so it does not seem to hang, and some minor doc improvements ([cadf8b6](https://github.com/bmadcode/BMAD-METHOD/commit/cadf8b6750afd5daa32eb887608c614584156a69))
+
 ## [4.27.4](https://github.com/bmadcode/BMAD-METHOD/compare/v4.27.3...v4.27.4) (2025-07-07)
 
 
