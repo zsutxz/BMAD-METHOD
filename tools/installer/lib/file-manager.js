@@ -271,6 +271,34 @@ class FileManager {
 
     return manifest;
   }
+
+  async modifyCoreConfig(installDir, config) {
+    const coreConfigPath = path.join(installDir, '.bmad-core', 'core-config.yaml');
+    
+    try {
+      // Read the existing core-config.yaml
+      const coreConfigContent = await fs.readFile(coreConfigPath, 'utf8');
+      const coreConfig = yaml.load(coreConfigContent);
+      
+      // Modify sharding settings if provided
+      if (config.prdSharded !== undefined) {
+        coreConfig.prd.prdSharded = config.prdSharded;
+      }
+      
+      if (config.architectureSharded !== undefined) {
+        coreConfig.architecture.architectureSharded = config.architectureSharded;
+      }
+      
+      // Write back the modified config
+      await fs.writeFile(coreConfigPath, yaml.dump(coreConfig, { indent: 2 }));
+      
+      return true;
+    } catch (error) {
+      await initializeModules();
+      console.error(chalk.red(`Failed to modify core-config.yaml:`), error.message);
+      return false;
+    }
+  }
 }
 
 module.exports = new FileManager();

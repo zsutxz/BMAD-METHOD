@@ -93,7 +93,6 @@ dependencies:
     - technical-preferences.md
   utils:
     - plan-management.md
-    - workflow-management.md
   workflows:
     - brownfield-fullstack.md
     - brownfield-service.md

@@ -373,8 +373,15 @@ class Installer {
     if (ides.length > 0) {
       for (const ide of ides) {
         spinner.text = `Setting up ${ide} integration...`;
-        await ideSetup.setup(ide, installDir, config.agent, spinner);
+        const preConfiguredSettings = ide === 'github-copilot' ? config.githubCopilotConfig : null;
+        await ideSetup.setup(ide, installDir, config.agent, spinner, preConfiguredSettings);
       }
+    }
+
+    // Modify core-config.yaml if sharding preferences were provided
+    if (config.installType !== "expansion-only" && (config.prdSharded !== undefined || config.architectureSharded !== undefined)) {
+      spinner.text = "Configuring document sharding settings...";
+      await fileManager.modifyCoreConfig(installDir, config);
     }
 
     // Create manifest (skip for expansion-only installations)
