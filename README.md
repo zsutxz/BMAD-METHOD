@@ -45,7 +45,7 @@ This two-phase approach eliminates both **planning inconsistency** and **context
 - **[Create my own AI agents](#creating-your-own-expansion-pack)** → Build agents for your domain
 - **[Browse ready-made expansion packs](expansion-packs/)** → Game dev, DevOps, infrastructure and get inspired with ideas and examples
 - **[Understand the architecture](docs/core-architecture.md)** → Technical deep dive
-- **[Join the community](https://discord.gg/g6ypHytrCB)** → Get help and share ideas
+- **[Join the community](https://discord.gg/gk8jAdXWmj)** → Get help and share ideas
 
 ## Important: Keep Your BMad Installation Updated
 
@@ -121,7 +121,7 @@ BMad's natural language framework works in ANY domain. Expansion packs provide s
 
 ## Support
 
-- 💬 [Discord Community](https://discord.gg/g6ypHytrCB)
+- 💬 [Discord Community](https://discord.gg/gk8jAdXWmj)
 - 🐛 [Issue Tracker](https://github.com/bmadcode/bmad-method/issues)
 - 💬 [Discussions](https://github.com/bmadcode/bmad-method/discussions)
 
