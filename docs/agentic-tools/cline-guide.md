@@ -6,6 +6,7 @@ For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.
 
 When running `npx bmad-method install`, select **Cline** as your IDE. This creates:
 
+- `.bmad-core/` folder with all agents, tasks, templates and other data files
 - `.clinerules/` directory with numbered agent rule files (`.md`)
 - Agents ordered by priority (bmad-master first)
 

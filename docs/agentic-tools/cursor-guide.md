@@ -6,7 +6,7 @@ For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.
 
 When running `npx bmad-method install`, select **Cursor** as your IDE. This creates:
 
-- `.bmad-core/` folder with all agents
+- `.bmad-core/` folder with all agents, tasks, templates and other data files
 - `.cursor/rules/` folder with agent rule files (`.mdc`)
 
 ## Using BMad Agents in Cursor

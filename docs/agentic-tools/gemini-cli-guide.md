@@ -6,6 +6,7 @@ For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.
 
 When running `npx bmad-method install`, select **Gemini CLI** as your IDE. This creates:
 
+- `.bmad-core/` folder with all agents, tasks, templates and other data files
 - `.gemini/bmad-method/` directory with all agent context in GEMINI.md file
 
 ## Using BMad Agents with Gemini CLI

@@ -6,9 +6,9 @@ For the complete workflow, see the [BMad Workflow Guide](../bmad-workflow-guide.
 
 When running `npx bmad-method install`, select **GitHub Copilot** as your IDE. This command will perform the following actions:
 
-- Create the `.bmad-core/` directory with all the agent rule files.
-- Create the `.vscode/` directory and add a `settings.json` file if it does not already exist, and add the basic configuration to enable GitHub Copilot's agent mode.
-- Create a chatmodes file under your .github folder for each specific agent being added
+- `.bmad-core/` folder with all agents, tasks, templates and other data files
+- Creates the `.vscode/` directory and add a `settings.json` file if it does not already exist, and add the basic configuration to enable GitHub Copilot's agent mode.
+- Creates a chatmodes file under your .github folder for each specific agent being added
 
 ## Using BMAD Agents in GitHub Copilot
 
