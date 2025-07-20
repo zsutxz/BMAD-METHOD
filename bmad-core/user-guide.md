@@ -1,10 +1,14 @@
-# BMad-Method Agentic Agile Driven Development User Guide
+# BMad-Method BMAd Code User Guide
 
-This comprehensive guide will help you understand and effectively use the BMad Method framework for AI-assisted software development along with many expansion purposes.
+This guide will help you understand and effectively use the BMad Method for agile ai driven planning and development.
 
 ## The BMad Plan and Execute Workflow
 
 First, here is the full standard Greenfield Planning + Execution Workflow. Brownfield is very similar, but its suggested to understand this greenfield first, even if on a simple project before tackling a brownfield project. The BMad Method needs to be installed to the root of your new project folder. For the planning phase, you can optionally perform it with powerful web agents, potentially resulting in higher quality results at a fraction of the cost it would take to complete if providing your own API key or credits in some Agentic tools. For planning, powerful thinking models and larger context - along with working as a partner with the agents will net the best results.
+
+If you are going to use the BMad Method with a Brownfield project (an existing project), review [Working in the Brownfield](./working-in-the-brownfield.md)
+
+If you do not see the diagrams that following rendering, you can install Markdown All in One along with the Markdown Preview Mermaid Support plugins to VSCode (or one of the forked clones). With these plugin's, if you right click on the tab when open, there should be a Open Preview option, or check the IDE documentation.
 
 ### The Planning Workflow (Web UI or Powerful IDE Agents)
 

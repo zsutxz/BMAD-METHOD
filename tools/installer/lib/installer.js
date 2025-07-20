@@ -891,6 +891,10 @@ class Installer {
       console.log(chalk.yellow.bold("\n⚠️  IMPORTANT: Cursor Custom Modes Update Required"));
       console.log(chalk.yellow("Since agents have been updated, you need to update any custom agent modes configured in the Cursor custom agent GUI per the Cursor docs."));
     }
+
+    // Important notice to read the user guide
+    console.log(chalk.red.bold("\n📖 IMPORTANT: Please read the user guide installed at docs/user-guide.md"));
+    console.log(chalk.red("This guide contains essential information about the BMad workflow and how to use the agents effectively."));
   }
 
   // Legacy method for backward compatibility
