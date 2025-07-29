@@ -1,9 +1,15 @@
-# [4.33.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.32.0...v4.33.0) (2025-07-28)
+## [4.33.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.33.0...v4.33.1) (2025-07-29)
 
+
+### Bug Fixes
+
+* dev agent yaml syntax for develop-story command ([#362](https://github.com/bmadcode/BMAD-METHOD/issues/362)) ([bcb3728](https://github.com/bmadcode/BMAD-METHOD/commit/bcb3728f8868c0f83bca3d61fbd7e15c4e114526))
+
+# [4.33.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.32.0...v4.33.0) (2025-07-28)
 
 ### Features
 
-* version bump ([e9dd4e7](https://github.com/bmadcode/BMAD-METHOD/commit/e9dd4e7beb46d0c80df0cd65ae02d1867a56d7c1))
+- version bump ([e9dd4e7](https://github.com/bmadcode/BMAD-METHOD/commit/e9dd4e7beb46d0c80df0cd65ae02d1867a56d7c1))
 
 # [4.32.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.31.0...v4.32.0) (2025-07-27)
 
