@@ -1,9 +1,15 @@
-# [4.34.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.33.1...v4.34.0) (2025-08-03)
+# [4.35.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.34.0...v4.35.0) (2025-08-04)
 
 
 ### Features
 
-* add KiloCode integration support to BMAD installer ([#390](https://github.com/bmadcode/BMAD-METHOD/issues/390)) ([dcebe91](https://github.com/bmadcode/BMAD-METHOD/commit/dcebe91d5ea68e69aa27183411a81639d444efd7))
+* add qwen-code ide support to bmad installer. ([#392](https://github.com/bmadcode/BMAD-METHOD/issues/392)) ([a72b790](https://github.com/bmadcode/BMAD-METHOD/commit/a72b790f3be6c77355511ace2d63e6bec4d751f1))
+
+# [4.34.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.33.1...v4.34.0) (2025-08-03)
+
+### Features
+
+- add KiloCode integration support to BMAD installer ([#390](https://github.com/bmadcode/BMAD-METHOD/issues/390)) ([dcebe91](https://github.com/bmadcode/BMAD-METHOD/commit/dcebe91d5ea68e69aa27183411a81639d444efd7))
 
 ## [4.33.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.33.0...v4.33.1) (2025-07-29)
 
