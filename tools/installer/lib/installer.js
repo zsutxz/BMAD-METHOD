@@ -237,6 +237,10 @@ class Installer {
       // Copy common/ items to .bmad-core
       spinner.text = "Copying common utilities...";
       await this.copyCommonItems(installDir, ".bmad-core", spinner);
+      
+      // Copy documentation files from docs/ to .bmad-core
+      spinner.text = "Copying documentation files...";
+      await this.copyDocsItems(installDir, ".bmad-core", spinner);
 
       // Get list of all files for manifest
       const foundFiles = await resourceLocator.findFiles("**/*", {
@@ -308,6 +312,11 @@ class Installer {
       spinner.text = "Copying common utilities...";
       const commonFiles = await this.copyCommonItems(installDir, ".bmad-core", spinner);
       files.push(...commonFiles);
+      
+      // Copy documentation files from docs/ to .bmad-core
+      spinner.text = "Copying documentation files...";
+      const docFiles = await this.copyDocsItems(installDir, ".bmad-core", spinner);
+      files.push(...docFiles);
     } else if (config.installType === "team") {
       // Team installation
       spinner.text = `Installing ${config.team} team...`;
@@ -353,6 +362,11 @@ class Installer {
       spinner.text = "Copying common utilities...";
       const commonFiles = await this.copyCommonItems(installDir, ".bmad-core", spinner);
       files.push(...commonFiles);
+      
+      // Copy documentation files from docs/ to .bmad-core
+      spinner.text = "Copying documentation files...";
+      const docFiles = await this.copyDocsItems(installDir, ".bmad-core", spinner);
+      files.push(...docFiles);
     } else if (config.installType === "expansion-only") {
       // Expansion-only installation - DO NOT create .bmad-core
       // Only install expansion packs
@@ -896,7 +910,7 @@ class Installer {
     }
 
     // Important notice to read the user guide
-    console.log(chalk.red.bold("\n📖 IMPORTANT: Please read the user guide installed at .bmad-core/user-guide.md"));
+    console.log(chalk.red.bold("\n📖 IMPORTANT: Please read the user guide at docs/user-guide.md (also installed at .bmad-core/user-guide.md)"));
     console.log(chalk.red("This guide contains essential information about the BMad workflow and how to use the agents effectively."));
   }
 
@@ -1554,6 +1568,54 @@ class Installer {
     }
     
     console.log(chalk.dim(`  Added ${commonItems.length} common utilities`));
+    return copiedFiles;
+  }
+
+  async copyDocsItems(installDir, targetSubdir, spinner) {
+    const fs = require('fs').promises;
+    const sourceBase = path.dirname(path.dirname(path.dirname(path.dirname(__filename)))); // Go up to project root
+    const docsPath = path.join(sourceBase, 'docs');
+    const targetPath = path.join(installDir, targetSubdir);
+    const copiedFiles = [];
+    
+    // Specific documentation files to copy
+    const docFiles = [
+      'enhanced-ide-development-workflow.md',
+      'user-guide.md',
+      'working-in-the-brownfield.md'
+    ];
+    
+    // Check if docs/ exists
+    if (!(await fileManager.pathExists(docsPath))) {
+      console.warn('Warning: docs/ folder not found');
+      return copiedFiles;
+    }
+    
+    // Copy specific documentation files from docs/ to target
+    for (const docFile of docFiles) {
+      const sourcePath = path.join(docsPath, docFile);
+      const destPath = path.join(targetPath, docFile);
+      
+      // Check if the source file exists
+      if (await fileManager.pathExists(sourcePath)) {
+        // Read the file content
+        const content = await fs.readFile(sourcePath, 'utf8');
+        
+        // Replace {root} with the target subdirectory
+        const updatedContent = content.replace(/\{root\}/g, targetSubdir);
+        
+        // Ensure directory exists
+        await fileManager.ensureDirectory(path.dirname(destPath));
+        
+        // Write the updated content
+        await fs.writeFile(destPath, updatedContent, 'utf8');
+        copiedFiles.push(path.join(targetSubdir, docFile));
+      }
+    }
+    
+    if (copiedFiles.length > 0) {
+      console.log(chalk.dim(`  Added ${copiedFiles.length} documentation files`));
+    }
     return copiedFiles;
   }
 
