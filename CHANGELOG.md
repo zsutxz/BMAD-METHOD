@@ -1,9 +1,15 @@
-## [4.35.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.35.0...v4.35.1) (2025-08-06)
+## [4.35.2](https://github.com/bmadcode/BMAD-METHOD/compare/v4.35.1...v4.35.2) (2025-08-06)
 
 
 ### Bug Fixes
 
-* npx hanging commands ([2cf322e](https://github.com/bmadcode/BMAD-METHOD/commit/2cf322ee0d9b563a4998c72b2c5eab259594739b))
+* npx status check ([f7c2a4f](https://github.com/bmadcode/BMAD-METHOD/commit/f7c2a4fb6c454b17d250b85537129b01ffee6b85))
+
+## [4.35.1](https://github.com/bmadcode/BMAD-METHOD/compare/v4.35.0...v4.35.1) (2025-08-06)
+
+### Bug Fixes
+
+- npx hanging commands ([2cf322e](https://github.com/bmadcode/BMAD-METHOD/commit/2cf322ee0d9b563a4998c72b2c5eab259594739b))
 
 # [4.35.0](https://github.com/bmadcode/BMAD-METHOD/compare/v4.34.0...v4.35.0) (2025-08-04)
 
