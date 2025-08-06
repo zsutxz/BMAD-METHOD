@@ -1729,7 +1729,7 @@ class Installer {
       const manifestPath = path.join(bmadDir, "install-manifest.yaml");
 
       if (await fileManager.pathExists(manifestPath)) {
-        return bmadDir;
+        return currentDir; // Return parent directory, not .bmad-core itself
       }
 
       currentDir = path.dirname(currentDir);
@@ -1739,7 +1739,7 @@ class Installer {
     if (path.basename(process.cwd()) === ".bmad-core") {
       const manifestPath = path.join(process.cwd(), "install-manifest.yaml");
       if (await fileManager.pathExists(manifestPath)) {
-        return process.cwd();
+        return path.dirname(process.cwd()); // Return parent directory
       }
     }
 
