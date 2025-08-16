@@ -127,18 +127,10 @@ program
           path.join(inputDir, "flattened-codebase.xml"),
         );
       }
-    } else {
-      console.error(
-        "Could not auto-detect a project root and no arguments were provided. Please specify -i/--input and -o/--output.",
-      );
-      process.exit(1);
     }
 
     // Ensure output directory exists
     await fs.ensureDir(path.dirname(outputPath));
-
-    console.log(`Flattening codebase from: ${inputDir}`);
-    console.log(`Output file: ${outputPath}`);
 
     try {
       // Verify input directory exists
@@ -159,7 +151,6 @@ program
       );
 
       // Process files with progress tracking
-      console.log("Reading file contents");
       const processingSpinner = ora("📄 Processing files...").start();
       const aggregatedContent = await aggregateFileContents(
         filteredFiles,
@@ -172,10 +163,6 @@ program
       if (aggregatedContent.errors.length > 0) {
         console.log(`Errors: ${aggregatedContent.errors.length}`);
       }
-      console.log(`Text files: ${aggregatedContent.textFiles.length}`);
-      if (aggregatedContent.binaryFiles.length > 0) {
-        console.log(`Binary files: ${aggregatedContent.binaryFiles.length}`);
-      }
 
       // Generate XML output using streaming
       const xmlSpinner = ora("🔧 Generating XML output...").start();
@@ -184,7 +171,11 @@ program
 
       // Calculate and display statistics
       const outputStats = await fs.stat(outputPath);
-      const stats = calculateStatistics(aggregatedContent, outputStats.size);
+      const stats = await calculateStatistics(
+        aggregatedContent,
+        outputStats.size,
+        inputDir,
+      );
 
       // Display completion summary
       console.log("\n📊 Completion Summary:");
@@ -201,8 +192,476 @@ program
       );
       console.log(`🔢 Estimated tokens: ${stats.estimatedTokens}`);
       console.log(
-        `📊 File breakdown: ${stats.textFiles} text, ${stats.binaryFiles} binary, ${stats.errorFiles} errors`,
+        `📊 File breakdown: ${stats.textFiles} text, ${stats.binaryFiles} binary, ${stats.errorFiles} errors\n`,
       );
+
+      // Ask user if they want detailed stats + markdown report
+      const generateDetailed = await promptYesNo(
+        "Generate detailed stats (console + markdown) now?",
+        true,
+      );
+
+      if (generateDetailed) {
+        // Additional detailed stats
+        console.log("\n📈 Size Percentiles:");
+        console.log(
+          `   Avg: ${
+            Math.round(stats.avgFileSize).toLocaleString()
+          } B, Median: ${
+            Math.round(stats.medianFileSize).toLocaleString()
+          } B, p90: ${stats.p90.toLocaleString()} B, p95: ${stats.p95.toLocaleString()} B, p99: ${stats.p99.toLocaleString()} B`,
+        );
+
+        if (Array.isArray(stats.histogram) && stats.histogram.length) {
+          console.log("\n🧮 Size Histogram:");
+          for (const b of stats.histogram.slice(0, 2)) {
+            console.log(
+              `   ${b.label}: ${b.count} files, ${b.bytes.toLocaleString()} bytes`,
+            );
+          }
+          if (stats.histogram.length > 2) {
+            console.log(`   … and ${stats.histogram.length - 2} more buckets`);
+          }
+        }
+
+        if (Array.isArray(stats.byExtension) && stats.byExtension.length) {
+          const topExt = stats.byExtension.slice(0, 2);
+          console.log("\n📦 Top Extensions:");
+          for (const e of topExt) {
+            const pct = stats.totalBytes
+              ? ((e.bytes / stats.totalBytes) * 100)
+              : 0;
+            console.log(
+              `   ${e.ext}: ${e.count} files, ${e.bytes.toLocaleString()} bytes (${
+                pct.toFixed(2)
+              }%)`,
+            );
+          }
+          if (stats.byExtension.length > 2) {
+            console.log(
+              `   … and ${stats.byExtension.length - 2} more extensions`,
+            );
+          }
+        }
+
+        if (Array.isArray(stats.byDirectory) && stats.byDirectory.length) {
+          const topDir = stats.byDirectory.slice(0, 2);
+          console.log("\n📂 Top Directories:");
+          for (const d of topDir) {
+            const pct = stats.totalBytes
+              ? ((d.bytes / stats.totalBytes) * 100)
+              : 0;
+            console.log(
+              `   ${d.dir}: ${d.count} files, ${d.bytes.toLocaleString()} bytes (${
+                pct.toFixed(2)
+              }%)`,
+            );
+          }
+          if (stats.byDirectory.length > 2) {
+            console.log(
+              `   … and ${stats.byDirectory.length - 2} more directories`,
+            );
+          }
+        }
+
+        if (
+          Array.isArray(stats.depthDistribution) &&
+          stats.depthDistribution.length
+        ) {
+          console.log("\n🌳 Depth Distribution:");
+          const dd = stats.depthDistribution.slice(0, 2);
+          let line = "   " + dd.map((d) => `${d.depth}:${d.count}`).join("  ");
+          if (stats.depthDistribution.length > 2) {
+            line += `  … +${stats.depthDistribution.length - 2} more`;
+          }
+          console.log(line);
+        }
+
+        if (Array.isArray(stats.longestPaths) && stats.longestPaths.length) {
+          console.log("\n🧵 Longest Paths:");
+          for (const p of stats.longestPaths.slice(0, 2)) {
+            console.log(
+              `   ${p.path} (${p.length} chars, ${p.size.toLocaleString()} bytes)`,
+            );
+          }
+          if (stats.longestPaths.length > 2) {
+            console.log(`   … and ${stats.longestPaths.length - 2} more paths`);
+          }
+        }
+
+        if (stats.temporal) {
+          console.log("\n⏱️ Temporal:");
+          if (stats.temporal.oldest) {
+            console.log(
+              `   Oldest: ${stats.temporal.oldest.path} (${stats.temporal.oldest.mtime})`,
+            );
+          }
+          if (stats.temporal.newest) {
+            console.log(
+              `   Newest: ${stats.temporal.newest.path} (${stats.temporal.newest.mtime})`,
+            );
+          }
+          if (Array.isArray(stats.temporal.ageBuckets)) {
+            console.log("   Age buckets:");
+            for (const b of stats.temporal.ageBuckets.slice(0, 2)) {
+              console.log(
+                `     ${b.label}: ${b.count} files, ${b.bytes.toLocaleString()} bytes`,
+              );
+            }
+            if (stats.temporal.ageBuckets.length > 2) {
+              console.log(
+                `     … and ${
+                  stats.temporal.ageBuckets.length - 2
+                } more buckets`,
+              );
+            }
+          }
+        }
+
+        if (stats.quality) {
+          console.log("\n✅ Quality Signals:");
+          console.log(`   Zero-byte files: ${stats.quality.zeroByteFiles}`);
+          console.log(`   Empty text files: ${stats.quality.emptyTextFiles}`);
+          console.log(`   Hidden files: ${stats.quality.hiddenFiles}`);
+          console.log(`   Symlinks: ${stats.quality.symlinks}`);
+          console.log(
+            `   Large files (>= ${
+              (stats.quality.largeThreshold / (1024 * 1024)).toFixed(0)
+            } MB): ${stats.quality.largeFilesCount}`,
+          );
+          console.log(
+            `   Suspiciously large files (>= 100 MB): ${stats.quality.suspiciousLargeFilesCount}`,
+          );
+        }
+
+        if (
+          Array.isArray(stats.duplicateCandidates) &&
+          stats.duplicateCandidates.length
+        ) {
+          console.log("\n🧬 Duplicate Candidates:");
+          for (const d of stats.duplicateCandidates.slice(0, 2)) {
+            console.log(
+              `   ${d.reason}: ${d.count} files @ ${d.size.toLocaleString()} bytes`,
+            );
+          }
+          if (stats.duplicateCandidates.length > 2) {
+            console.log(
+              `   … and ${stats.duplicateCandidates.length - 2} more groups`,
+            );
+          }
+        }
+
+        if (typeof stats.compressibilityRatio === "number") {
+          console.log(
+            `\n🗜️ Compressibility ratio (sampled): ${
+              (stats.compressibilityRatio * 100).toFixed(2)
+            }%`,
+          );
+        }
+
+        if (stats.git && stats.git.isRepo) {
+          console.log("\n🔧 Git:");
+          console.log(
+            `   Tracked: ${stats.git.trackedCount} files, ${stats.git.trackedBytes.toLocaleString()} bytes`,
+          );
+          console.log(
+            `   Untracked: ${stats.git.untrackedCount} files, ${stats.git.untrackedBytes.toLocaleString()} bytes`,
+          );
+          if (
+            Array.isArray(stats.git.lfsCandidates) &&
+            stats.git.lfsCandidates.length
+          ) {
+            console.log("   LFS candidates (top 2):");
+            for (const f of stats.git.lfsCandidates.slice(0, 2)) {
+              console.log(`     ${f.path} (${f.size.toLocaleString()} bytes)`);
+            }
+            if (stats.git.lfsCandidates.length > 2) {
+              console.log(
+                `     … and ${stats.git.lfsCandidates.length - 2} more`,
+              );
+            }
+          }
+        }
+
+        if (Array.isArray(stats.largestFiles) && stats.largestFiles.length) {
+          console.log("\n📚 Largest Files (top 2):");
+          for (const f of stats.largestFiles.slice(0, 2)) {
+            // Show LOC for text files when available; omit ext and mtime
+            let locStr = "";
+            if (!f.isBinary && Array.isArray(aggregatedContent?.textFiles)) {
+              const tf = aggregatedContent.textFiles.find((t) =>
+                t.path === f.path
+              );
+              if (tf && typeof tf.lines === "number") {
+                locStr = `, LOC: ${tf.lines.toLocaleString()}`;
+              }
+            }
+            console.log(
+              `   ${f.path} – ${f.sizeFormatted} (${
+                f.percentOfTotal.toFixed(2)
+              }%)${locStr}`,
+            );
+          }
+          if (stats.largestFiles.length > 2) {
+            console.log(`   … and ${stats.largestFiles.length - 2} more files`);
+          }
+        }
+
+        // Write a comprehensive markdown report next to the XML
+        {
+          const mdPath = outputPath.endsWith(".xml")
+            ? outputPath.replace(/\.xml$/i, ".stats.md")
+            : outputPath + ".stats.md";
+          try {
+            const pct = (num, den) => (den ? ((num / den) * 100) : 0);
+            const md = [];
+            md.push(`# 🧾 Flatten Stats for ${path.basename(outputPath)}`);
+            md.push("");
+            md.push("## 📊 Summary");
+            md.push(`- Total source size: ${stats.totalSize}`);
+            md.push(`- Generated XML size: ${stats.xmlSize}`);
+            md.push(
+              `- Total lines of code: ${stats.totalLines.toLocaleString()}`,
+            );
+            md.push(`- Estimated tokens: ${stats.estimatedTokens}`);
+            md.push(
+              `- File breakdown: ${stats.textFiles} text, ${stats.binaryFiles} binary, ${stats.errorFiles} errors`,
+            );
+            md.push("");
+
+            // Percentiles
+            md.push("## 📈 Size Percentiles");
+            md.push(
+              `Avg: ${
+                Math.round(stats.avgFileSize).toLocaleString()
+              } B, Median: ${
+                Math.round(stats.medianFileSize).toLocaleString()
+              } B, p90: ${stats.p90.toLocaleString()} B, p95: ${stats.p95.toLocaleString()} B, p99: ${stats.p99.toLocaleString()} B`,
+            );
+            md.push("");
+
+            // Histogram
+            if (Array.isArray(stats.histogram) && stats.histogram.length) {
+              md.push("## 🧮 Size Histogram");
+              md.push("| Bucket | Files | Bytes |");
+              md.push("| --- | ---: | ---: |");
+              for (const b of stats.histogram) {
+                md.push(
+                  `| ${b.label} | ${b.count} | ${b.bytes.toLocaleString()} |`,
+                );
+              }
+              md.push("");
+            }
+
+            // Top Extensions
+            if (Array.isArray(stats.byExtension) && stats.byExtension.length) {
+              md.push("## 📦 Top Extensions by Bytes (Top 20)");
+              md.push("| Ext | Files | Bytes | % of total |");
+              md.push("| --- | ---: | ---: | ---: |");
+              for (const e of stats.byExtension.slice(0, 20)) {
+                const p = pct(e.bytes, stats.totalBytes);
+                md.push(
+                  `| ${e.ext} | ${e.count} | ${e.bytes.toLocaleString()} | ${
+                    p.toFixed(2)
+                  }% |`,
+                );
+              }
+              md.push("");
+            }
+
+            // Top Directories
+            if (Array.isArray(stats.byDirectory) && stats.byDirectory.length) {
+              md.push("## 📂 Top Directories by Bytes (Top 20)");
+              md.push("| Directory | Files | Bytes | % of total |");
+              md.push("| --- | ---: | ---: | ---: |");
+              for (const d of stats.byDirectory.slice(0, 20)) {
+                const p = pct(d.bytes, stats.totalBytes);
+                md.push(
+                  `| ${d.dir} | ${d.count} | ${d.bytes.toLocaleString()} | ${
+                    p.toFixed(2)
+                  }% |`,
+                );
+              }
+              md.push("");
+            }
+
+            // Depth distribution
+            if (
+              Array.isArray(stats.depthDistribution) &&
+              stats.depthDistribution.length
+            ) {
+              md.push("## 🌳 Depth Distribution");
+              md.push("| Depth | Count |");
+              md.push("| ---: | ---: |");
+              for (const d of stats.depthDistribution) {
+                md.push(`| ${d.depth} | ${d.count} |`);
+              }
+              md.push("");
+            }
+
+            // Longest paths
+            if (
+              Array.isArray(stats.longestPaths) && stats.longestPaths.length
+            ) {
+              md.push("## 🧵 Longest Paths (Top 25)");
+              md.push("| Path | Length | Bytes |");
+              md.push("| --- | ---: | ---: |");
+              for (const pth of stats.longestPaths) {
+                md.push(
+                  `| ${pth.path} | ${pth.length} | ${pth.size.toLocaleString()} |`,
+                );
+              }
+              md.push("");
+            }
+
+            // Temporal
+            if (stats.temporal) {
+              md.push("## ⏱️ Temporal");
+              if (stats.temporal.oldest) {
+                md.push(
+                  `- Oldest: ${stats.temporal.oldest.path} (${stats.temporal.oldest.mtime})`,
+                );
+              }
+              if (stats.temporal.newest) {
+                md.push(
+                  `- Newest: ${stats.temporal.newest.path} (${stats.temporal.newest.mtime})`,
+                );
+              }
+              if (Array.isArray(stats.temporal.ageBuckets)) {
+                md.push("");
+                md.push("| Age | Files | Bytes |");
+                md.push("| --- | ---: | ---: |");
+                for (const b of stats.temporal.ageBuckets) {
+                  md.push(
+                    `| ${b.label} | ${b.count} | ${b.bytes.toLocaleString()} |`,
+                  );
+                }
+              }
+              md.push("");
+            }
+
+            // Quality signals
+            if (stats.quality) {
+              md.push("## ✅ Quality Signals");
+              md.push(`- Zero-byte files: ${stats.quality.zeroByteFiles}`);
+              md.push(`- Empty text files: ${stats.quality.emptyTextFiles}`);
+              md.push(`- Hidden files: ${stats.quality.hiddenFiles}`);
+              md.push(`- Symlinks: ${stats.quality.symlinks}`);
+              md.push(
+                `- Large files (>= ${
+                  (stats.quality.largeThreshold / (1024 * 1024)).toFixed(0)
+                } MB): ${stats.quality.largeFilesCount}`,
+              );
+              md.push(
+                `- Suspiciously large files (>= 100 MB): ${stats.quality.suspiciousLargeFilesCount}`,
+              );
+              md.push("");
+            }
+
+            // Duplicates
+            if (
+              Array.isArray(stats.duplicateCandidates) &&
+              stats.duplicateCandidates.length
+            ) {
+              md.push("## 🧬 Duplicate Candidates");
+              md.push("| Reason | Files | Size (bytes) |");
+              md.push("| --- | ---: | ---: |");
+              for (const d of stats.duplicateCandidates) {
+                md.push(
+                  `| ${d.reason} | ${d.count} | ${d.size.toLocaleString()} |`,
+                );
+              }
+              md.push("");
+              // Detailed listing of duplicate file names and locations
+              md.push("### 🧬 Duplicate Groups Details");
+              let dupIndex = 1;
+              for (const d of stats.duplicateCandidates) {
+                md.push(
+                  `#### Group ${dupIndex}: ${d.count} files @ ${d.size.toLocaleString()} bytes (${d.reason})`,
+                );
+                if (Array.isArray(d.files) && d.files.length) {
+                  for (const fp of d.files) {
+                    md.push(`- ${fp}`);
+                  }
+                } else {
+                  md.push("- (file list unavailable)");
+                }
+                md.push("");
+                dupIndex++;
+              }
+              md.push("");
+            }
+
+            // Compressibility
+            if (typeof stats.compressibilityRatio === "number") {
+              md.push("## 🗜️ Compressibility");
+              md.push(
+                `Sampled compressibility ratio: ${
+                  (stats.compressibilityRatio * 100).toFixed(2)
+                }%`,
+              );
+              md.push("");
+            }
+
+            // Git
+            if (stats.git && stats.git.isRepo) {
+              md.push("## 🔧 Git");
+              md.push(
+                `- Tracked: ${stats.git.trackedCount} files, ${stats.git.trackedBytes.toLocaleString()} bytes`,
+              );
+              md.push(
+                `- Untracked: ${stats.git.untrackedCount} files, ${stats.git.untrackedBytes.toLocaleString()} bytes`,
+              );
+              if (
+                Array.isArray(stats.git.lfsCandidates) &&
+                stats.git.lfsCandidates.length
+              ) {
+                md.push("");
+                md.push("### 📦 LFS Candidates (Top 20)");
+                md.push("| Path | Bytes |");
+                md.push("| --- | ---: |");
+                for (const f of stats.git.lfsCandidates.slice(0, 20)) {
+                  md.push(`| ${f.path} | ${f.size.toLocaleString()} |`);
+                }
+              }
+              md.push("");
+            }
+
+            // Largest Files
+            if (
+              Array.isArray(stats.largestFiles) && stats.largestFiles.length
+            ) {
+              md.push("## 📚 Largest Files (Top 50)");
+              md.push("| Path | Size | % of total | LOC |");
+              md.push("| --- | ---: | ---: | ---: |");
+              for (const f of stats.largestFiles) {
+                let loc = "";
+                if (
+                  !f.isBinary && Array.isArray(aggregatedContent?.textFiles)
+                ) {
+                  const tf = aggregatedContent.textFiles.find((t) =>
+                    t.path === f.path
+                  );
+                  if (tf && typeof tf.lines === "number") {
+                    loc = tf.lines.toLocaleString();
+                  }
+                }
+                md.push(
+                  `| ${f.path} | ${f.sizeFormatted} | ${
+                    f.percentOfTotal.toFixed(2)
+                  }% | ${loc} |`,
+                );
+              }
+              md.push("");
+            }
+
+            await fs.writeFile(mdPath, md.join("\n"));
+            console.log(`\n🧾 Detailed stats report written to: ${mdPath}`);
+          } catch (e) {
+            console.warn(`⚠️ Failed to write stats markdown: ${e.message}`);
+          }
+        }
+      }
     } catch (error) {
       console.error("❌ Critical error:", error.message);
       console.error("An unexpected error occurred.");
