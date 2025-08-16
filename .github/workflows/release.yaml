@@ -3,7 +3,6 @@ name: Release
   push:
     branches:
       - main
-      - stable
   workflow_dispatch:
     inputs:
       version_type:

@@ -4,10 +4,6 @@
       "name": "main",
       "prerelease": "beta",
       "channel": "beta"
-    },
-    {
-      "name": "stable",
-      "channel": "latest"
     }
   ],
   "plugins": [

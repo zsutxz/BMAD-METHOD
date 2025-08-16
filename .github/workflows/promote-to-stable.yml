@@ -37,16 +37,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-
-      - name: Switch to stable branch
-        run: |
-          git checkout stable
-          git pull origin stable
-
-      - name: Merge main into stable
-        run: |
-          git merge origin/main --no-edit
 
       - name: Install dependencies
         run: npm ci
@@ -121,24 +111,33 @@ jobs:
       - name: Commit stable release
         run: |
           git add .
-          git commit -m "feat: promote to stable ${{ steps.version.outputs.new_version }}
+          git commit -m "release: promote to stable ${{ steps.version.outputs.new_version }}"
 
-          BREAKING CHANGE: Promote beta features to stable release
-
-          - Update version from ${{ steps.version.outputs.current_version }} to ${{ steps.version.outputs.new_version }}
-          - Automated promotion via GitHub Actions"
-
-      - name: Push stable release
+      - name: Create and push stable tag
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git push origin stable
+          git tag -a "v${{ steps.version.outputs.new_version }}" -m "Stable release v${{ steps.version.outputs.new_version }}"
+          git push origin "v${{ steps.version.outputs.new_version }}"
 
-      - name: Switch back to main
-        run: git checkout main
+      - name: Push changes to main
+        run: |
+          git push origin HEAD:main
+
+      - name: Publish to NPM with stable tag
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Publish with the stable (latest) tag
+          npm publish --tag latest
+          
+          # Also tag the previous beta version as stable if it exists
+          if npm view bmad-method@${{ steps.version.outputs.current_version }} version >/dev/null 2>&1; then
+            npm dist-tag add bmad-method@${{ steps.version.outputs.new_version }} stable || true
+          fi
 
       - name: Summary
         run: |
           echo "🎉 Successfully promoted to stable!"
           echo "📦 Version: ${{ steps.version.outputs.new_version }}"
-          echo "🚀 The stable release will be automatically published to NPM via semantic-release"
+          echo "🏷️ Git tag: v${{ steps.version.outputs.new_version }}"
+          echo "✅ Published to NPM with 'latest' tag"
           echo "✅ Users running 'npx bmad-method install' will now get version ${{ steps.version.outputs.new_version }}"
