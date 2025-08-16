@@ -73,8 +73,8 @@ jobs:
               ;;
           esac
           
-          # Check if calculated version already exists on NPM and increment if necessary
-          while npm view bmad-method@$NEW_VERSION version >/dev/null 2>&1; do
+          # Check if calculated version already exists (either as NPM package or git tag)
+          while npm view bmad-method@$NEW_VERSION version >/dev/null 2>&1 || git ls-remote --tags origin | grep -q "refs/tags/v$NEW_VERSION"; do
             echo "Version $NEW_VERSION already exists, incrementing..."
             IFS='.' read -ra NEW_VERSION_PARTS <<< "$NEW_VERSION"
             NEW_MAJOR=${NEW_VERSION_PARTS[0]}
@@ -115,7 +115,10 @@ jobs:
 
       - name: Create and push stable tag
         run: |
+          # Create new tag (version check already ensures it doesn't exist)
           git tag -a "v${{ steps.version.outputs.new_version }}" -m "Stable release v${{ steps.version.outputs.new_version }}"
+          
+          # Push the new tag
           git push origin "v${{ steps.version.outputs.new_version }}"
 
       - name: Push changes to main
