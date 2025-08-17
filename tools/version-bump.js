@@ -31,18 +31,35 @@ async function bumpVersion(type = 'patch') {
     process.exit(1);
   }
 
-  console.log(chalk.yellow('⚠️  Manual version bumping is disabled.'));
-  console.log(chalk.blue('🤖 This project uses semantic-release for automated versioning.'));
-  console.log('');
-  console.log(chalk.bold('To create a new release, use conventional commits:'));
-  console.log(chalk.cyan('  feat: new feature (minor version bump)'));
-  console.log(chalk.cyan('  fix: bug fix (patch version bump)'));
-  console.log(chalk.cyan('  feat!: breaking change (major version bump)'));
-  console.log('');
-  console.log(chalk.dim('Example: git commit -m "feat: add new installer features"'));
-  console.log(chalk.dim('Then push to main branch to trigger automatic release.'));
+  const currentVersion = getCurrentVersion();
+  const versionParts = currentVersion.split('.').map(Number);
+  let newVersion;
 
-  return null;
+  switch (type) {
+    case 'major': {
+      newVersion = `${versionParts[0] + 1}.0.0`;
+      break;
+    }
+    case 'minor': {
+      newVersion = `${versionParts[0]}.${versionParts[1] + 1}.0`;
+      break;
+    }
+    case 'patch': {
+      newVersion = `${versionParts[0]}.${versionParts[1]}.${versionParts[2] + 1}`;
+      break;
+    }
+  }
+
+  console.log(chalk.blue(`Bumping version: ${currentVersion} → ${newVersion}`));
+
+  // Update package.json
+  const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  packageJson.version = newVersion;
+  fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n');
+
+  console.log(chalk.green(`✓ Updated package.json to ${newVersion}`));
+
+  return newVersion;
 }
 
 async function main() {
