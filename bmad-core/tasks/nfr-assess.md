@@ -7,11 +7,11 @@ Quick NFR validation focused on the core four: security, performance, reliabilit
 ```yaml
 required:
   - story_id: '{epic}.{story}' # e.g., "1.3"
-  - story_path: 'docs/stories/{epic}.{story}.*.md'
+  - story_path: `bmad-core/core-config.yaml` for the `devStoryLocation`
 
 optional:
-  - architecture_refs: 'docs/architecture/*.md'
-  - technical_preferences: 'docs/technical-preferences.md'
+  - architecture_refs: `bmad-core/core-config.yaml` for the `architecture.architectureFile`
+  - technical_preferences: `bmad-core/core-config.yaml` for the `technicalPreferences`
   - acceptance_criteria: From story file
 ```
 
@@ -20,7 +20,7 @@ optional:
 Assess non-functional requirements for a story and generate:
 
 1. YAML block for the gate file's `nfr_validation` section
-2. Brief markdown assessment saved to `docs/qa/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md`
+2. Brief markdown assessment saved to `qa.qaLocation/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md`
 
 ## Process
 
@@ -123,7 +123,7 @@ If `technical-preferences.md` defines custom weights, use those instead.
 
 ## Output 2: Brief Assessment Report
 
-**ALWAYS save to:** `docs/qa/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md`
+**ALWAYS save to:** `qa.qaLocation/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md`
 
 ```markdown
 # NFR Assessment: {epic}.{story}
@@ -162,7 +162,7 @@ Reviewer: Quinn
 **End with this line for the review task to quote:**
 
 ```
-NFR assessment: docs/qa/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md
+NFR assessment: qa.qaLocation/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md
 ```
 
 ## Output 4: Gate Integration Line
@@ -170,7 +170,7 @@ NFR assessment: docs/qa/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md
 **Always print at the end:**
 
 ```
-Gate NFR block ready → paste into docs/qa/gates/{epic}.{story}-{slug}.yml under nfr_validation
+Gate NFR block ready → paste into qa.qaLocation/gates/{epic}.{story}-{slug}.yml under nfr_validation
 ```
 
 ## Assessment Criteria

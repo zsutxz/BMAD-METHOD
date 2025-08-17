@@ -14,7 +14,7 @@ Generate a standalone quality gate file that provides a clear pass/fail decision
 
 ## Gate File Location
 
-**ALWAYS** create file at: `docs/qa/gates/{epic}.{story}-{slug}.yml`
+**ALWAYS** check the `bmad-core/core-config.yaml` for the `qa.qaLocation/gates`
 
 Slug rules:
 
@@ -124,11 +124,13 @@ waiver:
 
 ## Output Requirements
 
-1. **ALWAYS** create gate file at: `docs/qa/gates/{epic}.{story}-{slug}.yml`
+1. **ALWAYS** create gate file at: `qa.qaLocation/gates` from `bmad-core/core-config.yaml`
 2. **ALWAYS** append this exact format to story's QA Results section:
+
+   ```text
+   Gate: {STATUS} → qa.qaLocation/gates/{epic}.{story}-{slug}.yml
    ```
-   Gate: {STATUS} → docs/qa/gates/{epic}.{story}-{slug}.yml
-   ```
+
 3. Keep status_reason to 1-2 sentences maximum
 4. Use severity values exactly: `low`, `medium`, or `high`
 
@@ -147,7 +149,7 @@ After creating gate file, append to story's QA Results section:
 
 ### Gate Status
 
-Gate: CONCERNS → docs/qa/gates/1.3-user-auth-login.yml
+Gate: CONCERNS → qa.qaLocation/gates/{epic}.{story}-{slug}.yml
 ```
 
 ## Key Principles

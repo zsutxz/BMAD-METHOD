@@ -167,9 +167,9 @@ After review and any refactoring, append your results to the story file in the Q
 
 ### Gate Status
 
-Gate: {STATUS} → docs/qa/gates/{epic}.{story}-{slug}.yml
-Risk profile: docs/qa/assessments/{epic}.{story}-risk-{YYYYMMDD}.md
-NFR assessment: docs/qa/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md
+Gate: {STATUS} → qa.qaLocation/gates/{epic}.{story}-{slug}.yml
+Risk profile: qa.qaLocation/assessments/{epic}.{story}-risk-{YYYYMMDD}.md
+NFR assessment: qa.qaLocation/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md
 
 # Note: Paths should reference core-config.yaml for custom configurations
 
@@ -183,9 +183,9 @@ NFR assessment: docs/qa/assessments/{epic}.{story}-nfr-{YYYYMMDD}.md
 
 **Template and Directory:**
 
-- Render from `templates/qa-gate-tmpl.yaml`
-- Create `docs/qa/gates/` directory if missing (or configure in core-config.yaml)
-- Save to: `docs/qa/gates/{epic}.{story}-{slug}.yml`
+- Render from `../templates/qa-gate-tmpl.yaml`
+- Create directory defined in `qa.qaLocation/gates` (see `bmad-core/core-config.yaml`) if missing
+- Save to: `qa.qaLocation/gates/{epic}.{story}-{slug}.yml`
 
 Gate file structure:
 
@@ -308,7 +308,7 @@ Stop the review and request clarification if:
 After review:
 
 1. Update the QA Results section in the story file
-2. Create the gate file in `docs/qa/gates/`
+2. Create the gate file in directory from `qa.qaLocation/gates`
 3. Recommend status: "Ready for Done" or "Changes Required" (owner decides)
 4. If files were modified, list them in QA Results and ask Dev to update File List
 5. Always provide constructive feedback and actionable recommendations
