@@ -1,4 +1,4 @@
-const H = require("./stats.helpers.js");
+const H = require('./stats.helpers.js');
 
 async function calculateStatistics(aggregatedContent, xmlFileSize, rootDir) {
   const { textFiles, binaryFiles, errors } = aggregatedContent;
@@ -10,8 +10,8 @@ async function calculateStatistics(aggregatedContent, xmlFileSize, rootDir) {
   const allFiles = await H.enrichAllFiles(textFiles, binaryFiles);
   const totalBytes = allFiles.reduce((s, f) => s + f.size, 0);
   const sizes = allFiles.map((f) => f.size).sort((a, b) => a - b);
-  const avgSize = sizes.length ? totalBytes / sizes.length : 0;
-  const medianSize = sizes.length ? H.percentile(sizes, 50) : 0;
+  const avgSize = sizes.length > 0 ? totalBytes / sizes.length : 0;
+  const medianSize = sizes.length > 0 ? H.percentile(sizes, 50) : 0;
   const p90 = H.percentile(sizes, 90);
   const p95 = H.percentile(sizes, 95);
   const p99 = H.percentile(sizes, 99);
