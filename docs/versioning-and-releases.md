@@ -139,6 +139,14 @@ gh release view --web
 npm view bmad-method versions --json
 ```
 
+### If Version Sync Needed
+
+If your local files don't match the published version after a release:
+
+```bash
+./sync-version.sh    # Automatically syncs local files with npm latest
+```
+
 ### If Release Fails
 
 - Check GitHub Actions logs: `gh run view <run-id> --log-failed`
