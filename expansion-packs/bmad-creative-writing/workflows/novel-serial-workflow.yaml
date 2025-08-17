@@ -47,5 +47,3 @@ workflow:
   completion_criteria:
     - publication-log.md exists
     - critic-review.md exists
-...
-

@@ -65,5 +65,4 @@ workflow:
         output: critic-review.md
   completion_criteria:
     - critic-review.md exists
-...
-
+# end

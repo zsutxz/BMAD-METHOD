@@ -1,4 +1,3 @@
----
 # workflows/series-planning.yaml
 name: series-planning
 title: Series Planning Workflow
@@ -76,4 +75,3 @@ steps:
 
 outputs:
   - final_series_plan
-

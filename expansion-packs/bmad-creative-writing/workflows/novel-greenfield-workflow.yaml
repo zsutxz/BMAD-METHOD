@@ -1,4 +1,3 @@
----
 workflow:
   id: novel-greenfield-workflow
   name: Greenfield Novel Workflow
@@ -54,5 +53,3 @@ workflow:
         output: critic-review.md
   completion_criteria:
     - critic-review.md exists
-...
-

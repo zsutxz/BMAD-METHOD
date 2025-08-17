@@ -1,4 +1,3 @@
----
 # workflows/novel-writing.yaml
 name: novel-writing
 title: Novel Writing Workflow
@@ -89,4 +88,3 @@ steps:
 
 outputs:
   - final_manuscript
-
