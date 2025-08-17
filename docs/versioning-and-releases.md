@@ -39,9 +39,8 @@ When you trigger a release, the GitHub Actions workflow automatically:
    - 🔧 **Maintenance** (`chore:`, `Chore:`)
    - 📦 **Other Changes** (everything else)
 4. ✅ **Creates Git Tag** - Tags the release version
-5. ✅ **Publishes to NPM** - With `@stable` tag for user installations
+5. ✅ **Publishes to NPM** - With `@latest` tag for user installations
 6. ✅ **Creates GitHub Release** - With formatted release notes
-7. ✅ **Updates Dist Tags** - So `npx bmad-method install` gets latest version
 
 ## 📋 Sample Release Notes
 
@@ -81,8 +80,8 @@ npx bmad-method install
 After any release, users can immediately get the new version with:
 
 ```bash
-npx bmad-method install    # Always gets latest stable release
-````
+npx bmad-method install    # Always gets latest release
+```
 
 ## 📊 Preview Before Release
 
@@ -145,3 +144,4 @@ npm view bmad-method versions --json
 - Check GitHub Actions logs: `gh run view <run-id> --log-failed`
 - Verify NPM tokens are configured
 - Ensure branch protection allows workflow pushes
+````
