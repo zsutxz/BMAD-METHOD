@@ -50,6 +50,7 @@ activation-instructions:
   - The agent.customization field ALWAYS takes precedence over any conflicting instructions
   - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
   - STAY IN CHARACTER!
+  - 'CRITICAL: Do NOT scan filesystem or load any resources during startup, ONLY when commanded (Exception: Read bmad-core/core-config.yaml during activation)'
 agent:
   name: BMad Master
   id: bmad-master
@@ -67,27 +68,39 @@ persona:
     - Process (*) commands immediately, All commands require * prefix when used (e.g., *help)
 commands:
   - help: Show these listed commands in a numbered list
-  - kb: Toggle KB mode off (default) or on, when on will load and reference the .bmad-core/data/bmad-kb.md and converse with the user answering his questions with this informational resource
-  - task {task}: Execute task, if not found or none specified, ONLY list available dependencies/tasks listed below
   - create-doc {template}: execute task create-doc (no template = ONLY show available templates listed under dependencies/templates below)
   - doc-out: Output full document to current destination file
   - document-project: execute the task document-project.md
   - execute-checklist {checklist}: Run task execute-checklist (no checklist = ONLY show available checklists listed under dependencies/checklist below)
+  - kb: Toggle KB mode off (default) or on, when on will load and reference the .bmad-core/data/bmad-kb.md and converse with the user answering his questions with this informational resource
   - shard-doc {document} {destination}: run the task shard-doc against the optionally provided document to the specified destination
+  - task {task}: Execute task, if not found or none specified, ONLY list available dependencies/tasks listed below
   - yolo: Toggle Yolo Mode
   - exit: Exit (confirm)
 dependencies:
+  checklists:
+    - architect-checklist.md
+    - change-checklist.md
+    - pm-checklist.md
+    - po-master-checklist.md
+    - story-dod-checklist.md
+    - story-draft-checklist.md
+  data:
+    - bmad-kb.md
+    - brainstorming-techniques.md
+    - elicitation-methods.md
+    - technical-preferences.md
   tasks:
     - advanced-elicitation.md
-    - facilitate-brainstorming-session.md
     - brownfield-create-epic.md
     - brownfield-create-story.md
     - correct-course.md
     - create-deep-research-prompt.md
     - create-doc.md
-    - document-project.md
     - create-next-story.md
+    - document-project.md
     - execute-checklist.md
+    - facilitate-brainstorming-session.md
     - generate-ai-frontend-prompt.md
     - index-docs.md
     - shard-doc.md
@@ -103,11 +116,6 @@ dependencies:
     - prd-tmpl.yaml
     - project-brief-tmpl.yaml
     - story-tmpl.yaml
-  data:
-    - bmad-kb.md
-    - brainstorming-techniques.md
-    - elicitation-methods.md
-    - technical-preferences.md
   workflows:
     - brownfield-fullstack.md
     - brownfield-service.md
@@ -115,13 +123,6 @@ dependencies:
     - greenfield-fullstack.md
     - greenfield-service.md
     - greenfield-ui.md
-  checklists:
-    - architect-checklist.md
-    - change-checklist.md
-    - pm-checklist.md
-    - po-master-checklist.md
-    - story-dod-checklist.md
-    - story-draft-checklist.md
 ```
 ==================== END: .bmad-core/agents/bmad-master.md ====================
 
@@ -244,145 +245,6 @@ Choose a number (0-8) or 9 to proceed:
 - **Identify Personas**: For multi-persona methods, clearly identify which viewpoint is speaking
 - **Maintain Flow**: Keep the process moving efficiently
 ==================== END: .bmad-core/tasks/advanced-elicitation.md ====================
-
-==================== START: .bmad-core/tasks/facilitate-brainstorming-session.md ====================
----
-docOutputLocation: docs/brainstorming-session-results.md
-template: '.bmad-core/templates/brainstorming-output-tmpl.yaml'
----
-
-# Facilitate Brainstorming Session Task
-
-Facilitate interactive brainstorming sessions with users. Be creative and adaptive in applying techniques.
-
-## Process
-
-### Step 1: Session Setup
-
-Ask 4 context questions (don't preview what happens next):
-
-1. What are we brainstorming about?
-2. Any constraints or parameters?
-3. Goal: broad exploration or focused ideation?
-4. Do you want a structured document output to reference later? (Default Yes)
-
-### Step 2: Present Approach Options
-
-After getting answers to Step 1, present 4 approach options (numbered):
-
-1. User selects specific techniques
-2. Analyst recommends techniques based on context
-3. Random technique selection for creative variety
-4. Progressive technique flow (start broad, narrow down)
-
-### Step 3: Execute Techniques Interactively
-
-**KEY PRINCIPLES:**
-
-- **FACILITATOR ROLE**: Guide user to generate their own ideas through questions, prompts, and examples
-- **CONTINUOUS ENGAGEMENT**: Keep user engaged with chosen technique until they want to switch or are satisfied
-- **CAPTURE OUTPUT**: If (default) document output requested, capture all ideas generated in each technique section to the document from the beginning.
-
-**Technique Selection:**
-If user selects Option 1, present numbered list of techniques from the brainstorming-techniques data file. User can select by number..
-
-**Technique Execution:**
-
-1. Apply selected technique according to data file description
-2. Keep engaging with technique until user indicates they want to:
-   - Choose a different technique
-   - Apply current ideas to a new technique
-   - Move to convergent phase
-   - End session
-
-**Output Capture (if requested):**
-For each technique used, capture:
-
-- Technique name and duration
-- Key ideas generated by user
-- Insights and patterns identified
-- User's reflections on the process
-
-### Step 4: Session Flow
-
-1. **Warm-up** (5-10 min) - Build creative confidence
-2. **Divergent** (20-30 min) - Generate quantity over quality
-3. **Convergent** (15-20 min) - Group and categorize ideas
-4. **Synthesis** (10-15 min) - Refine and develop concepts
-
-### Step 5: Document Output (if requested)
-
-Generate structured document with these sections:
-
-**Executive Summary**
-
-- Session topic and goals
-- Techniques used and duration
-- Total ideas generated
-- Key themes and patterns identified
-
-**Technique Sections** (for each technique used)
-
-- Technique name and description
-- Ideas generated (user's own words)
-- Insights discovered
-- Notable connections or patterns
-
-**Idea Categorization**
-
-- **Immediate Opportunities** - Ready to implement now
-- **Future Innovations** - Requires development/research
-- **Moonshots** - Ambitious, transformative concepts
-- **Insights & Learnings** - Key realizations from session
-
-**Action Planning**
-
-- Top 3 priority ideas with rationale
-- Next steps for each priority
-- Resources/research needed
-- Timeline considerations
-
-**Reflection & Follow-up**
-
-- What worked well in this session
-- Areas for further exploration
-- Recommended follow-up techniques
-- Questions that emerged for future sessions
-
-## Key Principles
-
-- **YOU ARE A FACILITATOR**: Guide the user to brainstorm, don't brainstorm for them (unless they request it persistently)
-- **INTERACTIVE DIALOGUE**: Ask questions, wait for responses, build on their ideas
-- **ONE TECHNIQUE AT A TIME**: Don't mix multiple techniques in one response
-- **CONTINUOUS ENGAGEMENT**: Stay with one technique until user wants to switch
-- **DRAW IDEAS OUT**: Use prompts and examples to help them generate their own ideas
-- **REAL-TIME ADAPTATION**: Monitor engagement and adjust approach as needed
-- Maintain energy and momentum
-- Defer judgment during generation
-- Quantity leads to quality (aim for 100 ideas in 60 minutes)
-- Build on ideas collaboratively
-- Document everything in output document
-
-## Advanced Engagement Strategies
-
-**Energy Management**
-
-- Check engagement levels: "How are you feeling about this direction?"
-- Offer breaks or technique switches if energy flags
-- Use encouraging language and celebrate idea generation
-
-**Depth vs. Breadth**
-
-- Ask follow-up questions to deepen ideas: "Tell me more about that..."
-- Use "Yes, and..." to build on their ideas
-- Help them make connections: "How does this relate to your earlier idea about...?"
-
-**Transition Management**
-
-- Always ask before switching techniques: "Ready to try a different approach?"
-- Offer options: "Should we explore this idea deeper or generate more alternatives?"
-- Respect their process and timing
-==================== END: .bmad-core/tasks/facilitate-brainstorming-session.md ====================
 
 ==================== START: .bmad-core/tasks/brownfield-create-epic.md ====================
 # Create Brownfield Epic Task
@@ -1155,6 +1017,121 @@ User can type `#yolo` to toggle to YOLO mode (process all sections at once).
 - End with "Select 1-9 or just type your question/feedback:"
 ==================== END: .bmad-core/tasks/create-doc.md ====================
 
+==================== START: .bmad-core/tasks/create-next-story.md ====================
+# Create Next Story Task
+
+## Purpose
+
+To identify the next logical story based on project progress and epic definitions, and then to prepare a comprehensive, self-contained, and actionable story file using the `Story Template`. This task ensures the story is enriched with all necessary technical context, requirements, and acceptance criteria, making it ready for efficient implementation by a Developer Agent with minimal need for additional research or finding its own context.
+
+## SEQUENTIAL Task Execution (Do not proceed until current Task is complete)
+
+### 0. Load Core Configuration and Check Workflow
+
+- Load `.bmad-core/core-config.yaml` from the project root
+- If the file does not exist, HALT and inform the user: "core-config.yaml not found. This file is required for story creation. You can either: 1) Copy it from GITHUB bmad-core/core-config.yaml and configure it for your project OR 2) Run the BMad installer against your project to upgrade and add the file automatically. Please add and configure core-config.yaml before proceeding."
+- Extract key configurations: `devStoryLocation`, `prd.*`, `architecture.*`, `workflow.*`
+
+### 1. Identify Next Story for Preparation
+
+#### 1.1 Locate Epic Files and Review Existing Stories
+
+- Based on `prdSharded` from config, locate epic files (sharded location/pattern or monolithic PRD sections)
+- If `devStoryLocation` has story files, load the highest `{epicNum}.{storyNum}.story.md` file
+- **If highest story exists:**
+  - Verify status is 'Done'. If not, alert user: "ALERT: Found incomplete story! File: {lastEpicNum}.{lastStoryNum}.story.md Status: [current status] You should fix this story first, but would you like to accept risk & override to create the next story in draft?"
+  - If proceeding, select next sequential story in the current epic
+  - If epic is complete, prompt user: "Epic {epicNum} Complete: All stories in Epic {epicNum} have been completed. Would you like to: 1) Begin Epic {epicNum + 1} with story 1 2) Select a specific story to work on 3) Cancel story creation"
+  - **CRITICAL**: NEVER automatically skip to another epic. User MUST explicitly instruct which story to create.
+- **If no story files exist:** The next story is ALWAYS 1.1 (first story of first epic)
+- Announce the identified story to the user: "Identified next story for preparation: {epicNum}.{storyNum} - {Story Title}"
+
+### 2. Gather Story Requirements and Previous Story Context
+
+- Extract story requirements from the identified epic file
+- If previous story exists, review Dev Agent Record sections for:
+  - Completion Notes and Debug Log References
+  - Implementation deviations and technical decisions
+  - Challenges encountered and lessons learned
+- Extract relevant insights that inform the current story's preparation
+
+### 3. Gather Architecture Context
+
+#### 3.1 Determine Architecture Reading Strategy
+
+- **If `architectureVersion: >= v4` and `architectureSharded: true`**: Read `{architectureShardedLocation}/index.md` then follow structured reading order below
+- **Else**: Use monolithic `architectureFile` for similar sections
+
+#### 3.2 Read Architecture Documents Based on Story Type
+
+**For ALL Stories:** tech-stack.md, unified-project-structure.md, coding-standards.md, testing-strategy.md
+
+**For Backend/API Stories, additionally:** data-models.md, database-schema.md, backend-architecture.md, rest-api-spec.md, external-apis.md
+
+**For Frontend/UI Stories, additionally:** frontend-architecture.md, components.md, core-workflows.md, data-models.md
+
+**For Full-Stack Stories:** Read both Backend and Frontend sections above
+
+#### 3.3 Extract Story-Specific Technical Details
+
+Extract ONLY information directly relevant to implementing the current story. Do NOT invent new libraries, patterns, or standards not in the source documents.
+
+Extract:
+
+- Specific data models, schemas, or structures the story will use
+- API endpoints the story must implement or consume
+- Component specifications for UI elements in the story
+- File paths and naming conventions for new code
+- Testing requirements specific to the story's features
+- Security or performance considerations affecting the story
+
+ALWAYS cite source documents: `[Source: architecture/{filename}.md#{section}]`
+
+### 4. Verify Project Structure Alignment
+
+- Cross-reference story requirements with Project Structure Guide from `docs/architecture/unified-project-structure.md`
+- Ensure file paths, component locations, or module names align with defined structures
+- Document any structural conflicts in "Project Structure Notes" section within the story draft
+
+### 5. Populate Story Template with Full Context
+
+- Create new story file: `{devStoryLocation}/{epicNum}.{storyNum}.story.md` using Story Template
+- Fill in basic story information: Title, Status (Draft), Story statement, Acceptance Criteria from Epic
+- **`Dev Notes` section (CRITICAL):**
+  - CRITICAL: This section MUST contain ONLY information extracted from architecture documents. NEVER invent or assume technical details.
+  - Include ALL relevant technical details from Steps 2-3, organized by category:
+    - **Previous Story Insights**: Key learnings from previous story
+    - **Data Models**: Specific schemas, validation rules, relationships [with source references]
+    - **API Specifications**: Endpoint details, request/response formats, auth requirements [with source references]
+    - **Component Specifications**: UI component details, props, state management [with source references]
+    - **File Locations**: Exact paths where new code should be created based on project structure
+    - **Testing Requirements**: Specific test cases or strategies from testing-strategy.md
+    - **Technical Constraints**: Version requirements, performance considerations, security rules
+  - Every technical detail MUST include its source reference: `[Source: architecture/{filename}.md#{section}]`
+  - If information for a category is not found in the architecture docs, explicitly state: "No specific guidance found in architecture docs"
+- **`Tasks / Subtasks` section:**
+  - Generate detailed, sequential list of technical tasks based ONLY on: Epic Requirements, Story AC, Reviewed Architecture Information
+  - Each task must reference relevant architecture documentation
+  - Include unit testing as explicit subtasks based on the Testing Strategy
+  - Link tasks to ACs where applicable (e.g., `Task 1 (AC: 1, 3)`)
+- Add notes on project structure alignment or discrepancies found in Step 4
+
+### 6. Story Draft Completion and Review
+
+- Review all sections for completeness and accuracy
+- Verify all source references are included for technical details
+- Ensure tasks align with both epic requirements and architecture constraints
+- Update status to "Draft" and save the story file
+- Execute `.bmad-core/tasks/execute-checklist` `.bmad-core/checklists/story-draft-checklist`
+- Provide summary to user including:
+  - Story created: `{devStoryLocation}/{epicNum}.{storyNum}.story.md`
+  - Status: Draft
+  - Key technical components included from architecture docs
+  - Any deviations or conflicts noted between epic and architecture
+  - Checklist Results
+  - Next steps: For Complex stories, suggest the user carefully review the story draft and also optionally have the PO run the task `.bmad-core/tasks/validate-next-story`
+==================== END: .bmad-core/tasks/create-next-story.md ====================
+
 ==================== START: .bmad-core/tasks/document-project.md ====================
 # Document an Existing Project
 
@@ -1501,121 +1478,6 @@ Apply the advanced elicitation task after major sections to refine based on user
 - The goal is PRACTICAL documentation for AI agents doing real work
 ==================== END: .bmad-core/tasks/document-project.md ====================
 
-==================== START: .bmad-core/tasks/create-next-story.md ====================
-# Create Next Story Task
-
-## Purpose
-
-To identify the next logical story based on project progress and epic definitions, and then to prepare a comprehensive, self-contained, and actionable story file using the `Story Template`. This task ensures the story is enriched with all necessary technical context, requirements, and acceptance criteria, making it ready for efficient implementation by a Developer Agent with minimal need for additional research or finding its own context.
-
-## SEQUENTIAL Task Execution (Do not proceed until current Task is complete)
-
-### 0. Load Core Configuration and Check Workflow
-
-- Load `.bmad-core/core-config.yaml` from the project root
-- If the file does not exist, HALT and inform the user: "core-config.yaml not found. This file is required for story creation. You can either: 1) Copy it from GITHUB bmad-core/core-config.yaml and configure it for your project OR 2) Run the BMad installer against your project to upgrade and add the file automatically. Please add and configure core-config.yaml before proceeding."
-- Extract key configurations: `devStoryLocation`, `prd.*`, `architecture.*`, `workflow.*`
-
-### 1. Identify Next Story for Preparation
-
-#### 1.1 Locate Epic Files and Review Existing Stories
-
-- Based on `prdSharded` from config, locate epic files (sharded location/pattern or monolithic PRD sections)
-- If `devStoryLocation` has story files, load the highest `{epicNum}.{storyNum}.story.md` file
-- **If highest story exists:**
-  - Verify status is 'Done'. If not, alert user: "ALERT: Found incomplete story! File: {lastEpicNum}.{lastStoryNum}.story.md Status: [current status] You should fix this story first, but would you like to accept risk & override to create the next story in draft?"
-  - If proceeding, select next sequential story in the current epic
-  - If epic is complete, prompt user: "Epic {epicNum} Complete: All stories in Epic {epicNum} have been completed. Would you like to: 1) Begin Epic {epicNum + 1} with story 1 2) Select a specific story to work on 3) Cancel story creation"
-  - **CRITICAL**: NEVER automatically skip to another epic. User MUST explicitly instruct which story to create.
-- **If no story files exist:** The next story is ALWAYS 1.1 (first story of first epic)
-- Announce the identified story to the user: "Identified next story for preparation: {epicNum}.{storyNum} - {Story Title}"
-
-### 2. Gather Story Requirements and Previous Story Context
-
-- Extract story requirements from the identified epic file
-- If previous story exists, review Dev Agent Record sections for:
-  - Completion Notes and Debug Log References
-  - Implementation deviations and technical decisions
-  - Challenges encountered and lessons learned
-- Extract relevant insights that inform the current story's preparation
-
-### 3. Gather Architecture Context
-
-#### 3.1 Determine Architecture Reading Strategy
-
-- **If `architectureVersion: >= v4` and `architectureSharded: true`**: Read `{architectureShardedLocation}/index.md` then follow structured reading order below
-- **Else**: Use monolithic `architectureFile` for similar sections
-
-#### 3.2 Read Architecture Documents Based on Story Type
-
-**For ALL Stories:** tech-stack.md, unified-project-structure.md, coding-standards.md, testing-strategy.md
-
-**For Backend/API Stories, additionally:** data-models.md, database-schema.md, backend-architecture.md, rest-api-spec.md, external-apis.md
-
-**For Frontend/UI Stories, additionally:** frontend-architecture.md, components.md, core-workflows.md, data-models.md
-
-**For Full-Stack Stories:** Read both Backend and Frontend sections above
-
-#### 3.3 Extract Story-Specific Technical Details
-
-Extract ONLY information directly relevant to implementing the current story. Do NOT invent new libraries, patterns, or standards not in the source documents.
-
-Extract:
-
-- Specific data models, schemas, or structures the story will use
-- API endpoints the story must implement or consume
-- Component specifications for UI elements in the story
-- File paths and naming conventions for new code
-- Testing requirements specific to the story's features
-- Security or performance considerations affecting the story
-
-ALWAYS cite source documents: `[Source: architecture/{filename}.md#{section}]`
-
-### 4. Verify Project Structure Alignment
-
-- Cross-reference story requirements with Project Structure Guide from `docs/architecture/unified-project-structure.md`
-- Ensure file paths, component locations, or module names align with defined structures
-- Document any structural conflicts in "Project Structure Notes" section within the story draft
-
-### 5. Populate Story Template with Full Context
-
-- Create new story file: `{devStoryLocation}/{epicNum}.{storyNum}.story.md` using Story Template
-- Fill in basic story information: Title, Status (Draft), Story statement, Acceptance Criteria from Epic
-- **`Dev Notes` section (CRITICAL):**
-  - CRITICAL: This section MUST contain ONLY information extracted from architecture documents. NEVER invent or assume technical details.
-  - Include ALL relevant technical details from Steps 2-3, organized by category:
-    - **Previous Story Insights**: Key learnings from previous story
-    - **Data Models**: Specific schemas, validation rules, relationships [with source references]
-    - **API Specifications**: Endpoint details, request/response formats, auth requirements [with source references]
-    - **Component Specifications**: UI component details, props, state management [with source references]
-    - **File Locations**: Exact paths where new code should be created based on project structure
-    - **Testing Requirements**: Specific test cases or strategies from testing-strategy.md
-    - **Technical Constraints**: Version requirements, performance considerations, security rules
-  - Every technical detail MUST include its source reference: `[Source: architecture/{filename}.md#{section}]`
-  - If information for a category is not found in the architecture docs, explicitly state: "No specific guidance found in architecture docs"
-- **`Tasks / Subtasks` section:**
-  - Generate detailed, sequential list of technical tasks based ONLY on: Epic Requirements, Story AC, Reviewed Architecture Information
-  - Each task must reference relevant architecture documentation
-  - Include unit testing as explicit subtasks based on the Testing Strategy
-  - Link tasks to ACs where applicable (e.g., `Task 1 (AC: 1, 3)`)
-- Add notes on project structure alignment or discrepancies found in Step 4
-
-### 6. Story Draft Completion and Review
-
-- Review all sections for completeness and accuracy
-- Verify all source references are included for technical details
-- Ensure tasks align with both epic requirements and architecture constraints
-- Update status to "Draft" and save the story file
-- Execute `.bmad-core/tasks/execute-checklist` `.bmad-core/checklists/story-draft-checklist`
-- Provide summary to user including:
-  - Story created: `{devStoryLocation}/{epicNum}.{storyNum}.story.md`
-  - Status: Draft
-  - Key technical components included from architecture docs
-  - Any deviations or conflicts noted between epic and architecture
-  - Checklist Results
-  - Next steps: For Complex stories, suggest the user carefully review the story draft and also optionally have the PO run the task `.bmad-core/tasks/validate-next-story`
-==================== END: .bmad-core/tasks/create-next-story.md ====================
-
 ==================== START: .bmad-core/tasks/execute-checklist.md ====================
 # Checklist Validation Task
 
@@ -1704,6 +1566,145 @@ The LLM will:
 - Present a final report with pass/fail rates and key findings
 - Offer to provide detailed analysis of any section, especially those with warnings or failures
 ==================== END: .bmad-core/tasks/execute-checklist.md ====================
+
+==================== START: .bmad-core/tasks/facilitate-brainstorming-session.md ====================
+---
+docOutputLocation: docs/brainstorming-session-results.md
+template: '.bmad-core/templates/brainstorming-output-tmpl.yaml'
+---
+
+# Facilitate Brainstorming Session Task
+
+Facilitate interactive brainstorming sessions with users. Be creative and adaptive in applying techniques.
+
+## Process
+
+### Step 1: Session Setup
+
+Ask 4 context questions (don't preview what happens next):
+
+1. What are we brainstorming about?
+2. Any constraints or parameters?
+3. Goal: broad exploration or focused ideation?
+4. Do you want a structured document output to reference later? (Default Yes)
+
+### Step 2: Present Approach Options
+
+After getting answers to Step 1, present 4 approach options (numbered):
+
+1. User selects specific techniques
+2. Analyst recommends techniques based on context
+3. Random technique selection for creative variety
+4. Progressive technique flow (start broad, narrow down)
+
+### Step 3: Execute Techniques Interactively
+
+**KEY PRINCIPLES:**
+
+- **FACILITATOR ROLE**: Guide user to generate their own ideas through questions, prompts, and examples
+- **CONTINUOUS ENGAGEMENT**: Keep user engaged with chosen technique until they want to switch or are satisfied
+- **CAPTURE OUTPUT**: If (default) document output requested, capture all ideas generated in each technique section to the document from the beginning.
+
+**Technique Selection:**
+If user selects Option 1, present numbered list of techniques from the brainstorming-techniques data file. User can select by number..
+
+**Technique Execution:**
+
+1. Apply selected technique according to data file description
+2. Keep engaging with technique until user indicates they want to:
+   - Choose a different technique
+   - Apply current ideas to a new technique
+   - Move to convergent phase
+   - End session
+
+**Output Capture (if requested):**
+For each technique used, capture:
+
+- Technique name and duration
+- Key ideas generated by user
+- Insights and patterns identified
+- User's reflections on the process
+
+### Step 4: Session Flow
+
+1. **Warm-up** (5-10 min) - Build creative confidence
+2. **Divergent** (20-30 min) - Generate quantity over quality
+3. **Convergent** (15-20 min) - Group and categorize ideas
+4. **Synthesis** (10-15 min) - Refine and develop concepts
+
+### Step 5: Document Output (if requested)
+
+Generate structured document with these sections:
+
+**Executive Summary**
+
+- Session topic and goals
+- Techniques used and duration
+- Total ideas generated
+- Key themes and patterns identified
+
+**Technique Sections** (for each technique used)
+
+- Technique name and description
+- Ideas generated (user's own words)
+- Insights discovered
+- Notable connections or patterns
+
+**Idea Categorization**
+
+- **Immediate Opportunities** - Ready to implement now
+- **Future Innovations** - Requires development/research
+- **Moonshots** - Ambitious, transformative concepts
+- **Insights & Learnings** - Key realizations from session
+
+**Action Planning**
+
+- Top 3 priority ideas with rationale
+- Next steps for each priority
+- Resources/research needed
+- Timeline considerations
+
+**Reflection & Follow-up**
+
+- What worked well in this session
+- Areas for further exploration
+- Recommended follow-up techniques
+- Questions that emerged for future sessions
+
+## Key Principles
+
+- **YOU ARE A FACILITATOR**: Guide the user to brainstorm, don't brainstorm for them (unless they request it persistently)
+- **INTERACTIVE DIALOGUE**: Ask questions, wait for responses, build on their ideas
+- **ONE TECHNIQUE AT A TIME**: Don't mix multiple techniques in one response
+- **CONTINUOUS ENGAGEMENT**: Stay with one technique until user wants to switch
+- **DRAW IDEAS OUT**: Use prompts and examples to help them generate their own ideas
+- **REAL-TIME ADAPTATION**: Monitor engagement and adjust approach as needed
+- Maintain energy and momentum
+- Defer judgment during generation
+- Quantity leads to quality (aim for 100 ideas in 60 minutes)
+- Build on ideas collaboratively
+- Document everything in output document
+
+## Advanced Engagement Strategies
+
+**Energy Management**
+
+- Check engagement levels: "How are you feeling about this direction?"
+- Offer breaks or technique switches if energy flags
+- Use encouraging language and celebrate idea generation
+
+**Depth vs. Breadth**
+
+- Ask follow-up questions to deepen ideas: "Tell me more about that..."
+- Use "Yes, and..." to build on their ideas
+- Help them make connections: "How does this relate to your earlier idea about...?"
+
+**Transition Management**
+
+- Always ask before switching techniques: "Ready to try a different approach?"
+- Offer options: "Should we explore this idea deeper or generate more alternatives?"
+- Respect their process and timing
+==================== END: .bmad-core/tasks/facilitate-brainstorming-session.md ====================
 
 ==================== START: .bmad-core/tasks/generate-ai-frontend-prompt.md ====================
 # Create AI Frontend Prompt Task
@@ -2131,7 +2132,7 @@ template:
   output:
     format: markdown
     filename: docs/architecture.md
-    title: '{{project_name}} Architecture Document'
+    title: "{{project_name}} Architecture Document"
 
 workflow:
   mode: interactive
@@ -2242,11 +2243,11 @@ sections:
           - Code organization patterns (Dependency Injection, Repository, Module, Factory)
           - Data patterns (Event Sourcing, Saga, Database per Service)
           - Communication patterns (REST, GraphQL, Message Queue, Pub/Sub)
-        template: '- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}'
+        template: "- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}"
         examples:
-          - '**Serverless Architecture:** Using AWS Lambda for compute - _Rationale:_ Aligns with PRD requirement for cost optimization and automatic scaling'
-          - '**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility'
-          - '**Event-Driven Communication:** Using SNS/SQS for service decoupling - _Rationale:_ Supports async processing and system resilience'
+          - "**Serverless Architecture:** Using AWS Lambda for compute - _Rationale:_ Aligns with PRD requirement for cost optimization and automatic scaling"
+          - "**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility"
+          - "**Event-Driven Communication:** Using SNS/SQS for service decoupling - _Rationale:_ Supports async processing and system resilience"
 
   - id: tech-stack
     title: Tech Stack
@@ -2284,9 +2285,9 @@ sections:
         columns: [Category, Technology, Version, Purpose, Rationale]
         instruction: Populate the technology stack table with all relevant technologies
         examples:
-          - '| **Language** | TypeScript | 5.3.3 | Primary development language | Strong typing, excellent tooling, team expertise |'
-          - '| **Runtime** | Node.js | 20.11.0 | JavaScript runtime | LTS version, stable performance, wide ecosystem |'
-          - '| **Framework** | NestJS | 10.3.2 | Backend framework | Enterprise-ready, good DI, matches team patterns |'
+          - "| **Language** | TypeScript | 5.3.3 | Primary development language | Strong typing, excellent tooling, team expertise |"
+          - "| **Runtime** | Node.js | 20.11.0 | JavaScript runtime | LTS version, stable performance, wide ecosystem |"
+          - "| **Framework** | NestJS | 10.3.2 | Backend framework | Enterprise-ready, good DI, matches team patterns |"
 
   - id: data-models
     title: Data Models
@@ -2304,7 +2305,7 @@ sections:
     repeatable: true
     sections:
       - id: model
-        title: '{{model_name}}'
+        title: "{{model_name}}"
         template: |
           **Purpose:** {{model_purpose}}
 
@@ -2335,7 +2336,7 @@ sections:
     sections:
       - id: component-list
         repeatable: true
-        title: '{{component_name}}'
+        title: "{{component_name}}"
         template: |
           **Responsibility:** {{component_description}}
 
@@ -2373,7 +2374,7 @@ sections:
     repeatable: true
     sections:
       - id: api
-        title: '{{api_name}} API'
+        title: "{{api_name}} API"
         template: |
           - **Purpose:** {{api_purpose}}
           - **Documentation:** {{api_docs_url}}
@@ -2498,12 +2499,12 @@ sections:
       - id: environments
         title: Environments
         repeatable: true
-        template: '- **{{env_name}}:** {{env_purpose}} - {{env_details}}'
+        template: "- **{{env_name}}:** {{env_purpose}} - {{env_details}}"
       - id: promotion-flow
         title: Environment Promotion Flow
         type: code
         language: text
-        template: '{{promotion_flow_diagram}}'
+        template: "{{promotion_flow_diagram}}"
       - id: rollback-strategy
         title: Rollback Strategy
         template: |
@@ -2599,16 +2600,16 @@ sections:
 
           Avoid obvious rules like "use SOLID principles" or "write clean code"
         repeatable: true
-        template: '- **{{rule_name}}:** {{rule_description}}'
+        template: "- **{{rule_name}}:** {{rule_description}}"
       - id: language-specifics
         title: Language-Specific Guidelines
         condition: Critical language-specific rules needed
         instruction: Add ONLY if critical for preventing AI mistakes. Most teams don't need this section.
         sections:
           - id: language-rules
-            title: '{{language_name}} Specifics'
+            title: "{{language_name}} Specifics"
             repeatable: true
-            template: '- **{{rule_topic}}:** {{rule_detail}}'
+            template: "- **{{rule_topic}}:** {{rule_detail}}"
 
   - id: test-strategy
     title: Test Strategy and Standards
@@ -2656,9 +2657,9 @@ sections:
               - **Test Infrastructure:**
                 - **{{dependency_name}}:** {{test_approach}} ({{test_tool}})
             examples:
-              - '**Database:** In-memory H2 for unit tests, Testcontainers PostgreSQL for integration'
-              - '**Message Queue:** Embedded Kafka for tests'
-              - '**External APIs:** WireMock for stubbing'
+              - "**Database:** In-memory H2 for unit tests, Testcontainers PostgreSQL for integration"
+              - "**Message Queue:** Embedded Kafka for tests"
+              - "**External APIs:** WireMock for stubbing"
           - id: e2e-tests
             title: End-to-End Tests
             template: |
@@ -2784,7 +2785,7 @@ template:
   output:
     format: markdown
     filename: docs/architecture.md
-    title: '{{project_name}} Brownfield Enhancement Architecture'
+    title: "{{project_name}} Brownfield Enhancement Architecture"
 
 workflow:
   mode: interactive
@@ -2842,11 +2843,11 @@ sections:
           - id: available-docs
             title: Available Documentation
             type: bullet-list
-            template: '- {{existing_docs_summary}}'
+            template: "- {{existing_docs_summary}}"
           - id: constraints
             title: Identified Constraints
             type: bullet-list
-            template: '- {{constraint}}'
+            template: "- {{constraint}}"
       - id: changelog
         title: Change Log
         type: table
@@ -2926,7 +2927,7 @@ sections:
         repeatable: true
         sections:
           - id: model
-            title: '{{model_name}}'
+            title: "{{model_name}}"
             template: |
               **Purpose:** {{model_purpose}}
               **Integration:** {{integration_with_existing}}
@@ -2969,7 +2970,7 @@ sections:
         repeatable: true
         sections:
           - id: component
-            title: '{{component_name}}'
+            title: "{{component_name}}"
             template: |
               **Responsibility:** {{component_description}}
               **Integration Points:** {{integration_points}}
@@ -3012,7 +3013,7 @@ sections:
         repeatable: true
         sections:
           - id: endpoint
-            title: '{{endpoint_name}}'
+            title: "{{endpoint_name}}"
             template: |
               - **Method:** {{http_method}}
               - **Endpoint:** {{endpoint_path}}
@@ -3023,12 +3024,12 @@ sections:
                 title: Request
                 type: code
                 language: json
-                template: '{{request_schema}}'
+                template: "{{request_schema}}"
               - id: response
                 title: Response
                 type: code
                 language: json
-                template: '{{response_schema}}'
+                template: "{{response_schema}}"
 
   - id: external-api-integration
     title: External API Integration
@@ -3037,7 +3038,7 @@ sections:
     repeatable: true
     sections:
       - id: external-api
-        title: '{{api_name}} API'
+        title: "{{api_name}} API"
         template: |
           - **Purpose:** {{api_purpose}}
           - **Documentation:** {{api_docs_url}}
@@ -3066,7 +3067,7 @@ sections:
         type: code
         language: plaintext
         instruction: Document relevant parts of current structure
-        template: '{{existing_structure_relevant_parts}}'
+        template: "{{existing_structure_relevant_parts}}"
       - id: new-file-organization
         title: New File Organization
         type: code
@@ -3141,7 +3142,7 @@ sections:
         title: Enhancement-Specific Standards
         condition: New patterns needed for enhancement
         repeatable: true
-        template: '- **{{standard_name}}:** {{standard_description}}'
+        template: "- **{{standard_name}}:** {{standard_description}}"
       - id: integration-rules
         title: Critical Integration Rules
         template: |
@@ -3263,7 +3264,7 @@ template:
   output:
     format: markdown
     filename: docs/prd.md
-    title: '{{project_name}} Brownfield Enhancement PRD'
+    title: "{{project_name}} Brownfield Enhancement PRD"
 
 workflow:
   mode: interactive
@@ -3326,7 +3327,7 @@ sections:
               - External API Documentation [[LLM: If from document-project, check ✓]]
               - UX/UI Guidelines [[LLM: May not be in document-project]]
               - Technical Debt Documentation [[LLM: If from document-project, check ✓]]
-              - 'Other: {{other_docs}}'
+              - "Other: {{other_docs}}"
             instruction: |
               - If document-project was already run: "Using existing project analysis from document-project output."
               - If critical documentation is missing and no document-project: "I recommend running the document-project task first..."
@@ -3346,7 +3347,7 @@ sections:
               - UI/UX Overhaul
               - Technology Stack Upgrade
               - Bug Fix and Stability Improvements
-              - 'Other: {{other_type}}'
+              - "Other: {{other_type}}"
           - id: enhancement-description
             title: Enhancement Description
             instruction: 2-3 sentences describing what the user wants to add or change
@@ -3387,29 +3388,29 @@ sections:
         prefix: FR
         instruction: Each Requirement will be a bullet markdown with identifier starting with FR
         examples:
-          - 'FR1: The existing Todo List will integrate with the new AI duplicate detection service without breaking current functionality.'
+          - "FR1: The existing Todo List will integrate with the new AI duplicate detection service without breaking current functionality."
       - id: non-functional
         title: Non Functional
         type: numbered-list
         prefix: NFR
         instruction: Each Requirement will be a bullet markdown with identifier starting with NFR. Include constraints from existing system
         examples:
-          - 'NFR1: Enhancement must maintain existing performance characteristics and not exceed current memory usage by more than 20%.'
+          - "NFR1: Enhancement must maintain existing performance characteristics and not exceed current memory usage by more than 20%."
       - id: compatibility
         title: Compatibility Requirements
         instruction: Critical for brownfield - what must remain compatible
         type: numbered-list
         prefix: CR
-        template: '{{requirement}}: {{description}}'
+        template: "{{requirement}}: {{description}}"
         items:
           - id: cr1
-            template: 'CR1: {{existing_api_compatibility}}'
+            template: "CR1: {{existing_api_compatibility}}"
           - id: cr2
-            template: 'CR2: {{database_schema_compatibility}}'
+            template: "CR2: {{database_schema_compatibility}}"
           - id: cr3
-            template: 'CR3: {{ui_ux_consistency}}'
+            template: "CR3: {{ui_ux_consistency}}"
           - id: cr4
-            template: 'CR4: {{integration_compatibility}}'
+            template: "CR4: {{integration_compatibility}}"
 
   - id: ui-enhancement-goals
     title: User Interface Enhancement Goals
@@ -3492,10 +3493,10 @@ sections:
       - id: epic-approach
         title: Epic Approach
         instruction: Explain the rationale for epic structure - typically single epic for brownfield unless multiple unrelated features
-        template: '**Epic Structure Decision**: {{epic_decision}} with rationale'
+        template: "**Epic Structure Decision**: {{epic_decision}} with rationale"
 
   - id: epic-details
-    title: 'Epic 1: {{enhancement_title}}'
+    title: "Epic 1: {{enhancement_title}}"
     instruction: |
       Comprehensive epic that delivers the brownfield enhancement while maintaining existing functionality
 
@@ -3515,7 +3516,7 @@ sections:
       **Integration Requirements**: {{integration_requirements}}
     sections:
       - id: story
-        title: 'Story 1.{{story_number}} {{story_title}}'
+        title: "Story 1.{{story_number}} {{story_title}}"
         repeatable: true
         template: |
           As a {{user_type}},
@@ -3526,16 +3527,16 @@ sections:
             title: Acceptance Criteria
             type: numbered-list
             instruction: Define criteria that include both new functionality and existing system integrity
-            item_template: '{{criterion_number}}: {{criteria}}'
+            item_template: "{{criterion_number}}: {{criteria}}"
           - id: integration-verification
             title: Integration Verification
             instruction: Specific verification steps to ensure existing functionality remains intact
             type: numbered-list
             prefix: IV
             items:
-              - template: 'IV1: {{existing_functionality_verification}}'
-              - template: 'IV2: {{integration_point_verification}}'
-              - template: 'IV3: {{performance_impact_verification}}'
+              - template: "IV1: {{existing_functionality_verification}}"
+              - template: "IV2: {{integration_point_verification}}"
+              - template: "IV3: {{performance_impact_verification}}"
 ==================== END: .bmad-core/templates/brownfield-prd-tmpl.yaml ====================
 
 ==================== START: .bmad-core/templates/competitor-analysis-tmpl.yaml ====================
@@ -3546,24 +3547,24 @@ template:
   output:
     format: markdown
     filename: docs/competitor-analysis.md
-    title: 'Competitive Analysis Report: {{project_product_name}}'
+    title: "Competitive Analysis Report: {{project_product_name}}"
 
 workflow:
   mode: interactive
   elicitation: advanced-elicitation
   custom_elicitation:
-    title: 'Competitive Analysis Elicitation Actions'
+    title: "Competitive Analysis Elicitation Actions"
     options:
       - "Deep dive on a specific competitor's strategy"
-      - 'Analyze competitive dynamics in a specific segment'
-      - 'War game competitive responses to your moves'
-      - 'Explore partnership vs. competition scenarios'
-      - 'Stress test differentiation claims'
-      - 'Analyze disruption potential (yours or theirs)'
-      - 'Compare to competition in adjacent markets'
-      - 'Generate win/loss analysis insights'
+      - "Analyze competitive dynamics in a specific segment"
+      - "War game competitive responses to your moves"
+      - "Explore partnership vs. competition scenarios"
+      - "Stress test differentiation claims"
+      - "Analyze disruption potential (yours or theirs)"
+      - "Compare to competition in adjacent markets"
+      - "Generate win/loss analysis insights"
       - "If only we had known about [competitor X's plan]..."
-      - 'Proceed to next section'
+      - "Proceed to next section"
 
 sections:
   - id: executive-summary
@@ -3630,7 +3631,7 @@ sections:
     repeatable: true
     sections:
       - id: competitor
-        title: '{{competitor_name}} - Priority {{priority_level}}'
+        title: "{{competitor_name}} - Priority {{priority_level}}"
         sections:
           - id: company-overview
             title: Company Overview
@@ -3662,11 +3663,11 @@ sections:
               - id: strengths
                 title: Strengths
                 type: bullet-list
-                template: '- {{strength}}'
+                template: "- {{strength}}"
               - id: weaknesses
                 title: Weaknesses
                 type: bullet-list
-                template: '- {{weakness}}'
+                template: "- {{weakness}}"
           - id: market-position
             title: Market Position & Performance
             template: |
@@ -3684,35 +3685,35 @@ sections:
         type: table
         columns:
           [
-            'Feature Category',
-            '{{your_company}}',
-            '{{competitor_1}}',
-            '{{competitor_2}}',
-            '{{competitor_3}}',
+            "Feature Category",
+            "{{your_company}}",
+            "{{competitor_1}}",
+            "{{competitor_2}}",
+            "{{competitor_3}}",
           ]
         rows:
-          - category: 'Core Functionality'
+          - category: "Core Functionality"
             items:
-              - ['Feature A', '{{status}}', '{{status}}', '{{status}}', '{{status}}']
-              - ['Feature B', '{{status}}', '{{status}}', '{{status}}', '{{status}}']
-          - category: 'User Experience'
+              - ["Feature A", "{{status}}", "{{status}}", "{{status}}", "{{status}}"]
+              - ["Feature B", "{{status}}", "{{status}}", "{{status}}", "{{status}}"]
+          - category: "User Experience"
             items:
-              - ['Mobile App', '{{rating}}', '{{rating}}', '{{rating}}', '{{rating}}']
-              - ['Onboarding Time', '{{time}}', '{{time}}', '{{time}}', '{{time}}']
-          - category: 'Integration & Ecosystem'
+              - ["Mobile App", "{{rating}}", "{{rating}}", "{{rating}}", "{{rating}}"]
+              - ["Onboarding Time", "{{time}}", "{{time}}", "{{time}}", "{{time}}"]
+          - category: "Integration & Ecosystem"
             items:
               - [
-                  'API Availability',
-                  '{{availability}}',
-                  '{{availability}}',
-                  '{{availability}}',
-                  '{{availability}}',
+                  "API Availability",
+                  "{{availability}}",
+                  "{{availability}}",
+                  "{{availability}}",
+                  "{{availability}}",
                 ]
-              - ['Third-party Integrations', '{{number}}', '{{number}}', '{{number}}', '{{number}}']
-          - category: 'Pricing & Plans'
+              - ["Third-party Integrations", "{{number}}", "{{number}}", "{{number}}", "{{number}}"]
+          - category: "Pricing & Plans"
             items:
-              - ['Starting Price', '{{price}}', '{{price}}', '{{price}}', '{{price}}']
-              - ['Free Tier', '{{yes_no}}', '{{yes_no}}', '{{yes_no}}', '{{yes_no}}']
+              - ["Starting Price", "{{price}}", "{{price}}", "{{price}}", "{{price}}"]
+              - ["Free Tier", "{{yes_no}}", "{{yes_no}}", "{{yes_no}}", "{{yes_no}}"]
       - id: swot-comparison
         title: SWOT Comparison
         instruction: Create SWOT analysis for your solution vs. top competitors
@@ -3725,7 +3726,7 @@ sections:
               - **Opportunities:** {{opportunities}}
               - **Threats:** {{threats}}
           - id: vs-competitor
-            title: 'vs. {{main_competitor}}'
+            title: "vs. {{main_competitor}}"
             template: |
               - **Competitive Advantages:** {{your_advantages}}
               - **Competitive Disadvantages:** {{their_advantages}}
@@ -3855,7 +3856,7 @@ template:
   output:
     format: markdown
     filename: docs/ui-architecture.md
-    title: '{{project_name}} Frontend Architecture Document'
+    title: "{{project_name}} Frontend Architecture Document"
 
 workflow:
   mode: interactive
@@ -3923,29 +3924,29 @@ sections:
         columns: [Category, Technology, Version, Purpose, Rationale]
         instruction: Fill in appropriate technology choices based on the selected framework and project requirements.
         rows:
-          - ['Framework', '{{framework}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['UI Library', '{{ui_library}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Framework", "{{framework}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["UI Library", "{{ui_library}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'State Management',
-              '{{state_management}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "State Management",
+              "{{state_management}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['Routing', '{{routing_library}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Build Tool', '{{build_tool}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Styling', '{{styling_solution}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Testing', '{{test_framework}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Routing", "{{routing_library}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Build Tool", "{{build_tool}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Styling", "{{styling_solution}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Testing", "{{test_framework}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'Component Library',
-              '{{component_lib}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "Component Library",
+              "{{component_lib}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['Form Handling', '{{form_library}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Animation', '{{animation_lib}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Dev Tools', '{{dev_tools}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Form Handling", "{{form_library}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Animation", "{{animation_lib}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Dev Tools", "{{dev_tools}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
 
   - id: project-structure
     title: Project Structure
@@ -4039,12 +4040,12 @@ sections:
         title: Testing Best Practices
         type: numbered-list
         items:
-          - '**Unit Tests**: Test individual components in isolation'
-          - '**Integration Tests**: Test component interactions'
-          - '**E2E Tests**: Test critical user flows (using Cypress/Playwright)'
-          - '**Coverage Goals**: Aim for 80% code coverage'
-          - '**Test Structure**: Arrange-Act-Assert pattern'
-          - '**Mock External Dependencies**: API calls, routing, state management'
+          - "**Unit Tests**: Test individual components in isolation"
+          - "**Integration Tests**: Test component interactions"
+          - "**E2E Tests**: Test critical user flows (using Cypress/Playwright)"
+          - "**Coverage Goals**: Aim for 80% code coverage"
+          - "**Test Structure**: Arrange-Act-Assert pattern"
+          - "**Mock External Dependencies**: API calls, routing, state management"
 
   - id: environment-configuration
     title: Environment Configuration
@@ -4076,7 +4077,7 @@ template:
   output:
     format: markdown
     filename: docs/front-end-spec.md
-    title: '{{project_name}} UI/UX Specification'
+    title: "{{project_name}} UI/UX Specification"
 
 workflow:
   mode: interactive
@@ -4104,29 +4105,29 @@ sections:
         sections:
           - id: user-personas
             title: Target User Personas
-            template: '{{persona_descriptions}}'
+            template: "{{persona_descriptions}}"
             examples:
-              - '**Power User:** Technical professionals who need advanced features and efficiency'
-              - '**Casual User:** Occasional users who prioritize ease of use and clear guidance'
-              - '**Administrator:** System managers who need control and oversight capabilities'
+              - "**Power User:** Technical professionals who need advanced features and efficiency"
+              - "**Casual User:** Occasional users who prioritize ease of use and clear guidance"
+              - "**Administrator:** System managers who need control and oversight capabilities"
           - id: usability-goals
             title: Usability Goals
-            template: '{{usability_goals}}'
+            template: "{{usability_goals}}"
             examples:
-              - 'Ease of learning: New users can complete core tasks within 5 minutes'
-              - 'Efficiency of use: Power users can complete frequent tasks with minimal clicks'
-              - 'Error prevention: Clear validation and confirmation for destructive actions'
-              - 'Memorability: Infrequent users can return without relearning'
+              - "Ease of learning: New users can complete core tasks within 5 minutes"
+              - "Efficiency of use: Power users can complete frequent tasks with minimal clicks"
+              - "Error prevention: Clear validation and confirmation for destructive actions"
+              - "Memorability: Infrequent users can return without relearning"
           - id: design-principles
             title: Design Principles
-            template: '{{design_principles}}'
+            template: "{{design_principles}}"
             type: numbered-list
             examples:
-              - '**Clarity over cleverness** - Prioritize clear communication over aesthetic innovation'
+              - "**Clarity over cleverness** - Prioritize clear communication over aesthetic innovation"
               - "**Progressive disclosure** - Show only what's needed, when it's needed"
-              - '**Consistent patterns** - Use familiar UI patterns throughout the application'
-              - '**Immediate feedback** - Every action should have a clear, immediate response'
-              - '**Accessible by default** - Design for all users from the start'
+              - "**Consistent patterns** - Use familiar UI patterns throughout the application"
+              - "**Immediate feedback** - Every action should have a clear, immediate response"
+              - "**Accessible by default** - Design for all users from the start"
       - id: changelog
         title: Change Log
         type: table
@@ -4148,7 +4149,7 @@ sections:
         title: Site Map / Screen Inventory
         type: mermaid
         mermaid_type: graph
-        template: '{{sitemap_diagram}}'
+        template: "{{sitemap_diagram}}"
         examples:
           - |
             graph TD
@@ -4188,7 +4189,7 @@ sections:
     repeatable: true
     sections:
       - id: flow
-        title: '{{flow_name}}'
+        title: "{{flow_name}}"
         template: |
           **User Goal:** {{flow_goal}}
 
@@ -4200,13 +4201,13 @@ sections:
             title: Flow Diagram
             type: mermaid
             mermaid_type: graph
-            template: '{{flow_diagram}}'
+            template: "{{flow_diagram}}"
           - id: edge-cases
-            title: 'Edge Cases & Error Handling:'
+            title: "Edge Cases & Error Handling:"
             type: bullet-list
-            template: '- {{edge_case}}'
+            template: "- {{edge_case}}"
           - id: notes
-            template: '**Notes:** {{flow_notes}}'
+            template: "**Notes:** {{flow_notes}}"
 
   - id: wireframes-mockups
     title: Wireframes & Mockups
@@ -4215,13 +4216,13 @@ sections:
     elicit: true
     sections:
       - id: design-files
-        template: '**Primary Design Files:** {{design_tool_link}}'
+        template: "**Primary Design Files:** {{design_tool_link}}"
       - id: key-screen-layouts
         title: Key Screen Layouts
         repeatable: true
         sections:
           - id: screen
-            title: '{{screen_name}}'
+            title: "{{screen_name}}"
             template: |
               **Purpose:** {{screen_purpose}}
 
@@ -4241,13 +4242,13 @@ sections:
     elicit: true
     sections:
       - id: design-system-approach
-        template: '**Design System Approach:** {{design_system_approach}}'
+        template: "**Design System Approach:** {{design_system_approach}}"
       - id: core-components
         title: Core Components
         repeatable: true
         sections:
           - id: component
-            title: '{{component_name}}'
+            title: "{{component_name}}"
             template: |
               **Purpose:** {{component_purpose}}
 
@@ -4264,19 +4265,19 @@ sections:
     sections:
       - id: visual-identity
         title: Visual Identity
-        template: '**Brand Guidelines:** {{brand_guidelines_link}}'
+        template: "**Brand Guidelines:** {{brand_guidelines_link}}"
       - id: color-palette
         title: Color Palette
         type: table
-        columns: ['Color Type', 'Hex Code', 'Usage']
+        columns: ["Color Type", "Hex Code", "Usage"]
         rows:
-          - ['Primary', '{{primary_color}}', '{{primary_usage}}']
-          - ['Secondary', '{{secondary_color}}', '{{secondary_usage}}']
-          - ['Accent', '{{accent_color}}', '{{accent_usage}}']
-          - ['Success', '{{success_color}}', 'Positive feedback, confirmations']
-          - ['Warning', '{{warning_color}}', 'Cautions, important notices']
-          - ['Error', '{{error_color}}', 'Errors, destructive actions']
-          - ['Neutral', '{{neutral_colors}}', 'Text, borders, backgrounds']
+          - ["Primary", "{{primary_color}}", "{{primary_usage}}"]
+          - ["Secondary", "{{secondary_color}}", "{{secondary_usage}}"]
+          - ["Accent", "{{accent_color}}", "{{accent_usage}}"]
+          - ["Success", "{{success_color}}", "Positive feedback, confirmations"]
+          - ["Warning", "{{warning_color}}", "Cautions, important notices"]
+          - ["Error", "{{error_color}}", "Errors, destructive actions"]
+          - ["Neutral", "{{neutral_colors}}", "Text, borders, backgrounds"]
       - id: typography
         title: Typography
         sections:
@@ -4289,13 +4290,13 @@ sections:
           - id: type-scale
             title: Type Scale
             type: table
-            columns: ['Element', 'Size', 'Weight', 'Line Height']
+            columns: ["Element", "Size", "Weight", "Line Height"]
             rows:
-              - ['H1', '{{h1_size}}', '{{h1_weight}}', '{{h1_line}}']
-              - ['H2', '{{h2_size}}', '{{h2_weight}}', '{{h2_line}}']
-              - ['H3', '{{h3_size}}', '{{h3_weight}}', '{{h3_line}}']
-              - ['Body', '{{body_size}}', '{{body_weight}}', '{{body_line}}']
-              - ['Small', '{{small_size}}', '{{small_weight}}', '{{small_line}}']
+              - ["H1", "{{h1_size}}", "{{h1_weight}}", "{{h1_line}}"]
+              - ["H2", "{{h2_size}}", "{{h2_weight}}", "{{h2_line}}"]
+              - ["H3", "{{h3_size}}", "{{h3_weight}}", "{{h3_line}}"]
+              - ["Body", "{{body_size}}", "{{body_weight}}", "{{body_line}}"]
+              - ["Small", "{{small_size}}", "{{small_weight}}", "{{small_line}}"]
       - id: iconography
         title: Iconography
         template: |
@@ -4316,7 +4317,7 @@ sections:
     sections:
       - id: compliance-target
         title: Compliance Target
-        template: '**Standard:** {{compliance_standard}}'
+        template: "**Standard:** {{compliance_standard}}"
       - id: key-requirements
         title: Key Requirements
         template: |
@@ -4336,7 +4337,7 @@ sections:
           - Form labels: {{form_requirements}}
       - id: testing-strategy
         title: Testing Strategy
-        template: '{{accessibility_testing}}'
+        template: "{{accessibility_testing}}"
 
   - id: responsiveness
     title: Responsiveness Strategy
@@ -4346,12 +4347,12 @@ sections:
       - id: breakpoints
         title: Breakpoints
         type: table
-        columns: ['Breakpoint', 'Min Width', 'Max Width', 'Target Devices']
+        columns: ["Breakpoint", "Min Width", "Max Width", "Target Devices"]
         rows:
-          - ['Mobile', '{{mobile_min}}', '{{mobile_max}}', '{{mobile_devices}}']
-          - ['Tablet', '{{tablet_min}}', '{{tablet_max}}', '{{tablet_devices}}']
-          - ['Desktop', '{{desktop_min}}', '{{desktop_max}}', '{{desktop_devices}}']
-          - ['Wide', '{{wide_min}}', '-', '{{wide_devices}}']
+          - ["Mobile", "{{mobile_min}}", "{{mobile_max}}", "{{mobile_devices}}"]
+          - ["Tablet", "{{tablet_min}}", "{{tablet_max}}", "{{tablet_devices}}"]
+          - ["Desktop", "{{desktop_min}}", "{{desktop_max}}", "{{desktop_devices}}"]
+          - ["Wide", "{{wide_min}}", "-", "{{wide_devices}}"]
       - id: adaptation-patterns
         title: Adaptation Patterns
         template: |
@@ -4370,11 +4371,11 @@ sections:
     sections:
       - id: motion-principles
         title: Motion Principles
-        template: '{{motion_principles}}'
+        template: "{{motion_principles}}"
       - id: key-animations
         title: Key Animations
         repeatable: true
-        template: '- **{{animation_name}}:** {{animation_description}} (Duration: {{duration}}, Easing: {{easing}})'
+        template: "- **{{animation_name}}:** {{animation_description}} (Duration: {{duration}}, Easing: {{easing}})"
 
   - id: performance
     title: Performance Considerations
@@ -4388,7 +4389,7 @@ sections:
           - **Animation FPS:** {{animation_goal}}
       - id: design-strategies
         title: Design Strategies
-        template: '{{performance_strategies}}'
+        template: "{{performance_strategies}}"
 
   - id: next-steps
     title: Next Steps
@@ -4403,17 +4404,17 @@ sections:
       - id: immediate-actions
         title: Immediate Actions
         type: numbered-list
-        template: '{{action}}'
+        template: "{{action}}"
       - id: design-handoff-checklist
         title: Design Handoff Checklist
         type: checklist
         items:
-          - 'All user flows documented'
-          - 'Component inventory complete'
-          - 'Accessibility requirements defined'
-          - 'Responsive strategy clear'
-          - 'Brand guidelines incorporated'
-          - 'Performance goals established'
+          - "All user flows documented"
+          - "Component inventory complete"
+          - "Accessibility requirements defined"
+          - "Responsive strategy clear"
+          - "Brand guidelines incorporated"
+          - "Performance goals established"
 
   - id: checklist-results
     title: Checklist Results
@@ -4428,7 +4429,7 @@ template:
   output:
     format: markdown
     filename: docs/architecture.md
-    title: '{{project_name}} Fullstack Architecture Document'
+    title: "{{project_name}} Fullstack Architecture Document"
 
 workflow:
   mode: interactive
@@ -4549,12 +4550,12 @@ sections:
 
           For each pattern, provide recommendation and rationale.
         repeatable: true
-        template: '- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}'
+        template: "- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}"
         examples:
-          - '**Jamstack Architecture:** Static site generation with serverless APIs - _Rationale:_ Optimal performance and scalability for content-heavy applications'
-          - '**Component-Based UI:** Reusable React components with TypeScript - _Rationale:_ Maintainability and type safety across large codebases'
-          - '**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility'
-          - '**API Gateway Pattern:** Single entry point for all API calls - _Rationale:_ Centralized auth, rate limiting, and monitoring'
+          - "**Jamstack Architecture:** Static site generation with serverless APIs - _Rationale:_ Optimal performance and scalability for content-heavy applications"
+          - "**Component-Based UI:** Reusable React components with TypeScript - _Rationale:_ Maintainability and type safety across large codebases"
+          - "**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility"
+          - "**API Gateway Pattern:** Single entry point for all API calls - _Rationale:_ Centralized auth, rate limiting, and monitoring"
 
   - id: tech-stack
     title: Tech Stack
@@ -4578,45 +4579,45 @@ sections:
         type: table
         columns: [Category, Technology, Version, Purpose, Rationale]
         rows:
-          - ['Frontend Language', '{{fe_language}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Frontend Language", "{{fe_language}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'Frontend Framework',
-              '{{fe_framework}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "Frontend Framework",
+              "{{fe_framework}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
           - [
-              'UI Component Library',
-              '{{ui_library}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "UI Component Library",
+              "{{ui_library}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['State Management', '{{state_mgmt}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Backend Language', '{{be_language}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["State Management", "{{state_mgmt}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Backend Language", "{{be_language}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'Backend Framework',
-              '{{be_framework}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "Backend Framework",
+              "{{be_framework}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['API Style', '{{api_style}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Database', '{{database}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Cache', '{{cache}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['File Storage', '{{storage}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Authentication', '{{auth}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Frontend Testing', '{{fe_test}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Backend Testing', '{{be_test}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['E2E Testing', '{{e2e_test}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Build Tool', '{{build_tool}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Bundler', '{{bundler}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['IaC Tool', '{{iac_tool}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['CI/CD', '{{cicd}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Monitoring', '{{monitoring}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Logging', '{{logging}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['CSS Framework', '{{css_framework}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["API Style", "{{api_style}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Database", "{{database}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Cache", "{{cache}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["File Storage", "{{storage}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Authentication", "{{auth}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Frontend Testing", "{{fe_test}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Backend Testing", "{{be_test}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["E2E Testing", "{{e2e_test}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Build Tool", "{{build_tool}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Bundler", "{{bundler}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["IaC Tool", "{{iac_tool}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["CI/CD", "{{cicd}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Monitoring", "{{monitoring}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Logging", "{{logging}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["CSS Framework", "{{css_framework}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
 
   - id: data-models
     title: Data Models
@@ -4635,7 +4636,7 @@ sections:
     repeatable: true
     sections:
       - id: model
-        title: '{{model_name}}'
+        title: "{{model_name}}"
         template: |
           **Purpose:** {{model_purpose}}
 
@@ -4647,11 +4648,11 @@ sections:
             title: TypeScript Interface
             type: code
             language: typescript
-            template: '{{model_interface}}'
+            template: "{{model_interface}}"
           - id: relationships
             title: Relationships
             type: bullet-list
-            template: '- {{relationship}}'
+            template: "- {{relationship}}"
 
   - id: api-spec
     title: API Specification
@@ -4688,13 +4689,13 @@ sections:
         condition: API style is GraphQL
         type: code
         language: graphql
-        template: '{{graphql_schema}}'
+        template: "{{graphql_schema}}"
       - id: trpc-api
         title: tRPC Router Definitions
         condition: API style is tRPC
         type: code
         language: typescript
-        template: '{{trpc_routers}}'
+        template: "{{trpc_routers}}"
 
   - id: components
     title: Components
@@ -4715,7 +4716,7 @@ sections:
     sections:
       - id: component-list
         repeatable: true
-        title: '{{component_name}}'
+        title: "{{component_name}}"
         template: |
           **Responsibility:** {{component_description}}
 
@@ -4753,7 +4754,7 @@ sections:
     repeatable: true
     sections:
       - id: api
-        title: '{{api_name}} API'
+        title: "{{api_name}} API"
         template: |
           - **Purpose:** {{api_purpose}}
           - **Documentation:** {{api_docs_url}}
@@ -4810,12 +4811,12 @@ sections:
             title: Component Organization
             type: code
             language: text
-            template: '{{component_structure}}'
+            template: "{{component_structure}}"
           - id: component-template
             title: Component Template
             type: code
             language: typescript
-            template: '{{component_template}}'
+            template: "{{component_template}}"
       - id: state-management
         title: State Management Architecture
         instruction: Detail state management approach based on chosen solution.
@@ -4824,11 +4825,11 @@ sections:
             title: State Structure
             type: code
             language: typescript
-            template: '{{state_structure}}'
+            template: "{{state_structure}}"
           - id: state-patterns
             title: State Management Patterns
             type: bullet-list
-            template: '- {{pattern}}'
+            template: "- {{pattern}}"
       - id: routing-architecture
         title: Routing Architecture
         instruction: Define routing structure based on framework choice.
@@ -4837,12 +4838,12 @@ sections:
             title: Route Organization
             type: code
             language: text
-            template: '{{route_structure}}'
+            template: "{{route_structure}}"
           - id: protected-routes
             title: Protected Route Pattern
             type: code
             language: typescript
-            template: '{{protected_route_example}}'
+            template: "{{protected_route_example}}"
       - id: frontend-services
         title: Frontend Services Layer
         instruction: Define how frontend communicates with backend.
@@ -4851,12 +4852,12 @@ sections:
             title: API Client Setup
             type: code
             language: typescript
-            template: '{{api_client_setup}}'
+            template: "{{api_client_setup}}"
           - id: service-example
             title: Service Example
             type: code
             language: typescript
-            template: '{{service_example}}'
+            template: "{{service_example}}"
 
   - id: backend-architecture
     title: Backend Architecture
@@ -4874,12 +4875,12 @@ sections:
                 title: Function Organization
                 type: code
                 language: text
-                template: '{{function_structure}}'
+                template: "{{function_structure}}"
               - id: function-template
                 title: Function Template
                 type: code
                 language: typescript
-                template: '{{function_template}}'
+                template: "{{function_template}}"
           - id: traditional-server
             condition: Traditional server architecture chosen
             sections:
@@ -4887,12 +4888,12 @@ sections:
                 title: Controller/Route Organization
                 type: code
                 language: text
-                template: '{{controller_structure}}'
+                template: "{{controller_structure}}"
               - id: controller-template
                 title: Controller Template
                 type: code
                 language: typescript
-                template: '{{controller_template}}'
+                template: "{{controller_template}}"
       - id: database-architecture
         title: Database Architecture
         instruction: Define database schema and access patterns.
@@ -4901,12 +4902,12 @@ sections:
             title: Schema Design
             type: code
             language: sql
-            template: '{{database_schema}}'
+            template: "{{database_schema}}"
           - id: data-access-layer
             title: Data Access Layer
             type: code
             language: typescript
-            template: '{{repository_pattern}}'
+            template: "{{repository_pattern}}"
       - id: auth-architecture
         title: Authentication and Authorization
         instruction: Define auth implementation details.
@@ -4915,12 +4916,12 @@ sections:
             title: Auth Flow
             type: mermaid
             mermaid_type: sequence
-            template: '{{auth_flow_diagram}}'
+            template: "{{auth_flow_diagram}}"
           - id: auth-middleware
             title: Middleware/Guards
             type: code
             language: typescript
-            template: '{{auth_middleware}}'
+            template: "{{auth_middleware}}"
 
   - id: unified-project-structure
     title: Unified Project Structure
@@ -4996,12 +4997,12 @@ sections:
             title: Prerequisites
             type: code
             language: bash
-            template: '{{prerequisites_commands}}'
+            template: "{{prerequisites_commands}}"
           - id: initial-setup
             title: Initial Setup
             type: code
             language: bash
-            template: '{{setup_commands}}'
+            template: "{{setup_commands}}"
           - id: dev-commands
             title: Development Commands
             type: code
@@ -5057,15 +5058,15 @@ sections:
         title: CI/CD Pipeline
         type: code
         language: yaml
-        template: '{{cicd_pipeline_config}}'
+        template: "{{cicd_pipeline_config}}"
       - id: environments
         title: Environments
         type: table
         columns: [Environment, Frontend URL, Backend URL, Purpose]
         rows:
-          - ['Development', '{{dev_fe_url}}', '{{dev_be_url}}', 'Local development']
-          - ['Staging', '{{staging_fe_url}}', '{{staging_be_url}}', 'Pre-production testing']
-          - ['Production', '{{prod_fe_url}}', '{{prod_be_url}}', 'Live environment']
+          - ["Development", "{{dev_fe_url}}", "{{dev_be_url}}", "Local development"]
+          - ["Staging", "{{staging_fe_url}}", "{{staging_be_url}}", "Pre-production testing"]
+          - ["Production", "{{prod_fe_url}}", "{{prod_be_url}}", "Live environment"]
 
   - id: security-performance
     title: Security and Performance
@@ -5124,17 +5125,17 @@ sections:
             title: Frontend Tests
             type: code
             language: text
-            template: '{{frontend_test_structure}}'
+            template: "{{frontend_test_structure}}"
           - id: backend-tests
             title: Backend Tests
             type: code
             language: text
-            template: '{{backend_test_structure}}'
+            template: "{{backend_test_structure}}"
           - id: e2e-tests
             title: E2E Tests
             type: code
             language: text
-            template: '{{e2e_test_structure}}'
+            template: "{{e2e_test_structure}}"
       - id: test-examples
         title: Test Examples
         sections:
@@ -5142,17 +5143,17 @@ sections:
             title: Frontend Component Test
             type: code
             language: typescript
-            template: '{{frontend_test_example}}'
+            template: "{{frontend_test_example}}"
           - id: backend-test
             title: Backend API Test
             type: code
             language: typescript
-            template: '{{backend_test_example}}'
+            template: "{{backend_test_example}}"
           - id: e2e-test
             title: E2E Test
             type: code
             language: typescript
-            template: '{{e2e_test_example}}'
+            template: "{{e2e_test_example}}"
 
   - id: coding-standards
     title: Coding Standards
@@ -5162,22 +5163,22 @@ sections:
       - id: critical-rules
         title: Critical Fullstack Rules
         repeatable: true
-        template: '- **{{rule_name}}:** {{rule_description}}'
+        template: "- **{{rule_name}}:** {{rule_description}}"
         examples:
-          - '**Type Sharing:** Always define types in packages/shared and import from there'
-          - '**API Calls:** Never make direct HTTP calls - use the service layer'
-          - '**Environment Variables:** Access only through config objects, never process.env directly'
-          - '**Error Handling:** All API routes must use the standard error handler'
-          - '**State Updates:** Never mutate state directly - use proper state management patterns'
+          - "**Type Sharing:** Always define types in packages/shared and import from there"
+          - "**API Calls:** Never make direct HTTP calls - use the service layer"
+          - "**Environment Variables:** Access only through config objects, never process.env directly"
+          - "**Error Handling:** All API routes must use the standard error handler"
+          - "**State Updates:** Never mutate state directly - use proper state management patterns"
       - id: naming-conventions
         title: Naming Conventions
         type: table
         columns: [Element, Frontend, Backend, Example]
         rows:
-          - ['Components', 'PascalCase', '-', '`UserProfile.tsx`']
-          - ['Hooks', "camelCase with 'use'", '-', '`useAuth.ts`']
-          - ['API Routes', '-', 'kebab-case', '`/api/user-profile`']
-          - ['Database Tables', '-', 'snake_case', '`user_profiles`']
+          - ["Components", "PascalCase", "-", "`UserProfile.tsx`"]
+          - ["Hooks", "camelCase with 'use'", "-", "`useAuth.ts`"]
+          - ["API Routes", "-", "kebab-case", "`/api/user-profile`"]
+          - ["Database Tables", "-", "snake_case", "`user_profiles`"]
 
   - id: error-handling
     title: Error Handling Strategy
@@ -5188,7 +5189,7 @@ sections:
         title: Error Flow
         type: mermaid
         mermaid_type: sequence
-        template: '{{error_flow_diagram}}'
+        template: "{{error_flow_diagram}}"
       - id: error-format
         title: Error Response Format
         type: code
@@ -5207,12 +5208,12 @@ sections:
         title: Frontend Error Handling
         type: code
         language: typescript
-        template: '{{frontend_error_handler}}'
+        template: "{{frontend_error_handler}}"
       - id: backend-error-handling
         title: Backend Error Handling
         type: code
         language: typescript
-        template: '{{backend_error_handler}}'
+        template: "{{backend_error_handler}}"
 
   - id: monitoring
     title: Monitoring and Observability
@@ -5254,24 +5255,24 @@ template:
   output:
     format: markdown
     filename: docs/market-research.md
-    title: 'Market Research Report: {{project_product_name}}'
+    title: "Market Research Report: {{project_product_name}}"
 
 workflow:
   mode: interactive
   elicitation: advanced-elicitation
   custom_elicitation:
-    title: 'Market Research Elicitation Actions'
+    title: "Market Research Elicitation Actions"
     options:
-      - 'Expand market sizing calculations with sensitivity analysis'
-      - 'Deep dive into a specific customer segment'
-      - 'Analyze an emerging market trend in detail'
-      - 'Compare this market to an analogous market'
-      - 'Stress test market assumptions'
-      - 'Explore adjacent market opportunities'
-      - 'Challenge market definition and boundaries'
-      - 'Generate strategic scenarios (best/base/worst case)'
-      - 'If only we had considered [X market factor]...'
-      - 'Proceed to next section'
+      - "Expand market sizing calculations with sensitivity analysis"
+      - "Deep dive into a specific customer segment"
+      - "Analyze an emerging market trend in detail"
+      - "Compare this market to an analogous market"
+      - "Stress test market assumptions"
+      - "Explore adjacent market opportunities"
+      - "Challenge market definition and boundaries"
+      - "Generate strategic scenarios (best/base/worst case)"
+      - "If only we had considered [X market factor]..."
+      - "Proceed to next section"
 
 sections:
   - id: executive-summary
@@ -5353,7 +5354,7 @@ sections:
         repeatable: true
         sections:
           - id: segment
-            title: 'Segment {{segment_number}}: {{segment_name}}'
+            title: "Segment {{segment_number}}: {{segment_name}}"
             template: |
               - **Description:** {{brief_overview}}
               - **Size:** {{number_of_customers_market_value}}
@@ -5422,20 +5423,20 @@ sections:
         instruction: Analyze each force with specific evidence and implications
         sections:
           - id: supplier-power
-            title: 'Supplier Power: {{power_level}}'
-            template: '{{analysis_and_implications}}'
+            title: "Supplier Power: {{power_level}}"
+            template: "{{analysis_and_implications}}"
           - id: buyer-power
-            title: 'Buyer Power: {{power_level}}'
-            template: '{{analysis_and_implications}}'
+            title: "Buyer Power: {{power_level}}"
+            template: "{{analysis_and_implications}}"
           - id: competitive-rivalry
-            title: 'Competitive Rivalry: {{intensity_level}}'
-            template: '{{analysis_and_implications}}'
+            title: "Competitive Rivalry: {{intensity_level}}"
+            template: "{{analysis_and_implications}}"
           - id: threat-new-entry
-            title: 'Threat of New Entry: {{threat_level}}'
-            template: '{{analysis_and_implications}}'
+            title: "Threat of New Entry: {{threat_level}}"
+            template: "{{analysis_and_implications}}"
           - id: threat-substitutes
-            title: 'Threat of Substitutes: {{threat_level}}'
-            template: '{{analysis_and_implications}}'
+            title: "Threat of Substitutes: {{threat_level}}"
+            template: "{{analysis_and_implications}}"
       - id: adoption-lifecycle
         title: Technology Adoption Lifecycle Stage
         instruction: |
@@ -5453,7 +5454,7 @@ sections:
         repeatable: true
         sections:
           - id: opportunity
-            title: 'Opportunity {{opportunity_number}}: {{name}}'
+            title: "Opportunity {{opportunity_number}}: {{name}}"
             template: |
               - **Description:** {{what_is_the_opportunity}}
               - **Size/Potential:** {{quantified_potential}}
@@ -5509,7 +5510,7 @@ template:
   output:
     format: markdown
     filename: docs/prd.md
-    title: '{{project_name}} Product Requirements Document (PRD)'
+    title: "{{project_name}} Product Requirements Document (PRD)"
 
 workflow:
   mode: interactive
@@ -5546,14 +5547,14 @@ sections:
         prefix: FR
         instruction: Each Requirement will be a bullet markdown and an identifier sequence starting with FR
         examples:
-          - 'FR6: The Todo List uses AI to detect and warn against potentially duplicate todo items that are worded differently.'
+          - "FR6: The Todo List uses AI to detect and warn against potentially duplicate todo items that are worded differently."
       - id: non-functional
         title: Non Functional
         type: numbered-list
         prefix: NFR
         instruction: Each Requirement will be a bullet markdown and an identifier sequence starting with NFR
         examples:
-          - 'NFR1: AWS service usage must aim to stay within free-tier limits where feasible.'
+          - "NFR1: AWS service usage must aim to stay within free-tier limits where feasible."
 
   - id: ui-goals
     title: User Interface Design Goals
@@ -5579,24 +5580,24 @@ sections:
         title: Core Screens and Views
         instruction: From a product perspective, what are the most critical screens or views necessary to deliver the the PRD values and goals? This is meant to be Conceptual High Level to Drive Rough Epic or User Stories
         examples:
-          - 'Login Screen'
-          - 'Main Dashboard'
-          - 'Item Detail Page'
-          - 'Settings Page'
+          - "Login Screen"
+          - "Main Dashboard"
+          - "Item Detail Page"
+          - "Settings Page"
       - id: accessibility
-        title: 'Accessibility: {None|WCAG AA|WCAG AAA|Custom Requirements}'
+        title: "Accessibility: {None|WCAG AA|WCAG AAA|Custom Requirements}"
       - id: branding
         title: Branding
         instruction: Any known branding elements or style guides that must be incorporated?
         examples:
-          - 'Replicate the look and feel of early 1900s black and white cinema, including animated effects replicating film damage or projector glitches during page or state transitions.'
-          - 'Attached is the full color pallet and tokens for our corporate branding.'
+          - "Replicate the look and feel of early 1900s black and white cinema, including animated effects replicating film damage or projector glitches during page or state transitions."
+          - "Attached is the full color pallet and tokens for our corporate branding."
       - id: target-platforms
-        title: 'Target Device and Platforms: {Web Responsive|Mobile Only|Desktop Only|Cross-Platform}'
+        title: "Target Device and Platforms: {Web Responsive|Mobile Only|Desktop Only|Cross-Platform}"
         examples:
-          - 'Web Responsive, and all mobile platforms'
-          - 'iPhone Only'
-          - 'ASCII Windows Desktop'
+          - "Web Responsive, and all mobile platforms"
+          - "iPhone Only"
+          - "ASCII Windows Desktop"
 
   - id: technical-assumptions
     title: Technical Assumptions
@@ -5615,13 +5616,13 @@ sections:
       testing: [Unit Only, Unit + Integration, Full Testing Pyramid]
     sections:
       - id: repository-structure
-        title: 'Repository Structure: {Monorepo|Polyrepo|Multi-repo}'
+        title: "Repository Structure: {Monorepo|Polyrepo|Multi-repo}"
       - id: service-architecture
         title: Service Architecture
-        instruction: 'CRITICAL DECISION - Document the high-level service architecture (e.g., Monolith, Microservices, Serverless functions within a Monorepo).'
+        instruction: "CRITICAL DECISION - Document the high-level service architecture (e.g., Monolith, Microservices, Serverless functions within a Monorepo)."
       - id: testing-requirements
         title: Testing Requirements
-        instruction: 'CRITICAL DECISION - Document the testing requirements, unit only, integration, e2e, manual, need for manual testing convenience methods).'
+        instruction: "CRITICAL DECISION - Document the testing requirements, unit only, integration, e2e, manual, need for manual testing convenience methods)."
       - id: additional-assumptions
         title: Additional Technical Assumptions and Requests
         instruction: Throughout the entire process of drafting this document, if any other technical assumptions are raised or discovered appropriate for the architect, add them here as additional bulleted items
@@ -5641,10 +5642,10 @@ sections:
       - Cross Cutting Concerns should flow through epics and stories and not be final stories. For example, adding a logging framework as a last story of an epic, or at the end of a project as a final epic or story would be terrible as we would not have logging from the beginning.
     elicit: true
     examples:
-      - 'Epic 1: Foundation & Core Infrastructure: Establish project setup, authentication, and basic user management'
-      - 'Epic 2: Core Business Entities: Create and manage primary domain objects with CRUD operations'
-      - 'Epic 3: User Workflows & Interactions: Enable key user journeys and business processes'
-      - 'Epic 4: Reporting & Analytics: Provide insights and data visualization for users'
+      - "Epic 1: Foundation & Core Infrastructure: Establish project setup, authentication, and basic user management"
+      - "Epic 2: Core Business Entities: Create and manage primary domain objects with CRUD operations"
+      - "Epic 3: User Workflows & Interactions: Enable key user journeys and business processes"
+      - "Epic 4: Reporting & Analytics: Provide insights and data visualization for users"
 
   - id: epic-details
     title: Epic {{epic_number}} {{epic_title}}
@@ -5666,7 +5667,7 @@ sections:
       - Think "junior developer working for 2-4 hours" - stories must be small, focused, and self-contained
       - If a story seems complex, break it down further as long as it can deliver a vertical slice
     elicit: true
-    template: '{{epic_goal}}'
+    template: "{{epic_goal}}"
     sections:
       - id: story
         title: Story {{epic_number}}.{{story_number}} {{story_title}}
@@ -5679,7 +5680,7 @@ sections:
           - id: acceptance-criteria
             title: Acceptance Criteria
             type: numbered-list
-            item_template: '{{criterion_number}}: {{criteria}}'
+            item_template: "{{criterion_number}}: {{criteria}}"
             repeatable: true
             instruction: |
               Define clear, comprehensive, and testable acceptance criteria that:
@@ -5714,24 +5715,24 @@ template:
   output:
     format: markdown
     filename: docs/brief.md
-    title: 'Project Brief: {{project_name}}'
+    title: "Project Brief: {{project_name}}"
 
 workflow:
   mode: interactive
   elicitation: advanced-elicitation
   custom_elicitation:
-    title: 'Project Brief Elicitation Actions'
+    title: "Project Brief Elicitation Actions"
     options:
-      - 'Expand section with more specific details'
-      - 'Validate against similar successful products'
-      - 'Stress test assumptions with edge cases'
-      - 'Explore alternative solution approaches'
-      - 'Analyze resource/constraint trade-offs'
-      - 'Generate risk mitigation strategies'
-      - 'Challenge scope from MVP minimalist view'
-      - 'Brainstorm creative feature possibilities'
-      - 'If only we had [resource/capability/time]...'
-      - 'Proceed to next section'
+      - "Expand section with more specific details"
+      - "Validate against similar successful products"
+      - "Stress test assumptions with edge cases"
+      - "Explore alternative solution approaches"
+      - "Analyze resource/constraint trade-offs"
+      - "Generate risk mitigation strategies"
+      - "Challenge scope from MVP minimalist view"
+      - "Brainstorm creative feature possibilities"
+      - "If only we had [resource/capability/time]..."
+      - "Proceed to next section"
 
 sections:
   - id: introduction
@@ -5753,7 +5754,7 @@ sections:
       - Primary problem being solved
       - Target market identification
       - Key value proposition
-    template: '{{executive_summary_content}}'
+    template: "{{executive_summary_content}}"
 
   - id: problem-statement
     title: Problem Statement
@@ -5763,7 +5764,7 @@ sections:
       - Impact of the problem (quantify if possible)
       - Why existing solutions fall short
       - Urgency and importance of solving this now
-    template: '{{detailed_problem_description}}'
+    template: "{{detailed_problem_description}}"
 
   - id: proposed-solution
     title: Proposed Solution
@@ -5773,7 +5774,7 @@ sections:
       - Key differentiators from existing solutions
       - Why this solution will succeed where others haven't
       - High-level vision for the product
-    template: '{{solution_description}}'
+    template: "{{solution_description}}"
 
   - id: target-users
     title: Target Users
@@ -5785,12 +5786,12 @@ sections:
       - Goals they're trying to achieve
     sections:
       - id: primary-segment
-        title: 'Primary User Segment: {{segment_name}}'
-        template: '{{primary_user_description}}'
+        title: "Primary User Segment: {{segment_name}}"
+        template: "{{primary_user_description}}"
       - id: secondary-segment
-        title: 'Secondary User Segment: {{segment_name}}'
+        title: "Secondary User Segment: {{segment_name}}"
         condition: Has secondary user segment
-        template: '{{secondary_user_description}}'
+        template: "{{secondary_user_description}}"
 
   - id: goals-metrics
     title: Goals & Success Metrics
@@ -5799,15 +5800,15 @@ sections:
       - id: business-objectives
         title: Business Objectives
         type: bullet-list
-        template: '- {{objective_with_metric}}'
+        template: "- {{objective_with_metric}}"
       - id: user-success-metrics
         title: User Success Metrics
         type: bullet-list
-        template: '- {{user_metric}}'
+        template: "- {{user_metric}}"
       - id: kpis
         title: Key Performance Indicators (KPIs)
         type: bullet-list
-        template: '- {{kpi}}: {{definition_and_target}}'
+        template: "- {{kpi}}: {{definition_and_target}}"
 
   - id: mvp-scope
     title: MVP Scope
@@ -5816,14 +5817,14 @@ sections:
       - id: core-features
         title: Core Features (Must Have)
         type: bullet-list
-        template: '- **{{feature}}:** {{description_and_rationale}}'
+        template: "- **{{feature}}:** {{description_and_rationale}}"
       - id: out-of-scope
         title: Out of Scope for MVP
         type: bullet-list
-        template: '- {{feature_or_capability}}'
+        template: "- {{feature_or_capability}}"
       - id: mvp-success-criteria
         title: MVP Success Criteria
-        template: '{{mvp_success_definition}}'
+        template: "{{mvp_success_definition}}"
 
   - id: post-mvp-vision
     title: Post-MVP Vision
@@ -5831,13 +5832,13 @@ sections:
     sections:
       - id: phase-2-features
         title: Phase 2 Features
-        template: '{{next_priority_features}}'
+        template: "{{next_priority_features}}"
       - id: long-term-vision
         title: Long-term Vision
-        template: '{{one_two_year_vision}}'
+        template: "{{one_two_year_vision}}"
       - id: expansion-opportunities
         title: Expansion Opportunities
-        template: '{{potential_expansions}}'
+        template: "{{potential_expansions}}"
 
   - id: technical-considerations
     title: Technical Considerations
@@ -5878,7 +5879,7 @@ sections:
       - id: key-assumptions
         title: Key Assumptions
         type: bullet-list
-        template: '- {{assumption}}'
+        template: "- {{assumption}}"
 
   - id: risks-questions
     title: Risks & Open Questions
@@ -5887,15 +5888,15 @@ sections:
       - id: key-risks
         title: Key Risks
         type: bullet-list
-        template: '- **{{risk}}:** {{description_and_impact}}'
+        template: "- **{{risk}}:** {{description_and_impact}}"
       - id: open-questions
         title: Open Questions
         type: bullet-list
-        template: '- {{question}}'
+        template: "- {{question}}"
       - id: research-areas
         title: Areas Needing Further Research
         type: bullet-list
-        template: '- {{research_topic}}'
+        template: "- {{research_topic}}"
 
   - id: appendices
     title: Appendices
@@ -5912,10 +5913,10 @@ sections:
       - id: stakeholder-input
         title: B. Stakeholder Input
         condition: Has stakeholder feedback
-        template: '{{stakeholder_feedback}}'
+        template: "{{stakeholder_feedback}}"
       - id: references
         title: C. References
-        template: '{{relevant_links_and_docs}}'
+        template: "{{relevant_links_and_docs}}"
 
   - id: next-steps
     title: Next Steps
@@ -5923,7 +5924,7 @@ sections:
       - id: immediate-actions
         title: Immediate Actions
         type: numbered-list
-        template: '{{action_item}}'
+        template: "{{action_item}}"
       - id: pm-handoff
         title: PM Handoff
         content: |
@@ -5938,7 +5939,7 @@ template:
   output:
     format: markdown
     filename: docs/stories/{{epic_num}}.{{story_num}}.{{story_title_short}}.md
-    title: 'Story {{epic_num}}.{{story_num}}: {{story_title_short}}'
+    title: "Story {{epic_num}}.{{story_num}}: {{story_title_short}}"
 
 workflow:
   mode: interactive
@@ -6040,7 +6041,7 @@ sections:
     sections:
       - id: agent-model
         title: Agent Model Used
-        template: '{{agent_model_name_version}}'
+        template: "{{agent_model_name_version}}"
         instruction: Record the specific AI agent model and version used for development
         owner: dev-agent
         editors: [dev-agent]

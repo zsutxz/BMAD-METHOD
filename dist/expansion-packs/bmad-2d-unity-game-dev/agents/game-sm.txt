@@ -514,8 +514,8 @@ template:
   version: 3.0
   output:
     format: markdown
-    filename: 'stories/{{epic_name}}/{{story_id}}-{{story_name}}.md'
-    title: 'Story: {{story_title}}'
+    filename: "stories/{{epic_name}}/{{story_id}}-{{story_name}}.md"
+    title: "Story: {{story_title}}"
 
 workflow:
   mode: interactive
@@ -544,7 +544,7 @@ sections:
   - id: description
     title: Description
     instruction: Provide a clear, concise description of what this story implements. Focus on the specific game feature or system being built. Reference the GDD section that defines this feature.
-    template: '{{clear_description_of_what_needs_to_be_implemented}}'
+    template: "{{clear_description_of_what_needs_to_be_implemented}}"
 
   - id: acceptance-criteria
     title: Acceptance Criteria
@@ -554,7 +554,7 @@ sections:
         title: Functional Requirements
         type: checklist
         items:
-          - '{{specific_functional_requirement}}'
+          - "{{specific_functional_requirement}}"
       - id: technical-requirements
         title: Technical Requirements
         type: checklist
@@ -562,14 +562,14 @@ sections:
           - Code follows C# best practices
           - Maintains stable frame rate on target devices
           - No memory leaks or performance degradation
-          - '{{specific_technical_requirement}}'
+          - "{{specific_technical_requirement}}"
       - id: game-design-requirements
         title: Game Design Requirements
         type: checklist
         items:
-          - '{{gameplay_requirement_from_gdd}}'
-          - '{{balance_requirement_if_applicable}}'
-          - '{{player_experience_requirement}}'
+          - "{{gameplay_requirement_from_gdd}}"
+          - "{{balance_requirement_if_applicable}}"
+          - "{{player_experience_requirement}}"
 
   - id: technical-specifications
     title: Technical Specifications
@@ -744,7 +744,7 @@ sections:
       - Performance targets met
       - No C# compiler errors or warnings
       - Documentation updated
-      - '{{game_specific_dod_item}}'
+      - "{{game_specific_dod_item}}"
 
   - id: notes
     title: Notes

@@ -530,23 +530,23 @@ template:
   output:
     format: markdown
     filename: docs/infrastructure-architecture.md
-    title: '{{project_name}} Infrastructure Architecture'
+    title: "{{project_name}} Infrastructure Architecture"
 
 workflow:
   mode: interactive
   elicitation: advanced-elicitation
   custom_elicitation:
-    title: 'Infrastructure Architecture Elicitation Actions'
+    title: "Infrastructure Architecture Elicitation Actions"
     sections:
       - id: infrastructure-overview
         options:
-          - 'Multi-Cloud Strategy Analysis - Evaluate cloud provider options and vendor lock-in considerations'
-          - 'Regional Distribution Planning - Analyze latency requirements and data residency needs'
-          - 'Environment Isolation Strategy - Design security boundaries and resource segregation'
-          - 'Scalability Patterns Review - Assess auto-scaling needs and traffic patterns'
-          - 'Compliance Requirements Analysis - Review regulatory and security compliance needs'
-          - 'Cost-Benefit Analysis - Compare infrastructure options and TCO'
-          - 'Proceed to next section'
+          - "Multi-Cloud Strategy Analysis - Evaluate cloud provider options and vendor lock-in considerations"
+          - "Regional Distribution Planning - Analyze latency requirements and data residency needs"
+          - "Environment Isolation Strategy - Design security boundaries and resource segregation"
+          - "Scalability Patterns Review - Assess auto-scaling needs and traffic patterns"
+          - "Compliance Requirements Analysis - Review regulatory and security compliance needs"
+          - "Cost-Benefit Analysis - Compare infrastructure options and TCO"
+          - "Proceed to next section"
 
 sections:
   - id: initial-setup
@@ -606,7 +606,7 @@ sections:
     sections:
       - id: environments
         repeatable: true
-        title: '{{environment_name}} Environment'
+        title: "{{environment_name}} Environment"
         template: |
           - **Purpose:** {{environment_purpose}}
           - **Resources:** {{environment_resources}}
@@ -957,24 +957,24 @@ template:
   output:
     format: markdown
     filename: docs/platform-infrastructure/platform-implementation.md
-    title: '{{project_name}} Platform Infrastructure Implementation'
+    title: "{{project_name}} Platform Infrastructure Implementation"
 
 workflow:
   mode: interactive
   elicitation: advanced-elicitation
   custom_elicitation:
-    title: 'Platform Implementation Elicitation Actions'
+    title: "Platform Implementation Elicitation Actions"
     sections:
       - id: foundation-infrastructure
         options:
-          - 'Platform Layer Security Hardening - Additional security controls and compliance validation'
-          - 'Performance Optimization - Network and resource optimization'
-          - 'Operational Excellence Enhancement - Automation and monitoring improvements'
-          - 'Platform Integration Validation - Verify foundation supports upper layers'
-          - 'Developer Experience Analysis - Foundation impact on developer workflows'
-          - 'Disaster Recovery Testing - Foundation resilience validation'
-          - 'BMAD Workflow Integration - Cross-agent support verification'
-          - 'Finalize and Proceed to Container Platform'
+          - "Platform Layer Security Hardening - Additional security controls and compliance validation"
+          - "Performance Optimization - Network and resource optimization"
+          - "Operational Excellence Enhancement - Automation and monitoring improvements"
+          - "Platform Integration Validation - Verify foundation supports upper layers"
+          - "Developer Experience Analysis - Foundation impact on developer workflows"
+          - "Disaster Recovery Testing - Foundation resilience validation"
+          - "BMAD Workflow Integration - Cross-agent support verification"
+          - "Finalize and Proceed to Container Platform"
 
 sections:
   - id: initial-setup

@@ -402,8 +402,8 @@ template:
   version: 2.0
   output:
     format: markdown
-    filename: 'stories/{{epic_name}}/{{story_id}}-{{story_name}}.md'
-    title: 'Story: {{story_title}}'
+    filename: "stories/{{epic_name}}/{{story_id}}-{{story_name}}.md"
+    title: "Story: {{story_title}}"
 
 workflow:
   mode: interactive
@@ -432,7 +432,7 @@ sections:
   - id: description
     title: Description
     instruction: Provide a clear, concise description of what this story implements. Focus on the specific game feature or system being built. Reference the GDD section that defines this feature.
-    template: '{{clear_description_of_what_needs_to_be_implemented}}'
+    template: "{{clear_description_of_what_needs_to_be_implemented}}"
 
   - id: acceptance-criteria
     title: Acceptance Criteria
@@ -442,22 +442,22 @@ sections:
         title: Functional Requirements
         type: checklist
         items:
-          - '{{specific_functional_requirement}}'
+          - "{{specific_functional_requirement}}"
       - id: technical-requirements
         title: Technical Requirements
         type: checklist
         items:
-          - 'Code follows TypeScript strict mode standards'
-          - 'Maintains 60 FPS on target devices'
-          - 'No memory leaks or performance degradation'
-          - '{{specific_technical_requirement}}'
+          - "Code follows TypeScript strict mode standards"
+          - "Maintains 60 FPS on target devices"
+          - "No memory leaks or performance degradation"
+          - "{{specific_technical_requirement}}"
       - id: game-design-requirements
         title: Game Design Requirements
         type: checklist
         items:
-          - '{{gameplay_requirement_from_gdd}}'
-          - '{{balance_requirement_if_applicable}}'
-          - '{{player_experience_requirement}}'
+          - "{{gameplay_requirement_from_gdd}}"
+          - "{{balance_requirement_if_applicable}}"
+          - "{{player_experience_requirement}}"
 
   - id: technical-specifications
     title: Technical Specifications
@@ -622,14 +622,14 @@ sections:
     instruction: Checklist that must be completed before the story is considered finished
     type: checklist
     items:
-      - 'All acceptance criteria met'
-      - 'Code reviewed and approved'
-      - 'Unit tests written and passing'
-      - 'Integration tests passing'
-      - 'Performance targets met'
-      - 'No linting errors'
-      - 'Documentation updated'
-      - '{{game_specific_dod_item}}'
+      - "All acceptance criteria met"
+      - "Code reviewed and approved"
+      - "Unit tests written and passing"
+      - "Integration tests passing"
+      - "Performance targets met"
+      - "No linting errors"
+      - "Documentation updated"
+      - "{{game_specific_dod_item}}"
 
   - id: notes
     title: Notes

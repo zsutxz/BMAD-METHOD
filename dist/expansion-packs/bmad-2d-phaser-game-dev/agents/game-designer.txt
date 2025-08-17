@@ -981,8 +981,8 @@ template:
   version: 2.0
   output:
     format: markdown
-    filename: 'docs/{{game_name}}-game-design-document.md'
-    title: '{{game_title}} Game Design Document (GDD)'
+    filename: "docs/{{game_name}}-game-design-document.md"
+    title: "{{game_title}} Game Design Document (GDD)"
 
 workflow:
   mode: interactive
@@ -1019,7 +1019,7 @@ sections:
         title: Unique Selling Points
         instruction: List 3-5 key features that differentiate this game from competitors
         type: numbered-list
-        template: '{{usp}}'
+        template: "{{usp}}"
 
   - id: core-gameplay
     title: Core Gameplay
@@ -1064,7 +1064,7 @@ sections:
         repeatable: true
         sections:
           - id: mechanic
-            title: '{{mechanic_name}}'
+            title: "{{mechanic_name}}"
             template: |
               **Description:** {{detailed_description}}
 
@@ -1129,7 +1129,7 @@ sections:
         repeatable: true
         sections:
           - id: level-type
-            title: '{{level_type_name}}'
+            title: "{{level_type_name}}"
             template: |
               **Purpose:** {{gameplay_purpose}}
               **Duration:** {{target_time}}
@@ -1230,10 +1230,10 @@ sections:
     instruction: Break down the development into phases that can be converted to epics
     sections:
       - id: phase-1-core-systems
-        title: 'Phase 1: Core Systems ({{duration}})'
+        title: "Phase 1: Core Systems ({{duration}})"
         sections:
           - id: foundation-epic
-            title: 'Epic: Foundation'
+            title: "Epic: Foundation"
             type: bullet-list
             template: |
               - Engine setup and configuration
@@ -1241,41 +1241,41 @@ sections:
               - Core input handling
               - Asset loading pipeline
           - id: core-mechanics-epic
-            title: 'Epic: Core Mechanics'
+            title: "Epic: Core Mechanics"
             type: bullet-list
             template: |
               - {{primary_mechanic}} implementation
               - Basic physics and collision
               - Player controller
       - id: phase-2-gameplay-features
-        title: 'Phase 2: Gameplay Features ({{duration}})'
+        title: "Phase 2: Gameplay Features ({{duration}})"
         sections:
           - id: game-systems-epic
-            title: 'Epic: Game Systems'
+            title: "Epic: Game Systems"
             type: bullet-list
             template: |
               - {{mechanic_2}} implementation
               - {{mechanic_3}} implementation
               - Game state management
           - id: content-creation-epic
-            title: 'Epic: Content Creation'
+            title: "Epic: Content Creation"
             type: bullet-list
             template: |
               - Level loading system
               - First playable levels
               - Basic UI implementation
       - id: phase-3-polish-optimization
-        title: 'Phase 3: Polish & Optimization ({{duration}})'
+        title: "Phase 3: Polish & Optimization ({{duration}})"
         sections:
           - id: performance-epic
-            title: 'Epic: Performance'
+            title: "Epic: Performance"
             type: bullet-list
             template: |
               - Optimization and profiling
               - Mobile platform testing
               - Memory management
           - id: user-experience-epic
-            title: 'Epic: User Experience'
+            title: "Epic: User Experience"
             type: bullet-list
             template: |
               - Audio implementation
@@ -1317,7 +1317,7 @@ sections:
         title: References
         instruction: List any competitive analysis, inspiration, or research sources
         type: bullet-list
-        template: '{{reference}}'
+        template: "{{reference}}"
 ==================== END: .bmad-2d-phaser-game-dev/templates/game-design-doc-tmpl.yaml ====================
 
 ==================== START: .bmad-2d-phaser-game-dev/templates/level-design-doc-tmpl.yaml ====================
@@ -1327,8 +1327,8 @@ template:
   version: 2.0
   output:
     format: markdown
-    filename: 'docs/{{game_name}}-level-design-document.md'
-    title: '{{game_title}} Level Design Document'
+    filename: "docs/{{game_name}}-level-design-document.md"
+    title: "{{game_title}} Level Design Document"
 
 workflow:
   mode: interactive
@@ -1389,7 +1389,7 @@ sections:
     repeatable: true
     sections:
       - id: level-category
-        title: '{{category_name}} Levels'
+        title: "{{category_name}} Levels"
         template: |
           **Purpose:** {{gameplay_purpose}}
 
@@ -1694,19 +1694,19 @@ sections:
             title: Playtesting Checklist
             type: checklist
             items:
-              - 'Level completes within target time range'
-              - 'All mechanics function correctly'
-              - 'Difficulty feels appropriate for level category'
-              - 'Player guidance is clear and effective'
-              - 'No exploits or sequence breaks (unless intended)'
+              - "Level completes within target time range"
+              - "All mechanics function correctly"
+              - "Difficulty feels appropriate for level category"
+              - "Player guidance is clear and effective"
+              - "No exploits or sequence breaks (unless intended)"
           - id: player-experience-testing
             title: Player Experience Testing
             type: checklist
             items:
-              - 'Tutorial levels teach effectively'
-              - 'Challenge feels fair and rewarding'
-              - 'Flow and pacing maintain engagement'
-              - 'Audio and visual feedback support gameplay'
+              - "Tutorial levels teach effectively"
+              - "Challenge feels fair and rewarding"
+              - "Flow and pacing maintain engagement"
+              - "Audio and visual feedback support gameplay"
       - id: balance-validation
         title: Balance Validation
         template: |
@@ -1814,8 +1814,8 @@ template:
   version: 2.0
   output:
     format: markdown
-    filename: 'docs/{{game_name}}-game-brief.md'
-    title: '{{game_title}} Game Brief'
+    filename: "docs/{{game_name}}-game-brief.md"
+    title: "{{game_title}} Game Brief"
 
 workflow:
   mode: interactive
@@ -2101,21 +2101,21 @@ sections:
         title: Development Roadmap
         sections:
           - id: phase-1-preproduction
-            title: 'Phase 1: Pre-Production ({{duration}})'
+            title: "Phase 1: Pre-Production ({{duration}})"
             type: bullet-list
             template: |
               - Detailed Game Design Document creation
               - Technical architecture planning
               - Art style exploration and pipeline setup
           - id: phase-2-prototype
-            title: 'Phase 2: Prototype ({{duration}})'
+            title: "Phase 2: Prototype ({{duration}})"
             type: bullet-list
             template: |
               - Core mechanic implementation
               - Technical proof of concept
               - Initial playtesting and iteration
           - id: phase-3-production
-            title: 'Phase 3: Production ({{duration}})'
+            title: "Phase 3: Production ({{duration}})"
             type: bullet-list
             template: |
               - Full feature development

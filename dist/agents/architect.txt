@@ -50,7 +50,6 @@ activation-instructions:
   - The agent.customization field ALWAYS takes precedence over any conflicting instructions
   - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
   - STAY IN CHARACTER!
-  - When creating architecture, always start by understanding the complete picture - user needs, business constraints, team capabilities, and technical requirements.
 agent:
   name: Winston
   id: architect
@@ -76,10 +75,10 @@ persona:
     - Living Architecture - Design for change and adaptation
 commands:
   - help: Show numbered list of the following commands to allow selection
-  - create-full-stack-architecture: use create-doc with fullstack-architecture-tmpl.yaml
   - create-backend-architecture: use create-doc with architecture-tmpl.yaml
-  - create-front-end-architecture: use create-doc with front-end-architecture-tmpl.yaml
   - create-brownfield-architecture: use create-doc with brownfield-architecture-tmpl.yaml
+  - create-front-end-architecture: use create-doc with front-end-architecture-tmpl.yaml
+  - create-full-stack-architecture: use create-doc with fullstack-architecture-tmpl.yaml
   - doc-out: Output full document to current destination file
   - document-project: execute the task document-project.md
   - execute-checklist {checklist}: Run task execute-checklist (default->architect-checklist)
@@ -88,126 +87,22 @@ commands:
   - yolo: Toggle Yolo Mode
   - exit: Say goodbye as the Architect, and then abandon inhabiting this persona
 dependencies:
-  tasks:
-    - create-doc.md
-    - create-deep-research-prompt.md
-    - document-project.md
-    - execute-checklist.md
-  templates:
-    - architecture-tmpl.yaml
-    - front-end-architecture-tmpl.yaml
-    - fullstack-architecture-tmpl.yaml
-    - brownfield-architecture-tmpl.yaml
   checklists:
     - architect-checklist.md
   data:
     - technical-preferences.md
+  tasks:
+    - create-deep-research-prompt.md
+    - create-doc.md
+    - document-project.md
+    - execute-checklist.md
+  templates:
+    - architecture-tmpl.yaml
+    - brownfield-architecture-tmpl.yaml
+    - front-end-architecture-tmpl.yaml
+    - fullstack-architecture-tmpl.yaml
 ```
 ==================== END: .bmad-core/agents/architect.md ====================
-
-==================== START: .bmad-core/tasks/create-doc.md ====================
-# Create Document from Template (YAML Driven)
-
-## ⚠️ CRITICAL EXECUTION NOTICE ⚠️
-
-**THIS IS AN EXECUTABLE WORKFLOW - NOT REFERENCE MATERIAL**
-
-When this task is invoked:
-
-1. **DISABLE ALL EFFICIENCY OPTIMIZATIONS** - This workflow requires full user interaction
-2. **MANDATORY STEP-BY-STEP EXECUTION** - Each section must be processed sequentially with user feedback
-3. **ELICITATION IS REQUIRED** - When `elicit: true`, you MUST use the 1-9 format and wait for user response
-4. **NO SHORTCUTS ALLOWED** - Complete documents cannot be created without following this workflow
-
-**VIOLATION INDICATOR:** If you create a complete document without user interaction, you have violated this workflow.
-
-## Critical: Template Discovery
-
-If a YAML Template has not been provided, list all templates from .bmad-core/templates or ask the user to provide another.
-
-## CRITICAL: Mandatory Elicitation Format
-
-**When `elicit: true`, this is a HARD STOP requiring user interaction:**
-
-**YOU MUST:**
-
-1. Present section content
-2. Provide detailed rationale (explain trade-offs, assumptions, decisions made)
-3. **STOP and present numbered options 1-9:**
-   - **Option 1:** Always "Proceed to next section"
-   - **Options 2-9:** Select 8 methods from data/elicitation-methods
-   - End with: "Select 1-9 or just type your question/feedback:"
-4. **WAIT FOR USER RESPONSE** - Do not proceed until user selects option or provides feedback
-
-**WORKFLOW VIOLATION:** Creating content for elicit=true sections without user interaction violates this task.
-
-**NEVER ask yes/no questions or use any other format.**
-
-## Processing Flow
-
-1. **Parse YAML template** - Load template metadata and sections
-2. **Set preferences** - Show current mode (Interactive), confirm output file
-3. **Process each section:**
-   - Skip if condition unmet
-   - Check agent permissions (owner/editors) - note if section is restricted to specific agents
-   - Draft content using section instruction
-   - Present content + detailed rationale
-   - **IF elicit: true** → MANDATORY 1-9 options format
-   - Save to file if possible
-4. **Continue until complete**
-
-## Detailed Rationale Requirements
-
-When presenting section content, ALWAYS include rationale that explains:
-
-- Trade-offs and choices made (what was chosen over alternatives and why)
-- Key assumptions made during drafting
-- Interesting or questionable decisions that need user attention
-- Areas that might need validation
-
-## Elicitation Results Flow
-
-After user selects elicitation method (2-9):
-
-1. Execute method from data/elicitation-methods
-2. Present results with insights
-3. Offer options:
-   - **1. Apply changes and update section**
-   - **2. Return to elicitation menu**
-   - **3. Ask any questions or engage further with this elicitation**
-
-## Agent Permissions
-
-When processing sections with agent permission fields:
-
-- **owner**: Note which agent role initially creates/populates the section
-- **editors**: List agent roles allowed to modify the section
-- **readonly**: Mark sections that cannot be modified after creation
-
-**For sections with restricted access:**
-
-- Include a note in the generated document indicating the responsible agent
-- Example: "_(This section is owned by dev-agent and can only be modified by dev-agent)_"
-
-## YOLO Mode
-
-User can type `#yolo` to toggle to YOLO mode (process all sections at once).
-
-## CRITICAL REMINDERS
-
-**❌ NEVER:**
-
-- Ask yes/no questions for elicitation
-- Use any format other than 1-9 numbered options
-- Create new elicitation methods
-
-**✅ ALWAYS:**
-
-- Use exact 1-9 format when elicit: true
-- Select options 2-9 from data/elicitation-methods only
-- Provide detailed rationale explaining decisions
-- End with "Select 1-9 or just type your question/feedback:"
-==================== END: .bmad-core/tasks/create-doc.md ====================
 
 ==================== START: .bmad-core/tasks/create-deep-research-prompt.md ====================
 # Create Deep Research Prompt Task
@@ -489,6 +384,110 @@ CRITICAL: collaborate with the user to develop specific, actionable research que
 - Document assumptions and limitations clearly
 - Plan for iterative refinement based on initial findings
 ==================== END: .bmad-core/tasks/create-deep-research-prompt.md ====================
+
+==================== START: .bmad-core/tasks/create-doc.md ====================
+# Create Document from Template (YAML Driven)
+
+## ⚠️ CRITICAL EXECUTION NOTICE ⚠️
+
+**THIS IS AN EXECUTABLE WORKFLOW - NOT REFERENCE MATERIAL**
+
+When this task is invoked:
+
+1. **DISABLE ALL EFFICIENCY OPTIMIZATIONS** - This workflow requires full user interaction
+2. **MANDATORY STEP-BY-STEP EXECUTION** - Each section must be processed sequentially with user feedback
+3. **ELICITATION IS REQUIRED** - When `elicit: true`, you MUST use the 1-9 format and wait for user response
+4. **NO SHORTCUTS ALLOWED** - Complete documents cannot be created without following this workflow
+
+**VIOLATION INDICATOR:** If you create a complete document without user interaction, you have violated this workflow.
+
+## Critical: Template Discovery
+
+If a YAML Template has not been provided, list all templates from .bmad-core/templates or ask the user to provide another.
+
+## CRITICAL: Mandatory Elicitation Format
+
+**When `elicit: true`, this is a HARD STOP requiring user interaction:**
+
+**YOU MUST:**
+
+1. Present section content
+2. Provide detailed rationale (explain trade-offs, assumptions, decisions made)
+3. **STOP and present numbered options 1-9:**
+   - **Option 1:** Always "Proceed to next section"
+   - **Options 2-9:** Select 8 methods from data/elicitation-methods
+   - End with: "Select 1-9 or just type your question/feedback:"
+4. **WAIT FOR USER RESPONSE** - Do not proceed until user selects option or provides feedback
+
+**WORKFLOW VIOLATION:** Creating content for elicit=true sections without user interaction violates this task.
+
+**NEVER ask yes/no questions or use any other format.**
+
+## Processing Flow
+
+1. **Parse YAML template** - Load template metadata and sections
+2. **Set preferences** - Show current mode (Interactive), confirm output file
+3. **Process each section:**
+   - Skip if condition unmet
+   - Check agent permissions (owner/editors) - note if section is restricted to specific agents
+   - Draft content using section instruction
+   - Present content + detailed rationale
+   - **IF elicit: true** → MANDATORY 1-9 options format
+   - Save to file if possible
+4. **Continue until complete**
+
+## Detailed Rationale Requirements
+
+When presenting section content, ALWAYS include rationale that explains:
+
+- Trade-offs and choices made (what was chosen over alternatives and why)
+- Key assumptions made during drafting
+- Interesting or questionable decisions that need user attention
+- Areas that might need validation
+
+## Elicitation Results Flow
+
+After user selects elicitation method (2-9):
+
+1. Execute method from data/elicitation-methods
+2. Present results with insights
+3. Offer options:
+   - **1. Apply changes and update section**
+   - **2. Return to elicitation menu**
+   - **3. Ask any questions or engage further with this elicitation**
+
+## Agent Permissions
+
+When processing sections with agent permission fields:
+
+- **owner**: Note which agent role initially creates/populates the section
+- **editors**: List agent roles allowed to modify the section
+- **readonly**: Mark sections that cannot be modified after creation
+
+**For sections with restricted access:**
+
+- Include a note in the generated document indicating the responsible agent
+- Example: "_(This section is owned by dev-agent and can only be modified by dev-agent)_"
+
+## YOLO Mode
+
+User can type `#yolo` to toggle to YOLO mode (process all sections at once).
+
+## CRITICAL REMINDERS
+
+**❌ NEVER:**
+
+- Ask yes/no questions for elicitation
+- Use any format other than 1-9 numbered options
+- Create new elicitation methods
+
+**✅ ALWAYS:**
+
+- Use exact 1-9 format when elicit: true
+- Select options 2-9 from data/elicitation-methods only
+- Provide detailed rationale explaining decisions
+- End with "Select 1-9 or just type your question/feedback:"
+==================== END: .bmad-core/tasks/create-doc.md ====================
 
 ==================== START: .bmad-core/tasks/document-project.md ====================
 # Document an Existing Project
@@ -933,7 +932,7 @@ template:
   output:
     format: markdown
     filename: docs/architecture.md
-    title: '{{project_name}} Architecture Document'
+    title: "{{project_name}} Architecture Document"
 
 workflow:
   mode: interactive
@@ -1044,11 +1043,11 @@ sections:
           - Code organization patterns (Dependency Injection, Repository, Module, Factory)
           - Data patterns (Event Sourcing, Saga, Database per Service)
           - Communication patterns (REST, GraphQL, Message Queue, Pub/Sub)
-        template: '- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}'
+        template: "- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}"
         examples:
-          - '**Serverless Architecture:** Using AWS Lambda for compute - _Rationale:_ Aligns with PRD requirement for cost optimization and automatic scaling'
-          - '**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility'
-          - '**Event-Driven Communication:** Using SNS/SQS for service decoupling - _Rationale:_ Supports async processing and system resilience'
+          - "**Serverless Architecture:** Using AWS Lambda for compute - _Rationale:_ Aligns with PRD requirement for cost optimization and automatic scaling"
+          - "**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility"
+          - "**Event-Driven Communication:** Using SNS/SQS for service decoupling - _Rationale:_ Supports async processing and system resilience"
 
   - id: tech-stack
     title: Tech Stack
@@ -1086,9 +1085,9 @@ sections:
         columns: [Category, Technology, Version, Purpose, Rationale]
         instruction: Populate the technology stack table with all relevant technologies
         examples:
-          - '| **Language** | TypeScript | 5.3.3 | Primary development language | Strong typing, excellent tooling, team expertise |'
-          - '| **Runtime** | Node.js | 20.11.0 | JavaScript runtime | LTS version, stable performance, wide ecosystem |'
-          - '| **Framework** | NestJS | 10.3.2 | Backend framework | Enterprise-ready, good DI, matches team patterns |'
+          - "| **Language** | TypeScript | 5.3.3 | Primary development language | Strong typing, excellent tooling, team expertise |"
+          - "| **Runtime** | Node.js | 20.11.0 | JavaScript runtime | LTS version, stable performance, wide ecosystem |"
+          - "| **Framework** | NestJS | 10.3.2 | Backend framework | Enterprise-ready, good DI, matches team patterns |"
 
   - id: data-models
     title: Data Models
@@ -1106,7 +1105,7 @@ sections:
     repeatable: true
     sections:
       - id: model
-        title: '{{model_name}}'
+        title: "{{model_name}}"
         template: |
           **Purpose:** {{model_purpose}}
 
@@ -1137,7 +1136,7 @@ sections:
     sections:
       - id: component-list
         repeatable: true
-        title: '{{component_name}}'
+        title: "{{component_name}}"
         template: |
           **Responsibility:** {{component_description}}
 
@@ -1175,7 +1174,7 @@ sections:
     repeatable: true
     sections:
       - id: api
-        title: '{{api_name}} API'
+        title: "{{api_name}} API"
         template: |
           - **Purpose:** {{api_purpose}}
           - **Documentation:** {{api_docs_url}}
@@ -1300,12 +1299,12 @@ sections:
       - id: environments
         title: Environments
         repeatable: true
-        template: '- **{{env_name}}:** {{env_purpose}} - {{env_details}}'
+        template: "- **{{env_name}}:** {{env_purpose}} - {{env_details}}"
       - id: promotion-flow
         title: Environment Promotion Flow
         type: code
         language: text
-        template: '{{promotion_flow_diagram}}'
+        template: "{{promotion_flow_diagram}}"
       - id: rollback-strategy
         title: Rollback Strategy
         template: |
@@ -1401,16 +1400,16 @@ sections:
 
           Avoid obvious rules like "use SOLID principles" or "write clean code"
         repeatable: true
-        template: '- **{{rule_name}}:** {{rule_description}}'
+        template: "- **{{rule_name}}:** {{rule_description}}"
       - id: language-specifics
         title: Language-Specific Guidelines
         condition: Critical language-specific rules needed
         instruction: Add ONLY if critical for preventing AI mistakes. Most teams don't need this section.
         sections:
           - id: language-rules
-            title: '{{language_name}} Specifics'
+            title: "{{language_name}} Specifics"
             repeatable: true
-            template: '- **{{rule_topic}}:** {{rule_detail}}'
+            template: "- **{{rule_topic}}:** {{rule_detail}}"
 
   - id: test-strategy
     title: Test Strategy and Standards
@@ -1458,9 +1457,9 @@ sections:
               - **Test Infrastructure:**
                 - **{{dependency_name}}:** {{test_approach}} ({{test_tool}})
             examples:
-              - '**Database:** In-memory H2 for unit tests, Testcontainers PostgreSQL for integration'
-              - '**Message Queue:** Embedded Kafka for tests'
-              - '**External APIs:** WireMock for stubbing'
+              - "**Database:** In-memory H2 for unit tests, Testcontainers PostgreSQL for integration"
+              - "**Message Queue:** Embedded Kafka for tests"
+              - "**External APIs:** WireMock for stubbing"
           - id: e2e-tests
             title: End-to-End Tests
             template: |
@@ -1578,6 +1577,485 @@ sections:
           - Request for detailed frontend architecture
 ==================== END: .bmad-core/templates/architecture-tmpl.yaml ====================
 
+==================== START: .bmad-core/templates/brownfield-architecture-tmpl.yaml ====================
+template:
+  id: brownfield-architecture-template-v2
+  name: Brownfield Enhancement Architecture
+  version: 2.0
+  output:
+    format: markdown
+    filename: docs/architecture.md
+    title: "{{project_name}} Brownfield Enhancement Architecture"
+
+workflow:
+  mode: interactive
+  elicitation: advanced-elicitation
+
+sections:
+  - id: introduction
+    title: Introduction
+    instruction: |
+      IMPORTANT - SCOPE AND ASSESSMENT REQUIRED:
+
+      This architecture document is for SIGNIFICANT enhancements to existing projects that require comprehensive architectural planning. Before proceeding:
+
+      1. **Verify Complexity**: Confirm this enhancement requires architectural planning. For simple additions, recommend: "For simpler changes that don't require architectural planning, consider using the brownfield-create-epic or brownfield-create-story task with the Product Owner instead."
+
+      2. **REQUIRED INPUTS**:
+         - Completed brownfield-prd.md
+         - Existing project technical documentation (from docs folder or user-provided)
+         - Access to existing project structure (IDE or uploaded files)
+
+      3. **DEEP ANALYSIS MANDATE**: You MUST conduct thorough analysis of the existing codebase, architecture patterns, and technical constraints before making ANY architectural recommendations. Every suggestion must be based on actual project analysis, not assumptions.
+
+      4. **CONTINUOUS VALIDATION**: Throughout this process, explicitly validate your understanding with the user. For every architectural decision, confirm: "Based on my analysis of your existing system, I recommend [decision] because [evidence from actual project]. Does this align with your system's reality?"
+
+      If any required inputs are missing, request them before proceeding.
+    elicit: true
+    sections:
+      - id: intro-content
+        content: |
+          This document outlines the architectural approach for enhancing {{project_name}} with {{enhancement_description}}. Its primary goal is to serve as the guiding architectural blueprint for AI-driven development of new features while ensuring seamless integration with the existing system.
+
+          **Relationship to Existing Architecture:**
+          This document supplements existing project architecture by defining how new components will integrate with current systems. Where conflicts arise between new and existing patterns, this document provides guidance on maintaining consistency while implementing enhancements.
+      - id: existing-project-analysis
+        title: Existing Project Analysis
+        instruction: |
+          Analyze the existing project structure and architecture:
+
+          1. Review existing documentation in docs folder
+          2. Examine current technology stack and versions
+          3. Identify existing architectural patterns and conventions
+          4. Note current deployment and infrastructure setup
+          5. Document any constraints or limitations
+
+          CRITICAL: After your analysis, explicitly validate your findings: "Based on my analysis of your project, I've identified the following about your existing system: [key findings]. Please confirm these observations are accurate before I proceed with architectural recommendations."
+        elicit: true
+        sections:
+          - id: current-state
+            title: Current Project State
+            template: |
+              - **Primary Purpose:** {{existing_project_purpose}}
+              - **Current Tech Stack:** {{existing_tech_summary}}
+              - **Architecture Style:** {{existing_architecture_style}}
+              - **Deployment Method:** {{existing_deployment_approach}}
+          - id: available-docs
+            title: Available Documentation
+            type: bullet-list
+            template: "- {{existing_docs_summary}}"
+          - id: constraints
+            title: Identified Constraints
+            type: bullet-list
+            template: "- {{constraint}}"
+      - id: changelog
+        title: Change Log
+        type: table
+        columns: [Change, Date, Version, Description, Author]
+        instruction: Track document versions and changes
+
+  - id: enhancement-scope
+    title: Enhancement Scope and Integration Strategy
+    instruction: |
+      Define how the enhancement will integrate with the existing system:
+
+      1. Review the brownfield PRD enhancement scope
+      2. Identify integration points with existing code
+      3. Define boundaries between new and existing functionality
+      4. Establish compatibility requirements
+
+      VALIDATION CHECKPOINT: Before presenting the integration strategy, confirm: "Based on my analysis, the integration approach I'm proposing takes into account [specific existing system characteristics]. These integration points and boundaries respect your current architecture patterns. Is this assessment accurate?"
+    elicit: true
+    sections:
+      - id: enhancement-overview
+        title: Enhancement Overview
+        template: |
+          **Enhancement Type:** {{enhancement_type}}
+          **Scope:** {{enhancement_scope}}
+          **Integration Impact:** {{integration_impact_level}}
+      - id: integration-approach
+        title: Integration Approach
+        template: |
+          **Code Integration Strategy:** {{code_integration_approach}}
+          **Database Integration:** {{database_integration_approach}}
+          **API Integration:** {{api_integration_approach}}
+          **UI Integration:** {{ui_integration_approach}}
+      - id: compatibility-requirements
+        title: Compatibility Requirements
+        template: |
+          - **Existing API Compatibility:** {{api_compatibility}}
+          - **Database Schema Compatibility:** {{db_compatibility}}
+          - **UI/UX Consistency:** {{ui_compatibility}}
+          - **Performance Impact:** {{performance_constraints}}
+
+  - id: tech-stack-alignment
+    title: Tech Stack Alignment
+    instruction: |
+      Ensure new components align with existing technology choices:
+
+      1. Use existing technology stack as the foundation
+      2. Only introduce new technologies if absolutely necessary
+      3. Justify any new additions with clear rationale
+      4. Ensure version compatibility with existing dependencies
+    elicit: true
+    sections:
+      - id: existing-stack
+        title: Existing Technology Stack
+        type: table
+        columns: [Category, Current Technology, Version, Usage in Enhancement, Notes]
+        instruction: Document the current stack that must be maintained or integrated with
+      - id: new-tech-additions
+        title: New Technology Additions
+        condition: Enhancement requires new technologies
+        type: table
+        columns: [Technology, Version, Purpose, Rationale, Integration Method]
+        instruction: Only include if new technologies are required for the enhancement
+
+  - id: data-models
+    title: Data Models and Schema Changes
+    instruction: |
+      Define new data models and how they integrate with existing schema:
+
+      1. Identify new entities required for the enhancement
+      2. Define relationships with existing data models
+      3. Plan database schema changes (additions, modifications)
+      4. Ensure backward compatibility
+    elicit: true
+    sections:
+      - id: new-models
+        title: New Data Models
+        repeatable: true
+        sections:
+          - id: model
+            title: "{{model_name}}"
+            template: |
+              **Purpose:** {{model_purpose}}
+              **Integration:** {{integration_with_existing}}
+
+              **Key Attributes:**
+              - {{attribute_1}}: {{type_1}} - {{description_1}}
+              - {{attribute_2}}: {{type_2}} - {{description_2}}
+
+              **Relationships:**
+              - **With Existing:** {{existing_relationships}}
+              - **With New:** {{new_relationships}}
+      - id: schema-integration
+        title: Schema Integration Strategy
+        template: |
+          **Database Changes Required:**
+          - **New Tables:** {{new_tables_list}}
+          - **Modified Tables:** {{modified_tables_list}}
+          - **New Indexes:** {{new_indexes_list}}
+          - **Migration Strategy:** {{migration_approach}}
+
+          **Backward Compatibility:**
+          - {{compatibility_measure_1}}
+          - {{compatibility_measure_2}}
+
+  - id: component-architecture
+    title: Component Architecture
+    instruction: |
+      Define new components and their integration with existing architecture:
+
+      1. Identify new components required for the enhancement
+      2. Define interfaces with existing components
+      3. Establish clear boundaries and responsibilities
+      4. Plan integration points and data flow
+
+      MANDATORY VALIDATION: Before presenting component architecture, confirm: "The new components I'm proposing follow the existing architectural patterns I identified in your codebase: [specific patterns]. The integration interfaces respect your current component structure and communication patterns. Does this match your project's reality?"
+    elicit: true
+    sections:
+      - id: new-components
+        title: New Components
+        repeatable: true
+        sections:
+          - id: component
+            title: "{{component_name}}"
+            template: |
+              **Responsibility:** {{component_description}}
+              **Integration Points:** {{integration_points}}
+
+              **Key Interfaces:**
+              - {{interface_1}}
+              - {{interface_2}}
+
+              **Dependencies:**
+              - **Existing Components:** {{existing_dependencies}}
+              - **New Components:** {{new_dependencies}}
+
+              **Technology Stack:** {{component_tech_details}}
+      - id: interaction-diagram
+        title: Component Interaction Diagram
+        type: mermaid
+        mermaid_type: graph
+        instruction: Create Mermaid diagram showing how new components interact with existing ones
+
+  - id: api-design
+    title: API Design and Integration
+    condition: Enhancement requires API changes
+    instruction: |
+      Define new API endpoints and integration with existing APIs:
+
+      1. Plan new API endpoints required for the enhancement
+      2. Ensure consistency with existing API patterns
+      3. Define authentication and authorization integration
+      4. Plan versioning strategy if needed
+    elicit: true
+    sections:
+      - id: api-strategy
+        title: API Integration Strategy
+        template: |
+          **API Integration Strategy:** {{api_integration_strategy}}
+          **Authentication:** {{auth_integration}}
+          **Versioning:** {{versioning_approach}}
+      - id: new-endpoints
+        title: New API Endpoints
+        repeatable: true
+        sections:
+          - id: endpoint
+            title: "{{endpoint_name}}"
+            template: |
+              - **Method:** {{http_method}}
+              - **Endpoint:** {{endpoint_path}}
+              - **Purpose:** {{endpoint_purpose}}
+              - **Integration:** {{integration_with_existing}}
+            sections:
+              - id: request
+                title: Request
+                type: code
+                language: json
+                template: "{{request_schema}}"
+              - id: response
+                title: Response
+                type: code
+                language: json
+                template: "{{response_schema}}"
+
+  - id: external-api-integration
+    title: External API Integration
+    condition: Enhancement requires new external APIs
+    instruction: Document new external API integrations required for the enhancement
+    repeatable: true
+    sections:
+      - id: external-api
+        title: "{{api_name}} API"
+        template: |
+          - **Purpose:** {{api_purpose}}
+          - **Documentation:** {{api_docs_url}}
+          - **Base URL:** {{api_base_url}}
+          - **Authentication:** {{auth_method}}
+          - **Integration Method:** {{integration_approach}}
+
+          **Key Endpoints Used:**
+          - `{{method}} {{endpoint_path}}` - {{endpoint_purpose}}
+
+          **Error Handling:** {{error_handling_strategy}}
+
+  - id: source-tree-integration
+    title: Source Tree Integration
+    instruction: |
+      Define how new code will integrate with existing project structure:
+
+      1. Follow existing project organization patterns
+      2. Identify where new files/folders will be placed
+      3. Ensure consistency with existing naming conventions
+      4. Plan for minimal disruption to existing structure
+    elicit: true
+    sections:
+      - id: existing-structure
+        title: Existing Project Structure
+        type: code
+        language: plaintext
+        instruction: Document relevant parts of current structure
+        template: "{{existing_structure_relevant_parts}}"
+      - id: new-file-organization
+        title: New File Organization
+        type: code
+        language: plaintext
+        instruction: Show only new additions to existing structure
+        template: |
+          {{project-root}}/
+          ├── {{existing_structure_context}}
+          │   ├── {{new_folder_1}}/           # {{purpose_1}}
+          │   │   ├── {{new_file_1}}
+          │   │   └── {{new_file_2}}
+          │   ├── {{existing_folder}}/        # Existing folder with additions
+          │   │   ├── {{existing_file}}       # Existing file
+          │   │   └── {{new_file_3}}          # New addition
+          │   └── {{new_folder_2}}/           # {{purpose_2}}
+      - id: integration-guidelines
+        title: Integration Guidelines
+        template: |
+          - **File Naming:** {{file_naming_consistency}}
+          - **Folder Organization:** {{folder_organization_approach}}
+          - **Import/Export Patterns:** {{import_export_consistency}}
+
+  - id: infrastructure-deployment
+    title: Infrastructure and Deployment Integration
+    instruction: |
+      Define how the enhancement will be deployed alongside existing infrastructure:
+
+      1. Use existing deployment pipeline and infrastructure
+      2. Identify any infrastructure changes needed
+      3. Plan deployment strategy to minimize risk
+      4. Define rollback procedures
+    elicit: true
+    sections:
+      - id: existing-infrastructure
+        title: Existing Infrastructure
+        template: |
+          **Current Deployment:** {{existing_deployment_summary}}
+          **Infrastructure Tools:** {{existing_infrastructure_tools}}
+          **Environments:** {{existing_environments}}
+      - id: enhancement-deployment
+        title: Enhancement Deployment Strategy
+        template: |
+          **Deployment Approach:** {{deployment_approach}}
+          **Infrastructure Changes:** {{infrastructure_changes}}
+          **Pipeline Integration:** {{pipeline_integration}}
+      - id: rollback-strategy
+        title: Rollback Strategy
+        template: |
+          **Rollback Method:** {{rollback_method}}
+          **Risk Mitigation:** {{risk_mitigation}}
+          **Monitoring:** {{monitoring_approach}}
+
+  - id: coding-standards
+    title: Coding Standards and Conventions
+    instruction: |
+      Ensure new code follows existing project conventions:
+
+      1. Document existing coding standards from project analysis
+      2. Identify any enhancement-specific requirements
+      3. Ensure consistency with existing codebase patterns
+      4. Define standards for new code organization
+    elicit: true
+    sections:
+      - id: existing-standards
+        title: Existing Standards Compliance
+        template: |
+          **Code Style:** {{existing_code_style}}
+          **Linting Rules:** {{existing_linting}}
+          **Testing Patterns:** {{existing_test_patterns}}
+          **Documentation Style:** {{existing_doc_style}}
+      - id: enhancement-standards
+        title: Enhancement-Specific Standards
+        condition: New patterns needed for enhancement
+        repeatable: true
+        template: "- **{{standard_name}}:** {{standard_description}}"
+      - id: integration-rules
+        title: Critical Integration Rules
+        template: |
+          - **Existing API Compatibility:** {{api_compatibility_rule}}
+          - **Database Integration:** {{db_integration_rule}}
+          - **Error Handling:** {{error_handling_integration}}
+          - **Logging Consistency:** {{logging_consistency}}
+
+  - id: testing-strategy
+    title: Testing Strategy
+    instruction: |
+      Define testing approach for the enhancement:
+
+      1. Integrate with existing test suite
+      2. Ensure existing functionality remains intact
+      3. Plan for testing new features
+      4. Define integration testing approach
+    elicit: true
+    sections:
+      - id: existing-test-integration
+        title: Integration with Existing Tests
+        template: |
+          **Existing Test Framework:** {{existing_test_framework}}
+          **Test Organization:** {{existing_test_organization}}
+          **Coverage Requirements:** {{existing_coverage_requirements}}
+      - id: new-testing
+        title: New Testing Requirements
+        sections:
+          - id: unit-tests
+            title: Unit Tests for New Components
+            template: |
+              - **Framework:** {{test_framework}}
+              - **Location:** {{test_location}}
+              - **Coverage Target:** {{coverage_target}}
+              - **Integration with Existing:** {{test_integration}}
+          - id: integration-tests
+            title: Integration Tests
+            template: |
+              - **Scope:** {{integration_test_scope}}
+              - **Existing System Verification:** {{existing_system_verification}}
+              - **New Feature Testing:** {{new_feature_testing}}
+          - id: regression-tests
+            title: Regression Testing
+            template: |
+              - **Existing Feature Verification:** {{regression_test_approach}}
+              - **Automated Regression Suite:** {{automated_regression}}
+              - **Manual Testing Requirements:** {{manual_testing_requirements}}
+
+  - id: security-integration
+    title: Security Integration
+    instruction: |
+      Ensure security consistency with existing system:
+
+      1. Follow existing security patterns and tools
+      2. Ensure new features don't introduce vulnerabilities
+      3. Maintain existing security posture
+      4. Define security testing for new components
+    elicit: true
+    sections:
+      - id: existing-security
+        title: Existing Security Measures
+        template: |
+          **Authentication:** {{existing_auth}}
+          **Authorization:** {{existing_authz}}
+          **Data Protection:** {{existing_data_protection}}
+          **Security Tools:** {{existing_security_tools}}
+      - id: enhancement-security
+        title: Enhancement Security Requirements
+        template: |
+          **New Security Measures:** {{new_security_measures}}
+          **Integration Points:** {{security_integration_points}}
+          **Compliance Requirements:** {{compliance_requirements}}
+      - id: security-testing
+        title: Security Testing
+        template: |
+          **Existing Security Tests:** {{existing_security_tests}}
+          **New Security Test Requirements:** {{new_security_tests}}
+          **Penetration Testing:** {{pentest_requirements}}
+
+  - id: checklist-results
+    title: Checklist Results Report
+    instruction: Execute the architect-checklist and populate results here, focusing on brownfield-specific validation
+
+  - id: next-steps
+    title: Next Steps
+    instruction: |
+      After completing the brownfield architecture:
+
+      1. Review integration points with existing system
+      2. Begin story implementation with Dev agent
+      3. Set up deployment pipeline integration
+      4. Plan rollback and monitoring procedures
+    sections:
+      - id: story-manager-handoff
+        title: Story Manager Handoff
+        instruction: |
+          Create a brief prompt for Story Manager to work with this brownfield enhancement. Include:
+          - Reference to this architecture document
+          - Key integration requirements validated with user
+          - Existing system constraints based on actual project analysis
+          - First story to implement with clear integration checkpoints
+          - Emphasis on maintaining existing system integrity throughout implementation
+      - id: developer-handoff
+        title: Developer Handoff
+        instruction: |
+          Create a brief prompt for developers starting implementation. Include:
+          - Reference to this architecture and existing coding standards analyzed from actual project
+          - Integration requirements with existing codebase validated with user
+          - Key technical decisions based on real project constraints
+          - Existing system compatibility requirements with specific verification steps
+          - Clear sequencing of implementation to minimize risk to existing functionality
+==================== END: .bmad-core/templates/brownfield-architecture-tmpl.yaml ====================
+
 ==================== START: .bmad-core/templates/front-end-architecture-tmpl.yaml ====================
 template:
   id: frontend-architecture-template-v2
@@ -1586,7 +2064,7 @@ template:
   output:
     format: markdown
     filename: docs/ui-architecture.md
-    title: '{{project_name}} Frontend Architecture Document'
+    title: "{{project_name}} Frontend Architecture Document"
 
 workflow:
   mode: interactive
@@ -1654,29 +2132,29 @@ sections:
         columns: [Category, Technology, Version, Purpose, Rationale]
         instruction: Fill in appropriate technology choices based on the selected framework and project requirements.
         rows:
-          - ['Framework', '{{framework}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['UI Library', '{{ui_library}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Framework", "{{framework}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["UI Library", "{{ui_library}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'State Management',
-              '{{state_management}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "State Management",
+              "{{state_management}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['Routing', '{{routing_library}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Build Tool', '{{build_tool}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Styling', '{{styling_solution}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Testing', '{{test_framework}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Routing", "{{routing_library}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Build Tool", "{{build_tool}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Styling", "{{styling_solution}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Testing", "{{test_framework}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'Component Library',
-              '{{component_lib}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "Component Library",
+              "{{component_lib}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['Form Handling', '{{form_library}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Animation', '{{animation_lib}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Dev Tools', '{{dev_tools}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Form Handling", "{{form_library}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Animation", "{{animation_lib}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Dev Tools", "{{dev_tools}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
 
   - id: project-structure
     title: Project Structure
@@ -1770,12 +2248,12 @@ sections:
         title: Testing Best Practices
         type: numbered-list
         items:
-          - '**Unit Tests**: Test individual components in isolation'
-          - '**Integration Tests**: Test component interactions'
-          - '**E2E Tests**: Test critical user flows (using Cypress/Playwright)'
-          - '**Coverage Goals**: Aim for 80% code coverage'
-          - '**Test Structure**: Arrange-Act-Assert pattern'
-          - '**Mock External Dependencies**: API calls, routing, state management'
+          - "**Unit Tests**: Test individual components in isolation"
+          - "**Integration Tests**: Test component interactions"
+          - "**E2E Tests**: Test critical user flows (using Cypress/Playwright)"
+          - "**Coverage Goals**: Aim for 80% code coverage"
+          - "**Test Structure**: Arrange-Act-Assert pattern"
+          - "**Mock External Dependencies**: API calls, routing, state management"
 
   - id: environment-configuration
     title: Environment Configuration
@@ -1807,7 +2285,7 @@ template:
   output:
     format: markdown
     filename: docs/architecture.md
-    title: '{{project_name}} Fullstack Architecture Document'
+    title: "{{project_name}} Fullstack Architecture Document"
 
 workflow:
   mode: interactive
@@ -1928,12 +2406,12 @@ sections:
 
           For each pattern, provide recommendation and rationale.
         repeatable: true
-        template: '- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}'
+        template: "- **{{pattern_name}}:** {{pattern_description}} - _Rationale:_ {{rationale}}"
         examples:
-          - '**Jamstack Architecture:** Static site generation with serverless APIs - _Rationale:_ Optimal performance and scalability for content-heavy applications'
-          - '**Component-Based UI:** Reusable React components with TypeScript - _Rationale:_ Maintainability and type safety across large codebases'
-          - '**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility'
-          - '**API Gateway Pattern:** Single entry point for all API calls - _Rationale:_ Centralized auth, rate limiting, and monitoring'
+          - "**Jamstack Architecture:** Static site generation with serverless APIs - _Rationale:_ Optimal performance and scalability for content-heavy applications"
+          - "**Component-Based UI:** Reusable React components with TypeScript - _Rationale:_ Maintainability and type safety across large codebases"
+          - "**Repository Pattern:** Abstract data access logic - _Rationale:_ Enables testing and future database migration flexibility"
+          - "**API Gateway Pattern:** Single entry point for all API calls - _Rationale:_ Centralized auth, rate limiting, and monitoring"
 
   - id: tech-stack
     title: Tech Stack
@@ -1957,45 +2435,45 @@ sections:
         type: table
         columns: [Category, Technology, Version, Purpose, Rationale]
         rows:
-          - ['Frontend Language', '{{fe_language}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["Frontend Language", "{{fe_language}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'Frontend Framework',
-              '{{fe_framework}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "Frontend Framework",
+              "{{fe_framework}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
           - [
-              'UI Component Library',
-              '{{ui_library}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "UI Component Library",
+              "{{ui_library}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['State Management', '{{state_mgmt}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Backend Language', '{{be_language}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["State Management", "{{state_mgmt}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Backend Language", "{{be_language}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
           - [
-              'Backend Framework',
-              '{{be_framework}}',
-              '{{version}}',
-              '{{purpose}}',
-              '{{why_chosen}}',
+              "Backend Framework",
+              "{{be_framework}}",
+              "{{version}}",
+              "{{purpose}}",
+              "{{why_chosen}}",
             ]
-          - ['API Style', '{{api_style}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Database', '{{database}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Cache', '{{cache}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['File Storage', '{{storage}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Authentication', '{{auth}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Frontend Testing', '{{fe_test}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Backend Testing', '{{be_test}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['E2E Testing', '{{e2e_test}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Build Tool', '{{build_tool}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Bundler', '{{bundler}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['IaC Tool', '{{iac_tool}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['CI/CD', '{{cicd}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Monitoring', '{{monitoring}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['Logging', '{{logging}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
-          - ['CSS Framework', '{{css_framework}}', '{{version}}', '{{purpose}}', '{{why_chosen}}']
+          - ["API Style", "{{api_style}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Database", "{{database}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Cache", "{{cache}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["File Storage", "{{storage}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Authentication", "{{auth}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Frontend Testing", "{{fe_test}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Backend Testing", "{{be_test}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["E2E Testing", "{{e2e_test}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Build Tool", "{{build_tool}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Bundler", "{{bundler}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["IaC Tool", "{{iac_tool}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["CI/CD", "{{cicd}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Monitoring", "{{monitoring}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["Logging", "{{logging}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
+          - ["CSS Framework", "{{css_framework}}", "{{version}}", "{{purpose}}", "{{why_chosen}}"]
 
   - id: data-models
     title: Data Models
@@ -2014,7 +2492,7 @@ sections:
     repeatable: true
     sections:
       - id: model
-        title: '{{model_name}}'
+        title: "{{model_name}}"
         template: |
           **Purpose:** {{model_purpose}}
 
@@ -2026,11 +2504,11 @@ sections:
             title: TypeScript Interface
             type: code
             language: typescript
-            template: '{{model_interface}}'
+            template: "{{model_interface}}"
           - id: relationships
             title: Relationships
             type: bullet-list
-            template: '- {{relationship}}'
+            template: "- {{relationship}}"
 
   - id: api-spec
     title: API Specification
@@ -2067,13 +2545,13 @@ sections:
         condition: API style is GraphQL
         type: code
         language: graphql
-        template: '{{graphql_schema}}'
+        template: "{{graphql_schema}}"
       - id: trpc-api
         title: tRPC Router Definitions
         condition: API style is tRPC
         type: code
         language: typescript
-        template: '{{trpc_routers}}'
+        template: "{{trpc_routers}}"
 
   - id: components
     title: Components
@@ -2094,7 +2572,7 @@ sections:
     sections:
       - id: component-list
         repeatable: true
-        title: '{{component_name}}'
+        title: "{{component_name}}"
         template: |
           **Responsibility:** {{component_description}}
 
@@ -2132,7 +2610,7 @@ sections:
     repeatable: true
     sections:
       - id: api
-        title: '{{api_name}} API'
+        title: "{{api_name}} API"
         template: |
           - **Purpose:** {{api_purpose}}
           - **Documentation:** {{api_docs_url}}
@@ -2189,12 +2667,12 @@ sections:
             title: Component Organization
             type: code
             language: text
-            template: '{{component_structure}}'
+            template: "{{component_structure}}"
           - id: component-template
             title: Component Template
             type: code
             language: typescript
-            template: '{{component_template}}'
+            template: "{{component_template}}"
       - id: state-management
         title: State Management Architecture
         instruction: Detail state management approach based on chosen solution.
@@ -2203,11 +2681,11 @@ sections:
             title: State Structure
             type: code
             language: typescript
-            template: '{{state_structure}}'
+            template: "{{state_structure}}"
           - id: state-patterns
             title: State Management Patterns
             type: bullet-list
-            template: '- {{pattern}}'
+            template: "- {{pattern}}"
       - id: routing-architecture
         title: Routing Architecture
         instruction: Define routing structure based on framework choice.
@@ -2216,12 +2694,12 @@ sections:
             title: Route Organization
             type: code
             language: text
-            template: '{{route_structure}}'
+            template: "{{route_structure}}"
           - id: protected-routes
             title: Protected Route Pattern
             type: code
             language: typescript
-            template: '{{protected_route_example}}'
+            template: "{{protected_route_example}}"
       - id: frontend-services
         title: Frontend Services Layer
         instruction: Define how frontend communicates with backend.
@@ -2230,12 +2708,12 @@ sections:
             title: API Client Setup
             type: code
             language: typescript
-            template: '{{api_client_setup}}'
+            template: "{{api_client_setup}}"
           - id: service-example
             title: Service Example
             type: code
             language: typescript
-            template: '{{service_example}}'
+            template: "{{service_example}}"
 
   - id: backend-architecture
     title: Backend Architecture
@@ -2253,12 +2731,12 @@ sections:
                 title: Function Organization
                 type: code
                 language: text
-                template: '{{function_structure}}'
+                template: "{{function_structure}}"
               - id: function-template
                 title: Function Template
                 type: code
                 language: typescript
-                template: '{{function_template}}'
+                template: "{{function_template}}"
           - id: traditional-server
             condition: Traditional server architecture chosen
             sections:
@@ -2266,12 +2744,12 @@ sections:
                 title: Controller/Route Organization
                 type: code
                 language: text
-                template: '{{controller_structure}}'
+                template: "{{controller_structure}}"
               - id: controller-template
                 title: Controller Template
                 type: code
                 language: typescript
-                template: '{{controller_template}}'
+                template: "{{controller_template}}"
       - id: database-architecture
         title: Database Architecture
         instruction: Define database schema and access patterns.
@@ -2280,12 +2758,12 @@ sections:
             title: Schema Design
             type: code
             language: sql
-            template: '{{database_schema}}'
+            template: "{{database_schema}}"
           - id: data-access-layer
             title: Data Access Layer
             type: code
             language: typescript
-            template: '{{repository_pattern}}'
+            template: "{{repository_pattern}}"
       - id: auth-architecture
         title: Authentication and Authorization
         instruction: Define auth implementation details.
@@ -2294,12 +2772,12 @@ sections:
             title: Auth Flow
             type: mermaid
             mermaid_type: sequence
-            template: '{{auth_flow_diagram}}'
+            template: "{{auth_flow_diagram}}"
           - id: auth-middleware
             title: Middleware/Guards
             type: code
             language: typescript
-            template: '{{auth_middleware}}'
+            template: "{{auth_middleware}}"
 
   - id: unified-project-structure
     title: Unified Project Structure
@@ -2375,12 +2853,12 @@ sections:
             title: Prerequisites
             type: code
             language: bash
-            template: '{{prerequisites_commands}}'
+            template: "{{prerequisites_commands}}"
           - id: initial-setup
             title: Initial Setup
             type: code
             language: bash
-            template: '{{setup_commands}}'
+            template: "{{setup_commands}}"
           - id: dev-commands
             title: Development Commands
             type: code
@@ -2436,15 +2914,15 @@ sections:
         title: CI/CD Pipeline
         type: code
         language: yaml
-        template: '{{cicd_pipeline_config}}'
+        template: "{{cicd_pipeline_config}}"
       - id: environments
         title: Environments
         type: table
         columns: [Environment, Frontend URL, Backend URL, Purpose]
         rows:
-          - ['Development', '{{dev_fe_url}}', '{{dev_be_url}}', 'Local development']
-          - ['Staging', '{{staging_fe_url}}', '{{staging_be_url}}', 'Pre-production testing']
-          - ['Production', '{{prod_fe_url}}', '{{prod_be_url}}', 'Live environment']
+          - ["Development", "{{dev_fe_url}}", "{{dev_be_url}}", "Local development"]
+          - ["Staging", "{{staging_fe_url}}", "{{staging_be_url}}", "Pre-production testing"]
+          - ["Production", "{{prod_fe_url}}", "{{prod_be_url}}", "Live environment"]
 
   - id: security-performance
     title: Security and Performance
@@ -2503,17 +2981,17 @@ sections:
             title: Frontend Tests
             type: code
             language: text
-            template: '{{frontend_test_structure}}'
+            template: "{{frontend_test_structure}}"
           - id: backend-tests
             title: Backend Tests
             type: code
             language: text
-            template: '{{backend_test_structure}}'
+            template: "{{backend_test_structure}}"
           - id: e2e-tests
             title: E2E Tests
             type: code
             language: text
-            template: '{{e2e_test_structure}}'
+            template: "{{e2e_test_structure}}"
       - id: test-examples
         title: Test Examples
         sections:
@@ -2521,17 +2999,17 @@ sections:
             title: Frontend Component Test
             type: code
             language: typescript
-            template: '{{frontend_test_example}}'
+            template: "{{frontend_test_example}}"
           - id: backend-test
             title: Backend API Test
             type: code
             language: typescript
-            template: '{{backend_test_example}}'
+            template: "{{backend_test_example}}"
           - id: e2e-test
             title: E2E Test
             type: code
             language: typescript
-            template: '{{e2e_test_example}}'
+            template: "{{e2e_test_example}}"
 
   - id: coding-standards
     title: Coding Standards
@@ -2541,22 +3019,22 @@ sections:
       - id: critical-rules
         title: Critical Fullstack Rules
         repeatable: true
-        template: '- **{{rule_name}}:** {{rule_description}}'
+        template: "- **{{rule_name}}:** {{rule_description}}"
         examples:
-          - '**Type Sharing:** Always define types in packages/shared and import from there'
-          - '**API Calls:** Never make direct HTTP calls - use the service layer'
-          - '**Environment Variables:** Access only through config objects, never process.env directly'
-          - '**Error Handling:** All API routes must use the standard error handler'
-          - '**State Updates:** Never mutate state directly - use proper state management patterns'
+          - "**Type Sharing:** Always define types in packages/shared and import from there"
+          - "**API Calls:** Never make direct HTTP calls - use the service layer"
+          - "**Environment Variables:** Access only through config objects, never process.env directly"
+          - "**Error Handling:** All API routes must use the standard error handler"
+          - "**State Updates:** Never mutate state directly - use proper state management patterns"
       - id: naming-conventions
         title: Naming Conventions
         type: table
         columns: [Element, Frontend, Backend, Example]
         rows:
-          - ['Components', 'PascalCase', '-', '`UserProfile.tsx`']
-          - ['Hooks', "camelCase with 'use'", '-', '`useAuth.ts`']
-          - ['API Routes', '-', 'kebab-case', '`/api/user-profile`']
-          - ['Database Tables', '-', 'snake_case', '`user_profiles`']
+          - ["Components", "PascalCase", "-", "`UserProfile.tsx`"]
+          - ["Hooks", "camelCase with 'use'", "-", "`useAuth.ts`"]
+          - ["API Routes", "-", "kebab-case", "`/api/user-profile`"]
+          - ["Database Tables", "-", "snake_case", "`user_profiles`"]
 
   - id: error-handling
     title: Error Handling Strategy
@@ -2567,7 +3045,7 @@ sections:
         title: Error Flow
         type: mermaid
         mermaid_type: sequence
-        template: '{{error_flow_diagram}}'
+        template: "{{error_flow_diagram}}"
       - id: error-format
         title: Error Response Format
         type: code
@@ -2586,12 +3064,12 @@ sections:
         title: Frontend Error Handling
         type: code
         language: typescript
-        template: '{{frontend_error_handler}}'
+        template: "{{frontend_error_handler}}"
       - id: backend-error-handling
         title: Backend Error Handling
         type: code
         language: typescript
-        template: '{{backend_error_handler}}'
+        template: "{{backend_error_handler}}"
 
   - id: monitoring
     title: Monitoring and Observability
@@ -2624,485 +3102,6 @@ sections:
     title: Checklist Results Report
     instruction: Before running the checklist, offer to output the full architecture document. Once user confirms, execute the architect-checklist and populate results here.
 ==================== END: .bmad-core/templates/fullstack-architecture-tmpl.yaml ====================
-
-==================== START: .bmad-core/templates/brownfield-architecture-tmpl.yaml ====================
-template:
-  id: brownfield-architecture-template-v2
-  name: Brownfield Enhancement Architecture
-  version: 2.0
-  output:
-    format: markdown
-    filename: docs/architecture.md
-    title: '{{project_name}} Brownfield Enhancement Architecture'
-
-workflow:
-  mode: interactive
-  elicitation: advanced-elicitation
-
-sections:
-  - id: introduction
-    title: Introduction
-    instruction: |
-      IMPORTANT - SCOPE AND ASSESSMENT REQUIRED:
-
-      This architecture document is for SIGNIFICANT enhancements to existing projects that require comprehensive architectural planning. Before proceeding:
-
-      1. **Verify Complexity**: Confirm this enhancement requires architectural planning. For simple additions, recommend: "For simpler changes that don't require architectural planning, consider using the brownfield-create-epic or brownfield-create-story task with the Product Owner instead."
-
-      2. **REQUIRED INPUTS**:
-         - Completed brownfield-prd.md
-         - Existing project technical documentation (from docs folder or user-provided)
-         - Access to existing project structure (IDE or uploaded files)
-
-      3. **DEEP ANALYSIS MANDATE**: You MUST conduct thorough analysis of the existing codebase, architecture patterns, and technical constraints before making ANY architectural recommendations. Every suggestion must be based on actual project analysis, not assumptions.
-
-      4. **CONTINUOUS VALIDATION**: Throughout this process, explicitly validate your understanding with the user. For every architectural decision, confirm: "Based on my analysis of your existing system, I recommend [decision] because [evidence from actual project]. Does this align with your system's reality?"
-
-      If any required inputs are missing, request them before proceeding.
-    elicit: true
-    sections:
-      - id: intro-content
-        content: |
-          This document outlines the architectural approach for enhancing {{project_name}} with {{enhancement_description}}. Its primary goal is to serve as the guiding architectural blueprint for AI-driven development of new features while ensuring seamless integration with the existing system.
-
-          **Relationship to Existing Architecture:**
-          This document supplements existing project architecture by defining how new components will integrate with current systems. Where conflicts arise between new and existing patterns, this document provides guidance on maintaining consistency while implementing enhancements.
-      - id: existing-project-analysis
-        title: Existing Project Analysis
-        instruction: |
-          Analyze the existing project structure and architecture:
-
-          1. Review existing documentation in docs folder
-          2. Examine current technology stack and versions
-          3. Identify existing architectural patterns and conventions
-          4. Note current deployment and infrastructure setup
-          5. Document any constraints or limitations
-
-          CRITICAL: After your analysis, explicitly validate your findings: "Based on my analysis of your project, I've identified the following about your existing system: [key findings]. Please confirm these observations are accurate before I proceed with architectural recommendations."
-        elicit: true
-        sections:
-          - id: current-state
-            title: Current Project State
-            template: |
-              - **Primary Purpose:** {{existing_project_purpose}}
-              - **Current Tech Stack:** {{existing_tech_summary}}
-              - **Architecture Style:** {{existing_architecture_style}}
-              - **Deployment Method:** {{existing_deployment_approach}}
-          - id: available-docs
-            title: Available Documentation
-            type: bullet-list
-            template: '- {{existing_docs_summary}}'
-          - id: constraints
-            title: Identified Constraints
-            type: bullet-list
-            template: '- {{constraint}}'
-      - id: changelog
-        title: Change Log
-        type: table
-        columns: [Change, Date, Version, Description, Author]
-        instruction: Track document versions and changes
-
-  - id: enhancement-scope
-    title: Enhancement Scope and Integration Strategy
-    instruction: |
-      Define how the enhancement will integrate with the existing system:
-
-      1. Review the brownfield PRD enhancement scope
-      2. Identify integration points with existing code
-      3. Define boundaries between new and existing functionality
-      4. Establish compatibility requirements
-
-      VALIDATION CHECKPOINT: Before presenting the integration strategy, confirm: "Based on my analysis, the integration approach I'm proposing takes into account [specific existing system characteristics]. These integration points and boundaries respect your current architecture patterns. Is this assessment accurate?"
-    elicit: true
-    sections:
-      - id: enhancement-overview
-        title: Enhancement Overview
-        template: |
-          **Enhancement Type:** {{enhancement_type}}
-          **Scope:** {{enhancement_scope}}
-          **Integration Impact:** {{integration_impact_level}}
-      - id: integration-approach
-        title: Integration Approach
-        template: |
-          **Code Integration Strategy:** {{code_integration_approach}}
-          **Database Integration:** {{database_integration_approach}}
-          **API Integration:** {{api_integration_approach}}
-          **UI Integration:** {{ui_integration_approach}}
-      - id: compatibility-requirements
-        title: Compatibility Requirements
-        template: |
-          - **Existing API Compatibility:** {{api_compatibility}}
-          - **Database Schema Compatibility:** {{db_compatibility}}
-          - **UI/UX Consistency:** {{ui_compatibility}}
-          - **Performance Impact:** {{performance_constraints}}
-
-  - id: tech-stack-alignment
-    title: Tech Stack Alignment
-    instruction: |
-      Ensure new components align with existing technology choices:
-
-      1. Use existing technology stack as the foundation
-      2. Only introduce new technologies if absolutely necessary
-      3. Justify any new additions with clear rationale
-      4. Ensure version compatibility with existing dependencies
-    elicit: true
-    sections:
-      - id: existing-stack
-        title: Existing Technology Stack
-        type: table
-        columns: [Category, Current Technology, Version, Usage in Enhancement, Notes]
-        instruction: Document the current stack that must be maintained or integrated with
-      - id: new-tech-additions
-        title: New Technology Additions
-        condition: Enhancement requires new technologies
-        type: table
-        columns: [Technology, Version, Purpose, Rationale, Integration Method]
-        instruction: Only include if new technologies are required for the enhancement
-
-  - id: data-models
-    title: Data Models and Schema Changes
-    instruction: |
-      Define new data models and how they integrate with existing schema:
-
-      1. Identify new entities required for the enhancement
-      2. Define relationships with existing data models
-      3. Plan database schema changes (additions, modifications)
-      4. Ensure backward compatibility
-    elicit: true
-    sections:
-      - id: new-models
-        title: New Data Models
-        repeatable: true
-        sections:
-          - id: model
-            title: '{{model_name}}'
-            template: |
-              **Purpose:** {{model_purpose}}
-              **Integration:** {{integration_with_existing}}
-
-              **Key Attributes:**
-              - {{attribute_1}}: {{type_1}} - {{description_1}}
-              - {{attribute_2}}: {{type_2}} - {{description_2}}
-
-              **Relationships:**
-              - **With Existing:** {{existing_relationships}}
-              - **With New:** {{new_relationships}}
-      - id: schema-integration
-        title: Schema Integration Strategy
-        template: |
-          **Database Changes Required:**
-          - **New Tables:** {{new_tables_list}}
-          - **Modified Tables:** {{modified_tables_list}}
-          - **New Indexes:** {{new_indexes_list}}
-          - **Migration Strategy:** {{migration_approach}}
-
-          **Backward Compatibility:**
-          - {{compatibility_measure_1}}
-          - {{compatibility_measure_2}}
-
-  - id: component-architecture
-    title: Component Architecture
-    instruction: |
-      Define new components and their integration with existing architecture:
-
-      1. Identify new components required for the enhancement
-      2. Define interfaces with existing components
-      3. Establish clear boundaries and responsibilities
-      4. Plan integration points and data flow
-
-      MANDATORY VALIDATION: Before presenting component architecture, confirm: "The new components I'm proposing follow the existing architectural patterns I identified in your codebase: [specific patterns]. The integration interfaces respect your current component structure and communication patterns. Does this match your project's reality?"
-    elicit: true
-    sections:
-      - id: new-components
-        title: New Components
-        repeatable: true
-        sections:
-          - id: component
-            title: '{{component_name}}'
-            template: |
-              **Responsibility:** {{component_description}}
-              **Integration Points:** {{integration_points}}
-
-              **Key Interfaces:**
-              - {{interface_1}}
-              - {{interface_2}}
-
-              **Dependencies:**
-              - **Existing Components:** {{existing_dependencies}}
-              - **New Components:** {{new_dependencies}}
-
-              **Technology Stack:** {{component_tech_details}}
-      - id: interaction-diagram
-        title: Component Interaction Diagram
-        type: mermaid
-        mermaid_type: graph
-        instruction: Create Mermaid diagram showing how new components interact with existing ones
-
-  - id: api-design
-    title: API Design and Integration
-    condition: Enhancement requires API changes
-    instruction: |
-      Define new API endpoints and integration with existing APIs:
-
-      1. Plan new API endpoints required for the enhancement
-      2. Ensure consistency with existing API patterns
-      3. Define authentication and authorization integration
-      4. Plan versioning strategy if needed
-    elicit: true
-    sections:
-      - id: api-strategy
-        title: API Integration Strategy
-        template: |
-          **API Integration Strategy:** {{api_integration_strategy}}
-          **Authentication:** {{auth_integration}}
-          **Versioning:** {{versioning_approach}}
-      - id: new-endpoints
-        title: New API Endpoints
-        repeatable: true
-        sections:
-          - id: endpoint
-            title: '{{endpoint_name}}'
-            template: |
-              - **Method:** {{http_method}}
-              - **Endpoint:** {{endpoint_path}}
-              - **Purpose:** {{endpoint_purpose}}
-              - **Integration:** {{integration_with_existing}}
-            sections:
-              - id: request
-                title: Request
-                type: code
-                language: json
-                template: '{{request_schema}}'
-              - id: response
-                title: Response
-                type: code
-                language: json
-                template: '{{response_schema}}'
-
-  - id: external-api-integration
-    title: External API Integration
-    condition: Enhancement requires new external APIs
-    instruction: Document new external API integrations required for the enhancement
-    repeatable: true
-    sections:
-      - id: external-api
-        title: '{{api_name}} API'
-        template: |
-          - **Purpose:** {{api_purpose}}
-          - **Documentation:** {{api_docs_url}}
-          - **Base URL:** {{api_base_url}}
-          - **Authentication:** {{auth_method}}
-          - **Integration Method:** {{integration_approach}}
-
-          **Key Endpoints Used:**
-          - `{{method}} {{endpoint_path}}` - {{endpoint_purpose}}
-
-          **Error Handling:** {{error_handling_strategy}}
-
-  - id: source-tree-integration
-    title: Source Tree Integration
-    instruction: |
-      Define how new code will integrate with existing project structure:
-
-      1. Follow existing project organization patterns
-      2. Identify where new files/folders will be placed
-      3. Ensure consistency with existing naming conventions
-      4. Plan for minimal disruption to existing structure
-    elicit: true
-    sections:
-      - id: existing-structure
-        title: Existing Project Structure
-        type: code
-        language: plaintext
-        instruction: Document relevant parts of current structure
-        template: '{{existing_structure_relevant_parts}}'
-      - id: new-file-organization
-        title: New File Organization
-        type: code
-        language: plaintext
-        instruction: Show only new additions to existing structure
-        template: |
-          {{project-root}}/
-          ├── {{existing_structure_context}}
-          │   ├── {{new_folder_1}}/           # {{purpose_1}}
-          │   │   ├── {{new_file_1}}
-          │   │   └── {{new_file_2}}
-          │   ├── {{existing_folder}}/        # Existing folder with additions
-          │   │   ├── {{existing_file}}       # Existing file
-          │   │   └── {{new_file_3}}          # New addition
-          │   └── {{new_folder_2}}/           # {{purpose_2}}
-      - id: integration-guidelines
-        title: Integration Guidelines
-        template: |
-          - **File Naming:** {{file_naming_consistency}}
-          - **Folder Organization:** {{folder_organization_approach}}
-          - **Import/Export Patterns:** {{import_export_consistency}}
-
-  - id: infrastructure-deployment
-    title: Infrastructure and Deployment Integration
-    instruction: |
-      Define how the enhancement will be deployed alongside existing infrastructure:
-
-      1. Use existing deployment pipeline and infrastructure
-      2. Identify any infrastructure changes needed
-      3. Plan deployment strategy to minimize risk
-      4. Define rollback procedures
-    elicit: true
-    sections:
-      - id: existing-infrastructure
-        title: Existing Infrastructure
-        template: |
-          **Current Deployment:** {{existing_deployment_summary}}
-          **Infrastructure Tools:** {{existing_infrastructure_tools}}
-          **Environments:** {{existing_environments}}
-      - id: enhancement-deployment
-        title: Enhancement Deployment Strategy
-        template: |
-          **Deployment Approach:** {{deployment_approach}}
-          **Infrastructure Changes:** {{infrastructure_changes}}
-          **Pipeline Integration:** {{pipeline_integration}}
-      - id: rollback-strategy
-        title: Rollback Strategy
-        template: |
-          **Rollback Method:** {{rollback_method}}
-          **Risk Mitigation:** {{risk_mitigation}}
-          **Monitoring:** {{monitoring_approach}}
-
-  - id: coding-standards
-    title: Coding Standards and Conventions
-    instruction: |
-      Ensure new code follows existing project conventions:
-
-      1. Document existing coding standards from project analysis
-      2. Identify any enhancement-specific requirements
-      3. Ensure consistency with existing codebase patterns
-      4. Define standards for new code organization
-    elicit: true
-    sections:
-      - id: existing-standards
-        title: Existing Standards Compliance
-        template: |
-          **Code Style:** {{existing_code_style}}
-          **Linting Rules:** {{existing_linting}}
-          **Testing Patterns:** {{existing_test_patterns}}
-          **Documentation Style:** {{existing_doc_style}}
-      - id: enhancement-standards
-        title: Enhancement-Specific Standards
-        condition: New patterns needed for enhancement
-        repeatable: true
-        template: '- **{{standard_name}}:** {{standard_description}}'
-      - id: integration-rules
-        title: Critical Integration Rules
-        template: |
-          - **Existing API Compatibility:** {{api_compatibility_rule}}
-          - **Database Integration:** {{db_integration_rule}}
-          - **Error Handling:** {{error_handling_integration}}
-          - **Logging Consistency:** {{logging_consistency}}
-
-  - id: testing-strategy
-    title: Testing Strategy
-    instruction: |
-      Define testing approach for the enhancement:
-
-      1. Integrate with existing test suite
-      2. Ensure existing functionality remains intact
-      3. Plan for testing new features
-      4. Define integration testing approach
-    elicit: true
-    sections:
-      - id: existing-test-integration
-        title: Integration with Existing Tests
-        template: |
-          **Existing Test Framework:** {{existing_test_framework}}
-          **Test Organization:** {{existing_test_organization}}
-          **Coverage Requirements:** {{existing_coverage_requirements}}
-      - id: new-testing
-        title: New Testing Requirements
-        sections:
-          - id: unit-tests
-            title: Unit Tests for New Components
-            template: |
-              - **Framework:** {{test_framework}}
-              - **Location:** {{test_location}}
-              - **Coverage Target:** {{coverage_target}}
-              - **Integration with Existing:** {{test_integration}}
-          - id: integration-tests
-            title: Integration Tests
-            template: |
-              - **Scope:** {{integration_test_scope}}
-              - **Existing System Verification:** {{existing_system_verification}}
-              - **New Feature Testing:** {{new_feature_testing}}
-          - id: regression-tests
-            title: Regression Testing
-            template: |
-              - **Existing Feature Verification:** {{regression_test_approach}}
-              - **Automated Regression Suite:** {{automated_regression}}
-              - **Manual Testing Requirements:** {{manual_testing_requirements}}
-
-  - id: security-integration
-    title: Security Integration
-    instruction: |
-      Ensure security consistency with existing system:
-
-      1. Follow existing security patterns and tools
-      2. Ensure new features don't introduce vulnerabilities
-      3. Maintain existing security posture
-      4. Define security testing for new components
-    elicit: true
-    sections:
-      - id: existing-security
-        title: Existing Security Measures
-        template: |
-          **Authentication:** {{existing_auth}}
-          **Authorization:** {{existing_authz}}
-          **Data Protection:** {{existing_data_protection}}
-          **Security Tools:** {{existing_security_tools}}
-      - id: enhancement-security
-        title: Enhancement Security Requirements
-        template: |
-          **New Security Measures:** {{new_security_measures}}
-          **Integration Points:** {{security_integration_points}}
-          **Compliance Requirements:** {{compliance_requirements}}
-      - id: security-testing
-        title: Security Testing
-        template: |
-          **Existing Security Tests:** {{existing_security_tests}}
-          **New Security Test Requirements:** {{new_security_tests}}
-          **Penetration Testing:** {{pentest_requirements}}
-
-  - id: checklist-results
-    title: Checklist Results Report
-    instruction: Execute the architect-checklist and populate results here, focusing on brownfield-specific validation
-
-  - id: next-steps
-    title: Next Steps
-    instruction: |
-      After completing the brownfield architecture:
-
-      1. Review integration points with existing system
-      2. Begin story implementation with Dev agent
-      3. Set up deployment pipeline integration
-      4. Plan rollback and monitoring procedures
-    sections:
-      - id: story-manager-handoff
-        title: Story Manager Handoff
-        instruction: |
-          Create a brief prompt for Story Manager to work with this brownfield enhancement. Include:
-          - Reference to this architecture document
-          - Key integration requirements validated with user
-          - Existing system constraints based on actual project analysis
-          - First story to implement with clear integration checkpoints
-          - Emphasis on maintaining existing system integrity throughout implementation
-      - id: developer-handoff
-        title: Developer Handoff
-        instruction: |
-          Create a brief prompt for developers starting implementation. Include:
-          - Reference to this architecture and existing coding standards analyzed from actual project
-          - Integration requirements with existing codebase validated with user
-          - Key technical decisions based on real project constraints
-          - Existing system compatibility requirements with specific verification steps
-          - Clear sequencing of implementation to minimize risk to existing functionality
-==================== END: .bmad-core/templates/brownfield-architecture-tmpl.yaml ====================
 
 ==================== START: .bmad-core/checklists/architect-checklist.md ====================
 # Architect Solution Validation Checklist

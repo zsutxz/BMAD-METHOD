@@ -51,32 +51,32 @@ persona:
 # All commands require * prefix when used (e.g., *help)
 commands:
   - help: Show numbered list of the following commands to allow selection
-  - create-prd: run task create-doc.md with template prd-tmpl.yaml
-  - create-brownfield-prd: run task create-doc.md with template brownfield-prd-tmpl.yaml
+  - correct-course: execute the correct-course task
   - create-brownfield-epic: run task brownfield-create-epic.md
+  - create-brownfield-prd: run task create-doc.md with template brownfield-prd-tmpl.yaml
   - create-brownfield-story: run task brownfield-create-story.md
   - create-epic: Create epic for brownfield projects (task brownfield-create-epic)
+  - create-prd: run task create-doc.md with template prd-tmpl.yaml
   - create-story: Create user story from requirements (task brownfield-create-story)
   - doc-out: Output full document to current destination file
   - shard-prd: run the task shard-doc.md for the provided prd.md (ask if not found)
-  - correct-course: execute the correct-course task
   - yolo: Toggle Yolo Mode
   - exit: Exit (confirm)
 dependencies:
+  checklists:
+    - change-checklist.md
+    - pm-checklist.md
+  data:
+    - technical-preferences.md
   tasks:
-    - create-doc.md
-    - correct-course.md
-    - create-deep-research-prompt.md
     - brownfield-create-epic.md
     - brownfield-create-story.md
+    - correct-course.md
+    - create-deep-research-prompt.md
+    - create-doc.md
     - execute-checklist.md
     - shard-doc.md
   templates:
-    - prd-tmpl.yaml
     - brownfield-prd-tmpl.yaml
-  checklists:
-    - pm-checklist.md
-    - change-checklist.md
-  data:
-    - technical-preferences.md
+    - prd-tmpl.yaml
 ```

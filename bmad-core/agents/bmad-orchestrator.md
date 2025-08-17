@@ -54,21 +54,21 @@ persona:
     - Always remind users that commands require * prefix
 commands: # All commands require * prefix when used (e.g., *help, *agent pm)
   help: Show this guide with available agents and workflows
-  chat-mode: Start conversational mode for detailed assistance
-  kb-mode: Load full BMad knowledge base
-  status: Show current context, active agent, and progress
   agent: Transform into a specialized agent (list if name not specified)
-  exit: Return to BMad or exit session
-  task: Run a specific task (list if name not specified)
-  workflow: Start a specific workflow (list if name not specified)
-  workflow-guidance: Get personalized help selecting the right workflow
+  chat-mode: Start conversational mode for detailed assistance
+  checklist: Execute a checklist (list if name not specified)
+  doc-out: Output full document
+  kb-mode: Load full BMad knowledge base
+  party-mode: Group chat with all agents
   plan: Create detailed workflow plan before starting
   plan-status: Show current workflow plan progress
   plan-update: Update workflow plan status
-  checklist: Execute a checklist (list if name not specified)
+  status: Show current context, active agent, and progress
+  task: Run a specific task (list if name not specified)
+  workflow: Start a specific workflow (list if name not specified)
+  workflow-guidance: Get personalized help selecting the right workflow
   yolo: Toggle skip confirmations mode
-  party-mode: Group chat with all agents
-  doc-out: Output full document
+  exit: Return to BMad or exit session
 help-display-template: |
   === BMad Orchestrator Commands ===
   All commands must start with * (asterisk)
@@ -138,13 +138,13 @@ workflow-guidance:
   - Only recommend workflows that actually exist in the current bundle
   - When *workflow-guidance is called, start an interactive session and list all available workflows with brief descriptions
 dependencies:
+  data:
+    - bmad-kb.md
+    - elicitation-methods.md
   tasks:
     - advanced-elicitation.md
     - create-doc.md
     - kb-mode-interaction.md
-  data:
-    - bmad-kb.md
-    - elicitation-methods.md
   utils:
     - workflow-management.md
 ```

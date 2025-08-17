@@ -77,70 +77,16 @@ commands:
   - generate-ui-prompt: Run task generate-ai-frontend-prompt.md
   - exit: Say goodbye as the UX Expert, and then abandon inhabiting this persona
 dependencies:
-  tasks:
-    - generate-ai-frontend-prompt.md
-    - create-doc.md
-    - execute-checklist.md
-  templates:
-    - front-end-spec-tmpl.yaml
   data:
     - technical-preferences.md
+  tasks:
+    - create-doc.md
+    - execute-checklist.md
+    - generate-ai-frontend-prompt.md
+  templates:
+    - front-end-spec-tmpl.yaml
 ```
 ==================== END: .bmad-core/agents/ux-expert.md ====================
-
-==================== START: .bmad-core/tasks/generate-ai-frontend-prompt.md ====================
-# Create AI Frontend Prompt Task
-
-## Purpose
-
-To generate a masterful, comprehensive, and optimized prompt that can be used with any AI-driven frontend development tool (e.g., Vercel v0, Lovable.ai, or similar) to scaffold or generate significant portions of a frontend application.
-
-## Inputs
-
-- Completed UI/UX Specification (`front-end-spec.md`)
-- Completed Frontend Architecture Document (`front-end-architecture`) or a full stack combined architecture such as `architecture.md`
-- Main System Architecture Document (`architecture` - for API contracts and tech stack to give further context)
-
-## Key Activities & Instructions
-
-### 1. Core Prompting Principles
-
-Before generating the prompt, you must understand these core principles for interacting with a generative AI for code.
-
-- **Be Explicit and Detailed**: The AI cannot read your mind. Provide as much detail and context as possible. Vague requests lead to generic or incorrect outputs.
-- **Iterate, Don't Expect Perfection**: Generating an entire complex application in one go is rare. The most effective method is to prompt for one component or one section at a time, then build upon the results.
-- **Provide Context First**: Always start by providing the AI with the necessary context, such as the tech stack, existing code snippets, and overall project goals.
-- **Mobile-First Approach**: Frame all UI generation requests with a mobile-first design mindset. Describe the mobile layout first, then provide separate instructions for how it should adapt for tablet and desktop.
-
-### 2. The Structured Prompting Framework
-
-To ensure the highest quality output, you MUST structure every prompt using the following four-part framework.
-
-1. **High-Level Goal**: Start with a clear, concise summary of the overall objective. This orients the AI on the primary task.
-   - _Example: "Create a responsive user registration form with client-side validation and API integration."_
-2. **Detailed, Step-by-Step Instructions**: Provide a granular, numbered list of actions the AI should take. Break down complex tasks into smaller, sequential steps. This is the most critical part of the prompt.
-   - _Example: "1. Create a new file named `RegistrationForm.js`. 2. Use React hooks for state management. 3. Add styled input fields for 'Name', 'Email', and 'Password'. 4. For the email field, ensure it is a valid email format. 5. On submission, call the API endpoint defined below."_
-3. **Code Examples, Data Structures & Constraints**: Include any relevant snippets of existing code, data structures, or API contracts. This gives the AI concrete examples to work with. Crucially, you must also state what _not_ to do.
-   - _Example: "Use this API endpoint: `POST /api/register`. The expected JSON payload is `{ "name": "string", "email": "string", "password": "string" }`. Do NOT include a 'confirm password' field. Use Tailwind CSS for all styling."_
-4. **Define a Strict Scope**: Explicitly define the boundaries of the task. Tell the AI which files it can modify and, more importantly, which files to leave untouched to prevent unintended changes across the codebase.
-   - _Example: "You should only create the `RegistrationForm.js` component and add it to the `pages/register.js` file. Do NOT alter the `Navbar.js` component or any other existing page or component."_
-
-### 3. Assembling the Master Prompt
-
-You will now synthesize the inputs and the above principles into a final, comprehensive prompt.
-
-1. **Gather Foundational Context**:
-   - Start the prompt with a preamble describing the overall project purpose, the full tech stack (e.g., Next.js, TypeScript, Tailwind CSS), and the primary UI component library being used.
-2. **Describe the Visuals**:
-   - If the user has design files (Figma, etc.), instruct them to provide links or screenshots.
-   - If not, describe the visual style: color palette, typography, spacing, and overall aesthetic (e.g., "minimalist", "corporate", "playful").
-3. **Build the Prompt using the Structured Framework**:
-   - Follow the four-part framework from Section 2 to build out the core request, whether it's for a single component or a full page.
-4. **Present and Refine**:
-   - Output the complete, generated prompt in a clear, copy-pasteable format (e.g., a large code block).
-   - Explain the structure of the prompt and why certain information was included, referencing the principles above.
-   - <important_note>Conclude by reminding the user that all AI-generated code will require careful human review, testing, and refinement to be considered production-ready.</important_note>
-==================== END: .bmad-core/tasks/generate-ai-frontend-prompt.md ====================
 
 ==================== START: .bmad-core/tasks/create-doc.md ====================
 # Create Document from Template (YAML Driven)
@@ -335,6 +281,60 @@ The LLM will:
 - Offer to provide detailed analysis of any section, especially those with warnings or failures
 ==================== END: .bmad-core/tasks/execute-checklist.md ====================
 
+==================== START: .bmad-core/tasks/generate-ai-frontend-prompt.md ====================
+# Create AI Frontend Prompt Task
+
+## Purpose
+
+To generate a masterful, comprehensive, and optimized prompt that can be used with any AI-driven frontend development tool (e.g., Vercel v0, Lovable.ai, or similar) to scaffold or generate significant portions of a frontend application.
+
+## Inputs
+
+- Completed UI/UX Specification (`front-end-spec.md`)
+- Completed Frontend Architecture Document (`front-end-architecture`) or a full stack combined architecture such as `architecture.md`
+- Main System Architecture Document (`architecture` - for API contracts and tech stack to give further context)
+
+## Key Activities & Instructions
+
+### 1. Core Prompting Principles
+
+Before generating the prompt, you must understand these core principles for interacting with a generative AI for code.
+
+- **Be Explicit and Detailed**: The AI cannot read your mind. Provide as much detail and context as possible. Vague requests lead to generic or incorrect outputs.
+- **Iterate, Don't Expect Perfection**: Generating an entire complex application in one go is rare. The most effective method is to prompt for one component or one section at a time, then build upon the results.
+- **Provide Context First**: Always start by providing the AI with the necessary context, such as the tech stack, existing code snippets, and overall project goals.
+- **Mobile-First Approach**: Frame all UI generation requests with a mobile-first design mindset. Describe the mobile layout first, then provide separate instructions for how it should adapt for tablet and desktop.
+
+### 2. The Structured Prompting Framework
+
+To ensure the highest quality output, you MUST structure every prompt using the following four-part framework.
+
+1. **High-Level Goal**: Start with a clear, concise summary of the overall objective. This orients the AI on the primary task.
+   - _Example: "Create a responsive user registration form with client-side validation and API integration."_
+2. **Detailed, Step-by-Step Instructions**: Provide a granular, numbered list of actions the AI should take. Break down complex tasks into smaller, sequential steps. This is the most critical part of the prompt.
+   - _Example: "1. Create a new file named `RegistrationForm.js`. 2. Use React hooks for state management. 3. Add styled input fields for 'Name', 'Email', and 'Password'. 4. For the email field, ensure it is a valid email format. 5. On submission, call the API endpoint defined below."_
+3. **Code Examples, Data Structures & Constraints**: Include any relevant snippets of existing code, data structures, or API contracts. This gives the AI concrete examples to work with. Crucially, you must also state what _not_ to do.
+   - _Example: "Use this API endpoint: `POST /api/register`. The expected JSON payload is `{ "name": "string", "email": "string", "password": "string" }`. Do NOT include a 'confirm password' field. Use Tailwind CSS for all styling."_
+4. **Define a Strict Scope**: Explicitly define the boundaries of the task. Tell the AI which files it can modify and, more importantly, which files to leave untouched to prevent unintended changes across the codebase.
+   - _Example: "You should only create the `RegistrationForm.js` component and add it to the `pages/register.js` file. Do NOT alter the `Navbar.js` component or any other existing page or component."_
+
+### 3. Assembling the Master Prompt
+
+You will now synthesize the inputs and the above principles into a final, comprehensive prompt.
+
+1. **Gather Foundational Context**:
+   - Start the prompt with a preamble describing the overall project purpose, the full tech stack (e.g., Next.js, TypeScript, Tailwind CSS), and the primary UI component library being used.
+2. **Describe the Visuals**:
+   - If the user has design files (Figma, etc.), instruct them to provide links or screenshots.
+   - If not, describe the visual style: color palette, typography, spacing, and overall aesthetic (e.g., "minimalist", "corporate", "playful").
+3. **Build the Prompt using the Structured Framework**:
+   - Follow the four-part framework from Section 2 to build out the core request, whether it's for a single component or a full page.
+4. **Present and Refine**:
+   - Output the complete, generated prompt in a clear, copy-pasteable format (e.g., a large code block).
+   - Explain the structure of the prompt and why certain information was included, referencing the principles above.
+   - <important_note>Conclude by reminding the user that all AI-generated code will require careful human review, testing, and refinement to be considered production-ready.</important_note>
+==================== END: .bmad-core/tasks/generate-ai-frontend-prompt.md ====================
+
 ==================== START: .bmad-core/templates/front-end-spec-tmpl.yaml ====================
 template:
   id: frontend-spec-template-v2
@@ -343,7 +343,7 @@ template:
   output:
     format: markdown
     filename: docs/front-end-spec.md
-    title: '{{project_name}} UI/UX Specification'
+    title: "{{project_name}} UI/UX Specification"
 
 workflow:
   mode: interactive
@@ -371,29 +371,29 @@ sections:
         sections:
           - id: user-personas
             title: Target User Personas
-            template: '{{persona_descriptions}}'
+            template: "{{persona_descriptions}}"
             examples:
-              - '**Power User:** Technical professionals who need advanced features and efficiency'
-              - '**Casual User:** Occasional users who prioritize ease of use and clear guidance'
-              - '**Administrator:** System managers who need control and oversight capabilities'
+              - "**Power User:** Technical professionals who need advanced features and efficiency"
+              - "**Casual User:** Occasional users who prioritize ease of use and clear guidance"
+              - "**Administrator:** System managers who need control and oversight capabilities"
           - id: usability-goals
             title: Usability Goals
-            template: '{{usability_goals}}'
+            template: "{{usability_goals}}"
             examples:
-              - 'Ease of learning: New users can complete core tasks within 5 minutes'
-              - 'Efficiency of use: Power users can complete frequent tasks with minimal clicks'
-              - 'Error prevention: Clear validation and confirmation for destructive actions'
-              - 'Memorability: Infrequent users can return without relearning'
+              - "Ease of learning: New users can complete core tasks within 5 minutes"
+              - "Efficiency of use: Power users can complete frequent tasks with minimal clicks"
+              - "Error prevention: Clear validation and confirmation for destructive actions"
+              - "Memorability: Infrequent users can return without relearning"
           - id: design-principles
             title: Design Principles
-            template: '{{design_principles}}'
+            template: "{{design_principles}}"
             type: numbered-list
             examples:
-              - '**Clarity over cleverness** - Prioritize clear communication over aesthetic innovation'
+              - "**Clarity over cleverness** - Prioritize clear communication over aesthetic innovation"
               - "**Progressive disclosure** - Show only what's needed, when it's needed"
-              - '**Consistent patterns** - Use familiar UI patterns throughout the application'
-              - '**Immediate feedback** - Every action should have a clear, immediate response'
-              - '**Accessible by default** - Design for all users from the start'
+              - "**Consistent patterns** - Use familiar UI patterns throughout the application"
+              - "**Immediate feedback** - Every action should have a clear, immediate response"
+              - "**Accessible by default** - Design for all users from the start"
       - id: changelog
         title: Change Log
         type: table
@@ -415,7 +415,7 @@ sections:
         title: Site Map / Screen Inventory
         type: mermaid
         mermaid_type: graph
-        template: '{{sitemap_diagram}}'
+        template: "{{sitemap_diagram}}"
         examples:
           - |
             graph TD
@@ -455,7 +455,7 @@ sections:
     repeatable: true
     sections:
       - id: flow
-        title: '{{flow_name}}'
+        title: "{{flow_name}}"
         template: |
           **User Goal:** {{flow_goal}}
 
@@ -467,13 +467,13 @@ sections:
             title: Flow Diagram
             type: mermaid
             mermaid_type: graph
-            template: '{{flow_diagram}}'
+            template: "{{flow_diagram}}"
           - id: edge-cases
-            title: 'Edge Cases & Error Handling:'
+            title: "Edge Cases & Error Handling:"
             type: bullet-list
-            template: '- {{edge_case}}'
+            template: "- {{edge_case}}"
           - id: notes
-            template: '**Notes:** {{flow_notes}}'
+            template: "**Notes:** {{flow_notes}}"
 
   - id: wireframes-mockups
     title: Wireframes & Mockups
@@ -482,13 +482,13 @@ sections:
     elicit: true
     sections:
       - id: design-files
-        template: '**Primary Design Files:** {{design_tool_link}}'
+        template: "**Primary Design Files:** {{design_tool_link}}"
       - id: key-screen-layouts
         title: Key Screen Layouts
         repeatable: true
         sections:
           - id: screen
-            title: '{{screen_name}}'
+            title: "{{screen_name}}"
             template: |
               **Purpose:** {{screen_purpose}}
 
@@ -508,13 +508,13 @@ sections:
     elicit: true
     sections:
       - id: design-system-approach
-        template: '**Design System Approach:** {{design_system_approach}}'
+        template: "**Design System Approach:** {{design_system_approach}}"
       - id: core-components
         title: Core Components
         repeatable: true
         sections:
           - id: component
-            title: '{{component_name}}'
+            title: "{{component_name}}"
             template: |
               **Purpose:** {{component_purpose}}
 
@@ -531,19 +531,19 @@ sections:
     sections:
       - id: visual-identity
         title: Visual Identity
-        template: '**Brand Guidelines:** {{brand_guidelines_link}}'
+        template: "**Brand Guidelines:** {{brand_guidelines_link}}"
       - id: color-palette
         title: Color Palette
         type: table
-        columns: ['Color Type', 'Hex Code', 'Usage']
+        columns: ["Color Type", "Hex Code", "Usage"]
         rows:
-          - ['Primary', '{{primary_color}}', '{{primary_usage}}']
-          - ['Secondary', '{{secondary_color}}', '{{secondary_usage}}']
-          - ['Accent', '{{accent_color}}', '{{accent_usage}}']
-          - ['Success', '{{success_color}}', 'Positive feedback, confirmations']
-          - ['Warning', '{{warning_color}}', 'Cautions, important notices']
-          - ['Error', '{{error_color}}', 'Errors, destructive actions']
-          - ['Neutral', '{{neutral_colors}}', 'Text, borders, backgrounds']
+          - ["Primary", "{{primary_color}}", "{{primary_usage}}"]
+          - ["Secondary", "{{secondary_color}}", "{{secondary_usage}}"]
+          - ["Accent", "{{accent_color}}", "{{accent_usage}}"]
+          - ["Success", "{{success_color}}", "Positive feedback, confirmations"]
+          - ["Warning", "{{warning_color}}", "Cautions, important notices"]
+          - ["Error", "{{error_color}}", "Errors, destructive actions"]
+          - ["Neutral", "{{neutral_colors}}", "Text, borders, backgrounds"]
       - id: typography
         title: Typography
         sections:
@@ -556,13 +556,13 @@ sections:
           - id: type-scale
             title: Type Scale
             type: table
-            columns: ['Element', 'Size', 'Weight', 'Line Height']
+            columns: ["Element", "Size", "Weight", "Line Height"]
             rows:
-              - ['H1', '{{h1_size}}', '{{h1_weight}}', '{{h1_line}}']
-              - ['H2', '{{h2_size}}', '{{h2_weight}}', '{{h2_line}}']
-              - ['H3', '{{h3_size}}', '{{h3_weight}}', '{{h3_line}}']
-              - ['Body', '{{body_size}}', '{{body_weight}}', '{{body_line}}']
-              - ['Small', '{{small_size}}', '{{small_weight}}', '{{small_line}}']
+              - ["H1", "{{h1_size}}", "{{h1_weight}}", "{{h1_line}}"]
+              - ["H2", "{{h2_size}}", "{{h2_weight}}", "{{h2_line}}"]
+              - ["H3", "{{h3_size}}", "{{h3_weight}}", "{{h3_line}}"]
+              - ["Body", "{{body_size}}", "{{body_weight}}", "{{body_line}}"]
+              - ["Small", "{{small_size}}", "{{small_weight}}", "{{small_line}}"]
       - id: iconography
         title: Iconography
         template: |
@@ -583,7 +583,7 @@ sections:
     sections:
       - id: compliance-target
         title: Compliance Target
-        template: '**Standard:** {{compliance_standard}}'
+        template: "**Standard:** {{compliance_standard}}"
       - id: key-requirements
         title: Key Requirements
         template: |
@@ -603,7 +603,7 @@ sections:
           - Form labels: {{form_requirements}}
       - id: testing-strategy
         title: Testing Strategy
-        template: '{{accessibility_testing}}'
+        template: "{{accessibility_testing}}"
 
   - id: responsiveness
     title: Responsiveness Strategy
@@ -613,12 +613,12 @@ sections:
       - id: breakpoints
         title: Breakpoints
         type: table
-        columns: ['Breakpoint', 'Min Width', 'Max Width', 'Target Devices']
+        columns: ["Breakpoint", "Min Width", "Max Width", "Target Devices"]
         rows:
-          - ['Mobile', '{{mobile_min}}', '{{mobile_max}}', '{{mobile_devices}}']
-          - ['Tablet', '{{tablet_min}}', '{{tablet_max}}', '{{tablet_devices}}']
-          - ['Desktop', '{{desktop_min}}', '{{desktop_max}}', '{{desktop_devices}}']
-          - ['Wide', '{{wide_min}}', '-', '{{wide_devices}}']
+          - ["Mobile", "{{mobile_min}}", "{{mobile_max}}", "{{mobile_devices}}"]
+          - ["Tablet", "{{tablet_min}}", "{{tablet_max}}", "{{tablet_devices}}"]
+          - ["Desktop", "{{desktop_min}}", "{{desktop_max}}", "{{desktop_devices}}"]
+          - ["Wide", "{{wide_min}}", "-", "{{wide_devices}}"]
       - id: adaptation-patterns
         title: Adaptation Patterns
         template: |
@@ -637,11 +637,11 @@ sections:
     sections:
       - id: motion-principles
         title: Motion Principles
-        template: '{{motion_principles}}'
+        template: "{{motion_principles}}"
       - id: key-animations
         title: Key Animations
         repeatable: true
-        template: '- **{{animation_name}}:** {{animation_description}} (Duration: {{duration}}, Easing: {{easing}})'
+        template: "- **{{animation_name}}:** {{animation_description}} (Duration: {{duration}}, Easing: {{easing}})"
 
   - id: performance
     title: Performance Considerations
@@ -655,7 +655,7 @@ sections:
           - **Animation FPS:** {{animation_goal}}
       - id: design-strategies
         title: Design Strategies
-        template: '{{performance_strategies}}'
+        template: "{{performance_strategies}}"
 
   - id: next-steps
     title: Next Steps
@@ -670,17 +670,17 @@ sections:
       - id: immediate-actions
         title: Immediate Actions
         type: numbered-list
-        template: '{{action}}'
+        template: "{{action}}"
       - id: design-handoff-checklist
         title: Design Handoff Checklist
         type: checklist
         items:
-          - 'All user flows documented'
-          - 'Component inventory complete'
-          - 'Accessibility requirements defined'
-          - 'Responsive strategy clear'
-          - 'Brand guidelines incorporated'
-          - 'Performance goals established'
+          - "All user flows documented"
+          - "Component inventory complete"
+          - "Accessibility requirements defined"
+          - "Responsive strategy clear"
+          - "Brand guidelines incorporated"
+          - "Performance goals established"
 
   - id: checklist-results
     title: Checklist Results

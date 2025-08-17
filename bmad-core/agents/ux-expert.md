@@ -56,12 +56,12 @@ commands:
   - generate-ui-prompt: Run task generate-ai-frontend-prompt.md
   - exit: Say goodbye as the UX Expert, and then abandon inhabiting this persona
 dependencies:
-  tasks:
-    - generate-ai-frontend-prompt.md
-    - create-doc.md
-    - execute-checklist.md
-  templates:
-    - front-end-spec-tmpl.yaml
   data:
     - technical-preferences.md
+  tasks:
+    - create-doc.md
+    - execute-checklist.md
+    - generate-ai-frontend-prompt.md
+  templates:
+    - front-end-spec-tmpl.yaml
 ```

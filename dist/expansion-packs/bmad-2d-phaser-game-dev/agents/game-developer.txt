@@ -197,8 +197,8 @@ template:
   version: 2.0
   output:
     format: markdown
-    filename: 'docs/{{game_name}}-game-architecture.md'
-    title: '{{game_title}} Game Architecture Document'
+    filename: "docs/{{game_name}}-game-architecture.md"
+    title: "{{game_title}} Game Architecture Document"
 
 workflow:
   mode: interactive
@@ -422,7 +422,7 @@ sections:
         repeatable: true
         sections:
           - id: mechanic-system
-            title: '{{mechanic_name}} System'
+            title: "{{mechanic_name}} System"
             template: |
               **Purpose:** {{system_purpose}}
 
@@ -719,7 +719,7 @@ sections:
     instruction: Break down the architecture implementation into phases that align with the GDD development phases
     sections:
       - id: phase-1-foundation
-        title: 'Phase 1: Foundation ({{duration}})'
+        title: "Phase 1: Foundation ({{duration}})"
         sections:
           - id: phase-1-core
             title: Core Systems
@@ -737,7 +737,7 @@ sections:
               - "Basic Scene Management System"
               - "Asset Loading Foundation"
       - id: phase-2-game-systems
-        title: 'Phase 2: Game Systems ({{duration}})'
+        title: "Phase 2: Game Systems ({{duration}})"
         sections:
           - id: phase-2-gameplay
             title: Gameplay Systems
@@ -755,7 +755,7 @@ sections:
               - "Physics and Collision Framework"
               - "Game State Management System"
       - id: phase-3-content-polish
-        title: 'Phase 3: Content & Polish ({{duration}})'
+        title: "Phase 3: Content & Polish ({{duration}})"
         sections:
           - id: phase-3-content
             title: Content Systems
