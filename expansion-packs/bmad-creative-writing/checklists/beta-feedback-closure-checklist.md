@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # ------------------------------------------------------------
 
 # 6. Beta‑Feedback Closure Checklist

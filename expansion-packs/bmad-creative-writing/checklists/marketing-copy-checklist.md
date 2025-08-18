@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # ------------------------------------------------------------
 
 # 13. Marketing Copy Checklist

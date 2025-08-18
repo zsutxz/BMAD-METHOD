@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # Story Structure Patterns
 
 ## Three-Act Structure

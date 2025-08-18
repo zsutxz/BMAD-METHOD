@@ -115,6 +115,7 @@ Remember to present all options as numbered lists for easy selection.
 ==================== END: .bmad-creative-writing/agents/narrative-designer.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/create-doc.md ====================
+<!-- Powered by BMAD™ Core -->
 # Create Document from Template (YAML Driven)
 
 ## ⚠️ CRITICAL EXECUTION NOTICE ⚠️
@@ -219,6 +220,7 @@ User can type `#yolo` to toggle to YOLO mode (process all sections at once).
 ==================== END: .bmad-creative-writing/tasks/create-doc.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/outline-scenes.md ====================
+<!-- Powered by BMAD™ Core -->
 # ------------------------------------------------------------
 
 # 11. Outline Scenes
@@ -243,6 +245,7 @@ inputs:
 ==================== END: .bmad-creative-writing/tasks/outline-scenes.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/generate-scene-list.md ====================
+<!-- Powered by BMAD™ Core -->
 # ------------------------------------------------------------
 
 # 10. Generate Scene List
@@ -267,6 +270,7 @@ inputs:
 ==================== END: .bmad-creative-writing/tasks/generate-scene-list.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/execute-checklist.md ====================
+<!-- Powered by BMAD™ Core -->
 # Checklist Validation Task
 
 This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
@@ -356,6 +360,7 @@ The LLM will:
 ==================== END: .bmad-creative-writing/tasks/execute-checklist.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/advanced-elicitation.md ====================
+<!-- Powered by BMAD™ Core -->
 # Advanced Elicitation Task
 
 ## Purpose
@@ -476,6 +481,7 @@ Choose a number (0-8) or 9 to proceed:
 ==================== END: .bmad-creative-writing/tasks/advanced-elicitation.md ====================
 
 ==================== START: .bmad-creative-writing/templates/scene-list-tmpl.yaml ====================
+# <!-- Powered by BMAD™ Core -->
 ---
 template:
   id: scene-list-tmpl
@@ -533,6 +539,7 @@ sections:
 ==================== END: .bmad-creative-writing/templates/scene-list-tmpl.yaml ====================
 
 ==================== START: .bmad-creative-writing/checklists/plot-structure-checklist.md ====================
+<!-- Powered by BMAD™ Core -->
 # Plot Structure Checklist
 
 ## Opening
@@ -593,6 +600,7 @@ sections:
 ==================== END: .bmad-creative-writing/checklists/plot-structure-checklist.md ====================
 
 ==================== START: .bmad-creative-writing/data/bmad-kb.md ====================
+<!-- Powered by BMAD™ Core -->
 # BMad Creative Writing Knowledge Base
 
 ## Overview
@@ -803,6 +811,7 @@ Remember: BMad Creative Writing provides structure to liberate creativity, not c
 ==================== END: .bmad-creative-writing/data/bmad-kb.md ====================
 
 ==================== START: .bmad-creative-writing/data/story-structures.md ====================
+<!-- Powered by BMAD™ Core -->
 # Story Structure Patterns
 
 ## Three-Act Structure

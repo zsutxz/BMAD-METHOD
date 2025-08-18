@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # ------------------------------------------------------------
 
 # 7. Expand Premise (Snowflake Step 2)

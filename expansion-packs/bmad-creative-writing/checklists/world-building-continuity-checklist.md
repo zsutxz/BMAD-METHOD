@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # ------------------------------------------------------------
 
 # 2. World‑Building Continuity Checklist

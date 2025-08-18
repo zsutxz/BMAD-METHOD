@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # ------------------------------------------------------------
 
 # 9. Foreshadowing & Payoff Checklist

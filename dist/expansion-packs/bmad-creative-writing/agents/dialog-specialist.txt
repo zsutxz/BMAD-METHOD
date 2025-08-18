@@ -114,6 +114,7 @@ Remember to present all options as numbered lists for easy selection.
 ==================== END: .bmad-creative-writing/agents/dialog-specialist.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/create-doc.md ====================
+<!-- Powered by BMAD™ Core -->
 # Create Document from Template (YAML Driven)
 
 ## ⚠️ CRITICAL EXECUTION NOTICE ⚠️
@@ -218,6 +219,7 @@ User can type `#yolo` to toggle to YOLO mode (process all sections at once).
 ==================== END: .bmad-creative-writing/tasks/create-doc.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/workshop-dialog.md ====================
+<!-- Powered by BMAD™ Core -->
 # Workshop Dialog
 
 ## Purpose
@@ -283,6 +285,7 @@ Refined dialog with stronger voices and dramatic impact
 ==================== END: .bmad-creative-writing/tasks/workshop-dialog.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/execute-checklist.md ====================
+<!-- Powered by BMAD™ Core -->
 # Checklist Validation Task
 
 This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
@@ -372,6 +375,7 @@ The LLM will:
 ==================== END: .bmad-creative-writing/tasks/execute-checklist.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/advanced-elicitation.md ====================
+<!-- Powered by BMAD™ Core -->
 # Advanced Elicitation Task
 
 ## Purpose
@@ -492,6 +496,7 @@ Choose a number (0-8) or 9 to proceed:
 ==================== END: .bmad-creative-writing/tasks/advanced-elicitation.md ====================
 
 ==================== START: .bmad-creative-writing/templates/character-profile-tmpl.yaml ====================
+# <!-- Powered by BMAD™ Core -->
 ---
 template:
   id: character-profile
@@ -586,6 +591,7 @@ sections:
 ==================== END: .bmad-creative-writing/templates/character-profile-tmpl.yaml ====================
 
 ==================== START: .bmad-creative-writing/checklists/comedic-timing-checklist.md ====================
+<!-- Powered by BMAD™ Core -->
 # ------------------------------------------------------------
 
 # 23. Comedic Timing & Humor Checklist
@@ -610,6 +616,7 @@ items:
 ==================== END: .bmad-creative-writing/checklists/comedic-timing-checklist.md ====================
 
 ==================== START: .bmad-creative-writing/data/bmad-kb.md ====================
+<!-- Powered by BMAD™ Core -->
 # BMad Creative Writing Knowledge Base
 
 ## Overview
@@ -820,6 +827,7 @@ Remember: BMad Creative Writing provides structure to liberate creativity, not c
 ==================== END: .bmad-creative-writing/data/bmad-kb.md ====================
 
 ==================== START: .bmad-creative-writing/data/story-structures.md ====================
+<!-- Powered by BMAD™ Core -->
 # Story Structure Patterns
 
 ## Three-Act Structure

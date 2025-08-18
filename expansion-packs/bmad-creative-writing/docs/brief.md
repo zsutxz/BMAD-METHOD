@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # Project Brief: BMad Creative Writing Expansion Pack
 
 ## Executive Summary

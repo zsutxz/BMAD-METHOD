@@ -1,3 +1,5 @@
+<!-- Powered by BMAD™ Core -->
+
 # Plot Structure Checklist
 
 ## Opening

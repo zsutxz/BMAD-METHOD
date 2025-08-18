@@ -115,6 +115,7 @@ Remember to present all options as numbered lists for easy selection.
 ==================== END: .bmad-creative-writing/agents/character-psychologist.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/create-doc.md ====================
+<!-- Powered by BMAD™ Core -->
 # Create Document from Template (YAML Driven)
 
 ## ⚠️ CRITICAL EXECUTION NOTICE ⚠️
@@ -219,6 +220,7 @@ User can type `#yolo` to toggle to YOLO mode (process all sections at once).
 ==================== END: .bmad-creative-writing/tasks/create-doc.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/develop-character.md ====================
+<!-- Powered by BMAD™ Core -->
 # ------------------------------------------------------------
 
 # 3. Develop Character
@@ -244,6 +246,7 @@ inputs:
 ==================== END: .bmad-creative-writing/tasks/develop-character.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/workshop-dialog.md ====================
+<!-- Powered by BMAD™ Core -->
 # Workshop Dialog
 
 ## Purpose
@@ -309,6 +312,7 @@ Refined dialog with stronger voices and dramatic impact
 ==================== END: .bmad-creative-writing/tasks/workshop-dialog.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/character-depth-pass.md ====================
+<!-- Powered by BMAD™ Core -->
 # ------------------------------------------------------------
 
 # 9. Character Depth Pass
@@ -332,6 +336,7 @@ inputs:
 ==================== END: .bmad-creative-writing/tasks/character-depth-pass.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/execute-checklist.md ====================
+<!-- Powered by BMAD™ Core -->
 # Checklist Validation Task
 
 This task provides instructions for validating documentation against checklists. The agent MUST follow these instructions to ensure thorough and systematic validation of documents.
@@ -421,6 +426,7 @@ The LLM will:
 ==================== END: .bmad-creative-writing/tasks/execute-checklist.md ====================
 
 ==================== START: .bmad-creative-writing/tasks/advanced-elicitation.md ====================
+<!-- Powered by BMAD™ Core -->
 # Advanced Elicitation Task
 
 ## Purpose
@@ -541,6 +547,7 @@ Choose a number (0-8) or 9 to proceed:
 ==================== END: .bmad-creative-writing/tasks/advanced-elicitation.md ====================
 
 ==================== START: .bmad-creative-writing/templates/character-profile-tmpl.yaml ====================
+# <!-- Powered by BMAD™ Core -->
 ---
 template:
   id: character-profile
@@ -635,6 +642,7 @@ sections:
 ==================== END: .bmad-creative-writing/templates/character-profile-tmpl.yaml ====================
 
 ==================== START: .bmad-creative-writing/checklists/character-consistency-checklist.md ====================
+<!-- Powered by BMAD™ Core -->
 # ------------------------------------------------------------
 
 # 1. Character Consistency Checklist
@@ -659,6 +667,7 @@ items:
 ==================== END: .bmad-creative-writing/checklists/character-consistency-checklist.md ====================
 
 ==================== START: .bmad-creative-writing/data/bmad-kb.md ====================
+<!-- Powered by BMAD™ Core -->
 # BMad Creative Writing Knowledge Base
 
 ## Overview
