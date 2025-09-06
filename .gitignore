@@ -37,6 +37,7 @@ CLAUDE.md
 .ai/*
 .claude
 .gemini
+.iflow
 
 # Project-specific
 .bmad-core
