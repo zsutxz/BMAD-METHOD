@@ -5,8 +5,6 @@
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/gk8jAdXWmj)
 
-
-
 Foundations in Agentic Agile Driven Development, known as the Breakthrough Method of Agile AI-Driven Development, yet so much more. Transform any domain with specialized AI expertise: software development, entertainment, creative writing, business strategy to personal wellness just to name a few.
 
 **[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)**
@@ -26,6 +24,18 @@ Foundations in Agentic Agile Driven Development, known as the Breakthrough Metho
 This two-phase approach eliminates both **planning inconsistency** and **context loss** - the biggest problems in AI-assisted development. Your Dev agent opens a story file with complete understanding of what to build, how to build it, and why.
 
 **📖 [See the complete workflow in the User Guide](docs/user-guide.md)** - Planning phase, development cycle, and all agent roles
+
+### Technical Architecture
+
+BMAD-METHOD™ is built on a modular architecture that separates concerns into distinct components:
+
+- **Agents**: Specialized AI personas with defined roles and capabilities
+- **Agent Teams**: Collections of agents bundled for specific use cases
+- **Workflows**: Prescribed sequences of agent interactions for complex tasks
+- **Templates**: Reusable document structures with embedded AI instructions
+- **Tasks**: Specific actions that agents can perform
+- **Checklists**: Quality assurance and validation procedures
+- **Data**: Knowledge base and domain-specific information
 
 ## Quick Navigation
 
@@ -49,27 +59,41 @@ This two-phase approach eliminates both **planning inconsistency** and **context
 - **[Understand the architecture](docs/core-architecture.md)** → Technical deep dive
 - **[Join the community](https://discord.gg/gk8jAdXWmj)** → Get help and share ideas
 
-## Important: Keep Your BMad Installation Updated
+## Core Components
 
-**Stay up-to-date effortlessly!** If you already have BMAD-METHOD™ installed in your project, simply run:
+### Agents
 
-```bash
-npx bmad-method install
-# OR
-git pull
-npm run install:bmad
-```
+BMAD-METHOD™ comes with a comprehensive suite of specialized agents:
 
-This will:
+- **Analyst**: Market research, competitor analysis, and project brief creation
+- **Product Manager (PM)**: Creates detailed Product Requirements Documents (PRDs)
+- **Architect**: Designs system architecture and technical specifications
+- **UX Expert**: Designs user interfaces and experience flows
+- **Scrum Master (SM)**: Transforms PRDs into actionable development stories
+- **Developer (Dev)**: Implements features based on detailed story files
+- **QA**: Ensures quality through testing and validation
+- **BMad Orchestrator**: Coordinates agent interactions and workflow execution
 
-- ✅ Automatically detect your existing v4 installation
-- ✅ Update only the files that have changed and add new files
-- ✅ Create `.bak` backup files for any custom modifications you've made
-- ✅ Preserve your project-specific configurations
+Each agent is a self-contained AI persona with specific capabilities, knowledge, and interaction patterns.
 
-This makes it easy to benefit from the latest improvements, bug fixes, and new agents without losing your customizations!
+### Expansion Packs
+
+BMAD-METHOD™ extends beyond software development with domain-specific expansion packs:
+
+- **Creative Writing**: Novel writing, screenplays, and narrative design
+- **Game Development**: 2D/3D game creation with specialized tools
+- **Business Strategy**: Market analysis, business planning, and strategy
+- **DevOps/Infrastructure**: Cloud architecture and deployment automation
+- **Health & Wellness**: Personal health tracking and wellness planning
+- **Education**: Curriculum development and learning path creation
 
 ## Quick Start
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) v20+ required
+- Git (for cloning and version control)
+- A modern IDE (VS Code, Cursor, or similar)
 
 ### One Command for Everything (IDE Installation)
 
@@ -89,8 +113,6 @@ This single command handles:
 - **Expansion packs** - Installs any expansion packs you've added to package.json
 
 > **That's it!** Whether you're installing for the first time, upgrading, or adding expansion packs - these commands do everything.
-
-**Prerequisites**: [Node.js](https://nodejs.org) v20+ required
 
 ### Fastest Start: Web UI Full Stack Team at your disposal (2 minutes)
 
@@ -119,6 +141,44 @@ BMAD™'s natural language framework works in ANY domain. Expansion packs provid
 - 📖 **[User Guide](docs/user-guide.md)** - Complete walkthrough from project inception to completion
 - 🏗️ **[Core Architecture](docs/core-architecture.md)** - Technical deep dive and system design
 - 🚀 **[Expansion Packs Guide](docs/expansion-packs.md)** - Extend BMad to any domain beyond software development
+- 📋 **[Working in the Brownfield](docs/working-in-the-brownfield.md)** - Using BMad with existing projects
+
+### Example Projects
+
+1. **Full Stack Web Application**
+   - Planning phase with Analyst, PM, and Architect
+   - Development cycle with SM, Dev, and QA
+   - Complete with testing and deployment
+
+2. **Creative Writing Project**
+   - Novel outline and character development
+   - Chapter-by-chapter writing process
+   - Editing and publishing preparation
+
+3. **Game Development**
+   - Game design document creation
+   - Level design and character development
+   - Implementation planning
+
+## Important: Keep Your BMad Installation Updated
+
+**Stay up-to-date effortlessly!** If you already have BMAD-METHOD™ installed in your project, simply run:
+
+```bash
+npx bmad-method install
+# OR
+git pull
+npm run install:bmad
+```
+
+This will:
+
+- ✅ Automatically detect your existing v4 installation
+- ✅ Update only the files that have changed and add new files
+- ✅ Create `.bak` backup files for any custom modifications you've made
+- ✅ Preserve your project-specific configurations
+
+This makes it easy to benefit from the latest improvements, bug fixes, and new agents without losing your customizations!
 
 ## Support
 
@@ -151,6 +211,15 @@ See our [Fork CI/CD Guide](.github/FORK_GUIDE.md) for instructions on enabling w
 7. **Open a Pull Request** - CI/CD will run automatically on the PR
 
 Your contributions are tested when you submit a PR - no need to enable CI in your fork!
+
+### Development Setup
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run validation checks: `npm run pre-release`
+4. Make your changes
+5. Test your changes: `npm test`
+6. Submit a pull request
 
 ## License
 
