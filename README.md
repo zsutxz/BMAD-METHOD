@@ -25,7 +25,23 @@ IMPORTANT NOTE 4: If you would like to contribute a PR, make sure you are creati
 
 **Prerequisites**: [Node.js](https://nodejs.org) v20+ required
 
-Clone this repo ALPHA BRANCH to a folder. From the root of the folder, run `npm run install:bmad` and follow the installer questions.
+Clone the repo with either:
+
+- `gh repo clone bmad-code-org/BMAD-METHOD`
+- `git clone https://github.com/bmad-code-org/BMAD-METHOD.git`
+- `git@github.com:bmad-code-org/BMAD-METHOD.git`
+  and then cd into the BMAD-METHOD folder.
+
+  You will then need to change to the branch as that will have cloned main, so type:
+  - `git checkout v6-alpha`
+  - type `git status` and you should see:
+    `On branch v6-alpha. Your branch is up to date with 'origin/v6-alpha'.`
+
+Now you must install the node_modules with `npm install` - once complete, you should see you have a `node_modules` folder at the root of your project. (BMAD-METHOD/node_modules)
+
+Now you can run `npm run install:bmad` and follow the installer questions.
+
+NOTE: One of the first questions will ask for a destination - do not accept the default, you want to enter the full path to a new or existing folder. If you choose a net new folder, you will have to confirm you want the installer to create the directory for you.
 
 The Core Module will always be installed. The default initial module selection will be BMM for all the core BMad Method functionality and flow from brainstorming through software development.
 
