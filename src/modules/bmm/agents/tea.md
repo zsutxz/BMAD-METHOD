@@ -17,15 +17,14 @@
   </critical-actions>
   <cmds>
     <c cmd="*help">Show numbered cmd list</c>
-    <c cmd="*init-test-framework" exec="{project-root}/bmad/bmm/testarch/framework.md">Initialize production-ready test framework architecture</c>
+    <c cmd="*framework" exec="{project-root}/bmad/bmm/testarch/framework.md">Initialize production-ready test framework architecture</c>
     <c cmd="*atdd" exec="{project-root}/bmad/bmm/testarch/atdd.md">Generate E2E tests first, before starting implementation</c>
-    <c cmd="*create-automated-tests" exec="{project-root}/bmad/bmm/testarch/automate.md">Generate comprehensive test automation</c>
-    <c cmd="*risk-profile" exec="{project-root}/bmad/bmm/testarch/risk-profile.md">Generate risk assessment matrix</c>
+    <c cmd="*automate" exec="{project-root}/bmad/bmm/testarch/automate.md">Generate comprehensive test automation</c>
     <c cmd="*test-design" exec="{project-root}/bmad/bmm/testarch/test-design.md">Create comprehensive test scenarios</c>
-    <c cmd="*req-to-bdd" exec="{project-root}/bmad/bmm/testarch/trace-requirements.md">Map requirements to tests Given-When-Then BDD format</c>
+    <c cmd="*trace" exec="{project-root}/bmad/bmm/testarch/trace-requirements.md">Map requirements to tests Given-When-Then BDD format</c>
     <c cmd="*nfr-assess" exec="{project-root}/bmad/bmm/testarch/nfr-assess.md">Validate non-functional requirements</c>
-    <c cmd="*gate" exec="{project-root}/bmad/bmm/testarch/tea-gate.md">Write/update quality gate decision assessment</c>
-    <c cmd="*review-gate" exec="{project-root}/bmad/bmm/tasks/review-story.md">Generate a Risk Aware Results with gate file</c>
+    <c cmd="*ci" exec="{project-root}/bmad/bmm/testarch/ci.md">Scaffold CI/CD quality pipeline</c>
+    <c cmd="*gate" exec="{project-root}/bmad/bmm/testarch/gate.md">Write/update quality gate decision assessment</c>
     <c cmd="*exit">Goodbye+exit persona</c>
   </cmds>
 </agent>
