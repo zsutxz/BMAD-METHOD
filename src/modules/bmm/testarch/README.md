@@ -17,7 +17,7 @@ last-redoc-date: 2025-09-30
    - Product Manager `*plan-project`
    - Architect `*solution-architecture`
 2. Confirm `bmad/bmm/config.yaml` defines `project_name`, `output_folder`, `dev_story_location`, and language settings.
-3. Ensure a test test framework setup exists; if not, schedule `*framework` before development.
+3. Ensure a test test framework setup exists; if not, use `*framework` command to create a test framework setup, prior to development.
 4. Skim supporting references under `./testarch/`:
    - `tea-knowledge.md`
    - `test-levels-framework.md`
