@@ -1,0 +1,1070 @@
+const path = require('node:path');
+const fs = require('fs-extra');
+const chalk = require('chalk');
+const ora = require('ora');
+const { Detector } = require('./detector');
+const { Manifest } = require('./manifest');
+const { ModuleManager } = require('../modules/manager');
+const { IdeManager } = require('../ide/manager');
+const { FileOps } = require('../../../lib/file-ops');
+const { Config } = require('../../../lib/config');
+const { XmlHandler } = require('../../../lib/xml-handler');
+const { DependencyResolver } = require('./dependency-resolver');
+const { ConfigCollector } = require('./config-collector');
+// processInstallation no longer needed - LLMs understand {project-root}
+const { getProjectRoot, getSourcePath, getModulePath } = require('../../../lib/project-root');
+const { AgentPartyGenerator } = require('../../../lib/agent-party-generator');
+const { CLIUtils } = require('../../../lib/cli-utils');
+const { ManifestGenerator } = require('./manifest-generator');
+
+class Installer {
+  constructor() {
+    this.detector = new Detector();
+    this.manifest = new Manifest();
+    this.moduleManager = new ModuleManager();
+    this.ideManager = new IdeManager();
+    this.fileOps = new FileOps();
+    this.config = new Config();
+    this.xmlHandler = new XmlHandler();
+    this.dependencyResolver = new DependencyResolver();
+    this.configCollector = new ConfigCollector();
+    this.installedFiles = []; // Track all installed files
+  }
+
+  /**
+   * Collect Tool/IDE configurations after module configuration
+   * @param {string} projectDir - Project directory
+   * @param {Array} selectedModules - Selected modules from configuration
+   * @returns {Object} Tool/IDE selection and configurations
+   */
+  async collectToolConfigurations(projectDir, selectedModules) {
+    // Prompt for tool selection
+    const { UI } = require('../../../lib/ui');
+    const ui = new UI();
+    const toolConfig = await ui.promptToolSelection(projectDir, selectedModules);
+
+    // Collect IDE-specific configurations if any were selected
+    const ideConfigurations = {};
+    const bmadDir = path.join(projectDir, 'bmad');
+
+    if (!toolConfig.skipIde && toolConfig.ides && toolConfig.ides.length > 0) {
+      console.log('\n'); // Add spacing before IDE questions
+
+      for (const ide of toolConfig.ides) {
+        // List of IDEs that have interactive prompts
+        const needsPrompts = ['claude-code', 'github-copilot', 'roo', 'cline', 'auggie', 'codex', 'qwen', 'gemini'].includes(ide);
+
+        if (needsPrompts) {
+          // Get IDE handler and collect configuration
+          try {
+            // Dynamically load the IDE setup module
+            const ideModule = require(`../ide/${ide}`);
+
+            // Get the setup class (handle different export formats)
+            let SetupClass;
+            const className =
+              ide
+                .split('-')
+                .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+                .join('') + 'Setup';
+
+            if (ideModule[className]) {
+              SetupClass = ideModule[className];
+            } else if (ideModule.default) {
+              SetupClass = ideModule.default;
+            } else {
+              // Skip if no setup class found
+              continue;
+            }
+
+            const ideSetup = new SetupClass();
+
+            // Check if this IDE has a collectConfiguration method
+            if (typeof ideSetup.collectConfiguration === 'function') {
+              console.log(chalk.cyan(`\nConfiguring ${ide}...`));
+              ideConfigurations[ide] = await ideSetup.collectConfiguration({
+                selectedModules: selectedModules || [],
+                projectDir,
+                bmadDir,
+              });
+            }
+          } catch {
+            // IDE doesn't have a setup file or collectConfiguration method
+            console.warn(chalk.yellow(`Warning: Could not load configuration for ${ide}`));
+          }
+        }
+      }
+    }
+
+    return {
+      ides: toolConfig.ides,
+      skipIde: toolConfig.skipIde,
+      configurations: ideConfigurations,
+    };
+  }
+
+  /**
+   * Main installation method
+   * @param {Object} config - Installation configuration
+   * @param {string} config.directory - Target directory
+   * @param {boolean} config.installCore - Whether to install core
+   * @param {string[]} config.modules - Modules to install
+   * @param {string[]} config.ides - IDEs to configure
+   * @param {boolean} config.skipIde - Skip IDE configuration
+   */
+  async install(config) {
+    // Display BMAD logo
+    CLIUtils.displayLogo();
+
+    // Display welcome message
+    CLIUtils.displaySection('BMAD™ Installation', 'Version ' + require(path.join(getProjectRoot(), 'package.json')).version);
+
+    // Preflight: Block legacy BMAD v4 footprints before any prompts/writes
+    const projectDir = path.resolve(config.directory);
+    const legacyV4 = await this.detector.detectLegacyV4(projectDir);
+    if (legacyV4.hasLegacyV4) {
+      const error = this.createLegacyV4Error(legacyV4);
+      throw error;
+    }
+
+    // If core config was pre-collected (from interactive mode), use it
+    if (config.coreConfig) {
+      this.configCollector.collectedConfig.core = config.coreConfig;
+      // Also store in allAnswers for cross-referencing
+      this.configCollector.allAnswers = {};
+      for (const [key, value] of Object.entries(config.coreConfig)) {
+        this.configCollector.allAnswers[`core_${key}`] = value;
+      }
+    }
+
+    // Collect configurations for modules (core was already collected in UI.promptInstall if interactive)
+    const moduleConfigs = await this.configCollector.collectAllConfigurations(config.modules || [], path.resolve(config.directory));
+
+    const toolSelection = await this.collectToolConfigurations(path.resolve(config.directory), config.modules);
+
+    // Merge tool selection into config
+    config.ides = toolSelection.ides;
+    config.skipIde = toolSelection.skipIde;
+    const ideConfigurations = toolSelection.configurations;
+
+    const spinner = ora('Preparing installation...').start();
+
+    try {
+      // Resolve target directory (path.resolve handles platform differences)
+      const projectDir = path.resolve(config.directory);
+
+      // Create a project directory if it doesn't exist (user already confirmed)
+      if (!(await fs.pathExists(projectDir))) {
+        spinner.text = 'Creating installation directory...';
+        try {
+          // fs.ensureDir handles platform-specific directory creation
+          // It will recursively create all necessary parent directories
+          await fs.ensureDir(projectDir);
+        } catch (error) {
+          spinner.fail('Failed to create installation directory');
+          console.error(chalk.red(`Error: ${error.message}`));
+          // More detailed error for common issues
+          if (error.code === 'EACCES') {
+            console.error(chalk.red('Permission denied. Check parent directory permissions.'));
+          } else if (error.code === 'ENOSPC') {
+            console.error(chalk.red('No space left on device.'));
+          }
+          throw new Error(`Cannot create directory: ${projectDir}`);
+        }
+      }
+
+      const bmadDir = path.join(projectDir, 'bmad');
+
+      // Check existing installation
+      spinner.text = 'Checking for existing installation...';
+      const existingInstall = await this.detector.detect(bmadDir);
+
+      if (existingInstall.installed && !config.force) {
+        spinner.stop();
+
+        console.log(chalk.yellow('\n⚠️  Existing BMAD installation detected'));
+        console.log(chalk.dim(`  Location: ${bmadDir}`));
+        console.log(chalk.dim(`  Version: ${existingInstall.version}`));
+
+        // TODO: Handle update scenario
+        const { action } = await this.promptUpdateAction();
+        if (action === 'cancel') {
+          console.log('Installation cancelled.');
+          return;
+        }
+      }
+
+      // Create bmad directory structure
+      spinner.text = 'Creating directory structure...';
+      await this.createDirectoryStructure(bmadDir);
+
+      // Resolve dependencies for selected modules
+      spinner.text = 'Resolving dependencies...';
+      const projectRoot = getProjectRoot();
+      const modulesToInstall = config.installCore ? ['core', ...config.modules] : config.modules;
+
+      // For dependency resolution, we need to pass the project root
+      const resolution = await this.dependencyResolver.resolve(projectRoot, config.modules || [], { verbose: config.verbose });
+
+      if (config.verbose) {
+        spinner.succeed('Dependencies resolved');
+      } else {
+        spinner.succeed('Dependencies resolved');
+      }
+
+      // Install core if requested or if dependencies require it
+      if (config.installCore || resolution.byModule.core) {
+        spinner.start('Installing BMAD core...');
+        await this.installCoreWithDependencies(bmadDir, resolution.byModule.core);
+        spinner.succeed('Core installed');
+      }
+
+      // Install modules with their dependencies
+      if (config.modules && config.modules.length > 0) {
+        for (const moduleName of config.modules) {
+          spinner.start(`Installing module: ${moduleName}...`);
+          await this.installModuleWithDependencies(moduleName, bmadDir, resolution.byModule[moduleName]);
+          spinner.succeed(`Module installed: ${moduleName}`);
+        }
+
+        // Install partial modules (only dependencies)
+        for (const [module, files] of Object.entries(resolution.byModule)) {
+          if (!config.modules.includes(module) && module !== 'core') {
+            const totalFiles = files.agents.length + files.tasks.length + files.templates.length + files.data.length + files.other.length;
+            if (totalFiles > 0) {
+              spinner.start(`Installing ${module} dependencies...`);
+              await this.installPartialModule(module, bmadDir, files);
+              spinner.succeed(`${module} dependencies installed`);
+            }
+          }
+        }
+      }
+
+      // Generate clean config.yaml files for each installed module
+      spinner.start('Generating module configurations...');
+      await this.generateModuleConfigs(bmadDir, moduleConfigs);
+      spinner.succeed('Module configurations generated');
+
+      // Create agent configuration files
+      spinner.start('Creating agent configurations...');
+      // Get user info from collected config if available
+      const userInfo = {
+        userName: moduleConfigs.core?.['user_name'] || null,
+        responseLanguage: moduleConfigs.core?.['communication_language'] || null,
+      };
+      const agentConfigResult = await this.createAgentConfigs(bmadDir, userInfo);
+      if (agentConfigResult.skipped > 0) {
+        spinner.succeed(`Agent configurations: ${agentConfigResult.created} created, ${agentConfigResult.skipped} preserved`);
+      } else {
+        spinner.succeed(`Agent configurations created: ${agentConfigResult.created}`);
+      }
+
+      // Generate CSV manifests for workflows, agents, and tasks BEFORE IDE setup
+      spinner.start('Generating workflow and agent manifests...');
+      const manifestGen = new ManifestGenerator();
+      const manifestStats = await manifestGen.generateManifests(bmadDir, config.modules || []);
+      spinner.succeed(
+        `Manifests generated: ${manifestStats.workflows} workflows, ${manifestStats.agents} agents, ${manifestStats.tasks} tasks`,
+      );
+
+      // Configure IDEs and copy documentation
+      if (!config.skipIde && config.ides && config.ides.length > 0) {
+        spinner.start('Configuring IDEs...');
+
+        // Temporarily suppress console output if not verbose
+        const originalLog = console.log;
+        if (!config.verbose) {
+          console.log = () => {};
+        }
+
+        for (const ide of config.ides) {
+          spinner.text = `Configuring ${ide}...`;
+
+          // Pass pre-collected configuration to avoid re-prompting
+          await this.ideManager.setup(ide, projectDir, bmadDir, {
+            selectedModules: config.modules || [],
+            preCollectedConfig: ideConfigurations[ide] || null,
+            verbose: config.verbose,
+          });
+        }
+
+        // Restore console.log
+        console.log = originalLog;
+
+        spinner.succeed(`Configured ${config.ides.length} IDE${config.ides.length > 1 ? 's' : ''}`);
+
+        // Copy IDE-specific documentation
+        spinner.start('Copying IDE documentation...');
+        await this.copyIdeDocumentation(config.ides, bmadDir);
+        spinner.succeed('IDE documentation copied');
+      }
+
+      // Run module-specific installers after IDE setup
+      spinner.start('Running module-specific installers...');
+
+      // Run core module installer if core was installed
+      if (config.installCore || resolution.byModule.core) {
+        spinner.text = 'Running core module installer...';
+
+        await this.moduleManager.runModuleInstaller('core', bmadDir, {
+          installedIDEs: config.ides || [],
+          moduleConfig: moduleConfigs.core || {},
+          logger: {
+            log: (msg) => console.log(msg),
+            error: (msg) => console.error(msg),
+            warn: (msg) => console.warn(msg),
+          },
+        });
+      }
+
+      // Run installers for user-selected modules
+      if (config.modules && config.modules.length > 0) {
+        for (const moduleName of config.modules) {
+          spinner.text = `Running ${moduleName} module installer...`;
+
+          // Pass installed IDEs and module config to module installer
+          await this.moduleManager.runModuleInstaller(moduleName, bmadDir, {
+            installedIDEs: config.ides || [],
+            moduleConfig: moduleConfigs[moduleName] || {},
+            logger: {
+              log: (msg) => console.log(msg),
+              error: (msg) => console.error(msg),
+              warn: (msg) => console.warn(msg),
+            },
+          });
+        }
+      }
+
+      spinner.succeed('Module-specific installers completed');
+
+      // Create manifest
+      spinner.start('Creating installation manifest...');
+      const manifestResult = await this.manifest.create(
+        bmadDir,
+        {
+          version: require(path.join(getProjectRoot(), 'package.json')).version,
+          installDate: new Date().toISOString(),
+          core: config.installCore,
+          modules: config.modules || [],
+          ides: config.ides || [],
+          language: config.language || null,
+        },
+        this.installedFiles,
+      );
+      spinner.succeed(`Manifest created (${manifestResult.filesTracked} files tracked)`);
+
+      spinner.stop();
+
+      // Display completion message
+      const { UI } = require('../../../lib/ui');
+      const ui = new UI();
+      ui.showInstallSummary({
+        path: bmadDir,
+        modules: config.modules,
+        ides: config.ides,
+      });
+
+      return { success: true, path: bmadDir, modules: config.modules, ides: config.ides };
+    } catch (error) {
+      spinner.fail('Installation failed');
+      throw error;
+    }
+  }
+
+  /**
+   * Update existing installation
+   */
+  async update(config) {
+    const spinner = ora('Checking installation...').start();
+
+    try {
+      const bmadDir = path.join(path.resolve(config.directory), 'bmad');
+      const existingInstall = await this.detector.detect(bmadDir);
+
+      if (!existingInstall.installed) {
+        spinner.fail('No BMAD installation found');
+        throw new Error(`No BMAD installation found at ${bmadDir}`);
+      }
+
+      spinner.text = 'Analyzing update requirements...';
+
+      // Compare versions and determine what needs updating
+      const currentVersion = existingInstall.version;
+      const newVersion = require(path.join(getProjectRoot(), 'package.json')).version;
+
+      if (config.dryRun) {
+        spinner.stop();
+        console.log(chalk.cyan('\n🔍 Update Preview (Dry Run)\n'));
+        console.log(chalk.bold('Current version:'), currentVersion);
+        console.log(chalk.bold('New version:'), newVersion);
+        console.log(chalk.bold('Core:'), existingInstall.hasCore ? 'Will be updated' : 'Not installed');
+
+        if (existingInstall.modules.length > 0) {
+          console.log(chalk.bold('\nModules to update:'));
+          for (const mod of existingInstall.modules) {
+            console.log(`  - ${mod.id}`);
+          }
+        }
+        return;
+      }
+
+      // Perform actual update
+      if (existingInstall.hasCore) {
+        spinner.text = 'Updating core...';
+        await this.updateCore(bmadDir, config.force);
+      }
+
+      for (const module of existingInstall.modules) {
+        spinner.text = `Updating module: ${module.id}...`;
+        await this.moduleManager.update(module.id, bmadDir, config.force);
+      }
+
+      // Update manifest
+      spinner.text = 'Updating manifest...';
+      await this.manifest.update(bmadDir, {
+        version: newVersion,
+        updateDate: new Date().toISOString(),
+      });
+
+      spinner.succeed('Update complete');
+      return { success: true };
+    } catch (error) {
+      spinner.fail('Update failed');
+      throw error;
+    }
+  }
+
+  /**
+   * Get installation status
+   */
+  async getStatus(directory) {
+    const bmadDir = path.join(path.resolve(directory), 'bmad');
+    return await this.detector.detect(bmadDir);
+  }
+
+  /**
+   * Get available modules
+   */
+  async getAvailableModules() {
+    return await this.moduleManager.listAvailable();
+  }
+
+  /**
+   * Uninstall BMAD
+   */
+  async uninstall(directory) {
+    const bmadDir = path.join(path.resolve(directory), 'bmad');
+
+    if (await fs.pathExists(bmadDir)) {
+      await fs.remove(bmadDir);
+    }
+
+    // Clean up IDE configurations
+    await this.ideManager.cleanup(path.resolve(directory));
+
+    return { success: true };
+  }
+
+  /**
+   * Private: Create directory structure
+   */
+  async createDirectoryStructure(bmadDir) {
+    await fs.ensureDir(bmadDir);
+    await fs.ensureDir(path.join(bmadDir, '_cfg'));
+    await fs.ensureDir(path.join(bmadDir, '_cfg', 'agents'));
+  }
+
+  /**
+   * Generate clean config.yaml files for each installed module
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Object} moduleConfigs - Collected configuration values
+   */
+  async generateModuleConfigs(bmadDir, moduleConfigs) {
+    const yaml = require('js-yaml');
+
+    // Extract core config values to share with other modules
+    const coreConfig = moduleConfigs.core || {};
+
+    // Get all installed module directories
+    const entries = await fs.readdir(bmadDir, { withFileTypes: true });
+    const installedModules = entries
+      .filter((entry) => entry.isDirectory() && entry.name !== '_cfg' && entry.name !== 'docs')
+      .map((entry) => entry.name);
+
+    // Generate config.yaml for each installed module
+    for (const moduleName of installedModules) {
+      const modulePath = path.join(bmadDir, moduleName);
+
+      // Get module-specific config or use empty object if none
+      const config = moduleConfigs[moduleName] || {};
+
+      if (await fs.pathExists(modulePath)) {
+        const configPath = path.join(modulePath, 'config.yaml');
+
+        // Create header
+        const packageJson = require(path.join(getProjectRoot(), 'package.json'));
+        const header = `# ${moduleName.toUpperCase()} Module Configuration
+# Generated by BMAD installer
+# Version: ${packageJson.version}
+# Date: ${new Date().toISOString()}
+
+`;
+
+        // For non-core modules, add core config values directly
+        let finalConfig = { ...config };
+        let coreSection = '';
+
+        if (moduleName !== 'core' && coreConfig && Object.keys(coreConfig).length > 0) {
+          // Add core values directly to the module config
+          // These will be available for reference in the module
+          finalConfig = {
+            ...config,
+            ...coreConfig, // Spread core config values directly into the module config
+          };
+
+          // Create a comment section to identify core values
+          coreSection = '\n# Core Configuration Values\n';
+        }
+
+        // Convert config to YAML
+        let yamlContent = yaml.dump(finalConfig, {
+          indent: 2,
+          lineWidth: -1,
+          noRefs: true,
+          sortKeys: false,
+        });
+
+        // If we have core values, reorganize the YAML to group them with their comment
+        if (coreSection && moduleName !== 'core') {
+          // Split the YAML into lines
+          const lines = yamlContent.split('\n');
+          const moduleConfigLines = [];
+          const coreConfigLines = [];
+
+          // Separate module-specific and core config lines
+          for (const line of lines) {
+            const key = line.split(':')[0].trim();
+            if (Object.prototype.hasOwnProperty.call(coreConfig, key)) {
+              coreConfigLines.push(line);
+            } else {
+              moduleConfigLines.push(line);
+            }
+          }
+
+          // Rebuild YAML with module config first, then core config with comment
+          yamlContent = moduleConfigLines.join('\n');
+          if (coreConfigLines.length > 0) {
+            yamlContent += coreSection + coreConfigLines.join('\n');
+          }
+        }
+
+        // Write the clean config file
+        await fs.writeFile(configPath, header + yamlContent, 'utf8');
+      }
+    }
+  }
+
+  /**
+   * Install core with resolved dependencies
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Object} coreFiles - Core files to install
+   */
+  async installCoreWithDependencies(bmadDir, coreFiles) {
+    const sourcePath = getModulePath('core');
+    const targetPath = path.join(bmadDir, 'core');
+
+    // Install full core
+    await this.installCore(bmadDir);
+
+    // If there are specific dependency files, ensure they're included
+    if (coreFiles) {
+      // Already handled by installCore for core module
+    }
+  }
+
+  /**
+   * Install module with resolved dependencies
+   * @param {string} moduleName - Module name
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Object} moduleFiles - Module files to install
+   */
+  async installModuleWithDependencies(moduleName, bmadDir, moduleFiles) {
+    // Use existing module manager for full installation with file tracking
+    // Note: Module-specific installers are called separately after IDE setup
+    await this.moduleManager.install(
+      moduleName,
+      bmadDir,
+      (filePath) => {
+        this.installedFiles.push(filePath);
+      },
+      {
+        skipModuleInstaller: true, // We'll run it later after IDE setup
+      },
+    );
+
+    // Dependencies are already included in full module install
+  }
+
+  /**
+   * Install partial module (only dependencies needed by other modules)
+   */
+  async installPartialModule(moduleName, bmadDir, files) {
+    const sourceBase = getModulePath(moduleName);
+    const targetBase = path.join(bmadDir, moduleName);
+
+    // Create module directory
+    await fs.ensureDir(targetBase);
+
+    // Copy only the required dependency files
+    if (files.agents && files.agents.length > 0) {
+      const agentsDir = path.join(targetBase, 'agents');
+      await fs.ensureDir(agentsDir);
+
+      for (const agentPath of files.agents) {
+        const fileName = path.basename(agentPath);
+        const sourcePath = path.join(sourceBase, 'agents', fileName);
+        const targetPath = path.join(agentsDir, fileName);
+
+        if (await fs.pathExists(sourcePath)) {
+          await fs.copy(sourcePath, targetPath);
+          this.installedFiles.push(targetPath);
+        }
+      }
+    }
+
+    if (files.tasks && files.tasks.length > 0) {
+      const tasksDir = path.join(targetBase, 'tasks');
+      await fs.ensureDir(tasksDir);
+
+      for (const taskPath of files.tasks) {
+        const fileName = path.basename(taskPath);
+        const sourcePath = path.join(sourceBase, 'tasks', fileName);
+        const targetPath = path.join(tasksDir, fileName);
+
+        if (await fs.pathExists(sourcePath)) {
+          await fs.copy(sourcePath, targetPath);
+          this.installedFiles.push(targetPath);
+        }
+      }
+    }
+
+    if (files.templates && files.templates.length > 0) {
+      const templatesDir = path.join(targetBase, 'templates');
+      await fs.ensureDir(templatesDir);
+
+      for (const templatePath of files.templates) {
+        const fileName = path.basename(templatePath);
+        const sourcePath = path.join(sourceBase, 'templates', fileName);
+        const targetPath = path.join(templatesDir, fileName);
+
+        if (await fs.pathExists(sourcePath)) {
+          await fs.copy(sourcePath, targetPath);
+          this.installedFiles.push(targetPath);
+        }
+      }
+    }
+
+    if (files.data && files.data.length > 0) {
+      for (const dataPath of files.data) {
+        // Preserve directory structure for data files
+        const relative = path.relative(sourceBase, dataPath);
+        const targetPath = path.join(targetBase, relative);
+
+        await fs.ensureDir(path.dirname(targetPath));
+
+        if (await fs.pathExists(dataPath)) {
+          await fs.copy(dataPath, targetPath);
+          this.installedFiles.push(targetPath);
+        }
+      }
+    }
+
+    // Create a marker file to indicate this is a partial installation
+    const markerPath = path.join(targetBase, '.partial');
+    await fs.writeFile(
+      markerPath,
+      `This module contains only dependencies required by other modules.\nInstalled: ${new Date().toISOString()}\n`,
+    );
+  }
+
+  /**
+   * Private: Install core
+   * @param {string} bmadDir - BMAD installation directory
+   */
+  async installCore(bmadDir) {
+    const sourcePath = getModulePath('core');
+    const targetPath = path.join(bmadDir, 'core');
+
+    // Copy core files with filtering for localskip agents
+    await this.copyDirectoryWithFiltering(sourcePath, targetPath);
+
+    // Process agent files to inject activation block
+    await this.processAgentFiles(targetPath, 'core');
+  }
+
+  /**
+   * Copy directory with filtering for localskip agents
+   * @param {string} sourcePath - Source directory path
+   * @param {string} targetPath - Target directory path
+   */
+  async copyDirectoryWithFiltering(sourcePath, targetPath) {
+    // Get all files in source directory
+    const files = await this.getFileList(sourcePath);
+
+    for (const file of files) {
+      // Skip config.yaml templates - we'll generate clean ones with actual values
+      if (file === 'config.yaml' || file.endsWith('/config.yaml')) {
+        continue;
+      }
+
+      const sourceFile = path.join(sourcePath, file);
+      const targetFile = path.join(targetPath, file);
+
+      // Check if this is an agent file
+      if (file.includes('agents/') && file.endsWith('.md')) {
+        // Read the file to check for localskip
+        const content = await fs.readFile(sourceFile, 'utf8');
+
+        // Check for localskip="true" in the agent tag
+        const agentMatch = content.match(/<agent[^>]*\slocalskip="true"[^>]*>/);
+        if (agentMatch) {
+          console.log(chalk.dim(`  Skipping web-only agent: ${path.basename(file)}`));
+          continue; // Skip this agent
+        }
+      }
+
+      // Copy the file
+      await fs.ensureDir(path.dirname(targetFile));
+      await fs.copy(sourceFile, targetFile, { overwrite: true });
+
+      // Track the installed file
+      this.installedFiles.push(targetFile);
+    }
+  }
+
+  /**
+   * Get list of all files in a directory recursively
+   * @param {string} dir - Directory path
+   * @param {string} baseDir - Base directory for relative paths
+   * @returns {Array} List of relative file paths
+   */
+  async getFileList(dir, baseDir = dir) {
+    const files = [];
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        // Skip _module-installer directories
+        if (entry.name === '_module-installer') {
+          continue;
+        }
+        const subFiles = await this.getFileList(fullPath, baseDir);
+        files.push(...subFiles);
+      } else {
+        files.push(path.relative(baseDir, fullPath));
+      }
+    }
+
+    return files;
+  }
+
+  /**
+   * Process agent files to inject activation block
+   * @param {string} modulePath - Path to module
+   * @param {string} moduleName - Module name
+   */
+  async processAgentFiles(modulePath, moduleName) {
+    const agentsPath = path.join(modulePath, 'agents');
+
+    // Check if agents directory exists
+    if (!(await fs.pathExists(agentsPath))) {
+      return; // No agents to process
+    }
+
+    // Get all agent files
+    const agentFiles = await fs.readdir(agentsPath);
+
+    for (const agentFile of agentFiles) {
+      if (!agentFile.endsWith('.md')) continue;
+
+      const agentPath = path.join(agentsPath, agentFile);
+      let content = await fs.readFile(agentPath, 'utf8');
+
+      // Check if content has agent XML and no activation block
+      if (content.includes('<agent') && !content.includes('<activation')) {
+        // Inject the activation block using XML handler
+        content = this.xmlHandler.injectActivationSimple(content);
+        await fs.writeFile(agentPath, content, 'utf8');
+      }
+    }
+  }
+
+  /**
+   * Private: Update core
+   */
+  async updateCore(bmadDir, force = false) {
+    const sourcePath = getModulePath('core');
+    const targetPath = path.join(bmadDir, 'core');
+
+    if (force) {
+      await fs.remove(targetPath);
+      await this.installCore(bmadDir);
+    } else {
+      // Selective update - preserve user modifications
+      await this.fileOps.syncDirectory(sourcePath, targetPath);
+    }
+  }
+
+  /**
+   * Private: Prompt for update action
+   */
+  async promptUpdateAction() {
+    const inquirer = require('inquirer');
+    return await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'action',
+        message: 'What would you like to do?',
+        choices: [
+          { name: 'Update existing installation', value: 'update' },
+          { name: 'Remove and reinstall', value: 'reinstall' },
+          { name: 'Cancel', value: 'cancel' },
+        ],
+      },
+    ]);
+  }
+
+  /**
+   * Private: Create formatted error for legacy BMAD v4 detection
+   * @param {Object} legacyV4 - Legacy V4 detection result with offenders array
+   * @returns {Error} Formatted error with fullMessage property
+   */
+  createLegacyV4Error(legacyV4) {
+    const error = new Error('Legacy BMAD v4 artefacts detected in project. Remove them to continue.');
+
+    // Build the complete formatted message using template literals
+    const headerMessage = `
+${chalk.red.bold('Blocked: Legacy BMAD v4 detected')}
+The installer found legacy artefacts in your project.`;
+
+    const offendersMessage = `
+Offending paths:
+${legacyV4.offenders.map((p) => ` - ${p}`).join('\n')}
+
+Cleanup commands you can copy/paste:
+${chalk.cyan('macOS/Linux:')}
+${legacyV4.offenders.map((p) => `  rm -rf '${p}'`).join('\n')}
+${chalk.cyan('Windows:')}
+${legacyV4.offenders.map((p) => `  rmdir /S /Q "${p}"`).join('\n')}`;
+
+    const footerMessage = `
+Remove the listed paths (case sensitive) and rerun install.
+Note: You may also want to remove other BMAD-related v4 files/folders left over in this project. If you have customizations, back them up or migrate them before deleting.`;
+
+    // Attach the complete formatted message
+    error.fullMessage = headerMessage + offendersMessage + footerMessage;
+
+    return error;
+  }
+
+  /**
+   * Private: Create agent configuration files
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Object} userInfo - User information including name and language
+   */
+  async createAgentConfigs(bmadDir, userInfo = null) {
+    const agentConfigDir = path.join(bmadDir, '_cfg', 'agents');
+    await fs.ensureDir(agentConfigDir);
+
+    // Get all agents from all modules
+    const agents = [];
+    const agentDetails = []; // For manifest generation
+
+    // Check modules for agents (including core)
+    const entries = await fs.readdir(bmadDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.isDirectory() && entry.name !== '_cfg') {
+        const moduleAgentsPath = path.join(bmadDir, entry.name, 'agents');
+        if (await fs.pathExists(moduleAgentsPath)) {
+          const agentFiles = await fs.readdir(moduleAgentsPath);
+          for (const agentFile of agentFiles) {
+            if (agentFile.endsWith('.md')) {
+              const agentPath = path.join(moduleAgentsPath, agentFile);
+              const agentContent = await fs.readFile(agentPath, 'utf8');
+
+              // Skip agents with localskip="true"
+              const hasLocalSkip = agentContent.match(/<agent[^>]*\slocalskip="true"[^>]*>/);
+              if (hasLocalSkip) {
+                continue; // Skip this agent - it should not have been installed
+              }
+
+              const agentName = path.basename(agentFile, '.md');
+
+              // Extract any nodes with agentConfig="true"
+              const agentConfigNodes = this.extractAgentConfigNodes(agentContent);
+
+              agents.push({
+                name: agentName,
+                module: entry.name,
+                agentConfigNodes: agentConfigNodes,
+              });
+
+              // Use shared AgentPartyGenerator to extract details
+              let details = AgentPartyGenerator.extractAgentDetails(agentContent, entry.name, agentName);
+
+              // Apply config overrides if they exist
+              if (details) {
+                const configPath = path.join(agentConfigDir, `${entry.name}-${agentName}.md`);
+                if (await fs.pathExists(configPath)) {
+                  const configContent = await fs.readFile(configPath, 'utf8');
+                  details = AgentPartyGenerator.applyConfigOverrides(details, configContent);
+                }
+                agentDetails.push(details);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Create config file for each agent
+    let createdCount = 0;
+    let skippedCount = 0;
+
+    // Load agent config template
+    const templatePath = getSourcePath('utility', 'models', 'agent-config-template.md');
+    const templateContent = await fs.readFile(templatePath, 'utf8');
+
+    for (const agent of agents) {
+      const configPath = path.join(agentConfigDir, `${agent.module}-${agent.name}.md`);
+
+      // Skip if config file already exists (preserve custom configurations)
+      if (await fs.pathExists(configPath)) {
+        skippedCount++;
+        continue;
+      }
+
+      // Build config content header
+      let configContent = `# Agent Config: ${agent.name}\n\n`;
+
+      // Process template and add agent-specific config nodes
+      let processedTemplate = templateContent;
+
+      // Replace {core:user_name} placeholder with actual user name if available
+      if (userInfo && userInfo.userName) {
+        processedTemplate = processedTemplate.replaceAll('{core:user_name}', userInfo.userName);
+      }
+
+      // Replace {core:communication_language} placeholder with actual language if available
+      if (userInfo && userInfo.responseLanguage) {
+        processedTemplate = processedTemplate.replaceAll('{core:communication_language}', userInfo.responseLanguage);
+      }
+
+      // If this agent has agentConfig nodes, add them after the existing comment
+      if (agent.agentConfigNodes && agent.agentConfigNodes.length > 0) {
+        // Find the agent-specific configuration nodes comment
+        const commentPattern = /(\s*<!-- Agent-specific configuration nodes -->)/;
+        const commentMatch = processedTemplate.match(commentPattern);
+
+        if (commentMatch) {
+          // Add nodes right after the comment
+          let agentSpecificNodes = '';
+          for (const node of agent.agentConfigNodes) {
+            agentSpecificNodes += `\n    ${node}`;
+          }
+
+          processedTemplate = processedTemplate.replace(commentPattern, `$1${agentSpecificNodes}`);
+        }
+      }
+
+      configContent += processedTemplate;
+
+      await fs.writeFile(configPath, configContent, 'utf8');
+      createdCount++;
+    }
+
+    // Generate agent manifest with overrides applied
+    await this.generateAgentManifest(bmadDir, agentDetails);
+
+    return { total: agents.length, created: createdCount, skipped: skippedCount };
+  }
+
+  /**
+   * Generate agent manifest XML file
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Array} agentDetails - Array of agent details
+   */
+  async generateAgentManifest(bmadDir, agentDetails) {
+    const manifestPath = path.join(bmadDir, '_cfg', 'agent-party.xml');
+    await AgentPartyGenerator.writeAgentParty(manifestPath, agentDetails, { forWeb: false });
+  }
+
+  /**
+   * Extract nodes with agentConfig="true" from agent content
+   * @param {string} content - Agent file content
+   * @returns {Array} Array of XML nodes that should be added to agent config
+   */
+  extractAgentConfigNodes(content) {
+    const nodes = [];
+
+    try {
+      // Find all XML nodes with agentConfig="true"
+      // Match self-closing tags and tags with content
+      const selfClosingPattern = /<([a-zA-Z][a-zA-Z0-9_-]*)\s+[^>]*agentConfig="true"[^>]*\/>/g;
+      const withContentPattern = /<([a-zA-Z][a-zA-Z0-9_-]*)\s+[^>]*agentConfig="true"[^>]*>([\s\S]*?)<\/\1>/g;
+
+      // Extract self-closing tags
+      let match;
+      while ((match = selfClosingPattern.exec(content)) !== null) {
+        // Extract just the tag without children (structure only)
+        const tagMatch = match[0].match(/<([a-zA-Z][a-zA-Z0-9_-]*)([^>]*)\/>/);
+        if (tagMatch) {
+          const tagName = tagMatch[1];
+          const attributes = tagMatch[2].replace(/\s*agentConfig="true"/, ''); // Remove agentConfig attribute
+          nodes.push(`<${tagName}${attributes}></${tagName}>`);
+        }
+      }
+
+      // Extract tags with content
+      while ((match = withContentPattern.exec(content)) !== null) {
+        const fullMatch = match[0];
+        const tagName = match[1];
+
+        // Extract opening tag with attributes (removing agentConfig="true")
+        const openingTagMatch = fullMatch.match(new RegExp(`<${tagName}([^>]*)>`));
+        if (openingTagMatch) {
+          const attributes = openingTagMatch[1].replace(/\s*agentConfig="true"/, '');
+          // Add empty node structure (no children)
+          nodes.push(`<${tagName}${attributes}></${tagName}>`);
+        }
+      }
+    } catch (error) {
+      console.error('Error extracting agentConfig nodes:', error);
+    }
+
+    return nodes;
+  }
+
+  /**
+   * Copy IDE-specific documentation to BMAD docs
+   * @param {Array} ides - List of selected IDEs
+   * @param {string} bmadDir - BMAD installation directory
+   */
+  async copyIdeDocumentation(ides, bmadDir) {
+    const docsDir = path.join(bmadDir, 'docs');
+    await fs.ensureDir(docsDir);
+
+    for (const ide of ides) {
+      const sourceDocPath = path.join(getProjectRoot(), 'docs', 'ide-info', `${ide}.md`);
+      const targetDocPath = path.join(docsDir, `${ide}-instructions.md`);
+
+      if (await fs.pathExists(sourceDocPath)) {
+        await fs.copy(sourceDocPath, targetDocPath, { overwrite: true });
+      }
+    }
+  }
+}
+
+module.exports = { Installer };

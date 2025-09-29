@@ -1,154 +1,207 @@
-# BMAD-METHOD™: Universal AI Agent Framework
+# BMad CORE v6 Alpha
 
 [![Version](https://img.shields.io/npm/v/bmad-method?color=blue&label=version)](https://www.npmjs.com/package/bmad-method)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/gk8jAdXWmj)
 
-Foundations in Agentic Agile Driven Development, known as the Breakthrough Method of Agile AI-Driven Development, yet so much more. Transform any domain with specialized AI expertise: software development, entertainment, creative writing, business strategy to personal wellness just to name a few.
+**The Universal Human-AI Collaboration Platform**
 
-**[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)**
+IMPORTANT NOTE: ALPHA is potentially an unstable release that could drastically change in many ways. While we hope that is not the case, know that it could - your using and testing it during this time though is much appreciated. Please help us out by filing issues or reaching out in Discord to discuss.
 
-**[Join our Discord Community](https://discord.gg/gk8jAdXWmj)** - A growing community for AI enthusiasts! Get help, share ideas, explore AI agents & frameworks, collaborate on tech projects, enjoy hobbies, and help each other succeed. Whether you're stuck on BMad, building your own agents, or just want to chat about the latest in AI - we're here for you! **Some mobile and VPN may have issue joining the discord, this is a discord issue - if the invite does not work, try from your own internet or another network, or non-VPN.**
+IMPORTANT NOTE 2: ALPHA is not complete - there are still many small and big features, polish, doc improvements, and more agents and workflows coming ahead of the beta release!
 
-⭐ **If you find this project helpful or useful, please give it a star in the upper right hand corner!** It helps others discover BMAD-METHOD™ and you will be notified of updates!
+IMPORTANT NOTE 3: ALPHA Web Bundles and Agents are not fully working yet - so you will need to use a good quality IDE to test many of the features, especially with the BMad Method module. BUT - the new agent builder and stand alone agent feature can work great with weaker models - this will still evolve over the coming weeks.
 
-## Overview
+BMad-CORE (Collaboration Optimized Reflection Engine) is a framework that brings out the best in you through AI agents designed to enhance human thinking rather than replace it. Unlike traditional AI tools that do the work for you, BMad-CORE's specialized agents guide you through the facilitation of optimized collaborative reflective workflows to unlock your full potential across any domain. It is this magic that powers the BMad Method, which is just one of the many modules that exist or are coming soon.
 
-**BMAD-METHOD™'s Two Key Innovations:**
+**[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)** and **[Join our amazing, active Discord Community](https://discord.gg/gk8jAdXWmj)**
 
-**1. Agentic Planning:** Dedicated agents (Analyst, PM, Architect) collaborate with you to create detailed, consistent PRDs and Architecture documents. Through advanced prompt engineering and human-in-the-loop refinement, these planning agents produce comprehensive specifications that go far beyond generic AI task generation.
+⭐ **If you find this project helpful or useful, please give it a star in the upper right-hand corner!** It helps others discover BMad-CORE and you will be notified of updates!
 
-**2. Context-Engineered Development:** The Scrum Master agent then transforms these detailed plans into hyper-detailed development stories that contain everything the Dev agent needs - full context, implementation details, and architectural guidance embedded directly in story files.
+## What Makes BMad-Core Different
 
-This two-phase approach eliminates both **planning inconsistency** and **context loss** - the biggest problems in AI-assisted development. Your Dev agent opens a story file with complete understanding of what to build, how to build it, and why.
+**Traditional AI**: Does the thinking for you, providing average, bland answers and solutions
+**BMad-CORE**: Brings out the best thinking in you and the AI through guided collaboration, elicitation, and facilitation
 
-**📖 [See the complete workflow in the User Guide](docs/user-guide.md)** - Planning phase, development cycle, and all agent roles
+### Core Philosophy: Human Amplification, Not Replacement
 
-## Quick Navigation
+BMad-Core's AI agents act as expert coaches, mentors, and collaborators who:
 
-### Understanding the BMad Workflow
+- Ask the right questions to stimulate your thinking
+- Provide structured frameworks for complex problems
+- Guide you through reflective processes to discover insights
+- Help you develop mastery in your chosen domains
+- Amplify your natural abilities rather than substituting for them
 
-**Before diving in, review these critical workflow diagrams that explain how BMad works:**
+## The Collaboration Optimized Reflection Engine
 
-1. **[Planning Workflow (Web UI)](docs/user-guide.md#the-planning-workflow-web-ui)** - How to create PRD and Architecture documents
-2. **[Core Development Cycle (IDE)](docs/user-guide.md#the-core-development-cycle-ide)** - How SM, Dev, and QA agents collaborate through story files
+At the heart of BMad-Core lies the **C.O.R.E.** system:
 
-> ⚠️ **These diagrams explain 90% of BMad Method Agentic Agile flow confusion** - Understanding the PRD+Architecture creation and the SM/Dev/QA workflow and how agents pass notes through story files is essential - and also explains why this is NOT taskmaster or just a simple task runner!
+- **Collaboration**: Human-AI partnership where both contribute unique strengths
+- **Optimized**: The collaborative process has been refined for maximum effectiveness
+- **Reflection**: Guided thinking that helps you discover better solutions and insights
+- **Engine**: The powerful framework that orchestrates specialized agents and workflows
 
-### What would you like to do?
+## Universal Domain Coverage Through Modules
 
-- **[Install and Build software with Full Stack Agile AI Team](#quick-start)** → Quick Start Instruction
-- **[Learn how to use BMad](docs/user-guide.md)** → Complete user guide and walkthrough
-- **[See available AI agents](/bmad-core/agents)** → Specialized roles for your team
-- **[Explore non-technical uses](#-beyond-software-development---expansion-packs)** → Creative writing, business, wellness, education
-- **[Create my own AI agents](docs/expansion-packs.md)** → Build agents for your domain
-- **[Browse ready-made expansion packs](expansion-packs/)** → Game dev, DevOps, infrastructure and get inspired with ideas and examples
-- **[Understand the architecture](docs/core-architecture.md)** → Technical deep dive
-- **[Join the community](https://discord.gg/gk8jAdXWmj)** → Get help and share ideas
+BMad-CORE works in ANY domain through specialized modules (previously called expansion packs)!
 
-## Important: Keep Your BMad Installation Updated
+### Available Modules with Alpha Release
 
-**Stay up-to-date effortlessly!** If you already have BMAD-METHOD™ installed in your project, simply run:
+- **BMad Core (core)**: Included and used to power every current and future module; includes a master orchestrator for the local environment and one for the web bundles used with ChatGPT or Gemini Gems, for example.
+- **BMad Method (bmm)**: Agile AI-driven software development - the classic that started it all and is still the best - but with v6, massively improved thanks to a rebuild from the ground up built on the new powerful BMad-CORE engine. The BMad Method has also been expanded to use a new "Scale Adaptive Workflow Engine"™.
+- **BMad BoMB (bmb)**: The BMad Builder is your Custom Agent, Workflow, and Module authoring tool - it's now easier than ever to customize existing modules or create whatever you can imagine as a standalone module.
+- **Creative Intelligence Suite (cis)**: Unlock innovation, problem-solving, and creative thinking! Brainstorming that was part of the BMad Method in the past is now part of this standalone module along with other workflows. The power of BMad modules still allows modules to borrow from each other - so the CIS, while standalone, also powers the brainstorming abilities for certain agents within the BMad Method!
 
-```bash
-npx bmad-method install
-# OR
-git pull
-npm run install:bmad
-```
-
-This will:
-
-- ✅ Automatically detect your existing v4 installation
-- ✅ Update only the files that have changed and add new files
-- ✅ Create `.bak` backup files for any custom modifications you've made
-- ✅ Preserve your project-specific configurations
-
-This makes it easy to benefit from the latest improvements, bug fixes, and new agents without losing your customizations!
-
-## Quick Start
-
-### One Command for Everything (IDE Installation)
-
-**Just run one of these commands:**
-
-```bash
-npx bmad-method install
-# OR if you already have BMad installed:
-git pull
-npm run install:bmad
-```
-
-This single command handles:
-
-- **New installations** - Sets up BMad in your project
-- **Upgrades** - Updates existing installations automatically
-- **Expansion packs** - Installs any expansion packs you've added to package.json
-
-> **That's it!** Whether you're installing for the first time, upgrading, or adding expansion packs - these commands do everything.
+## Alpha Installation and Testing
 
 **Prerequisites**: [Node.js](https://nodejs.org) v20+ required
 
-### Fastest Start: Web UI Full Stack Team at your disposal (2 minutes)
+Clone this repo ALPHA BRANCH to a folder. From the root of the folder, run `npm run install:bmad` and follow the installer questions.
 
-1. **Get the bundle**: Save or clone the [full stack team file](dist/teams/team-fullstack.txt) or choose another team
-2. **Create AI agent**: Create a new Gemini Gem or CustomGPT
-3. **Upload & configure**: Upload the file and set instructions: "Your critical operating instructions are attached, do not break character as directed"
-4. **Start Ideating and Planning**: Start chatting! Type `*help` to see available commands or pick an agent like `*analyst` to start right in on creating a brief.
-5. **CRITICAL**: Talk to BMad Orchestrator in the web at ANY TIME (#bmad-orchestrator command) and ask it questions about how this all works!
-6. **When to move to the IDE**: Once you have your PRD, Architecture, optional UX and Briefs - its time to switch over to the IDE to shard your docs, and start implementing the actual code! See the [User guide](docs/user-guide.md) for more details
+The Core Module will always be installed. The default initial module selection will be BMM for all the core BMad Method functionality and flow from brainstorming through software development.
 
-### Alternative: Clone and Build
+Note on installation: All installs now go to a single folder called `bmad` instead of multiple folders. When you install a module, you may still see folders other than the one you selected in the destination/bmad folder. This is intentional and not a bug - it will copy over to those other folders only the minimum that is needed because it is shared across the modules. For example, for now during Alpha to test this feature - BMM relies on the brainstorming feature of the CIS and some items from CORE - so this is why even if you only select BMM, you will still see bmad/core and bmad/cis along with bmad/bmm.
 
-```bash
-git clone https://github.com/bmadcode/bmad-method.git
-npm run install:bmad # build and install all to a destination folder
-```
+## What's New in V6-ALPHA
 
-## 🌟 Beyond Software Development - Expansion Packs
+Stability, customizability, installation Q&A, massive prompt improvements.
 
-BMAD™'s natural language framework works in ANY domain. Expansion packs provide specialized AI agents for creative writing, business strategy, health & wellness, education, and more. Also expansion packs can expand the core BMAD-METHOD™ with specific functionality that is not generic for all cases. [See the Expansion Packs Guide](docs/expansion-packs.md) and learn to create your own!
+Everything has been rewritten from the ground up with best practices and advances learned over previous versions, standardizing on prompt format techniques. There is a lot more core usage of XML or XML-type tags within markdown, with many conventions and standards that drastically increase adherence of the agents.
 
-## Documentation & Resources
+Customizability is a key theme of this new version. All agents are now customizable by modifying a file under the installation bmad/\_cfg/agents. Every agent installed will generate an agent file that you can customize. The nice thing about this is when agents change or update in future versions, your customizations in these sidecar files will never be lost! You can change the name, their personas, how they talk, what they call you, and most exciting - what language they communicate in!
 
-### Essential Guides
+The BMad installer is 100% new from the ground up. First, along the way you will add your name (what the agents will call you and what you will author documents as), what language you want the agents to talk to you in, and every module you select will have its own set of questions to customize the experience. Also, when you install, a consolidated agent party is created so now when you use party-mode in the IDE, it is super efficient for the agent running the party to simulate all installed agents. Post alpha release, this will manifest itself in many interesting ways in time for beta - but for now, have fun with party mode and epic sprint retrospectives!
 
-- 📖 **[User Guide](docs/user-guide.md)** - Complete walkthrough from project inception to completion
-- 🏗️ **[Core Architecture](docs/core-architecture.md)** - Technical deep dive and system design
-- 🚀 **[Expansion Packs Guide](docs/expansion-packs.md)** - Extend BMad to any domain beyond software development
+Speaking of installation - everything will now install to a single core bmad folder. No more separate root folders for every module! Instead, all will be contained within bmad/.
 
-## Support
+All IDE selections now support the option to add in special install functionality per module. As an example with the alpha release, if you select the BMad Method and Claude Code, you will have an option to install pre-created Claude sub-agents. Not only do they get installed, but certain workflows will have injected into their instructions key indicators to the agent when to activate the sub-agents, removing some non-determinism. The sub-agent experience is still undergoing some work, so install them if you choose, and remove them if they become a pain.
 
-- 💬 [Discord Community](https://discord.gg/gk8jAdXWmj)
-- 🐛 [Issue Tracker](https://github.com/bmadcode/bmad-method/issues)
-- 💬 [Discussions](https://github.com/bmadcode/bmad-method/discussions)
+Also, when you read about the BoMB below, it will link to more information about various features in this new evolution of the BMad Code - one of the exciting ones is the new agent types - there are 3 now! The most exciting, with more info coming soon, are the new standalone tiny agents that you can easily generate and deploy free from any module - specialized for your own exact needs.
+
+### BMad Method
+
+The BMad Method is significantly transforming and yet more powerful than ever. **Scale Adaptive** is a new term that means when you start the workflow to create a PRD or a GDD (or a simple tech-spec in the case of simple tasks), you will first answer some questions about the scope of the project, new vs. existing codebase and its state, and other questions. This will trigger a leveling of the effort from 0-4, and based on this scale adaptation, it will guide the workflow in different directions.
+
+Right now, this is still a bit alpha feeling and disjointed, but before beta it will be tied together through all four workflow phases with a potential single orchestration if you choose - or you can still jump right in, especially for simple tasks that just need a simple tech-spec and then right off to development.
+
+To test and experience this now, here is the new main flow for BMM v6 alpha:
+
+(Docs will be all linked in soon with new user guide and workflow diagrams coming this week)
+
+NOTE: Game Development expansion packs are all being rolled into the official BNad Method module - along with any more game engine platforms being added. Additionally game development planning for the GDD is not only scale adpative, but also adapts to the type of game you are making - so you can plan all that is needed for your dream game!
+
+#### **PHASE 1 - Analysis**
+
+**Analyst:**
+
+- `brainstorm-project`
+- `research` (market research, deep research, deep research prompt generation)
+- `product-brief`
+
+**Game Designer (Optional):**
+
+- `brainstorm-game`
+- `game-brief`
+- `research`
+
+---
+
+#### **PHASE 2 - Planning**
+
+**PM:**
+
+- `plan-project`
+
+**Game Designer:**
+
+- `plan-game` (calls the same plan-project workflow, but input docs or your answers should drive it towards GDD)
+
+---
+
+#### **PHASE 3 - Solutioning**
+
+**Architect or Game Architect:**
+
+Just like the scale-adjusted planning, architecture is the same. No more document sharding though!! Now in the IDE you create an architecture that adapts to the type of project you are working on - based on the inputs from your PRD, it will adapt the sections it includes to your project type. No longer is the architecture biased just towards full stack or back-end APIs. There are many more options now, from embedded hardware to mobile to many other options - with many more coming with beta.
+
+- `solution-architecture`
+
+> **Note:** Testing, DevOps, or security concerns beyond the basics are generally not included in the architecture. If it is more complicated, especially for complex massive undertakings, you will be suggested to pull in specific agents to help with those areas. _(Not released with alpha.0, coming soon)_
+
+Once the full architecture is complete, you can still use the PO to run the checklist to validate the epics and stories are still correct - although the architect should also be keeping them updated as needed (needs some tuning during alpha). Once done, then it's time to create the tech spec for your first epic.
+
+- `tech-spec`
+
+The tech spec pulls all technical information from all planning thus far, along with any further research needed from the web to produce an **Epic Tech Spec** - each epic will have one. This is going to make the SM even more capable of finding the info it needs for each story when we get to phase 4!!
+
+---
+
+#### **PHASE 4 - Implementation**
+
+And now here we are at phase 4 - where we, just like in BMad Method of yore, use the SM and the Dev Agent. No more QA agent here though; the dev now has a dev task and also a senior dev agent review task.
+
+**Scrum Master (SM) Tasks:**
+
+Before the dev starts, the SM will:
+
+1. `create-story`
+2. `story-context` _(NEW!)_
+
+**Story-context** is a game-changing new feature beyond what we had with create-story in the past. Create-story still pulls in all the info it needs from the tech-spec and elsewhere as needed (including previously completed stories), but the generation of the new story-context takes it up a whole new level.
+
+This real-time prep means no more generic devLoadAlways list of story files. During the alpha phase, we will be tuning what goes into this context, but this is going to supercharge and specialize your dev to the story at hand!
+
+---
+
+> **🎉 There are many other exciting changes throughout for you to discover during the alpha BMad Method module!**
+
+## CIS
+
+The CIS has 5 agents to try out, each with their own workflow! This is a new module that will drastically change over time.
+
+- [CIS Readme](./src/modules/cis/readme.md)
+
+### BoMB: BMad Builder
+
+#### Agent Docs
+
+- [Agent Architecture](src/modules/bmb/workflows/create-agent/agent-architecture)
+- [Agent command patterns](src/modules/bmb/workflows/create-agent/agent-command-patterns.md)
+- [Agent Types](src/modules/bmb/workflows/create-agent/agent-types.md)
+- [Communication Styles](src/modules/bmb/workflows/create-agent/communication-styles.md)
+
+#### Modules
+
+Modules are what we used to call Expansion Packs. A new repository to contribute modules is coming very soon with the beta release where you can start contributing modules - we just want to make sure the final format and conventions are stable. A module will generally be made up of agents and workflows. Tasks are still also possible, but generally should be avoided in favor of more flexible workflows. Workflows can have sub-workflows and soon will support a standardized multi-workflow orchestration pattern that the BMad master will be able to guide users through.
+
+- [Module Structure](src/modules/bmb/workflows/create-module/module-structure.md)
+
+#### Workflows
+
+What used to be tasks and create-doc templates are now all workflows! Simpler, yet more powerful and support many ways of achieving many different outcomes! A lot more documentation will be coming. This document is used by the agent builder to generate workflows or convert to workflows, but there is a lot more than what we have documented here in this alpha doc.
+
+- [Workflow Creation Guide](src/modules/bmb/workflows/create-workflow/workflow-creation-guide)
+
+### Installer Changes
+
+- [IDE Injections](docs/installers-bundlers/ide-injections)
+- [Installers Modules Platforms References](docs/installers-bundlers/installers-modules-platforms-reference)
+- [Web Bundler Usage](docs/installers-bundlers/web-bundler-usage)
+- [Claude Code Sub Module BMM Installer](src/modules/bmm/sub-modules/claude-code/readme.md)
+
+## Support & Community
+
+- 💬 [Discord Community](https://discord.gg/gk8jAdXWmj) - Get help, share ideas, collaborate
+- 🐛 [Issue Tracker](https://github.com/bmad-code-org/BMAD-METHOD/issues) - Bug reports and feature requests
+- 💬 [Discussions](https://github.com/bmad-code-org/BMAD-METHOD/discussions) - Community conversations
 
 ## Contributing
 
-**We're excited about contributions and welcome your ideas, improvements, and expansion packs!** 🎉
+We welcome contributions and new module development!
 
-📋 **[Read CONTRIBUTING.md](CONTRIBUTING.md)** - Complete guide to contributing, including guidelines, process, and requirements
-
-### Working with Forks
-
-When you fork this repository, CI/CD workflows are **disabled by default** to save resources. This is intentional and helps keep your fork clean.
-
-#### Need CI/CD in Your Fork?
-
-See our [Fork CI/CD Guide](.github/FORK_GUIDE.md) for instructions on enabling workflows in your fork.
-
-#### Contributing Workflow
-
-1. **Fork the repository** - Click the Fork button on GitHub
-2. **Clone your fork** - `git clone https://github.com/YOUR-USERNAME/BMAD-METHOD.git`
-3. **Create a feature branch** - `git checkout -b feature/amazing-feature`
-4. **Make your changes** - Test locally with `npm test`
-5. **Commit your changes** - `git commit -m 'feat: add amazing feature'`
-6. **Push to your fork** - `git push origin feature/amazing-feature`
-7. **Open a Pull Request** - CI/CD will run automatically on the PR
-
-Your contributions are tested when you submit a PR - no need to enable CI in your fork!
+📋 **[Read CONTRIBUTING.md](CONTRIBUTING.md)** - Complete contribution guide
 
 ## License
 
@@ -158,6 +211,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 BMAD™ and BMAD-METHOD™ are trademarks of BMad Code, LLC. All rights reserved.
 
-[![Contributors](https://contrib.rocks/image?repo=bmadcode/bmad-method)](https://github.com/bmadcode/bmad-method/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=bmad-code-org/BMAD-METHOD)](https://github.com/bmad-code-org/BMAD-METHOD/graphs/contributors)
 
-<sub>Built with ❤️ for the AI-assisted development community</sub>
+<sub>Built with ❤️ for the human-AI collaboration community</sub>

@@ -3,11 +3,11 @@ name: format-check
 "on":
   pull_request:
     branches: ["**"]
+  workflow_dispatch:
 
 jobs:
   prettier:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork != true || vars.ENABLE_CI_IN_FORK == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: ".nvmrc"
           cache: "npm"
 
       - name: Install dependencies
@@ -26,7 +26,6 @@ jobs:
 
   eslint:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork != true || vars.ENABLE_CI_IN_FORK == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +33,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: ".nvmrc"
           cache: "npm"
 
       - name: Install dependencies

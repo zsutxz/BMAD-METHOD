@@ -7,7 +7,14 @@ import yml from 'eslint-plugin-yml';
 export default [
   // Global ignores for files/folders that should not be linted
   {
-    ignores: ['dist/**', 'coverage/**', '**/*.min.js'],
+    ignores: [
+      'dist/**',
+      'coverage/**',
+      '**/*.min.js',
+      'test/template-test-generator/**',
+      'test/template-test-generator/**/*.js',
+      'test/template-test-generator/**/*.md',
+    ],
   },
 
   // Base JavaScript recommended rules
@@ -84,19 +91,22 @@ export default [
     },
   },
 
+  // Module installer scripts use CommonJS for compatibility
+  {
+    files: ['**/_module-installer/**/*.js'],
+    rules: {
+      // Allow CommonJS patterns for installer scripts
+      'unicorn/prefer-module': 'off',
+      'n/no-missing-require': 'off',
+      'n/no-unpublished-require': 'off',
+    },
+  },
+
   // ESLint config file should not be checked for publish-related Node rules
   {
     files: ['eslint.config.mjs'],
     rules: {
       'n/no-unpublished-import': 'off',
-    },
-  },
-
-  // YAML workflow templates allow empty mapping values intentionally
-  {
-    files: ['bmad-core/workflows/**/*.yaml'],
-    rules: {
-      'yml/no-empty-mapping-value': 'off',
     },
   },
 

@@ -141,11 +141,7 @@ async function testPackageJsonWorkspaces() {
   const root = await mkTmpDir('package-workspaces');
   const pkgA = path.join(root, 'packages', 'a');
   await fs.ensureDir(pkgA);
-  await fs.writeJson(
-    path.join(root, 'package.json'),
-    { private: true, workspaces: ['packages/*'] },
-    { spaces: 2 },
-  );
+  await fs.writeJson(path.join(root, 'package.json'), { private: true, workspaces: ['packages/*'] }, { spaces: 2 });
   const found = await findProjectRoot(pkgA);
   await assertEqual(found, root, 'package.json workspaces should be detected');
   return { name: 'package.json-workspaces', ok: true };

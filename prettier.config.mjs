@@ -1,6 +1,6 @@
 export default {
   $schema: 'https://json.schemastore.org/prettierrc',
-  printWidth: 100,
+  printWidth: 140,
   tabWidth: 2,
   useTabs: false,
   semi: true,

@@ -34,9 +34,7 @@ async function _detectVcsTopLevel(startDir) {
     if (show) return show;
     const info = await _tryRun('svn', ['info'], startDir);
     if (info) {
-      const line = info
-        .split(/\r?\n/)
-        .find((l) => l.toLowerCase().startsWith('working copy root path:'));
+      const line = info.split(/\r?\n/).find((l) => l.toLowerCase().startsWith('working copy root path:'));
       if (line) return line.split(':').slice(1).join(':').trim();
     }
     return null;
@@ -176,13 +174,10 @@ async function findProjectRoot(startDir) {
 
     while (true) {
       // Special check: package.json with "workspaces"
-      if ((await hasWorkspacePackageJson(dir)) && (!best || 90 >= best.weight))
-        best = { dir, weight: 90 };
+      if ((await hasWorkspacePackageJson(dir)) && (!best || 90 >= best.weight)) best = { dir, weight: 90 };
 
       // Evaluate all other checks in parallel
-      const results = await Promise.all(
-        checks.map(async (c) => ({ c, ok: await exists(c.makePath(dir)) })),
-      );
+      const results = await Promise.all(checks.map(async (c) => ({ c, ok: await exists(c.makePath(dir)) })));
 
       for (const { c, ok } of results) {
         if (!ok) continue;

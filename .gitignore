@@ -13,7 +13,6 @@ npm-debug.log*
 
 # Build output
 build/*.txt
-web-bundles/
 
 # Environment variables
 .env
@@ -29,15 +28,17 @@ Thumbs.db
 # IDE and editor configs
 .windsurf/
 .trae/
-.bmad*/
-.cursor/
+.bmad*/.cursor/
 
 # AI assistant files
 CLAUDE.md
 .ai/*
 .claude
+cursor
 .gemini
-.iflow
+.mcp.json
+CLAUDE.local.md
+.serena/
 
 # Project-specific
 .bmad-core
@@ -46,3 +47,13 @@ test-project-install/*
 sample-project/*
 flattened-codebase.xml
 *.stats.md
+.internal-docs/
+#UAT template testing output files
+tools/template-test-generator/test-scenarios/
+
+# Bundler temporary files
+.bundler-temp/
+
+# Test Install Output
+
+z*/

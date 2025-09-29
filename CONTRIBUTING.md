@@ -1,103 +1,90 @@
-# Contributing to this project
+# Contributing to BMad
 
-Thank you for contributing to this project! This document outlines the process for contributing and some guidelines to follow.
+Thank you for considering contributing to the BMad project! We believe in **Human Amplification, Not Replacement** - bringing out the best thinking in both humans and AI through guided collaboration.
 
-🆕 **New to GitHub or pull requests?** Check out our [beginner-friendly Pull Request Guide](docs/how-to-contribute-with-pull-requests.md) first!
+💬 **Discord Community**: Join our [Discord server](https://discord.gg/gk8jAdXWmj) for real-time discussions:
 
-📋 **Before contributing**, please read our [Guiding Principles](docs/GUIDING-PRINCIPLES.md) to understand the BMad Method's core philosophy and architectural decisions.
+- **#general-dev** - Technical discussions, feature ideas, and development questions
+- **#bugs-issues** - Bug reports and issue discussions
 
-Also note, we use the discussions feature in GitHub to have a community to discuss potential ideas, uses, additions and enhancements.
+## Our Philosophy
 
-💬 **Discord Community**: Join our [Discord server](https://discord.gg/gk8jAdXWmj) for real-time discussions or search past discussions or ideas.
+### BMad Core™: Universal Foundation
 
-## Code of Conduct
+BMad Core empowers humans and AI agents working together in true partnership across any domain through our **C.O.R.E. Framework** (Collaboration Optimized Reflection Engine):
 
-By participating in this project, you agree to abide by our Code of Conduct. Please read it before participating.
+- **Collaboration**: Human-AI partnership where both contribute unique strengths
+- **Optimized**: The collaborative process refined for maximum effectiveness
+- **Reflection**: Guided thinking that helps discover better solutions and insights
+- **Engine**: The powerful framework that orchestrates specialized agents and workflows
 
-## Before Submitting a PR
+### BMad Method™: Agile AI-Driven Development
 
-**IMPORTANT**: All PRs must pass validation checks before they can be merged.
+The BMad Method is the flagship bmad module for agile AI-driven software development. It emphasizes thorough planning and solid architectural foundations to provide detailed context for developer agents, mirroring real-world agile best practices.
 
-### Required Checks
+### Core Principles
 
-Before submitting your PR, run these commands locally:
+**Partnership Over Automation** - AI agents act as expert coaches, mentors, and collaborators who amplify human capability rather than replace it.
 
-```bash
-# Run all validation checks
-npm run pre-release
+**Bidirectional Guidance** - Agents guide users through structured workflows while users push agents with advanced prompting. Both sides actively work to extract better information from each other.
 
-# Or run them individually:
-npm run validate     # Validate agent/team configs
-npm run format:check # Check code formatting
-npm run lint        # Check for linting issues
-```
+**Systems of Workflows** - BMad Core builds comprehensive systems of guided workflows with specialized agent teams for any domain.
 
-### Fixing Issues
+**Tool-Agnostic Foundation** - BMad Core remains tool-agnostic, providing stable, extensible groundwork that adapts to any domain.
 
-If any checks fail, use these commands to fix them:
+## What Makes a Good Contribution?
 
-```bash
-# Fix all issues automatically
-npm run fix
+Every contribution should strengthen human-AI collaboration. Ask yourself: **"Does this make humans and AI better together?"**
 
-# Or fix individually:
-npm run format      # Fix formatting issues
-npm run lint:fix    # Fix linting issues
-```
+**✅ Contributions that align:**
 
-### Setup Git Hooks (Optional but Recommended)
+- Enhance universal collaboration patterns
+- Improve agent personas and workflows
+- Strengthen planning and context continuity
+- Increase cross-domain accessibility
+- Add domain-specific modules leveraging BMad Core
 
-To catch issues before committing:
+**❌ What detracts from our mission:**
 
-```bash
-# Run this once after cloning
-chmod +x tools/setup-hooks.sh
-./tools/setup-hooks.sh
-```
+- Purely automated solutions that sideline humans
+- Tools that don't improve the partnership
+- Complexity that creates barriers to adoption
+- Features that fragment BMad Core's foundation
 
-## How to Contribute
+## Before You Contribute
 
 ### Reporting Bugs
 
 1. **Check existing issues** first to avoid duplicates
-2. **Use the bug report template** when creating a new issue - it will guide you through providing:
+2. **Consider discussing in Discord** (#bugs-issues channel) for quick help
+3. **Use the bug report template** when creating a new issue - it guides you through providing:
    - Clear bug description
    - Steps to reproduce
    - Expected vs actual behavior
    - Model/IDE/BMad version details
    - Screenshots or links if applicable
-3. **Consider discussing in Discord** (#bugs-issues channel) for quick help
 4. **Indicate if you're working on a fix** to avoid duplicate efforts
 
-### Suggesting Features
+### Suggesting Features or New Modules
 
 1. **Discuss first in Discord** (#general-dev channel) - the feature request template asks if you've done this
 2. **Check existing issues and discussions** to avoid duplicates
-3. **Use the feature request template** when creating an issue - it will guide you through:
-   - Confirming Discord discussion
-   - Describing the problem it solves
-   - Explaining your solution
-   - Listing alternatives considered
-4. **Be specific** about why this feature would benefit the BMad community
+3. **Use the feature request template** when creating an issue
+4. **Be specific** about why this feature would benefit the BMad community and strengthen human-AI collaboration
 
-### Pull Request Process
+### Before Starting Work
 
-⚠️ **Before starting work:**
+⚠️ **Required before submitting PRs:**
 
 1. **For bugs**: Check if an issue exists (create one using the bug template if not)
-2. **For features**: Ensure you've discussed in Discord (#general-dev) AND created a feature request issue
+2. **For features**: Discuss in Discord (#general-dev) AND create a feature request issue
 3. **For large changes**: Always open an issue first to discuss alignment
 
-Please only propose small granular commits! If its large or significant, please discuss in the discussions tab and open up an issue first. I do not want you to waste your time on a potentially very large PR to have it rejected because it is not aligned or deviates from other planned changes. Communicate and lets work together to build and improve this great community project!
+Please propose small, granular changes! For large or significant changes, discuss in Discord and open an issue first. This prevents wasted effort on PRs that may not align with planned changes.
 
-**Important**: All contributions must align with our [Guiding Principles](docs/GUIDING-PRINCIPLES.md). Key points:
+## Pull Request Guidelines
 
-- Keep dev agents lean - they need context for coding, not documentation
-- Web/planning agents can be larger with more complex tasks
-- Everything is natural language (markdown) - no code in core framework
-- Use expansion packs for domain-specific features
-
-#### Which Branch for Your PR?
+### Which Branch?
 
 **Submit to `next` branch** (most contributions):
 
@@ -107,7 +94,7 @@ Please only propose small granular commits! If its large or significant, please 
 - ♻️ Code refactoring
 - ⚡ Performance improvements
 - 🧪 New tests
-- 🎁 New expansion packs
+- 🎁 New bmad modules
 
 **Submit to `main` branch** (critical only):
 
@@ -118,7 +105,7 @@ Please only propose small granular commits! If its large or significant, please 
 
 **When in doubt, submit to `next`**. We'd rather test changes thoroughly before they hit stable.
 
-#### PR Size Guidelines
+### PR Size Guidelines
 
 - **Ideal PR size**: 200-400 lines of code changes
 - **Maximum PR size**: 800 lines (excluding generated files)
@@ -126,7 +113,7 @@ Please only propose small granular commits! If its large or significant, please 
 - **If your change is larger**: Break it into multiple smaller PRs that can be reviewed independently
 - **Related changes**: Even related changes should be separate PRs if they deliver independent value
 
-#### Breaking Down Large PRs
+### Breaking Down Large PRs
 
 If your change exceeds 800 lines, use this checklist to split it:
 
@@ -145,30 +132,30 @@ Example breakdown:
 3. PR #3: Implement new feature using refactored code (300 lines)
 4. PR #4: Add comprehensive tests (200 lines)
 
-**Note**: PRs #1 and #4 could be submitted simultaneously since they deliver independent value and don't depend on each other's merge order.
+**Note**: PRs #1 and #4 could be submitted simultaneously since they deliver independent value.
 
-#### Pull Request Steps
+### Pull Request Process
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/your-feature-name`)
-3. Make your changes
-4. Run any tests or linting to ensure quality
-5. Commit your changes with clear, descriptive messages following our commit message convention
-6. Push to your branch (`git push origin feature/your-feature-name`)
-7. Open a Pull Request against the main branch
+#### New to Pull Requests?
 
-## Issue Templates
+If you're new to GitHub or pull requests, here's a quick guide:
 
-We use GitHub issue templates to ensure all necessary information is provided:
-
-- **Bug Reports**: Automatically guides you through providing reproduction steps, environment details, and expected behavior
-- **Feature Requests**: Requires Discord discussion confirmation and asks for problem/solution descriptions
-
-Using these templates helps maintainers understand and address your contribution faster.
-
-## Pull Request Description Guidelines
-
-Keep PR descriptions short and to the point following this template:
+1. **Fork the repository** - Click the "Fork" button on GitHub to create your own copy
+2. **Clone your fork** - `git clone https://github.com/YOUR-USERNAME/bmad-method.git`
+3. **Create a new branch** - Never work on `main` directly!
+   ```bash
+   git checkout -b fix/description
+   # or
+   git checkout -b feature/description
+   ```
+4. **Make your changes** - Edit files, keeping changes small and focused
+5. **Commit your changes** - Use clear, descriptive commit messages
+   ```bash
+   git add .
+   git commit -m "fix: correct typo in README"
+   ```
+6. **Push to your fork** - `git push origin fix/description`
+7. **Create the Pull Request** - Go to your fork on GitHub and click "Compare & pull request"
 
 ### PR Description Template
 
@@ -186,7 +173,10 @@ Fixes #[issue number] (if applicable)
 
 ## How
 
-[2-3 bullets listing HOW you implemented it]
+## [2-3 bullets listing HOW you implemented it]
+
+-
+-
 
 ## Testing
 
@@ -199,7 +189,7 @@ Fixes #[issue number] (if applicable)
 
 ❌ **Bad Example:**
 
-> This revolutionary PR introduces a paradigm-shifting enhancement to the system's architecture by implementing a state-of-the-art solution that leverages cutting-edge methodologies to optimize performance metrics and deliver unprecedented value to stakeholders through innovative approaches...
+> This revolutionary PR introduces a paradigm-shifting enhancement to the system's architecture by implementing a state-of-the-art solution that leverages cutting-edge methodologies to optimize performance metrics...
 
 ✅ **Good Example:**
 
@@ -211,7 +201,7 @@ Fixes #[issue number] (if applicable)
 > - Throws clear error with dependency chain
 >   **Testing:** Tested with circular deps between 3 agents
 
-## Commit Message Convention
+### Commit Message Convention
 
 Use conventional commits format:
 
@@ -233,11 +223,57 @@ Each commit should represent one logical change:
 - **Don't:** Mix refactoring with bug fixes
 - **Don't:** Combine unrelated changes
 
+## What Makes a Good Pull Request?
+
+✅ **Good PRs:**
+
+- Change one thing at a time
+- Have clear, descriptive titles
+- Explain what and why in the description
+- Include only the files that need to change
+- Reference related issue numbers
+
+❌ **Avoid:**
+
+- Changing formatting of entire files
+- Multiple unrelated changes in one PR
+- Copying your entire project/repo into the PR
+- Changes without explanation
+- Working directly on `main` branch
+
+## Common Mistakes to Avoid
+
+1. **Don't reformat entire files** - only change what's necessary
+2. **Don't include unrelated changes** - stick to one fix/feature per PR
+3. **Don't paste code in issues** - create a proper PR instead
+4. **Don't submit your whole project** - contribute specific improvements
+
 ## Code Style
 
 - Follow the existing code style and conventions
 - Write clear comments for complex logic
+- Keep dev agents lean - they need context for coding, not documentation
+- Web/planning agents can be larger with more complex tasks
+- Everything is natural language (markdown) - no code in core framework
+- Use bmad modules for domain-specific features
+
+## Code of Conduct
+
+By participating in this project, you agree to abide by our Code of Conduct. We foster a collaborative, respectful environment focused on building better human-AI partnerships.
+
+## Need Help?
+
+- 💬 Join our [Discord Community](https://discord.gg/gk8jAdXWmj):
+  - **#general-dev** - Technical questions and feature discussions
+  - **#bugs-issues** - Get help with bugs before filing issues
+- 🐛 Report bugs using the [bug report template](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=bug_report.md)
+- 💡 Suggest features using the [feature request template](https://github.com/bmad-code-org/BMAD-METHOD/issues/new?template=feature_request.md)
+- 📖 Browse the [GitHub Discussions](https://github.com/bmad-code-org/BMAD-METHOD/discussions)
+
+---
+
+**Remember**: We're here to help! Don't be afraid to ask questions. Every expert was once a beginner. Together, we're building a future where humans and AI work better together.
 
 ## License
 
-By contributing to this project, you agree that your contributions will be licensed under the MIT License.
+By contributing to this project, you agree that your contributions will be licensed under the same license as the project.
