@@ -5,19 +5,35 @@
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/gk8jAdXWmj)
 
-**The Universal Human-AI Collaboration Platform**
+**[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)** and **[Join our amazing, active Discord Community](https://discord.gg/gk8jAdXWmj)**
 
-IMPORTANT NOTE: ALPHA is potentially an unstable release that could drastically change in many ways. While we hope that is not the case, know that it could - your using and testing it during this time though is much appreciated. Please help us out by filing issues or reaching out in Discord to discuss.
+⭐ **If you find this project helpful or useful, please give it a star in the upper right-hand corner!** It helps others discover BMad-CORE and you will be notified of updates!
+
+## The Universal Human-AI Collaboration Platform
+
+IMPORTANT NOTE 0: Updates to the branch will be frequent, as you pull in new updates, its best to delete your node_modules folder under this cloned project root and run `npm install` to ensure you have the latest package dependencies.
+
+IMPORTANT NOTE 1: ALPHA is potentially an unstable release that could drastically change in many ways. While we hope that is not the case, know that it could - your using and testing it during this time though is much appreciated. Please help us out by filing issues or reaching out in Discord to discuss.
 
 IMPORTANT NOTE 2: ALPHA is not complete - there are still many small and big features, polish, doc improvements, and more agents and workflows coming ahead of the beta release!
 
 IMPORTANT NOTE 3: ALPHA Web Bundles and Agents are not fully working yet - so you will need to use a good quality IDE to test many of the features, especially with the BMad Method module. BUT - the new agent builder and stand alone agent feature can work great with weaker models - this will still evolve over the coming weeks.
 
+IMPORTANT NOTE 4: If you would like to contribute a PR, make sure you are creating your PR against the Alpha Branch and not Main.
+
+## Alpha Installation and Testing
+
+**Prerequisites**: [Node.js](https://nodejs.org) v20+ required
+
+Clone this repo ALPHA BRANCH to a folder. From the root of the folder, run `npm run install:bmad` and follow the installer questions.
+
+The Core Module will always be installed. The default initial module selection will be BMM for all the core BMad Method functionality and flow from brainstorming through software development.
+
+Note on installation: All installs now go to a single folder called `bmad` instead of multiple folders. When you install a module, you may still see folders other than the one you selected in the destination/bmad folder. This is intentional and not a bug - it will copy over to those other folders only the minimum that is needed because it is shared across the modules. For example, for now during Alpha to test this feature - BMM relies on the brainstorming feature of the CIS and some items from CORE - so this is why even if you only select BMM, you will still see bmad/core and bmad/cis along with bmad/bmm.
+
+## What is the new BMad Core
+
 BMad-CORE (Collaboration Optimized Reflection Engine) is a framework that brings out the best in you through AI agents designed to enhance human thinking rather than replace it. Unlike traditional AI tools that do the work for you, BMad-CORE's specialized agents guide you through the facilitation of optimized collaborative reflective workflows to unlock your full potential across any domain. It is this magic that powers the BMad Method, which is just one of the many modules that exist or are coming soon.
-
-**[Subscribe to BMadCode on YouTube](https://www.youtube.com/@BMadCode?sub_confirmation=1)** and **[Join our amazing, active Discord Community](https://discord.gg/gk8jAdXWmj)**
-
-⭐ **If you find this project helpful or useful, please give it a star in the upper right-hand corner!** It helps others discover BMad-CORE and you will be notified of updates!
 
 ## What Makes BMad-Core Different
 
@@ -53,16 +69,6 @@ BMad-CORE works in ANY domain through specialized modules (previously called exp
 - **BMad Method (bmm)**: Agile AI-driven software development - the classic that started it all and is still the best - but with v6, massively improved thanks to a rebuild from the ground up built on the new powerful BMad-CORE engine. The BMad Method has also been expanded to use a new "Scale Adaptive Workflow Engine"™.
 - **BMad BoMB (bmb)**: The BMad Builder is your Custom Agent, Workflow, and Module authoring tool - it's now easier than ever to customize existing modules or create whatever you can imagine as a standalone module.
 - **Creative Intelligence Suite (cis)**: Unlock innovation, problem-solving, and creative thinking! Brainstorming that was part of the BMad Method in the past is now part of this standalone module along with other workflows. The power of BMad modules still allows modules to borrow from each other - so the CIS, while standalone, also powers the brainstorming abilities for certain agents within the BMad Method!
-
-## Alpha Installation and Testing
-
-**Prerequisites**: [Node.js](https://nodejs.org) v20+ required
-
-Clone this repo ALPHA BRANCH to a folder. From the root of the folder, run `npm run install:bmad` and follow the installer questions.
-
-The Core Module will always be installed. The default initial module selection will be BMM for all the core BMad Method functionality and flow from brainstorming through software development.
-
-Note on installation: All installs now go to a single folder called `bmad` instead of multiple folders. When you install a module, you may still see folders other than the one you selected in the destination/bmad folder. This is intentional and not a bug - it will copy over to those other folders only the minimum that is needed because it is shared across the modules. For example, for now during Alpha to test this feature - BMM relies on the brainstorming feature of the CIS and some items from CORE - so this is why even if you only select BMM, you will still see bmad/core and bmad/cis along with bmad/bmm.
 
 ## What's New in V6-ALPHA
 
