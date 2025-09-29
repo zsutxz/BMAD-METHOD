@@ -25,6 +25,16 @@ IMPORTANT NOTE 4: If you would like to contribute a PR, make sure you are creati
 
 **Prerequisites**: [Node.js](https://nodejs.org) v20+ required
 
+### Option A
+
+Thank you Lum for the suggestion - here is a one shot instruction to clone just the alpha branch get started:
+
+`git clone --branch v6-alpha --single-branch https://github.com/bmad-code-org/BMAD-METHOD` and then cd into this directory and run `npm install`.
+
+### Option B
+
+Here are the more detailed step my step instructions:
+
 Clone the repo with either:
 
 - `gh repo clone bmad-code-org/BMAD-METHOD`
@@ -37,7 +47,11 @@ Clone the repo with either:
   - type `git status` and you should see:
     `On branch v6-alpha. Your branch is up to date with 'origin/v6-alpha'.`
 
+### Node Modules install
+
 Now you must install the node_modules with `npm install` - once complete, you should see you have a `node_modules` folder at the root of your project. (BMAD-METHOD/node_modules)
+
+### Install to your new or existing project folder
 
 Now you can run `npm run install:bmad` and follow the installer questions.
 
