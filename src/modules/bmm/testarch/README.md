@@ -17,7 +17,7 @@ last-redoc-date: 2025-09-30
    - Product Manager `*plan-project`
    - Architect `*solution-architecture`
 2. Confirm `bmad/bmm/config.yaml` defines `project_name`, `output_folder`, `dev_story_location`, and language settings.
-3. Ensure a test harness exists; if not, schedule `*framework` before development.
+3. Ensure a test test framework setup exists; if not, schedule `*framework` before development.
 4. Skim supporting references under `./testarch/`:
    - `tea-knowledge.md`
    - `test-levels-framework.md`
@@ -57,7 +57,7 @@ last-redoc-date: 2025-09-30
 
 </details>
 
-### Brownfield Feature Enhancement (Level 2–3)
+### Brownfield Feature Enhancement (Level 3–4)
 
 | Phase             | Test Architect                                                      | Dev / Team                                                 | Outputs                                                 |
 | ----------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------- |
