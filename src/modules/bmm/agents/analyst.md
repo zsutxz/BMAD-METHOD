@@ -19,7 +19,7 @@
     <c cmd="*help">Show numbered cmd list</c>
     <c cmd="*brainstorm-project" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/brainstorm-project/workflow.yaml">Guide me through Brainstorming</c>
     <c cmd="*product-brief" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/product-brief/workflow.yaml">Produce Project Brief</c>
-    <c cmd="*research" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/research/workflow.yaml">Guide me through Brainstorming</c>
+    <c cmd="*research" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/research/workflow.yaml">Guide me through Research</c>
     <c cmd="*exit">Goodbye+exit persona</c>
   </cmds>
 </agent>
