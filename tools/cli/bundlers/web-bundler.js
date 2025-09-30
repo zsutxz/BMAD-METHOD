@@ -863,9 +863,48 @@ class WebBundler {
   }
 
   /**
+   * Inject web activation instructions into agent XML
+   */
+  injectWebActivation(agentXml) {
+    // Check if agent already has an activation block
+    if (agentXml.includes('<activation')) {
+      return agentXml; // Already has activation, don't inject
+    }
+
+    // Load the web activation template
+    const activationPath = path.join(this.sourceDir, 'utility', 'models', 'agent-activation-web.xml');
+
+    if (!fs.existsSync(activationPath)) {
+      console.warn(chalk.yellow('Warning: agent-activation-web.xml not found, skipping activation injection'));
+      return agentXml;
+    }
+
+    const activationXml = fs.readFileSync(activationPath, 'utf8');
+
+    // Find the closing </agent> tag and inject before it
+    const closingTagMatch = agentXml.match(/(\s*)<\/agent>/);
+    if (!closingTagMatch) {
+      console.warn(chalk.yellow('Warning: Could not find </agent> tag for activation injection'));
+      return agentXml;
+    }
+
+    // Inject the activation block before the closing </agent> tag
+    const indent = closingTagMatch[1];
+    const injectedXml = agentXml.replace(
+      /(\s*)<\/agent>/,
+      `\n${indent}${activationXml.split('\n').join('\n' + indent)}\n${indent}</agent>`,
+    );
+
+    return injectedXml;
+  }
+
+  /**
    * Build the final agent bundle XML
    */
   buildAgentBundle(agentXml, dependencies) {
+    // Inject web activation instructions into agent XML
+    agentXml = this.injectWebActivation(agentXml);
+
     const parts = [
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<agent-bundle>',
