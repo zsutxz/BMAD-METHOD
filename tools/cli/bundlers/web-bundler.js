@@ -1,6 +1,7 @@
 const path = require('node:path');
 const fs = require('fs-extra');
 const chalk = require('chalk');
+const yaml = require('js-yaml');
 const { DependencyResolver } = require('../installers/lib/core/dependency-resolver');
 const { XmlHandler } = require('../lib/xml-handler');
 const { AgentPartyGenerator } = require('../lib/agent-party-generator');
@@ -267,11 +268,16 @@ class WebBundler {
     const processed = new Set();
 
     // Extract file references from agent XML
-    const fileRefs = this.extractFileReferences(agentXml);
+    const { refs, workflowRefs } = this.extractFileReferences(agentXml);
 
-    // Process each file reference
-    for (const ref of fileRefs) {
+    // Process regular file references
+    for (const ref of refs) {
       await this.processFileDependency(ref, dependencies, processed, moduleName, warnings);
+    }
+
+    // Process workflow references with special handling
+    for (const workflowRef of workflowRefs) {
+      await this.processWorkflowDependency(workflowRef, dependencies, processed, moduleName, warnings);
     }
 
     return dependencies;
@@ -282,6 +288,7 @@ class WebBundler {
    */
   extractFileReferences(xml) {
     const refs = new Set();
+    const workflowRefs = new Set();
 
     // Match various file reference patterns
     const patterns = [
@@ -309,7 +316,18 @@ class WebBundler {
       }
     }
 
-    return [...refs];
+    // Extract run-workflow references (special handling for workflows)
+    const workflowPattern = /run-workflow="([^"]+)"/g;
+    let workflowMatch;
+    while ((workflowMatch = workflowPattern.exec(xml)) !== null) {
+      let workflowPath = workflowMatch[1];
+      workflowPath = workflowPath.replace(/^{project-root}\//, '');
+      if (workflowPath) {
+        workflowRefs.add(workflowPath);
+      }
+    }
+
+    return { refs: [...refs], workflowRefs: [...workflowRefs] };
   }
 
   /**
@@ -474,10 +492,141 @@ class WebBundler {
     dependencies.set(filePath, processedContent);
 
     // Recursively scan for more dependencies
-    const nestedRefs = this.extractFileReferences(processedContent);
+    const { refs: nestedRefs } = this.extractFileReferences(processedContent);
     for (const ref of nestedRefs) {
       await this.processFileDependency(ref, dependencies, processed, moduleName, warnings);
     }
+  }
+
+  /**
+   * Process a workflow YAML file and its bundle files
+   */
+  async processWorkflowDependency(workflowPath, dependencies, processed, moduleName, warnings = []) {
+    // Skip if already processed
+    if (processed.has(workflowPath)) {
+      return;
+    }
+    processed.add(workflowPath);
+
+    // Resolve actual file path
+    const actualPath = this.resolveFilePath(workflowPath, moduleName);
+
+    if (!actualPath || !(await fs.pathExists(actualPath))) {
+      warnings.push(workflowPath);
+      return;
+    }
+
+    // Read and parse YAML file
+    const yamlContent = await fs.readFile(actualPath, 'utf8');
+    let workflowConfig;
+
+    try {
+      workflowConfig = yaml.load(yamlContent);
+    } catch (error) {
+      warnings.push(`${workflowPath} (invalid YAML: ${error.message})`);
+      return;
+    }
+
+    // Include the YAML file itself, wrapped in XML
+    const yamlId = workflowPath.replace(/^{project-root}\//, '');
+    const wrappedYaml = this.wrapContentInXml(yamlContent, yamlId, 'yaml');
+    dependencies.set(yamlId, wrappedYaml);
+
+    // Always include core workflow task when processing workflows
+    await this.includeCoreWorkflowFiles(dependencies, processed, moduleName, warnings);
+
+    // Check if advanced elicitation is enabled
+    if (workflowConfig.web_bundle && workflowConfig.web_bundle.use_advanced_elicitation) {
+      await this.includeAdvancedElicitationFiles(dependencies, processed, moduleName, warnings);
+    }
+
+    // Process web_bundle_files if they exist
+    if (workflowConfig.web_bundle && workflowConfig.web_bundle.web_bundle_files) {
+      const bundleFiles = workflowConfig.web_bundle.web_bundle_files;
+
+      for (const bundleFilePath of bundleFiles) {
+        if (processed.has(bundleFilePath)) {
+          continue;
+        }
+        processed.add(bundleFilePath);
+
+        const bundleActualPath = this.resolveFilePath(bundleFilePath, moduleName);
+
+        if (!bundleActualPath || !(await fs.pathExists(bundleActualPath))) {
+          warnings.push(bundleFilePath);
+          continue;
+        }
+
+        // Read the file content
+        const fileContent = await fs.readFile(bundleActualPath, 'utf8');
+        const fileExt = path.extname(bundleActualPath).toLowerCase().replace('.', '');
+
+        // Wrap in XML with proper escaping
+        const wrappedContent = this.wrapContentInXml(fileContent, bundleFilePath, fileExt);
+        dependencies.set(bundleFilePath, wrappedContent);
+      }
+    }
+  }
+
+  /**
+   * Include core workflow task files
+   */
+  async includeCoreWorkflowFiles(dependencies, processed, moduleName, warnings = []) {
+    const coreWorkflowPath = 'bmad/core/tasks/workflow.md';
+
+    if (processed.has(coreWorkflowPath)) {
+      return;
+    }
+    processed.add(coreWorkflowPath);
+
+    const actualPath = this.resolveFilePath(coreWorkflowPath, moduleName);
+
+    if (!actualPath || !(await fs.pathExists(actualPath))) {
+      warnings.push(coreWorkflowPath);
+      return;
+    }
+
+    const fileContent = await fs.readFile(actualPath, 'utf8');
+    const wrappedContent = this.wrapContentInXml(fileContent, coreWorkflowPath, 'md');
+    dependencies.set(coreWorkflowPath, wrappedContent);
+  }
+
+  /**
+   * Include advanced elicitation files
+   */
+  async includeAdvancedElicitationFiles(dependencies, processed, moduleName, warnings = []) {
+    const elicitationFiles = ['bmad/core/tasks/adv-elicit.md', 'bmad/core/tasks/adv-elicit-methods.csv'];
+
+    for (const filePath of elicitationFiles) {
+      if (processed.has(filePath)) {
+        continue;
+      }
+      processed.add(filePath);
+
+      const actualPath = this.resolveFilePath(filePath, moduleName);
+
+      if (!actualPath || !(await fs.pathExists(actualPath))) {
+        warnings.push(filePath);
+        continue;
+      }
+
+      const fileContent = await fs.readFile(actualPath, 'utf8');
+      const fileExt = path.extname(actualPath).toLowerCase().replace('.', '');
+      const wrappedContent = this.wrapContentInXml(fileContent, filePath, fileExt);
+      dependencies.set(filePath, wrappedContent);
+    }
+  }
+
+  /**
+   * Wrap file content in XML with proper escaping
+   */
+  wrapContentInXml(content, id, type = 'text') {
+    // Escape any ]]> sequences in the content by splitting CDATA sections
+    // Replace ]]> with ]]]]><![CDATA[> to properly escape it within CDATA
+    const escapedContent = content.replaceAll(']]>', ']]]]><![CDATA[>');
+
+    // Use CDATA to preserve content exactly as-is, including special characters
+    return `<file id="${id}" type="${type}"><![CDATA[${escapedContent}]]></file>`;
   }
 
   /**
@@ -680,8 +829,11 @@ class WebBundler {
     if (dependencies && dependencies.size > 0) {
       parts.push('\n  <!-- Dependencies -->');
       for (const [id, content] of dependencies) {
-        // Escape XML content while preserving tags
-        const escapedContent = this.escapeXmlContent(content);
+        // Check if content is already wrapped in a <file> tag (from workflow processing)
+        // If so, don't escape it - it's already in CDATA
+        const isWrappedFile = content.trim().startsWith('<file ') && content.trim().endsWith('</file>');
+        const escapedContent = isWrappedFile ? content : this.escapeXmlContent(content);
+
         // Indent properly
         const indentedContent = escapedContent
           .split('\n')

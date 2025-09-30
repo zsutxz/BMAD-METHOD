@@ -102,6 +102,7 @@ web_bundle:
   name: "review-story"
   description: "Perform a Senior Developer Review on a completed story flagged Ready for Review, leveraging story-context, epic tech-spec, repo docs, MCP servers for latest best-practices, and web search as fallback. Appends structured review notes to the story."
   author: "BMad"
+  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/review-story/instructions.md"
     - "bmad/bmm/workflows/review-story/checklist.md"

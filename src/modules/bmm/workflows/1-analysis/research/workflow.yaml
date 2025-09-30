@@ -152,6 +152,7 @@ web_bundle:
   name: "research"
   description: "Adaptive research workflow supporting multiple research types: market research, deep research prompt generation, technical/architecture evaluation, competitive intelligence, user research, and domain analysis"
   author: "BMad"
+  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/research/instructions-router.md"
     - "bmad/bmm/workflows/1-analysis/research/instructions-market.md"

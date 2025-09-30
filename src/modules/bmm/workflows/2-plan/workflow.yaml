@@ -63,6 +63,7 @@ web_bundle:
   name: "plan-project"
   description: "Scale-adaptive project planning workflow for all project levels (0-4). Automatically adjusts outputs based on project scope - from single atomic changes (Level 0: tech-spec only) to enterprise platforms (Level 4: full PRD + epics). Level 2-4 route to 3-solutioning workflow for architecture and tech specs. Generates appropriate planning artifacts for each level."
   author: "BMad"
+  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan/instructions-router.md"
     - "bmad/bmm/workflows/2-plan/tech-spec/instructions-sm.md"

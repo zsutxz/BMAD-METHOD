@@ -75,6 +75,7 @@ web_bundle:
   name: "create-story"
   description: "Create the next user story markdown from epics/PRD and architecture, using a standard template and saving to the stories folder"
   author: "BMad"
+  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/create-story/template.md"
     - "bmad/bmm/workflows/create-story/instructions.md"

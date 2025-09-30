@@ -25,6 +25,7 @@ web_bundle:
   name: "brainstorm-game"
   description: "Facilitate game brainstorming sessions by orchestrating the CIS brainstorming workflow with game-specific context, guidance, and additional game design techniques."
   author: "BMad"
+  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/brainstorm-game/instructions.md"
     - "bmad/bmm/workflows/1-analysis/brainstorm-game/game-context.md"

@@ -24,6 +24,7 @@ web_bundle:
   name: "brainstorm-project"
   description: "Facilitate project brainstorming sessions by orchestrating the CIS brainstorming workflow with project-specific context and guidance."
   author: "BMad"
+  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/brainstorm-project/instructions.md"
     - "bmad/bmm/workflows/1-analysis/brainstorm-project/project-context.md"
