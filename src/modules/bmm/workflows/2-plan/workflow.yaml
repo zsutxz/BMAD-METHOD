@@ -63,6 +63,9 @@ web_bundle:
   name: "plan-project"
   description: "Scale-adaptive project planning workflow for all project levels (0-4). Automatically adjusts outputs based on project scope - from single atomic changes (Level 0: tech-spec only) to enterprise platforms (Level 4: full PRD + epics). Level 2-4 route to 3-solutioning workflow for architecture and tech specs. Generates appropriate planning artifacts for each level."
   author: "BMad"
+  # Routing instructions - loads appropriate instruction set based on project level
+  instructions: "bmad/bmm/workflows/2-plan/instructions-router.md"
+  validation: "bmad/bmm/workflows/2-plan/checklist.md"
   use_advanced_elicitation: true
   # Do not load these directly - instructions-router.md will load the proper file based on project type/level when needed
   instructions_sm: "bmad/bmm/workflows/2-plan/tech-spec/instructions-sm.md"
@@ -71,7 +74,6 @@ web_bundle:
   instructions_ux: "bmad/bmm/workflows/2-plan/ux/instructions-ux.md"
   instructions_gdd: "bmad/bmm/workflows/2-plan/gdd/instructions-gdd.md"
   instructions_narrative: "bmad/bmm/workflows/2-plan/narrative/instructions-narrative.md"
-  validation: "bmad/bmm/workflows/2-plan/checklist.md"
   # Templates - Load these only when the instructions request loading them
   prd_template: "{installed_path}/prd/prd-template.md"
   analysis_template: "{installed_path}/prd/analysis-template.md"
