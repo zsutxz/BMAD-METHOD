@@ -32,6 +32,9 @@ web_bundle:
   name: "problem-solving"
   description: "Apply systematic problem-solving methodologies to crack complex challenges. This workflow guides through problem diagnosis, root cause analysis, creative solution generation, evaluation, and implementation planning using proven frameworks."
   author: "BMad"
+  instructions: "bmad/cis/workflows/problem-solving/instructions.md"
+  template: "bmad/cis/workflows/problem-solving/template.md"
+  solving_methods: "bmad/cis/workflows/problem-solving/solving-methods.csv"
   use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/cis/workflows/problem-solving/instructions.md"

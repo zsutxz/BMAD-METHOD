@@ -20,7 +20,7 @@
     <c cmd="*brainstorm-game" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/brainstorm-game/workflow.yaml">Guide me through Game Brainstorming</c>
     <c cmd="*game-brief" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/game-brief/workflow.yaml">Create Game Brief</c>
     <c cmd="*plan-game" run-workflow="{project-root}/bmad/bmm/workflows/2-plan/workflow.yaml">Create Game Design Document (GDD)</c>
-    <c cmd="*research" run-workflow="{project-root}/bmad/cis/workflows/research/workflow.yaml">Conduct Game Market Research</c>
+    <c cmd="*research" run-workflow="{project-root}/bmad/bmm/workflows/1-analysis/research/workflow.yaml">Conduct Game Market Research</c>
     <c cmd="*exit">Goodbye+exit persona</c>
   </cmds>
 </agent>

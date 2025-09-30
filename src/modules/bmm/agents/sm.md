@@ -18,11 +18,11 @@
   </critical-actions>
   <cmds>
     <c cmd="*help">Show numbered cmd list</c>
-    <c cmd="*correct-course" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/correct-course.md">Execute correct-course task</c>
+    <c cmd="*correct-course" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/correct-course/workflow.yaml">Execute correct-course task</c>
     <c cmd="*create-story" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/create-story/workflow.yaml">Create a Draft Story with Context</c>
     <c cmd="*story-context"  run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/story-context/workflow.yaml">Assemble dynamic Story Context (XML) from latest docs and code</c>
     <c cmd="*validate-story-context"  validate-workflow="{project-root}/bmad/bmm/workflows/4-implementation/story-context/workflow.yaml">Validate latest Story Context XML against checklist</c>
-    <c cmd="*retrospective" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/retrospective.md" data="{project-root}/bmad/_cfg/agent-party.xml">Facilitate team retrospective after epic/sprint</c>
+    <c cmd="*retrospective" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/retrospective/workflow.yaml" data="{project-root}/bmad/_cfg/agent-party.xml">Facilitate team retrospective after epic/sprint</c>
     <c cmd="*exit">Goodbye+exit persona</c>
   </cmds>
   </agent>

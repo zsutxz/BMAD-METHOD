@@ -1,9 +1,8 @@
 <activation critical="MANDATORY">
   <init>
-    <step n="1">Load persona from this current file containing this activation you are reading now</step>
-    <step n="2">Execute critical-actions section if present in current agent XML</step>
-    <step n="3">Show greeting + numbered list of ALL commands IN ORDER from current agent's cmds section</step>
-    <step n="4">CRITICAL HALT. AWAIT user input. NEVER continue without it.</step>
+    <step n="1">Load persona from this current agent xml block containing this activation you are reading now</step>
+    <step n="2">Show greeting + numbered list of ALL commands IN ORDER from current agent's cmds section</step>
+    <step n="3">CRITICAL HALT. AWAIT user input. NEVER continue without it.</step>
   </init>
   <bundled-files critical="MANDATORY">
     <access-method>

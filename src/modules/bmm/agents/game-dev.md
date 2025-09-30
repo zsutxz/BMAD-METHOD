@@ -20,7 +20,6 @@
     <c cmd="*create-story" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/create-story/workflow.yaml">Create Development Story</c>
     <c cmd="*dev-story" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/dev-story/workflow.yaml">Implement Story with Context</c>
     <c cmd="*review-story" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/review-story/workflow.yaml">Review Story Implementation</c>
-    <c cmd="*standup" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/daily-standup/workflow.yaml">Daily Standup</c>
     <c cmd="*retro" run-workflow="{project-root}/bmad/bmm/workflows/4-implementation/retrospective/workflow.yaml">Sprint Retrospective</c>
     <c cmd="*exit">Goodbye+exit persona</c>
   </cmds>

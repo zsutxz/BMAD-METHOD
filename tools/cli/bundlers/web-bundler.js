@@ -594,7 +594,6 @@ class WebBundler {
         if (processed.has(bundleFilePath)) {
           continue;
         }
-        processed.add(bundleFilePath);
 
         const bundleActualPath = this.resolveFilePath(bundleFilePath, moduleName);
 
@@ -603,13 +602,22 @@ class WebBundler {
           continue;
         }
 
-        // Read the file content
-        const fileContent = await fs.readFile(bundleActualPath, 'utf8');
-        const fileExt = path.extname(bundleActualPath).toLowerCase().replace('.', '');
+        // Check if this is another workflow.yaml file - if so, recursively process it
+        if (bundleFilePath.endsWith('workflow.yaml')) {
+          // Recursively process this workflow and its dependencies
+          await this.processWorkflowDependency(bundleFilePath, dependencies, processed, moduleName, warnings);
+        } else {
+          // Regular file - process normally
+          processed.add(bundleFilePath);
 
-        // Wrap in XML with proper escaping
-        const wrappedContent = this.wrapContentInXml(fileContent, bundleFilePath, fileExt);
-        dependencies.set(bundleFilePath, wrappedContent);
+          // Read the file content
+          const fileContent = await fs.readFile(bundleActualPath, 'utf8');
+          const fileExt = path.extname(bundleActualPath).toLowerCase().replace('.', '');
+
+          // Wrap in XML with proper escaping
+          const wrappedContent = this.wrapContentInXml(fileContent, bundleFilePath, fileExt);
+          dependencies.set(bundleFilePath, wrappedContent);
+        }
       }
     }
 

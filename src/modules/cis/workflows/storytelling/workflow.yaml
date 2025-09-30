@@ -32,6 +32,9 @@ web_bundle:
   name: "storytelling"
   description: "Craft compelling narratives using proven story frameworks and techniques. This workflow guides users through structured narrative development, applying appropriate story frameworks to create emotionally resonant and engaging stories for any purpose."
   author: "BMad"
+  instructions: "bmad/cis/workflows/storytelling/instructions.md"
+  template: "bmad/cis/workflows/storytelling/template.md"
+  story_frameworks: "bmad/cis/workflows/storytelling/story-types.csv"
   use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/cis/workflows/storytelling/instructions.md"

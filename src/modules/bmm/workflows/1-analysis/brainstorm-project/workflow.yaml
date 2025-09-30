@@ -30,5 +30,6 @@ web_bundle:
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/brainstorm-project/instructions.md"
     - "bmad/bmm/workflows/1-analysis/brainstorm-project/project-context.md"
+    - "bmad/cis/workflows/brainstorming/workflow.yaml"
   existing_workflows:
     - cis_brainstorming: "bmad/cis/workflows/brainstorming/workflow.yaml"

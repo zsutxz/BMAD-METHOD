@@ -103,7 +103,7 @@ web_bundle:
     - "bmad/bmm/workflows/2-plan/ux/instructions-ux.md"
     - "bmad/bmm/workflows/2-plan/gdd/gdd-template.md"
     - "bmad/bmm/workflows/2-plan/gdd/instructions-gdd.md"
-    - "bmad/bmm/workflows/2-plan/gdd/instructions-narrative.md"
+    - "bmad/bmm/workflows/2-plan/narrative/instructions-narrative.md"
     - "bmad/bmm/workflows/2-plan/gdd/game-types.csv"
     - "bmad/bmm/workflows/2-plan/gdd/game-types/action-platformer.md"
     - "bmad/bmm/workflows/2-plan/gdd/game-types/adventure.md"

@@ -32,6 +32,9 @@ web_bundle:
   name: "design-thinking"
   description: "Guide human-centered design processes using empathy-driven methodologies. This workflow walks through the design thinking phases - Empathize, Define, Ideate, Prototype, and Test - to create solutions deeply rooted in user needs."
   author: "BMad"
+  instructions: "bmad/cis/workflows/design-thinking/instructions.md"
+  template: "bmad/cis/workflows/design-thinking/template.md"
+  design_methods: "bmad/cis/workflows/design-thinking/design-methods.csv"
   use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/cis/workflows/design-thinking/instructions.md"

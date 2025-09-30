@@ -14,7 +14,6 @@ date: system-generated
 # Reference guides for module building
 module_structure_guide: "{installed_path}/module-structure.md"
 installer_templates: "{installed_path}/installer-templates/"
-example_modules: "{installed_path}/example-modules.md"
 
 # Use existing build workflows
 agent_builder: "{project-root}/bmad/bmb/workflows/create-agent/workflow.yaml"
@@ -53,7 +52,6 @@ web_bundle:
     - "bmad/bmb/workflows/create-module/instructions.md"
     - "bmad/bmb/workflows/create-module/checklist.md"
     - "bmad/bmb/workflows/create-module/module-structure.md"
-    - "bmad/bmb/workflows/create-module/example-modules.md"
     - "bmad/bmb/workflows/create-module/brainstorm-context.md"
   existing_workflows:
     - agent_builder: "bmad/bmb/workflows/create-agent/workflow.yaml"
