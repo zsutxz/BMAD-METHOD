@@ -271,14 +271,105 @@ class ModuleManager {
         }
       }
 
-      // Copy the file
-      await fs.ensureDir(path.dirname(targetFile));
-      await fs.copy(sourceFile, targetFile, { overwrite: true });
+      // Check if this is a workflow.yaml file
+      if (file.endsWith('workflow.yaml')) {
+        await fs.ensureDir(path.dirname(targetFile));
+        await this.copyWorkflowYamlStripped(sourceFile, targetFile);
+      } else {
+        // Copy the file normally
+        await fs.ensureDir(path.dirname(targetFile));
+        await fs.copy(sourceFile, targetFile, { overwrite: true });
+      }
 
       // Track the file if callback provided
       if (fileTrackingCallback) {
         fileTrackingCallback(targetFile);
       }
+    }
+  }
+
+  /**
+   * Copy workflow.yaml file with web_bundle section stripped
+   * Preserves comments, formatting, and line breaks
+   * @param {string} sourceFile - Source workflow.yaml file path
+   * @param {string} targetFile - Target workflow.yaml file path
+   */
+  async copyWorkflowYamlStripped(sourceFile, targetFile) {
+    // Read the source YAML file
+    let yamlContent = await fs.readFile(sourceFile, 'utf8');
+
+    try {
+      // First check if web_bundle exists by parsing
+      const workflowConfig = yaml.load(yamlContent);
+
+      if (workflowConfig.web_bundle === undefined) {
+        // No web_bundle section, just copy as-is
+        await fs.writeFile(targetFile, yamlContent, 'utf8');
+        return;
+      }
+
+      // Remove web_bundle section using regex to preserve formatting
+      // Match the web_bundle key and all its content (including nested items)
+      // This handles both web_bundle: false and web_bundle: {...}
+
+      // Find the line that starts web_bundle
+      const lines = yamlContent.split('\n');
+      let startIdx = -1;
+      let endIdx = -1;
+      let baseIndent = 0;
+
+      // Find the start of web_bundle section
+      for (const [i, line] of lines.entries()) {
+        const match = line.match(/^(\s*)web_bundle:/);
+        if (match) {
+          startIdx = i;
+          baseIndent = match[1].length;
+          break;
+        }
+      }
+
+      if (startIdx === -1) {
+        // web_bundle not found in text (shouldn't happen), copy as-is
+        await fs.writeFile(targetFile, yamlContent, 'utf8');
+        return;
+      }
+
+      // Find the end of web_bundle section
+      // It ends when we find a line with same or less indentation that's not empty/comment
+      endIdx = startIdx;
+      for (let i = startIdx + 1; i < lines.length; i++) {
+        const line = lines[i];
+
+        // Skip empty lines and comments
+        if (line.trim() === '' || line.trim().startsWith('#')) {
+          continue;
+        }
+
+        // Check indentation
+        const indent = line.match(/^(\s*)/)[1].length;
+        if (indent <= baseIndent) {
+          // Found next section at same or lower indentation
+          endIdx = i - 1;
+          break;
+        }
+      }
+
+      // If we didn't find an end, it goes to end of file
+      if (endIdx === startIdx) {
+        endIdx = lines.length - 1;
+      }
+
+      // Remove the web_bundle section (including the line before if it's just a blank line)
+      const newLines = [...lines.slice(0, startIdx), ...lines.slice(endIdx + 1)];
+
+      // Clean up any double blank lines that might result
+      const strippedYaml = newLines.join('\n').replaceAll(/\n\n\n+/g, '\n\n');
+
+      await fs.writeFile(targetFile, strippedYaml, 'utf8');
+    } catch {
+      // If anything fails, just copy the file as-is
+      console.warn(chalk.yellow(`  Warning: Could not process ${path.basename(sourceFile)}, copying as-is`));
+      await fs.copy(sourceFile, targetFile, { overwrite: true });
     }
   }
 

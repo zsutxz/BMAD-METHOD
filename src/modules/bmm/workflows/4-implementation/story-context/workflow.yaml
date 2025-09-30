@@ -55,12 +55,4 @@ execution_hints:
   autonomous: true
   iterative: true
 
-web_bundle:
-  name: "story-context"
-  description: "Assemble a dynamic Story Context XML by pulling latest documentation and existing code/library artifacts relevant to a drafted story"
-  author: "BMad"
-  use_advanced_elicitation: true
-  web_bundle_files:
-    - "bmad/bmm/workflows/story-context/context-template.xml"
-    - "bmad/bmm/workflows/story-context/instructions.md"
-    - "bmad/bmm/workflows/story-context/checklist.md"
+web_bundle: false

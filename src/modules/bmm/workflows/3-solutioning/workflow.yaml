@@ -59,12 +59,18 @@ project_types_questions: "{installed_path}/project-types"
 default_output_file: "{output_folder}/solution-architecture.md"
 
 # Additional workflow dependencies
-tech_spec_workflow: "{project-root}/bmad/bmm/workflows/3-solutioning/tech-spec"
+tech_spec_workflow: "{project-root}/bmad/bmm/workflows/3-solutioning/tech-spec/workflow.yaml"
 
 web_bundle:
   name: "solution-architecture"
   description: "Scale-adaptive solution architecture generation with dynamic template sections. Replaces legacy HLA workflow with modern BMAD Core compliance."
   author: "BMad Builder"
+  instructions: "bmad/bmm/workflows/3-solutioning/instructions.md"
+  validation: "bmad/bmm/workflows/3-solutioning/checklist.md"
+  tech_spec_workflow: "bmad/bmm/workflows/3-solutioning/tech-spec/workflow.yaml"
+  # Reference data files
+  architecture_registry: "bmad/bmm/workflows/3-solutioning/templates/registry.csv"
+  project_types_questions: "bmad/bmm/workflows/3-solutioning/project-types"
   web_bundle_files:
     - "bmad/bmm/workflows/3-solutioning/instructions.md"
     - "bmad/bmm/workflows/3-solutioning/checklist.md"

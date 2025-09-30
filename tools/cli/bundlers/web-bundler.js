@@ -173,10 +173,15 @@ class WebBundler {
 
     // Resolve dependencies with warning tracking
     const dependencyWarnings = [];
-    const dependencies = await this.resolveAgentDependencies(agentXml, moduleName, dependencyWarnings);
+    const { dependencies, skippedWorkflows } = await this.resolveAgentDependencies(agentXml, moduleName, dependencyWarnings);
 
     if (dependencyWarnings.length > 0) {
       this.stats.warnings.push({ agent: agentName, warnings: dependencyWarnings });
+    }
+
+    // Remove commands for skipped workflows from agent XML
+    if (skippedWorkflows.length > 0) {
+      agentXml = this.removeSkippedWorkflowCommands(agentXml, skippedWorkflows);
     }
 
     // Build the bundle (no manifests for individual agents)
@@ -266,6 +271,7 @@ class WebBundler {
   async resolveAgentDependencies(agentXml, moduleName, warnings = []) {
     const dependencies = new Map();
     const processed = new Set();
+    const skippedWorkflows = [];
 
     // Extract file references from agent XML
     const { refs, workflowRefs } = this.extractFileReferences(agentXml);
@@ -277,10 +283,13 @@ class WebBundler {
 
     // Process workflow references with special handling
     for (const workflowRef of workflowRefs) {
-      await this.processWorkflowDependency(workflowRef, dependencies, processed, moduleName, warnings);
+      const result = await this.processWorkflowDependency(workflowRef, dependencies, processed, moduleName, warnings);
+      if (result && result.skipped) {
+        skippedWorkflows.push(workflowRef);
+      }
     }
 
-    return dependencies;
+    return { dependencies, skippedWorkflows };
   }
 
   /**
@@ -328,6 +337,27 @@ class WebBundler {
     }
 
     return { refs: [...refs], workflowRefs: [...workflowRefs] };
+  }
+
+  /**
+   * Remove commands from agent XML that reference skipped workflows
+   */
+  removeSkippedWorkflowCommands(agentXml, skippedWorkflows) {
+    let modifiedXml = agentXml;
+
+    // For each skipped workflow, find and remove the corresponding <c> command
+    for (const workflowPath of skippedWorkflows) {
+      // Match: <c cmd="..." run-workflow="workflowPath">...</c>
+      // Need to escape special regex characters in the path
+      const escapedPath = workflowPath.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
+
+      // Pattern to match the command line with this workflow
+      const pattern = new RegExp(`\\s*<c\\s+cmd="[^"]*"\\s+run-workflow="[^"]*${escapedPath}"[^>]*>.*?</c>\\s*`, 'gs');
+
+      modifiedXml = modifiedXml.replace(pattern, '');
+    }
+
+    return modifiedXml;
   }
 
   /**
@@ -504,7 +534,7 @@ class WebBundler {
   async processWorkflowDependency(workflowPath, dependencies, processed, moduleName, warnings = []) {
     // Skip if already processed
     if (processed.has(workflowPath)) {
-      return;
+      return { skipped: false };
     }
     processed.add(workflowPath);
 
@@ -513,7 +543,7 @@ class WebBundler {
 
     if (!actualPath || !(await fs.pathExists(actualPath))) {
       warnings.push(workflowPath);
-      return;
+      return { skipped: true };
     }
 
     // Read and parse YAML file
@@ -524,12 +554,28 @@ class WebBundler {
       workflowConfig = yaml.load(yamlContent);
     } catch (error) {
       warnings.push(`${workflowPath} (invalid YAML: ${error.message})`);
-      return;
+      return { skipped: true };
     }
 
-    // Include the YAML file itself, wrapped in XML
+    // Check if web_bundle is explicitly set to false
+    if (workflowConfig.web_bundle === false) {
+      // Mark this workflow as skipped so we can remove the command from agent
+      return { skipped: true, workflowPath };
+    }
+
+    // Create YAML content with only web_bundle section (flattened)
+    let bundleYamlContent;
+    if (workflowConfig.web_bundle && typeof workflowConfig.web_bundle === 'object') {
+      // Only include the web_bundle content, flattened to root level
+      bundleYamlContent = yaml.dump(workflowConfig.web_bundle);
+    } else {
+      // If no web_bundle section, include full YAML
+      bundleYamlContent = yamlContent;
+    }
+
+    // Include the YAML file with only web_bundle content, wrapped in XML
     const yamlId = workflowPath.replace(/^{project-root}\//, '');
-    const wrappedYaml = this.wrapContentInXml(yamlContent, yamlId, 'yaml');
+    const wrappedYaml = this.wrapContentInXml(bundleYamlContent, yamlId, 'yaml');
     dependencies.set(yamlId, wrappedYaml);
 
     // Always include core workflow task when processing workflows
@@ -566,6 +612,8 @@ class WebBundler {
         dependencies.set(bundleFilePath, wrappedContent);
       }
     }
+
+    return { skipped: false };
   }
 
   /**

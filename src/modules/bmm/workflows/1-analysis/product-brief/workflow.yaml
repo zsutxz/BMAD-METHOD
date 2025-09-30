@@ -33,6 +33,9 @@ web_bundle:
   name: "product-brief"
   description: "Interactive product brief creation workflow that guides users through defining their product vision with multiple input sources and conversational collaboration"
   author: "BMad"
+  instructions: "bmad/bmm/workflows/1-analysis/product-brief/instructions.md"
+  validation: "bmad/bmm/workflows/1-analysis/product-brief/checklist.md"
+  template: "bmad/bmm/workflows/1-analysis/product-brief/template.md"
   use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/product-brief/template.md"

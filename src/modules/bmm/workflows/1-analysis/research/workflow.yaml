@@ -152,6 +152,8 @@ web_bundle:
   name: "research"
   description: "Adaptive research workflow supporting multiple research types: market research, deep research prompt generation, technical/architecture evaluation, competitive intelligence, user research, and domain analysis"
   author: "BMad"
+  instructions: "bmad/bmm/workflows/1-analysis/research/instructions-router.md" # Router loads specific instruction sets
+  validation: "bmad/bmm/workflows/1-analysis/research/checklist.md"
   use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/research/instructions-router.md"
@@ -162,3 +164,82 @@ web_bundle:
     - "bmad/bmm/workflows/1-analysis/research/template-deep-prompt.md"
     - "bmad/bmm/workflows/1-analysis/research/template-technical.md"
     - "bmad/bmm/workflows/1-analysis/research/checklist.md"
+  # Workflow configuration
+  interactive: true # User checkpoints throughout
+  autonomous: false # Requires user input
+  allow_parallel: true # Can run research tasks in parallel
+
+  # Research frameworks available (context dependent)
+  frameworks:
+    market:
+      - "TAM/SAM/SOM Analysis"
+      - "Porter's Five Forces"
+      - "Jobs-to-be-Done"
+      - "Technology Adoption Lifecycle"
+      - "SWOT Analysis"
+      - "Value Chain Analysis"
+    technical:
+      - "Trade-off Analysis"
+      - "Architecture Decision Records (ADR)"
+      - "Technology Radar"
+      - "Comparison Matrix"
+      - "Cost-Benefit Analysis"
+    deep_prompt:
+      - "ChatGPT Deep Research Best Practices"
+      - "Gemini Deep Research Framework"
+      - "Grok DeepSearch Optimization"
+      - "Claude Projects Methodology"
+      - "Iterative Prompt Refinement"
+
+  # Data sources (for web research)
+  data_sources:
+    - "Industry reports and publications"
+    - "Government statistics and databases"
+    - "Financial reports and SEC filings"
+    - "News articles and press releases"
+    - "Academic research papers"
+    - "Technical documentation and RFCs"
+    - "GitHub repositories and discussions"
+    - "Stack Overflow and developer forums"
+    - "Market research firm reports"
+    - "Social media and communities"
+    - "Patent databases"
+    - "Benchmarking studies"
+  # Research types supported
+  research_types:
+    market:
+      name: "Market Research"
+      description: "Comprehensive market analysis with TAM/SAM/SOM"
+      instructions: "bmad/bmm/workflows/1-analysis/research/instructions-market.md"
+      template: "bmad/bmm/workflows/1-analysis/research/template-market.md"
+      output: "{market_output}"
+    deep_prompt:
+      name: "Deep Research Prompt Generator"
+      description: "Generate optimized prompts for AI research platforms"
+      instructions: "bmad/bmm/workflows/1-analysis/research/instructions-deep-prompt.md"
+      template: "bmad/bmm/workflows/1-analysis/research/template-deep-prompt.md"
+      output: "{deep_prompt_output}"
+    technical:
+      name: "Technical/Architecture Research"
+      description: "Technology evaluation and architecture pattern research"
+      instructions: "bmad/bmm/workflows/1-analysis/research/instructions-technical.md"
+      template: "bmad/bmm/workflows/1-analysis/research/template-technical.md"
+      output: "{technical_output}"
+    competitive:
+      name: "Competitive Intelligence"
+      description: "Deep competitor analysis"
+      instructions: "bmad/bmm/workflows/1-analysis/research/instructions-market.md" # Uses market with competitive focus
+      template: "bmad/bmm/workflows/1-analysis/research/template-market.md"
+      output: "{output_folder}/competitive-intelligence-{{date}}.md"
+    user:
+      name: "User Research"
+      description: "Customer insights and persona development"
+      instructions: "bmad/bmm/workflows/1-analysis/research/instructions-market.md" # Uses market with user focus
+      template: "bmad/bmm/workflows/1-analysis/research/template-market.md"
+      output: "{output_folder}/user-research-{{date}}.md"
+    domain:
+      name: "Domain/Industry Research"
+      description: "Industry and domain deep dives"
+      instructions: "bmad/bmm/workflows/1-analysis/research/instructions-market.md" # Uses market with domain focus
+      template: "bmad/bmm/workflows/1-analysis/research/template-market.md"
+      output: "{output_folder}/domain-research-{{date}}.md"

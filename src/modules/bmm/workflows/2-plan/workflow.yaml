@@ -64,6 +64,30 @@ web_bundle:
   description: "Scale-adaptive project planning workflow for all project levels (0-4). Automatically adjusts outputs based on project scope - from single atomic changes (Level 0: tech-spec only) to enterprise platforms (Level 4: full PRD + epics). Level 2-4 route to 3-solutioning workflow for architecture and tech specs. Generates appropriate planning artifacts for each level."
   author: "BMad"
   use_advanced_elicitation: true
+  # Do not load these directly - instructions-router.md will load the proper file based on project type/level when needed
+  instructions_sm: "bmad/bmm/workflows/2-plan/tech-spec/instructions-sm.md"
+  instructions_med: "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
+  instructions_lg: "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
+  instructions_ux: "bmad/bmm/workflows/2-plan/ux/instructions-ux.md"
+  instructions_gdd: "bmad/bmm/workflows/2-plan/gdd/instructions-gdd.md"
+  instructions_narrative: "bmad/bmm/workflows/2-plan/narrative/instructions-narrative.md"
+  validation: "bmad/bmm/workflows/2-plan/checklist.md"
+  # Templates - Load these only when the instructions request loading them
+  prd_template: "{installed_path}/prd/prd-template.md"
+  analysis_template: "{installed_path}/prd/analysis-template.md"
+  epics_template: "{installed_path}/prd/epics-template.md"
+  tech_spec_template: "{installed_path}/tech-spec/tech-spec-template.md"
+  ux_spec_template: "{installed_path}/ux/ux-spec-template.md"
+  gdd_template: "{installed_path}/gdd/gdd-template.md"
+  game_types_csv: "{installed_path}/gdd/game-types.csv"
+  narrative_template: "{installed_path}/narrative/narrative-template.md"
+  # Scale parameters - adaptive by project level
+  scale_parameters:
+    level_0: "Single atomic change, tech-spec only"
+    level_1: "1-10 stories, 1 epic, minimal PRD + tech-spec"
+    level_2: "5-15 stories, 1-2 epics, focused PRD + tech-spec"
+    level_3: "12-40 stories, 2-5 epics, full PRD + architect handoff"
+    level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan/instructions-router.md"
     - "bmad/bmm/workflows/2-plan/tech-spec/instructions-sm.md"

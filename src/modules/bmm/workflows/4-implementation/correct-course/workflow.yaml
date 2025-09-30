@@ -34,10 +34,4 @@ execution_modes:
   - incremental: "Recommended - Refine each edit with user collaboration"
   - batch: "Present all changes at once for review"
 
-web_bundle:
-  name: "correct-course"
-  description: "Navigate significant changes during sprint execution by analyzing impact, proposing solutions, and routing for implementation"
-  author: "BMad Method"
-  web_bundle_files:
-    - "bmad/bmm/workflows/4-implementation/correct-course/instructions.md"
-    - "bmad/bmm/workflows/4-implementation/correct-course/checklist.md"
+web_bundle: false

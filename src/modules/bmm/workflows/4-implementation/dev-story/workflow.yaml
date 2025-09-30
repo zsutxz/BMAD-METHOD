@@ -52,11 +52,4 @@ execution_hints:
   autonomous: true # Proceed without user input unless blocked
   iterative: true
 
-web_bundle:
-  name: "dev-story"
-  description: "Execute a story by implementing tasks/subtasks, writing tests, validating, and updating the story file per acceptance criteria"
-  author: "BMad"
-  use_advanced_elicitation: true
-  web_bundle_files:
-    - "bmad/bmm/workflows/dev-story/instructions.md"
-    - "bmad/bmm/workflows/dev-story/checklist.md"
+web_bundle: false
