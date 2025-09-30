@@ -18,10 +18,8 @@ last-redoc-date: 2025-09-30
    - Architect `*solution-architecture`
 2. Confirm `bmad/bmm/config.yaml` defines `project_name`, `output_folder`, `dev_story_location`, and language settings.
 3. Ensure a test test framework setup exists; if not, use `*framework` command to create a test framework setup, prior to development.
-4. Skim supporting references under `./testarch/`:
-   - `tea-knowledge.md`
-   - `test-levels-framework.md`
-   - `test-priorities-matrix.md`
+4. Skim supporting references (knowledge under `testarch/`, command workflows under `workflows/testarch/`).
+   - `tea-index.csv` + `knowledge/*.md`
 
 ## High-Level Cheat Sheets
 
@@ -125,31 +123,40 @@ last-redoc-date: 2025-09-30
 
 ## Command Catalog
 
-| Command        | Task File                        | Primary Outputs                                                      | Notes                                            |
-| -------------- | -------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------ |
-| `*framework`   | `testarch/framework.md`          | Playwright/Cypress scaffold, `.env.example`, `.nvmrc`, sample specs  | Use when no production-ready harness exists      |
-| `*atdd`        | `testarch/atdd.md`               | Failing Acceptance-Test Driven Development, implementation checklist | Requires approved story + harness                |
-| `*automate`    | `testarch/automate.md`           | Prioritized specs, fixtures, README/script updates, DoD summary      | Avoid duplicate coverage (see priority matrix)   |
-| `*ci`          | `testarch/ci.md`                 | CI workflow, selective test scripts, secrets checklist               | Platform-aware (GitHub Actions default)          |
-| `*test-design` | `testarch/test-design.md`        | Combined risk assessment, mitigation plan, and coverage strategy     | Handles risk scoring and test design in one pass |
-| `*trace`       | `testarch/trace-requirements.md` | Coverage matrix, recommendations, gate snippet                       | Requires access to story/tests repositories      |
-| `*nfr-assess`  | `testarch/nfr-assess.md`         | NFR assessment report with actions                                   | Focus on security/performance/reliability        |
-| `*gate`        | `testarch/gate.md`               | Gate YAML + summary (PASS/CONCERNS/FAIL/WAIVED)                      | Deterministic decision rules + rationale         |
+| Command        | Task File                                        | Primary Outputs                                                     | Notes                                            |
+| -------------- | ------------------------------------------------ | ------------------------------------------------------------------- | ------------------------------------------------ |
+| `*framework`   | `workflows/testarch/framework/instructions.md`   | Playwright/Cypress scaffold, `.env.example`, `.nvmrc`, sample specs | Use when no production-ready harness exists      |
+| `*atdd`        | `workflows/testarch/atdd/instructions.md`        | Failing acceptance tests + implementation checklist                 | Requires approved story + harness                |
+| `*automate`    | `workflows/testarch/automate/instructions.md`    | Prioritized specs, fixtures, README/script updates, DoD summary     | Avoid duplicate coverage (see priority matrix)   |
+| `*ci`          | `workflows/testarch/ci/instructions.md`          | CI workflow, selective test scripts, secrets checklist              | Platform-aware (GitHub Actions default)          |
+| `*test-design` | `workflows/testarch/test-design/instructions.md` | Combined risk assessment, mitigation plan, and coverage strategy    | Handles risk scoring and test design in one pass |
+| `*trace`       | `workflows/testarch/trace/instructions.md`       | Coverage matrix, recommendations, gate snippet                      | Requires access to story/tests repositories      |
+| `*nfr-assess`  | `workflows/testarch/nfr-assess/instructions.md`  | NFR assessment report with actions                                  | Focus on security/performance/reliability        |
+| `*gate`        | `workflows/testarch/gate/instructions.md`        | Gate YAML + summary (PASS/CONCERNS/FAIL/WAIVED)                     | Deterministic decision rules + rationale         |
 
 <details>
 <summary>Command Guidance and Context Loading</summary>
 
-- Each task reads one row from `tea-commands.csv` via `command_key`, expanding pipe-delimited (`|`) values into checklists.
-- Keep CSV rows lightweight; place in-depth heuristics in `tea-knowledge.md` and reference via `knowledge_tags`.
-- If the CSV grows substantially, consider splitting into scoped registries (e.g., planning vs execution) or upgrading to Markdown tables for humans.
-- `tea-knowledge.md` encapsulates Murat’s philosophy—update both CSV and knowledge file together to avoid drift.
+- Each task now carries its own preflight/flow/deliverable guidance inline.
+- `tea-index.csv` maps workflow needs to knowledge fragments; keep tags accurate as you add guidance.
+- Consider future modularization into orchestrated workflows if additional automation is needed.
+- Update the fragment markdown files alongside workflow edits so guidance and outputs stay in sync.
 
 </details>
+
+## Workflow Placement
+
+The TEA stack has three tightly-linked layers:
+
+1. **Agent spec (`agents/tea.md`)** – declares the persona, critical actions, and the `run-workflow` entries for every TEA command. Critical actions instruct the agent to load `tea-index.csv` and then fetch only the fragments it needs from `knowledge/` before giving guidance.
+2. **Knowledge index (`tea-index.csv`)** – catalogues each fragment with tags and file paths. Workflows call out the IDs they need (e.g., `risk-governance`, `fixture-architecture`) so the agent loads targeted guidance instead of a monolithic brief.
+3. **Workflows (`workflows/testarch/*`)** – contain the task flows and reference `tea-index.csv` in their `<flow>`/`<notes>` sections to request specific fragments. Keeping all workflows in this directory ensures consistent discovery during planning (`*framework`), implementation (`*atdd`, `*automate`, `*trace`), and release (`*nfr-assess`, `*gate`).
+
+This separation lets us expand the knowledge base without touching agent wiring and keeps every command remote-controllable via the standard BMAD workflow runner. As navigation improves, we can add lightweight entrypoints or tags in the index without changing where workflows live.
 
 ## Appendix
 
 - **Supporting Knowledge:**
-  - `tea-knowledge.md` – Murat’s testing philosophy, heuristics, and risk scales.
-  - `test-levels-framework.md` – Decision matrix for unit/integration/E2E selection.
-  - `test-priorities-matrix.md` – Priority (P0–P3) criteria and target coverage percentages.
-    s
+  - `tea-index.csv` – Catalog of knowledge fragments with tags and file paths under `knowledge/` for task-specific loading.
+  - `knowledge/*.md` – Focused summaries (fixtures, network, CI, levels, priorities, etc.) distilled from Murat’s external resources.
+  - `test-resources-for-ai-flat.txt` – Raw 347 KB archive retained for manual deep dives when a fragment needs source validation.
