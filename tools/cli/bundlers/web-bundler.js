@@ -881,7 +881,17 @@ class WebBundler {
 
     const activationXml = fs.readFileSync(activationPath, 'utf8');
 
-    // Find the closing </agent> tag and inject before it
+    // For web bundles, replace critical-actions with activation
+    // This is because web bundles can't load config files, so critical-actions are not applicable
+    const hasCriticalActions = agentXml.includes('<critical-actions');
+
+    if (hasCriticalActions) {
+      // Replace critical-actions block with activation
+      const injectedXml = agentXml.replace(/<critical-actions>[\s\S]*?<\/critical-actions>/, activationXml);
+      return injectedXml;
+    }
+
+    // If no critical-actions, inject before closing </agent> tag
     const closingTagMatch = agentXml.match(/(\s*)<\/agent>/);
     if (!closingTagMatch) {
       console.warn(chalk.yellow('Warning: Could not find </agent> tag for activation injection'));
@@ -889,11 +899,14 @@ class WebBundler {
     }
 
     // Inject the activation block before the closing </agent> tag
+    // Properly indent each line of the activation XML
     const indent = closingTagMatch[1];
-    const injectedXml = agentXml.replace(
-      /(\s*)<\/agent>/,
-      `\n${indent}${activationXml.split('\n').join('\n' + indent)}\n${indent}</agent>`,
-    );
+    const indentedActivation = activationXml
+      .split('\n')
+      .map((line) => (line.trim() ? indent + line : ''))
+      .join('\n');
+
+    const injectedXml = agentXml.replace(/(\s*)<\/agent>/, `\n${indentedActivation}\n${indent}</agent>`);
 
     return injectedXml;
   }
