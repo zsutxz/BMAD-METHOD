@@ -8,24 +8,24 @@ The Build Module workflow is an interactive scaffolding system that creates comp
 
 - **Interactive Module Planning** - Collaborative session to define module concept, scope, and architecture
 - **Intelligent Scaffolding** - Automatic creation of proper directory structures and configuration files
-- **Component Integration** - Seamless integration with build-agent and build-workflow workflows
+- **Component Integration** - Seamless integration with create-agent and create-workflow workflows
 - **Installation Infrastructure** - Complete installer setup with configuration templates
 - **Module Brief Integration** - Can use existing module briefs as blueprints for accelerated development
-- **Validation & Documentation** - Built-in validation checks and comprehensive README generation
+- **Validation and Documentation** - Built-in validation checks and comprehensive README generation
 
 ## Usage
 
 ### Basic Invocation
 
 ```bash
-workflow build-module
+workflow create-module
 ```
 
 ### With Module Brief Input
 
 ```bash
 # If you have a module brief from the module-brief workflow
-workflow build-module --input module-brief-my-module-2024-09-26.md
+workflow create-module --input module-brief-my-module-2024-09-26.md
 ```
 
 ### Configuration
@@ -41,7 +41,7 @@ The workflow loads critical variables from the BMB configuration:
 ### Files Included
 
 ```
-build-module/
+create-module/
 ├── workflow.yaml           # Configuration and metadata
 ├── instructions.md         # Step-by-step execution guide
 ├── checklist.md           # Validation criteria
@@ -56,7 +56,7 @@ build-module/
 
 ### Phase 1: Concept Definition (Steps 1-2)
 
-**Module Vision & Identity**
+**Module Vision and Identity**
 
 - Define module concept, purpose, and target audience
 - Establish module code (kebab-case) and friendly name
@@ -87,8 +87,8 @@ build-module/
 
 **Interactive Component Building**
 
-- Optional creation of first agent using build-agent workflow
-- Optional creation of first workflow using build-workflow workflow
+- Optional creation of first agent using create-agent workflow
+- Optional creation of first workflow using create-workflow workflow
 - Creates placeholders for components to be built later
 
 **Workflow Integration**
@@ -97,7 +97,7 @@ build-module/
 - Ensures proper file placement and structure
 - Maintains module consistency across components
 
-### Phase 4: Installation & Documentation (Steps 7-9)
+### Phase 4: Installation and Documentation (Steps 7-9)
 
 **Installer Infrastructure**
 
@@ -111,7 +111,7 @@ build-module/
 - Creates development roadmap for remaining components
 - Provides quick commands for continued development
 
-### Phase 5: Validation & Finalization (Step 10)
+### Phase 5: Validation and Finalization (Step 10)
 
 **Quality Assurance**
 
@@ -144,7 +144,7 @@ The workflow creates a complete module ready for development:
 
 - **Module Brief** (optional but recommended) - Use module-brief workflow first for best results
 - **BMAD Core Configuration** - Properly configured BMB config.yaml
-- **Build Tools Access** - build-agent and build-workflow workflows must be available
+- **Build Tools Access** - create-agent and create-workflow workflows must be available
 
 ## Best Practices
 
@@ -158,7 +158,7 @@ The workflow creates a complete module ready for development:
 
 1. **Use Module Briefs** - Load existing briefs when prompted for accelerated development
 2. **Start Simple** - Create one core agent and workflow, then expand iteratively
-3. **Leverage Sub-workflows** - Use build-agent and build-workflow for quality components
+3. **Leverage Sub-workflows** - Use create-agent and create-workflow for quality components
 4. **Validate Early** - Review generated structure before proceeding to next phases
 
 ### After Completion
@@ -179,7 +179,7 @@ The workflow creates a complete module ready for development:
 
 **Issue**: Sub-workflow invocation fails
 
-- **Solution**: Ensure build-agent and build-workflow workflows are available
+- **Solution**: Ensure create-agent and create-workflow workflows are available
 - **Check**: Validate workflow paths in config.yaml
 
 **Issue**: Installation configuration invalid
@@ -200,7 +200,7 @@ To customize this workflow:
 
 - **v1.0.0** - Initial release
   - Interactive module scaffolding
-  - Component integration with build-agent and build-workflow
+  - Component integration with create-agent and create-workflow
   - Complete installation infrastructure
   - Module brief integration support
 
@@ -208,7 +208,7 @@ To customize this workflow:
 
 For issues or questions:
 
-- Review the workflow creation guide at `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review the workflow creation guide at `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Study module structure patterns at `module-structure.md`
 - Validate output using `checklist.md`
 - Consult existing modules in `/bmad/` for examples

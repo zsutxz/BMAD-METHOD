@@ -19,3 +19,13 @@ project_context: "{installed_path}/project-context.md"
 
 # CIS brainstorming workflow to invoke
 cis_brainstorming: "{project-root}/bmad/cis/workflows/brainstorming/workflow.yaml"
+
+web_bundle:
+  name: "brainstorm-project"
+  description: "Facilitate project brainstorming sessions by orchestrating the CIS brainstorming workflow with project-specific context and guidance."
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/bmm/workflows/1-analysis/brainstorm-project/instructions.md"
+    - "bmad/bmm/workflows/1-analysis/brainstorm-project/project-context.md"
+  existing_workflows:
+    - cis_brainstorming: "bmad/cis/workflows/brainstorming/workflow.yaml"

@@ -193,7 +193,7 @@ To customize this workflow:
 
 For issues or questions:
 
-- Review the workflow creation guide at `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review the workflow creation guide at `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Validate output using `checklist.md`
 - Consult project assessment in `project-workflow-analysis.md`
 - Check continuation status in existing output documents

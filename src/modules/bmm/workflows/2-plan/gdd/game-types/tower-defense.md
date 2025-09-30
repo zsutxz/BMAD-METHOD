@@ -1,6 +1,6 @@
 ## Tower Defense Specific Elements
 
-### Tower Types & Upgrades
+### Tower Types and Upgrades
 
 {{tower_types}}
 
@@ -26,7 +26,7 @@
 - Boss encounters
 - Endless mode scaling (if applicable)
 
-### Path & Placement Strategy
+### Path and Placement Strategy
 
 {{path_placement}}
 
@@ -39,7 +39,7 @@
 - Multiple paths (if applicable)
 - Line of sight and range visualization
 
-### Economy & Resources
+### Economy and Resources
 
 {{economy}}
 
@@ -52,7 +52,7 @@
 - Special currencies (if applicable)
 - Economic optimization strategies
 
-### Abilities & Powers
+### Abilities and Powers
 
 {{abilities_powers}}
 
@@ -65,7 +65,7 @@
 - Strategic timing
 - Resource cost vs. cooldown
 
-### Difficulty & Replayability
+### Difficulty and Replayability
 
 {{difficulty_replay}}
 

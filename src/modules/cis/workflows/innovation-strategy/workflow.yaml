@@ -27,3 +27,12 @@ innovation_frameworks: "{installed_path}/innovation-frameworks.csv"
 
 # Output configuration
 default_output_file: "{output_folder}/innovation-strategy-{{date}}.md"
+
+web_bundle:
+  name: "innovation-strategy"
+  description: "Identify disruption opportunities and architect business model innovation. This workflow guides strategic analysis of markets, competitive dynamics, and business model innovation to uncover sustainable competitive advantages and breakthrough opportunities."
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/cis/workflows/innovation-strategy/instructions.md"
+    - "bmad/cis/workflows/innovation-strategy/template.md"
+    - "bmad/cis/workflows/innovation-strategy/innovation-frameworks.csv"

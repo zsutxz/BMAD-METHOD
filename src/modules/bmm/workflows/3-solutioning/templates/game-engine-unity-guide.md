@@ -6,7 +6,7 @@ This guide provides Unity-specific guidance for solution architecture generation
 
 ## Unity-Specific Questions
 
-### 1. Unity Version & Render Pipeline
+### 1. Unity Version and Render Pipeline
 
 **Ask:**
 
@@ -102,7 +102,7 @@ public class EnemyData : ScriptableObject
 
 ---
 
-### Unity Events & Communication
+### Unity Events and Communication
 
 **Ask:**
 
@@ -216,7 +216,7 @@ Assets/
 
 ---
 
-### Deployment & Build
+### Deployment and Build
 
 **Platform-specific:**
 

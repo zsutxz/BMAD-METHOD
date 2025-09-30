@@ -9,7 +9,7 @@ This game type is **narrative-important**. Consider running the Narrative Design
 - Tension pacing and narrative beats
 </narrative-workflow-recommended>
 
-### Atmosphere & Tension Building
+### Atmosphere and Tension Building
 
 {{atmosphere}}
 
@@ -61,7 +61,7 @@ This game type is **narrative-important**. Consider running the Narrative Design
 - Inventory constraints
 - Risk vs. reward of exploration
 
-### Safe Zones & Respite
+### Safe Zones and Respite
 
 {{safe_zones}}
 

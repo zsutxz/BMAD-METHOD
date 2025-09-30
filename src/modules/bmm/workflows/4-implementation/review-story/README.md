@@ -40,7 +40,7 @@ Perform an AI-driven Senior Developer Review on a story flagged "Ready for Revie
 - Adds a Change Log entry: "Senior Developer Review notes appended"
 - If enabled, updates `Status` based on outcome
 
-## Persistence & Backlog
+## Persistence and Backlog
 
 To ensure review findings become actionable work, the workflow can persist action items to multiple targets (configurable):
 

@@ -66,7 +66,7 @@ Based on the selected edit type, load appropriate reference materials:
 <action>Load example workflows from {project-root}/bmad/bmm/workflows/ for patterns</action>
 
 <check>If editing templates:</check>
-<action>Review the "Templates & Variables" section of the creation guide</action>
+<action>Review the "Templates and Variables" section of the creation guide</action>
 <action>Ensure variable naming conventions are followed</action>
 
 <check>If editing validation:</check>

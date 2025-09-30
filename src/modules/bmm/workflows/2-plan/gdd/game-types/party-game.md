@@ -52,7 +52,7 @@
 - Player join/drop mechanics
 - Tutorial integration for new players
 
-### Accessibility & Skill Range
+### Accessibility and Skill Range
 
 {{accessibility}}
 

@@ -69,7 +69,7 @@ workflow solution-architecture
 
 ---
 
-## Project Types & Templates
+## Project Types and Templates
 
 ### 12 Project Types Supported
 
@@ -108,7 +108,7 @@ Each row maps to:
 
 ## Architecture Flow
 
-### Step 0: Prerequisites & Scale Check
+### Step 0: Prerequisites and Scale Check
 
 Load `project-workflow-analysis.md`:
 
@@ -234,7 +234,7 @@ Validate architecture quality:
 ├── instructions.md                  # Main workflow logic
 ├── checklist.md                     # Validation checklist
 ├── ADR-template.md                  # ADR document template
-├── templates/                       # Architecture templates & guides
+├── templates/                       # Architecture templates and guides
 │   ├── registry.csv                 # 171 tech combinations → templates
 │   ├── game-engine-architecture.md  # Complete game architecture doc
 │   ├── game-engine-unity-guide.md   # Unity-specific guidance
@@ -250,7 +250,7 @@ Validate architecture quality:
 │   ├── desktop-app-architecture.md
 │   ├── library-package-architecture.md
 │   └── infrastructure-architecture.md
-└── project-types/                   # Project type detection & questions
+└── project-types/                   # Project type detection and questions
     ├── project-types.csv            # 12 project types + detection keywords
     ├── game-questions.md
     ├── web-questions.md
@@ -269,17 +269,17 @@ Each template in `templates/` is a **complete** architecture document structure:
 **Standard Sections (all templates):**
 
 1. Executive Summary
-2. Technology Stack & Decisions (required table)
+2. Technology Stack and Decisions (required table)
 3. Architecture Overview
-4. Repository & Service Strategy
+4. Repository and Service Strategy
 5. Data Architecture
-6. Component & Integration Overview
+6. Component and Integration Overview
    7-N. **Pattern-Specific Sections** (varies by template)
    N+1. Proposed Source Tree
    N+2. Getting Started (Human Setup)
-   N+3. Implementation Patterns & Conventions (Agent Guidance)
+   N+3. Implementation Patterns and Conventions (Agent Guidance)
    N+4. Testing Strategy
-   N+5. Deployment & Operations
+   N+5. Deployment and Operations
    N+6. Security
    N+7. Specialist Sections
 
@@ -472,7 +472,7 @@ Specialists are documented with:
 
 ---
 
-## Validation & Quality Gates
+## Validation and Quality Gates
 
 ### Cohesion Check (Step 7)
 

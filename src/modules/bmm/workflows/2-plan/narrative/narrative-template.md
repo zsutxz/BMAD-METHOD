@@ -16,7 +16,7 @@
 
 {{core_themes}}
 
-### Tone & Atmosphere
+### Tone and Atmosphere
 
 {{tone_atmosphere}}
 
@@ -38,7 +38,7 @@
 
 {{story_beats}}
 
-### Pacing & Flow
+### Pacing and Flow
 
 {{pacing_flow}}
 
@@ -64,17 +64,17 @@
 
 ---
 
-## World & Lore
+## World and Lore
 
 ### World Overview
 
 {{world_overview}}
 
-### History & Backstory
+### History and Backstory
 
 {{history_backstory}}
 
-### Factions & Organizations
+### Factions and Organizations
 
 {{factions_organizations}}
 
@@ -102,7 +102,7 @@
 
 {{branching_dialogue}}
 
-### Voice & Characterization
+### Voice and Characterization
 
 {{voice_characterization}}
 
@@ -130,7 +130,7 @@
 
 ## Narrative Delivery
 
-### Cutscenes & Cinematics
+### Cutscenes and Cinematics
 
 {{cutscenes}}
 
@@ -190,6 +190,6 @@
 
 {{timeline}}
 
-### References & Inspirations
+### References and Inspirations
 
 {{references}}

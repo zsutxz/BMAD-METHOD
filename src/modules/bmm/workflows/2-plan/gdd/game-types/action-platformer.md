@@ -33,7 +33,7 @@
 - Checkpoint placement
 - Difficulty spikes and pacing
 
-### Player Abilities & Unlocks
+### Player Abilities and Unlocks
 
 {{player_abilities}}
 

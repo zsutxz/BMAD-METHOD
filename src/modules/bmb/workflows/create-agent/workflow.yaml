@@ -1,5 +1,5 @@
 # Build Agent Workflow Configuration
-name: build-agent
+name: create-agent
 description: "Interactive workflow to build BMAD Core compliant agents (simple, expert, or module types) with optional brainstorming for agent ideas, proper persona development, activation rules, and command structure"
 author: "BMad"
 
@@ -23,7 +23,7 @@ recommended_inputs:
   - agent_activation_rules: "{project-root}/src/utility/models/agent-activation-ide.xml"
 
 # Module path and component files
-installed_path: "{project-root}/bmad/bmb/workflows/build-agent"
+installed_path: "{project-root}/bmad/bmb/workflows/create-agent"
 template: false # This is an interactive workflow - no template needed
 instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
@@ -35,5 +35,14 @@ default_output_file: "{output_folder}/agents/{{agent_filename}}.md"
 src_output_file: "{project-root}/src/modules/{{target_module}}/agents/{{agent_filename}}.md"
 config_output_file: "{project-root}/bmad/_cfg/agents/{{agent_config_name}}.md"
 
-# No special tools required for agent building
-required_tools: []
+web_bundle:
+  name: "create-agent"
+  description: "Interactive workflow to build BMAD Core compliant agents (simple, expert, or module types) with optional brainstorming for agent ideas, proper persona development, activation rules, and command structure"
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/bmb/workflows/create-agent/instructions.md"
+    - "bmad/bmb/workflows/create-agent/checklist.md"
+    - "bmad/bmb/workflows/create-agent/agent-types.md"
+    - "bmad/bmb/workflows/create-agent/agent-architecture.md"
+    - "bmad/bmb/workflows/create-agent/agent-command-patterns.md"
+    - "bmad/bmb/workflows/create-agent/communication-styles.md"

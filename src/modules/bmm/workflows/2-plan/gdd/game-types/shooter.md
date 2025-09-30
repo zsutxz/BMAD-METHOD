@@ -12,7 +12,7 @@
 - Weapon feel (recoil patterns, sound design, impact feedback)
 - Balance considerations (risk/reward, situational use)
 
-### Aiming & Combat Mechanics
+### Aiming and Combat Mechanics
 
 {{aiming_combat}}
 
@@ -24,7 +24,7 @@
 - Critical hits / weak points
 - Melee integration (if applicable)
 
-### Enemy Design & AI
+### Enemy Design and AI
 
 {{enemy_ai}}
 
@@ -36,7 +36,7 @@
 - Difficulty scaling (health, damage, AI sophistication)
 - Enemy tells and telegraphing
 
-### Arena & Level Design
+### Arena and Level Design
 
 {{arena_level_design}}
 

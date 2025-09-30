@@ -15,7 +15,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
 - Setup via API, assert via UI. Keep tests user-centric while priming state through fast interfaces.
 - One test = one concern. Explicit assertions live in the test body, not buried in helpers.
 
-## Patterns & Heuristics
+## Patterns and Heuristics
 
 - Selector order: `data-cy` / `data-testid` -> ARIA -> text. Avoid brittle CSS, IDs, or index based locators.
 - Network boundary is the mock boundary. Stub at the edge, never mid-service unless risk demands.
@@ -46,7 +46,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
   ```
 - Visual debugging: keep component/test runner UIs available (Playwright trace viewer, Cypress runner) to accelerate feedback.
 
-## Risk & Coverage
+## Risk and Coverage
 
 - Risk score = probability (1-3) × impact (1-3). Score 9 => gate FAIL, ≥6 => CONCERNS. Most stories have 0-1 high risks.
 - Test level ratio: heavy unit/component coverage, but always include E2E for critical journeys and integration seams.
@@ -60,7 +60,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
 - **Media**: screenshot only-on-failure, video retain-on-failure
 - **Language Matching**: Tests should match source code language (JS/TS frontend -> JS/TS tests)
 
-## Automation & CI
+## Automation and CI
 
 - Prefer Playwright for multi-language teams, worker parallelism, rich debugging; Cypress suits smaller DX-first repos or component-heavy spikes.
 - **Framework Selection**: Large repo + performance = Playwright, Small repo + DX = Cypress
@@ -71,7 +71,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
 - Burn-in testing: run new or changed specs multiple times (e.g., 3-10x) to flush flakes before they land in main.
 - Keep helper scripts handy (`scripts/test-changed.sh`, `scripts/burn-in-changed.sh`) so CI and local workflows stay in sync.
 
-## Project Structure & Config
+## Project Structure and Config
 
 - **Directory structure**:
   ```
@@ -93,7 +93,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
   export default configs[process.env.TEST_ENV || 'local'];
   ```
 
-## Test Hygiene & Independence
+## Test Hygiene and Independence
 
 - Tests must be independent and stateless; never rely on execution order.
 - Cleanup all data created during tests (afterEach or API cleanup).
@@ -127,7 +127,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
   "test:component": "cypress run --component",
   "test:contract": "jest --testMatch='**/pact/*.spec.ts'",
   "test:debug": "playwright test --headed",
-  "test:ci": "npm run test:unit && npm run test:e2e",
+  "test:ci": "npm run test:unit andand npm run test:e2e",
   "contract:publish": "pact-broker publish"
   ```
 
@@ -138,7 +138,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
 - Structure: `pact/` directory at root, `pact/config.ts` for broker settings.
 - Reference repos: pact-js-example-consumer, pact-js-example-provider, pact-js-example-react-consumer.
 
-## Online Resources & Examples
+## Online Resources and Examples
 
 - Fixture architecture: https://github.com/muratkeremozcan/cy-vs-pw-murats-version
 - Playwright patterns: https://github.com/muratkeremozcan/pw-book
@@ -156,7 +156,7 @@ This brief distills Murat Ozcan's testing philosophy used by the Test Architect 
 - BUS: Business or user harm, revenue-impacting failures, compliance gaps.
 - OPS: Deployment, infrastructure, or observability gaps that block releases.
 
-## Probability & Impact Scale
+## Probability and Impact Scale
 
 - Probability 1 = Unlikely (standard implementation, low risk).
 - Probability 2 = Possible (edge cases, needs attention).

@@ -62,7 +62,7 @@ This game type is **narrative-critical**. You MUST run the Narrative Design work
 - Multiple romance options (if applicable)
 - Platonic vs. romantic paths
 
-### Save/Load & Flowchart
+### Save/Load and Flowchart
 
 {{save_flowchart}}
 

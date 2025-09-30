@@ -1,6 +1,6 @@
 # Backend/API Service Architecture Questions
 
-## Service Type & Architecture
+## Service Type and Architecture
 
 1. **Service architecture:**
    - Monolithic API (single service)
@@ -25,7 +25,7 @@
    - Webhooks
    - Multiple patterns
 
-## Framework & Language
+## Framework and Language
 
 4. **Backend language/framework:**
    - Node.js (Express, Fastify, NestJS, Hono)
@@ -52,7 +52,7 @@
    - Language-specific gRPC libraries
    - Not using gRPC
 
-## Database & Data Layer
+## Database and Data Layer
 
 7. **Primary database:**
    - PostgreSQL
@@ -91,7 +91,7 @@
     - No (single database)
     - Planned for scale
 
-## Authentication & Authorization
+## Authentication and Authorization
 
 12. **Authentication method:**
     - JWT (stateless)
@@ -118,7 +118,7 @@
     - Okta
     - Other: **\_\_\_**
 
-## Message Queue & Event Streaming
+## Message Queue and Event Streaming
 
 15. **Message queue (if needed):**
     - RabbitMQ
@@ -167,7 +167,7 @@
     - Event bus
     - Not applicable
 
-## API Design & Documentation
+## API Design and Documentation
 
 21. **API versioning:**
     - URL versioning (/v1/, /v2/)
@@ -189,7 +189,7 @@
     - cURL examples
     - Multiple tools
 
-## Rate Limiting & Throttling
+## Rate Limiting and Throttling
 
 24. **Rate limiting:**
     - Per-user/API key
@@ -204,7 +204,7 @@
     - Redis-based
     - None
 
-## Data Validation & Processing
+## Data Validation and Processing
 
 26. **Request validation:**
     - Schema validation (Zod, Joi, Yup, Pydantic)
@@ -225,7 +225,7 @@
     - Presigned URLs (client direct upload)
     - None needed
 
-## Error Handling & Resilience
+## Error Handling and Resilience
 
 29. **Error handling strategy:**
     - Standard HTTP status codes
@@ -264,7 +264,7 @@
     - Loki + Grafana
     - None (local logs)
 
-35. **Metrics & Monitoring:**
+35. **Metrics and Monitoring:**
     - Prometheus
     - Datadog
     - New Relic
@@ -335,7 +335,7 @@
     - PCI DSS
     - None
 
-## Deployment & Infrastructure
+## Deployment and Infrastructure
 
 45. **Deployment platform:**
     - AWS (ECS, EKS, Lambda, Elastic Beanstalk)
@@ -438,7 +438,7 @@
     - Fastly
     - None (dynamic only)
 
-## Data & Storage
+## Data and Storage
 
 58. **File storage (if needed):**
     - AWS S3

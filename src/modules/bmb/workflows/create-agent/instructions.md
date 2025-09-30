@@ -1,7 +1,7 @@
 # Build Agent - Interactive Agent Builder Instructions
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
-<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/build-agent/workflow.yaml</critical>
+<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-agent/workflow.yaml</critical>
 <critical>Study agent examples in: {project_root}/bmad/bmm/agents/ for patterns</critical>
 
 <workflow>

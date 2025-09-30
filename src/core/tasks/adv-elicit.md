@@ -8,7 +8,7 @@
     <i>MANDATORY: Execute ALL steps in the flow section IN EXACT ORDER</i>
     <i>DO NOT skip steps or change the sequence</i>
     <i>HALT immediately when halt-conditions are met</i>
-    <i>Each &lt;action&gt; within &lt;step&gt; is a REQUIRED action to complete that step</i>
+    <i>Each action xml tag within step xml tag is a REQUIRED action to complete that step</i>
     <i>Sections outside flow (validation, output, critical-context) provide essential context - review and apply throughout execution</i>
   </llm>
 
@@ -44,7 +44,7 @@
       </smart-selection>
     </step>
 
-    <step n="2" title="Present Options &amp; Handle Responses">
+    <step n="2" title="Present Options and Handle Responses">
 
       <format>
         **Advanced Elicitation Options**

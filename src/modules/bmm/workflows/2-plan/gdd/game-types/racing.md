@@ -1,6 +1,6 @@
 ## Racing Game Specific Elements
 
-### Vehicle Handling & Physics
+### Vehicle Handling and Physics
 
 {{vehicle_physics}}
 
@@ -50,7 +50,7 @@
 - Pit stops (if applicable)
 - Weather and time-of-day effects
 
-### Powerups & Boost
+### Powerups and Boost
 
 {{powerups_boost}}
 
@@ -75,7 +75,7 @@
 - Career/campaign mode
 - Online multiplayer modes
 
-### Progression & Unlocks
+### Progression and Unlocks
 
 {{progression}}
 

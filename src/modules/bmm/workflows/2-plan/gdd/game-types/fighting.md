@@ -12,7 +12,7 @@
 - Complexity tiers (beginner vs. expert characters)
 - Balance philosophy (everyone viable vs. tier system)
 
-### Move Lists & Frame Data
+### Move Lists and Frame Data
 
 {{moves_frame_data}}
 

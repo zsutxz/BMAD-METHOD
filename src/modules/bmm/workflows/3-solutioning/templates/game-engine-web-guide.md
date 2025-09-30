@@ -6,7 +6,7 @@ This guide provides web game engine-specific guidance (Phaser, PixiJS, Three.js,
 
 ## Web Game-Specific Questions
 
-### 1. Engine & Technology Selection
+### 1. Engine and Technology Selection
 
 **Ask:**
 
@@ -312,7 +312,7 @@ describe('Player', () => {
 
 ---
 
-### Deployment & Build
+### Deployment and Build
 
 **Build for production:**
 
@@ -321,7 +321,7 @@ describe('Player', () => {
 {
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc andand vite build",
     "preview": "vite preview",
     "test": "jest"
   }

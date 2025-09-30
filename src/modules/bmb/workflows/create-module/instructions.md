@@ -1,7 +1,7 @@
 # Build Module - Interactive Module Builder Instructions
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
-<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/build-module/workflow.yaml</critical>
+<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-module/workflow.yaml</critical>
 <critical>Study existing modules in: {project_root}/bmad/ for patterns</critical>
 
 <workflow>
@@ -10,8 +10,8 @@
 <ask>Do you want to brainstorm module ideas first? [y/n]</ask>
 
 If yes:
-<action>Invoke brainstorming workflow: {project-root}/bmad/cis/workflows/brainstorming/workflow.yaml</action>
-<action>Pass context data: {installed_path}/brainstorm-context.md</action>
+<action>Invoke brainstorming workflow: {brainstorming-workflow}</action>
+<action>Pass context data: {brainstorming_context}</action>
 <action>Wait for brainstorming session completion</action>
 <action>Use brainstorming output to inform module concept, agent lineup, and workflow portfolio</action>
 
@@ -215,7 +215,7 @@ If no, create placeholder:
 ```md
 # {{primary_agent_name}} Agent
 
-<!-- TODO: Create using build-agent workflow -->
+<!-- TODO: Create using create-agent workflow -->
 <!-- Purpose: {{agent_purpose}} -->
 <!-- Type: {{agent_type}} -->
 ```
@@ -402,8 +402,8 @@ Key settings:
 
 To extend this module:
 
-1. Add new agents using `build-agent` workflow
-2. Add new workflows using `build-workflow` workflow
+1. Add new agents using `create-agent` workflow
+2. Add new workflows using `create-workflow` workflow
 3. Submit improvements via pull request
 
 ## Author
@@ -428,7 +428,7 @@ Create a development roadmap for remaining components:
 ## Phase 2: Enhanced Features
 {{phase2_tasks}}
 
-## Phase 3: Polish & Integration
+## Phase 3: Polish and Integration
 {{phase3_tasks}}
 
 ## Quick Commands
@@ -436,14 +436,14 @@ Create a development roadmap for remaining components:
 Create new agent:
 ````
 
-workflow build-agent
+workflow create-agent
 
 ```
 
 Create new workflow:
 ```
 
-workflow build-workflow
+workflow create-workflow
 
 ```
 

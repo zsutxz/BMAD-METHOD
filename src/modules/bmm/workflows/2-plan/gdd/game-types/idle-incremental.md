@@ -38,7 +38,7 @@
 - Automation tiers
 - Balance between active and idle play
 
-### Prestige & Reset Mechanics
+### Prestige and Reset Mechanics
 
 {{prestige_reset}}
 

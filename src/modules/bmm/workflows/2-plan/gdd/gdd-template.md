@@ -28,7 +28,7 @@
 
 {{goals}}
 
-### Background & Rationale
+### Background and Rationale
 
 {{context}}
 
@@ -56,7 +56,7 @@
 
 {{primary_mechanics}}
 
-### Controls & Input
+### Controls and Input
 
 {{controls}}
 
@@ -66,7 +66,7 @@
 
 ---
 
-## Progression & Balance
+## Progression and Balance
 
 ### Player Progression
 
@@ -76,7 +76,7 @@
 
 {{difficulty_curve}}
 
-### Economy & Resources
+### Economy and Resources
 
 {{economy_resources}}
 
@@ -94,13 +94,13 @@
 
 ---
 
-## Art & Audio Direction
+## Art and Audio Direction
 
 ### Art Style
 
 {{art_style}}
 
-### Audio & Music
+### Audio and Music
 
 {{audio_music}}
 

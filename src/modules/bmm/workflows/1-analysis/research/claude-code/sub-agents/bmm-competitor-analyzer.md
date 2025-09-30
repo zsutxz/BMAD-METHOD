@@ -207,7 +207,7 @@ Competitive Threat:
 ### Innovation Pipeline Assessment
 
 - Patent filing analysis
-- R&D investment signals
+- RandD investment signals
 - Acquisition patterns
 - Partnership strategies
 - Beta/preview features

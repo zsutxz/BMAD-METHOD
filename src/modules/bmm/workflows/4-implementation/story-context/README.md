@@ -224,7 +224,7 @@ To customize this workflow:
 
 For issues or questions:
 
-- Review the workflow creation guide at `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review the workflow creation guide at `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Validate output using `checklist.md`
 - Ensure story files follow expected markdown structure
 - Check that repository structure supports automated discovery

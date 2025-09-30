@@ -42,7 +42,7 @@ _Ambitious, transformative concepts_
 
 {{moonshots}}
 
-### Insights & Learnings
+### Insights and Learnings
 
 _Key realizations from the session_
 
@@ -73,7 +73,7 @@ _Key realizations from the session_
 - Resources needed: {{priority_3_resources}}
 - Timeline: {{priority_3_timeline}}
 
-## Reflection & Follow-up
+## Reflection and Follow-up
 
 ### What Worked Well
 

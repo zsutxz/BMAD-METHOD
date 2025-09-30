@@ -1,5 +1,5 @@
 # Build Workflow - Workflow Builder Configuration
-name: build-workflow
+name: create-workflow
 description: "Interactive workflow builder that guides creation of new BMAD workflows with proper structure and validation for optimal human-AI collaboration. Includes optional brainstorming phase for workflow ideas and design."
 author: "BMad Builder"
 
@@ -23,7 +23,7 @@ recommended_inputs:
   - bmm_workflows: "{project-root}/bmad/bmm/workflows/"
 
 # Module path and component files
-installed_path: "{project-root}/bmad/bmb/workflows/build-workflow"
+installed_path: "{project-root}/bmad/bmb/workflows/create-workflow"
 template: false # This is an action workflow - no template needed
 instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
@@ -38,5 +38,15 @@ workflow_template_path: "{installed_path}/workflow-template"
 default_output_folder: "{output_folder}/workflows/{{workflow_name}}"
 src_output_folder: "{project-root}/src/modules/{{target_module}}/workflows/{{workflow_name}}"
 
-# No special tools required
-required_tools: []
+web_bundle:
+  name: "create-workflow"
+  description: "Interactive workflow builder that guides creation of new BMAD workflows with proper structure and validation for optimal human-AI collaboration. Includes optional brainstorming phase for workflow ideas and design."
+  author: "BMad Builder"
+  web_bundle_files:
+    - "bmad/bmb/workflows/create-workflow/instructions.md"
+    - "bmad/bmb/workflows/create-workflow/checklist.md"
+    - "bmad/bmb/workflows/create-workflow/workflow-creation-guide.md"
+    - "bmad/bmb/workflows/create-workflow/workflow-template/workflow.yaml"
+    - "bmad/bmb/workflows/create-workflow/workflow-template/instructions.md"
+    - "bmad/bmb/workflows/create-workflow/workflow-template/template.md"
+    - "bmad/bmb/workflows/create-workflow/workflow-template/checklist.md"

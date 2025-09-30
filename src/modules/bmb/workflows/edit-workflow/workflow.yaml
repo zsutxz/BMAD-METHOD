@@ -12,7 +12,7 @@ user_name: "{config_source}:user_name"
 date: system-generated
 
 # Required Data Files - Critical for understanding workflow conventions
-workflow_creation_guide: "{project-root}/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md"
+workflow_creation_guide: "{project-root}/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md"
 workflow_execution_engine: "{project-root}/bmad/core/tasks/workflow.md"
 
 # Optional docs that can be used to understand the target workflow
@@ -30,5 +30,10 @@ validation: "{installed_path}/checklist.md"
 # But we may generate a change log
 change_log_output: "{output_folder}/workflow-edit-log-{{date}}.md"
 
-# No special tools required for editing workflows
-required_tools: []
+web_bundle:
+  name: "edit-workflow"
+  description: "Edit existing BMAD workflows while following all best practices and conventions"
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/bmb/workflows/edit-workflow/instructions.md"
+    - "bmad/bmb/workflows/edit-workflow/checklist.md"

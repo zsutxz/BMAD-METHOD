@@ -36,7 +36,7 @@ This game type is **narrative-critical**. You MUST run the Narrative Design work
 - Landmarks and navigation aids
 - Fast travel or mapping system
 
-### Item & Inventory System
+### Item and Inventory System
 
 {{item_inventory}}
 
@@ -62,7 +62,7 @@ This game type is **narrative-critical**. You MUST run the Narrative Design work
 - Puzzle integration with story
 - Non-linear puzzle solving
 
-### Narrative & Writing
+### Narrative and Writing
 
 {{narrative_writing}}
 
@@ -77,7 +77,7 @@ This game type is **narrative-critical**. You MUST run the Narrative Design work
 
 **Note:** All narrative content must be written in the Narrative Design Document.
 
-### Game Flow & Pacing
+### Game Flow and Pacing
 
 {{game_flow}}
 

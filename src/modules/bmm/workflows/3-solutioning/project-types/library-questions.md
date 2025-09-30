@@ -1,6 +1,6 @@
 # Library/SDK Architecture Questions
 
-## Language & Platform
+## Language and Platform
 
 1. **Primary language:**
    - TypeScript/JavaScript
@@ -62,7 +62,7 @@
    - @types package (DefinitelyTyped)
    - Not applicable
 
-## Build & Distribution
+## Build and Distribution
 
 9. **Build tool:**
    - tsup (TypeScript, simple)
@@ -119,7 +119,7 @@
     - Moderate (50-80%)
     - Critical paths only
 
-## Versioning & Releases
+## Versioning and Releases
 
 17. **Versioning:**
     - Semantic versioning (semver)

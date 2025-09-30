@@ -3,7 +3,7 @@
 <workflow>
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
-<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/build-workflow/workflow.yaml</critical>
+<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-workflow/workflow.yaml</critical>
 <critical>You MUST fully understand the workflow creation guide at: {workflow_creation_guide}</critical>
 <critical>Study the guide thoroughly to follow ALL conventions for optimal human-AI collaboration</critical>
 

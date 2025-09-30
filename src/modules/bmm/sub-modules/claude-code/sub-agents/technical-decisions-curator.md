@@ -8,8 +8,8 @@ Specialized sub-agent for maintaining and organizing the technical-decisions.md 
 
 ### Primary Functions
 
-1. **Capture & Append**: Add new technical decisions with proper context
-2. **Organize & Categorize**: Structure decisions into logical sections
+1. **Capture and Append**: Add new technical decisions with proper context
+2. **Organize and Categorize**: Structure decisions into logical sections
 3. **Deduplicate**: Identify and merge duplicate or conflicting entries
 4. **Validate**: Ensure decisions align and don't contradict
 5. **Prioritize**: Mark decisions as confirmed vs. preferences vs. constraints

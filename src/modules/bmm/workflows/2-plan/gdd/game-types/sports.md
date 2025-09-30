@@ -12,7 +12,7 @@
 - Rule variations (if applicable)
 - Simulation vs. arcade rule adherence
 
-### Team & Player Systems
+### Team and Player Systems
 
 {{team_player}}
 
@@ -37,7 +37,7 @@
 - Overtime/extra time rules
 - Post-match results and stats
 
-### Physics & Realism
+### Physics and Realism
 
 {{physics_realism}}
 
@@ -49,7 +49,7 @@
 - Collision detection
 - Weather/field condition effects
 
-### Career & Season Modes
+### Career and Season Modes
 
 {{career_season}}
 

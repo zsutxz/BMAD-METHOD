@@ -45,13 +45,13 @@ Use this checklist to ensure your game brief is complete and ready for GDD creat
 
 ## Content Framework ✓
 
-- [ ] **World & Setting** is defined
+- [ ] **World and Setting** is defined
 - [ ] **Narrative Approach** matches game type
 - [ ] **Content Volume** is estimated (rough order of magnitude)
 - [ ] Playtime expectations are set
 - [ ] Replayability approach is clear
 
-## Art & Audio Direction ✓
+## Art and Audio Direction ✓
 
 - [ ] **Visual Style** is described with references
 - [ ] 2D vs. 3D is decided

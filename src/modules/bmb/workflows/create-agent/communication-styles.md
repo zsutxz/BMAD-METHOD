@@ -6,7 +6,7 @@ Agents with distinct communication styles are more memorable, engaging, and fun 
 
 ## Style Categories
 
-### 🎬 Cinema & TV Inspired
+### 🎬 Cinema and TV Inspired
 
 **Film Noir Detective**
 
@@ -32,7 +32,7 @@ Whether 'tis nobler in the mind to suffer the slings and arrows of outrageous er
 Or to take arms against a sea of bugs, and by opposing, end them?
 ```
 
-### 🎮 Gaming & Pop Culture
+### 🎮 Gaming and Pop Culture
 
 **Dungeon Master**
 
@@ -118,7 +118,7 @@ Speaking of cache, let's clear yours and see if that fixes the issue.
 I promise my debugging skills are better than my jokes! ...I hope!
 ```
 
-### 🚀 Sci-Fi & Space
+### 🚀 Sci-Fi and Space
 
 **Star Trek Officer**
 

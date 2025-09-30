@@ -187,7 +187,7 @@ Since this is a Level {{project_level}} project, you need solutioning before imp
 
 <action>Generate comprehensive checklist based on project analysis</action>
 
-### Phase 1: Solution Architecture & Design
+### Phase 1: Solution Architecture and Design
 
 - [ ] **Run solutioning workflow** (REQUIRED)
   - Command: `workflow solution-architecture`

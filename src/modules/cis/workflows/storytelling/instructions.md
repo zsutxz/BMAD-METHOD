@@ -245,7 +245,7 @@ Provide strategic guidance for story deployment:
 
 </step>
 
-<step n="9" goal="Refinement & Next Steps">
+<step n="9" goal="Refinement AND Next Steps">
 
 Polish and plan forward:
 

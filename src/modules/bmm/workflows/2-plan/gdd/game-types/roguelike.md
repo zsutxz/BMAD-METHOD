@@ -23,7 +23,7 @@
 - Biome/theme variation
 - Seed system (if deterministic)
 
-### Permadeath & Progression
+### Permadeath and Progression
 
 {{permadeath_progression}}
 
@@ -34,7 +34,7 @@
 - Meta-progression systems
 - Unlock conditions
 
-### Item & Upgrade System
+### Item and Upgrade System
 
 {{item_upgrade_system}}
 

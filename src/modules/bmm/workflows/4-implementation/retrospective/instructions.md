@@ -113,7 +113,7 @@ Delivery Metrics:
 - Duration: {{actual_sprints}} sprints (planned: {{planned_sprints}})
 - Average velocity: {{points_per_sprint}} points/sprint
 
-Quality & Technical:
+Quality and Technical:
 - Blockers encountered: {{blocker_count}}
 - Technical debt items: {{debt_count}}
 - Test coverage: {{coverage_info}}

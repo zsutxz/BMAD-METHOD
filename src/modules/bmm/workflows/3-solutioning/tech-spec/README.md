@@ -185,7 +185,7 @@ To customize this workflow:
 
 For issues or questions:
 
-- Review the workflow creation guide at `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review the workflow creation guide at `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Validate output using `checklist.md`
 - Ensure PRD and architecture documents are complete before starting
 - Consult BMAD documentation for technical specification standards

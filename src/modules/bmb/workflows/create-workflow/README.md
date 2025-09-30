@@ -19,7 +19,7 @@ The Build Workflow is an interactive workflow builder that guides you through cr
 ### Basic Invocation
 
 ```bash
-workflow build-workflow
+workflow create-workflow
 ```
 
 ### Through BMad Builder Agent
@@ -42,7 +42,7 @@ workflow build-workflow
 ### Files Included
 
 ```
-build-workflow/
+create-workflow/
 ├── workflow.yaml                  # Configuration and metadata
 ├── instructions.md                # Step-by-step execution guide
 ├── checklist.md                   # Validation criteria
@@ -87,7 +87,7 @@ The brainstorming phase invokes the CIS brainstorming workflow to:
 - Generate validation checklist
 - Create supporting data files (optional)
 
-### Phase 3: Documentation & Validation (Steps 9-11)
+### Phase 3: Documentation and Validation (Steps 9-11)
 
 - Create comprehensive README.md (MANDATORY)
 - Test and validate workflow structure
@@ -142,7 +142,7 @@ For document workflows, the README documents:
 
 ### Creative Workflow Design
 
-The build-workflow now supports a **seamless transition from creative ideation to structured implementation**:
+The create-workflow now supports a **seamless transition from creative ideation to structured implementation**:
 
 - **"I need a workflow for something..."** → Start with brainstorming to explore possibilities
 - **Brainstorm** → Generate multiple approaches and clarify requirements
@@ -206,9 +206,9 @@ To modify this workflow:
 
 For issues or questions:
 
-- Review `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Check existing workflows in `/bmad/bmm/workflows/` for examples
-- Validate against `/bmad/bmb/workflows/build-workflow/checklist.md`
+- Validate against `/bmad/bmb/workflows/create-workflow/checklist.md`
 - Consult BMAD Method v6 documentation
 
 ---

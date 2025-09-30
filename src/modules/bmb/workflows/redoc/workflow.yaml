@@ -29,5 +29,10 @@ validation: "{installed_path}/checklist.md"
 # Configuration
 autonomous: true # Runs without user checkpoints unless clarification needed
 
-# Tool Requirements - Using built-in file system tools
-required_tools: []
+web_bundle:
+  name: "redoc"
+  description: "Autonomous documentation system that maintains module, workflow, and agent documentation using a reverse-tree approach (leaf folders first, then parents). Understands BMAD conventions and produces technical writer quality output."
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/bmb/workflows/redoc/instructions.md"
+    - "bmad/bmb/workflows/redoc/checklist.md"

@@ -318,7 +318,7 @@ Logic embedded in agent persona (Simple agents)
 
   <!-- 2. Primary workflows -->
   <c cmd="*create-prd" run-workflow="...">Create PRD</c>
-  <c cmd="*build-module" run-workflow="...">Build module</c>
+  <c cmd="*create-module" run-workflow="...">Build module</c>
 
   <!-- 3. Secondary actions -->
   <c cmd="*validate" exec="...">Validate document</c>
@@ -490,8 +490,8 @@ The `data` attribute can be added to ANY command type to provide supplementary i
 ### BMB (Builder)
 
 ```xml
-<c cmd="*build-agent">Build Agent</c>
-<c cmd="*build-module">Build Module</c>
+<c cmd="*create-agent">Build Agent</c>
+<c cmd="*create-module">Build Module</c>
 <c cmd="*create-workflow">Create Workflow</c>
 <c cmd="*module-brief">Module Brief</c>
 ```
@@ -511,7 +511,7 @@ The `data` attribute can be added to ANY command type to provide supplementary i
 ```
 1. *help - Show numbered cmd list
 2. *create-prd - Create Product Requirements Document
-3. *build-agent - Build new BMAD agent
+3. *create-agent - Build new BMAD agent
 4. *validate - Validate document
 5. *exit - Exit with confirmation
 ```

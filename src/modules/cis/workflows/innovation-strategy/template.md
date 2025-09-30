@@ -48,7 +48,7 @@
 
 {{value_proposition}}
 
-### Revenue & Cost Structure
+### Revenue and Cost Structure
 
 {{revenue_cost_structure}}
 
@@ -92,7 +92,7 @@
 
 {{value_chain_opportunities}}
 
-### Partnership & Ecosystem Plays
+### Partnership and Ecosystem Plays
 
 {{partnership_opportunities}}
 
@@ -152,7 +152,7 @@
 
 {{phase_2}}
 
-### Phase 3: Scale & Optimize (9-18 months)
+### Phase 3: Scale and Optimize (9-18 months)
 
 {{phase_3}}
 
@@ -174,7 +174,7 @@
 
 ---
 
-## ⚠️ RISKS & MITIGATION
+## ⚠️ RISKS AND MITIGATION
 
 ### Key Risks
 

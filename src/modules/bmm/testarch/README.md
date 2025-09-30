@@ -6,11 +6,11 @@ last-redoc-date: 2025-09-30
 
 ## Overview
 
-- **Persona:** Murat, Master Test Architect & Quality Advisor focused on risk-based testing, fixture architecture, ATDD, and CI/CD governance.
+- **Persona:** Murat, Master Test Architect and Quality Advisor focused on risk-based testing, fixture architecture, ATDD, and CI/CD governance.
 - **Mission:** Deliver actionable quality strategies, automation coverage, and gate decisions that scale with project level and compliance demands.
 - **Use When:** Project level ≥2, integration risk is non-trivial, brownfield regression risk exists, or compliance/NFR evidence is required.
 
-## Prerequisites & Setup
+## Prerequisites and Setup
 
 1. Run the core planning workflows first:
    - Analyst `*product-brief`
@@ -30,7 +30,7 @@ last-redoc-date: 2025-09-30
 | Phase              | Test Architect                                                            | Dev / Team                                                                       | Outputs                                                                               |
 | ------------------ | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | Setup              | -                                                                         | Analyst `*product-brief`, PM `*plan-project`, Architect `*solution-architecture` | `{output_folder}/product-brief*.md`, `PRD.md`, `epics.md`, `solution-architecture.md` |
-| Pre-Implementation | Run `*framework` (if harness missing), `*ci`, and `*test-design`          | Review risk/design/CI guidance, align backlog                                    | Test scaffold, CI pipeline, risk & coverage strategy                                  |
+| Pre-Implementation | Run `*framework` (if harness missing), `*ci`, and `*test-design`          | Review risk/design/CI guidance, align backlog                                    | Test scaffold, CI pipeline, risk and coverage strategy                                |
 | Story Prep         | -                                                                         | Scrum Master `*create-story`, `*story-context`                                   | Story markdown + context XML                                                          |
 | Implementation     | (Optional) Trigger `*atdd` before dev to supply failing tests + checklist | Implement story guided by ATDD checklist                                         | Failing acceptance tests + implementation checklist                                   |
 | Post-Dev           | Execute `*automate`, re-run `*trace`                                      | Address recommendations, update code/tests                                       | Regression specs, refreshed coverage matrix                                           |
@@ -53,7 +53,7 @@ last-redoc-date: 2025-09-30
 2. **Setup:** TEA checks harness via `*framework`, configures `*ci`, and runs `*test-design` to capture risk/coverage plans.
 3. **Story Prep:** Scrum Master generates the story via `*create-story`; PO validates using `*assess-project-ready`.
 4. **Implementation:** TEA optionally runs `*atdd`; Dev implements with guidance from failing tests and the plan.
-5. **Post-Dev & Release:** TEA runs `*automate`, re-runs `*trace`, and finishes with `*gate` to document the decision.
+5. **Post-Dev and Release:** TEA runs `*automate`, re-runs `*trace`, and finishes with `*gate` to document the decision.
 
 </details>
 
@@ -85,7 +85,7 @@ last-redoc-date: 2025-09-30
 
 1. **Context Refresh:** Analyst reruns `*product-brief`; PM executes `*plan-project` to update PRD, analysis, and `epics.md`; Architect triggers `*solution-architecture` capturing legacy payment flows.
 2. **Baseline Coverage:** TEA executes `*trace` to record current coverage in `docs/qa/assessments/atlas-payment-trace.md`.
-3. **Risk & Design:** `*test-design` flags settlement edge cases, plans mitigations, and allocates new API/E2E scenarios with P0 priorities.
+3. **Risk and Design:** `*test-design` flags settlement edge cases, plans mitigations, and allocates new API/E2E scenarios with P0 priorities.
 4. **Story Prep:** Scrum Master generates `stories/story-1.1.md` via `*create-story`, automatically pulling updated context.
 5. **ATDD First:** TEA runs `*atdd`, producing failing Playwright specs under `tests/e2e/payments/` plus an implementation checklist.
 6. **Implementation:** Dev pairs with the checklist/tests to deliver the story.
@@ -137,7 +137,7 @@ last-redoc-date: 2025-09-30
 | `*gate`        | `testarch/gate.md`               | Gate YAML + summary (PASS/CONCERNS/FAIL/WAIVED)                      | Deterministic decision rules + rationale         |
 
 <details>
-<summary>Command Guidance & Context Loading</summary>
+<summary>Command Guidance and Context Loading</summary>
 
 - Each task reads one row from `tea-commands.csv` via `command_key`, expanding pipe-delimited (`|`) values into checklists.
 - Keep CSV rows lightweight; place in-depth heuristics in `tea-knowledge.md` and reference via `knowledge_tags`.

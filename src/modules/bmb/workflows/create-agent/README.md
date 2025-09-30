@@ -19,7 +19,7 @@ The Build Agent workflow is an interactive agent builder that guides you through
 ### Basic Invocation
 
 ```bash
-workflow build-agent
+workflow create-agent
 ```
 
 ### Through BMad Builder Agent
@@ -49,7 +49,7 @@ The workflow includes an optional brainstorming phase (Step -1) that helps you e
 ### Files Included
 
 ```
-build-agent/
+create-agent/
 ├── workflow.yaml                  # Configuration
 ├── instructions.md                # Step-by-step guide
 ├── checklist.md                   # Validation criteria

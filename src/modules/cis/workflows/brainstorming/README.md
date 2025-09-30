@@ -180,7 +180,7 @@ The workflow includes 36 techniques organized into 7 categories:
 2. **Technique Sessions** - Detailed capture of each technique's ideation process
 3. **Idea Categorization** - Immediate opportunities, future innovations, moonshots, insights
 4. **Action Planning** - Top 3 priorities with rationale, steps, resources, timelines
-5. **Reflection & Follow-up** - Session analysis, recommendations, next steps planning
+5. **Reflection and Follow-up** - Session analysis, recommendations, next steps planning
 
 ## Requirements
 
@@ -268,4 +268,4 @@ For issues or questions:
 
 ---
 
-_Part of the BMad Method v5 - Creative Ideation & Synthesis (CIS) Module_
+_Part of the BMad Method v5 - Creative Ideation and Synthesis (CIS) Module_

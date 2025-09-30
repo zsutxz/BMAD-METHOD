@@ -9,10 +9,10 @@
 <action>Ask user for the path to the v4 item to convert (agent, workflow, or module)</action>
 <action>Load the complete file/folder structure</action>
 <action>Detect item type based on structure and content patterns:</action>
-  - Agent: Contains `<agent>` or `<prompt>` XML tags, single file
+  - Agent: Contains agent or prompt XML tags, single file
   - Workflow: Contains workflow YAML or instruction patterns, usually folder
   - Module: Contains multiple agents/workflows in organized structure
-  - Task: Contains `<task>` XML tags
+  - Task: Contains task XML tags
 <ask>Confirm detected type or allow user to correct: "Detected as [type]. Is this correct? (y/n)"</ask>
 </step>
 
@@ -164,7 +164,7 @@ For Modules:
 - Any special behaviors
 
 <invoke-workflow>
-  workflow: {project-root}/bmad/bmb/workflows/build-agent/workflow.yaml
+  workflow: {project-root}/bmad/bmb/workflows/create-agent/workflow.yaml
   inputs:
     - agent_name: {{extracted_name}}
     - agent_purpose: {{extracted_purpose}}
@@ -201,7 +201,7 @@ For Modules:
    - Processing flow → integrate into workflow steps
 
 <invoke-workflow>
-  workflow: {project-root}/bmad/bmb/workflows/build-workflow/workflow.yaml
+  workflow: {project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml
   inputs:
     - workflow_name: {{template_name}}
     - workflow_type: document
@@ -217,7 +217,7 @@ For Modules:
 <action>Create module blueprint with all components</action>
 
 <invoke-workflow>
-  workflow: {project-root}/bmad/bmb/workflows/build-module/workflow.yaml
+  workflow: {project-root}/bmad/bmb/workflows/create-module/workflow.yaml
   inputs:
     - module_name: {{module_name}}
     - components: {{component_list}}
@@ -259,7 +259,7 @@ For Modules:
    - Critical notices → workflow.yaml comments
 
 <invoke-workflow>
-  workflow: {project-root}/bmad/bmb/workflows/build-workflow/workflow.yaml
+  workflow: {project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml
   inputs:
     - workflow_name: {{task_name}}
     - workflow_type: {{confirmed_workflow_type}}

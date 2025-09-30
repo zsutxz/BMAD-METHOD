@@ -6,7 +6,7 @@ This guide provides Godot-specific guidance for solution architecture generation
 
 ## Godot-Specific Questions
 
-### 1. Godot Version & Language Strategy
+### 1. Godot Version and Language Strategy
 
 **Ask:**
 
@@ -276,7 +276,7 @@ project/
 
 ---
 
-### Deployment & Build
+### Deployment and Build
 
 **Platform-specific:**
 

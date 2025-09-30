@@ -371,7 +371,7 @@ Sub-step 6.2: Fill Template Placeholders
 8. Generate final architecture.md document
 
 CRITICAL REQUIREMENTS:
-- MUST include "Technology & Library Decisions" section with table:
+- MUST include "Technology and Library Decisions" section with table:
   | Category | Technology | Version | Rationale |
   - ALL technologies with SPECIFIC versions (e.g., "pino 8.17.0")
   - NO vagueness ("a logging library" = FAIL)
@@ -391,13 +391,13 @@ CRITICAL REQUIREMENTS:
 
 Common sections (adapt per project):
 1. Executive Summary
-2. Technology Stack & Decisions (TABLE REQUIRED)
-3. Repository & Service Architecture (mono/poly, monolith/microservices)
+2. Technology Stack and Decisions (TABLE REQUIRED)
+3. Repository and Service Architecture (mono/poly, monolith/microservices)
 4. System Architecture (diagrams)
 5. Data Architecture
 6. API/Interface Design (adapts: REST for web, protocols for embedded, etc.)
 7. Cross-Cutting Concerns
-8. Component & Integration Overview (NOT epic alignment - that's cohesion check)
+8. Component and Integration Overview (NOT epic alignment - that's cohesion check)
 9. Architecture Decision Records
 10. Implementation Guidance
 11. Proposed Source Tree (REQUIRED)
@@ -421,7 +421,7 @@ Run cohesion check validation inline (NO separate workflow for now):
    - Every epic has technical foundation?
    - Every story can be implemented with current architecture?
 
-2. Technology & Library Table Validation:
+2. Technology and Library Table Validation:
    - Table exists?
    - All entries have specific versions?
    - No vague entries ("a library", "some framework")?
@@ -622,7 +622,7 @@ For monorepo projects:
 Final validation checklist:
 
 - [x] architecture.md exists and is complete
-- [x] Technology & Library Decision Table has specific versions
+- [x] Technology and Library Decision Table has specific versions
 - [x] Proposed Source Tree section included
 - [x] Cohesion check passed (or issues addressed)
 - [x] Epic Alignment Matrix generated

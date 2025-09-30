@@ -8,7 +8,7 @@ The Convert Legacy workflow is a comprehensive migration tool that converts BMAD
 
 - **Multi-Format Detection** - Automatically identifies v4 agents, workflows, tasks, templates, and modules
 - **Intelligent Conversion** - Smart mapping from v4 patterns to v5 equivalents with structural improvements
-- **Sub-Workflow Integration** - Leverages build-agent, build-workflow, and build-module workflows for quality output
+- **Sub-Workflow Integration** - Leverages create-agent, create-workflow, and create-module workflows for quality output
 - **Structure Modernization** - Converts YAML-based agents to XML, templates to workflows, tasks to structured workflows
 - **Path Normalization** - Updates all references to use proper v5 path conventions
 - **Validation System** - Comprehensive validation of converted items before finalization
@@ -60,7 +60,7 @@ convert-legacy/
 
 ### Phase 1: Legacy Analysis (Steps 1-3)
 
-**Item Identification & Loading**
+**Item Identification and Loading**
 
 - Accepts file path or directory from user
 - Loads complete file/folder structure for analysis
@@ -91,10 +91,10 @@ convert-legacy/
 **Strategy Selection Based on Item Type**
 
 - **Simple Agents**: Direct XML conversion with metadata mapping
-- **Complex Agents**: Workflow-assisted creation using build-agent
+- **Complex Agents**: Workflow-assisted creation using create-agent
 - **Templates**: Template-to-workflow conversion with proper structure
 - **Tasks**: Task-to-workflow conversion with step mapping
-- **Modules**: Full module creation using build-module workflow
+- **Modules**: Full module creation using create-module workflow
 
 **Workflow Type Determination**
 
@@ -118,9 +118,9 @@ convert-legacy/
 
 - Extracts key information from legacy items
 - Invokes appropriate sub-workflows:
-  - `build-agent` for complex agent creation
-  - `build-workflow` for template/task conversion
-  - `build-module` for full module migration
+  - `create-agent` for complex agent creation
+  - `create-workflow` for template/task conversion
+  - `create-module` for full module migration
 - Ensures proper v5 structure and conventions
 
 **Template-to-Workflow Conversion (5c)**
@@ -139,7 +139,7 @@ convert-legacy/
 - Maps 1-9 elicitation menus to v5 elicitation patterns
 - Preserves execution logic and critical notices
 
-### Phase 4: Validation & Finalization (Steps 6-8)
+### Phase 4: Validation and Finalization (Steps 6-8)
 
 **Comprehensive Validation**
 
@@ -155,7 +155,7 @@ convert-legacy/
 - Notes manual adjustments needed
 - Provides warnings and recommendations
 
-**Cleanup & Archival**
+**Cleanup and Archival**
 
 - Optional archival of original v4 files
 - Final location confirmation
@@ -182,7 +182,7 @@ Converted items follow v5 conventions:
 
 - **Legacy v4 Items** - Source files or directories to convert
 - **Target Module Access** - Write permissions to target module directories
-- **Sub-Workflow Availability** - build-agent, build-workflow, build-module workflows accessible
+- **Sub-Workflow Availability** - create-agent, create-workflow, create-module workflows accessible
 - **Conversion Mappings** (optional) - v4-to-v5 pattern mappings for complex conversions
 
 ## Best Practices
@@ -244,7 +244,7 @@ To customize this workflow:
 
 - **v1.0.0** - Initial release
   - Multi-format v4 item detection and conversion
-  - Integration with build-agent, build-workflow, build-module
+  - Integration with create-agent, create-workflow, create-module
   - Comprehensive path normalization
   - Migration reporting and validation
 
@@ -252,7 +252,7 @@ To customize this workflow:
 
 For issues or questions:
 
-- Review the workflow creation guide at `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review the workflow creation guide at `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Check conversion mappings at `/bmad/bmb/data/v4-to-v5-mappings.yaml`
 - Validate output using `checklist.md`
 - Consult BMAD v5 documentation for proper conventions

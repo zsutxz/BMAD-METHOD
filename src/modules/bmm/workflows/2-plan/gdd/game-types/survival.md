@@ -1,6 +1,6 @@
 ## Survival Game Specific Elements
 
-### Resource Gathering & Crafting
+### Resource Gathering and Crafting
 
 {{resource_crafting}}
 
@@ -52,7 +52,7 @@
 - Defensive structures
 - Automation (if applicable)
 
-### Progression & Technology
+### Progression and Technology
 
 {{progression_tech}}
 

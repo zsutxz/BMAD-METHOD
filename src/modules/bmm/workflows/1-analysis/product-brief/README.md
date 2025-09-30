@@ -95,14 +95,14 @@ product-brief/
 2. **Problem Statement** - Detailed problem analysis with evidence
 3. **Proposed Solution** - Core approach and key differentiators
 4. **Target Users** - Primary and secondary user segments with personas
-5. **Goals & Success Metrics** - Business objectives and measurable KPIs
+5. **Goals and Success Metrics** - Business objectives and measurable KPIs
 6. **MVP Scope** - Must-have features and out-of-scope items
 7. **Post-MVP Vision** - Phase 2 features and long-term roadmap
 8. **Financial Impact** - Investment requirements and ROI projections
 9. **Strategic Alignment** - Connection to company OKRs and initiatives
 10. **Technical Considerations** - Platform requirements and preferences
-11. **Constraints & Assumptions** - Resource limits and key assumptions
-12. **Risks & Open Questions** - Risk assessment and research needs
+11. **Constraints and Assumptions** - Resource limits and key assumptions
+12. **Risks and Open Questions** - Risk assessment and research needs
 13. **Supporting Materials** - Research summaries and references
 
 ## Requirements
@@ -170,7 +170,7 @@ To customize this workflow:
 
 For issues or questions:
 
-- Review the workflow creation guide at `/bmad/bmb/workflows/build-workflow/workflow-creation-guide.md`
+- Review the workflow creation guide at `/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md`
 - Validate output using `checklist.md`
 - Consider running market research workflow first if lacking business context
 - Consult BMAD documentation for product planning methodology

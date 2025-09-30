@@ -212,7 +212,7 @@ class WebBundler {
     if (await fs.pathExists(agentsPath)) {
       const files = await fs.readdir(agentsPath);
       for (const file of files) {
-        if (file.endsWith('.md')) {
+        if (file.endsWith('.md') && !file.toLowerCase().includes('readme')) {
           const agentPath = path.join(agentsPath, file);
           const content = await fs.readFile(agentPath, 'utf8');
           const agentXml = this.extractAgentXml(content);
@@ -732,7 +732,7 @@ class WebBundler {
     const files = await fs.readdir(agentsPath);
 
     for (const file of files) {
-      if (file.endsWith('.md')) {
+      if (file.endsWith('.md') && !file.toLowerCase().includes('readme')) {
         agents.push(file);
       }
     }

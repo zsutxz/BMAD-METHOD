@@ -12,10 +12,10 @@ When brainstorming for games, consider exploring:
 - **Game Dynamics** - Emergent behaviors from mechanic interactions
 - **Aesthetic Experience** - Emotional responses and feelings evoked
 - **Progression Systems** - How players grow and unlock content
-- **Challenge & Difficulty** - How to create engaging difficulty curves
+- **Challenge and Difficulty** - How to create engaging difficulty curves
 - **Social/Multiplayer Features** - How players interact with each other
-- **Narrative & World** - Story, setting, and environmental storytelling
-- **Art Direction & Feel** - Visual style and game feel
+- **Narrative and World** - Story, setting, and environmental storytelling
+- **Art Direction and Feel** - Visual style and game feel
 - **Monetization** - Business model and revenue approach (if applicable)
 
 ## Game Design Frameworks

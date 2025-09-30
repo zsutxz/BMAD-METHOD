@@ -8,7 +8,7 @@ Create structured, repeatable workflows for human-AI collaboration in BMAD v6.
 2. [Core Concepts](#core-concepts)
 3. [Workflow Structure](#workflow-structure)
 4. [Writing Instructions](#writing-instructions)
-5. [Templates & Variables](#templates--variables)
+5. [Templates and Variables](#templates--variables)
 6. [Flow Control](#flow-control)
 7. [Validation](#validation)
 8. [Examples](#examples)
@@ -192,7 +192,7 @@ Write 1-3 bullet points about project success:
 </step>
 ```
 
-## Templates & Variables
+## Templates and Variables
 
 ### Variable Syntax
 
@@ -257,7 +257,7 @@ _Generated on {{date}}_
 </step>
 ```
 
-### Branching & Goto
+### Branching and Goto
 
 ```xml
 <step n="7" goal="Validate">

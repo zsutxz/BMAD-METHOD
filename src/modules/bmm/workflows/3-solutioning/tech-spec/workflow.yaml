@@ -49,3 +49,12 @@ execution_hints:
 # Variables
 variables:
   non_interactive: true
+
+web_bundle:
+  name: "tech-spec"
+  description: "Generate a comprehensive Technical Specification from PRD and Architecture with acceptance criteria and traceability mapping"
+  author: "BMAD BMM"
+  web_bundle_files:
+    - "bmad/bmm/workflows/3-solutioning/tech-spec/template.md"
+    - "bmad/bmm/workflows/3-solutioning/tech-spec/instructions.md"
+    - "bmad/bmm/workflows/3-solutioning/tech-spec/checklist.md"

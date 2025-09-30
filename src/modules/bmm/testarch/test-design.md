@@ -1,9 +1,9 @@
 <!-- Powered by BMAD-CORE™ -->
 
-# Risk & Test Design v3.0 (Slim)
+# Risk and Test Design v3.0 (Slim)
 
 ```xml
-<task id="bmad/bmm/testarch/test-design" name="Risk & Test Design">
+<task id="bmad/bmm/testarch/test-design" name="Risk andamp; Test Design">
   <llm critical="true">
     <i>Set command_key="*test-design"</i>
     <i>Load {project-root}/bmad/bmm/testarch/tea-commands.csv and parse the matching row</i>

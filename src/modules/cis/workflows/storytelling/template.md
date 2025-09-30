@@ -62,7 +62,7 @@
 
 {{key_messages}}
 
-## Variations & Adaptations
+## Variations AND Adaptations
 
 ### Short Version (Tweet/Social)
 
@@ -86,7 +86,7 @@
 
 {{audience_considerations}}
 
-### Tone & Voice Notes
+### Tone AND Voice Notes
 
 {{tone_notes}}
 

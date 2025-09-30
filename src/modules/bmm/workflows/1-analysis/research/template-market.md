@@ -22,7 +22,7 @@
 
 ---
 
-## 1. Research Objectives & Methodology
+## 1. Research Objectives and Methodology
 
 ### Research Objectives
 

@@ -48,7 +48,7 @@ Work through each section collaboratively:
 4. Scope and Constraints (platforms, timeline, budget, team)
 5. Reference Framework (inspiration, competitors, differentiators)
 6. Content Framework (world, narrative, volume)
-7. Art & Audio Direction (visual and audio style)
+7. Art and Audio Direction (visual and audio style)
 8. Risk Assessment (risks, challenges, mitigation)
 9. Success Criteria (MVP, metrics, launch goals)
 10. Next Steps (immediate actions, research, questions)

@@ -26,9 +26,15 @@ validation: "{installed_path}/checklist.md"
 # Output configuration
 default_output_file: "{output_folder}/game-brief-{{game_name}}-{{date}}.md"
 
-# Required tools
-required_tools: []
-
 # Workflow settings
 autonomous: false # This is an interactive workflow requiring user collaboration
 brief_format: "comprehensive" # Options: "comprehensive" (full detail) or "executive" (3-page limit)
+
+web_bundle:
+  name: "game-brief"
+  description: "Interactive game brief creation workflow that guides users through defining their game vision with multiple input sources and conversational collaboration"
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/bmm/workflows/1-analysis/game-brief/template.md"
+    - "bmad/bmm/workflows/1-analysis/game-brief/instructions.md"
+    - "bmad/bmm/workflows/1-analysis/game-brief/checklist.md"

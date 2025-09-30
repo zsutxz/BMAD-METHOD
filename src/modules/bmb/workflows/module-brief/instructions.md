@@ -249,15 +249,15 @@ For each risk, note mitigation strategy.
 
 <step n="12" goal="Final review and export readiness">
 <action>Review all sections with user</action>
-<action>Ensure module brief is ready for build-module workflow</action>
+<action>Ensure module brief is ready for create-module workflow</action>
 
 Ask if they want to:
 
-1. Proceed directly to build-module workflow
+1. Proceed directly to create-module workflow
 2. Save and refine later
 3. Generate additional planning documents
 
-<action>Highlight that this brief can be fed directly into build-module workflow!</action>
+<action>Highlight that this brief can be fed directly into create-module workflow!</action>
 
 <template-output>final_brief</template-output>
 </step>

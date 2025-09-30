@@ -299,13 +299,13 @@ Being honest about unknowns helps us prepare.</ask>
 1. Problem Statement
 2. Proposed Solution
 3. Target Users
-4. Goals & Metrics
+4. Goals and Metrics
 5. MVP Scope
 6. Post-MVP Vision
-7. Financial Impact & Strategic Alignment
+7. Financial Impact and Strategic Alignment
 8. Technical Considerations
-9. Constraints & Assumptions
-10. Risks & Questions
+9. Constraints and Assumptions
+10. Risks and Questions
 11. Save and continue</ask>
 
 <action>Work with user to refine selected section</action>

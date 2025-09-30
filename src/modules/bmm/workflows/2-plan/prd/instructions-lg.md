@@ -193,7 +193,7 @@ Since this is a Level {{project_level}} project, you need architecture before st
 
 <action>Generate comprehensive checklist based on project analysis</action>
 
-### Phase 1: Architecture & Design
+### Phase 1: Architecture and Design
 
 - [ ] **Run architecture workflow** (REQUIRED)
   - Command: `workflow architecture`
@@ -239,7 +239,7 @@ Since this is a Level {{project_level}} project, you need architecture before st
   - Sprint boundaries
   - Resource allocation
 
-- [ ] **Establish monitoring & metrics**
+- [ ] **Establish monitoring and metrics**
   - Success metrics from PRD
   - Technical monitoring
   - User analytics

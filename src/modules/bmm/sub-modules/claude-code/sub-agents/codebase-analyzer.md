@@ -48,7 +48,7 @@ Provide structured analysis with:
 - **Key Components**: Entry points, core modules, critical services
 - **Dependencies**: External libraries, internal module relationships
 - **Configuration**: Environment setup, deployment configurations
-- **Build & Deploy**: Build process, test execution, deployment pipeline
+- **Build and Deploy**: Build process, test execution, deployment pipeline
 
 ## Critical Behaviors
 

@@ -8,7 +8,7 @@ _Generated on {{date}} by {{user_name}}_
 
 ---
 
-## 1. UX Goals & Principles
+## 1. UX Goals and Principles
 
 ### 1.1 Target User Personas
 
@@ -50,7 +50,7 @@ _Generated on {{date}} by {{user_name}}_
 
 ---
 
-## 4. Component Library & Design System
+## 4. Component Library and Design System
 
 ### 4.1 Design System Approach
 
@@ -76,7 +76,7 @@ _Generated on {{date}} by {{user_name}}_
 **Type Scale:**
 {{type_scale}}
 
-### 5.3 Spacing & Layout
+### 5.3 Spacing and Layout
 
 {{spacing_layout}}
 
@@ -106,7 +106,7 @@ _Generated on {{date}} by {{user_name}}_
 
 ---
 
-## 8. Interaction & Motion
+## 8. Interaction and Motion
 
 ### 8.1 Motion Principles
 
@@ -118,7 +118,7 @@ _Generated on {{date}} by {{user_name}}_
 
 ---
 
-## 9. Design Files & Wireframes
+## 9. Design Files and Wireframes
 
 ### 9.1 Design Files
 

@@ -22,3 +22,5 @@ exit_triggers:
   - "*exit"
   - "end party mode"
   - "stop party mode"
+
+web_bundle: false

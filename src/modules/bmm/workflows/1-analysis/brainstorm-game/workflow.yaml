@@ -20,3 +20,14 @@ game_brain_methods: "{installed_path}/game-brain-methods.csv"
 
 # CIS brainstorming workflow to invoke
 cis_brainstorming: "{project-root}/bmad/cis/workflows/brainstorming/workflow.yaml"
+
+web_bundle:
+  name: "brainstorm-game"
+  description: "Facilitate game brainstorming sessions by orchestrating the CIS brainstorming workflow with game-specific context, guidance, and additional game design techniques."
+  author: "BMad"
+  web_bundle_files:
+    - "bmad/bmm/workflows/1-analysis/brainstorm-game/instructions.md"
+    - "bmad/bmm/workflows/1-analysis/brainstorm-game/game-context.md"
+    - "bmad/bmm/workflows/1-analysis/brainstorm-game/game-brain-methods.csv"
+  existing_workflows:
+    - cis_brainstorming: "bmad/cis/workflows/brainstorming/workflow.yaml"

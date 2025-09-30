@@ -18,7 +18,7 @@
    - Expo (managed, easier, some limitations)
    - React Native CLI (bare workflow, full control)
 
-## Backend & Data
+## Backend and Data
 
 4. **Backend approach:**
    - Firebase (BaaS, real-time, easy)

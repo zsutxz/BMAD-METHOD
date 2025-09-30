@@ -26,7 +26,7 @@
 
 ---
 
-## 🔍 DIAGNOSIS & ROOT CAUSE ANALYSIS
+## 🔍 DIAGNOSIS AND ROOT CAUSE ANALYSIS
 
 ### Problem Boundaries (Is/Is Not)
 
@@ -112,7 +112,7 @@
 
 {{action_steps}}
 
-### Timeline & Milestones
+### Timeline and Milestones
 
 {{timeline}}
 
@@ -126,7 +126,7 @@
 
 ---
 
-## 📈 MONITORING & VALIDATION
+## 📈 MONITORING AND VALIDATION
 
 ### Success Metrics
 

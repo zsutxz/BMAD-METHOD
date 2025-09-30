@@ -9,8 +9,3 @@ prompt: "Happy Building - Build the Modules, Workflows and Agents of your dreams
 ## user_name
 ## communication_language
 ## output_folder
-
-src_impact:
-  prompt: "Are you installing this module to your local Forked BMad Core repository? (not a separate project which is normally the case)"
-  default: false
-  result: "{value}"
