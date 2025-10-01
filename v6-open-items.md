@@ -11,7 +11,9 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - DONE: Game Agents comms style WAY to over the top - reduced a bit.
 - need to nest subagents for better organization.
 - DONE: Quick note on BMM v6 Flow
-- DONE: CC SubAgents installed to subfolders now.
+- DONE: CC SubAgents installed to sub-folders now.
+- DONE: Qwen TOML update.
+- DONE: Diagram alpha BMM flow.
 - IN PROGRESS - Team Web Bundler functional
 - IN PROGRESS - bmm `testarch` integrated into the BMM workflow's after aligned with the rest of bmad method flow.
 - IN PROGRESS - Document new agent workflows.
@@ -26,6 +28,7 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - github pipelines, branch protection, vulnerability scanners
 - improved subagent injections
 - bmm existing project scanning and integration with workflow phase 0-4 improvements
+- BTA Module coming soon!
 
 ## Needed before Beta → v0 release
 
