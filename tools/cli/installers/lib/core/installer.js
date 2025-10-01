@@ -119,12 +119,11 @@ class Installer {
     // Display welcome message
     CLIUtils.displaySection('BMAD™ Installation', 'Version ' + require(path.join(getProjectRoot(), 'package.json')).version);
 
-    // Preflight: Block legacy BMAD v4 footprints before any prompts/writes
+    // Preflight: Handle legacy BMAD v4 footprints before any prompts/writes
     const projectDir = path.resolve(config.directory);
     const legacyV4 = await this.detector.detectLegacyV4(projectDir);
     if (legacyV4.hasLegacyV4) {
-      const error = this.createLegacyV4Error(legacyV4);
-      throw error;
+      await this.handleLegacyV4Migration(projectDir, legacyV4);
     }
 
     // If core config was pre-collected (from interactive mode), use it
@@ -837,36 +836,90 @@ class Installer {
   }
 
   /**
-   * Private: Create formatted error for legacy BMAD v4 detection
+   * Handle legacy BMAD v4 migration with automatic backup
+   * @param {string} projectDir - Project directory
    * @param {Object} legacyV4 - Legacy V4 detection result with offenders array
-   * @returns {Error} Formatted error with fullMessage property
    */
-  createLegacyV4Error(legacyV4) {
-    const error = new Error('Legacy BMAD v4 artefacts detected in project. Remove them to continue.');
+  async handleLegacyV4Migration(projectDir, legacyV4) {
+    console.log(chalk.yellow.bold('\n⚠️  Legacy BMAD v4 detected'));
+    console.log(chalk.dim('The installer found legacy artefacts in your project.\n'));
 
-    // Build the complete formatted message using template literals
-    const headerMessage = `
-${chalk.red.bold('Blocked: Legacy BMAD v4 detected')}
-The installer found legacy artefacts in your project.`;
+    // Separate .bmad* folders (auto-backup) from other offending paths (manual cleanup)
+    const bmadFolders = legacyV4.offenders.filter((p) => {
+      const name = path.basename(p);
+      return name.startsWith('.bmad'); // Only dot-prefixed folders get auto-backed up
+    });
+    const otherOffenders = legacyV4.offenders.filter((p) => {
+      const name = path.basename(p);
+      return !name.startsWith('.bmad'); // Everything else is manual cleanup
+    });
 
-    const offendersMessage = `
-Offending paths:
-${legacyV4.offenders.map((p) => ` - ${p}`).join('\n')}
+    const inquirer = require('inquirer');
 
-Cleanup commands you can copy/paste:
-${chalk.cyan('macOS/Linux:')}
-${legacyV4.offenders.map((p) => `  rm -rf '${p}'`).join('\n')}
-${chalk.cyan('Windows:')}
-${legacyV4.offenders.map((p) => `  rmdir /S /Q "${p}"`).join('\n')}`;
+    // Show warning for other offending paths FIRST
+    if (otherOffenders.length > 0) {
+      console.log(chalk.yellow('⚠️  Recommended cleanup:'));
+      console.log(chalk.dim('It is recommended to remove the following items before proceeding:\n'));
+      for (const p of otherOffenders) console.log(chalk.dim(` - ${p}`));
 
-    const footerMessage = `
-Remove the listed paths (case sensitive) and rerun install.
-Note: You may also want to remove other BMAD-related v4 files/folders left over in this project. If you have customizations, back them up or migrate them before deleting.`;
+      console.log(chalk.cyan('\nCleanup commands you can copy/paste:'));
+      console.log(chalk.dim('macOS/Linux:'));
+      for (const p of otherOffenders) console.log(chalk.dim(`  rm -rf '${p}'`));
+      console.log(chalk.dim('Windows:'));
+      for (const p of otherOffenders) console.log(chalk.dim(`  rmdir /S /Q "${p}"`));
 
-    // Attach the complete formatted message
-    error.fullMessage = headerMessage + offendersMessage + footerMessage;
+      const { cleanedUp } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'cleanedUp',
+          message: 'Have you completed the recommended cleanup? (You can proceed without it, but it is recommended)',
+          default: false,
+        },
+      ]);
 
-    return error;
+      if (cleanedUp) {
+        console.log(chalk.green('✓ Cleanup acknowledged\n'));
+      } else {
+        console.log(chalk.yellow('⚠️  Proceeding without recommended cleanup\n'));
+      }
+    }
+
+    // Handle .bmad* folders with automatic backup
+    if (bmadFolders.length > 0) {
+      console.log(chalk.cyan('The following legacy folders will be moved to v4-backup:'));
+      for (const p of bmadFolders) console.log(chalk.dim(` - ${p}`));
+
+      const { proceed } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'proceed',
+          message: 'Proceed with backing up legacy v4 folders?',
+          default: true,
+        },
+      ]);
+
+      if (proceed) {
+        const backupDir = path.join(projectDir, 'v4-backup');
+        await fs.ensureDir(backupDir);
+
+        for (const folder of bmadFolders) {
+          const folderName = path.basename(folder);
+          const backupPath = path.join(backupDir, folderName);
+
+          // If backup already exists, add timestamp
+          let finalBackupPath = backupPath;
+          if (await fs.pathExists(backupPath)) {
+            const timestamp = new Date().toISOString().replaceAll(/[:.]/g, '-').split('T')[0];
+            finalBackupPath = path.join(backupDir, `${folderName}-${timestamp}`);
+          }
+
+          await fs.move(folder, finalBackupPath, { overwrite: false });
+          console.log(chalk.green(`✓ Moved ${folderName} to ${path.relative(projectDir, finalBackupPath)}`));
+        }
+      } else {
+        throw new Error('Installation cancelled by user');
+      }
+    }
   }
 
   /**
