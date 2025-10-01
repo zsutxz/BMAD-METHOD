@@ -185,11 +185,60 @@ class Installer {
         console.log(chalk.dim(`  Location: ${bmadDir}`));
         console.log(chalk.dim(`  Version: ${existingInstall.version}`));
 
-        // TODO: Handle update scenario
         const { action } = await this.promptUpdateAction();
         if (action === 'cancel') {
           console.log('Installation cancelled.');
           return;
+        }
+
+        if (action === 'reinstall') {
+          // Warn about destructive operation
+          console.log(chalk.red.bold('\n⚠️  WARNING: This is a destructive operation!'));
+          console.log(chalk.red('All custom files and modifications in the bmad directory will be lost.'));
+
+          const inquirer = require('inquirer');
+          const { confirmReinstall } = await inquirer.prompt([
+            {
+              type: 'confirm',
+              name: 'confirmReinstall',
+              message: chalk.yellow('Are you sure you want to delete and reinstall?'),
+              default: false,
+            },
+          ]);
+
+          if (!confirmReinstall) {
+            console.log('Installation cancelled.');
+            return;
+          }
+
+          // Remove existing installation
+          await fs.remove(bmadDir);
+          console.log(chalk.green('✓ Removed existing installation\n'));
+        } else if (action === 'update') {
+          // Store that we're updating for later processing
+          config._isUpdate = true;
+          config._existingInstall = existingInstall;
+
+          // Detect custom files BEFORE updating (compare current files vs manifest)
+          const existingManifest = await this.manifest.read(bmadDir);
+          config._customFiles = await this.detectCustomFiles(bmadDir, existingManifest);
+
+          // If there are custom files, back them up temporarily
+          if (config._customFiles.length > 0) {
+            const tempBackupDir = path.join(projectDir, '.bmad-custom-backup-temp');
+            await fs.ensureDir(tempBackupDir);
+
+            spinner.start(`Backing up ${config._customFiles.length} custom files...`);
+            for (const customFile of config._customFiles) {
+              const relativePath = path.relative(bmadDir, customFile);
+              const backupPath = path.join(tempBackupDir, relativePath);
+              await fs.ensureDir(path.dirname(backupPath));
+              await fs.copy(customFile, backupPath);
+            }
+            spinner.succeed(`Backed up ${config._customFiles.length} custom files`);
+
+            config._tempBackupDir = tempBackupDir;
+          }
         }
       }
 
@@ -352,7 +401,41 @@ class Installer {
       );
       spinner.succeed(`Manifest created (${manifestResult.filesTracked} files tracked)`);
 
+      // If this was an update, restore custom files
+      let customFiles = [];
+      if (config._isUpdate && config._customFiles && config._customFiles.length > 0) {
+        spinner.start(`Restoring ${config._customFiles.length} custom files...`);
+
+        for (const originalPath of config._customFiles) {
+          const relativePath = path.relative(bmadDir, originalPath);
+          const backupPath = path.join(config._tempBackupDir, relativePath);
+
+          if (await fs.pathExists(backupPath)) {
+            await fs.ensureDir(path.dirname(originalPath));
+            await fs.copy(backupPath, originalPath, { overwrite: true });
+          }
+        }
+
+        // Clean up temp backup
+        if (config._tempBackupDir && (await fs.pathExists(config._tempBackupDir))) {
+          await fs.remove(config._tempBackupDir);
+        }
+
+        spinner.succeed(`Restored ${config._customFiles.length} custom files`);
+        customFiles = config._customFiles;
+      }
+
       spinner.stop();
+
+      // Report custom files if any were found
+      if (customFiles.length > 0) {
+        console.log(chalk.cyan(`\n📁 Custom files preserved: ${customFiles.length}`));
+        console.log(chalk.dim('The following custom files were found and restored:\n'));
+        for (const file of customFiles) {
+          console.log(chalk.dim(`  - ${path.relative(bmadDir, file)}`));
+        }
+        console.log('');
+      }
 
       // Display completion message
       const { UI } = require('../../../lib/ui');
@@ -361,6 +444,7 @@ class Installer {
         path: bmadDir,
         modules: config.modules,
         ides: config.ides,
+        customFiles: customFiles.length > 0 ? customFiles : undefined,
       });
 
       return { success: true, path: bmadDir, modules: config.modules, ides: config.ides };
@@ -920,6 +1004,59 @@ class Installer {
         throw new Error('Installation cancelled by user');
       }
     }
+  }
+
+  /**
+   * Detect custom files that were not installed by the installer
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Object} existingManifest - Previous installation manifest
+   * @returns {Array} List of custom files found
+   */
+  async detectCustomFiles(bmadDir, existingManifest) {
+    const customFiles = [];
+
+    // Build set of previously installed files from manifest
+    const installedSet = new Set();
+    if (existingManifest && existingManifest.files) {
+      for (const fileEntry of existingManifest.files) {
+        if (fileEntry.file) {
+          // Files in manifest are stored as relative paths starting with 'bmad/'
+          // Convert to absolute path
+          const relativePath = fileEntry.file.startsWith('bmad/') ? fileEntry.file.slice(5) : fileEntry.file;
+          const absolutePath = path.join(bmadDir, relativePath);
+          installedSet.add(path.normalize(absolutePath));
+        }
+      }
+    }
+
+    // Recursively scan bmadDir for all files
+    const scanDirectory = async (dir) => {
+      try {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+
+          if (entry.isDirectory()) {
+            // Skip certain directories
+            if (entry.name === 'node_modules' || entry.name === '.git') {
+              continue;
+            }
+            await scanDirectory(fullPath);
+          } else if (entry.isFile()) {
+            const normalizedPath = path.normalize(fullPath);
+            // If file is not in the previous manifest, it's custom
+            if (!installedSet.has(normalizedPath)) {
+              customFiles.push(fullPath);
+            }
+          }
+        }
+      } catch {
+        // Ignore errors scanning directories
+      }
+    };
+
+    await scanDirectory(bmadDir);
+    return customFiles;
   }
 
   /**

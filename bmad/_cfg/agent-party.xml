@@ -1,7 +1,7 @@
 <!-- Powered by BMAD-CORE™ -->
 <!-- Agent Manifest - Generated during BMAD installation -->
 <!-- This file contains a summary of all installed agents for quick reference -->
-<manifest id="bmad/_cfg/agent-party.xml" version="1.0" generated="2025-10-01T00:22:43.657Z">
+<manifest id="bmad/_cfg/agent-party.xml" version="1.0" generated="2025-10-01T00:47:33.050Z">
   <description>
     Complete roster of installed BMAD agents with summarized personas for efficient multi-agent orchestration.
     Used by party-mode and other multi-agent coordination features.
@@ -164,6 +164,6 @@
   <statistics>
     <total_agents>18</total_agents>
     <modules>bmm, cis, core, custom</modules>
-    <last_updated>2025-10-01T00:22:43.657Z</last_updated>
+    <last_updated>2025-10-01T00:47:33.050Z</last_updated>
   </statistics>
 </manifest>
