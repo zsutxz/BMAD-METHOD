@@ -13,7 +13,8 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - DONE: Quick note on BMM v6 Flow
 - DONE: CC SubAgents installed to sub-folders now.
 - DONE: Qwen TOML update.
-- DONE: Diagram alpha BMM flow.
+- DONE: Diagram alpha BMM flow. - added to src/modules/bmm/workflows/
+- DONE: Fix Redoc task to BMB.
 - IN PROGRESS - Team Web Bundler functional
 - IN PROGRESS - bmm `testarch` integrated into the BMM workflow's after aligned with the rest of bmad method flow.
 - IN PROGRESS - Document new agent workflows.

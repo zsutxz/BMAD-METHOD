@@ -25,6 +25,7 @@
     <c cmd="*create-module" run-workflow="{project-root}/bmad/bmb/workflows/create-module/workflow.yaml">Create a complete BMAD module (brainstorm → brief → build with agents and workflows)</c>
     <c cmd="*create-workflow" run-workflow="{project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml">Create a new BMAD Core workflow with proper structure</c>
     <c cmd="*edit-workflow" run-workflow="{project-root}/bmad/bmb/workflows/edit-workflow/workflow.yaml">Edit existing workflows while following best practices</c>
+    <c cmd="redoc" run-workflow="{project-root}/bmad/bmb/workflows/redoc/workflow.yaml">Create or update module documentation</c>
     <c cmd="*exit">Exit with confirmation</c>
   </cmds>
 </agent>
