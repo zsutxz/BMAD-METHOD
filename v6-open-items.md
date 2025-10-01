@@ -10,6 +10,8 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - DONE: if you modify an installed file and upgrade, the file will be saved as a .bak file and the installer will inform you.
 - DONE: Game Agents comms style WAY to over the top - reduced a bit.
 - need to nest subagents for better organization.
+- DONE: Quick note on BMM v6 Flow
+- DONE: CC SubAgents installed to subfolders now.
 - IN PROGRESS - Team Web Bundler functional
 - IN PROGRESS - bmm `testarch` integrated into the BMM workflow's after aligned with the rest of bmad method flow.
 - IN PROGRESS - Document new agent workflows.

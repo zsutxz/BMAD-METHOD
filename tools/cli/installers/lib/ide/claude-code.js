@@ -605,19 +605,48 @@ class ClaudeCodeSetup extends BaseIdeSetup {
       filesToCopy = choices.selected;
     }
 
-    // Copy selected subagent files
-    for (const file of filesToCopy) {
-      const sourcePath = path.join(sourceDir, file);
-      const targetPath = path.join(targetDir, file);
+    // Recursively find all matching files in source directory
+    const findFileInSource = async (filename) => {
+      const { glob } = require('glob');
+      const pattern = path.join(sourceDir, '**', filename);
+      const files = await glob(pattern);
+      return files[0]; // Return first match
+    };
 
-      if (await this.exists(sourcePath)) {
-        await fs.copyFile(sourcePath, targetPath);
-        console.log(chalk.green(`    ✓ Installed: ${file.replace('.md', '')}`));
+    // Copy selected subagent files
+    let copiedCount = 0;
+    for (const file of filesToCopy) {
+      try {
+        const sourcePath = await findFileInSource(file);
+
+        if (sourcePath && (await this.exists(sourcePath))) {
+          // Extract subfolder name if file is in a subfolder
+          const relPath = path.relative(sourceDir, sourcePath);
+          const subFolder = path.dirname(relPath);
+
+          // Create corresponding subfolder in target if needed
+          let targetPath;
+          if (subFolder && subFolder !== '.') {
+            const targetSubDir = path.join(targetDir, subFolder);
+            await this.ensureDir(targetSubDir);
+            targetPath = path.join(targetSubDir, file);
+          } else {
+            targetPath = path.join(targetDir, file);
+          }
+
+          await fs.copyFile(sourcePath, targetPath);
+          console.log(chalk.green(`    ✓ Installed: ${subFolder === '.' ? '' : subFolder + '/'}${file.replace('.md', '')}`));
+          copiedCount++;
+        } else {
+          console.log(chalk.yellow(`    ⚠ Not found: ${file}`));
+        }
+      } catch (error) {
+        console.log(chalk.yellow(`    ⚠ Error copying ${file}: ${error.message}`));
       }
     }
 
-    if (filesToCopy.length > 0) {
-      console.log(chalk.dim(`  Total subagents installed: ${filesToCopy.length}`));
+    if (copiedCount > 0) {
+      console.log(chalk.dim(`  Total subagents installed: ${copiedCount}`));
     }
   }
 }
