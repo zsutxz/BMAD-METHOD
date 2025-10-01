@@ -4,7 +4,10 @@
 
 Aside from stability and bug fixes found during the alpha period - the main focus will be on the following:
 
-- Single Agent web bundler finalized
+- DONE: Single Agent web bundler finalized - run `npm run bundle'
+- DONE: 4->v6 upgrade installer fixed.
+- DONE: v6->v6 updates will no longer remove custom content. so if you have a new agent you created for example anywhere under the bmad folder, updates will no longer remove them.
+- DONE: if you modify an installed file and upgrade, the file will be saved as a .bak file and the installer will inform you.
 - Team Web Bundler functional
 - bmm `testarch` converted to a standalone module or integrated into the BMM workflow's after aligned with the rest of bmad method flow.
 - All project levels (0 through 4) manual flows validated through workflow phase 1-4

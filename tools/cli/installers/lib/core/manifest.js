@@ -1,12 +1,13 @@
 const path = require('node:path');
 const fs = require('fs-extra');
+const crypto = require('node:crypto');
 
 class Manifest {
   /**
    * Create a new manifest
    * @param {string} bmadDir - Path to bmad directory
    * @param {Object} data - Manifest data
-   * @param {Array} installedFiles - List of installed files to track
+   * @param {Array} installedFiles - List of installed files (no longer used, files tracked in files-manifest.csv)
    */
   async create(bmadDir, data, installedFiles = []) {
     const manifestPath = path.join(bmadDir, '_cfg', 'manifest.csv');
@@ -22,16 +23,13 @@ class Manifest {
     }
     const moduleConfigs = await this.loadModuleConfigs(allModules);
 
-    // Parse installed files to extract metadata - pass bmadDir for relative paths
-    const fileMetadata = await this.parseInstalledFiles(installedFiles, bmadDir);
-
     // Don't store installation path in manifest
 
-    // Generate CSV content
-    const csvContent = this.generateManifestCsv({ ...data, modules: allModules }, fileMetadata, moduleConfigs);
+    // Generate CSV content (no file metadata)
+    const csvContent = this.generateManifestCsv({ ...data, modules: allModules }, [], moduleConfigs);
 
     await fs.writeFile(manifestPath, csvContent, 'utf8');
-    return { success: true, path: manifestPath, filesTracked: fileMetadata.length };
+    return { success: true, path: manifestPath, filesTracked: 0 };
   }
 
   /**
@@ -143,6 +141,20 @@ class Manifest {
   }
 
   /**
+   * Calculate SHA256 hash of a file
+   * @param {string} filePath - Path to file
+   * @returns {string} SHA256 hash
+   */
+  async calculateFileHash(filePath) {
+    try {
+      const content = await fs.readFile(filePath);
+      return crypto.createHash('sha256').update(content).digest('hex');
+    } catch {
+      return null;
+    }
+  }
+
+  /**
    * Parse installed files to extract metadata
    * @param {Array} installedFiles - List of installed file paths
    * @param {string} bmadDir - Path to bmad directory for relative paths
@@ -156,7 +168,10 @@ class Manifest {
       // Make path relative to parent of bmad directory, starting with 'bmad/'
       const relativePath = 'bmad' + filePath.replace(bmadDir, '').replaceAll('\\', '/');
 
-      // Handle markdown files - extract XML metadata
+      // Calculate file hash
+      const hash = await this.calculateFileHash(filePath);
+
+      // Handle markdown files - extract XML metadata if present
       if (fileExt === '.md') {
         try {
           if (await fs.pathExists(filePath)) {
@@ -164,20 +179,32 @@ class Manifest {
             const metadata = this.extractXmlNodeAttributes(content, filePath, relativePath);
 
             if (metadata) {
+              // Has XML metadata
+              metadata.hash = hash;
               fileMetadata.push(metadata);
+            } else {
+              // No XML metadata - still track the file
+              fileMetadata.push({
+                file: relativePath,
+                type: 'md',
+                name: path.basename(filePath, fileExt),
+                title: null,
+                hash: hash,
+              });
             }
           }
         } catch (error) {
           console.warn(`Warning: Could not parse ${filePath}:`, error.message);
         }
       }
-      // Handle other file types (CSV, JSON, etc.)
+      // Handle other file types (CSV, JSON, YAML, etc.)
       else {
         fileMetadata.push({
           file: relativePath,
           type: fileExt.slice(1), // Remove the dot
           name: path.basename(filePath, fileExt),
           title: null,
+          hash: hash,
         });
       }
     }
@@ -268,13 +295,8 @@ class Manifest {
       csv.push('');
     }
 
-    // Files section
-    if (fileMetadata.length > 0) {
-      csv.push('## Files', 'Type,Path,Name,Title');
-      for (const file of fileMetadata) {
-        csv.push([file.type || '', file.file || '', file.name || '', file.title || ''].map((v) => this.escapeCsv(v)).join(','));
-      }
-    }
+    // Files section - NO LONGER USED
+    // Files are now tracked in files-manifest.csv by ManifestGenerator
 
     return csv.join('\n');
   }
@@ -357,8 +379,8 @@ class Manifest {
           break;
         }
         case 'files': {
-          // Skip header row
-          if (line === 'Type,Path,Name,Title') continue;
+          // Skip header rows (support both old and new format)
+          if (line === 'Type,Path,Name,Title' || line === 'Type,Path,Name,Title,Hash') continue;
 
           const parts = this.parseCsvLine(line);
           if (parts.length >= 2) {
@@ -367,6 +389,7 @@ class Manifest {
               file: parts[1] || '',
               name: parts[2] || null,
               title: parts[3] || null,
+              hash: parts[4] || null, // Hash column (may not exist in old manifests)
             });
           }
 

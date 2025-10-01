@@ -219,25 +219,58 @@ class Installer {
           config._isUpdate = true;
           config._existingInstall = existingInstall;
 
-          // Detect custom files BEFORE updating (compare current files vs manifest)
-          const existingManifest = await this.manifest.read(bmadDir);
-          config._customFiles = await this.detectCustomFiles(bmadDir, existingManifest);
+          // Detect custom and modified files BEFORE updating (compare current files vs files-manifest.csv)
+          const existingFilesManifest = await this.readFilesManifest(bmadDir);
+          console.log(chalk.dim(`DEBUG: Read ${existingFilesManifest.length} files from manifest`));
+          console.log(chalk.dim(`DEBUG: Manifest has hashes: ${existingFilesManifest.some((f) => f.hash)}`));
+
+          const { customFiles, modifiedFiles } = await this.detectCustomFiles(bmadDir, existingFilesManifest);
+
+          console.log(chalk.dim(`DEBUG: Found ${customFiles.length} custom files, ${modifiedFiles.length} modified files`));
+          if (modifiedFiles.length > 0) {
+            console.log(chalk.yellow('DEBUG: Modified files:'));
+            for (const f of modifiedFiles) console.log(chalk.dim(`  - ${f.path}`));
+          }
+
+          config._customFiles = customFiles;
+          config._modifiedFiles = modifiedFiles;
 
           // If there are custom files, back them up temporarily
-          if (config._customFiles.length > 0) {
+          if (customFiles.length > 0) {
             const tempBackupDir = path.join(projectDir, '.bmad-custom-backup-temp');
             await fs.ensureDir(tempBackupDir);
 
-            spinner.start(`Backing up ${config._customFiles.length} custom files...`);
-            for (const customFile of config._customFiles) {
+            spinner.start(`Backing up ${customFiles.length} custom files...`);
+            for (const customFile of customFiles) {
               const relativePath = path.relative(bmadDir, customFile);
               const backupPath = path.join(tempBackupDir, relativePath);
               await fs.ensureDir(path.dirname(backupPath));
               await fs.copy(customFile, backupPath);
             }
-            spinner.succeed(`Backed up ${config._customFiles.length} custom files`);
+            spinner.succeed(`Backed up ${customFiles.length} custom files`);
 
             config._tempBackupDir = tempBackupDir;
+          }
+
+          // For modified files, back them up to temp directory (will be restored as .bak files after install)
+          if (modifiedFiles.length > 0) {
+            const tempModifiedBackupDir = path.join(projectDir, '.bmad-modified-backup-temp');
+            await fs.ensureDir(tempModifiedBackupDir);
+
+            console.log(chalk.yellow(`\nDEBUG: Backing up ${modifiedFiles.length} modified files to temp location`));
+            spinner.start(`Backing up ${modifiedFiles.length} modified files...`);
+            for (const modifiedFile of modifiedFiles) {
+              const relativePath = path.relative(bmadDir, modifiedFile.path);
+              const tempBackupPath = path.join(tempModifiedBackupDir, relativePath);
+              console.log(chalk.dim(`DEBUG: Backing up ${relativePath} to temp`));
+              await fs.ensureDir(path.dirname(tempBackupPath));
+              await fs.copy(modifiedFile.path, tempBackupPath, { overwrite: true });
+            }
+            spinner.succeed(`Backed up ${modifiedFiles.length} modified files`);
+
+            config._tempModifiedBackupDir = tempModifiedBackupDir;
+          } else {
+            console.log(chalk.dim('DEBUG: No modified files detected'));
           }
         }
       }
@@ -307,12 +340,23 @@ class Installer {
         spinner.succeed(`Agent configurations created: ${agentConfigResult.created}`);
       }
 
-      // Generate CSV manifests for workflows, agents, and tasks BEFORE IDE setup
+      // Pre-register manifest files that will be created (except files-manifest.csv to avoid recursion)
+      const cfgDir = path.join(bmadDir, '_cfg');
+      this.installedFiles.push(
+        path.join(cfgDir, 'manifest.csv'),
+        path.join(cfgDir, 'manifest.yaml'),
+        path.join(cfgDir, 'workflow-manifest.csv'),
+        path.join(cfgDir, 'agent-manifest.csv'),
+        path.join(cfgDir, 'task-manifest.csv'),
+      );
+
+      // Generate CSV manifests for workflows, agents, tasks AND ALL FILES with hashes BEFORE IDE setup
       spinner.start('Generating workflow and agent manifests...');
       const manifestGen = new ManifestGenerator();
-      const manifestStats = await manifestGen.generateManifests(bmadDir, config.modules || []);
+      const manifestStats = await manifestGen.generateManifests(bmadDir, config.modules || [], this.installedFiles);
+
       spinner.succeed(
-        `Manifests generated: ${manifestStats.workflows} workflows, ${manifestStats.agents} agents, ${manifestStats.tasks} tasks`,
+        `Manifests generated: ${manifestStats.workflows} workflows, ${manifestStats.agents} agents, ${manifestStats.tasks} tasks, ${manifestStats.files} files`,
       );
 
       // Configure IDEs and copy documentation
@@ -403,31 +447,59 @@ class Installer {
 
       // If this was an update, restore custom files
       let customFiles = [];
-      if (config._isUpdate && config._customFiles && config._customFiles.length > 0) {
-        spinner.start(`Restoring ${config._customFiles.length} custom files...`);
+      let modifiedFiles = [];
+      if (config._isUpdate) {
+        if (config._customFiles && config._customFiles.length > 0) {
+          spinner.start(`Restoring ${config._customFiles.length} custom files...`);
 
-        for (const originalPath of config._customFiles) {
-          const relativePath = path.relative(bmadDir, originalPath);
-          const backupPath = path.join(config._tempBackupDir, relativePath);
+          for (const originalPath of config._customFiles) {
+            const relativePath = path.relative(bmadDir, originalPath);
+            const backupPath = path.join(config._tempBackupDir, relativePath);
 
-          if (await fs.pathExists(backupPath)) {
-            await fs.ensureDir(path.dirname(originalPath));
-            await fs.copy(backupPath, originalPath, { overwrite: true });
+            if (await fs.pathExists(backupPath)) {
+              await fs.ensureDir(path.dirname(originalPath));
+              await fs.copy(backupPath, originalPath, { overwrite: true });
+            }
+          }
+
+          // Clean up temp backup
+          if (config._tempBackupDir && (await fs.pathExists(config._tempBackupDir))) {
+            await fs.remove(config._tempBackupDir);
+          }
+
+          spinner.succeed(`Restored ${config._customFiles.length} custom files`);
+          customFiles = config._customFiles;
+        }
+
+        if (config._modifiedFiles && config._modifiedFiles.length > 0) {
+          modifiedFiles = config._modifiedFiles;
+
+          // Restore modified files as .bak files
+          if (config._tempModifiedBackupDir && (await fs.pathExists(config._tempModifiedBackupDir))) {
+            spinner.start(`Restoring ${modifiedFiles.length} modified files as .bak...`);
+
+            for (const modifiedFile of modifiedFiles) {
+              const relativePath = path.relative(bmadDir, modifiedFile.path);
+              const tempBackupPath = path.join(config._tempModifiedBackupDir, relativePath);
+              const bakPath = modifiedFile.path + '.bak';
+
+              if (await fs.pathExists(tempBackupPath)) {
+                await fs.ensureDir(path.dirname(bakPath));
+                await fs.copy(tempBackupPath, bakPath, { overwrite: true });
+              }
+            }
+
+            // Clean up temp backup
+            await fs.remove(config._tempModifiedBackupDir);
+
+            spinner.succeed(`Restored ${modifiedFiles.length} modified files as .bak`);
           }
         }
-
-        // Clean up temp backup
-        if (config._tempBackupDir && (await fs.pathExists(config._tempBackupDir))) {
-          await fs.remove(config._tempBackupDir);
-        }
-
-        spinner.succeed(`Restored ${config._customFiles.length} custom files`);
-        customFiles = config._customFiles;
       }
 
       spinner.stop();
 
-      // Report custom files if any were found
+      // Report custom and modified files if any were found
       if (customFiles.length > 0) {
         console.log(chalk.cyan(`\n📁 Custom files preserved: ${customFiles.length}`));
         console.log(chalk.dim('The following custom files were found and restored:\n'));
@@ -435,6 +507,16 @@ class Installer {
           console.log(chalk.dim(`  - ${path.relative(bmadDir, file)}`));
         }
         console.log('');
+      }
+
+      if (modifiedFiles.length > 0) {
+        console.log(chalk.yellow(`\n⚠️  Modified files detected: ${modifiedFiles.length}`));
+        console.log(chalk.dim('The following files were modified and backed up with .bak extension:\n'));
+        for (const file of modifiedFiles) {
+          console.log(chalk.dim(`  - ${file.relativePath} → ${file.relativePath}.bak`));
+        }
+        console.log(chalk.dim('\nThese files have been updated with the new version.'));
+        console.log(chalk.dim('Review the .bak files to see your changes and merge if needed.\n'));
       }
 
       // Display completion message
@@ -643,6 +725,9 @@ class Installer {
 
         // Write the clean config file
         await fs.writeFile(configPath, header + yamlContent, 'utf8');
+
+        // Track the config file in installedFiles
+        this.installedFiles.push(configPath);
       }
     }
   }
@@ -1007,25 +1092,89 @@ class Installer {
   }
 
   /**
-   * Detect custom files that were not installed by the installer
+   * Read files-manifest.csv
    * @param {string} bmadDir - BMAD installation directory
-   * @param {Object} existingManifest - Previous installation manifest
-   * @returns {Array} List of custom files found
+   * @returns {Array} Array of file entries from files-manifest.csv
    */
-  async detectCustomFiles(bmadDir, existingManifest) {
-    const customFiles = [];
+  async readFilesManifest(bmadDir) {
+    const filesManifestPath = path.join(bmadDir, '_cfg', 'files-manifest.csv');
+    if (!(await fs.pathExists(filesManifestPath))) {
+      return [];
+    }
 
-    // Build set of previously installed files from manifest
-    const installedSet = new Set();
-    if (existingManifest && existingManifest.files) {
-      for (const fileEntry of existingManifest.files) {
-        if (fileEntry.file) {
-          // Files in manifest are stored as relative paths starting with 'bmad/'
-          // Convert to absolute path
-          const relativePath = fileEntry.file.startsWith('bmad/') ? fileEntry.file.slice(5) : fileEntry.file;
-          const absolutePath = path.join(bmadDir, relativePath);
-          installedSet.add(path.normalize(absolutePath));
+    try {
+      const content = await fs.readFile(filesManifestPath, 'utf8');
+      const lines = content.split('\n');
+      const files = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        // Skip header
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        // Parse CSV line properly handling quoted values
+        const parts = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (const char of line) {
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            parts.push(current);
+            current = '';
+          } else {
+            current += char;
+          }
         }
+        parts.push(current); // Add last part
+
+        if (parts.length >= 4) {
+          files.push({
+            type: parts[0],
+            name: parts[1],
+            module: parts[2],
+            path: parts[3],
+            hash: parts[4] || null, // Hash may not exist in old manifests
+          });
+        }
+      }
+
+      return files;
+    } catch (error) {
+      console.warn('Warning: Could not read files-manifest.csv:', error.message);
+      return [];
+    }
+  }
+
+  /**
+   * Detect custom and modified files
+   * @param {string} bmadDir - BMAD installation directory
+   * @param {Array} existingFilesManifest - Previous files from files-manifest.csv
+   * @returns {Object} Object with customFiles and modifiedFiles arrays
+   */
+  async detectCustomFiles(bmadDir, existingFilesManifest) {
+    const customFiles = [];
+    const modifiedFiles = [];
+
+    // Check if the manifest has hashes - if not, we can't detect modifications
+    let manifestHasHashes = false;
+    if (existingFilesManifest && existingFilesManifest.length > 0) {
+      manifestHasHashes = existingFilesManifest.some((f) => f.hash);
+    }
+
+    // Build map of previously installed files from files-manifest.csv with their hashes
+    const installedFilesMap = new Map();
+    for (const fileEntry of existingFilesManifest) {
+      if (fileEntry.path) {
+        // Files in manifest are stored as relative paths starting with 'bmad/'
+        // Convert to absolute path
+        const relativePath = fileEntry.path.startsWith('bmad/') ? fileEntry.path.slice(5) : fileEntry.path;
+        const absolutePath = path.join(bmadDir, relativePath);
+        installedFilesMap.set(path.normalize(absolutePath), {
+          hash: fileEntry.hash,
+          relativePath: relativePath,
+        });
       }
     }
 
@@ -1044,10 +1193,39 @@ class Installer {
             await scanDirectory(fullPath);
           } else if (entry.isFile()) {
             const normalizedPath = path.normalize(fullPath);
-            // If file is not in the previous manifest, it's custom
-            if (!installedSet.has(normalizedPath)) {
-              customFiles.push(fullPath);
+            const fileInfo = installedFilesMap.get(normalizedPath);
+
+            // Skip certain system files that are auto-generated
+            const relativePath = path.relative(bmadDir, fullPath);
+            const fileName = path.basename(fullPath);
+
+            // Skip _cfg directory - system files
+            if (relativePath.startsWith('_cfg/') || relativePath.startsWith('_cfg\\')) {
+              continue;
             }
+
+            // Skip config.yaml files - these are regenerated on each install/update
+            // Users should use _cfg/agents/ override files instead
+            if (fileName === 'config.yaml') {
+              continue;
+            }
+
+            if (!fileInfo) {
+              // File not in manifest = custom file
+              customFiles.push(fullPath);
+            } else if (manifestHasHashes && fileInfo.hash) {
+              // File in manifest with hash - check if it was modified
+              const currentHash = await this.manifest.calculateFileHash(fullPath);
+              if (currentHash && currentHash !== fileInfo.hash) {
+                // Hash changed = file was modified
+                modifiedFiles.push({
+                  path: fullPath,
+                  relativePath: fileInfo.relativePath,
+                });
+              }
+            }
+            // If manifest doesn't have hashes, we can't detect modifications
+            // so we just skip files that are in the manifest
           }
         }
       } catch {
@@ -1056,7 +1234,7 @@ class Installer {
     };
 
     await scanDirectory(bmadDir);
-    return customFiles;
+    return { customFiles, modifiedFiles };
   }
 
   /**
@@ -1172,6 +1350,7 @@ class Installer {
       configContent += processedTemplate;
 
       await fs.writeFile(configPath, configContent, 'utf8');
+      this.installedFiles.push(configPath); // Track agent config files
       createdCount++;
     }
 

@@ -1,6 +1,7 @@
 const path = require('node:path');
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
+const crypto = require('node:crypto');
 const { getSourcePath, getModulePath } = require('../../../lib/project-root');
 
 /**
@@ -19,14 +20,17 @@ class ManifestGenerator {
    * Generate all manifests for the installation
    * @param {string} bmadDir - BMAD installation directory
    * @param {Array} selectedModules - Selected modules for installation
+   * @param {Array} installedFiles - All installed files (optional, for hash tracking)
    */
-  async generateManifests(bmadDir, selectedModules) {
+  async generateManifests(bmadDir, selectedModules, installedFiles = []) {
     // Create _cfg directory if it doesn't exist
     const cfgDir = path.join(bmadDir, '_cfg');
     await fs.ensureDir(cfgDir);
 
     // Store modules list
     this.modules = ['core', ...selectedModules];
+    this.bmadDir = bmadDir;
+    this.allInstalledFiles = installedFiles;
 
     // Collect workflow data
     await this.collectWorkflows(selectedModules);
@@ -37,18 +41,21 @@ class ManifestGenerator {
     // Collect task data
     await this.collectTasks(selectedModules);
 
-    // Write manifest files
-    await this.writeMainManifest(cfgDir);
-    await this.writeWorkflowManifest(cfgDir);
-    await this.writeAgentManifest(cfgDir);
-    await this.writeTaskManifest(cfgDir);
-    await this.writeFilesManifest(cfgDir);
+    // Write manifest files and collect their paths
+    const manifestFiles = [
+      await this.writeMainManifest(cfgDir),
+      await this.writeWorkflowManifest(cfgDir),
+      await this.writeAgentManifest(cfgDir),
+      await this.writeTaskManifest(cfgDir),
+      await this.writeFilesManifest(cfgDir),
+    ];
 
     return {
       workflows: this.workflows.length,
       agents: this.agents.length,
       tasks: this.tasks.length,
       files: this.files.length,
+      manifestFiles: manifestFiles,
     };
   }
 
@@ -278,6 +285,7 @@ class ManifestGenerator {
 
   /**
    * Write main manifest as YAML with installation info only
+   * @returns {string} Path to the manifest file
    */
   async writeMainManifest(cfgDir) {
     const manifestPath = path.join(cfgDir, 'manifest.yaml');
@@ -304,10 +312,12 @@ class ManifestGenerator {
     });
 
     await fs.writeFile(manifestPath, yamlStr);
+    return manifestPath;
   }
 
   /**
    * Write workflow manifest CSV
+   * @returns {string} Path to the manifest file
    */
   async writeWorkflowManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'workflow-manifest.csv');
@@ -321,10 +331,12 @@ class ManifestGenerator {
     }
 
     await fs.writeFile(csvPath, csv);
+    return csvPath;
   }
 
   /**
    * Write agent manifest CSV
+   * @returns {string} Path to the manifest file
    */
   async writeAgentManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'agent-manifest.csv');
@@ -338,10 +350,12 @@ class ManifestGenerator {
     }
 
     await fs.writeFile(csvPath, csv);
+    return csvPath;
   }
 
   /**
    * Write task manifest CSV
+   * @returns {string} Path to the manifest file
    */
   async writeTaskManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'task-manifest.csv');
@@ -355,30 +369,85 @@ class ManifestGenerator {
     }
 
     await fs.writeFile(csvPath, csv);
+    return csvPath;
   }
 
   /**
    * Write files manifest CSV
    */
+  /**
+   * Calculate SHA256 hash of a file
+   * @param {string} filePath - Path to file
+   * @returns {string} SHA256 hash
+   */
+  async calculateFileHash(filePath) {
+    try {
+      const content = await fs.readFile(filePath);
+      return crypto.createHash('sha256').update(content).digest('hex');
+    } catch {
+      return '';
+    }
+  }
+
+  /**
+   * @returns {string} Path to the manifest file
+   */
   async writeFilesManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'files-manifest.csv');
 
-    // Create CSV header
-    let csv = 'type,name,module,path\n';
+    // Create CSV header with hash column
+    let csv = 'type,name,module,path,hash\n';
 
-    // Sort files by type, then module, then name
-    this.files.sort((a, b) => {
-      if (a.type !== b.type) return a.type.localeCompare(b.type);
+    // If we have ALL installed files, use those instead of just workflows/agents/tasks
+    const allFiles = [];
+    if (this.allInstalledFiles && this.allInstalledFiles.length > 0) {
+      // Process all installed files
+      for (const filePath of this.allInstalledFiles) {
+        const relativePath = 'bmad' + filePath.replace(this.bmadDir, '').replaceAll('\\', '/');
+        const ext = path.extname(filePath).toLowerCase();
+        const fileName = path.basename(filePath, ext);
+
+        // Determine module from path
+        const pathParts = relativePath.split('/');
+        const module = pathParts.length > 1 ? pathParts[1] : 'unknown';
+
+        // Calculate hash
+        const hash = await this.calculateFileHash(filePath);
+
+        allFiles.push({
+          type: ext.slice(1) || 'file',
+          name: fileName,
+          module: module,
+          path: relativePath,
+          hash: hash,
+        });
+      }
+    } else {
+      // Fallback: use the collected workflows/agents/tasks
+      for (const file of this.files) {
+        const filePath = path.join(this.bmadDir, file.path.replace('bmad/', ''));
+        const hash = await this.calculateFileHash(filePath);
+        allFiles.push({
+          ...file,
+          hash: hash,
+        });
+      }
+    }
+
+    // Sort files by module, then type, then name
+    allFiles.sort((a, b) => {
       if (a.module !== b.module) return a.module.localeCompare(b.module);
+      if (a.type !== b.type) return a.type.localeCompare(b.type);
       return a.name.localeCompare(b.name);
     });
 
     // Add rows
-    for (const file of this.files) {
-      csv += `"${file.type}","${file.name}","${file.module}","${file.path}"\n`;
+    for (const file of allFiles) {
+      csv += `"${file.type}","${file.name}","${file.module}","${file.path}","${file.hash}"\n`;
     }
 
     await fs.writeFile(csvPath, csv);
+    return csvPath;
   }
 }
 
