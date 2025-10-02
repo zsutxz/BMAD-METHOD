@@ -1,13 +1,82 @@
+/**
+ * BMAD-METHOD Web Builder
+ *
+ * 此模块负责构建BMAD代理和团队的Web兼容包。
+ * 它将代理、其依赖项和团队配置打包成单个文本文件，
+ * 可用于基于Web的AI接口，如ChatGPT、Claude或Gemini。
+ *
+ * 架构概述:
+ *
+ * ┌─────────────────────────────────────────────────────────────────────┐
+ * │                           WebBuilder                                │
+ * │                                                                     │
+ * │  ┌─────────────────┐    ┌────────────────────┐    ┌─────────────┐  │
+ * │  │ buildAgents()   │───▶│ buildAgentBundle() │───▶│ formatAgent()│  │
+ * │  └─────────────────┘    └────────────────────┘    └─────────────┘  │
+ * │                              │                                     │
+ * │                              ▼                                     │
+ * │                     ┌────────────────────┐                         │
+ * │                     │ resolveAgentDeps() │                         │
+ * │                     └────────────────────┘                         │
+ * │                              │                                     │
+ * │                              ▼                                     │
+ * │  ┌─────────────────┐    ┌────────────────────┐    ┌─────────────┐  │
+ * │  │ buildTeams()    │───▶│ buildTeamBundle()  │───▶│ formatTeam()│  │
+ * │  └─────────────────┘    └────────────────────┘    └─────────────┘  │
+ * │                              │                                     │
+ * │                              ▼                                     │
+ * │                     ┌────────────────────┐                         │
+ * │                     │resolveTeamDeps()   │                         │
+ * │                     └────────────────────┘                         │
+ * │                              │                                     │
+ * │                              ▼                                     │
+ * │  ┌─────────────────┐    ┌────────────────────┐                     │
+ * │  │buildExpansion() │───▶│buildExpansionPack()│                     │
+ * │  └─────────────────┘    └────────────────────┘                     │
+ * └─────────────────────────────────────────────────────────────────────┘
+ *            │
+ *            ▼
+ * ┌─────────────────────────────────────────────────────────────────────┐
+ * │                      Output Directories                             │
+ * │  dist/                                                              │
+ * │  ├── agents/     ← 单个代理包                                       │
+ * │  ├── teams/      ← 包含所有代理的团队包                             │
+ * │  └── expansion-packs/ ← 扩展包                                      │
+ * └─────────────────────────────────────────────────────────────────────┘
+ *
+ * 关键组件:
+ * - DependencyResolver: 解析代理和团队依赖关系
+ * - YAML Utilities: 从代理文件中提取和处理YAML
+ * - Path Conversion: 将文件路径转换为Web兼容路径
+ * - Content Formatting: 用START/END标记包装内容以便Web导航
+ *
+ * 工作原理:
+ * 1. 解析代理和团队的依赖关系
+ * 2. 将所有相关资源打包成单个文本文件
+ * 3. 使用特殊标记分隔不同资源，便于在Web环境中导航
+ * 4. 生成可在Web AI接口中直接使用的包
+ */
+
 const fs = require('node:fs').promises;
 const path = require('node:path');
 const DependencyResolver = require('../lib/dependency-resolver');
 const yamlUtilities = require('../lib/yaml-utils');
 
 class WebBuilder {
+  /**
+   * 创建一个新的WebBuilder实例
+   * @param {Object} options - 配置选项
+   * @param {string} options.rootDir - BMAD项目的根目录
+   * @param {string[]} options.outputDirs - 构建包的输出目录数组
+   */
   constructor(options = {}) {
+    // 项目根目录，默认为当前工作目录
     this.rootDir = options.rootDir || process.cwd();
+    // 输出目录数组，默认为dist目录
     this.outputDirs = options.outputDirs || [path.join(this.rootDir, 'dist')];
+    // 依赖解析器实例
     this.resolver = new DependencyResolver(this.rootDir);
+    // Web代理启动说明模板路径
     this.templatePath = path.join(
       this.rootDir,
       'tools',
@@ -21,26 +90,40 @@ class WebBuilder {
     return yaml.load(content);
   }
 
+  /**
+   * 将绝对文件路径转换为带点前缀的Web兼容路径
+   * 用于在Web包中创建一致的路径引用
+   * @param {string} filePath - 要转换的绝对文件路径
+   * @param {string} bundleRoot - 包的根名称（默认：'bmad-core'）
+   * @returns {string} 带点前缀的Web兼容路径
+   */
   convertToWebPath(filePath, bundleRoot = 'bmad-core') {
-    // Convert absolute paths to web bundle paths with dot prefix
-    // All resources get installed under the bundle root, so use that path
+    // 将绝对路径转换为带点前缀的Web包路径
+    // 所有资源都安装在包根目录下，因此使用该路径
     const relativePath = path.relative(this.rootDir, filePath);
     const pathParts = relativePath.split(path.sep);
 
     let resourcePath;
     if (pathParts[0] === 'expansion-packs') {
-      // For expansion packs, remove 'expansion-packs/packname' and use the rest
+      // 对于扩展包，移除'expansion-packs/packname'并使用剩余部分
       resourcePath = pathParts.slice(2).join('/');
     } else {
-      // For bmad-core, common, etc., remove the first part
+      // 对于bmad-core、common等，移除第一部分
       resourcePath = pathParts.slice(1).join('/');
     }
 
     return `.${bundleRoot}/${resourcePath}`;
   }
 
+  /**
+   * 生成Web代理包的使用说明
+   * 根据包类型生成动态的Web说明
+   * @param {string} bundleType - 包类型 ('agent', 'team', 'expansion-agent', 'expansion-team')
+   * @param {string|null} packName - 扩展包名称（如果适用）
+   * @returns {string} 格式化的Web说明文本
+   */
   generateWebInstructions(bundleType, packName = null) {
-    // Generate dynamic web instructions based on bundle type
+    // 根据包类型生成动态的Web说明
     const rootExample = packName ? `.${packName}` : '.bmad-core';
     const examplePath = packName
       ? `.${packName}/folder/filename.md`
@@ -101,6 +184,11 @@ These references map directly to bundle sections:
 `;
   }
 
+  /**
+   * 清理输出目录
+   * 删除所有输出目录中的内容，为新的构建做准备
+   * @returns {Promise<void>}
+   */
   async cleanOutputDirs() {
     for (const dir of this.outputDirs) {
       try {
@@ -113,6 +201,11 @@ These references map directly to bundle sections:
     }
   }
 
+  /**
+   * 构建所有代理包
+   * 遍历所有代理并为每个代理创建Web兼容的包
+   * @returns {Promise<void>}
+   */
   async buildAgents() {
     const agents = await this.resolver.listAgents();
 
@@ -120,7 +213,7 @@ These references map directly to bundle sections:
       console.log(`  Building agent: ${agentId}`);
       const bundle = await this.buildAgentBundle(agentId);
 
-      // Write to all output directories
+      // 写入所有输出目录
       for (const outputDir of this.outputDirs) {
         const outputPath = path.join(outputDir, 'agents');
         await fs.mkdir(outputPath, { recursive: true });
@@ -132,6 +225,11 @@ These references map directly to bundle sections:
     console.log(`Built ${agents.length} agent bundles in ${this.outputDirs.length} locations`);
   }
 
+  /**
+   * 构建所有团队包
+   * 遍历所有团队并为每个团队创建Web兼容的包
+   * @returns {Promise<void>}
+   */
   async buildTeams() {
     const teams = await this.resolver.listTeams();
 
@@ -139,7 +237,7 @@ These references map directly to bundle sections:
       console.log(`  Building team: ${teamId}`);
       const bundle = await this.buildTeamBundle(teamId);
 
-      // Write to all output directories
+      // 写入所有输出目录
       for (const outputDir of this.outputDirs) {
         const outputPath = path.join(outputDir, 'teams');
         await fs.mkdir(outputPath, { recursive: true });
@@ -151,17 +249,23 @@ These references map directly to bundle sections:
     console.log(`Built ${teams.length} team bundles in ${this.outputDirs.length} locations`);
   }
 
+  /**
+   * 构建单个代理包
+   * 解析代理的依赖关系并将其所有依赖项打包成单个Web兼容文件
+   * @param {string} agentId - 代理ID
+   * @returns {Promise<string>} 格式化的代理包内容
+   */
   async buildAgentBundle(agentId) {
     const dependencies = await this.resolver.resolveAgentDependencies(agentId);
     const template = this.generateWebInstructions('agent');
 
     const sections = [template];
 
-    // Add agent configuration
+    // 添加代理配置
     const agentPath = this.convertToWebPath(dependencies.agent.path, 'bmad-core');
     sections.push(this.formatSection(agentPath, dependencies.agent.content, 'bmad-core'));
 
-    // Add all dependencies
+    // 添加所有依赖项
     for (const resource of dependencies.resources) {
       const resourcePath = this.convertToWebPath(resource.path, 'bmad-core');
       sections.push(this.formatSection(resourcePath, resource.content, 'bmad-core'));
@@ -170,23 +274,29 @@ These references map directly to bundle sections:
     return sections.join('\n');
   }
 
+  /**
+   * 构建单个团队包
+   * 解析团队的依赖关系并将其所有代理和依赖项打包成单个Web兼容文件
+   * @param {string} teamId - 团队ID
+   * @returns {Promise<string>} 格式化的团队包内容
+   */
   async buildTeamBundle(teamId) {
     const dependencies = await this.resolver.resolveTeamDependencies(teamId);
     const template = this.generateWebInstructions('team');
 
     const sections = [template];
 
-    // Add team configuration
+    // 添加团队配置
     const teamPath = this.convertToWebPath(dependencies.team.path, 'bmad-core');
     sections.push(this.formatSection(teamPath, dependencies.team.content, 'bmad-core'));
 
-    // Add all agents
+    // 添加所有代理
     for (const agent of dependencies.agents) {
       const agentPath = this.convertToWebPath(agent.path, 'bmad-core');
       sections.push(this.formatSection(agentPath, agent.content, 'bmad-core'));
     }
 
-    // Add all deduplicated resources
+    // 添加所有去重的资源
     for (const resource of dependencies.resources) {
       const resourcePath = this.convertToWebPath(resource.path, 'bmad-core');
       sections.push(this.formatSection(resourcePath, resource.content, 'bmad-core'));
@@ -195,8 +305,14 @@ These references map directly to bundle sections:
     return sections.join('\n');
   }
 
+  /**
+   * 处理代理内容
+   * 清理代理内容，移除不必要的属性并格式化YAML
+   * @param {string} content - 原始代理内容
+   * @returns {string} 处理后的代理内容
+   */
   processAgentContent(content) {
-    // First, replace content before YAML with the template
+    // 首先，用模板替换YAML之前的内容
     const yamlContent = yamlUtilities.extractYamlFromAgent(content);
     if (!yamlContent) return content;
 
@@ -206,17 +322,17 @@ These references map directly to bundle sections:
     const yamlStartIndex = content.indexOf(yamlMatch[0]);
     const yamlEndIndex = yamlStartIndex + yamlMatch[0].length;
 
-    // Parse YAML and remove root and IDE-FILE-RESOLUTION properties
+    // 解析YAML并移除root和IDE-FILE-RESOLUTION属性
     try {
       const yaml = require('js-yaml');
       const parsed = yaml.load(yamlContent);
 
-      // Remove the properties if they exist at root level
+      // 如果在根级别存在则移除这些属性
       delete parsed.root;
       delete parsed['IDE-FILE-RESOLUTION'];
       delete parsed['REQUEST-RESOLUTION'];
 
-      // Also remove from activation-instructions if they exist
+      // 如果存在，也从activation-instructions中移除
       if (parsed['activation-instructions'] && Array.isArray(parsed['activation-instructions'])) {
         parsed['activation-instructions'] = parsed['activation-instructions'].filter(
           (instruction) => {
@@ -229,20 +345,20 @@ These references map directly to bundle sections:
         );
       }
 
-      // Reconstruct the YAML
+      // 重新构建YAML
       const cleanedYaml = yaml.dump(parsed, { lineWidth: -1 });
 
-      // Get the agent name from the YAML for the header
+      // 从YAML中获取代理名称用于标题
       const agentName = parsed.agent?.id || 'agent';
 
-      // Build the new content with just the agent header and YAML
+      // 构建新内容，仅包含代理标题和YAML
       const newHeader = `# ${agentName}\n\nCRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:\n\n`;
       const afterYaml = content.slice(Math.max(0, yamlEndIndex));
 
       return newHeader + '```yaml\n' + cleanedYaml.trim() + '\n```' + afterYaml;
     } catch (error) {
       console.warn('Failed to process agent YAML:', error.message);
-      // If parsing fails, return original content
+      // 如果解析失败，返回原始内容
       return content;
     }
   }

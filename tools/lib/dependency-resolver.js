@@ -1,3 +1,35 @@
+/**
+ * BMAD-METHOD 依赖解析器
+ *
+ * 架构概述：
+ *
+ * DependencyResolver 负责解析和加载 BMAD 代理和团队的依赖项。
+ * 它处理 BMAD-METHOD 框架的复杂依赖关系图，包括：
+ *
+ * 1. 代理依赖：
+ *    - 每个代理都在带有 YAML 前置内容的 Markdown 文件中定义
+ *    - 代理可以依赖任务、模板、检查清单、数据文件和实用程序
+ *    - 代理依赖项以递归方式解析
+ *
+ * 2. 团队依赖：
+ *    - 团队是在 YAML 配置文件中定义的代理集合
+ *    - 团队也可以依赖工作流程
+ *    - 团队会自动包含 bmad-orchestrator 代理
+ *    - 团队支持通配符 "*" 来包含所有代理（bmad-master 除外）
+ *
+ * 3. 资源解析：
+ *    - 资源首先从 bmad-core 加载，然后从 common 目录加载
+ *    - 资源会被缓存以避免重复加载
+ *    - 资源包括任务、模板、检查清单、数据文件、实用程序和工作流程
+ *
+ * 4. 缓存：
+ *    - 所有已解析的资源都会在内存中缓存以提高性能
+ *    - 缓存键的格式为 `${type}#${id}` 以确保唯一性
+ *
+ * 解析器由构建系统使用，将代理和团队及其所有依赖项打包
+ * 用于在 IDE 和 Web UI 环境中的分发。
+ */
+
 const fs = require('node:fs').promises;
 const path = require('node:path');
 const yaml = require('js-yaml');
@@ -15,7 +47,7 @@ class DependencyResolver {
     const agentPath = path.join(this.bmadCore, 'agents', `${agentId}.md`);
     const agentContent = await fs.readFile(agentPath, 'utf8');
 
-    // Extract YAML from markdown content with command cleaning
+    // 从 Markdown 内容中提取 YAML 并清理命令
     const yamlContent = extractYamlFromAgent(agentContent, true);
     if (!yamlContent) {
       throw new Error(`No YAML configuration found in agent ${agentId}`);
@@ -33,9 +65,9 @@ class DependencyResolver {
       resources: [],
     };
 
-    // Personas are now embedded in agent configs, no need to resolve separately
+    // 人物角色现在嵌入在代理配置中，无需单独解析
 
-    // Resolve other dependencies
+    // 解析其他依赖项
     const depTypes = ['tasks', 'templates', 'checklists', 'data', 'utils'];
     for (const depType of depTypes) {
       const deps = agentConfig.dependencies?.[depType] || [];
@@ -61,23 +93,23 @@ class DependencyResolver {
         config: teamConfig,
       },
       agents: [],
-      resources: new Map(), // Use Map to deduplicate resources
+      resources: new Map(), // 使用 Map 去重资源
     };
 
-    // Always add bmad-orchestrator agent first if it's a team
+    // 如果是团队，始终首先添加 bmad-orchestrator 代理
     const bmadAgent = await this.resolveAgentDependencies('bmad-orchestrator');
     dependencies.agents.push(bmadAgent.agent);
     for (const res of bmadAgent.resources) {
       dependencies.resources.set(res.path, res);
     }
 
-    // Resolve all agents in the team
+    // 解析团队中的所有代理
     let agentsToResolve = teamConfig.agents || [];
 
-    // Handle wildcard "*" - include all agents except bmad-master
+    // 处理通配符 "*" - 包含所有代理（bmad-master 除外）
     if (agentsToResolve.includes('*')) {
       const allAgents = await this.listAgents();
-      // Remove wildcard and add all agents except those already in the list and bmad-master
+      // 移除通配符并添加所有代理，除了列表中已有的和 bmad-master
       agentsToResolve = agentsToResolve.filter((a) => a !== '*');
       for (const agent of allAgents) {
         if (!agentsToResolve.includes(agent) && agent !== 'bmad-master') {
