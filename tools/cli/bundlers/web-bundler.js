@@ -109,16 +109,16 @@ class WebBundler {
       }
     }
 
-    // Process teams (Phase 4 - to be implemented)
-    // const teams = await this.discoverTeams(modulePath);
-    // for (const team of teams) {
-    //   try {
-    //     await this.bundleTeam(moduleName, team);
-    //     results.teams.push(team);
-    //   } catch (error) {
-    //     console.error(`    Failed to bundle team ${team}:`, error.message);
-    //   }
-    // }
+    // Process teams
+    const teams = await this.discoverTeams(modulePath);
+    for (const team of teams) {
+      try {
+        await this.bundleTeam(moduleName, team);
+        results.teams.push(team);
+      } catch (error) {
+        console.error(`    Failed to bundle team ${team}:`, error.message);
+      }
+    }
 
     return results;
   }
@@ -202,6 +202,220 @@ class WebBundler {
     this.stats.bundledAgents++;
     const statusIcon = isValid ? chalk.green('✓') : chalk.yellow('⚠');
     console.log(`    ${statusIcon} Bundled: ${agentName}.xml${isValid ? '' : chalk.yellow(' (invalid XML)')}`);
+  }
+
+  /**
+   * Bundle a team - includes orchestrator and all agents with their dependencies
+   */
+  async bundleTeam(moduleName, teamFile) {
+    const teamName = path.basename(teamFile, path.extname(teamFile));
+    console.log(chalk.dim(`  → Processing team: ${teamName}`));
+
+    const teamPath = path.join(this.modulesPath, moduleName, 'teams', teamFile);
+
+    // Check if team file exists
+    if (!(await fs.pathExists(teamPath))) {
+      console.log(chalk.red(`    ✗ Team file not found`));
+      throw new Error(`Team file not found: ${teamPath}`);
+    }
+
+    // Read and parse team YAML
+    const teamContent = await fs.readFile(teamPath, 'utf8');
+    const teamConfig = yaml.load(teamContent);
+
+    if (!teamConfig || !teamConfig.bundle) {
+      console.log(chalk.red(`    ✗ Invalid team configuration`));
+      return;
+    }
+
+    // Start building the team bundle
+    const dependencies = new Map();
+    const processed = new Set();
+    const allAgentXmls = [];
+    const warnings = [];
+
+    // 1. First, always add the bmad-web-orchestrator
+    const orchestratorPath = path.join(this.sourceDir, 'core', 'agents', 'bmad-web-orchestrator.md');
+    if (await fs.pathExists(orchestratorPath)) {
+      const orchestratorContent = await fs.readFile(orchestratorPath, 'utf8');
+      let orchestratorXml = this.extractAgentXml(orchestratorContent);
+
+      if (orchestratorXml) {
+        // Process {project-root} references
+        orchestratorXml = this.processProjectRootReferences(orchestratorXml);
+
+        // Resolve orchestrator dependencies
+        const { dependencies: orchDeps } = await this.resolveAgentDependencies(orchestratorXml, 'core', warnings);
+
+        // Merge orchestrator dependencies
+        for (const [id, content] of orchDeps) {
+          if (!dependencies.has(id)) {
+            dependencies.set(id, content);
+          }
+        }
+
+        // Add orchestrator XML first
+        allAgentXmls.push(orchestratorXml);
+        console.log(chalk.gray(`    + Added orchestrator: bmad-web-orchestrator`));
+      }
+    } else {
+      console.log(chalk.yellow(`    ⚠ Orchestrator not found at expected location`));
+    }
+
+    // 2. Determine which agents to include
+    let agentsToBundle = [];
+
+    if (teamConfig.agents === '*' || (Array.isArray(teamConfig.agents) && teamConfig.agents.includes('*'))) {
+      // Include all agents from the module
+      const agentsPath = path.join(this.modulesPath, moduleName, 'agents');
+      if (await fs.pathExists(agentsPath)) {
+        const agentFiles = await fs.readdir(agentsPath);
+        agentsToBundle = agentFiles
+          .filter((file) => file.endsWith('.md') && !file.toLowerCase().includes('readme'))
+          .map((file) => file.replace('.md', ''));
+      }
+    } else if (Array.isArray(teamConfig.agents)) {
+      // Include specific agents listed
+      agentsToBundle = teamConfig.agents;
+    } else {
+      console.log(chalk.yellow(`    ⚠ No agents specified in team configuration`));
+    }
+
+    // 3. Process each agent and their dependencies
+    for (const agentName of agentsToBundle) {
+      const agentFile = agentName.endsWith('.md') ? agentName : `${agentName}.md`;
+      const agentPath = path.join(this.modulesPath, moduleName, 'agents', agentFile);
+
+      if (!(await fs.pathExists(agentPath))) {
+        console.log(chalk.yellow(`    ⚠ Agent not found: ${agentName}`));
+        continue;
+      }
+
+      // Read agent content
+      const agentContent = await fs.readFile(agentPath, 'utf8');
+      let agentXml = this.extractAgentXml(agentContent);
+
+      if (!agentXml) {
+        console.log(chalk.yellow(`    ⚠ No XML found in agent: ${agentName}`));
+        continue;
+      }
+
+      // Skip agents with bundle="false"
+      if (this.shouldSkipBundling(agentXml)) {
+        console.log(chalk.gray(`    ⊘ Skipped agent (bundle="false"): ${agentName}`));
+        continue;
+      }
+
+      // Process {project-root} references
+      agentXml = this.processProjectRootReferences(agentXml);
+
+      // Resolve agent dependencies
+      const agentWarnings = [];
+      const { dependencies: agentDeps, skippedWorkflows } = await this.resolveAgentDependencies(agentXml, moduleName, agentWarnings);
+
+      if (agentWarnings.length > 0) {
+        warnings.push({ agent: agentName, warnings: agentWarnings });
+      }
+
+      // Remove commands for skipped workflows from agent XML
+      if (skippedWorkflows.length > 0) {
+        agentXml = this.removeSkippedWorkflowCommands(agentXml, skippedWorkflows);
+      }
+
+      // Merge agent dependencies (deduplicate)
+      for (const [id, content] of agentDeps) {
+        if (!dependencies.has(id)) {
+          dependencies.set(id, content);
+        }
+      }
+
+      // Inject web activation for individual agents
+      agentXml = this.injectWebActivation(agentXml);
+
+      // Add agent XML to the collection
+      allAgentXmls.push(agentXml);
+      console.log(chalk.gray(`    + Added agent: ${agentName}`));
+    }
+
+    // 4. Build the team bundle XML
+    const bundle = this.buildTeamBundle(teamConfig.bundle, allAgentXmls, dependencies);
+
+    // 5. Validate XML
+    const isValid = await this.validateXml(bundle);
+    if (!isValid) {
+      console.log(chalk.red(`    ⚠ Invalid XML generated for team!`));
+    }
+
+    // 6. Write bundle to output
+    const outputPath = path.join(this.outputDir, moduleName, 'teams', `${teamName}.xml`);
+    await fs.ensureDir(path.dirname(outputPath));
+    await fs.writeFile(outputPath, bundle, 'utf8');
+
+    const statusIcon = isValid ? chalk.green('✓') : chalk.yellow('⚠');
+    console.log(`    ${statusIcon} Bundled team: ${teamName}.xml${isValid ? '' : chalk.yellow(' (invalid XML)')}`);
+
+    // Track warnings
+    if (warnings.length > 0) {
+      this.stats.warnings.push(...warnings);
+    }
+  }
+
+  /**
+   * Build the final team bundle XML
+   */
+  buildTeamBundle(teamMetadata, agentXmls, dependencies) {
+    const parts = [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      '<team-bundle>',
+      '  <!-- Team Metadata -->',
+      '  <team>',
+      `    <name>${this.escapeXmlText(teamMetadata.name || 'Unnamed Team')}</name>`,
+    ];
+
+    if (teamMetadata.icon) {
+      parts.push(`    <icon>${this.escapeXmlText(teamMetadata.icon)}</icon>`);
+    }
+
+    if (teamMetadata.description) {
+      parts.push(`    <description>${this.escapeXmlText(teamMetadata.description)}</description>`);
+    }
+
+    parts.push('  </team>', '', '  <!-- Agent Definitions -->', '  <agents>');
+
+    for (const agentXml of agentXmls) {
+      // Indent each agent XML properly (add 4 spaces to each line)
+      const indentedAgent = agentXml
+        .split('\n')
+        .map((line) => '    ' + line)
+        .join('\n');
+      parts.push(indentedAgent);
+    }
+
+    parts.push('  </agents>');
+
+    // Add all dependencies
+    if (dependencies && dependencies.size > 0) {
+      parts.push('', '  <!-- Shared Dependencies -->', '  <dependencies>');
+
+      for (const [id, content] of dependencies) {
+        // Check if content is already wrapped in a <file> tag
+        const isWrappedFile = content.trim().startsWith('<file ') && content.trim().endsWith('</file>');
+        const finalContent = isWrappedFile ? content : this.escapeXmlContent(content);
+
+        // Indent properly (add 4 spaces to each line)
+        const indentedContent = finalContent
+          .split('\n')
+          .map((line) => '    ' + line)
+          .join('\n');
+        parts.push(indentedContent);
+      }
+
+      parts.push('  </dependencies>');
+    }
+
+    parts.push('</team-bundle>');
+
+    return parts.join('\n');
   }
 
   /**
@@ -1014,7 +1228,7 @@ class WebBundler {
     const files = await fs.readdir(teamsPath);
 
     for (const file of files) {
-      if (file.endsWith('.md')) {
+      if (file.endsWith('.yaml') || file.endsWith('.yml')) {
         teams.push(file);
       }
     }
@@ -1113,7 +1327,7 @@ class WebBundler {
 
       // Group and display warnings by agent
       for (const agentWarning of this.stats.warnings) {
-        if (agentWarning.warnings.length > 0) {
+        if (agentWarning && agentWarning.warnings && agentWarning.warnings.length > 0) {
           console.log(chalk.bold(`\n  ${agentWarning.agent}:`));
           // Display unique warnings for this agent
           const uniqueWarnings = [...new Set(agentWarning.warnings)];
