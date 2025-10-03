@@ -41,10 +41,10 @@ Options:
 
 **Quick Selection:**
 
-- [ ] Full project planning (PRD, Tech Spec, etc.)
-- [ ] UX/UI specification only
-- [ ] Tech spec only (for small changes)
-- [ ] Generate AI Frontend Prompt from existing specs
+1. Full project planning (PRD, Tech Spec, etc.)
+2. UX/UI specification only
+3. Tech spec only (for small changes)
+4. Generate AI Frontend Prompt from existing specs
 
 Select an option or describe your needs:
 </ask>
@@ -70,19 +70,19 @@ Select an option or describe your needs:
 
 **1. Project Type:**
 
-- [ ] Game
-- [ ] Web application
-- [ ] Mobile application
-- [ ] Desktop application
-- [ ] Backend service/API
-- [ ] Library/package
-- [ ] Other
+1. Game
+2. Web application
+3. Mobile application
+4. Desktop application
+5. Backend service/API
+6. Library/package
+7. Other - Please specify
 
 **2. Project Context:**
 
-- [ ] New project (greenfield)
-- [ ] Adding to existing clean codebase
-- [ ] Working with messy/legacy code (needs refactoring)
+a. New project (greenfield)
+b. Adding to existing clean codebase
+c. Working with messy/legacy code (needs refactoring)
 
 **3. What are you building?** (brief description)
 </ask>
@@ -108,19 +108,19 @@ Examples:
 
 **3. Quick Scope Guide - Please confirm or adjust:**
 
-- [ ] **Single atomic change** → Bug fix, add endpoint, single file change (Level 0)
-- [ ] **Coherent feature** → Add search, implement SSO, new component (Level 1)
-- [ ] **Small complete system** → Admin tool, team app, prototype (Level 2)
-- [ ] **Full product** → Customer portal, SaaS MVP (Level 3)
-- [ ] **Platform/ecosystem** → Enterprise suite, multi-tenant system (Level 4)
+1. **Single atomic change** → Bug fix, add endpoint, single file change (Level 0)
+2. **Coherent feature** → Add search, implement SSO, new component (Level 1)
+3. **Small complete system** → Admin tool, team app, prototype (Level 2)
+4. **Full product** → Customer portal, SaaS MVP (Level 3)
+5. **Platform/ecosystem** → Enterprise suite, multi-tenant system (Level 4)
 
 **4. Do you have existing documentation?**
 
-- [ ] Product Brief
-- [ ] Market Research
-- [ ] Technical docs/Architecture
-- [ ] None
-      </ask>
+1. Product Brief
+2. Market Research
+3. Technical docs/Architecture
+4. None
+   </ask>
 
 </step>
 

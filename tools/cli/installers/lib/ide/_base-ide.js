@@ -177,8 +177,9 @@ class BaseIdeSetup {
       processed = this.xmlHandler.injectActivationSimple(processed, metadata);
     }
 
-    // Use the actual project directory path if provided, otherwise default to 'bmad/'
-    const projectRoot = projectDir ? projectDir + '/' : 'bmad/';
+    // Use the actual project directory path if provided, otherwise default to 'bmad'
+    // Note: Don't add trailing slash - paths in source include leading slash
+    const projectRoot = projectDir || 'bmad';
 
     // Common replacements (including in the activation block)
     processed = processed.replaceAll('{project-root}', projectRoot);

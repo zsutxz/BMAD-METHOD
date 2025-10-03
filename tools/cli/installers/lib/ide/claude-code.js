@@ -92,11 +92,10 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
     await this.ensureDir(bmadCommandsDir);
 
-    // Get agents and tasks from SOURCE, not installed location
-    // This ensures we process files with {project-root} placeholders intact
-    const sourceDir = getSourcePath('modules');
-    const agents = await this.getAgentsFromSource(sourceDir, options.selectedModules || []);
-    const tasks = await this.getTasksFromSource(sourceDir, options.selectedModules || []);
+    // Get agents and tasks from INSTALLED bmad/ directory
+    // Base installer has already built .md files from .agent.yaml sources
+    const agents = await this.getAgentsFromBmad(bmadDir, options.selectedModules || []);
+    const tasks = await this.getTasksFromBmad(bmadDir, options.selectedModules || []);
 
     // Create directories for each module
     const modules = new Set();
@@ -108,29 +107,31 @@ class ClaudeCodeSetup extends BaseIdeSetup {
       await this.ensureDir(path.join(bmadCommandsDir, module, 'tasks'));
     }
 
-    // Process and copy agents
+    // Copy agents from bmad/ to .claude/commands/
     let agentCount = 0;
     for (const agent of agents) {
-      const content = await this.readAndProcess(agent.path, {
+      const sourcePath = agent.path;
+      const targetPath = path.join(bmadCommandsDir, agent.module, 'agents', `${agent.name}.md`);
+
+      const content = await this.readAndProcess(sourcePath, {
         module: agent.module,
         name: agent.name,
       });
-
-      const targetPath = path.join(bmadCommandsDir, agent.module, 'agents', `${agent.name}.md`);
 
       await this.writeFile(targetPath, content);
       agentCount++;
     }
 
-    // Process and copy tasks
+    // Copy tasks from bmad/ to .claude/commands/
     let taskCount = 0;
     for (const task of tasks) {
-      const content = await this.readAndProcess(task.path, {
+      const sourcePath = task.path;
+      const targetPath = path.join(bmadCommandsDir, task.module, 'tasks', `${task.name}.md`);
+
+      const content = await this.readAndProcess(sourcePath, {
         module: task.module,
         name: task.name,
       });
-
-      const targetPath = path.join(bmadCommandsDir, task.module, 'tasks', `${task.name}.md`);
 
       await this.writeFile(targetPath, content);
       taskCount++;
@@ -183,6 +184,58 @@ class ClaudeCodeSetup extends BaseIdeSetup {
   processContent(content, metadata = {}) {
     // Use the base class method with the actual project directory
     return super.processContent(content, metadata, this.projectDir);
+  }
+
+  /**
+   * Get agents from installed bmad/ directory
+   */
+  async getAgentsFromBmad(bmadDir, selectedModules) {
+    const fs = require('fs-extra');
+    const agents = [];
+
+    // Add core agents
+    if (await fs.pathExists(path.join(bmadDir, 'core', 'agents'))) {
+      const coreAgents = await this.getAgentsFromDir(path.join(bmadDir, 'core', 'agents'), 'core');
+      agents.push(...coreAgents);
+    }
+
+    // Add module agents
+    for (const moduleName of selectedModules) {
+      const agentsPath = path.join(bmadDir, moduleName, 'agents');
+
+      if (await fs.pathExists(agentsPath)) {
+        const moduleAgents = await this.getAgentsFromDir(agentsPath, moduleName);
+        agents.push(...moduleAgents);
+      }
+    }
+
+    return agents;
+  }
+
+  /**
+   * Get tasks from installed bmad/ directory
+   */
+  async getTasksFromBmad(bmadDir, selectedModules) {
+    const fs = require('fs-extra');
+    const tasks = [];
+
+    // Add core tasks
+    if (await fs.pathExists(path.join(bmadDir, 'core', 'tasks'))) {
+      const coreTasks = await this.getTasksFromDir(path.join(bmadDir, 'core', 'tasks'), 'core');
+      tasks.push(...coreTasks);
+    }
+
+    // Add module tasks
+    for (const moduleName of selectedModules) {
+      const tasksPath = path.join(bmadDir, moduleName, 'tasks');
+
+      if (await fs.pathExists(tasksPath)) {
+        const moduleTasks = await this.getTasksFromDir(tasksPath, moduleName);
+        tasks.push(...moduleTasks);
+      }
+    }
+
+    return tasks;
   }
 
   /**
@@ -243,14 +296,23 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
   /**
    * Get agents from a specific directory
+   * When reading from bmad/, this returns built .md files
    */
   async getAgentsFromDir(dirPath, moduleName) {
     const fs = require('fs-extra');
     const agents = [];
 
     const files = await fs.readdir(dirPath);
+
     for (const file of files) {
+      // Only process .md files (base installer has already built .agent.yaml to .md)
       if (file.endsWith('.md')) {
+        // Skip customize templates
+        if (file.includes('.customize.')) {
+          continue;
+        }
+
+        const baseName = file.replace('.md', '');
         const filePath = path.join(dirPath, file);
         const content = await fs.readFile(filePath, 'utf8');
 
@@ -261,7 +323,7 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
         agents.push({
           path: filePath,
-          name: file.replace('.md', ''),
+          name: baseName,
           module: moduleName,
         });
       }

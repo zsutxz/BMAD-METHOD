@@ -36,9 +36,9 @@ Ask the user about their agent:
 
 **What type of agent do you want to create?**
 
-1. **Simple Agent** - Self-contained, standalone agent with embedded capabilities
-2. **Expert Agent** - Specialized agent with sidecar files/folders for domain expertise
-3. **Module Agent** - Full-featured agent belonging to a module with workflows and resources
+1. **Simple Agent** - Self-contained, standalone agent with embedded capabilities in a single file
+2. **Expert Agent** - Specialized agent with sidecar files/folders for domain expertise and task files
+3. **Module Agent** - Full-featured agent belonging to a module with external tasks, workflows and resources
 
 Based on their choice, gather:
 

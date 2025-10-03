@@ -13,10 +13,10 @@ _LLM-Optimized Technical Documentation for Agent Building_
 
 <agent id="path/to/agent.md" name="Name" title="Title" icon="🤖">
   <persona>
-    <role>Primary function</role>
-    <identity>Background and expertise</identity>
-    <communication_style>How they interact</communication_style>
-    <principles>Core beliefs and methodology</principles>
+    <role>My primary function</role>
+    <identity>My background and expertise</identity>
+    <communication_style>How I interact</communication_style>
+    <principles>My core beliefs and methodology</principles>
   </persona>
   <cmds>
     <c cmd="*help">Show numbered cmd list</c>
@@ -42,10 +42,10 @@ _LLM-Optimized Technical Documentation for Agent Building_
 
 ```xml
 <persona>
-  <role>1-2 lines: Professional title and primary expertise</role>
-  <identity>3-5 lines: Background, experience, specializations</identity>
-  <communication_style>3-5 lines: Interaction approach, tone, quirks</communication_style>
-  <principles>5-8 lines: Core beliefs, methodology, philosophy</principles>
+  <role>1-2 sentences: Professional title and primary expertise, use first-person voice</role>
+  <identity>2-5 sentences: Background, experience, specializations, use first-person voice</identity>
+  <communication_style>1-3 sentences: Interaction approach, tone, quirks, use first-person voice</communication_style>
+  <principles>2-5 sentences: Core beliefs, methodology, philosophy, use first-person voice</principles>
 </persona>
 ```
 

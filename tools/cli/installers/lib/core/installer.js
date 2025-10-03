@@ -327,18 +327,8 @@ class Installer {
       spinner.succeed('Module configurations generated');
 
       // Create agent configuration files
-      spinner.start('Creating agent configurations...');
-      // Get user info from collected config if available
-      const userInfo = {
-        userName: moduleConfigs.core?.['user_name'] || null,
-        responseLanguage: moduleConfigs.core?.['communication_language'] || null,
-      };
-      const agentConfigResult = await this.createAgentConfigs(bmadDir, userInfo);
-      if (agentConfigResult.skipped > 0) {
-        spinner.succeed(`Agent configurations: ${agentConfigResult.created} created, ${agentConfigResult.skipped} preserved`);
-      } else {
-        spinner.succeed(`Agent configurations created: ${agentConfigResult.created}`);
-      }
+      // Note: Legacy createAgentConfigs removed - using YAML customize system instead
+      // Customize templates are now created in processAgentFiles when building YAML agents
 
       // Pre-register manifest files that will be created (except files-manifest.csv to avoid recursion)
       const cfgDir = path.join(bmadDir, '_cfg');
@@ -770,6 +760,10 @@ class Installer {
       },
     );
 
+    // Process agent files to build YAML agents and create customize templates
+    const modulePath = path.join(bmadDir, moduleName);
+    await this.processAgentFiles(modulePath, moduleName);
+
     // Dependencies are already included in full module install
   }
 
@@ -939,8 +933,8 @@ class Installer {
   }
 
   /**
-   * Process agent files to inject activation block
-   * @param {string} modulePath - Path to module
+   * Process agent files to build YAML agents and inject activation blocks
+   * @param {string} modulePath - Path to module in bmad/ installation
    * @param {string} moduleName - Module name
    */
   async processAgentFiles(modulePath, moduleName) {
@@ -951,21 +945,137 @@ class Installer {
       return; // No agents to process
     }
 
+    // Determine project directory (parent of bmad/ directory)
+    const bmadDir = path.dirname(modulePath);
+    const projectDir = path.dirname(bmadDir);
+    const cfgAgentsDir = path.join(bmadDir, '_cfg', 'agents');
+
+    // Ensure _cfg/agents directory exists
+    await fs.ensureDir(cfgAgentsDir);
+
     // Get all agent files
     const agentFiles = await fs.readdir(agentsPath);
 
     for (const agentFile of agentFiles) {
-      if (!agentFile.endsWith('.md')) continue;
+      // Handle YAML agents - build them to .md
+      if (agentFile.endsWith('.agent.yaml')) {
+        const agentName = agentFile.replace('.agent.yaml', '');
+        const yamlPath = path.join(agentsPath, agentFile);
+        const mdPath = path.join(agentsPath, `${agentName}.md`);
+        const customizePath = path.join(cfgAgentsDir, `${moduleName}-${agentName}.customize.yaml`);
 
-      const agentPath = path.join(agentsPath, agentFile);
-      let content = await fs.readFile(agentPath, 'utf8');
+        // Create customize template if it doesn't exist
+        if (!(await fs.pathExists(customizePath))) {
+          const genericTemplatePath = getSourcePath('utility', 'templates', 'agent.customize.template.yaml');
+          if (await fs.pathExists(genericTemplatePath)) {
+            await fs.copy(genericTemplatePath, customizePath);
+            console.log(chalk.dim(`  Created customize: ${moduleName}-${agentName}.customize.yaml`));
+          }
+        }
 
-      // Check if content has agent XML and no activation block
-      if (content.includes('<agent') && !content.includes('<activation')) {
-        // Inject the activation block using XML handler
-        content = this.xmlHandler.injectActivationSimple(content);
-        await fs.writeFile(agentPath, content, 'utf8');
+        // Build YAML + customize to .md
+        const customizeExists = await fs.pathExists(customizePath);
+        const xmlContent = await this.xmlHandler.buildFromYaml(yamlPath, customizeExists ? customizePath : null, {
+          includeMetadata: true,
+        });
+
+        // Replace {project-root} placeholder
+        const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
+
+        // Write the built .md file
+        await fs.writeFile(mdPath, processedContent, 'utf8');
+        this.installedFiles.push(mdPath);
+
+        console.log(chalk.dim(`  Built agent: ${agentName}.md`));
       }
+      // Handle legacy .md agents - inject activation if needed
+      else if (agentFile.endsWith('.md')) {
+        const agentPath = path.join(agentsPath, agentFile);
+        let content = await fs.readFile(agentPath, 'utf8');
+
+        // Check if content has agent XML and no activation block
+        if (content.includes('<agent') && !content.includes('<activation')) {
+          // Inject the activation block using XML handler
+          content = this.xmlHandler.injectActivationSimple(content);
+          await fs.writeFile(agentPath, content, 'utf8');
+        }
+      }
+    }
+  }
+
+  /**
+   * Compile/rebuild all agents and tasks for quick updates
+   * @param {Object} config - Compilation configuration
+   * @returns {Object} Compilation results
+   */
+  async compileAgents(config) {
+    const ora = require('ora');
+    const spinner = ora('Starting agent compilation...').start();
+
+    try {
+      const projectDir = path.resolve(config.directory);
+      const bmadDir = path.join(projectDir, 'bmad');
+
+      // Check if bmad directory exists
+      if (!(await fs.pathExists(bmadDir))) {
+        spinner.fail('No BMAD installation found');
+        throw new Error(`BMAD not installed at ${bmadDir}`);
+      }
+
+      let agentCount = 0;
+      let taskCount = 0;
+
+      // Process all modules in bmad directory
+      spinner.text = 'Rebuilding agent files...';
+      const entries = await fs.readdir(bmadDir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        if (entry.isDirectory() && entry.name !== '_cfg') {
+          const modulePath = path.join(bmadDir, entry.name);
+
+          // Process agents
+          const agentsPath = path.join(modulePath, 'agents');
+          if (await fs.pathExists(agentsPath)) {
+            await this.processAgentFiles(modulePath, entry.name);
+            const agentFiles = await fs.readdir(agentsPath);
+            agentCount += agentFiles.filter((f) => f.endsWith('.md')).length;
+          }
+
+          // Count tasks (already built)
+          const tasksPath = path.join(modulePath, 'tasks');
+          if (await fs.pathExists(tasksPath)) {
+            const taskFiles = await fs.readdir(tasksPath);
+            taskCount += taskFiles.filter((f) => f.endsWith('.md')).length;
+          }
+        }
+      }
+
+      // Ask for IDE to update
+      spinner.stop();
+      // Note: UI lives in tools/cli/lib/ui.js; from installers/lib/core use '../../../lib/ui'
+      const { UI } = require('../../../lib/ui');
+      const ui = new UI();
+      const toolConfig = await ui.promptToolSelection(projectDir, []);
+
+      if (!toolConfig.skipIde && toolConfig.ides && toolConfig.ides.length > 0) {
+        spinner.start('Updating IDE configurations...');
+
+        for (const ide of toolConfig.ides) {
+          spinner.text = `Updating ${ide}...`;
+          await this.ideManager.setup(ide, projectDir, bmadDir, {
+            selectedModules: entries.filter((e) => e.isDirectory() && e.name !== '_cfg').map((e) => e.name),
+            skipModuleInstall: true, // Skip module installation, just update IDE files
+            verbose: config.verbose,
+          });
+        }
+
+        spinner.succeed('IDE configurations updated');
+      }
+
+      return { agentCount, taskCount };
+    } catch (error) {
+      spinner.fail('Compilation failed');
+      throw error;
     }
   }
 
