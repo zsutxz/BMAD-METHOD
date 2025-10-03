@@ -2,7 +2,7 @@
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
 <critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-agent/workflow.yaml</critical>
-<critical>Study agent examples in: {project_root}/bmad/bmm/agents/ for patterns</critical>
+<critical>Study YAML agent examples in: {project_root}/bmad/bmm/agents/ for patterns</critical>
 
 <workflow>
 
@@ -25,7 +25,7 @@ If no, proceed directly to Step 0.
 <action>Load agent architecture reference: {agent_architecture}</action>
 <action>Load agent types guide: {agent_types}</action>
 <action>Load command patterns: {agent_commands}</action>
-<action>Study the XML schema, required sections, and best practices</action>
+<action>Understand the YAML agent schema and how it compiles to final .md via the installer</action>
 <action>Understand the differences between Simple, Expert, and Module agents</action>
 </step>
 
@@ -49,8 +49,8 @@ Based on their choice, gather:
 
 For Module agents also ask:
 
-- Which module? (bmm, cis, other or custom)
-- Store as {{target_module}} for output path determination
+- Which module? (bmm, bmb, cis, or custom)
+- Store as {{target_module}} for output path determination (used in metadata.module and id)
 
 For Expert agents also ask:
 
@@ -119,122 +119,86 @@ Or describe your own unique style! (3-5 lines)
 <template-output>agent_persona</template-output>
 </step>
 
-<step n="3" goal="Setup critical actions" optional="true">
-Ask: **Does your agent need initialization actions? [Yes/no]** (default: Yes)
+<step n="3" goal="Setup optional additions" optional="true">
+Ask: **Do you want to add prompts or critical actions? [Yes/no]** (default: No)
 
-If yes, determine what's needed:
+If yes, collect:
 
-Standard critical actions (include by default):
+- Prompts: id + content (referenced with action: "#id" in menu items)
+- Critical actions: plain text steps appended to activation during build
 
-```xml
-<critical-actions>
-  <i>Load into memory {project-root}/bmad/{{module}}/config.yaml and set variable project_name, output_folder, user_name, communication_language, src_impact</i>
-  <i>Remember the users name is {user_name}</i>
-  <i>ALWAYS communicate in {communication_language}</i>
-</critical-actions>
-```
+Represent these in YAML sections `prompts` and `critical_actions`.
 
-For Expert agents, add domain-specific actions:
-
-- Loading sidecar files
-- Setting access restrictions
-- Initializing domain knowledge
-
-For Simple agents, might be minimal or none.
-
-Ask if they need custom initialization beyond standard.
-
-<template-output>critical_actions</template-output>
+<template-output>agent_enhancements</template-output>
 </step>
 
 <step n="4" goal="Build command structure">
-<action>Always start with these standard commands:</action>
+<critical>Help and Exit are auto-injected; do NOT add them. Triggers are auto-prefixed with * during build.</critical>
+
+Collect menu items in YAML (examples):
+
 ```
-*help - Show numbered cmd list
-*exit - Exit with confirmation
+menu:
+  - trigger: product-brief
+    workflow: "{project-root}/bmad/bmm/workflows/1-analysis/product-brief/workflow.yaml"
+    description: Produce Project Brief
+
+  - trigger: validate-prd
+    workflow: "{project-root}/bmad/bmm/workflows/1-analysis/product-brief/workflow.yaml"
+    "validate-workflow": "{output_folder}/prd-draft.md"
+    description: Validate PRD Against Checklist
+
+  - trigger: summarize
+    action: "#deep-analysis"
+    description: Summarize current document
+
+  - trigger: generate-brief
+    exec: "{project-root}/bmad/core/tasks/create-doc.md"
+    tmpl: "{project-root}/bmad/bmm/templates/brief.md"
+    data: "{project-root}/bmad/_data/context.csv"
+    description: Generate Project Brief from template
 ```
-
-Ask: **Include \*yolo mode? [Yes/no]** (default: Yes)
-If yes, add: `*yolo - Toggle Yolo Mode`
-
-Now gather custom commands. For each command ask:
-
-1. **Command trigger** (e.g., "*create-prd", "*analyze", "\*brainstorm")
-2. **Description** (what it does)
-3. **Type:**
-   - Workflow (run-workflow) - References a workflow
-   - Task (exec) - References a task file
-   - Embedded - Logic embedded in agent
-   - Placeholder - For future implementation
-
-If Workflow type:
-
-- Ask for workflow path or mark as "todo" for later
-- Format: `run-workflow="{project-root}/path/to/workflow.yaml"` or `run-workflow="todo"`
-
-If Task type:
-
-- Ask for task path
-- Format: `exec="{project-root}/path/to/task.md"`
-
-If Embedded:
-
-- Note this for special handling in agent
-
-Continue adding commands until user says done.
 
 <template-output>agent_commands</template-output>
 </step>
 
-<step n="5" goal="Add activation rules" optional="true">
-Ask: **Does your agent need custom activation rules?** (beyond standard BMAD Core activation)
+<step n="5" goal="Activation behavior" optional="true">
+BMAD injects activation from fragments automatically based on used attributes (workflow/exec/tmpl/action). Most agents do not need custom activation.
 
-If yes, gather:
+If special steps are required, add them as `critical_actions` (Step 3) so they are appended during build.
 
-- Special initialization sequences
-- Menu display preferences
-- Input handling rules
-- Command resolution logic
-- Special modes or states
-
-Most agents use standard activation, so this is rarely needed.
-
-<template-output>activation_rules</template-output>
+<template-output>activation_notes</template-output>
 </step>
 
-<step n="6" goal="Generate agent file">
-Based on agent type, generate the complete agent.md file:
+<step n="6" goal="Generate agent file (YAML)">
+Generate a YAML agent at the chosen path. The installer will compile it to `.md` inside `{project-root}/bmad/{{module}}/agents/`.
 
-**Structure:**
+Example structure:
 
-```xml
-<!-- Powered by BMAD-CORE™ -->
+```yaml
+agent:
+  metadata:
+    id: bmad/{{target_module}}/agents/{{agent_filename}}.md
+    name: { { agent_name } }
+    title: { { agent_title } }
+    icon: { { agent_icon } }
+    module: { { target_module } }
 
-# {{agent_title}}
+  persona:
+    role: |
+      {{agent_persona.role}}
+    identity: |
+      {{agent_persona.identity}}
+    communication_style: |
+      {{agent_persona.communication_style}}
+    principles: { { agent_persona.principles } }
 
-<agent id="bmad/{{module}}/agents/{{agent_filename}}.md" name="{{agent_name}}" title="{{agent_title}}" icon="{{agent_icon}}">
-  {{activation_rules if custom}}
-  <persona>
-    {{agent_persona}}
-  </persona>
-  {{critical_actions}}
-  {{embedded_data if expert/simple}}
-  <cmds>
-    {{agent_commands}}
-  </cmds>
-</agent>
+  # Optional (from Step 3)
+  prompts: []
+  critical_actions: []
+
+  menu: { { agent_commands } }
 ```
-
-For Expert agents, include:
-
-- Sidecar file references
-- Domain restrictions
-- Special data access patterns
-
-For Simple agents:
-
-- May include embedded data/logic
-- Self-contained functionality
 
 <critical>Determine save location based on {src_impact}:</critical>
 
@@ -244,27 +208,27 @@ For Simple agents:
 <template-output>complete_agent</template-output>
 </step>
 
-<step n="7" goal="Create agent config file" optional="true">
-Ask: **Create agent config file for overrides? [Yes/no]** (default: No)
+<step n="7" goal="Create customize file" optional="true">
+Ask: **Create a customize YAML for overrides? [Yes/no]** (default: No)
 
-If yes, create minimal config at: {config_output_file}
+If yes, create at: {config_output_file}
 
-```xml
-# Agent Config: {{agent_filename}}
-
-<agent-config name="{{agent_name}}" title="{{agent_title}}">
-    <llm critical="true">
-        <i>ALWAYS respond in {core:communication_language}.</i>
-    </llm>
-
-    <!-- Override persona elements as needed -->
-    <role></role>
-    <identity></identity>
-    <communication_style></communication_style>
-    <principles></principles>
-    <memories></memories>
-</agent-config>
+```yaml
+# Agent Customization (overrides are merged at build time)
+agent:
+  metadata:
+    name: ''
+persona:
+  role: ''
+  identity: ''
+  communication_style: ''
+  principles: []
+critical_actions: []
+prompts: []
+menu: []
 ```
+
+Note: The installer also auto-creates this file from a template if missing.
 
 <template-output>agent_config</template-output>
 </step>
@@ -283,27 +247,23 @@ For Expert agents, help setup sidecar resources:
 <step n="9" goal="Validate generated agent">
 Run validation checks:
 
-1. **Structure validation:**
-   - Valid XML structure
-   - All required tags present
-   - Proper BMAD Core compliance
+1. **YAML structure:**
+   - Parses without errors
+   - `agent.metadata` has id, name, title, icon, module
+   - `agent.persona` complete; principles may be array
 
-2. **Persona completeness:**
-   - Role defined
-   - Identity defined
-   - Communication style defined
-   - Principles defined
+2. **Menu validation:**
+   - No `*` prefix in triggers (added at build)
+   - `description` present for each item
+   - Paths use `{project-root}` or valid variables
+   - No duplicate triggers
 
-3. **Commands validation:**
-   - \*help command present
-   - \*exit command present
-   - All workflow paths valid or marked "todo"
-   - No duplicate command triggers
+3. **Build check:**
+   - Run installer compile to generate `.md` files
+   - Confirm `{project-root}/bmad/{{module}}/agents/{{agent_filename}}.md` exists
 
-4. **Type-specific validation:**
-   - Simple: Self-contained logic verified
-   - Expert: Sidecar resources referenced
-   - Module: Module path correct
+4. **Type-specific:**
+   - Simple/Expert/Module fields make sense and referenced paths exist (or are `todo`)
 
 Show validation results and fix any issues.
 </step>
@@ -315,9 +275,9 @@ Provide the user with:
    - If {src_impact} = true: {{src_output_file}}
    - If {src_impact} = false: {{default_output_file}}
 
-2. **How to activate:**
-   - For testing: Load the agent file directly
-   - For production: Register in module config
+2. **Build to .md:**
+   - Run `npm run install:bmad` and choose "Compile Agents" (or `bmad install` → Compile)
+   - The installer merges YAML + customize and injects activation and menu handlers
 
 3. **Next steps:**
    - Implement any "todo" workflows

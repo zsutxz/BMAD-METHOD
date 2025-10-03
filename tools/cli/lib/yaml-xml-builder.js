@@ -145,11 +145,6 @@ class YamlXmlBuilder {
     let xml = '<!-- Powered by BMAD-CORE™ -->\n\n';
     xml += `# ${metadata.title || 'Agent'}\n\n`;
 
-    // Add build metadata as comment
-    if (buildMetadata.includeMetadata) {
-      xml += this.buildMetadataComment(buildMetadata);
-    }
-
     xml += '```xml\n';
 
     // Agent opening tag

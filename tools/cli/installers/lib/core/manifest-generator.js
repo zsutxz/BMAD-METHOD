@@ -146,22 +146,21 @@ class ManifestGenerator {
 
   /**
    * Collect all agents from core and selected modules
+   * Scans the INSTALLED bmad directory, not the source
    */
   async collectAgents(selectedModules) {
     this.agents = [];
 
-    // Get core agents
-    const corePath = getModulePath('core');
-    const coreAgentsPath = path.join(corePath, 'agents');
+    // Get core agents from installed bmad directory
+    const coreAgentsPath = path.join(this.bmadDir, 'core', 'agents');
     if (await fs.pathExists(coreAgentsPath)) {
       const coreAgents = await this.getAgentsFromDir(coreAgentsPath, 'core');
       this.agents.push(...coreAgents);
     }
 
-    // Get module agents
+    // Get module agents from installed bmad directory
     for (const moduleName of selectedModules) {
-      const modulePath = getSourcePath(`modules/${moduleName}`);
-      const agentsPath = path.join(modulePath, 'agents');
+      const agentsPath = path.join(this.bmadDir, moduleName, 'agents');
 
       if (await fs.pathExists(agentsPath)) {
         const moduleAgents = await this.getAgentsFromDir(agentsPath, moduleName);
@@ -172,15 +171,22 @@ class ManifestGenerator {
 
   /**
    * Get agents from a directory
+   * Only includes compiled .md files (not .agent.yaml source files)
    */
   async getAgentsFromDir(dirPath, moduleName) {
     const agents = [];
     const files = await fs.readdir(dirPath);
 
     for (const file of files) {
-      if (file.endsWith('.md')) {
+      // Only include .md files, skip .agent.yaml source files and README.md
+      if (file.endsWith('.md') && !file.endsWith('.agent.yaml') && file.toLowerCase() !== 'readme.md') {
         const filePath = path.join(dirPath, file);
         const content = await fs.readFile(filePath, 'utf8');
+
+        // Skip files that don't contain <agent> tag (e.g., README files)
+        if (!content.includes('<agent')) {
+          continue;
+        }
 
         // Skip web-only agents
         if (content.includes('localskip="true"')) {
@@ -218,22 +224,21 @@ class ManifestGenerator {
 
   /**
    * Collect all tasks from core and selected modules
+   * Scans the INSTALLED bmad directory, not the source
    */
   async collectTasks(selectedModules) {
     this.tasks = [];
 
-    // Get core tasks
-    const corePath = getModulePath('core');
-    const coreTasksPath = path.join(corePath, 'tasks');
+    // Get core tasks from installed bmad directory
+    const coreTasksPath = path.join(this.bmadDir, 'core', 'tasks');
     if (await fs.pathExists(coreTasksPath)) {
       const coreTasks = await this.getTasksFromDir(coreTasksPath, 'core');
       this.tasks.push(...coreTasks);
     }
 
-    // Get module tasks
+    // Get module tasks from installed bmad directory
     for (const moduleName of selectedModules) {
-      const modulePath = getSourcePath(`modules/${moduleName}`);
-      const tasksPath = path.join(modulePath, 'tasks');
+      const tasksPath = path.join(this.bmadDir, moduleName, 'tasks');
 
       if (await fs.pathExists(tasksPath)) {
         const moduleTasks = await this.getTasksFromDir(tasksPath, moduleName);
@@ -296,11 +301,7 @@ class ManifestGenerator {
         installDate: new Date().toISOString(),
         lastUpdated: new Date().toISOString(),
       },
-      modules: this.modules.map((name) => ({
-        name,
-        version: '',
-        shortTitle: '',
-      })),
+      modules: this.modules,
       ides: ['claude-code'],
     };
 

@@ -333,7 +333,6 @@ class Installer {
       // Pre-register manifest files that will be created (except files-manifest.csv to avoid recursion)
       const cfgDir = path.join(bmadDir, '_cfg');
       this.installedFiles.push(
-        path.join(cfgDir, 'manifest.csv'),
         path.join(cfgDir, 'manifest.yaml'),
         path.join(cfgDir, 'workflow-manifest.csv'),
         path.join(cfgDir, 'agent-manifest.csv'),
@@ -419,21 +418,8 @@ class Installer {
 
       spinner.succeed('Module-specific installers completed');
 
-      // Create manifest
-      spinner.start('Creating installation manifest...');
-      const manifestResult = await this.manifest.create(
-        bmadDir,
-        {
-          version: require(path.join(getProjectRoot(), 'package.json')).version,
-          installDate: new Date().toISOString(),
-          core: config.installCore,
-          modules: config.modules || [],
-          ides: config.ides || [],
-          language: config.language || null,
-        },
-        this.installedFiles,
-      );
-      spinner.succeed(`Manifest created (${manifestResult.filesTracked} files tracked)`);
+      // Note: Manifest files are already created by ManifestGenerator above
+      // No need to create legacy manifest.csv anymore
 
       // If this was an update, restore custom files
       let customFiles = [];
@@ -982,9 +968,12 @@ class Installer {
         // Replace {project-root} placeholder
         const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
-        // Write the built .md file
+        // Write the built .md file to bmad/{module}/agents/
         await fs.writeFile(mdPath, processedContent, 'utf8');
         this.installedFiles.push(mdPath);
+
+        // Remove the source YAML file - we can regenerate from installer source if needed
+        await fs.remove(yamlPath);
 
         console.log(chalk.dim(`  Built agent: ${agentName}.md`));
       }
@@ -998,6 +987,100 @@ class Installer {
           // Inject the activation block using XML handler
           content = this.xmlHandler.injectActivationSimple(content);
           await fs.writeFile(agentPath, content, 'utf8');
+        }
+      }
+    }
+  }
+
+  /**
+   * Rebuild agent files from installer source (for compile command)
+   * @param {string} modulePath - Path to module in bmad/ installation
+   * @param {string} moduleName - Module name
+   */
+  async rebuildAgentFiles(modulePath, moduleName) {
+    // Get source agents directory from installer
+    const sourceAgentsPath =
+      moduleName === 'core' ? path.join(getModulePath('core'), 'agents') : path.join(getSourcePath(`modules/${moduleName}`), 'agents');
+
+    if (!(await fs.pathExists(sourceAgentsPath))) {
+      return; // No source agents to rebuild
+    }
+
+    // Determine project directory (parent of bmad/ directory)
+    const bmadDir = path.dirname(modulePath);
+    const projectDir = path.dirname(bmadDir);
+    const cfgAgentsDir = path.join(bmadDir, '_cfg', 'agents');
+    const targetAgentsPath = path.join(modulePath, 'agents');
+
+    // Ensure target directory exists
+    await fs.ensureDir(targetAgentsPath);
+
+    // Get all YAML agent files from source
+    const sourceFiles = await fs.readdir(sourceAgentsPath);
+
+    for (const file of sourceFiles) {
+      if (file.endsWith('.agent.yaml')) {
+        const agentName = file.replace('.agent.yaml', '');
+        const sourceYamlPath = path.join(sourceAgentsPath, file);
+        const targetMdPath = path.join(targetAgentsPath, `${agentName}.md`);
+        const customizePath = path.join(cfgAgentsDir, `${moduleName}-${agentName}.customize.yaml`);
+
+        // Check for customizations
+        const customizeExists = await fs.pathExists(customizePath);
+        let customizedFields = [];
+
+        if (customizeExists) {
+          const customizeContent = await fs.readFile(customizePath, 'utf8');
+          const yaml = require('js-yaml');
+          const customizeYaml = yaml.load(customizeContent);
+
+          // Detect what fields are customized
+          if (customizeYaml) {
+            if (customizeYaml.persona) {
+              for (const [key, value] of Object.entries(customizeYaml.persona)) {
+                if (value !== '' && value !== null && !(Array.isArray(value) && value.length === 0)) {
+                  customizedFields.push(`persona.${key}`);
+                }
+              }
+            }
+            if (customizeYaml.agent?.metadata) {
+              for (const [key, value] of Object.entries(customizeYaml.agent.metadata)) {
+                if (value !== '' && value !== null) {
+                  customizedFields.push(`metadata.${key}`);
+                }
+              }
+            }
+            if (customizeYaml.critical_actions && customizeYaml.critical_actions.length > 0) {
+              customizedFields.push('critical_actions');
+            }
+            if (customizeYaml.memories && customizeYaml.memories.length > 0) {
+              customizedFields.push('memories');
+            }
+            if (customizeYaml.menu && customizeYaml.menu.length > 0) {
+              customizedFields.push('menu');
+            }
+            if (customizeYaml.prompts && customizeYaml.prompts.length > 0) {
+              customizedFields.push('prompts');
+            }
+          }
+        }
+
+        // Build YAML + customize to .md
+        const xmlContent = await this.xmlHandler.buildFromYaml(sourceYamlPath, customizeExists ? customizePath : null, {
+          includeMetadata: true,
+        });
+
+        // Replace {project-root} placeholder
+        const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
+
+        // Write the rebuilt .md file
+        await fs.writeFile(targetMdPath, processedContent, 'utf8');
+
+        // Display result with customizations if any
+        if (customizedFields.length > 0) {
+          console.log(chalk.dim(`  Rebuilt agent: ${agentName}.md `) + chalk.yellow(`(customized: ${customizedFields.join(', ')})`));
+        } else {
+          console.log(chalk.dim(`  Rebuilt agent: ${agentName}.md`));
         }
       }
     }
@@ -1030,13 +1113,13 @@ class Installer {
       const entries = await fs.readdir(bmadDir, { withFileTypes: true });
 
       for (const entry of entries) {
-        if (entry.isDirectory() && entry.name !== '_cfg') {
+        if (entry.isDirectory() && entry.name !== '_cfg' && entry.name !== 'docs') {
           const modulePath = path.join(bmadDir, entry.name);
 
-          // Process agents
+          // Rebuild agents from installer source
           const agentsPath = path.join(modulePath, 'agents');
           if (await fs.pathExists(agentsPath)) {
-            await this.processAgentFiles(modulePath, entry.name);
+            await this.rebuildAgentFiles(modulePath, entry.name);
             const agentFiles = await fs.readdir(agentsPath);
             agentCount += agentFiles.filter((f) => f.endsWith('.md')).length;
           }
