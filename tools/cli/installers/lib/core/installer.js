@@ -993,6 +993,93 @@ class Installer {
   }
 
   /**
+   * Build standalone agents in bmad/agents/ directory
+   * @param {string} bmadDir - Path to bmad directory
+   * @param {string} projectDir - Path to project directory
+   */
+  async buildStandaloneAgents(bmadDir, projectDir) {
+    const standaloneAgentsPath = path.join(bmadDir, 'agents');
+    const cfgAgentsDir = path.join(bmadDir, '_cfg', 'agents');
+
+    // Check if standalone agents directory exists
+    if (!(await fs.pathExists(standaloneAgentsPath))) {
+      return;
+    }
+
+    // Get all subdirectories in agents/
+    const agentDirs = await fs.readdir(standaloneAgentsPath, { withFileTypes: true });
+
+    for (const agentDir of agentDirs) {
+      if (!agentDir.isDirectory()) continue;
+
+      const agentDirPath = path.join(standaloneAgentsPath, agentDir.name);
+
+      // Find any .agent.yaml file in the directory
+      const files = await fs.readdir(agentDirPath);
+      const yamlFile = files.find((f) => f.endsWith('.agent.yaml'));
+
+      if (!yamlFile) continue;
+
+      const agentName = path.basename(yamlFile, '.agent.yaml');
+      const sourceYamlPath = path.join(agentDirPath, yamlFile);
+      const targetMdPath = path.join(agentDirPath, `${agentName}.md`);
+      const customizePath = path.join(cfgAgentsDir, `${agentName}.customize.yaml`);
+
+      // Check for customizations
+      const customizeExists = await fs.pathExists(customizePath);
+      let customizedFields = [];
+
+      if (customizeExists) {
+        const customizeContent = await fs.readFile(customizePath, 'utf8');
+        const yaml = require('js-yaml');
+        const customizeYaml = yaml.load(customizeContent);
+
+        // Detect what fields are customized (similar to rebuildAgentFiles)
+        if (customizeYaml) {
+          if (customizeYaml.persona) {
+            for (const [key, value] of Object.entries(customizeYaml.persona)) {
+              if (value !== '' && value !== null && !(Array.isArray(value) && value.length === 0)) {
+                customizedFields.push(`persona.${key}`);
+              }
+            }
+          }
+          if (customizeYaml.agent?.metadata) {
+            for (const [key, value] of Object.entries(customizeYaml.agent.metadata)) {
+              if (value !== '' && value !== null) {
+                customizedFields.push(`metadata.${key}`);
+              }
+            }
+          }
+          if (customizeYaml.critical_actions && customizeYaml.critical_actions.length > 0) {
+            customizedFields.push('critical_actions');
+          }
+          if (customizeYaml.menu && customizeYaml.menu.length > 0) {
+            customizedFields.push('menu');
+          }
+        }
+      }
+
+      // Build YAML to XML .md
+      const xmlContent = await this.xmlHandler.buildFromYaml(sourceYamlPath, customizeExists ? customizePath : null, {
+        includeMetadata: true,
+      });
+
+      // Replace {project-root} placeholder
+      const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
+
+      // Write the built .md file
+      await fs.writeFile(targetMdPath, processedContent, 'utf8');
+
+      // Display result
+      if (customizedFields.length > 0) {
+        console.log(chalk.dim(`  Built standalone agent: ${agentName}.md `) + chalk.yellow(`(customized: ${customizedFields.join(', ')})`));
+      } else {
+        console.log(chalk.dim(`  Built standalone agent: ${agentName}.md`));
+      }
+    }
+  }
+
+  /**
    * Rebuild agent files from installer source (for compile command)
    * @param {string} modulePath - Path to module in bmad/ installation
    * @param {string} moduleName - Module name
@@ -1116,19 +1203,36 @@ class Installer {
         if (entry.isDirectory() && entry.name !== '_cfg' && entry.name !== 'docs') {
           const modulePath = path.join(bmadDir, entry.name);
 
-          // Rebuild agents from installer source
-          const agentsPath = path.join(modulePath, 'agents');
-          if (await fs.pathExists(agentsPath)) {
-            await this.rebuildAgentFiles(modulePath, entry.name);
-            const agentFiles = await fs.readdir(agentsPath);
-            agentCount += agentFiles.filter((f) => f.endsWith('.md')).length;
-          }
+          // Special handling for standalone agents in bmad/agents/ directory
+          if (entry.name === 'agents') {
+            spinner.text = 'Building standalone agents...';
+            await this.buildStandaloneAgents(bmadDir, projectDir);
 
-          // Count tasks (already built)
-          const tasksPath = path.join(modulePath, 'tasks');
-          if (await fs.pathExists(tasksPath)) {
-            const taskFiles = await fs.readdir(tasksPath);
-            taskCount += taskFiles.filter((f) => f.endsWith('.md')).length;
+            // Count standalone agents
+            const standaloneAgentsPath = path.join(bmadDir, 'agents');
+            const standaloneAgentDirs = await fs.readdir(standaloneAgentsPath, { withFileTypes: true });
+            for (const agentDir of standaloneAgentDirs) {
+              if (agentDir.isDirectory()) {
+                const agentDirPath = path.join(standaloneAgentsPath, agentDir.name);
+                const agentFiles = await fs.readdir(agentDirPath);
+                agentCount += agentFiles.filter((f) => f.endsWith('.md') && !f.endsWith('.agent.yaml')).length;
+              }
+            }
+          } else {
+            // Rebuild module agents from installer source
+            const agentsPath = path.join(modulePath, 'agents');
+            if (await fs.pathExists(agentsPath)) {
+              await this.rebuildAgentFiles(modulePath, entry.name);
+              const agentFiles = await fs.readdir(agentsPath);
+              agentCount += agentFiles.filter((f) => f.endsWith('.md')).length;
+            }
+
+            // Count tasks (already built)
+            const tasksPath = path.join(modulePath, 'tasks');
+            if (await fs.pathExists(tasksPath)) {
+              const taskFiles = await fs.readdir(tasksPath);
+              taskCount += taskFiles.filter((f) => f.endsWith('.md')).length;
+            }
           }
         }
       }

@@ -346,4 +346,4 @@ bmad sm retrospective     # After epic
 
 ---
 
-This document supersedes v6-IMPORTANT-BMM-FLOW.md and serves as the authoritative guide to BMM workflow execution. For detailed information about individual workflows, see their respective README files in the workflow folders.
+This document serves as the authoritative guide to BMM v6a workflow execution. For detailed information about individual workflows, see their respective README files in the workflow folders.

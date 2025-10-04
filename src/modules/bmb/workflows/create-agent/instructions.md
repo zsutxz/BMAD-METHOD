@@ -55,18 +55,20 @@ Present the recommendation naturally: _"Given that your agent will [summarize pu
 
 For Module agents, discover:
 
-- "Which system would this fit best with?" (bmm, bmb, cis, or custom)
+- "Which module system would this fit best with?" (bmm, bmb, cis, or custom)
 - Store as {{target_module}} for path determination
+- Agent will be saved to: bmad/{{target_module}}/agents/
 
-For Expert agents, explore:
+For Simple/Expert agents (standalone):
 
-- "What kind of information will it need to access?"
-- "Are there specific folders or data it should work with?"
+- "This will be your personal agent, not tied to a module"
+- Agent will be saved to: bmad/agents/{{agent-name}}/
+- All sidecar files will be in the same folder
 
-<critical>Check {src_impact} variable to determine output location:</critical>
+<critical>Determine agent location:</critical>
 
-- If {src_impact} = true: Agent will be saved to {src_output_file}
-- If {src_impact} = false: Agent will be saved to {default_output_file}
+- Module Agent → bmad/{{module}}/agents/{{agent-name}}.agent.yaml
+- Standalone Agent → bmad/agents/{{agent-name}}/{{agent-name}}.agent.yaml
 
 <note>Keep agent naming/identity details for later - let them emerge naturally through the creation process</note>
 </step>
@@ -298,13 +300,122 @@ Make it feel like preparing an office:
 - "What kind of information will it need quick access to?"
 - "Should it have its own data folders?"
 
-Create the resources as a natural extension:
+<action>Determine sidecar location:</action>
 
-1. "Creating [agent name]'s knowledge base..."
-2. "Setting up its personal workspace..."
-3. "Giving it access to the resources it needs..."
+- If build tools available: Create next to agent YAML
+- If no build tools: Create in output folder with clear structure
+
+<action>Actually CREATE the sidecar files:</action>
+
+1. Create folder structure:
+
+```
+{{agent_filename}}-sidecar/
+├── memories.md         # Persistent memory
+├── instructions.md     # Private directives
+├── knowledge/         # Knowledge base
+│   └── README.md
+└── sessions/          # Session notes
+```
+
+2. Create **memories.md**:
+
+```markdown
+# {{agent_name}}'s Memory Bank
+
+## User Preferences
+
+<!-- Populated as I learn about you -->
+
+## Session History
+
+<!-- Important moments from our interactions -->
+
+## Personal Notes
+
+<!-- My observations and insights -->
+```
+
+3. Create **instructions.md**:
+
+```markdown
+# {{agent_name}} Private Instructions
+
+## Core Directives
+
+- Maintain character: {{brief_personality_summary}}
+- Domain: {{agent_domain}}
+- Access: Only this sidecar folder
+
+## Special Instructions
+
+{{any_special_rules_from_creation}}
+```
+
+4. Create **knowledge/README.md**:
+
+```markdown
+# {{agent_name}}'s Knowledge Base
+
+Add domain-specific resources here.
+```
+
+<action>Update agent YAML to reference sidecar:</action>
+Add `sidecar:` section with paths to created files
+
+<action>Show user the created structure:</action>
+"I've created {{agent_name}}'s complete workspace at: {{sidecar_path}}"
 
 <template-output>sidecar_resources</template-output>
+</step>
+
+<step n="8b" goal="Handle build tools availability">
+<action>Check if BMAD build tools are available:</action>
+
+<check>If in BMAD-METHOD project with build tools:</check>
+<action>Proceed normally - agent will be built later</action>
+
+<check>If NO build tools available (external project):</check>
+<ask>Build tools not detected in this project. Would you like me to:
+
+1. Generate the compiled agent (.md with XML) ready to use
+2. Keep the YAML and build it elsewhere
+3. Provide both formats</ask>
+
+<check>If option 1 or 3 selected:</check>
+<action>Generate compiled agent XML:</action>
+
+```xml
+<!-- Powered by BMAD-CORE™ -->
+
+# {{agent_title}}
+
+<agent id="{{agent_id}}" name="{{agent_name}}" title="{{agent_title}}" icon="{{agent_icon}}">
+  <activation critical="MANDATORY">
+    <!-- Inject standard activation -->
+    {{activation_rules}}
+    {{activation_greeting}}
+  </activation>
+
+  <persona>
+    <role>{{role}}</role>
+    <identity>{{identity}}</identity>
+    <communication_style>{{style}}</communication_style>
+    <principles>{{principles}}</principles>
+  </persona>
+
+  <menu>
+    <item cmd="*help">Show numbered menu</item>
+    {{converted_menu_items}}
+    <item cmd="*exit">Exit with confirmation</item>
+  </menu>
+</agent>
+```
+
+<action>Save compiled version as {{agent_filename}}.md</action>
+<action>Provide path for .claude/commands/ or similar</action>
+
+<template-output>build_handling</template-output>
 </step>
 
 <step n="9" goal="Quality check with personality">

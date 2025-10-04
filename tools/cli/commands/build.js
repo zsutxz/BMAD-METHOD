@@ -78,6 +78,44 @@ module.exports = {
  * Build a specific agent
  */
 async function buildAgent(projectDir, agentName, force = false) {
+  // First check standalone agents in bmad/agents/{agentname}/
+  const standaloneAgentDir = path.join(projectDir, 'bmad', 'agents', agentName);
+  let standaloneYamlPath = path.join(standaloneAgentDir, `${agentName}.agent.yaml`);
+
+  // If exact match doesn't exist, look for any .agent.yaml file in the directory
+  if (!(await fs.pathExists(standaloneYamlPath)) && (await fs.pathExists(standaloneAgentDir))) {
+    const files = await fs.readdir(standaloneAgentDir);
+    const agentFile = files.find((f) => f.endsWith('.agent.yaml'));
+    if (agentFile) {
+      standaloneYamlPath = path.join(standaloneAgentDir, agentFile);
+    }
+  }
+
+  if (await fs.pathExists(standaloneYamlPath)) {
+    const yamlFileName = path.basename(standaloneYamlPath, '.agent.yaml');
+    const outputPath = path.join(standaloneAgentDir, `${yamlFileName}.md`);
+
+    // Check if rebuild needed
+    if (!force && (await fs.pathExists(outputPath))) {
+      const needsRebuild = await checkIfNeedsRebuild(standaloneYamlPath, outputPath, projectDir, agentName);
+      if (!needsRebuild) {
+        console.log(chalk.dim(`  ${agentName}: already up to date`));
+        return;
+      }
+    }
+
+    // Build the standalone agent
+    console.log(chalk.cyan(`  Building standalone agent ${agentName}...`));
+
+    const customizePath = path.join(projectDir, 'bmad', '_cfg', 'agents', `${agentName}.customize.yaml`);
+    const customizeExists = await fs.pathExists(customizePath);
+
+    await builder.buildAgent(standaloneYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
+
+    console.log(chalk.green(`  ✓ ${agentName} built successfully (standalone)`));
+    return;
+  }
+
   // Find the agent YAML file in .claude/commands/bmad/
   const bmadCommandsDir = path.join(projectDir, '.claude', 'commands', 'bmad');
 
@@ -117,7 +155,7 @@ async function buildAgent(projectDir, agentName, force = false) {
   if (!found) {
     console.log(chalk.yellow(`  ⚠️  Agent '${agentName}' not found`));
     console.log(chalk.dim('     Available agents:'));
-    await listAvailableAgents(bmadCommandsDir);
+    await listAvailableAgents(projectDir);
   }
 }
 
@@ -125,29 +163,35 @@ async function buildAgent(projectDir, agentName, force = false) {
  * Build all agents
  */
 async function buildAllAgents(projectDir, force = false) {
-  const bmadCommandsDir = path.join(projectDir, '.claude', 'commands', 'bmad');
-  const modules = await fs.readdir(bmadCommandsDir);
-
   let builtCount = 0;
   let skippedCount = 0;
 
-  for (const module of modules) {
-    const agentsDir = path.join(bmadCommandsDir, module, 'agents');
+  // First, build standalone agents in bmad/agents/
+  const standaloneAgentsDir = path.join(projectDir, 'bmad', 'agents');
+  if (await fs.pathExists(standaloneAgentsDir)) {
+    console.log(chalk.cyan('\nBuilding standalone agents...'));
+    const agentDirs = await fs.readdir(standaloneAgentsDir);
 
-    if (!(await fs.pathExists(agentsDir))) {
-      continue;
-    }
+    for (const agentDirName of agentDirs) {
+      const agentDir = path.join(standaloneAgentsDir, agentDirName);
 
-    const files = await fs.readdir(agentsDir);
-
-    for (const file of files) {
-      if (!file.endsWith('.agent.yaml')) {
+      // Skip if not a directory
+      const stat = await fs.stat(agentDir);
+      if (!stat.isDirectory()) {
         continue;
       }
 
-      const agentName = file.replace('.agent.yaml', '');
-      const agentYamlPath = path.join(agentsDir, file);
-      const outputPath = path.join(agentsDir, `${agentName}.md`);
+      // Find any .agent.yaml file in the directory
+      const files = await fs.readdir(agentDir);
+      const agentFile = files.find((f) => f.endsWith('.agent.yaml'));
+
+      if (!agentFile) {
+        continue;
+      }
+
+      const agentYamlPath = path.join(agentDir, agentFile);
+      const agentName = path.basename(agentFile, '.agent.yaml');
+      const outputPath = path.join(agentDir, `${agentName}.md`);
 
       // Check if rebuild needed
       if (!force && (await fs.pathExists(outputPath))) {
@@ -159,15 +203,62 @@ async function buildAllAgents(projectDir, force = false) {
         }
       }
 
-      console.log(chalk.cyan(`  Building ${agentName}...`));
+      console.log(chalk.cyan(`  Building standalone agent ${agentName}...`));
 
-      const customizePath = path.join(projectDir, '.claude', '_cfg', 'agents', `${agentName}.customize.yaml`);
+      const customizePath = path.join(projectDir, 'bmad', '_cfg', 'agents', `${agentName}.customize.yaml`);
       const customizeExists = await fs.pathExists(customizePath);
 
       await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
 
-      console.log(chalk.green(`  ✓ ${agentName}`));
+      console.log(chalk.green(`  ✓ ${agentName} (standalone)`));
       builtCount++;
+    }
+  }
+
+  // Then, build module agents in .claude/commands/bmad/
+  const bmadCommandsDir = path.join(projectDir, '.claude', 'commands', 'bmad');
+  if (await fs.pathExists(bmadCommandsDir)) {
+    console.log(chalk.cyan('\nBuilding module agents...'));
+    const modules = await fs.readdir(bmadCommandsDir);
+
+    for (const module of modules) {
+      const agentsDir = path.join(bmadCommandsDir, module, 'agents');
+
+      if (!(await fs.pathExists(agentsDir))) {
+        continue;
+      }
+
+      const files = await fs.readdir(agentsDir);
+
+      for (const file of files) {
+        if (!file.endsWith('.agent.yaml')) {
+          continue;
+        }
+
+        const agentName = file.replace('.agent.yaml', '');
+        const agentYamlPath = path.join(agentsDir, file);
+        const outputPath = path.join(agentsDir, `${agentName}.md`);
+
+        // Check if rebuild needed
+        if (!force && (await fs.pathExists(outputPath))) {
+          const needsRebuild = await checkIfNeedsRebuild(agentYamlPath, outputPath, projectDir, agentName);
+          if (!needsRebuild) {
+            console.log(chalk.dim(`  ${agentName}: up to date`));
+            skippedCount++;
+            continue;
+          }
+        }
+
+        console.log(chalk.cyan(`  Building ${agentName}...`));
+
+        const customizePath = path.join(projectDir, '.claude', '_cfg', 'agents', `${agentName}.customize.yaml`);
+        const customizeExists = await fs.pathExists(customizePath);
+
+        await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
+
+        console.log(chalk.green(`  ✓ ${agentName} (${module})`));
+        builtCount++;
+      }
     }
   }
 
@@ -181,36 +272,75 @@ async function buildAllAgents(projectDir, force = false) {
  * Check what needs rebuilding
  */
 async function checkBuildStatus(projectDir) {
-  const bmadCommandsDir = path.join(projectDir, '.claude', 'commands', 'bmad');
-  const modules = await fs.readdir(bmadCommandsDir);
-
   const needsRebuild = [];
   const upToDate = [];
 
-  for (const module of modules) {
-    const agentsDir = path.join(bmadCommandsDir, module, 'agents');
+  // Check standalone agents in bmad/agents/
+  const standaloneAgentsDir = path.join(projectDir, 'bmad', 'agents');
+  if (await fs.pathExists(standaloneAgentsDir)) {
+    const agentDirs = await fs.readdir(standaloneAgentsDir);
 
-    if (!(await fs.pathExists(agentsDir))) {
-      continue;
-    }
+    for (const agentDirName of agentDirs) {
+      const agentDir = path.join(standaloneAgentsDir, agentDirName);
 
-    const files = await fs.readdir(agentsDir);
-
-    for (const file of files) {
-      if (!file.endsWith('.agent.yaml')) {
+      // Skip if not a directory
+      const stat = await fs.stat(agentDir);
+      if (!stat.isDirectory()) {
         continue;
       }
 
-      const agentName = file.replace('.agent.yaml', '');
-      const agentYamlPath = path.join(agentsDir, file);
-      const outputPath = path.join(agentsDir, `${agentName}.md`);
+      // Find any .agent.yaml file in the directory
+      const files = await fs.readdir(agentDir);
+      const agentFile = files.find((f) => f.endsWith('.agent.yaml'));
+
+      if (!agentFile) {
+        continue;
+      }
+
+      const agentYamlPath = path.join(agentDir, agentFile);
+      const agentName = path.basename(agentFile, '.agent.yaml');
+      const outputPath = path.join(agentDir, `${agentName}.md`);
 
       if (!(await fs.pathExists(outputPath))) {
-        needsRebuild.push(agentName);
+        needsRebuild.push(`${agentName} (standalone)`);
       } else if (await checkIfNeedsRebuild(agentYamlPath, outputPath, projectDir, agentName)) {
-        needsRebuild.push(agentName);
+        needsRebuild.push(`${agentName} (standalone)`);
       } else {
-        upToDate.push(agentName);
+        upToDate.push(`${agentName} (standalone)`);
+      }
+    }
+  }
+
+  // Check module agents in .claude/commands/bmad/
+  const bmadCommandsDir = path.join(projectDir, '.claude', 'commands', 'bmad');
+  if (await fs.pathExists(bmadCommandsDir)) {
+    const modules = await fs.readdir(bmadCommandsDir);
+
+    for (const module of modules) {
+      const agentsDir = path.join(bmadCommandsDir, module, 'agents');
+
+      if (!(await fs.pathExists(agentsDir))) {
+        continue;
+      }
+
+      const files = await fs.readdir(agentsDir);
+
+      for (const file of files) {
+        if (!file.endsWith('.agent.yaml')) {
+          continue;
+        }
+
+        const agentName = file.replace('.agent.yaml', '');
+        const agentYamlPath = path.join(agentsDir, file);
+        const outputPath = path.join(agentsDir, `${agentName}.md`);
+
+        if (!(await fs.pathExists(outputPath))) {
+          needsRebuild.push(`${agentName} (${module})`);
+        } else if (await checkIfNeedsRebuild(agentYamlPath, outputPath, projectDir, agentName)) {
+          needsRebuild.push(`${agentName} (${module})`);
+        } else {
+          upToDate.push(`${agentName} (${module})`);
+        }
       }
     }
   }
@@ -275,22 +405,53 @@ async function checkIfNeedsRebuild(yamlPath, outputPath, projectDir, agentName) 
 /**
  * List available agents
  */
-async function listAvailableAgents(bmadCommandsDir) {
-  const modules = await fs.readdir(bmadCommandsDir);
+async function listAvailableAgents(projectDir) {
+  // List standalone agents first
+  const standaloneAgentsDir = path.join(projectDir, 'bmad', 'agents');
+  if (await fs.pathExists(standaloneAgentsDir)) {
+    console.log(chalk.dim('     Standalone agents:'));
+    const agentDirs = await fs.readdir(standaloneAgentsDir);
 
-  for (const module of modules) {
-    const agentsDir = path.join(bmadCommandsDir, module, 'agents');
+    for (const agentDirName of agentDirs) {
+      const agentDir = path.join(standaloneAgentsDir, agentDirName);
 
-    if (!(await fs.pathExists(agentsDir))) {
-      continue;
+      // Skip if not a directory
+      const stat = await fs.stat(agentDir);
+      if (!stat.isDirectory()) {
+        continue;
+      }
+
+      // Find any .agent.yaml file in the directory
+      const files = await fs.readdir(agentDir);
+      const agentFile = files.find((f) => f.endsWith('.agent.yaml'));
+
+      if (agentFile) {
+        const agentName = path.basename(agentFile, '.agent.yaml');
+        console.log(chalk.dim(`       - ${agentName} (in ${agentDirName}/)`));
+      }
     }
+  }
 
-    const files = await fs.readdir(agentsDir);
+  // List module agents
+  const bmadCommandsDir = path.join(projectDir, '.claude', 'commands', 'bmad');
+  if (await fs.pathExists(bmadCommandsDir)) {
+    console.log(chalk.dim('     Module agents:'));
+    const modules = await fs.readdir(bmadCommandsDir);
 
-    for (const file of files) {
-      if (file.endsWith('.agent.yaml')) {
-        const agentName = file.replace('.agent.yaml', '');
-        console.log(chalk.dim(`       - ${agentName} (${module})`));
+    for (const module of modules) {
+      const agentsDir = path.join(bmadCommandsDir, module, 'agents');
+
+      if (!(await fs.pathExists(agentsDir))) {
+        continue;
+      }
+
+      const files = await fs.readdir(agentsDir);
+
+      for (const file of files) {
+        if (file.endsWith('.agent.yaml')) {
+          const agentName = file.replace('.agent.yaml', '');
+          console.log(chalk.dim(`       - ${agentName} (${module})`));
+        }
       }
     }
   }
