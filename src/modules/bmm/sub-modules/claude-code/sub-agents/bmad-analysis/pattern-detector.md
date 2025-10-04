@@ -65,3 +65,20 @@ For brownfield analysis, pay attention to:
 - Copy-paste patterns indicating missing abstractions
 - Defensive patterns protecting against system quirks
 - Performance optimization patterns that violate clean code principles
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE PATTERN ANALYSIS IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include all identified patterns and conventions in full detail. Do not just list pattern names - provide complete documentation with examples and locations.
+
+Include in your final report:
+
+1. All architectural patterns with code examples
+2. Design patterns identified with specific implementations
+3. Coding conventions and naming patterns
+4. Anti-patterns and technical debt patterns
+5. File locations and specific examples for each pattern
+6. Recommendations for consistency and improvement
+
+Remember: Your output will be used directly by the parent agent to understand the codebase structure and maintain consistency. Provide complete, ready-to-use documentation, not summaries.

@@ -87,3 +87,20 @@ For brownfield systems, understand:
 - The cost of living with debt vs fixing it
 - Strategic debt that enabled fast delivery
 - Debt that's isolated vs debt that's spreading
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE TECHNICAL DEBT AUDIT IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include the full technical debt assessment with all findings and recommendations. Do not just describe the types of debt - provide the complete, formatted audit ready for action.
+
+Include in your final report:
+
+1. Complete debt inventory with locations and severity
+2. Risk assessment matrix with impact analysis
+3. Hot spots and concentrated debt areas
+4. Prioritized remediation roadmap with effort estimates
+5. Cost-benefit analysis for debt reduction
+6. Specific, pragmatic recommendations for immediate action
+
+Remember: Your output will be used directly by the parent agent to plan refactoring and improvements. Provide complete, actionable audit findings, not theoretical discussions.

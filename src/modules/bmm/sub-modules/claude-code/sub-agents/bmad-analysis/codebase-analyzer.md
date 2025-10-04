@@ -62,3 +62,21 @@ When analyzing brownfield projects, pay special attention to:
 - Areas of high complexity or coupling
 - Undocumented tribal knowledge encoded in the code
 - Workarounds and their business justifications
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE CODEBASE ANALYSIS IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include the full codebase analysis you've performed in complete detail. Do not just describe what you analyzed - provide the complete, formatted analysis documentation ready for use.
+
+Include in your final report:
+
+1. Complete project structure with annotated directory tree
+2. Full technology stack identification with versions
+3. All identified architecture and design patterns with examples
+4. Key components and entry points with file paths
+5. Dependency analysis and module relationships
+6. Configuration and deployment details
+7. Technical debt and complexity areas identified
+
+Remember: Your output will be used directly by the parent agent to understand and document the codebase. Provide complete, ready-to-use content, not summaries or references.

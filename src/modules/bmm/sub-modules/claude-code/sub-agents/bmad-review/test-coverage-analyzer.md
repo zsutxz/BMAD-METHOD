@@ -89,3 +89,20 @@ For brownfield systems:
 - Missing regression tests for fixed bugs
 - Integration tests as substitutes for unit tests
 - Test data management challenges
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE TEST COVERAGE ANALYSIS IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include the full testing assessment with coverage metrics and improvement recommendations. Do not just describe testing patterns - provide the complete, formatted analysis ready for action.
+
+Include in your final report:
+
+1. Complete test coverage metrics by type and module
+2. Critical gaps and untested paths with risk assessment
+3. Test quality issues (flaky, slow, brittle tests)
+4. Testing strategy evaluation and patterns used
+5. Prioritized improvement roadmap with effort estimates
+6. Specific recommendations for immediate action
+
+Remember: Your output will be used directly by the parent agent to improve test coverage and quality. Provide complete, actionable analysis with specific improvements, not general testing advice.

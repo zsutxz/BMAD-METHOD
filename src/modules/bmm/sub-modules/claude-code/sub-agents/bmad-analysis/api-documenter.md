@@ -83,3 +83,20 @@ For brownfield systems:
 - APIs with multiple authentication methods
 - Versioning strategies (or lack thereof)
 - Shadow APIs created for specific clients
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE API DOCUMENTATION IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include all API documentation you've discovered and analyzed in full detail. Do not just describe what you found - provide the complete, formatted API documentation ready for integration.
+
+Include in your final report:
+
+1. Complete API inventory with all endpoints/methods
+2. Full authentication and authorization documentation
+3. Detailed endpoint specifications with schemas
+4. Data models and type definitions
+5. Integration patterns and examples
+6. Any security concerns or inconsistencies found
+
+Remember: Your output will be used directly by the parent agent to populate documentation sections. Provide complete, ready-to-use content, not summaries or references.

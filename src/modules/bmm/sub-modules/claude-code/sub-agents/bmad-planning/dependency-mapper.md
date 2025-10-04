@@ -65,3 +65,19 @@ For brownfield systems, focus on:
 - Hardcoded integration points
 - Dependencies on deprecated or end-of-life technologies
 - Shadow dependencies introduced through copy-paste or vendoring
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE DEPENDENCY ANALYSIS IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include the full dependency mapping and analysis you've developed. Do not just describe what you found - provide the complete, formatted dependency documentation ready for integration.
+
+Include in your final report:
+
+1. Complete external dependency list with versions and risks
+2. Internal module dependency graph
+3. Circular dependencies and coupling analysis
+4. High-risk dependencies and security concerns
+5. Specific recommendations for refactoring or updates
+
+Remember: Your output will be used directly by the parent agent to populate document sections. Provide complete, ready-to-use content, not summaries or references.

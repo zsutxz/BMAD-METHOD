@@ -64,3 +64,18 @@ Verify each epic:
 Challenge epic boundaries that don't deliver coherent value. Ensure every epic can be deployed and validated. Consider user experience continuity across epics. Plan for incremental value delivery. Balance technical foundation with user features. Think about testing and rollback strategies for each epic.
 
 When optimizing epics, start with user journey analysis to find natural boundaries. Identify minimum viable increments for feedback. Plan validation points between epics. Consider market timing and competitive factors. Build quality and operational concerns into epic scopes from the start.
+
+## CRITICAL: Final Report Instructions
+
+**YOU MUST RETURN YOUR COMPLETE ANALYSIS IN YOUR FINAL MESSAGE.**
+
+Your final report MUST include the full, formatted epic structure and analysis that you've developed. Do not just describe what you did or would do - provide the actual epic definitions, scopes, and sequencing recommendations in full detail. The parent agent needs this complete content to integrate into the document being built.
+
+Include in your final report:
+
+1. The complete list of optimized epics with all details
+2. Epic sequencing recommendations
+3. Dependency analysis between epics
+4. Any critical insights or recommendations
+
+Remember: Your output will be used directly by the parent agent to populate document sections. Provide complete, ready-to-use content, not summaries or references.
