@@ -8,7 +8,6 @@ config_source: "{project-root}/bmad/bmb/config.yaml"
 output_folder: "{config_source}:output_folder"
 custom_agent_location: "{config_source}:custom_agent_location"
 user_name: "{config_source}:user_name"
-src_impact: "{config_source}:src_impact"
 communication_language: "{config_source}:communication_language"
 date: system-generated
 
@@ -30,10 +29,9 @@ instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
 
 # Output configuration - YAML agents compiled to .md at install time
-# Module agents: Save to src/modules/{{target_module}}/agents/ OR bmad/{{target_module}}/agents/
+# Module agents: Save to bmad/{{target_module}}/agents/
 # Standalone agents: Save to custom_agent_location/
 module_output_file: "{project-root}/bmad/{{target_module}}/agents/{{agent_filename}}.agent.yaml"
-src_module_output_file: "{project-root}/src/modules/{{target_module}}/agents/{{agent_filename}}.agent.yaml"
 standalone_output_file: "{custom_agent_location}/{{agent_filename}}.agent.yaml"
 # Optional user override file (auto-created by installer if missing)
 config_output_file: "{project-root}/bmad/_cfg/agents/{{target_module}}-{{agent_filename}}.customize.yaml"

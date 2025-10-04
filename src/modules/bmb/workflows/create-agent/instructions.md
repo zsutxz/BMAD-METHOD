@@ -254,8 +254,7 @@ agent:
 
 <critical>Save based on agent type:</critical>
 
-- If Module Agent and {src_impact} = true: Save to {src_module_output_file}
-- If Module Agent and {src_impact} = false: Save to {module_output_file}
+- If Module Agent: Save to {module_output_file}
 - If Standalone (Simple/Expert): Save to {standalone_output_file}
 
 "Your agent [name] is ready! It turned out even better than I expected!"

@@ -44,7 +44,7 @@
 ## Final Quality
 
 - [ ] Filename is kebab-case and ends with `.agent.yaml`
-- [ ] Output location matches `src_impact` decision
+- [ ] Output location correctly placed in module or standalone directory
 - [ ] Agent purpose and commands are clear and consistent
 
 ## Issues Found

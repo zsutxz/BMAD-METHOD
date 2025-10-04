@@ -65,8 +65,7 @@ Based on type, determine which files are needed:
 
 <critical>Determine output location based on module assignment:</critical>
 
-- If workflow belongs to module and {src_impact} = true: Save to {src_module_output_folder}
-- If workflow belongs to module and {src_impact} = false: Save to {module_output_folder}
+- If workflow belongs to module: Save to {module_output_folder}
 - If standalone workflow: Save to {standalone_output_folder}
 
 Store decisions for later use.

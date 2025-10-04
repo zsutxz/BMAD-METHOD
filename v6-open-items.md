@@ -18,10 +18,9 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - DONE: Team Web Bundler functional
 - DONE: Agent improvement to loading instruction insertion and customization system overhaul
 - DONE: Stand along agents now will install to bmad/agents and are able to be compiled by the installer also
-- IN PROGRESS - bmm `testarch` integrated into the BMM workflow's after aligned with the rest of bmad method flow.
-- IN PROGRESS - Document new agent workflows.
+- bmm `testarch` integrated into the BMM workflow's after aligned with the rest of bmad method flow.
+- Document new agent workflows.
 - need to segregate game dev workflows and potentially add as an installation choice
-- BoBM generation is injecting certain content that is unnecessary.
 - the workflow runner needs to become a series of targeted workflow injections at install time so workflows can be run directly without the bloated intermediary.
 - All project levels (0 through 4) manual flows validated through workflow phase 1-4
   - level 0 (simple addition or update to existing project) workflow is super streamlined from explanation of issue through code implementation

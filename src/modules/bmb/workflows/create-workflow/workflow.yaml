@@ -8,7 +8,6 @@ config_source: "{project-root}/bmad/bmb/config.yaml"
 output_folder: "{config_source}:output_folder"
 custom_workflow_location: "{config_source}:custom_workflow_location"
 user_name: "{config_source}:user_name"
-src_impact: "{config_source}:src_impact"
 communication_language: "{config_source}:communication_language"
 date: system-generated
 
@@ -37,7 +36,6 @@ workflow_template_path: "{installed_path}/workflow-template"
 # If workflow belongs to a module: Save to module's workflows folder
 # If standalone workflow: Save to custom_workflow_location/{{workflow_name}}
 module_output_folder: "{project-root}/bmad/{{target_module}}/workflows/{{workflow_name}}"
-src_module_output_folder: "{project-root}/src/modules/{{target_module}}/workflows/{{workflow_name}}"
 standalone_output_folder: "{custom_workflow_location}/{{workflow_name}}"
 
 web_bundle:

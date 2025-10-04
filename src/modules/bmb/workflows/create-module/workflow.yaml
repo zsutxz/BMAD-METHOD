@@ -7,7 +7,6 @@ author: "BMad"
 config_source: "{project-root}/bmad/bmb/config.yaml"
 output_folder: "{config_source}:output_folder"
 custom_module_location: "{config_source}:custom_module_location"
-src_impact: "{config_source}:src_impact"
 communication_language: "{config_source}:communication_language"
 user_name: "{config_source}:user_name"
 date: system-generated
@@ -38,12 +37,8 @@ instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
 
 # Output configuration - creates entire module structure
-# If src_impact=true: Save to src/modules/{{module_code}}
-# If src_impact=false: Save to custom_module_location/{{module_code}}
-default_output_folder: "{custom_module_location}/{{module_code}}"
-src_output_folder: "{project-root}/src/modules/{{module_code}}"
+# Save to custom_module_location/{{module_code}}
 installer_output_folder: "{custom_module_location}/{{module_code}}"
-src_installer_output_folder: "{project-root}/src/modules/{{module_code}}"
 
 web_bundle:
   name: "create-module"

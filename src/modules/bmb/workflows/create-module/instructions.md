@@ -76,8 +76,7 @@ Listen to their description and then:
 
 <critical>Determine output location:</critical>
 
-- If {src_impact} = true: Module will be created at {src_installer_output_folder}
-- If {src_impact} = false: Module will be created at {installer_output_folder}
+- Module will be created at {installer_output_folder}
 
 Store module identity for scaffolding.
 
