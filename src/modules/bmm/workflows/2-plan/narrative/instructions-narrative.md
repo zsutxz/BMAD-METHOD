@@ -2,7 +2,7 @@
 
 <workflow>
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already completed the GDD workflow</critical>
 <critical>This workflow creates detailed narrative content for story-driven games</critical>
 <critical>Uses narrative_template for output</critical>

@@ -4,7 +4,7 @@
 
 <critical>This is the INITIAL ASSESSMENT phase - determines which instruction set to load</critical>
 <critical>ALWAYS check for existing project-workflow-analysis.md first</critical>
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 
 <step n="1" goal="Check for existing analysis or perform new assessment">
 

@@ -1,7 +1,4 @@
-# Validate Workflow
-
-```xml
-<task id="bmad/core/tasks/validate-workflow.md" name="Validate Workflow Output">
+<task id="bmad/core/tasks/validate-workflow.xml" name="Validate Workflow Output">
   <objective>Run a checklist against a document with thorough analysis and produce a validation report</objective>
 
   <inputs>
@@ -89,4 +86,3 @@
     <rule>HALT after presenting summary - wait for user</rule>
   </critical-rules>
 </task>
-```

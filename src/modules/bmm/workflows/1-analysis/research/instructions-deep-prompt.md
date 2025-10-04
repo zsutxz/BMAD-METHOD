@@ -1,6 +1,6 @@
 # Deep Research Prompt Generator Instructions
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>This workflow generates structured research prompts optimized for AI platforms</critical>
 <critical>Based on 2025 best practices from ChatGPT, Gemini, Grok, and Claude</critical>

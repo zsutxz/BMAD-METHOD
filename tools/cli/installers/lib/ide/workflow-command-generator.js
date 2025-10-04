@@ -140,9 +140,9 @@ class WorkflowCommandGenerator {
 ## Execution
 
 When running any workflow:
-1. LOAD {project-root}/bmad/core/tasks/workflow.md
+1. LOAD {project-root}/bmad/core/tasks/workflow.xml
 2. Pass the workflow path as 'workflow-config' parameter
-3. Follow workflow.md instructions EXACTLY
+3. Follow workflow.xml instructions EXACTLY
 4. Save outputs after EACH section
 
 ## Modes

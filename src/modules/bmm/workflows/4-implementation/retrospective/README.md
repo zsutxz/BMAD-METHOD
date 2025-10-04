@@ -50,7 +50,7 @@ The SM should run this workflow:
 
 **Primary Deliverable:**
 
-- **Retrospective Report** (`[epic-id]-retrospective.md`): Comprehensive analysis including:
+- **Retrospective Report** (`[epic-id]-retrospective.xml`): Comprehensive analysis including:
   - Executive summary of epic outcomes
   - Story-by-story analysis of what was learned
   - Technical insights and architecture learnings

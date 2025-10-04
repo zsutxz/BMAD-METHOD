@@ -42,7 +42,7 @@ default_output_file: '{output_folder}/output.md'
 ```markdown
 # instructions.md
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: workflow.yaml</critical>
 
 <workflow>
@@ -140,7 +140,7 @@ recommended_inputs: # Expected input docs
 ```markdown
 # instructions.md
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: workflow.yaml</critical>
 
 <workflow>
@@ -452,5 +452,5 @@ Check requirements against goals.
 
 _For implementation details, see:_
 
-- `/src/core/tasks/workflow.md` - Execution engine
+- `/src/core/tasks/workflow.xml` - Execution engine
 - `/bmad/bmm/workflows/` - Production examples

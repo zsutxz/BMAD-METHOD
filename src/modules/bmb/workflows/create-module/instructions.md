@@ -1,6 +1,6 @@
 # Build Module - Interactive Module Builder Instructions
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-module/workflow.yaml</critical>
 <critical>Study existing modules in: {project_root}/bmad/ for patterns</critical>
 

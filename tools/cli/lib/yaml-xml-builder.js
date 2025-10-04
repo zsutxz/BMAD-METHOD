@@ -141,7 +141,12 @@ class YamlXmlBuilder {
     // Build activation block only if not skipped
     let activationBlock = '';
     if (!buildMetadata.skipActivation) {
-      activationBlock = await this.activationBuilder.buildActivation(profile, metadata, agent.critical_actions || []);
+      activationBlock = await this.activationBuilder.buildActivation(
+        profile,
+        metadata,
+        agent.critical_actions || [],
+        buildMetadata.forWebBundle || false, // Pass web bundle flag
+      );
     }
 
     // Start building XML
@@ -350,6 +355,7 @@ class YamlXmlBuilder {
       builderVersion: '1.0.0',
       includeMetadata: options.includeMetadata !== false,
       skipActivation: options.skipActivation === true,
+      forWebBundle: options.forWebBundle === true,
     };
 
     // Convert to XML and return

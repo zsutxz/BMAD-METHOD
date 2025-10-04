@@ -13,7 +13,7 @@ date: system-generated
 
 # Required Data Files - Critical for understanding workflow conventions
 workflow_creation_guide: "{project-root}/bmad/bmb/workflows/create-workflow/workflow-creation-guide.md"
-workflow_execution_engine: "{project-root}/bmad/core/tasks/workflow.md"
+workflow_execution_engine: "{project-root}/bmad/core/tasks/workflow.xml"
 
 # Optional docs that can be used to understand the target workflow
 recommended_inputs:

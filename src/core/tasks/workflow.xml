@@ -1,9 +1,4 @@
-<!-- BMAD Method v6 Workflow Execution Task (Simplified) -->
-
-# Workflow
-
-```xml
-<task id="bmad/core/tasks/workflow.md" name="Execute Workflow">
+<task id="bmad/core/tasks/workflow.xml" name="Execute Workflow">
   <objective>Execute given workflow by loading its configuration, following instructions, and producing output</objective>
 
   <llm critical="true">
@@ -63,12 +58,12 @@
         <action>Process step instructions (markdown or XML tags)</action>
         <action>Replace {{variables}} with values (ask user if unknown)</action>
         <execute-tags>
-          <tag><action> → Perform the action</tag>
-          <tag><check> → Evaluate condition</tag>
-          <tag><ask> → Prompt user and WAIT for response</tag>
-          <tag><invoke-workflow> → Execute another workflow with given inputs</tag>
-          <tag><invoke-task> → Execute specified task</tag>
-          <tag><goto step="x"> → Jump to specified step</tag>
+          <tag>action xml tag → Perform the action</tag>
+          <tag>check xml tag → Evaluate condition</tag>
+          <tag>ask xml tag → Prompt user and WAIT for response</tag>
+          <tag>invoke-workflow xml tag → Execute another workflow with given inputs</tag>
+          <tag>invoke-task xml tag → Execute specified task</tag>
+          <tag>goto step="x" → Jump to specified step</tag>
         </execute-tags>
       </substep>
 
@@ -82,8 +77,9 @@
         </if>
 
         <if tag="elicit-required">
-          <mandate critical="true">YOU MUST READ the file at {project-root}/bmad/core/tasks/adv-elicit.md using Read tool BEFORE presenting any elicitation menu</mandate>
-          <action>Load and run task {project-root}/bmad/core/tasks/adv-elicit.md with current context</action>
+          <mandate critical="true">YOU MUST READ the file at {project-root}/bmad/core/tasks/adv-elicit.xml using Read tool BEFORE presenting
+            any elicitation menu</mandate>
+          <action>Load and run task {project-root}/bmad/core/tasks/adv-elicit.xml with current context</action>
           <action>Show elicitation menu 5 relevant options (list 1-5 options, Continue [c] or Reshuffle [r])</action>
           <mandate>HALT and WAIT for user selection</mandate>
         </if>
@@ -138,4 +134,3 @@
     <mandate>If confused, re-read this task, the workflow yaml, and any yaml indicated files</mandate>
   </llm>
 </task>
-```

@@ -32,5 +32,5 @@ agent:
       description: Analyze Project Scope and Create PRD or Smaller Tech Spec
 
     - trigger: validate
-      exec: "{project-root}/bmad/core/tasks/validate-workflow.md"
+      exec: "{project-root}/bmad/core/tasks/validate-workflow.xml"
       description: Validate any document against its workflow checklist

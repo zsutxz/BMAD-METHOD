@@ -2,7 +2,7 @@
 
 <workflow>
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {project_root}/src/modules/bmb/workflows/redoc/workflow.yaml</critical>
 <critical>This is an AUTONOMOUS workflow - minimize user interaction unless clarification is absolutely required</critical>
 <critical>IMPORTANT: Process ONE document at a time to avoid token limits. Each README should be created individually, not batched.</critical>

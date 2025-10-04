@@ -1,7 +1,7 @@
 # Senior Developer Review - Workflow Instructions
 
 ```xml
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>This workflow performs a Senior Developer Review on a story flagged Ready for Review, appends structured review notes, and can update the story status based on the outcome.</critical>
 <critical>Default execution mode: #yolo (non-interactive). Only ask if {{non_interactive}} == false. If auto-discovery of the target story fails, HALT with a clear message to provide 'story_path' or 'story_dir'.</critical>
@@ -94,7 +94,7 @@
   </step>
 
   <step n="9" goal="Validation and completion">
-    <invoke-task>Run validation checklist at {installed_path}/checklist.md using {project-root}/bmad/core/tasks/validate-workflow.md</invoke-task>
+    <invoke-task>Run validation checklist at {installed_path}/checklist.md using {project-root}/bmad/core/tasks/validate-workflow.xml</invoke-task>
     <action>Report workflow completion.</action>
   </step>  <step n="1" goal="Locate story and verify review status">
     <action>If {{story_path}} was provided → use it. Else auto-discover from {{story_dir}} by listing files matching pattern: "story-*.md" (recursive), sort by last modified (newest first), present top {{story_selection_limit}}.</action>
@@ -168,7 +168,7 @@
   </step>
 
   <step n="9" goal="Validation and completion">
-    <invoke-task>Run validation checklist at {installed_path}/checklist.md using {project-root}/bmad/core/tasks/validate-workflow.md</invoke-task>
+    <invoke-task>Run validation checklist at {installed_path}/checklist.md using {project-root}/bmad/core/tasks/validate-workflow.xml</invoke-task>
     <action>Report workflow completion.</action>
   </step>
 

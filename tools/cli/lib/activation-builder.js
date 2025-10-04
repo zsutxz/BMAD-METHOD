@@ -38,13 +38,14 @@ class ActivationBuilder {
    * @param {Object} profile - Agent profile from AgentAnalyzer
    * @param {Object} metadata - Agent metadata (module, name, etc.)
    * @param {Array} agentSpecificActions - Optional agent-specific critical actions
+   * @param {boolean} forWebBundle - Whether this is for a web bundle
    * @returns {string} Complete activation block XML
    */
-  async buildActivation(profile, metadata = {}, agentSpecificActions = []) {
+  async buildActivation(profile, metadata = {}, agentSpecificActions = [], forWebBundle = false) {
     let activation = '<activation critical="MANDATORY">\n';
 
-    // 1. Build sequential steps
-    const steps = await this.buildSteps(metadata, agentSpecificActions);
+    // 1. Build sequential steps (use web-specific steps for web bundles)
+    const steps = await this.buildSteps(metadata, agentSpecificActions, forWebBundle);
     activation += this.indent(steps, 2) + '\n';
 
     // 2. Build menu handlers section with dynamic handlers
@@ -60,9 +61,11 @@ class ActivationBuilder {
 
     activation += '\n' + this.indent(processedHandlers, 2) + '\n';
 
-    // 3. Always include rules
-    const rules = await this.loadFragment('activation-rules.xml');
-    activation += this.indent(rules, 2) + '\n';
+    // 3. Include rules (skip for web bundles as they're in web-bundle-activation-steps.xml)
+    if (!forWebBundle) {
+      const rules = await this.loadFragment('activation-rules.xml');
+      activation += this.indent(rules, 2) + '\n';
+    }
 
     activation += '</activation>';
 
@@ -94,10 +97,13 @@ class ActivationBuilder {
    * Build sequential activation steps
    * @param {Object} metadata - Agent metadata
    * @param {Array} agentSpecificActions - Optional agent-specific actions
+   * @param {boolean} forWebBundle - Whether this is for a web bundle
    * @returns {string} Steps XML
    */
-  async buildSteps(metadata = {}, agentSpecificActions = []) {
-    const stepsTemplate = await this.loadFragment('activation-steps.xml');
+  async buildSteps(metadata = {}, agentSpecificActions = [], forWebBundle = false) {
+    // Use web-specific fragment for web bundles, standard fragment otherwise
+    const fragmentName = forWebBundle ? 'web-bundle-activation-steps.xml' : 'activation-steps.xml';
+    const stepsTemplate = await this.loadFragment(fragmentName);
 
     // Extract basename from agent ID (e.g., "bmad/bmm/agents/pm.md" → "pm")
     const agentBasename = metadata.id ? metadata.id.split('/').pop().replace('.md', '') : metadata.name || 'agent';

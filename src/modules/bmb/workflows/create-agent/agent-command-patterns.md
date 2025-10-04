@@ -110,13 +110,13 @@ Execute single operations
 ```xml
 <!-- Simple task -->
 <c cmd="*validate"
-   exec="{project-root}/bmad/core/tasks/validate-workflow.md">
+   exec="{project-root}/bmad/core/tasks/validate-workflow.xml">
   Validate document against checklist
 </c>
 
 <!-- Task with data -->
 <c cmd="*standup"
-   exec="{project-root}/bmad/mmm/tasks/daily-standup.md"
+   exec="{project-root}/bmad/mmm/tasks/daily-standup.xml"
    data="{project-root}/bmad/_cfg/agent-party.xml">
   Run agile team standup
 </c>

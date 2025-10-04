@@ -2,7 +2,7 @@
 
 <workflow>
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>This is the MEDIUM instruction set for Level 1-2 projects - minimal PRD + solutioning handoff</critical>
 <critical>Project analysis already completed - proceeding with focused requirements</critical>

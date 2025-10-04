@@ -151,6 +151,7 @@ class WebBundler {
       // Build agent from YAML (no customize file for web bundles)
       const xmlContent = await this.yamlBuilder.buildFromYaml(agentPath, null, {
         includeMetadata: false, // Don't include build metadata in web bundles
+        forWebBundle: true, // Use web-specific activation fragments
       });
 
       content = xmlContent;
@@ -415,12 +416,9 @@ class WebBundler {
       parts.push('', '  <!-- Shared Dependencies -->', '  <dependencies>');
 
       for (const [id, content] of dependencies) {
-        // Check if content is already wrapped in a <file> tag
-        const isWrappedFile = content.trim().startsWith('<file ') && content.trim().endsWith('</file>');
-        const finalContent = isWrappedFile ? content : this.escapeXmlContent(content);
-
+        // All dependencies are now consistently wrapped in <file> elements
         // Indent properly (add 4 spaces to each line)
-        const indentedContent = finalContent
+        const indentedContent = content
           .split('\n')
           .map((line) => '    ' + line)
           .join('\n');
@@ -550,7 +548,6 @@ class WebBundler {
       /src="([^"]+)"/g, // Source paths
       /system-prompts="([^"]+)"/g,
       /tools="([^"]+)"/g,
-      /workflows="([^"]+)"/g,
       /knowledge="([^"]+)"/g,
       /{project-root}\/([^"'\s<>]+)/g,
     ];
@@ -561,20 +558,31 @@ class WebBundler {
         let filePath = match[1];
         // Remove {project-root} prefix if present
         filePath = filePath.replace(/^{project-root}\//, '');
-        if (filePath) {
+
+        // Skip obvious placeholder/example paths
+        if (filePath && !filePath.includes('path/to/') && !filePath.includes('example')) {
           refs.add(filePath);
         }
       }
     }
 
-    // Extract run-workflow references (special handling for workflows)
-    const workflowPattern = /run-workflow="([^"]+)"/g;
-    let workflowMatch;
-    while ((workflowMatch = workflowPattern.exec(xml)) !== null) {
-      let workflowPath = workflowMatch[1];
-      workflowPath = workflowPath.replace(/^{project-root}\//, '');
-      if (workflowPath) {
-        workflowRefs.add(workflowPath);
+    // Extract workflow references - both 'workflow' and 'run-workflow' attributes
+    const workflowPatterns = [
+      /workflow="([^"]+)"/g, // Menu items with workflow attribute
+      /run-workflow="([^"]+)"/g, // Commands with run-workflow attribute
+      /validate-workflow="([^"]+)"/g, // Validation workflow references
+    ];
+
+    for (const pattern of workflowPatterns) {
+      let match;
+      while ((match = pattern.exec(xml)) !== null) {
+        let workflowPath = match[1];
+        workflowPath = workflowPath.replace(/^{project-root}\//, '');
+
+        // Skip obvious placeholder/example paths
+        if (workflowPath && workflowPath.endsWith('.yaml') && !workflowPath.includes('path/to/') && !workflowPath.includes('example')) {
+          workflowRefs.add(workflowPath);
+        }
       }
     }
 
@@ -611,6 +619,11 @@ class WebBundler {
       return;
     }
     processed.add(filePath);
+
+    // Skip agent-party.xml manifest for web bundles (agents are already bundled)
+    if (filePath === 'bmad/_cfg/agent-party.xml' || filePath.endsWith('/agent-party.xml')) {
+      return;
+    }
 
     // Handle wildcard patterns
     if (filePath.includes('*')) {
@@ -737,8 +750,10 @@ class WebBundler {
 
         indexParts.push('  </items>', '</file-index>');
 
-        // Store the XML version
-        dependencies.set(filePath, indexParts.join('\n'));
+        // Store the XML version wrapped in a file element
+        const csvXml = indexParts.join('\n');
+        const wrappedCsv = `<file id="${filePath}" type="xml">\n${csvXml}\n</file>`;
+        dependencies.set(filePath, wrappedCsv);
 
         // Process referenced files from CSV
         for (const refId of referencedFiles) {
@@ -760,8 +775,34 @@ class WebBundler {
       }
     }
 
-    // Store the processed content
-    dependencies.set(filePath, processedContent);
+    // Determine file type for wrapping
+    let fileType = 'text';
+    if (ext === '.xml' || (ext === '.md' && processedContent.trim().startsWith('<'))) {
+      fileType = 'xml';
+    } else
+      switch (ext) {
+        case '.yaml':
+        case '.yml': {
+          fileType = 'yaml';
+
+          break;
+        }
+        case '.json': {
+          fileType = 'json';
+
+          break;
+        }
+        case '.md': {
+          fileType = 'md';
+
+          break;
+        }
+        // No default
+      }
+
+    // Wrap content in file element and store
+    const wrappedContent = this.wrapContentInXml(processedContent, filePath, fileType);
+    dependencies.set(filePath, wrappedContent);
 
     // Recursively scan for more dependencies
     const { refs: nestedRefs } = this.extractFileReferences(processedContent);
@@ -870,7 +911,7 @@ class WebBundler {
    * Include core workflow task files
    */
   async includeCoreWorkflowFiles(dependencies, processed, moduleName, warnings = []) {
-    const coreWorkflowPath = 'bmad/core/tasks/workflow.md';
+    const coreWorkflowPath = 'bmad/core/tasks/workflow.xml';
 
     if (processed.has(coreWorkflowPath)) {
       return;
@@ -885,7 +926,7 @@ class WebBundler {
     }
 
     const fileContent = await fs.readFile(actualPath, 'utf8');
-    const wrappedContent = this.wrapContentInXml(fileContent, coreWorkflowPath, 'md');
+    const wrappedContent = this.wrapContentInXml(fileContent, coreWorkflowPath, 'xml');
     dependencies.set(coreWorkflowPath, wrappedContent);
   }
 
@@ -893,7 +934,7 @@ class WebBundler {
    * Include advanced elicitation files
    */
   async includeAdvancedElicitationFiles(dependencies, processed, moduleName, warnings = []) {
-    const elicitationFiles = ['bmad/core/tasks/adv-elicit.md', 'bmad/core/tasks/adv-elicit-methods.csv'];
+    const elicitationFiles = ['bmad/core/tasks/adv-elicit.xml', 'bmad/core/tasks/adv-elicit-methods.csv'];
 
     for (const filePath of elicitationFiles) {
       if (processed.has(filePath)) {
@@ -919,6 +960,14 @@ class WebBundler {
    * Wrap file content in XML with proper escaping
    */
   wrapContentInXml(content, id, type = 'text') {
+    // For XML files, include directly without CDATA (they're already valid XML)
+    if (type === 'xml') {
+      // XML files can be included directly as they're already well-formed
+      // Just wrap in a file element
+      return `<file id="${id}" type="${type}">\n${content}\n</file>`;
+    }
+
+    // For all other file types, use CDATA to preserve content exactly
     // Escape any ]]> sequences in the content by splitting CDATA sections
     // Replace ]]> with ]]]]><![CDATA[> to properly escape it within CDATA
     const escapedContent = content.replaceAll(']]>', ']]]]><![CDATA[>');
@@ -1163,11 +1212,6 @@ class WebBundler {
     // First, always inject help/exit menu items
     agentXml = this.injectHelpExitMenuItems(agentXml);
 
-    // Check if agent already has an activation block
-    if (agentXml.includes('<activation')) {
-      return agentXml; // Already has activation, don't inject activation but help/exit was added above
-    }
-
     // Load the web activation template
     const activationPath = path.join(this.sourceDir, 'utility', 'models', 'agent-activation-web.xml');
 
@@ -1178,8 +1222,17 @@ class WebBundler {
 
     const activationXml = fs.readFileSync(activationPath, 'utf8');
 
-    // For web bundles, replace critical-actions with activation
-    // This is because web bundles can't load config files, so critical-actions are not applicable
+    // For web bundles, ALWAYS replace existing activation with web activation
+    // This is because fragment-based activation assumes filesystem access which won't work in web bundles
+    const hasActivation = agentXml.includes('<activation');
+
+    if (hasActivation) {
+      // Replace existing activation block with web activation
+      const injectedXml = agentXml.replace(/<activation[^>]*>[\s\S]*?<\/activation>/, activationXml);
+      return injectedXml;
+    }
+
+    // Check for critical-actions block (legacy)
     const hasCriticalActions = agentXml.includes('<critical-actions');
 
     if (hasCriticalActions) {
@@ -1212,8 +1265,8 @@ class WebBundler {
    * Build the final agent bundle XML
    */
   buildAgentBundle(agentXml, dependencies) {
-    // Inject web activation instructions into agent XML
-    agentXml = this.injectWebActivation(agentXml);
+    // Web activation is now handled by fragments during YAML building
+    // agentXml = this.injectWebActivation(agentXml);
 
     const parts = [
       '<?xml version="1.0" encoding="UTF-8"?>',
@@ -1222,17 +1275,13 @@ class WebBundler {
       '  ' + agentXml.replaceAll('\n', '\n  '),
     ];
 
-    // Add dependencies without wrapper tags
+    // Add dependencies (all are now consistently wrapped in <file> elements)
     if (dependencies && dependencies.size > 0) {
       parts.push('\n  <!-- Dependencies -->');
       for (const [id, content] of dependencies) {
-        // Check if content is already wrapped in a <file> tag (from workflow processing)
-        // If so, don't escape it - it's already in CDATA
-        const isWrappedFile = content.trim().startsWith('<file ') && content.trim().endsWith('</file>');
-        const escapedContent = isWrappedFile ? content : this.escapeXmlContent(content);
-
+        // All dependencies are now wrapped in <file> elements
         // Indent properly
-        const indentedContent = escapedContent
+        const indentedContent = content
           .split('\n')
           .map((line) => '  ' + line)
           .join('\n');

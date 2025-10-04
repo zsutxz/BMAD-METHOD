@@ -1,6 +1,6 @@
 # Edit Workflow - Workflow Editor Instructions
 
-<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {project-root}/bmad/bmb/workflows/edit-workflow/workflow.yaml</critical>
 <critical>Study the workflow creation guide thoroughly at: {workflow_creation_guide}</critical>
 

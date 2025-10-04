@@ -1,8 +1,3 @@
-<!-- BMAD-CORE™ Index Documentation Task -->
-
-# Index Docs v1.1
-
-```xml
 <task id="bmad/core/tasks/index-docs" name="Index Docs" webskip="true">
   <llm critical="true">
     <i>MANDATORY: Execute ALL steps in the flow section IN EXACT ORDER</i>
@@ -66,4 +61,3 @@
     <i>Skip hidden files (starting with .) unless specified</i>
   </validation>
 </task>
-```

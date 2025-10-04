@@ -2,7 +2,7 @@
 
 <workflow>
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.md</critical>
+<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-workflow/workflow.yaml</critical>
 <critical>You MUST fully understand the workflow creation guide at: {workflow_creation_guide}</critical>
 <critical>Study the guide thoroughly to follow ALL conventions for optimal human-AI collaboration</critical>
@@ -134,7 +134,7 @@ Load and use the template at: {template_instructions}
 Generate the instructions.md file following the workflow creation guide:
 
 1. ALWAYS include critical headers:
-   - Workflow engine reference: {project_root}/bmad/core/tasks/workflow.md
+   - Workflow engine reference: {project_root}/bmad/core/tasks/workflow.xml
    - workflow.yaml reference: must be loaded and processed
 
 2. Structure with <workflow> tags containing all steps

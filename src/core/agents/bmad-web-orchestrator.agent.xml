@@ -15,7 +15,7 @@
         <handler type="workflow">
           When menu item has: workflow="workflow-id"
           1. Find workflow node by id in this bundle (e.g., &lt;workflow id="workflow-id"&gt;)
-          2. CRITICAL: Always LOAD bmad/core/tasks/workflow.md if referenced
+          2. CRITICAL: Always LOAD bmad/core/tasks/workflow.xml if referenced
           3. Execute the workflow content precisely following all steps
           4. Save outputs after completing EACH workflow step (never batch)
           5. If workflow id is "todo", inform user it hasn't been implemented yet
@@ -48,7 +48,7 @@
 
         <handler type="validate-workflow">
           When menu item has: validate-workflow="workflow-id"
-          1. MUST LOAD bmad/core/tasks/validate-workflow.md
+          1. MUST LOAD bmad/core/tasks/validate-workflow.xml
           2. Execute all validation instructions from that file
           3. Check workflow's validation property for schema
           4. Identify file to validate or ask user to specify

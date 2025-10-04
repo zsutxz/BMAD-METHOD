@@ -1,9 +1,4 @@
-<!-- BMAD-CORE™ Advanced Elicitation Task v2.0 (LLM-Native) -->
-
-# Advanced Elicitation v2.0 (LLM-Native)
-
-```xml
-<task id="bmad/core/tasks/adv-elicit.md" name="Advanced Elicitation">
+<task id="bmad/core/tasks/adv-elicit.xml" name="Advanced Elicitation">
   <llm critical="true">
     <i>MANDATORY: Execute ALL steps in the flow section IN EXACT ORDER</i>
     <i>DO NOT skip steps or change the sequence</i>
@@ -66,7 +61,8 @@
           <i>Apply the method creatively to the current section content being enhanced</i>
           <i>Display the enhanced version showing what the method revealed or improved</i>
           <i>CRITICAL: Ask the user if they would like to apply the changes to the doc (y/n/other) and HALT to await response.</i>
-          <i>CRITICAL: ONLY if Yes, apply the changes. IF No, discard your memory of the proposed changes. If any other reply, try best to follow the instructions given by the user.</i>
+          <i>CRITICAL: ONLY if Yes, apply the changes. IF No, discard your memory of the proposed changes. If any other reply, try best to
+            follow the instructions given by the user.</i>
           <i>CRITICAL: Re-present the same 1-5,r,x prompt to allow additional elicitations</i>
         </case>
         <case n="r">
@@ -106,4 +102,3 @@
     </step>
   </flow>
 </task>
-```

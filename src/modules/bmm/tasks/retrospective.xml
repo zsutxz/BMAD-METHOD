@@ -1,9 +1,4 @@
-<!-- Powered by BMAD-CORE™ -->
-
-# Retrospective v1.0
-
-```xml
-<task id="bmad/bmm/tasks/retrospective.md" name="Team Retrospective">
+<task id="bmad/bmm/tasks/retrospective.xml" name="Team Retrospective">
   <llm critical="true">
     <i>MANDATORY: Execute ALL steps in the flow section IN EXACT ORDER</i>
     <i>DO NOT skip steps or change the sequence</i>
@@ -34,24 +29,24 @@
 
     <step n="3" title="Initialize Retrospective with Context">
       <output>
-🔄 TEAM RETROSPECTIVE - Epic {{number}}: {{Epic Name}}
+        🔄 TEAM RETROSPECTIVE - Epic {{number}}: {{Epic Name}}
 
-Bob (Scrum Master) facilitating
+        Bob (Scrum Master) facilitating
 
-Epic Summary:
-- Completed: {{completed}}/{{total}} stories ({{percentage}}%)
-- Velocity: {{actual-points}} story points (planned: {{planned-points}})
-- Duration: {{actual-sprints}} sprints (planned: {{planned-sprints}})
-- Technical Debt: {{debt-items}}
+        Epic Summary:
+        - Completed: {{completed}}/{{total}} stories ({{percentage}}%)
+        - Velocity: {{actual-points}} story points (planned: {{planned-points}})
+        - Duration: {{actual-sprints}} sprints (planned: {{planned-sprints}})
+        - Technical Debt: {{debt-items}}
 
-Next Epic Preview: Epic {{next-number}}: {{Next Epic Name}}
-- Dependencies on Epic {{number}}: {{dependencies}}
-- Preparation needed: {{preparation-gaps}}
+        Next Epic Preview: Epic {{next-number}}: {{Next Epic Name}}
+        - Dependencies on Epic {{number}}: {{dependencies}}
+        - Preparation needed: {{preparation-gaps}}
 
-Team assembled for reflection:
-{{agents-based-on-story-records}}
+        Team assembled for reflection:
+        {{agents-based-on-story-records}}
 
-Focus: Learning from Epic {{number}} and preparing for Epic {{next-number}}
+        Focus: Learning from Epic {{number}} and preparing for Epic {{next-number}}
       </output>
     </step>
 
@@ -75,14 +70,14 @@ Focus: Learning from Epic {{number}} and preparing for Epic {{next-number}}
       <action>Assigns ownership to action items</action>
       <action>Creates preparation sprint tasks if needed</action>
       <output>
-📝 EPIC {{number}} ACTION ITEMS:
-{{numbered-action-items-with-owners}}
+        📝 EPIC {{number}} ACTION ITEMS:
+        {{numbered-action-items-with-owners}}
 
-🚀 EPIC {{next-number}} PREPARATION SPRINT:
-{{preparation-tasks-with-timeline}}
+        🚀 EPIC {{next-number}} PREPARATION SPRINT:
+        {{preparation-tasks-with-timeline}}
 
-⚠️ CRITICAL PATH:
-{{critical-dependencies-and-timeline}}
+        ⚠️ CRITICAL PATH:
+        {{critical-dependencies-and-timeline}}
       </output>
     </step>
 
@@ -107,4 +102,3 @@ Focus: Learning from Epic {{number}} and preparing for Epic {{next-number}}
     <i>Two-part format: Epic Review + Next Epic Preparation</i>
   </llm>
 </task>
-```

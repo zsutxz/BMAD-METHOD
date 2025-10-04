@@ -127,7 +127,7 @@ expert-agent/
   <cmds>
     <c cmd="*help">Show numbered cmd list</c>
     <c cmd="*create-prd" run-workflow="{project-root}/bmad/bmm/workflows/prd/workflow.yaml">Create PRD</c>
-    <c cmd="*validate" exec="{project-root}/bmad/core/tasks/validate-workflow.md">Validate document</c>
+    <c cmd="*validate" exec="{project-root}/bmad/core/tasks/validate-workflow.xml">Validate document</c>
     <c cmd="*exit">Exit</c>
   </cmds>
 </agent>

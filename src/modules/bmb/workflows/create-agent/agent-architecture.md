@@ -210,7 +210,7 @@ Bad:  ../../../relative/paths/
 ### Task Commands
 
 ```xml
-<c cmd="*validate" exec="{project-root}/bmad/core/tasks/validate-workflow.md">
+<c cmd="*validate" exec="{project-root}/bmad/core/tasks/validate-workflow.xml">
   Validate document
 </c>
 ```
@@ -229,7 +229,7 @@ Bad:  ../../../relative/paths/
 
 ```xml
 <c cmd="*standup"
-   exec="{project-root}/bmad/bmm/tasks/daily-standup.md"
+   exec="{project-root}/bmad/bmm/tasks/daily-standup.xml"
    data="{project-root}/bmad/_cfg/agent-party.xml">
   Run daily standup
 </c>
