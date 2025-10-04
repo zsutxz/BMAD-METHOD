@@ -107,9 +107,9 @@ create-agent/
 
 #### For Standalone Agents (not part of a module)
 
-- **YAML Source**: `{output_folder}/agents/{{agent_filename}}.agent.yaml`
+- **YAML Source**: `{custom_agent_location}/{{agent_filename}}.agent.yaml` (default: `bmad/agents/`)
 - **Installation Location**: `{project-root}/bmad/agents/{{agent_filename}}.md`
-- **Compilation**: Run `npm run build:agents` or use the installer menu
+- **Compilation**: Run the BMAD Method installer and select "Compile Agents (Quick rebuild of all agent .md files)"
 
 #### For Module Agents
 
@@ -150,9 +150,9 @@ If created, generates at:
 Agents are installed to different locations based on their type:
 
 1. **Standalone Agents** (not part of a module)
-   - Source: Created in your project's output folder
+   - Source: Created in your custom agent location (default: `bmad/agents/`)
    - Installed to: `{project-root}/bmad/agents/`
-   - Compilation: Manual via `npm run build:agents`
+   - Compilation: Run BMAD Method installer and select "Compile Agents"
 
 2. **Module Agents** (part of BMM, BMB, or custom modules)
    - Source: Created in `src/modules/{module}/agents/`

@@ -74,10 +74,10 @@ Listen to their description and then:
 - **Business:** Project Management, Marketing, Sales
 - **Personal:** Journaling, Learning, Productivity
 
-<critical>Check {src_impact} variable to determine output location:</critical>
+<critical>Determine output location:</critical>
 
-- If {src_impact} = true: Module will be created at {src_output_folder}
-- If {src_impact} = false: Module will be created at {default_output_folder}
+- If {src_impact} = true: Module will be created at {src_installer_output_folder}
+- If {src_impact} = false: Module will be created at {installer_output_folder}
 
 Store module identity for scaffolding.
 
@@ -179,9 +179,8 @@ Present as: _"Based on your planned components, this looks like a {{determined_t
 </step>
 
 <step n="3" goal="Create module directory structure">
-<critical>Determine base module path based on {src_impact}:</critical>
-- If {src_impact} = true: Use {src_output_folder}
-- If {src_impact} = false: Use {default_output_folder}
+<critical>Use module path determined in Step 1:</critical>
+- The module base path is {{module_path}}
 
 <action>Create base module directories at the determined path:</action>
 
@@ -248,10 +247,9 @@ output_folder: "{project-root}/docs/{{module_code}}"
 data_folder: "{{determined_module_path}}/data"
 ```
 
-<critical>Determine save location based on {src_impact}:</critical>
+<critical>Save location:</critical>
 
-- If {src_impact} = true: Save to {src_output_folder}/config.yaml
-- If {src_impact} = false: Save to {default_output_folder}/config.yaml
+- Save to {{module_path}}/config.yaml
 
 <template-output>module_config</template-output>
 </step>
@@ -265,10 +263,9 @@ If yes:
 </invoke-workflow>
 
 Guide them to create the primary agent for the module.
-<critical>Ensure it's saved to the correct location based on {src_impact}:</critical>
+<critical>Save to module's agents folder:</critical>
 
-- If {src_impact} = true: {src_output_folder}/agents/
-- If {src_impact} = false: {default_output_folder}/agents/
+- Save to {{module_path}}/agents/
 
 If no, create placeholder:
 
@@ -292,10 +289,9 @@ If yes:
 </invoke-workflow>
 
 Guide them to create the primary workflow.
-<critical>Ensure it's saved to the correct location based on {src_impact}:</critical>
+<critical>Save to module's workflows folder:</critical>
 
-- If {src_impact} = true: {src_output_folder}/workflows/
-- If {src_impact} = false: {default_output_folder}/workflows/
+- Save to {{module_path}}/workflows/
 
 If no, create placeholder structure:
 
@@ -542,9 +538,7 @@ Show summary:
 
 ```
 ✅ Module: {{module_name}} ({{module_code}})
-📁 Location:
-   - If {src_impact} = true: {src_output_folder}
-   - If {src_impact} = false: {default_output_folder}
+📁 Location: {{module_path}}
 👥 Agents: {{agent_count}} ({{agents_created}} created, {{agents_planned}} planned)
 📋 Workflows: {{workflow_count}} ({{workflows_created}} created, {{workflows_planned}} planned)
 📝 Tasks: {{task_count}}
@@ -554,8 +548,11 @@ Show summary:
 Next steps:
 
 1. Complete remaining components using roadmap
-2. Test module with: `bmad install {{module_code}}`
-3. Share module or integrate with existing system
+2. Run the BMAD Method installer to this project location
+3. Select the option 'Compile Agents (Quick rebuild of all agent .md files)' after confirming the folder
+4. This will compile your new module and make it available for use
+5. Test module with: `bmad install {{module_code}}`
+6. Share module or integrate with existing system
 
 Ask: Would you like to:
 

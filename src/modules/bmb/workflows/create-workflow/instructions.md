@@ -63,10 +63,11 @@ Based on type, determine which files are needed:
 - Action: workflow.yaml + instructions.md
 - Others: Varies based on requirements
 
-<critical>Check {src_impact} variable to determine output location:</critical>
+<critical>Determine output location based on module assignment:</critical>
 
-- If {src_impact} = true: Workflow will be saved to {src_output_folder}
-- If {src_impact} = false: Workflow will be saved to {default_output_folder}
+- If workflow belongs to module and {src_impact} = true: Save to {src_module_output_folder}
+- If workflow belongs to module and {src_impact} = false: Save to {module_output_folder}
+- If standalone workflow: Save to {standalone_output_folder}
 
 Store decisions for later use.
 </step>
@@ -122,10 +123,10 @@ Follow path conventions from guide:
 - Use {installed_path} for workflow components
 - Use {config_source} for config references
 
-<critical>Determine save location based on {src_impact}:</critical>
+<critical>Determine save location:</critical>
 
-- If {src_impact} = true: Write to {src_output_folder}/workflow.yaml
-- If {src_impact} = false: Write to {default_output_folder}/workflow.yaml
+- Use the output folder determined in Step 1 (module or standalone)
+- Write to {{output_folder}}/workflow.yaml
   </step>
 
 <step n="5" goal="Create instructions.md" if="workflow_type != 'template-only'">
@@ -158,10 +159,9 @@ Generate the instructions.md file following the workflow creation guide:
    - Set limits ("3-5 items maximum")
    - Save checkpoints with <template-output>
 
-<critical>Determine save location based on {src_impact}:</critical>
+<critical>Save location:</critical>
 
-- If {src_impact} = true: Write to {src_output_folder}/instructions.md
-- If {src_impact} = false: Write to {default_output_folder}/instructions.md
+- Write to {{output_folder}}/instructions.md
   </step>
 
 <step n="6" goal="Create template.md" if="workflow_type == 'document'">
@@ -187,10 +187,9 @@ Variable sources as per guide:
 - Step outputs via <template-output>
 - System variables (date, paths)
 
-<critical>Determine save location based on {src_impact}:</critical>
+<critical>Save location:</critical>
 
-- If {src_impact} = true: Write to {src_output_folder}/template.md
-- If {src_impact} = false: Write to {default_output_folder}/template.md
+- Write to {{output_folder}}/template.md
   </step>
 
 <step n="7" goal="Create validation checklist" optional="true">
@@ -216,10 +215,9 @@ Create checklist.md following guide best practices:
 
 4. Add final validation section with issue lists
 
-<critical>Determine save location based on {src_impact}:</critical>
+<critical>Save location:</critical>
 
-- If {src_impact} = true: Write to {src_output_folder}/checklist.md
-- If {src_impact} = false: Write to {default_output_folder}/checklist.md
+- Write to {{output_folder}}/checklist.md
   </step>
 
 <step n="8" goal="Create supporting files" optional="true">
@@ -315,11 +313,12 @@ Create a brief README for the workflow folder explaining:
 
 Provide user with:
 
-- Location of created workflow:
-  - If {src_impact} = true: {{src_output_folder}}
-  - If {src_impact} = false: {{default_output_folder}}
+- Location of created workflow: {{output_folder}}
 - Command to run it
-- Next steps for testing
-  </step>
+- Next steps:
+  - "Run the BMAD Method installer to this project location"
+  - "Select the option 'Compile Agents (Quick rebuild of all agent .md files)' after confirming the folder"
+  - "This will compile your new workflow and make it available for use"
+    </step>
 
 </workflow>

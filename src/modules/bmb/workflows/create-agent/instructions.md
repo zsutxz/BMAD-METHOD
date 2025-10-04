@@ -252,10 +252,11 @@ agent:
   menu: { { The capabilities we built } }
 ```
 
-<critical>Save based on {src_impact}:</critical>
+<critical>Save based on agent type:</critical>
 
-- If {src_impact} = true: Save to {src_output_file}
-- If {src_impact} = false: Save to {default_output_file}
+- If Module Agent and {src_impact} = true: Save to {src_module_output_file}
+- If Module Agent and {src_impact} = false: Save to {module_output_file}
+- If Standalone (Simple/Expert): Save to {standalone_output_file}
 
 "Your agent [name] is ready! It turned out even better than I expected!"
 
@@ -454,12 +455,13 @@ Share the accomplishment:
 **"Here's how to activate [agent name]:"**
 
 1. **Quick start:**
-   - "Run `npm run install:bmad` and select 'Compile Agents'"
+   - "Run the BMAD Method installer to this project location"
+   - "Select the option 'Compile Agents (Quick rebuild of all agent .md files)' after confirming the folder"
    - "Then you can call [agent name] anytime!"
 
 2. **Location:**
    - "I saved [agent name] here: {{output_file}}"
-   - "After compilation, it'll live at: {project-root}/bmad/{{module}}/agents/"
+   - "After compilation, it'll be available in your project"
 
 3. **What [agent name] can do right away:**
    - List the commands in a friendly way
