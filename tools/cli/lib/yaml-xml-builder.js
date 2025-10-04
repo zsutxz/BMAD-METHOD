@@ -138,8 +138,11 @@ class YamlXmlBuilder {
     // Analyze agent to determine needed handlers
     const profile = this.analyzer.analyzeAgentObject(agentYaml);
 
-    // Build activation block
-    const activationBlock = await this.activationBuilder.buildActivation(profile, metadata, agent.critical_actions || []);
+    // Build activation block only if not skipped
+    let activationBlock = '';
+    if (!buildMetadata.skipActivation) {
+      activationBlock = await this.activationBuilder.buildActivation(profile, metadata, agent.critical_actions || []);
+    }
 
     // Start building XML
     let xml = '<!-- Powered by BMAD-CORE™ -->\n\n';
@@ -162,8 +165,10 @@ class YamlXmlBuilder {
 
     xml += `<agent ${agentAttrs.join(' ')}>\n`;
 
-    // Activation block
-    xml += activationBlock + '\n';
+    // Activation block (only if not skipped)
+    if (activationBlock) {
+      xml += activationBlock + '\n';
+    }
 
     // Persona section
     xml += this.buildPersonaXml(agent.persona);
@@ -322,13 +327,13 @@ class YamlXmlBuilder {
   }
 
   /**
-   * Build agent XML from YAML files
+   * Build agent XML from YAML files and return as string (for in-memory use)
    * @param {string} agentYamlPath - Path to agent YAML
    * @param {string} customizeYamlPath - Path to customize YAML (optional)
-   * @param {string} outputPath - Path to write XML file
    * @param {Object} options - Build options
+   * @returns {Promise<string>} XML content as string
    */
-  async buildAgent(agentYamlPath, customizeYamlPath, outputPath, options = {}) {
+  async buildFromYaml(agentYamlPath, customizeYamlPath = null, options = {}) {
     // Load and merge YAML files
     const mergedAgent = await this.loadAndMergeAgent(agentYamlPath, customizeYamlPath);
 
@@ -344,14 +349,31 @@ class YamlXmlBuilder {
       customizeHash,
       builderVersion: '1.0.0',
       includeMetadata: options.includeMetadata !== false,
+      skipActivation: options.skipActivation === true,
     };
 
-    // Convert to XML
-    const xml = await this.convertToXml(mergedAgent, buildMetadata);
+    // Convert to XML and return
+    return await this.convertToXml(mergedAgent, buildMetadata);
+  }
+
+  /**
+   * Build agent XML from YAML files
+   * @param {string} agentYamlPath - Path to agent YAML
+   * @param {string} customizeYamlPath - Path to customize YAML (optional)
+   * @param {string} outputPath - Path to write XML file
+   * @param {Object} options - Build options
+   */
+  async buildAgent(agentYamlPath, customizeYamlPath, outputPath, options = {}) {
+    // Use buildFromYaml to get XML content
+    const xml = await this.buildFromYaml(agentYamlPath, customizeYamlPath, options);
 
     // Write output file
     await fs.ensureDir(path.dirname(outputPath));
     await fs.writeFile(outputPath, xml, 'utf8');
+
+    // Calculate hashes for return value
+    const sourceHash = await this.calculateFileHash(agentYamlPath);
+    const customizeHash = customizeYamlPath ? await this.calculateFileHash(customizeYamlPath) : null;
 
     return {
       success: true,
