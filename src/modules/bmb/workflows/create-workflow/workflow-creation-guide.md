@@ -422,6 +422,105 @@ Check requirements against goals.
 - **No checkpoints** - Add `<template-output>` tags
 - **Vague instructions** - Be explicit about expectations
 
+## Web Bundles
+
+Web bundles allow workflows to be deployed as self-contained packages for web environments.
+
+### When to Use Web Bundles
+
+- Deploying workflows to web-based AI platforms
+- Creating shareable workflow packages
+- Ensuring workflow portability without dependencies
+- Publishing workflows for public use
+
+### Web Bundle Requirements
+
+1. **Self-Contained**: No external dependencies
+2. **No Config Variables**: Cannot use `{config_source}` references
+3. **Complete File List**: Every referenced file must be listed
+4. **Relative Paths**: Use `bmad/` root paths (no `{project-root}`)
+
+### Creating a Web Bundle
+
+Add this section to your workflow.yaml:
+
+```yaml
+web_bundle:
+  name: 'workflow-name'
+  description: 'Workflow description'
+  author: 'Your Name'
+
+  # Core files (bmad/-relative paths)
+  instructions: 'bmad/module/workflows/workflow/instructions.md'
+  validation: 'bmad/module/workflows/workflow/checklist.md'
+  template: 'bmad/module/workflows/workflow/template.md'
+
+  # Data files (no config_source allowed)
+  data_file: 'bmad/module/workflows/workflow/data.csv'
+
+  # Complete file list - CRITICAL!
+  web_bundle_files:
+    - 'bmad/module/workflows/workflow/instructions.md'
+    - 'bmad/module/workflows/workflow/checklist.md'
+    - 'bmad/module/workflows/workflow/template.md'
+    - 'bmad/module/workflows/workflow/data.csv'
+    # Include ALL referenced files
+```
+
+### Converting Existing Workflows
+
+1. **Remove Config Dependencies**:
+   - Replace `{config_source}:variable` with hardcoded values
+   - Convert `{project-root}/bmad/` to `bmad/`
+
+2. **Inventory All Files**:
+   - Scan instructions.md for file references
+   - Check template.md for includes
+   - List all data files
+
+3. **Test Completeness**:
+   - Ensure no missing file references
+   - Verify all paths are relative to bmad/
+
+### Example: Complete Web Bundle
+
+```yaml
+web_bundle:
+  name: 'analyze-requirements'
+  description: 'Requirements analysis workflow'
+  author: 'BMad Team'
+
+  instructions: 'bmad/bmm/workflows/analyze-requirements/instructions.md'
+  validation: 'bmad/bmm/workflows/analyze-requirements/checklist.md'
+  template: 'bmad/bmm/workflows/analyze-requirements/template.md'
+
+  # Data files
+  techniques_data: 'bmad/bmm/workflows/analyze-requirements/techniques.csv'
+  patterns_data: 'bmad/bmm/workflows/analyze-requirements/patterns.json'
+
+  # Sub-workflow reference
+  validation_workflow: 'bmad/bmm/workflows/validate-requirements/workflow.yaml'
+
+  web_bundle_files:
+    # Core workflow files
+    - 'bmad/bmm/workflows/analyze-requirements/instructions.md'
+    - 'bmad/bmm/workflows/analyze-requirements/checklist.md'
+    - 'bmad/bmm/workflows/analyze-requirements/template.md'
+
+    # Data files
+    - 'bmad/bmm/workflows/analyze-requirements/techniques.csv'
+    - 'bmad/bmm/workflows/analyze-requirements/patterns.json'
+
+    # Sub-workflow and its files
+    - 'bmad/bmm/workflows/validate-requirements/workflow.yaml'
+    - 'bmad/bmm/workflows/validate-requirements/instructions.md'
+    - 'bmad/bmm/workflows/validate-requirements/checklist.md'
+
+    # Shared templates referenced in instructions
+    - 'bmad/bmm/templates/requirement-item.md'
+    - 'bmad/bmm/templates/validation-criteria.md'
+```
+
 ## Troubleshooting
 
 ### Variables Not Replaced

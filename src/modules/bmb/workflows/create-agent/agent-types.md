@@ -37,11 +37,11 @@ BMAD agents come in three distinct types, each designed for different use cases 
   <embedded-data>
     <!-- Optional embedded data/logic -->
   </embedded-data>
-  <cmds>
-    <c cmd="*help">Show commands</c>
-    <c cmd="*calculate">Perform calculation</c>
-    <c cmd="*exit">Exit</c>
-  </cmds>
+  <menu>
+    <item cmd="*help">Show commands</item>
+    <item cmd="*calculate">Perform calculation</item>
+    <item cmd="*exit">Exit</item>
+  </menu>
 </agent>
 ```
 
@@ -79,7 +79,7 @@ BMAD agents come in three distinct types, each designed for different use cases 
     <i critical="MANDATORY">Load COMPLETE file {agent-folder}/memories.md into permanent context</i>
     <i critical="MANDATORY">ONLY access {user-folder}/diary/ - NO OTHER FOLDERS</i>
   </critical-actions>
-  <cmds>...</cmds>
+  <menu>...</menu>
 </agent>
 ```
 
@@ -124,12 +124,12 @@ expert-agent/
   <critical-actions>
     <i>Load config from {project-root}/bmad/{module}/config.yaml</i>
   </critical-actions>
-  <cmds>
-    <c cmd="*help">Show numbered cmd list</c>
-    <c cmd="*create-prd" run-workflow="{project-root}/bmad/bmm/workflows/prd/workflow.yaml">Create PRD</c>
-    <c cmd="*validate" exec="{project-root}/bmad/core/tasks/validate-workflow.xml">Validate document</c>
-    <c cmd="*exit">Exit</c>
-  </cmds>
+  <menu>
+    <item cmd="*help">Show numbered menu</item>
+    <item cmd="*create-prd" run-workflow="{project-root}/bmad/bmm/workflows/prd/workflow.yaml">Create PRD</item>
+    <item cmd="*validate" exec="{project-root}/bmad/core/tasks/validate-workflow.xml">Validate document</item>
+    <item cmd="*exit">Exit</item>
+  </menu>
 </agent>
 ```
 

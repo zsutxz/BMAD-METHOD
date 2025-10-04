@@ -46,12 +46,25 @@ If skip, proceed directly to module definition.
 
 Ask the user about their module vision:
 
-**Module Identity:**
+**"What kind of module do you want to create? Tell me about its purpose and what it will help with."**
 
-1. **Module code** (kebab-case, e.g., "rpg-toolkit", "data-viz", "team-collab")
-2. **Module name** (friendly name, e.g., "RPG Toolkit", "Data Visualization Suite")
-3. **Module purpose** (1-2 sentences describing what it does)
-4. **Target audience** (who will use this module?)
+Listen to their description and then:
+
+<action>Based on their description, intelligently propose module details:</action>
+
+**Module Identity (AI Proposed):**
+
+1. **Module name** - Extract from their description (e.g., "Data Visualization Suite", "RPG Toolkit")
+2. **Module code** - Generate kebab-case from name:
+   - "Data Visualization Suite" → propose: "data-viz"
+   - "RPG Game Master Tools" → propose: "rpg-toolkit"
+   - "Team Collaboration System" → propose: "team-collab"
+   - "Personal Finance Manager" → propose: "fin-manager"
+
+   Present as: _"Based on what you described, I suggest the module code: `{{proposed-code}}`. This will be used in paths like bmad/{{proposed-code}}/agents/. Does this work or would you prefer something different?"_
+
+3. **Module purpose** - Refine their description into 1-2 clear sentences
+4. **Target audience** - Infer from context or ask if unclear
 
 **Module Theme Examples:**
 
@@ -72,32 +85,52 @@ Store module identity for scaffolding.
 </step>
 
 <step n="2" goal="Plan module components">
-Gather the module's component architecture:
+<action>Based on the module purpose, propose an initial component architecture:</action>
 
-**Agents Planning:**
-Ask: How many agents will this module have? (typically 1-5)
+**"Based on your {{module_name}}, here's what I think would make a great module structure:"**
 
-For each agent, gather:
+**Agents Planning (AI Proposed):**
 
-- Agent name and purpose
-- Will it be Simple, Expert, or Module type?
-- Key commands it should have
-- Create now or placeholder for later?
+<action>Intelligently suggest agents based on module purpose:</action>
 
-Example for RPG module:
+For a Data Visualization module, suggest:
 
-1. DM Agent - Dungeon Master assistant (Module type)
-2. NPC Agent - Character simulation (Expert type)
-3. Story Writer Agent - Adventure creation (Module type)
+- "Data Analyst" - Interprets and analyzes datasets (Module type)
+- "Chart Designer" - Creates visualization specs (Simple type)
+- "Report Builder" - Generates comprehensive reports (Module type)
 
-**Workflows Planning:**
-Ask: How many workflows? (typically 2-10)
+For an RPG Toolkit, suggest:
 
-For each workflow, gather:
+- "Dungeon Master" - Runs game sessions (Module type)
+- "NPC Generator" - Creates characters (Expert type)
+- "Story Weaver" - Builds adventures (Module type)
 
-- Workflow name and purpose
-- Document, Action, or Interactive type?
-- Complexity (simple/complex)
+For a Team Collaboration module, suggest:
+
+- "Project Manager" - Coordinates tasks (Module type)
+- "Meeting Facilitator" - Runs standups/retros (Simple type)
+- "Documentation Lead" - Maintains team docs (Expert type)
+
+Present as: _"I'm thinking your module could have these agents: [list]. We can start with the core ones and add others later. Which of these resonate with your vision?"_
+
+**Workflows Planning (AI Proposed):**
+
+<action>Intelligently suggest workflows based on module purpose:</action>
+
+For a Data Visualization module, suggest workflows like:
+
+- "analyze-dataset" - Statistical analysis workflow
+- "create-dashboard" - Interactive dashboard builder
+- "generate-report" - Automated report generation
+
+For an RPG Toolkit, suggest workflows like:
+
+- "session-prep" - Prepare game session materials
+- "generate-encounter" - Create combat/social encounters
+- "world-building" - Design locations and lore
+
+Present as: _"For workflows, these would complement your agents well: [list]. Each can be created as we need them. Which are most important to start with?"_
+
 - Create now or placeholder?
 
 Example workflows:
@@ -116,6 +149,33 @@ For each task:
 - Standalone or supporting?
 
 <template-output>module_components</template-output>
+</step>
+
+<step n="2b" goal="Determine module complexity">
+<action>Based on components, intelligently determine module type:</action>
+
+**Simple Module** (auto-select if):
+
+- 1-2 agents, all Simple type
+- 1-3 workflows
+- No complex integrations
+
+**Standard Module** (auto-select if):
+
+- 2-4 agents with mixed types
+- 3-8 workflows
+- Some shared resources
+
+**Complex Module** (auto-select if):
+
+- 4+ agents or multiple Module-type agents
+- 8+ workflows
+- Complex interdependencies
+- External integrations
+
+Present as: _"Based on your planned components, this looks like a {{determined_type}} module. This means we'll set up {{structure_description}}."_
+
+<template-output>module_type</template-output>
 </step>
 
 <step n="3" goal="Create module directory structure">

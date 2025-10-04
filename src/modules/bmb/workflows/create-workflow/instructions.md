@@ -247,6 +247,64 @@ Ask if they want to:
 - Add additional steps or features
   </step>
 
+<step n="9b" goal="Configure web bundle (optional)">
+<ask>Will this workflow need to be deployable as a web bundle? [yes/no]</ask>
+
+If yes:
+<action>Explain web bundle requirements:</action>
+
+- Web bundles are self-contained and cannot use config_source variables
+- All files must be explicitly listed in web_bundle_files
+- File paths use bmad/ root (not {project-root})
+
+<action>Configure web_bundle section in workflow.yaml:</action>
+
+1. Copy core workflow metadata (name, description, author)
+2. Convert all file paths to bmad/-relative paths:
+   - Remove {project-root}/ prefix
+   - Remove {config_source} references (use hardcoded values)
+   - Example: "{project-root}/bmad/bmm/workflows/x" → "bmad/bmm/workflows/x"
+
+3. List ALL referenced files:
+   - Scan instructions.md for any file paths
+   - Scan template.md for any includes or references
+   - Include all data files (CSV, JSON, etc.)
+   - Include any sub-workflow YAML files
+   - Include any shared templates
+
+4. Create web_bundle_files array with complete list
+
+Example:
+
+```yaml
+web_bundle:
+  name: '{workflow_name}'
+  description: '{workflow_description}'
+  author: '{author}'
+  instructions: 'bmad/{module}/workflows/{workflow}/instructions.md'
+  validation: 'bmad/{module}/workflows/{workflow}/checklist.md'
+  template: 'bmad/{module}/workflows/{workflow}/template.md'
+
+  # Any data files (no config_source)
+  data_file: 'bmad/{module}/workflows/{workflow}/data.csv'
+
+  web_bundle_files:
+    - 'bmad/{module}/workflows/{workflow}/instructions.md'
+    - 'bmad/{module}/workflows/{workflow}/checklist.md'
+    - 'bmad/{module}/workflows/{workflow}/template.md'
+    - 'bmad/{module}/workflows/{workflow}/data.csv'
+    # Add every single file referenced anywhere
+```
+
+<action>Validate web bundle completeness:</action>
+
+- Ensure no {config_source} variables remain
+- Verify all file paths are listed
+- Check that paths are bmad/-relative
+
+<template-output>web_bundle_config</template-output>
+</step>
+
 <step n="10" goal="Document and finalize">
 Create a brief README for the workflow folder explaining:
 - Purpose and use case
