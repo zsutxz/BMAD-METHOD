@@ -17,6 +17,7 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - DONE: Fix Redoc task to BMB.
 - DONE: Team Web Bundler functional
 - DONE: Agent improvement to loading instruction insertion and customization system overhaul
+- DONE: Stand along agents now will install to bmad/agents and are able to be compiled by the installer also
 - IN PROGRESS - bmm `testarch` integrated into the BMM workflow's after aligned with the rest of bmad method flow.
 - IN PROGRESS - Document new agent workflows.
 - need to segregate game dev workflows and potentially add as an installation choice
