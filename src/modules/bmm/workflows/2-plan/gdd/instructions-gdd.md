@@ -44,21 +44,20 @@ Your choice:</ask>
 <action>Pre-fill relevant GDD sections with game-brief content</action>
 <action>Note which sections were pre-filled from brief</action>
 
-<ask>What type of game are you designing?
+<check>If no game-brief was loaded:</check>
+<ask>Describe your game in 1-2 sentences:
 
-**Common Game Types:**
+What is it about? What does the player do?</ask>
 
-1. Action Platformer (e.g., Celeste, Hollow Knight)
-2. RPG (e.g., Stardew Valley, Undertale)
-3. Puzzle (e.g., Portal, The Witness)
-4. Roguelike (e.g., Hades, Dead Cells)
-5. Shooter (e.g., DOOM, Enter the Gungeon)
-6. Strategy (e.g., Into the Breach, Slay the Spire)
-7. Adventure (e.g., Firewatch, What Remains of Edith Finch)
-8. Simulation (e.g., Factorio, Rimworld)
-9. Other (I'll ask follow-up questions)
+<action>Analyze description to determine game type</action>
+<action>Map to closest game_types.csv id or use "custom"</action>
 
-Select a number or describe your game type:</ask>
+<check>Else (game-brief was loaded):</check>
+<action>Use game concept from brief to determine game type</action>
+
+<ask optional="true">I've identified this as a **{{game_type}}** game. Is that correct?
+
+If not, briefly describe what type it should be:</ask>
 
 <action>Map selection to game_types.csv id</action>
 <action>Load corresponding fragment file from game-types/ folder</action>
