@@ -10,25 +10,32 @@ class Manifest {
    * @param {Array} installedFiles - List of installed files (no longer used, files tracked in files-manifest.csv)
    */
   async create(bmadDir, data, installedFiles = []) {
-    const manifestPath = path.join(bmadDir, '_cfg', 'manifest.csv');
+    const manifestPath = path.join(bmadDir, '_cfg', 'manifest.yaml');
+    const yaml = require('js-yaml');
 
     // Ensure _cfg directory exists
     await fs.ensureDir(path.dirname(manifestPath));
 
-    // Load module configs to get module metadata
-    // If core is installed, add it to modules list
-    const allModules = [...(data.modules || [])];
-    if (data.core) {
-      allModules.unshift('core'); // Add core at the beginning
-    }
-    const moduleConfigs = await this.loadModuleConfigs(allModules);
+    // Structure the manifest data
+    const manifestData = {
+      installation: {
+        version: data.version || require(path.join(process.cwd(), 'package.json')).version,
+        installDate: data.installDate || new Date().toISOString(),
+        lastUpdated: data.lastUpdated || new Date().toISOString(),
+      },
+      modules: data.modules || [],
+      ides: data.ides || [],
+    };
 
-    // Don't store installation path in manifest
+    // Write YAML manifest
+    const yamlContent = yaml.dump(manifestData, {
+      indent: 2,
+      lineWidth: -1,
+      noRefs: true,
+      sortKeys: false,
+    });
 
-    // Generate CSV content (no file metadata)
-    const csvContent = this.generateManifestCsv({ ...data, modules: allModules }, [], moduleConfigs);
-
-    await fs.writeFile(manifestPath, csvContent, 'utf8');
+    await fs.writeFile(manifestPath, yamlContent, 'utf8');
     return { success: true, path: manifestPath, filesTracked: 0 };
   }
 
@@ -38,14 +45,24 @@ class Manifest {
    * @returns {Object|null} Manifest data or null if not found
    */
   async read(bmadDir) {
-    const csvPath = path.join(bmadDir, '_cfg', 'manifest.csv');
+    const yamlPath = path.join(bmadDir, '_cfg', 'manifest.yaml');
+    const yaml = require('js-yaml');
 
-    if (await fs.pathExists(csvPath)) {
+    if (await fs.pathExists(yamlPath)) {
       try {
-        const content = await fs.readFile(csvPath, 'utf8');
-        return this.parseManifestCsv(content);
+        const content = await fs.readFile(yamlPath, 'utf8');
+        const manifestData = yaml.load(content);
+
+        // Flatten the structure for compatibility with existing code
+        return {
+          version: manifestData.installation?.version,
+          installDate: manifestData.installation?.installDate,
+          lastUpdated: manifestData.installation?.lastUpdated,
+          modules: manifestData.modules || [],
+          ides: manifestData.ides || [],
+        };
       } catch (error) {
-        console.error('Failed to read CSV manifest:', error.message);
+        console.error('Failed to read YAML manifest:', error.message);
       }
     }
 
@@ -59,25 +76,37 @@ class Manifest {
    * @param {Array} installedFiles - Updated list of installed files
    */
   async update(bmadDir, updates, installedFiles = null) {
+    const yaml = require('js-yaml');
     const manifest = (await this.read(bmadDir)) || {};
 
     // Merge updates
     Object.assign(manifest, updates);
     manifest.lastUpdated = new Date().toISOString();
 
-    // If new file list provided, reparse metadata
-    let fileMetadata = manifest.files || [];
-    if (installedFiles) {
-      fileMetadata = await this.parseInstalledFiles(installedFiles);
-    }
+    // Convert back to structured format for YAML
+    const manifestData = {
+      installation: {
+        version: manifest.version,
+        installDate: manifest.installDate,
+        lastUpdated: manifest.lastUpdated,
+      },
+      modules: manifest.modules || [],
+      ides: manifest.ides || [],
+    };
 
-    const manifestPath = path.join(bmadDir, '_cfg', 'manifest.csv');
+    const manifestPath = path.join(bmadDir, '_cfg', 'manifest.yaml');
     await fs.ensureDir(path.dirname(manifestPath));
 
-    const csvContent = this.generateManifestCsv({ ...manifest, ...updates }, fileMetadata);
-    await fs.writeFile(manifestPath, csvContent, 'utf8');
+    const yamlContent = yaml.dump(manifestData, {
+      indent: 2,
+      lineWidth: -1,
+      noRefs: true,
+      sortKeys: false,
+    });
 
-    return { ...manifest, ...updates, files: fileMetadata };
+    await fs.writeFile(manifestPath, yamlContent, 'utf8');
+
+    return manifest;
   }
 
   /**

@@ -37,62 +37,79 @@ class Installer {
    * @param {Array} selectedModules - Selected modules from configuration
    * @returns {Object} Tool/IDE selection and configurations
    */
-  async collectToolConfigurations(projectDir, selectedModules) {
+  async collectToolConfigurations(projectDir, selectedModules, isFullReinstall = false) {
     // Prompt for tool selection
     const { UI } = require('../../../lib/ui');
     const ui = new UI();
     const toolConfig = await ui.promptToolSelection(projectDir, selectedModules);
 
+    // Check for already configured IDEs (but ignore them if doing a full reinstall)
+    const { Detector } = require('./detector');
+    const detector = new Detector();
+    const bmadDir = path.join(projectDir, 'bmad');
+    const existingInstall = await detector.detect(bmadDir);
+    const previouslyConfiguredIdes = isFullReinstall ? [] : existingInstall.ides || [];
+
     // Collect IDE-specific configurations if any were selected
     const ideConfigurations = {};
-    const bmadDir = path.join(projectDir, 'bmad');
 
     if (!toolConfig.skipIde && toolConfig.ides && toolConfig.ides.length > 0) {
-      console.log('\n'); // Add spacing before IDE questions
+      // Determine which IDEs are newly selected (not previously configured)
+      const newlySelectedIdes = toolConfig.ides.filter((ide) => !previouslyConfiguredIdes.includes(ide));
 
-      for (const ide of toolConfig.ides) {
-        // List of IDEs that have interactive prompts
-        const needsPrompts = ['claude-code', 'github-copilot', 'roo', 'cline', 'auggie', 'codex', 'qwen', 'gemini'].includes(ide);
+      if (newlySelectedIdes.length > 0) {
+        console.log('\n'); // Add spacing before IDE questions
 
-        if (needsPrompts) {
-          // Get IDE handler and collect configuration
-          try {
-            // Dynamically load the IDE setup module
-            const ideModule = require(`../ide/${ide}`);
+        for (const ide of newlySelectedIdes) {
+          // List of IDEs that have interactive prompts
+          const needsPrompts = ['claude-code', 'github-copilot', 'roo', 'cline', 'auggie', 'codex', 'qwen', 'gemini'].includes(ide);
 
-            // Get the setup class (handle different export formats)
-            let SetupClass;
-            const className =
-              ide
-                .split('-')
-                .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-                .join('') + 'Setup';
+          if (needsPrompts) {
+            // Get IDE handler and collect configuration
+            try {
+              // Dynamically load the IDE setup module
+              const ideModule = require(`../ide/${ide}`);
 
-            if (ideModule[className]) {
-              SetupClass = ideModule[className];
-            } else if (ideModule.default) {
-              SetupClass = ideModule.default;
-            } else {
-              // Skip if no setup class found
-              continue;
+              // Get the setup class (handle different export formats)
+              let SetupClass;
+              const className =
+                ide
+                  .split('-')
+                  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+                  .join('') + 'Setup';
+
+              if (ideModule[className]) {
+                SetupClass = ideModule[className];
+              } else if (ideModule.default) {
+                SetupClass = ideModule.default;
+              } else {
+                // Skip if no setup class found
+                continue;
+              }
+
+              const ideSetup = new SetupClass();
+
+              // Check if this IDE has a collectConfiguration method
+              if (typeof ideSetup.collectConfiguration === 'function') {
+                console.log(chalk.cyan(`\nConfiguring ${ide}...`));
+                ideConfigurations[ide] = await ideSetup.collectConfiguration({
+                  selectedModules: selectedModules || [],
+                  projectDir,
+                  bmadDir,
+                });
+              }
+            } catch {
+              // IDE doesn't have a setup file or collectConfiguration method
+              console.warn(chalk.yellow(`Warning: Could not load configuration for ${ide}`));
             }
-
-            const ideSetup = new SetupClass();
-
-            // Check if this IDE has a collectConfiguration method
-            if (typeof ideSetup.collectConfiguration === 'function') {
-              console.log(chalk.cyan(`\nConfiguring ${ide}...`));
-              ideConfigurations[ide] = await ideSetup.collectConfiguration({
-                selectedModules: selectedModules || [],
-                projectDir,
-                bmadDir,
-              });
-            }
-          } catch {
-            // IDE doesn't have a setup file or collectConfiguration method
-            console.warn(chalk.yellow(`Warning: Could not load configuration for ${ide}`));
           }
         }
+      }
+
+      // Log which IDEs are already configured and being kept
+      const keptIdes = toolConfig.ides.filter((ide) => previouslyConfiguredIdes.includes(ide));
+      if (keptIdes.length > 0) {
+        console.log(chalk.dim(`\nKeeping existing configuration for: ${keptIdes.join(', ')}`));
       }
     }
 
@@ -139,12 +156,7 @@ class Installer {
     // Collect configurations for modules (core was already collected in UI.promptInstall if interactive)
     const moduleConfigs = await this.configCollector.collectAllConfigurations(config.modules || [], path.resolve(config.directory));
 
-    const toolSelection = await this.collectToolConfigurations(path.resolve(config.directory), config.modules);
-
-    // Merge tool selection into config
-    config.ides = toolSelection.ides;
-    config.skipIde = toolSelection.skipIde;
-    const ideConfigurations = toolSelection.configurations;
+    // Tool selection will be collected after we determine if it's a reinstall/update/new install
 
     const spinner = ora('Preparing installation...').start();
 
@@ -188,7 +200,7 @@ class Installer {
         const { action } = await this.promptUpdateAction();
         if (action === 'cancel') {
           console.log('Installation cancelled.');
-          return;
+          return { success: false, cancelled: true };
         }
 
         if (action === 'reinstall') {
@@ -208,12 +220,15 @@ class Installer {
 
           if (!confirmReinstall) {
             console.log('Installation cancelled.');
-            return;
+            return { success: false, cancelled: true };
           }
 
           // Remove existing installation
           await fs.remove(bmadDir);
           console.log(chalk.green('✓ Removed existing installation\n'));
+
+          // Mark this as a full reinstall so we re-collect IDE configurations
+          config._isFullReinstall = true;
         } else if (action === 'update') {
           // Store that we're updating for later processing
           config._isUpdate = true;
@@ -274,6 +289,21 @@ class Installer {
           }
         }
       }
+
+      // Now collect tool configurations after we know if it's a reinstall
+      spinner.stop();
+      const toolSelection = await this.collectToolConfigurations(
+        path.resolve(config.directory),
+        config.modules,
+        config._isFullReinstall || false,
+      );
+
+      // Merge tool selection into config
+      config.ides = toolSelection.ides;
+      config.skipIde = toolSelection.skipIde;
+      const ideConfigurations = toolSelection.configurations;
+
+      spinner.start('Continuing installation...');
 
       // Create bmad directory structure
       spinner.text = 'Creating directory structure...';
