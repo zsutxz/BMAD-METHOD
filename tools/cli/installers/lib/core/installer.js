@@ -37,18 +37,27 @@ class Installer {
    * @param {Array} selectedModules - Selected modules from configuration
    * @returns {Object} Tool/IDE selection and configurations
    */
-  async collectToolConfigurations(projectDir, selectedModules, isFullReinstall = false) {
+  async collectToolConfigurations(projectDir, selectedModules, isFullReinstall = false, previousIdes = []) {
     // Prompt for tool selection
     const { UI } = require('../../../lib/ui');
     const ui = new UI();
     const toolConfig = await ui.promptToolSelection(projectDir, selectedModules);
 
-    // Check for already configured IDEs (but ignore them if doing a full reinstall)
+    // Check for already configured IDEs
     const { Detector } = require('./detector');
     const detector = new Detector();
     const bmadDir = path.join(projectDir, 'bmad');
-    const existingInstall = await detector.detect(bmadDir);
-    const previouslyConfiguredIdes = isFullReinstall ? [] : existingInstall.ides || [];
+
+    // During full reinstall, use the saved previous IDEs since bmad dir was deleted
+    // Otherwise detect from existing installation
+    let previouslyConfiguredIdes;
+    if (isFullReinstall) {
+      // During reinstall, treat all IDEs as new (need configuration)
+      previouslyConfiguredIdes = [];
+    } else {
+      const existingInstall = await detector.detect(bmadDir);
+      previouslyConfiguredIdes = existingInstall.ides || [];
+    }
 
     // Collect IDE-specific configurations if any were selected
     const ideConfigurations = {};
@@ -223,6 +232,9 @@ class Installer {
             return { success: false, cancelled: true };
           }
 
+          // Remember previously configured IDEs before deleting
+          config._previouslyConfiguredIdes = existingInstall.ides || [];
+
           // Remove existing installation
           await fs.remove(bmadDir);
           console.log(chalk.green('✓ Removed existing installation\n'));
@@ -296,6 +308,7 @@ class Installer {
         path.resolve(config.directory),
         config.modules,
         config._isFullReinstall || false,
+        config._previouslyConfiguredIdes || [],
       );
 
       // Merge tool selection into config
