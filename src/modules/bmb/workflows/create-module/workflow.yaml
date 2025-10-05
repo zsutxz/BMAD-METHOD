@@ -18,7 +18,7 @@ installer_templates: "{installed_path}/installer-templates/"
 # Use existing build workflows
 agent_builder: "{project-root}/bmad/bmb/workflows/create-agent/workflow.yaml"
 workflow_builder: "{project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml"
-brainstorming_workflow: "{project-root}/bmad/cis/workflows/brainstorming/workflow.yaml"
+brainstorming_workflow: "{project-root}/bmad/core/workflows/brainstorming/workflow.yaml"
 brainstorming_context: "{installed_path}/brainstorm-context.md"
 
 # Optional docs that help understand module patterns
@@ -52,4 +52,4 @@ web_bundle:
   existing_workflows:
     - agent_builder: "bmad/bmb/workflows/create-agent/workflow.yaml"
     - workflow_builder: "bmad/bmb/workflows/create-workflow/workflow.yaml"
-    - brainstorming_workflow: "bmad/cis/workflows/brainstorming/workflow.yaml"
+    - brainstorming_workflow: "bmad/core/workflows/brainstorming/workflow.yaml"

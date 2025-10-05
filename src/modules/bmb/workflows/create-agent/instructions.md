@@ -10,7 +10,7 @@
 <action>Ask the user: "Do you want to brainstorm agent ideas first? [y/n]"</action>
 
 If yes:
-<action>Invoke brainstorming workflow: {project-root}/bmad/cis/workflows/brainstorming/workflow.yaml</action>
+<action>Invoke brainstorming workflow: {project-root}/bmad/core/workflows/brainstorming/workflow.yaml</action>
 <action>Pass context data: {installed_path}/brainstorm-context.md</action>
 <action>Wait for brainstorming session completion</action>
 <action>Use brainstorming output to inform agent identity and persona development in following steps</action>

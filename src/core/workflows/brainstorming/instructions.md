@@ -4,7 +4,7 @@
 
 <workflow>
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project_root}/bmad/cis/workflows/brainstorming/workflow.yaml</critical>
+<critical>You MUST have already loaded and processed: {project_root}/bmad/core/workflows/brainstorming/workflow.yaml</critical>
 
 <step n="1" goal="Session Setup">
 

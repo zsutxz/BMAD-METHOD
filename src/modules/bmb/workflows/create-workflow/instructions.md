@@ -12,7 +12,7 @@
 
 <action if="user_response == 'y' or user_response == 'yes'">
 Invoke brainstorming workflow to explore ideas and design concepts:
-- Workflow: {project-root}/bmad/cis/workflows/brainstorming/workflow.yaml
+- Workflow: {project-root}/bmad/core/workflows/brainstorming/workflow.yaml
 - Context data: {installed_path}/brainstorm-context.md
 - Purpose: Generate creative workflow ideas, explore different approaches, and clarify requirements
 

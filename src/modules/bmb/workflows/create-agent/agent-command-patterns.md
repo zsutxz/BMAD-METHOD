@@ -407,8 +407,8 @@ The `data` attribute can be added to ANY command type to provide supplementary i
 ```xml
 <!-- Workflow with data -->
 <item cmd="*brainstorm"
-   run-workflow="{project-root}/bmad/cis/workflows/brainstorming/workflow.yaml"
-   data="{project-root}/bmad/cis/workflows/brainstorming/brain-methods.csv">
+   run-workflow="{project-root}/bmad/core/workflows/brainstorming/workflow.yaml"
+   data="{project-root}/bmad/core/workflows/brainstorming/brain-methods.csv">
   Creative Brainstorming Session
 </item>
 
