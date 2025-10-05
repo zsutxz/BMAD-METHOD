@@ -135,6 +135,11 @@ class YamlXmlBuilder {
     const agent = agentYaml.agent;
     const metadata = agent.metadata || {};
 
+    // Add module from buildMetadata if available
+    if (buildMetadata.module) {
+      metadata.module = buildMetadata.module;
+    }
+
     // Analyze agent to determine needed handlers
     const profile = this.analyzer.analyzeAgentObject(agentYaml);
 
@@ -346,6 +351,27 @@ class YamlXmlBuilder {
     const sourceHash = await this.calculateFileHash(agentYamlPath);
     const customizeHash = customizeYamlPath ? await this.calculateFileHash(customizeYamlPath) : null;
 
+    // Extract module from path (e.g., /path/to/modules/bmm/agents/pm.yaml -> bmm)
+    // or /path/to/bmad/bmm/agents/pm.yaml -> bmm
+    let module = 'core'; // default to core
+    const pathParts = agentYamlPath.split(path.sep);
+
+    // Look for module indicators in the path
+    const modulesIndex = pathParts.indexOf('modules');
+    const bmadIndex = pathParts.indexOf('bmad');
+
+    if (modulesIndex !== -1 && pathParts[modulesIndex + 1]) {
+      // Path contains /modules/{module}/
+      module = pathParts[modulesIndex + 1];
+    } else if (bmadIndex !== -1 && pathParts[bmadIndex + 1]) {
+      // Path contains /bmad/{module}/
+      const potentialModule = pathParts[bmadIndex + 1];
+      // Check if it's a known module, not 'agents' or '_cfg'
+      if (['bmm', 'bmb', 'cis', 'core'].includes(potentialModule)) {
+        module = potentialModule;
+      }
+    }
+
     // Build metadata
     const buildMetadata = {
       sourceFile: path.basename(agentYamlPath),
@@ -356,6 +382,7 @@ class YamlXmlBuilder {
       includeMetadata: options.includeMetadata !== false,
       skipActivation: options.skipActivation === true,
       forWebBundle: options.forWebBundle === true,
+      module: module, // Add module to buildMetadata
     };
 
     // Convert to XML and return

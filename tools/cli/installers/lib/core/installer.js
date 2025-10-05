@@ -1008,11 +1008,11 @@ class Installer {
           includeMetadata: true,
         });
 
-        // Replace {project-root} placeholder
-        const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
+        // DO NOT replace {project-root} - LLMs understand this placeholder at runtime
+        // const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
         // Write the built .md file to bmad/{module}/agents/
-        await fs.writeFile(mdPath, processedContent, 'utf8');
+        await fs.writeFile(mdPath, xmlContent, 'utf8');
         this.installedFiles.push(mdPath);
 
         // Remove the source YAML file - we can regenerate from installer source if needed
@@ -1107,11 +1107,11 @@ class Installer {
         includeMetadata: true,
       });
 
-      // Replace {project-root} placeholder
-      const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
+      // DO NOT replace {project-root} - LLMs understand this placeholder at runtime
+      // const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
       // Write the built .md file
-      await fs.writeFile(targetMdPath, processedContent, 'utf8');
+      await fs.writeFile(targetMdPath, xmlContent, 'utf8');
 
       // Display result
       if (customizedFields.length > 0) {
@@ -1200,11 +1200,11 @@ class Installer {
           includeMetadata: true,
         });
 
-        // Replace {project-root} placeholder
-        const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
+        // DO NOT replace {project-root} - LLMs understand this placeholder at runtime
+        // const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
         // Write the rebuilt .md file
-        await fs.writeFile(targetMdPath, processedContent, 'utf8');
+        await fs.writeFile(targetMdPath, xmlContent, 'utf8');
 
         // Display result with customizations if any
         if (customizedFields.length > 0) {

@@ -131,7 +131,7 @@ class ActivationBuilder {
     // Replace placeholders
     const processed = stepsTemplate
       .replace('{agent-file-basename}', agentBasename)
-      .replace('{module}', metadata.module || 'core')
+      .replace('{{module}}', metadata.module || 'core') // Fixed to use {{module}}
       .replace('{AGENT_SPECIFIC_STEPS}', agentStepsXml)
       .replace('{MENU_STEP}', menuStep.toString())
       .replace('{HALT_STEP}', haltStep.toString())
