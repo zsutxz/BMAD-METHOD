@@ -193,18 +193,40 @@ class ManifestGenerator {
           continue;
         }
 
-        // Extract agent metadata from content if possible
+        // Extract agent metadata from the XML structure
         const nameMatch = content.match(/name="([^"]+)"/);
-        const descMatch = content.match(/<objective>([^<]+)<\/objective>/);
+        const titleMatch = content.match(/title="([^"]+)"/);
+        const iconMatch = content.match(/icon="([^"]+)"/);
+
+        // Extract persona fields
+        const roleMatch = content.match(/<role>([^<]+)<\/role>/);
+        const identityMatch = content.match(/<identity>([\s\S]*?)<\/identity>/);
+        const styleMatch = content.match(/<communication_style>([\s\S]*?)<\/communication_style>/);
+        const principlesMatch = content.match(/<principles>([\s\S]*?)<\/principles>/);
 
         // Build relative path for installation
         const installPath = moduleName === 'core' ? `bmad/core/agents/${file}` : `bmad/${moduleName}/agents/${file}`;
 
         const agentName = file.replace('.md', '');
+
+        // Helper function to clean and escape CSV content
+        const cleanForCSV = (text) => {
+          if (!text) return '';
+          return text
+            .trim()
+            .replaceAll(/\s+/g, ' ') // Normalize whitespace
+            .replaceAll('"', '""'); // Escape quotes for CSV
+        };
+
         agents.push({
           name: agentName,
           displayName: nameMatch ? nameMatch[1] : agentName,
-          description: descMatch ? descMatch[1].trim().replaceAll('"', '""') : '',
+          title: titleMatch ? titleMatch[1] : '',
+          icon: iconMatch ? iconMatch[1] : '',
+          role: roleMatch ? cleanForCSV(roleMatch[1]) : '',
+          identity: identityMatch ? cleanForCSV(identityMatch[1]) : '',
+          communicationStyle: styleMatch ? cleanForCSV(styleMatch[1]) : '',
+          principles: principlesMatch ? cleanForCSV(principlesMatch[1]) : '',
           module: moduleName,
           path: installPath,
         });
@@ -342,12 +364,12 @@ class ManifestGenerator {
   async writeAgentManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'agent-manifest.csv');
 
-    // Create CSV header
-    let csv = 'name,displayName,description,module,path\n';
+    // Create CSV header with persona fields
+    let csv = 'name,displayName,title,icon,role,identity,communicationStyle,principles,module,path\n';
 
     // Add rows
     for (const agent of this.agents) {
-      csv += `"${agent.name}","${agent.displayName}","${agent.description}","${agent.module}","${agent.path}"\n`;
+      csv += `"${agent.name}","${agent.displayName}","${agent.title}","${agent.icon}","${agent.role}","${agent.identity}","${agent.communicationStyle}","${agent.principles}","${agent.module}","${agent.path}"\n`;
     }
 
     await fs.writeFile(csvPath, csv);
