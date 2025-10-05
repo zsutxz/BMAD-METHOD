@@ -19,5 +19,5 @@ agent:
 
   menu:
     - trigger: brainstorm
-      workflow: "{project-root}/bmad/cis/workflows/brainstorming/workflow.yaml"
+      workflow: "{project-root}/bmad/core/workflows/brainstorming/workflow.yaml"
       description: Guide me through Brainstorming

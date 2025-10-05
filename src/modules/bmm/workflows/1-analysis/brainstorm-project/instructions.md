@@ -17,9 +17,9 @@
     </action>
   </step>
 
-  <step n="2" goal="Invoke CIS brainstorming with project context">
+  <step n="2" goal="Invoke core brainstorming with project context">
     <action>Execute the CIS brainstorming workflow with project context</action>
-    <invoke-workflow path="{cis_brainstorming}" data="{project_context}">
+    <invoke-workflow path="{core_brainstorming}" data="{project_context}">
       The CIS brainstorming workflow will:
       - Present interactive brainstorming techniques menu
       - Guide the user through selected ideation methods
