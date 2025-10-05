@@ -15,49 +15,48 @@
 <action>Load project-workflow-analysis.md</action>
 <action>Confirm project_type == "game"</action>
 
-<check>If continuation_mode == true:</check>
-<action>Load existing GDD.md and check completion status</action>
-<ask>Found existing work. Would you like to:
+<check if="continuation_mode == true">
+  <action>Load existing GDD.md and check completion status</action>
+  <ask>Found existing work. Would you like to:
+  1. Review what's done and continue
+  2. Modify existing sections
+  3. Start fresh
+  </ask>
+  <action>If continuing, skip to first incomplete section</action>
+</check>
 
-1. Review what's done and continue
-2. Modify existing sections
-3. Start fresh
-   </ask>
-   <action>If continuing, skip to first incomplete section</action>
+<action if="new or starting fresh">Check or existing game-brief in output_folder</action>
 
-<check>If new or starting fresh:</check>
-Check `output_folder` for existing game docs.
-
-<action>Check for existing game-brief in output_folder</action>
-
-<check>If game-brief exists:</check>
-<ask>Found existing game brief! Would you like to:
+<check if="game-brief exists">
+  <ask>Found existing game brief! Would you like to:
 
 1. Use it as input (recommended - I'll extract key info)
 2. Ignore it and start fresh
+   </ask>
+   </check>
 
-Your choice:</ask>
+<check if="using game-brief">
+  <action>Load and analyze game-brief document</action>
+  <action>Extract: game_name, core_concept, target_audience, platforms, game_pillars, primary_mechanics</action>
+  <action>Pre-fill relevant GDD sections with game-brief content</action>
+  <action>Note which sections were pre-filled from brief</action>
 
-<check>If using game-brief:</check>
-<action>Load and analyze game-brief document</action>
-<action>Extract: game_name, core_concept, target_audience, platforms, game_pillars, primary_mechanics</action>
-<action>Pre-fill relevant GDD sections with game-brief content</action>
-<action>Note which sections were pre-filled from brief</action>
+</check>
 
-<check>If no game-brief was loaded:</check>
-<ask>Describe your game in 1-2 sentences:
-
-What is it about? What does the player do?</ask>
+<check if="no game-brief was loaded">
+  <ask>Describe your game. What is it about? What does the player do? What is the Genre or type?</ask>
 
 <action>Analyze description to determine game type</action>
 <action>Map to closest game_types.csv id or use "custom"</action>
+</check>
 
-<check>Else (game-brief was loaded):</check>
-<action>Use game concept from brief to determine game type</action>
+<check if="else (game-brief was loaded)">
+  <action>Use game concept from brief to determine game type</action>
 
-<ask optional="true">I've identified this as a **{{game_type}}** game. Is that correct?
-
-If not, briefly describe what type it should be:</ask>
+  <ask optional="true">
+    I've identified this as a **{{game_type}}** game. Is that correct?
+    If not, briefly describe what type it should be:
+  </ask>
 
 <action>Map selection to game_types.csv id</action>
 <action>Load corresponding fragment file from game-types/ folder</action>
@@ -68,6 +67,7 @@ If not, briefly describe what type it should be:</ask>
 Get core game concept and vision.
 
 <template-output>description</template-output>
+</check>
 
 </step>
 
@@ -383,14 +383,16 @@ Your metrics:</ask>
 
 <action>Check if game-type fragment contained narrative tags</action>
 
-<check>If fragment had <narrative-workflow-critical> or <narrative-workflow-recommended>:</check>
-<action>Set needs_narrative = true</action>
-<action>Extract narrative importance level from tag</action>
+<check if="fragment had <narrative-workflow-critical> or <narrative-workflow-recommended>">
+  <action>Set needs_narrative = true</action>
+  <action>Extract narrative importance level from tag</action>
 
 ## Next Steps for {{game_name}}
 
-<check>If needs_narrative == true:</check>
-<ask>This game type ({{game_type}}) is **{{narrative_importance}}** for narrative.
+</check>
+
+<check if="needs_narrative == true">
+  <ask>This game type ({{game_type}}) is **{{narrative_importance}}** for narrative.
 
 Your game would benefit from a Narrative Design Document to detail:
 
@@ -408,10 +410,12 @@ Would you like to create a Narrative Design Document now?
 
 Your choice:</ask>
 
-<check>If user selects option 1:</check>
-<action>LOAD: {installed_path}/narrative/instructions-narrative.md</action>
-<action>Pass GDD context to narrative workflow</action>
-<action>Exit current workflow (narrative will hand off to solutioning when done)</action>
+</check>
+
+<check if="user selects option 1 or fuzzy indicates wanting to create the narrative design document">
+  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan/narrative/workflow.yaml</invoke-workflow>
+  <action>Pass GDD context to narrative workflow</action>
+  <action>Exit current workflow (narrative will hand off to solutioning when done)</action>
 
 Since this is a Level {{project_level}} game project, you need solutioning for platform/engine architecture.
 
@@ -476,7 +480,9 @@ Since this is a Level {{project_level}} game project, you need solutioning for p
 
 <ask>GDD Complete! Next immediate action:
 
-<check>If needs_narrative == true:</check>
+</check>
+
+<check if="needs_narrative == true">
 
 1. Create Narrative Design Document (recommended for {{game_type}})
 2. Start solutioning workflow (engine/architecture)
@@ -485,7 +491,9 @@ Since this is a Level {{project_level}} game project, you need solutioning for p
 5. Review GDD with team/stakeholders
 6. Exit workflow
 
-<check>Else:</check>
+</check>
+
+<check if="else">
 
 1. Start solutioning workflow (engine/architecture)
 2. Create prototype build
@@ -494,10 +502,12 @@ Since this is a Level {{project_level}} game project, you need solutioning for p
 5. Exit workflow
 
 Which would you like to proceed with?</ask>
+</check>
 
-<check>If user selects narrative option:</check>
-<action>LOAD: {installed_path}/narrative/instructions-narrative.md</action>
-<action>Pass GDD context to narrative workflow</action>
+<check if="user selects narrative option">
+  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan/narrative/workflow.yaml</invoke-workflow>
+  <action>Pass GDD context to narrative workflow</action>
+</check>
 
 </step>
 

@@ -10,9 +10,9 @@
 
 <action>Check if {output_folder}/project-workflow-analysis.md exists</action>
 
-<check>If exists:</check>
-<action>Load the analysis file</action>
-<action>Check for existing workflow outputs based on level in analysis:</action>
+<check if="exists">
+  <action>Load the analysis file</action>
+  <action>Check for existing workflow outputs based on level in analysis:</action>
 
 - Level 0: Check for tech-spec.md
 - Level 1-2: Check for PRD.md, epic-stories.md, tech-spec.md
@@ -30,8 +30,11 @@ Options:
 3. Review and modify previous analysis
    </ask>
 
-<check>If not exists or starting fresh:</check>
-<action>Proceed to assessment</action>
+</check>
+
+<check if="not exists or starting fresh">
+  <action>Proceed to assessment</action>
+</check>
 
 </step>
 
@@ -49,18 +52,21 @@ Options:
 Select an option or describe your needs:
 </ask>
 
-<check>If "UX/UI specification only":</check>
-<action>LOAD: {installed_path}/ux/instructions-ux.md</action>
-<action>Pass mode="standalone" to UX instructions</action>
-<action>Skip remaining router steps</action>
+<action>Capture user selection as {{planning_type}}</action>
 
-<check>If "Generate AI Frontend Prompt":</check>
-<action>Check for existing UX spec or PRD</action>
-<invoke-task>{project-root}/bmad/bmm/tasks/ai-fe-prompt.md</invoke-task>
-<action>Exit workflow after prompt generation</action>
+<check if='{{planning_type}} == "2" OR "UX/UI specification only"'>
+  <invoke-workflow>{installed_path}/ux/workflow.yaml</invoke-workflow>
+  <action>Pass mode="standalone" to UX workflow</action>
+  <action>Exit router workflow (skip remaining steps)</action>
+</check>
 
-<check>If "Tech spec only" or "Full project planning":</check>
-<action>Continue to step 3 for project assessment</action>
+<check if='{{planning_type}} == "4" OR "Generate AI Frontend Prompt"'>
+  <action>Check for existing UX spec or PRD</action>
+  <invoke-task>{project-root}/bmad/bmm/tasks/ai-fe-prompt.md</invoke-task>
+  <action>Exit router workflow after prompt generation</action>
+</check>
+
+<action if='{{planning_type}} == "1" OR "3" OR "Tech spec only" OR "Full project planning"'>Continue to step 3 for project assessment</action>
 
 </step>
 
@@ -89,10 +95,11 @@ c. Working with messy/legacy code (needs refactoring)
 
 <action>Detect if project_type == "game"</action>
 
-<check>If project_type == "game":</check>
-<action>Set workflow_type = "gdd"</action>
-<action>Skip level classification (GDD workflow handles all game project levels)</action>
-<action>Jump to step 5 for GDD-specific assessment</action>
+<check if='project_type == "game"'>
+  <action>Set workflow_type = "gdd"</action>
+  <action>Skip level classification (GDD workflow handles all game project levels)</action>
+  <action>Jump to step 5 for GDD-specific assessment</action>
+</check>
 
 <action>Else, based on their description, analyze and suggest scope level:</action>
 
@@ -174,48 +181,33 @@ Generate comprehensive analysis with all assessment data.
 
 <critical>Based on project type and level, load ONLY the needed instructions:</critical>
 
-<check>If workflow_type == "gdd" (Game projects):</check>
-<action>LOAD: {installed_path}/gdd/instructions-gdd.md</action>
-<check>If continuing:</check>
+<check if='workflow_type == "gdd"'>
+  <invoke-workflow>{installed_path}/gdd/workflow.yaml</invoke-workflow>
+  <action>GDD workflow handles all game project levels internally</action>
+</check>
 
-- Load existing GDD.md if present
-- Check which sections are complete
-- Resume from last completed section
-- GDD workflow handles all game project levels internally
+<check if="Level 0">
+  <invoke-workflow>{installed_path}/tech-spec/workflow.yaml</invoke-workflow>
+</check>
 
-<check>If Level 0:</check>
-<action>LOAD: {installed_path}/tech-spec/instructions-sm.md</action>
-<check>If continuing:</check>
+<check if="Level 1-2">
+  <invoke-workflow>{installed_path}/prd/workflow.yaml</invoke-workflow>
+  <action>Pass level context to PRD workflow (loads instructions-med.md)</action>
+</check>
 
-- Load existing tech-spec.md
-- Allow user to review and modify
-- Complete any missing sections
+<check if="Level 3-4">
+  <invoke-workflow>{installed_path}/prd/workflow.yaml</invoke-workflow>
+  <action>Pass level context to PRD workflow (loads instructions-lg.md)</action>
+</check>
 
-<check>If Level 1-2:</check>
-<action>LOAD: {installed_path}/prd/instructions-med.md</action>
-<check>If continuing:</check>
-
-- Load existing PRD.md if present
-- Check which sections are complete
-- Resume from last completed section
-- If PRD done, show solutioning handoff instructions
-
-<check>If Level 3-4:</check>
-<action>LOAD: {installed_path}/prd/instructions-lg.md</action>
-<check>If continuing:</check>
-
-- Load existing PRD.md and epics.md
-- Identify last completed step (check template variables)
-- Resume from incomplete sections
-- If all done, show architect handoff instructions
-
-<critical>Pass continuation context to loaded instruction set:</critical>
+<critical>Pass continuation context to invoked workflow:</critical>
 
 - continuation_mode: true/false
 - last_completed_step: {{step_number}}
 - existing_documents: {{document_list}}
+- project_level: {{level}}
 
-<critical>The loaded instruction set should check continuation_mode and adjust accordingly</critical>
+<critical>The invoked workflow's instruction set should check continuation_mode and adjust accordingly</critical>
 
 </step>
 

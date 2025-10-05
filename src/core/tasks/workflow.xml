@@ -59,7 +59,7 @@
         <action>Replace {{variables}} with values (ask user if unknown)</action>
         <execute-tags>
           <tag>action xml tag → Perform the action</tag>
-          <tag>check xml tag → Evaluate condition</tag>
+          <tag>check if="condition" xml tag → Conditional block wrapping actions (requires closing &lt;/check&gt;)</tag>
           <tag>ask xml tag → Prompt user and WAIT for response</tag>
           <tag>invoke-workflow xml tag → Execute another workflow with given inputs</tag>
           <tag>invoke-task xml tag → Execute specified task</tag>
@@ -114,7 +114,8 @@
     </structural>
     <execution>
       <tag>action - Required action to perform</tag>
-      <tag>check - Condition to evaluate</tag>
+      <tag>action if="condition" - Single conditional action (inline, no closing tag needed)</tag>
+      <tag>check if="condition"&gt;...&lt;/check&gt; - Conditional block wrapping multiple items (closing tag required)</tag>
       <tag>ask - Get user input (wait for response)</tag>
       <tag>goto - Jump to another step</tag>
       <tag>invoke-workflow - Call another workflow</tag>
@@ -127,6 +128,35 @@
       <tag>example - Show example output</tag>
     </output>
   </supported-tags>
+
+  <conditional-execution-patterns desc="When to use each pattern">
+    <pattern type="single-action">
+      <use-case>One action with a condition</use-case>
+      <syntax>&lt;action if="condition"&gt;Do something&lt;/action&gt;</syntax>
+      <example>&lt;action if="file exists"&gt;Load the file&lt;/action&gt;</example>
+      <rationale>Cleaner and more concise for single items</rationale>
+    </pattern>
+
+    <pattern type="multi-action-block">
+      <use-case>Multiple actions/tags under same condition</use-case>
+      <syntax>&lt;check if="condition"&gt;
+  &lt;action&gt;First action&lt;/action&gt;
+  &lt;action&gt;Second action&lt;/action&gt;
+&lt;/check&gt;</syntax>
+      <example>&lt;check if="validation fails"&gt;
+  &lt;action&gt;Log error&lt;/action&gt;
+  &lt;goto step="1"&gt;Retry&lt;/goto&gt;
+&lt;/check&gt;</example>
+      <rationale>Explicit scope boundaries prevent ambiguity</rationale>
+    </pattern>
+
+    <pattern type="nested-conditions">
+      <use-case>Else/alternative branches</use-case>
+      <syntax>&lt;check if="condition A"&gt;...&lt;/check&gt;
+&lt;check if="else"&gt;...&lt;/check&gt;</syntax>
+      <rationale>Clear branching logic with explicit blocks</rationale>
+    </pattern>
+  </conditional-execution-patterns>
 
   <llm final="true">
     <mandate>This is the complete workflow execution engine</mandate>
