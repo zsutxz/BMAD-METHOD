@@ -1,6 +1,6 @@
 ---
-name: V5 Idea Submission
-about: Suggest an idea for v5
+name: V6 Idea Submission
+about: Suggest an idea for v6
 title: ''
 labels: ''
 assignees: ''

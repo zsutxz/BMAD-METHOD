@@ -104,7 +104,7 @@ class ClaudeCodeSetup extends BaseIdeSetup {
     const agents = await getAgentsFromBmad(bmadDir, options.selectedModules || []);
     const tasks = await getTasksFromBmad(bmadDir, options.selectedModules || []);
 
-    // Create directories for each module
+    // Create directories for each module (including standalone)
     const modules = new Set();
     for (const item of [...agents, ...tasks]) modules.add(item.module);
 

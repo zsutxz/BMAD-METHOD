@@ -179,6 +179,20 @@ class ManifestGenerator {
         this.agents.push(...moduleAgents);
       }
     }
+
+    // Get standalone agents from bmad/agents/ directory
+    const standaloneAgentsDir = path.join(this.bmadDir, 'agents');
+    if (await fs.pathExists(standaloneAgentsDir)) {
+      const agentDirs = await fs.readdir(standaloneAgentsDir, { withFileTypes: true });
+
+      for (const agentDir of agentDirs) {
+        if (!agentDir.isDirectory()) continue;
+
+        const agentDirPath = path.join(standaloneAgentsDir, agentDir.name);
+        const standaloneAgents = await this.getAgentsFromDir(agentDirPath, 'standalone');
+        this.agents.push(...standaloneAgents);
+      }
+    }
   }
 
   /**

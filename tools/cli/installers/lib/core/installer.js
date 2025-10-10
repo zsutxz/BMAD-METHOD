@@ -1282,6 +1282,28 @@ class Installer {
         }
       }
 
+      // Regenerate manifests after compilation
+      spinner.start('Regenerating manifests...');
+      const installedModules = entries
+        .filter((e) => e.isDirectory() && e.name !== '_cfg' && e.name !== 'docs' && e.name !== 'agents' && e.name !== 'core')
+        .map((e) => e.name);
+      const manifestGen = new ManifestGenerator();
+
+      // Get existing IDE list from manifest
+      const existingManifestPath = path.join(bmadDir, '_cfg', 'manifest.yaml');
+      let existingIdes = [];
+      if (await fs.pathExists(existingManifestPath)) {
+        const manifestContent = await fs.readFile(existingManifestPath, 'utf8');
+        const yaml = require('js-yaml');
+        const manifest = yaml.load(manifestContent);
+        existingIdes = manifest.ides || [];
+      }
+
+      await manifestGen.generateManifests(bmadDir, installedModules, [], {
+        ides: existingIdes,
+      });
+      spinner.succeed('Manifests regenerated');
+
       // Ask for IDE to update
       spinner.stop();
       // Note: UI lives in tools/cli/lib/ui.js; from installers/lib/core use '../../../lib/ui'
@@ -1295,7 +1317,7 @@ class Installer {
         for (const ide of toolConfig.ides) {
           spinner.text = `Updating ${ide}...`;
           await this.ideManager.setup(ide, projectDir, bmadDir, {
-            selectedModules: entries.filter((e) => e.isDirectory() && e.name !== '_cfg').map((e) => e.name),
+            selectedModules: installedModules,
             skipModuleInstall: true, // Skip module installation, just update IDE files
             verbose: config.verbose,
           });

@@ -8,17 +8,48 @@ const fs = require('fs-extra');
 async function getAgentsFromBmad(bmadDir, selectedModules = []) {
   const agents = [];
 
+  // Get core agents
   if (await fs.pathExists(path.join(bmadDir, 'core', 'agents'))) {
     const coreAgents = await getAgentsFromDir(path.join(bmadDir, 'core', 'agents'), 'core');
     agents.push(...coreAgents);
   }
 
+  // Get module agents
   for (const moduleName of selectedModules) {
     const agentsPath = path.join(bmadDir, moduleName, 'agents');
 
     if (await fs.pathExists(agentsPath)) {
       const moduleAgents = await getAgentsFromDir(agentsPath, moduleName);
       agents.push(...moduleAgents);
+    }
+  }
+
+  // Get standalone agents from bmad/agents/ directory
+  const standaloneAgentsDir = path.join(bmadDir, 'agents');
+  if (await fs.pathExists(standaloneAgentsDir)) {
+    const agentDirs = await fs.readdir(standaloneAgentsDir, { withFileTypes: true });
+
+    for (const agentDir of agentDirs) {
+      if (!agentDir.isDirectory()) continue;
+
+      const agentDirPath = path.join(standaloneAgentsDir, agentDir.name);
+      const agentFiles = await fs.readdir(agentDirPath);
+
+      for (const file of agentFiles) {
+        if (!file.endsWith('.md')) continue;
+        if (file.includes('.customize.')) continue;
+
+        const filePath = path.join(agentDirPath, file);
+        const content = await fs.readFile(filePath, 'utf8');
+
+        if (content.includes('localskip="true"')) continue;
+
+        agents.push({
+          path: filePath,
+          name: file.replace('.md', ''),
+          module: 'standalone', // Mark as standalone agent
+        });
+      }
     }
   }
 
