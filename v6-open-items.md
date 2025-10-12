@@ -18,7 +18,7 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - All project levels (0 through 4) manual flows validated through workflow phase 1-4 for greenfield and brownfield
 - NPX installer
 - github pipelines, branch protection, vulnerability scanners
-- subagent injections
+- subagent injections reenabled
 - bmm existing project scanning and integration with workflow phase 0-4 improvements
 - Additional custom sections for architecture project types
 - DONE: Single Agent web bundler finalized - run `npm run bundle'
