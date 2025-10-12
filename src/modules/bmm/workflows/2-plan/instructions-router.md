@@ -3,36 +3,60 @@
 <workflow>
 
 <critical>This is the INITIAL ASSESSMENT phase - determines which instruction set to load</critical>
-<critical>ALWAYS check for existing project-workflow-analysis.md first</critical>
+<critical>ALWAYS check for existing project-workflow-status.md first</critical>
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 
-<step n="1" goal="Check for existing analysis or perform new assessment">
+<step n="1" goal="Check for existing workflow status or create new versioned file">
 
-<action>Check if {output_folder}/project-workflow-analysis.md exists</action>
+<action>Check if any project-workflow-status\*.md files exist in {output_folder}/</action>
 
 <check if="exists">
-  <action>Load the analysis file</action>
-  <action>Check for existing workflow outputs based on level in analysis:</action>
+  <action>Find the most recent project-workflow-status-YYYY-MM-DD.md file</action>
+  <action>Load the status file</action>
+  <action>Check for existing workflow outputs based on level in status file:</action>
 
 - Level 0: Check for tech-spec.md
 - Level 1-2: Check for PRD.md, epic-stories.md, tech-spec.md
 - Level 3-4: Check for PRD.md, epics.md
 
-<ask>Previous analysis found (Level {{project_level}}).
+<ask>Found existing workflow status file: project-workflow-status-{{file_date}}.md (Level {{project_level}})
 
 **Existing documents detected:**
 {{list_existing_docs}}
 
 Options:
 
-1. Continue where left off with existing documents
-2. Start fresh assessment (will archive existing work)
-3. Review and modify previous analysis
+1. Continue with this workflow (will update existing status file)
+2. Start new workflow (will create new dated status file: project-workflow-status-{{today}}.md)
+3. Review and modify previous status
+4. I'm working on something else (ignore this file)
+
    </ask>
+
+  <check if='option == "1"'>
+    <action>Set status_file_path = existing file path</action>
+    <action>Set continuation_mode = true</action>
+  </check>
+
+  <check if='option == "2"'>
+    <action>Set status_file_path = "{output_folder}/project-workflow-status-{{today}}.md"</action>
+    <action>Archive old status file to: "{output_folder}/archive/project-workflow-status-{{old_date}}.md"</action>
+    <action>Set continuation_mode = false</action>
+    <action>Proceed to new assessment</action>
+  </check>
+
+  <check if='option == "4"'>
+    <action>Do not use status file for this session</action>
+    <action>Proceed with user's requested workflow</action>
+    <action>Exit router (user is not using BMM planning workflow)</action>
+  </check>
 
 </check>
 
-<check if="not exists or starting fresh">
+<check if="not exists">
+  <action>Create new versioned status file</action>
+  <action>Set status_file_path = "{output_folder}/project-workflow-status-{{today}}.md"</action>
+  <action>Set start_date = {{today}}</action>
   <action>Proceed to assessment</action>
 </check>
 
@@ -204,58 +228,60 @@ Examples:
 
 </step>
 
-<step n="5" goal="Create workflow analysis document">
+<step n="5" goal="Create workflow status document">
 
-<action>Initialize analysis using analysis_template from workflow.yaml</action>
+<action>Initialize status file using status_template from workflow.yaml</action>
+<action>Write to versioned file path: {{status_file_path}}</action>
+<action>Set start_date = {{today}} in template variables</action>
 
 <critical>Capture any technical preferences mentioned during assessment</critical>
 <critical>Initialize Workflow Status Tracker with current state</critical>
 
-Generate comprehensive analysis with all assessment data.
+Generate comprehensive status document with all assessment data.
 
-<template-output file="project-workflow-analysis.md">project_type</template-output>
-<template-output file="project-workflow-analysis.md">project_level</template-output>
-<template-output file="project-workflow-analysis.md">instruction_set</template-output>
-<template-output file="project-workflow-analysis.md">scope_description</template-output>
-<template-output file="project-workflow-analysis.md">story_count</template-output>
-<template-output file="project-workflow-analysis.md">epic_count</template-output>
-<template-output file="project-workflow-analysis.md">timeline</template-output>
-<template-output file="project-workflow-analysis.md">field_type</template-output>
-<template-output file="project-workflow-analysis.md">existing_docs</template-output>
-<template-output file="project-workflow-analysis.md">team_size</template-output>
-<template-output file="project-workflow-analysis.md">deployment_intent</template-output>
-<template-output file="project-workflow-analysis.md">expected_outputs</template-output>
-<template-output file="project-workflow-analysis.md">workflow_steps</template-output>
-<template-output file="project-workflow-analysis.md">next_steps</template-output>
-<template-output file="project-workflow-analysis.md">special_notes</template-output>
-<template-output file="project-workflow-analysis.md">technical_preferences</template-output>
+<template-output file="{{status_file_path}}">project_type</template-output>
+<template-output file="project-workflow-status.md">project_level</template-output>
+<template-output file="project-workflow-status.md">instruction_set</template-output>
+<template-output file="project-workflow-status.md">scope_description</template-output>
+<template-output file="project-workflow-status.md">story_count</template-output>
+<template-output file="project-workflow-status.md">epic_count</template-output>
+<template-output file="project-workflow-status.md">timeline</template-output>
+<template-output file="project-workflow-status.md">field_type</template-output>
+<template-output file="project-workflow-status.md">existing_docs</template-output>
+<template-output file="project-workflow-status.md">team_size</template-output>
+<template-output file="project-workflow-status.md">deployment_intent</template-output>
+<template-output file="project-workflow-status.md">expected_outputs</template-output>
+<template-output file="project-workflow-status.md">workflow_steps</template-output>
+<template-output file="project-workflow-status.md">next_steps</template-output>
+<template-output file="project-workflow-status.md">special_notes</template-output>
+<template-output file="project-workflow-status.md">technical_preferences</template-output>
 
 <action>Initialize Workflow Status Tracker section:</action>
 
-<template-output file="project-workflow-analysis.md">current_phase</template-output>
+<template-output file="project-workflow-status.md">current_phase</template-output>
 Set to: "2-Plan"
 
-<template-output file="project-workflow-analysis.md">current_workflow</template-output>
+<template-output file="project-workflow-status.md">current_workflow</template-output>
 <check if="Level 0">Set to: "tech-spec (Level 0 - starting)"</check>
 <check if="Level 1">Set to: "tech-spec (Level 1 - starting)"</check>
 <check if="Level 2+">Set to: "PRD (Level {{project_level}} - starting)"</check>
 
-<template-output file="project-workflow-analysis.md">progress_percentage</template-output>
+<template-output file="project-workflow-status.md">progress_percentage</template-output>
 Set to: 10% (assessment complete)
 
-<template-output file="project-workflow-analysis.md">artifacts_table</template-output>
+<template-output file="project-workflow-status.md">artifacts_table</template-output>
 Initialize with:
 
 ```
-| project-workflow-analysis.md | Complete | {output_folder}/project-workflow-analysis.md | {{date}} |
+| project-workflow-status.md | Complete | {output_folder}/project-workflow-status.md | {{date}} |
 ```
 
-<template-output file="project-workflow-analysis.md">next_action</template-output>
+<template-output file="project-workflow-status.md">next_action</template-output>
 <check if="Level 0">Set to: "Generate technical specification and single user story"</check>
 <check if="Level 1">Set to: "Generate technical specification and epic/stories (2-3 stories)"</check>
 <check if="Level 2+">Set to: "Generate PRD and epic breakdown"</check>
 
-<template-output file="project-workflow-analysis.md">decisions_log</template-output>
+<template-output file="project-workflow-status.md">decisions_log</template-output>
 Add first entry:
 
 ```

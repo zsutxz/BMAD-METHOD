@@ -10,7 +10,7 @@
 <step n="1" goal="Load tech spec and extract the change">
 
 <action>Read the completed tech-spec.md file from {output_folder}/tech-spec.md</action>
-<action>Load project-workflow-analysis.md from {output_folder}/project-workflow-analysis.md</action>
+<action>Load project-workflow-status.md from {output_folder}/project-workflow-status.md</action>
 <action>Extract dev_story_location from config (where stories are stored)</action>
 <action>Extract the problem statement from "Technical Approach" section</action>
 <action>Extract the scope from "Source Tree Structure" section</action>
@@ -100,7 +100,7 @@
 
 <step n="4" goal="Update project-workflow-analysis with progress">
 
-<action>Open {output_folder}/project-workflow-analysis.md</action>
+<action>Open {output_folder}/project-workflow-status.md</action>
 <action>Update "Workflow Status Tracker" section</action>
 
 <action>Set current_phase = "2-Plan"</action>
@@ -130,7 +130,7 @@
 - **{{date}}**: Level 0 tech-spec and story generation completed. Story: story-{slug}.md ready for context generation.
 ```
 
-<action>Save project-workflow-analysis.md</action>
+<action>Save project-workflow-status.md</action>
 
 </step>
 
@@ -163,7 +163,7 @@
 
 **Progress Tracking:**
 
-- All decisions logged in: `project-workflow-analysis.md`
+- All decisions logged in: `project-workflow-status.md`
 - Next action clearly identified
 
 <ask>Ready to proceed? Choose your path:

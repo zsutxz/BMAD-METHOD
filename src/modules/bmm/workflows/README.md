@@ -109,7 +109,7 @@ plan-project
     │   ├─→ Level 0 → tech-spec workflow
     │   ├─→ Level 1-2 → PRD + embedded tech-spec
     │   └─→ Level 3-4 → PRD + epics → Solutioning
-    └─→ Generate project-workflow-analysis.md (tracking doc)
+    └─→ Generate project-workflow-status.md (tracking doc)
 ```
 
 ### Key Outputs
@@ -118,7 +118,7 @@ plan-project
 - **Epics.md**: Epic breakdown with stories (Levels 2-4)
 - **tech-spec.md**: Technical specification (Levels 0-2 only)
 - **GDD.md**: Game Design Document (game projects)
-- **project-workflow-analysis.md**: Workflow state tracking
+- **project-workflow-status.md**: Workflow state tracking
 
 ## Phase 3: Solutioning (Levels 3-4 Only)
 
@@ -251,7 +251,7 @@ plan-project (Phase 2)
 
 ### Tracking Documents
 
-- **project-workflow-analysis.md**: Maintains workflow state, level, and progress
+- **project-workflow-status.md**: Maintains workflow state, level, and progress
 - **Epics.md**: Master list of epics and stories (source of truth for planning)
 
 ### Phase Outputs

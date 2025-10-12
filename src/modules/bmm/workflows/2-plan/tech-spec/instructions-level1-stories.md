@@ -11,7 +11,7 @@
 <step n="1" goal="Load tech spec and extract implementation tasks">
 
 <action>Read the completed tech-spec.md file from {output_folder}/tech-spec.md</action>
-<action>Load project-workflow-analysis.md from {output_folder}/project-workflow-analysis.md</action>
+<action>Load project-workflow-status.md from {output_folder}/project-workflow-status.md</action>
 <action>Extract dev_story_location from config (where stories are stored)</action>
 <action>Identify all implementation tasks from the "Implementation Guide" section</action>
 <action>Identify the overall feature goal from "Technical Approach" section</action>
@@ -230,7 +230,7 @@ Epic: Icon Reliability
 
 <step n="6" goal="Update project-workflow-analysis with progress">
 
-<action>Open {output_folder}/project-workflow-analysis.md</action>
+<action>Open {output_folder}/project-workflow-status.md</action>
 <action>Update "Workflow Status Tracker" section</action>
 
 <action>Set current_phase = "2-Plan"</action>
@@ -265,7 +265,7 @@ Epic: Icon Reliability
 - **{{date}}**: Level 1 tech-spec and epic/stories generation completed. {{story_count}} stories created. Ready for implementation of story-{epic_slug}-1.md.
 ```
 
-<action>Save project-workflow-analysis.md</action>
+<action>Save project-workflow-status.md</action>
 
 </step>
 
@@ -317,7 +317,7 @@ d. Run dev-story workflow to implement story 1
 
 **Progress Tracking:**
 
-- All decisions logged in: `project-workflow-analysis.md`
+- All decisions logged in: `project-workflow-status.md`
 - Next action clearly identified
 
 <ask>Ready to proceed? Choose your path:

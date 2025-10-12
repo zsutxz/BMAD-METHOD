@@ -7,7 +7,7 @@ This workflow generates scale-adaptive solution architecture documentation that 
 
 <step n="0" goal="Load project analysis, validate prerequisites, and scale assessment">
 <action>
-1. Read project-workflow-analysis.md:
+1. Read project-workflow-status.md:
    Path: {{project_workflow_analysis_path}}
 
 2. Extract:
@@ -579,7 +579,7 @@ For each epic in PRD:
 <template-output>tech_specs</template-output>
 
 <action>
-Update project-workflow-analysis.md workflow status:
+Update project-workflow-status.md workflow status:
 - [x] Solution architecture generated
 - [x] Cohesion check passed
 - [x] Tech specs generated for all epics
