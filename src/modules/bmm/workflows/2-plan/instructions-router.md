@@ -87,11 +87,54 @@ Select an option or describe your needs:
 **2. Project Context:**
 
 a. New project (greenfield)
-b. Adding to existing clean codebase
-c. Working with messy/legacy code (needs refactoring)
+b. Adding to existing clean codebase (brownfield - well documented)
+c. Working with messy/legacy code (brownfield - needs documentation)
 
 **3. What are you building?** (brief description)
 </ask>
+
+<action>Capture field_type = "greenfield" or "brownfield"</action>
+
+<check if='field_type == "brownfield" AND (project_context == "c" OR project_context == "Working with messy/legacy code")'>
+  <action>Check for {project-root}/docs/index.ts or {project-root}/docs/index.md</action>
+
+  <check if="not exists">
+    <ask>This brownfield project needs codebase documentation for effective planning.
+
+**Documentation Status:** No index.ts or index.md found in docs/
+
+**Options:**
+
+1. Generate docs now (run document-project workflow - ~10-15 min, recommended)
+2. I'll provide context through questions during planning
+3. Continue anyway (may need more context later during implementation)
+
+**Recommendation for Level 0-1:** Option 1 or 2 ensures faster, more accurate planning
+
+Choose option (1-3):</ask>
+
+    <check if='option == "1"'>
+      <action>Set needs_documentation = true</action>
+      <action>Will invoke document-project after assessment</action>
+    </check>
+
+    <check if='option == "2"'>
+      <action>Set gather_context_via_questions = true</action>
+      <action>Will ask detailed questions during tech-spec generation</action>
+    </check>
+
+    <check if='option == "3"'>
+      <action>Set proceed_without_docs = true</action>
+      <action>Note: May require additional context gathering during implementation</action>
+    </check>
+
+  </check>
+
+  <check if="exists">
+    <action>Set has_documentation = true</action>
+    <action>Will reference docs/index.ts during planning</action>
+  </check>
+</check>
 
 <action>Detect if project_type == "game"</action>
 
@@ -150,11 +193,23 @@ Examples:
 
 </step>
 
+<step n="4a" goal="Run document-project if needed" optional="true">
+
+<check if="needs_documentation == true">
+  <action>Invoke document-project workflow before continuing with planning</action>
+  <invoke-workflow>{project-root}/bmad/bmm/workflows/1-analysis/document-project/workflow.yaml</invoke-workflow>
+  <action>Wait for documentation to complete</action>
+  <action>Verify docs/index.ts or docs/index.md was created</action>
+</check>
+
+</step>
+
 <step n="5" goal="Create workflow analysis document">
 
 <action>Initialize analysis using analysis_template from workflow.yaml</action>
 
 <critical>Capture any technical preferences mentioned during assessment</critical>
+<critical>Initialize Workflow Status Tracker with current state</critical>
 
 Generate comprehensive analysis with all assessment data.
 
@@ -175,6 +230,38 @@ Generate comprehensive analysis with all assessment data.
 <template-output file="project-workflow-analysis.md">special_notes</template-output>
 <template-output file="project-workflow-analysis.md">technical_preferences</template-output>
 
+<action>Initialize Workflow Status Tracker section:</action>
+
+<template-output file="project-workflow-analysis.md">current_phase</template-output>
+Set to: "2-Plan"
+
+<template-output file="project-workflow-analysis.md">current_workflow</template-output>
+<check if="Level 0">Set to: "tech-spec (Level 0 - starting)"</check>
+<check if="Level 1">Set to: "tech-spec (Level 1 - starting)"</check>
+<check if="Level 2+">Set to: "PRD (Level {{project_level}} - starting)"</check>
+
+<template-output file="project-workflow-analysis.md">progress_percentage</template-output>
+Set to: 10% (assessment complete)
+
+<template-output file="project-workflow-analysis.md">artifacts_table</template-output>
+Initialize with:
+
+```
+| project-workflow-analysis.md | Complete | {output_folder}/project-workflow-analysis.md | {{date}} |
+```
+
+<template-output file="project-workflow-analysis.md">next_action</template-output>
+<check if="Level 0">Set to: "Generate technical specification and single user story"</check>
+<check if="Level 1">Set to: "Generate technical specification and epic/stories (2-3 stories)"</check>
+<check if="Level 2+">Set to: "Generate PRD and epic breakdown"</check>
+
+<template-output file="project-workflow-analysis.md">decisions_log</template-output>
+Add first entry:
+
+```
+- **{{date}}**: Project assessment completed. Classified as Level {{project_level}} {{field_type}} project. Routing to {{instruction_set}} workflow.
+```
+
 </step>
 
 <step n="6" goal="Load appropriate instruction set and handle continuation">
@@ -188,9 +275,17 @@ Generate comprehensive analysis with all assessment data.
 
 <check if="Level 0">
   <invoke-workflow>{installed_path}/tech-spec/workflow.yaml</invoke-workflow>
+  <action>Pass level=0 to tech-spec workflow</action>
+  <action>Tech-spec workflow will generate user-story.md after tech-spec completion</action>
 </check>
 
-<check if="Level 1-2">
+<check if="Level 1">
+  <invoke-workflow>{installed_path}/tech-spec/workflow.yaml</invoke-workflow>
+  <action>Pass level=1 to tech-spec workflow</action>
+  <action>Tech-spec workflow will generate epic-stories.md after tech-spec completion</action>
+</check>
+
+<check if="Level 2">
   <invoke-workflow>{installed_path}/prd/workflow.yaml</invoke-workflow>
   <action>Pass level context to PRD workflow (loads instructions-med.md)</action>
 </check>
