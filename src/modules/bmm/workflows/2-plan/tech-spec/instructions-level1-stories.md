@@ -228,14 +228,63 @@ Epic: Icon Reliability
 
 </step>
 
-<step n="6" goal="Update project-workflow-analysis with progress">
+<step n="6" goal="Update project-workflow-status and populate backlog for Phase 4">
 
 <action>Open {output_folder}/project-workflow-status.md</action>
-<action>Update "Workflow Status Tracker" section</action>
 
-<action>Set current_phase = "2-Plan"</action>
-<action>Set current_workflow = "tech-spec (Level 1 - epic and stories generation complete)"</action>
-<action>Check "2-Plan" checkbox in Phase Completion Status</action>
+<action>Update "Workflow Status Tracker" section:</action>
+
+- Set current_phase = "4-Implementation" (Level 1 skips Phase 3)
+- Set current_workflow = "tech-spec (Level 1 - epic and stories generation complete, ready for implementation)"
+- Check "2-Plan" checkbox in Phase Completion Status
+- Set progress_percentage = 40% (planning complete, skipping solutioning)
+
+<action>Populate story backlog in "### Implementation Progress (Phase 4 Only)" section:</action>
+
+#### BACKLOG (Not Yet Drafted)
+
+**Ordered story sequence - populated at Phase 4 start:**
+
+| Epic | Story | ID  | Title | File |
+| ---- | ----- | --- | ----- | ---- |
+
+{{#if story_2}}
+| 1 | 2 | {epic_slug}-2 | {{story_2_title}} | story-{epic_slug}-2.md |
+{{/if}}
+{{#if story_3}}
+| 1 | 3 | {epic_slug}-3 | {{story_3_title}} | story-{epic_slug}-3.md |
+{{/if}}
+
+**Total in backlog:** {{story_count - 1}} stories
+
+**NOTE:** Level 1 uses slug-based IDs like "{epic_slug}-1", "{epic_slug}-2" instead of numeric "1.1", "1.2"
+
+#### TODO (Needs Drafting)
+
+Initialize with FIRST story (already drafted):
+
+- **Story ID:** {epic_slug}-1
+- **Story Title:** {{story_1_title}}
+- **Story File:** `story-{epic_slug}-1.md`
+- **Status:** Draft (needs review before development)
+- **Action:** User reviews drafted story, then runs SM agent `story-ready` workflow to approve
+
+#### IN PROGRESS (Approved for Development)
+
+Leave empty initially:
+
+(Story will be moved here by SM agent `story-ready` workflow after user approves story-{epic_slug}-1.md)
+
+#### DONE (Completed Stories)
+
+Initialize empty table:
+
+| Story ID   | File | Completed Date | Points |
+| ---------- | ---- | -------------- | ------ |
+| (none yet) |      |                |        |
+
+**Total completed:** 0 stories
+**Total points completed:** 0 points
 
 <action>Add to Artifacts Generated table:</action>
 
@@ -252,9 +301,9 @@ Epic: Icon Reliability
 <action>Update "Next Action Required":</action>
 
 ```
-**What to do next:** Run story-context workflow on first story, then dev-story to implement
+**What to do next:** Review drafted story-{epic_slug}-1.md, then mark it ready for development
 
-**Command to run:** Load SM agent and run 'story-context' workflow (select story-{epic_slug}-1.md)
+**Command to run:** Load SM agent and run 'story-ready' workflow (confirms story-{epic_slug}-1.md is ready)
 
 **Agent to load:** bmad/bmm/agents/sm.md
 ```
@@ -262,7 +311,7 @@ Epic: Icon Reliability
 <action>Add to Decision Log:</action>
 
 ```
-- **{{date}}**: Level 1 tech-spec and epic/stories generation completed. {{story_count}} stories created. Ready for implementation of story-{epic_slug}-1.md.
+- **{{date}}**: Level 1 tech-spec and epic/stories generation completed. {{story_count}} stories created. Skipping Phase 3 (solutioning) - moving directly to Phase 4 (implementation). Story backlog populated. First story (story-{epic_slug}-1.md) drafted and ready for review.
 ```
 
 <action>Save project-workflow-status.md</action>

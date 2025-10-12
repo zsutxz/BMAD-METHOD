@@ -27,6 +27,49 @@
     <action>READ COMPLETE FILES for all items found in the prioritized set. Store content and paths for citation.</action>
   </step>
 
+  <step n="2.5" goal="Check status file TODO section for story to draft">
+    <action>Read {output_folder}/project-workflow-status.md (if exists)</action>
+    <action>Navigate to "### Implementation Progress (Phase 4 Only)" section</action>
+    <action>Find "#### TODO (Needs Drafting)" section</action>
+
+    <check if="TODO section has a story">
+      <action>Extract story information from TODO section:</action>
+      - todo_story_id: The story ID to draft (e.g., "1.1", "auth-feature-1", "login-fix")
+      - todo_story_title: The story title (for validation)
+      - todo_story_file: The exact story file path to create
+
+      <critical>This is the PRIMARY source for determining which story to draft</critical>
+      <critical>DO NOT search or guess - the status file tells you exactly which story to create</critical>
+
+      <action>Parse story numbering from todo_story_id:</action>
+
+      <check if='todo_story_id matches "N.M" format (e.g., "1.1", "2.3")'>
+        <action>Set {{epic_num}} = N, {{story_num}} = M</action>
+        <action>Set {{story_file}} = "story-{{epic_num}}.{{story_num}}.md"</action>
+      </check>
+
+      <check if='todo_story_id matches "slug-N" format (e.g., "auth-feature-1", "icon-reliability-2")'>
+        <action>Set {{epic_slug}} = slug part, {{story_num}} = N</action>
+        <action>Set {{story_file}} = "story-{{epic_slug}}-{{story_num}}.md"</action>
+      </check>
+
+      <check if='todo_story_id matches "slug" format (e.g., "login-fix", "icon-migration")'>
+        <action>Set {{story_slug}} = full slug</action>
+        <action>Set {{story_file}} = "story-{{story_slug}}.md"</action>
+      </check>
+
+      <action>Validate that {{story_file}} matches {{todo_story_file}} from status file</action>
+      <action>If mismatch, HALT with error: "Story file mismatch. Status file says: {{todo_story_file}}, derived: {{story_file}}"</action>
+
+      <action>Skip old story discovery logic in Step 3 - we know exactly what to draft</action>
+    </check>
+
+    <check if="TODO section is empty OR status file not found">
+      <action>Fall back to old story discovery logic in Step 3</action>
+      <action>Note: This is the legacy behavior for projects not using the new status file system</action>
+    </check>
+  </step>
+
   <step n="3" goal="Determine target story (do not prompt in #yolo)">
     <action>List existing story markdown files in {{story_dir}} matching pattern: "story-<epic>.<story>.md"</action>
     <check>If none found → Set {{epic_num}}=1 and {{story_num}}=1</check>

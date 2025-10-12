@@ -1,5 +1,5 @@
 ---
-last-redoc-date: 2025-10-01
+last-redoc-date: 2025-10-12
 ---
 
 # BMM Workflows - The Complete v6 Flow
@@ -86,13 +86,19 @@ The central orchestrator that determines project scale and generates appropriate
 
 ### Scale Levels
 
-| Level | Scope                    | Outputs                 | Next Phase       |
-| ----- | ------------------------ | ----------------------- | ---------------- |
-| **0** | Single atomic change     | tech-spec only          | → Implementation |
-| **1** | 1-10 stories, 1 epic     | Minimal PRD + tech-spec | → Implementation |
-| **2** | 5-15 stories, 1-2 epics  | Focused PRD + tech-spec | → Implementation |
-| **3** | 12-40 stories, 2-5 epics | Full PRD + Epics list   | → Solutioning    |
-| **4** | 40+ stories, 5+ epics    | Enterprise PRD + Epics  | → Solutioning    |
+| Level | Scope                    | Outputs                        | Next Phase       |
+| ----- | ------------------------ | ------------------------------ | ---------------- |
+| **0** | Single atomic change     | tech-spec + 1 story            | → Implementation |
+| **1** | 1-10 stories, 1 epic     | tech-spec + epic + 2-3 stories | → Implementation |
+| **2** | 5-15 stories, 1-2 epics  | Focused PRD + tech-spec        | → Implementation |
+| **3** | 12-40 stories, 2-5 epics | Full PRD + Epics list          | → Solutioning    |
+| **4** | 40+ stories, 5+ epics    | Enterprise PRD + Epics         | → Solutioning    |
+
+**Key Changes (v6a):**
+
+- **Level 0**: Now generates a single user story in addition to tech-spec
+- **Level 1**: Now generates 2-3 stories as part of planning (prefer longer stories over more stories)
+- Both Level 0/1 skip Phase 3 and populate Phase 4 story backlog automatically
 
 ### Routing Logic
 
@@ -114,11 +120,14 @@ plan-project
 
 ### Key Outputs
 
-- **PRD.md**: Product Requirements Document (Levels 1-4)
+- **PRD.md**: Product Requirements Document (Levels 2-4)
 - **Epics.md**: Epic breakdown with stories (Levels 2-4)
+- **epic-stories.md**: Epic summary with story links (Level 1)
 - **tech-spec.md**: Technical specification (Levels 0-2 only)
+- **story-{slug}.md**: Single user story (Level 0)
+- **story-{slug}-1.md, story-{slug}-2.md, story-{slug}-3.md**: User stories (Level 1)
 - **GDD.md**: Game Design Document (game projects)
-- **project-workflow-status.md**: Workflow state tracking
+- **project-workflow-status-YYYY-MM-DD.md**: Versioned workflow state tracking with story backlog
 
 ## Phase 3: Solutioning (Levels 3-4 Only)
 
@@ -149,61 +158,127 @@ FOR each epic in sequence:
 
 The core development cycle that transforms requirements into working software.
 
+### The Story State Machine
+
+Phase 4 uses a 4-state lifecycle to manage story progression, tracked in `project-workflow-status.md`:
+
+```
+BACKLOG → TODO → IN PROGRESS → DONE
+```
+
+#### State Definitions
+
+- **BACKLOG**: Ordered list of stories to be drafted (populated at phase transition)
+  - Contains all stories with IDs, titles, and file names
+  - Order is sequential (Epic 1 stories first, then Epic 2, etc.)
+
+- **TODO**: Single story that needs drafting (or drafted, awaiting approval)
+  - SM drafts story here using `create-story` workflow
+  - Story status is "Draft" until user approves
+  - User runs `story-ready` workflow to approve
+
+- **IN PROGRESS**: Single story approved for development
+  - Moved here by `story-ready` workflow
+  - DEV implements using `dev-story` workflow
+  - Story status is "Ready" or "In Review"
+
+- **DONE**: Completed stories with dates and points
+  - Moved here by `story-approved` workflow after DoD complete
+  - Immutable record of completed work
+
+**Key Innovation**: Agents never search for "next story" - they always read the exact story from the status file.
+
 ### The Implementation Loop
 
 ```
-┌─────────────────────────────────────────┐
-│            SM: create-story             │
-│   (Generate next story from epics.md)   │
-└─────────────────────┬───────────────────┘
-                      ↓
-┌─────────────────────────────────────────┐
-│           SM: story-context             │
-│  (Generate expertise injection XML)     │
-└─────────────────────┬───────────────────┘
-                      ↓
-┌─────────────────────────────────────────┐
-│            DEV: dev-story               │
-│  (Implement with context injection)     │
-└─────────────────────┬───────────────────┘
-                      ↓
-┌─────────────────────────────────────────┐
-│         SR/DEV: review-story            │
-│     (Validate against criteria)         │
-└─────────────────────┬───────────────────┘
-                      ↓
-            ┌─────────┴─────────┐
-            │    Issues Found?   │
-            └─────────┬─────────┘
-                ┌─────┴─────┐
-                ↓           ↓
-        [No: Next Story]  [Yes: correct-course]
-                              ↓
-                      [Return to appropriate step]
+Phase Transition (Phase 2 or 3 → Phase 4)
+  ↓
+┌─────────────────────────────────────────────────┐
+│  BACKLOG populated with all stories              │
+│  TODO initialized with first story               │
+└───────────────────┬─────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────────┐
+│  SM: create-story (drafts story in TODO)        │
+│  Reads: status file TODO section                │
+│  Output: Story file with Status="Draft"         │
+└───────────────────┬─────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────────┐
+│  User reviews story                              │
+│  ↓                                               │
+│  SM: story-ready (approves story)                │
+│  Actions: TODO → IN PROGRESS                     │
+│           BACKLOG → TODO (next story)            │
+│           Story Status = "Ready"                 │
+└───────────────────┬─────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────────┐
+│  SM: story-context (optional but recommended)   │
+│  Generates expertise injection XML               │
+└───────────────────┬─────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────────┐
+│  DEV: dev-story (implements story)               │
+│  Reads: status file IN PROGRESS section         │
+│  Implements with context injection               │
+└───────────────────┬─────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────────┐
+│  User reviews implementation (DoD check)         │
+│  ↓                                               │
+│  DEV: story-approved (marks story done)          │
+│  Actions: IN PROGRESS → DONE                     │
+│           TODO → IN PROGRESS (if exists)         │
+│           BACKLOG → TODO (if exists)             │
+│           Story Status = "Done"                  │
+└───────────────────┬─────────────────────────────┘
+                    ↓
+            ┌───────┴────────┐
+            │  More stories?  │
+            └───────┬─────────┘
+                ┌───┴───┐
+                ↓       ↓
+          [Yes: Loop]  [No: Epic/Project Complete]
+                         ↓
+                   [retrospective]
 ```
 
 ### Workflow Responsibilities
 
-| Workflow           | Agent  | Purpose                      | Key Innovation             |
-| ------------------ | ------ | ---------------------------- | -------------------------- |
-| **create-story**   | SM     | Generate ONE story at a time | Enforces epics.md planning |
-| **story-context**  | SM     | Create expertise injection   | JIT technical guidance     |
-| **dev-story**      | DEV    | Implement with context       | Resumable after review     |
-| **review-story**   | SR/DEV | Comprehensive validation     | Fresh context review       |
-| **correct-course** | SM     | Handle issues/changes        | Adaptive response          |
-| **retrospective**  | SM     | Capture epic learnings       | Continuous improvement     |
+| Workflow           | Agent  | Purpose                               | State Transition      | No Search Required       |
+| ------------------ | ------ | ------------------------------------- | --------------------- | ------------------------ |
+| **create-story**   | SM     | Draft story from TODO section         | (Story stays in TODO) | Reads TODO section       |
+| **story-ready**    | SM     | Approve drafted story for development | TODO → IN PROGRESS    | Reads TODO section       |
+| **story-context**  | SM     | Generate expertise injection XML      | (No state change)     | Reads IN PROGRESS        |
+| **dev-story**      | DEV    | Implement story                       | (No state change)     | Reads IN PROGRESS        |
+| **story-approved** | DEV    | Mark story done after DoD complete    | IN PROGRESS → DONE    | Reads IN PROGRESS        |
+| **review-story**   | SR/DEV | Quality validation (optional)         | (No state change)     | Manual story selection   |
+| **correct-course** | SM     | Handle issues/changes                 | (Adaptive)            | Manual story selection   |
+| **retrospective**  | SM     | Capture epic learnings                | (No state change)     | Manual or epic-triggered |
 
-### Story Flow States
+### Story File Status Values
+
+Stories have a `Status:` field in their markdown file that reflects their position in the state machine:
 
 ```
-Draft (create-story)
-  → Approved (SM approval)
-    → In Progress (dev-story)
-      → Ready for Review (dev complete)
-        → Done (review passed)
-        OR
-        → In Progress (review failed, back to dev)
+Status: Draft       (Story created by create-story, awaiting user review)
+  ↓
+Status: Ready       (User approved via story-ready, ready for implementation)
+  ↓
+Status: In Review   (Implementation complete, awaiting final approval)
+  ↓
+Status: Done        (User approved via story-approved, DoD complete)
 ```
+
+**Status File Position vs Story File Status:**
+
+| Status File State | Story File Status    | Meaning                               |
+| ----------------- | -------------------- | ------------------------------------- |
+| BACKLOG           | (file doesn't exist) | Story not yet drafted                 |
+| TODO              | Draft                | Story drafted, awaiting user approval |
+| IN PROGRESS       | Ready or In Review   | Story approved for development        |
+| DONE              | Done                 | Story complete, DoD met               |
 
 ## Greenfield vs Brownfield Considerations
 
@@ -251,13 +326,24 @@ plan-project (Phase 2)
 
 ### Tracking Documents
 
-- **project-workflow-status.md**: Maintains workflow state, level, and progress
-- **Epics.md**: Master list of epics and stories (source of truth for planning)
+- **project-workflow-status-YYYY-MM-DD.md**: Versioned workflow state tracking with 4-section story backlog
+  - **BACKLOG**: Ordered list of stories to be drafted
+  - **TODO**: Single story ready for drafting (or drafted, awaiting approval)
+  - **IN PROGRESS**: Single story approved for development
+  - **DONE**: Completed stories with dates and points
+  - Populated automatically at phase transitions
+  - Single source of truth for story progression
+  - Agents read (never search) to know what to work on next
+
+- **Epics.md**: Master list of epics and stories (source of truth for planning, Level 2-4)
 
 ### Phase Outputs
 
 - **Phase 1**: Briefs and research documents
-- **Phase 2**: PRD, Epics, or tech-spec based on level
+- **Phase 2**:
+  - Level 0: tech-spec.md + story-{slug}.md
+  - Level 1: tech-spec.md + epic-stories.md + story-{slug}-N.md files
+  - Level 2-4: PRD.md, Epics.md, or tech-spec.md based on level
 - **Phase 3**: solution-architecture.md, epic-specific tech specs
 - **Phase 4**: Story files, context XMLs, implemented code
 
@@ -320,12 +406,14 @@ bmad architect solution-architecture
 bmad architect tech-spec  # Per epic, JIT
 
 # Phase 4: Implementation
-bmad sm create-story      # One at a time
-bmad sm story-context     # After each story
-bmad dev develop          # With context loaded
-bmad dev review-story     # Or SR agent
-bmad sm correct-course    # If issues
-bmad sm retrospective     # After epic
+bmad sm create-story      # Draft story from TODO section
+bmad sm story-ready       # Approve story for development (after user review)
+bmad sm story-context     # Generate context XML (optional but recommended)
+bmad dev dev-story        # Implement story from IN PROGRESS section
+bmad dev story-approved   # Mark story done (after user confirms DoD)
+bmad dev review-story     # Quality validation (optional)
+bmad sm correct-course    # If issues arise
+bmad sm retrospective     # After epic complete
 ```
 
 ## Future Enhancements

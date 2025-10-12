@@ -27,37 +27,108 @@
 
 {{#if in_phase_4}}
 
-#### Current Work In Progress
+#### BACKLOG (Not Yet Drafted)
 
-- **Current Epic:** {{current_epic_number}} - {{current_epic_title}}
-- **Current Story:** {{current_story_number}} - {{current_story_title}}
+**Ordered story sequence - populated at Phase 4 start:**
+
+| Epic | Story | ID  | Title | File |
+| ---- | ----- | --- | ----- | ---- |
+
+{{#backlog_stories}}
+| {{epic_num}} | {{story_num}} | {{story_id}} | {{story_title}} | {{story_file}} |
+{{/backlog_stories}}
+
+**Total in backlog:** {{backlog_count}} stories
+
+**Instructions:**
+
+- Stories move from BACKLOG → TODO when previous story is complete
+- SM agent uses story information from this table to draft new stories
+- Story order is sequential (Epic 1 stories first, then Epic 2, etc.)
+
+#### TODO (Needs Drafting)
+
+- **Story ID:** {{todo_story_id}}
+- **Story Title:** {{todo_story_title}}
+- **Story File:** `{{todo_story_file}}`
+- **Status:** Not created OR Draft (needs review)
+- **Action:** SM should run `create-story` workflow to draft this story
+
+**Instructions:**
+
+- Only ONE story in TODO at a time
+- Story stays in TODO until user marks it "ready for development"
+- SM reads this section to know which story to draft next
+- After SM creates/updates story, user reviews and approves via `story-ready` workflow
+
+#### IN PROGRESS (Approved for Development)
+
+- **Story ID:** {{current_story_id}}
+- **Story Title:** {{current_story_title}}
 - **Story File:** `{{current_story_file}}`
-- **Story Status:** {{current_story_status}}
+- **Story Status:** Ready | In Review
+- **Context File:** `{{current_story_context_file}}`
+- **Action:** DEV should run `dev-story` workflow to implement this story
 
-#### Next Story To Work On
+**Instructions:**
 
-- **Next Epic:** {{next_epic_number}} - {{next_epic_title}}
-- **Next Story:** {{next_story_number}} - {{next_story_title}}
-- **Next Story File:** `{{next_story_file}}`
+- Only ONE story in IN PROGRESS at a time
+- Story stays here until user marks it "approved" (DoD complete)
+- DEV reads this section to know which story to implement
+- After DEV completes story, user reviews and runs `story-approved` workflow
 
-**Logic:** Next story is determined by:
+#### DONE (Completed Stories)
 
-1. If current epic has more stories → next story in same epic
-2. If current epic complete → first story of next epic
-3. If all epics complete → Project complete!
+| Story ID | File | Completed Date | Points |
+| -------- | ---- | -------------- | ------ |
+
+{{#done_stories}}
+| {{story_id}} | {{story_file}} | {{completed_date}} | {{story_points}} |
+{{/done_stories}}
+
+**Total completed:** {{done_count}} stories
+**Total points completed:** {{done_points}} points
+
+**Instructions:**
+
+- Stories move here when user runs `story-approved` workflow (DEV agent)
+- Immutable record of completed work
+- Used for velocity tracking and progress reporting
 
 #### Epic/Story Summary
 
 **Total Epics:** {{total_epics}}
 **Total Stories:** {{total_stories}}
-**Completed Stories:** {{completed_stories}}
-**Remaining Stories:** {{remaining_stories}}
+**Stories in Backlog:** {{backlog_count}}
+**Stories in TODO:** {{todo_count}} (should always be 0 or 1)
+**Stories in IN PROGRESS:** {{in_progress_count}} (should always be 0 or 1)
+**Stories DONE:** {{done_count}}
 
 **Epic Breakdown:**
 {{#epics}}
 
-- Epic {{epic_number}}: {{epic_title}} ({{epic_completed_stories}}/{{epic_total_stories}} stories complete)
+- Epic {{epic_number}}: {{epic_title}} ({{epic_done_stories}}/{{epic_total_stories}} stories complete)
   {{/epics}}
+
+#### State Transition Logic
+
+**Story Lifecycle:**
+
+```
+BACKLOG → TODO → IN PROGRESS → DONE
+```
+
+**Transition Rules:**
+
+1. **BACKLOG → TODO**: Automatically when previous story moves TODO → IN PROGRESS
+2. **TODO → IN PROGRESS**: User runs SM agent `story-ready` workflow after reviewing drafted story
+3. **IN PROGRESS → DONE**: User runs DEV agent `story-approved` workflow after DoD complete
+
+**Important:**
+
+- SM agent NEVER searches for "next story" - always reads TODO section
+- DEV agent NEVER searches for "current story" - always reads IN PROGRESS section
+- Both agents update this status file after their workflows complete
 
 {{/if}}
 
@@ -176,27 +247,52 @@
 
 **When to use this file:**
 
-- Running create-story workflow → Read "Next Story To Work On" section
-- Checking epic/story progress → Read "Implementation Progress" section
-- Updating story status → Update "Current Story Status" and recalculate next story
+- Running `create-story` workflow → Read "TODO (Needs Drafting)" section for exact story to draft
+- Running `story-ready` workflow → Update status file, move story from TODO → IN PROGRESS, move next story from BACKLOG → TODO
+- Checking epic/story progress → Read "Epic/Story Summary" section
 
-**Key fields:**
+**Key fields to read:**
 
-- `next_story_file` → The exact file path to create
-- `next_epic_number` + `next_story_number` → For story numbering
+- `todo_story_id` → The story ID to draft (e.g., "1.1", "auth-feature-1")
+- `todo_story_title` → The story title for drafting
+- `todo_story_file` → The exact file path to create
+
+**Key fields to update:**
+
+- Move completed TODO story → IN PROGRESS section
+- Move next BACKLOG story → TODO section
+- Update story counts
+
+**Workflows:**
+
+1. `create-story` - Drafts the story in TODO section (user reviews it)
+2. `story-ready` - After user approval, moves story TODO → IN PROGRESS
 
 ### For DEV (Developer) Agent
 
 **When to use this file:**
 
-- Running dev-story workflow → Read "Current Work In Progress" section
-- After completing story → Update status to "Complete", recalculate next story
-- Checking what to work on → Read "Next Story To Work On"
+- Running `dev-story` workflow → Read "IN PROGRESS (Approved for Development)" section for current story
+- Running `story-approved` workflow → Update status file, move story from IN PROGRESS → DONE, move TODO story → IN PROGRESS, move BACKLOG story → TODO
+- Checking what to work on → Read "IN PROGRESS" section
 
-**Key fields:**
+**Key fields to read:**
 
 - `current_story_file` → The story to implement
-- `current_story_status` → Update after completion
+- `current_story_context_file` → The context XML for this story
+- `current_story_status` → Current status (Ready | In Review)
+
+**Key fields to update:**
+
+- Move completed IN PROGRESS story → DONE section with completion date
+- Move TODO story → IN PROGRESS section
+- Move next BACKLOG story → TODO section
+- Update story counts and points
+
+**Workflows:**
+
+1. `dev-story` - Implements the story in IN PROGRESS section
+2. `story-approved` - After user approval (DoD complete), moves story IN PROGRESS → DONE
 
 ### For PM (Product Manager) Agent
 

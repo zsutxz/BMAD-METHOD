@@ -98,14 +98,57 @@
 
 </step>
 
-<step n="4" goal="Update project-workflow-analysis with progress">
+<step n="4" goal="Update project-workflow-status and initialize Phase 4">
 
 <action>Open {output_folder}/project-workflow-status.md</action>
-<action>Update "Workflow Status Tracker" section</action>
 
-<action>Set current_phase = "2-Plan"</action>
-<action>Set current_workflow = "tech-spec (Level 0 - story generation complete)"</action>
-<action>Check "2-Plan" checkbox in Phase Completion Status</action>
+<action>Update "Workflow Status Tracker" section:</action>
+
+- Set current_phase = "4-Implementation" (Level 0 skips Phase 3)
+- Set current_workflow = "tech-spec (Level 0 - story generation complete, ready for implementation)"
+- Check "2-Plan" checkbox in Phase Completion Status
+- Set progress_percentage = 40% (planning complete, skipping solutioning)
+
+<action>Initialize Phase 4 Implementation Progress section:</action>
+
+#### BACKLOG (Not Yet Drafted)
+
+**Ordered story sequence - populated at Phase 4 start:**
+
+| Epic                               | Story | ID  | Title | File |
+| ---------------------------------- | ----- | --- | ----- | ---- |
+| (empty - Level 0 has only 1 story) |       |     |       |      |
+
+**Total in backlog:** 0 stories
+
+**NOTE:** Level 0 has single story only. No additional stories in backlog.
+
+#### TODO (Needs Drafting)
+
+Initialize with the ONLY story (already drafted):
+
+- **Story ID:** {slug}
+- **Story Title:** {{story_title}}
+- **Story File:** `story-{slug}.md`
+- **Status:** Draft (needs review before development)
+- **Action:** User reviews drafted story, then runs SM agent `story-ready` workflow to approve
+
+#### IN PROGRESS (Approved for Development)
+
+Leave empty initially:
+
+(Story will be moved here by SM agent `story-ready` workflow after user approves story-{slug}.md)
+
+#### DONE (Completed Stories)
+
+Initialize empty table:
+
+| Story ID   | File | Completed Date | Points |
+| ---------- | ---- | -------------- | ------ |
+| (none yet) |      |                |        |
+
+**Total completed:** 0 stories
+**Total points completed:** 0 points
 
 <action>Add to Artifacts Generated table:</action>
 
@@ -117,17 +160,17 @@
 <action>Update "Next Action Required":</action>
 
 ```
-**What to do next:** Run story-context workflow to generate implementation context
+**What to do next:** Review drafted story-{slug}.md, then mark it ready for development
 
-**Command to run:** Load SM agent and run workflow 'story-context' OR load DEV agent and run dev-story workflow directly
+**Command to run:** Load SM agent and run 'story-ready' workflow (confirms story-{slug}.md is ready)
 
-**Agent to load:** bmad/bmm/agents/sm.md OR bmad/bmm/agents/dev.md
+**Agent to load:** bmad/bmm/agents/sm.md
 ```
 
 <action>Add to Decision Log:</action>
 
 ```
-- **{{date}}**: Level 0 tech-spec and story generation completed. Story: story-{slug}.md ready for context generation.
+- **{{date}}**: Level 0 tech-spec and story generation completed. Skipping Phase 3 (solutioning) - moving directly to Phase 4 (implementation). Single story (story-{slug}.md) drafted and ready for review.
 ```
 
 <action>Save project-workflow-status.md</action>

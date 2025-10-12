@@ -637,6 +637,112 @@ Generate completion summary:
 </action>
 
 <template-output>completion_summary</template-output>
+
+<action>
+Prepare for Phase 4 transition - Populate story backlog:
+
+1. Read PRD from {output_folder}/PRD.md or {output_folder}/epics.md
+2. Extract all epics and their stories
+3. Create ordered backlog list (Epic 1 stories first, then Epic 2, etc.)
+
+For each story in sequence:
+- epic_num: Epic number
+- story_num: Story number within epic
+- story_id: "{{epic_num}}.{{story_num}}" format
+- story_title: Story title from PRD/epics
+- story_file: "story-{{epic_num}}.{{story_num}}.md"
+
+4. Update project-workflow-status.md with backlog population:
+
+Open {output_folder}/project-workflow-status.md
+
+In "### Implementation Progress (Phase 4 Only)" section:
+
+#### BACKLOG (Not Yet Drafted)
+
+Populate table with ALL stories:
+
+| Epic | Story | ID | Title | File |
+|------|-------|----|-------|------|
+| 1 | 1 | 1.1 | {{story_title}} | story-1.1.md |
+| 1 | 2 | 1.2 | {{story_title}} | story-1.2.md |
+| 1 | 3 | 1.3 | {{story_title}} | story-1.3.md |
+| 2 | 1 | 2.1 | {{story_title}} | story-2.1.md |
+... (all stories)
+
+**Total in backlog:** {{total_story_count}} stories
+
+#### TODO (Needs Drafting)
+
+Initialize with FIRST story:
+
+- **Story ID:** 1.1
+- **Story Title:** {{first_story_title}}
+- **Story File:** `story-1.1.md`
+- **Status:** Not created OR Draft (needs review)
+- **Action:** SM should run `create-story` workflow to draft this story
+
+#### IN PROGRESS (Approved for Development)
+
+Leave empty initially:
+
+(Story will be moved here by SM agent `story-ready` workflow)
+
+#### DONE (Completed Stories)
+
+Initialize empty table:
+
+| Story ID | File | Completed Date | Points |
+|----------|------|----------------|--------|
+| (none yet) | | | |
+
+**Total completed:** 0 stories
+**Total points completed:** 0 points
+
+5. Update "Workflow Status Tracker" section:
+- Set current_phase = "4-Implementation"
+- Set current_workflow = "Ready to begin story implementation"
+- Set progress_percentage = {{calculate based on phase completion}}
+- Check "3-Solutioning" checkbox in Phase Completion Status
+
+6. Update "Next Action Required" section:
+- Set next_action = "Draft first user story"
+- Set next_command = "Load SM agent and run 'create-story' workflow"
+- Set next_agent = "bmad/bmm/agents/sm.md"
+
+7. Update "Artifacts Generated" table:
+Add entries for all generated tech specs
+
+8. Add to Decision Log:
+- **{{date}}**: Phase 3 (Solutioning) complete. Architecture and tech specs generated. Populated story backlog with {{total_story_count}} stories. Ready for Phase 4 (Implementation). Next: SM drafts story 1.1.
+
+9. Save project-workflow-status.md
+</action>
+
+<ask>
+**Phase 3 (Solutioning) Complete!**
+
+✅ Solution architecture generated
+✅ Cohesion check passed
+✅ {{epic_count}} tech specs generated
+✅ Story backlog populated ({{total_story_count}} stories)
+
+**Documents Generated:**
+- solution-architecture.md
+- cohesion-check-report.md
+- tech-spec-epic-1.md through tech-spec-epic-{{epic_count}}.md
+
+**Ready for Phase 4 (Implementation)**
+
+**Next Steps:**
+1. Load SM agent: `bmad/bmm/agents/sm.md`
+2. Run `create-story` workflow
+3. SM will draft story {{first_story_id}}: {{first_story_title}}
+4. You review drafted story
+5. Run `story-ready` workflow to approve it for development
+
+Would you like to proceed with story drafting now? (y/n)
+</ask>
 </step>
 
 </workflow>
