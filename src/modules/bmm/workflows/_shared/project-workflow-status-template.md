@@ -21,6 +21,27 @@
 - [ ] **3-Solutioning** - Architecture + Tech Specs (Level 2+ only)
 - [ ] **4-Implementation** - Story development and delivery
 
+### Planned Workflow Journey
+
+**This section documents your complete workflow plan from start to finish.**
+
+| Phase | Step | Agent | Description | Status |
+| ----- | ---- | ----- | ----------- | ------ |
+
+{{#planned_workflow}}
+| {{phase}} | {{step}} | {{agent}} | {{description}} | {{status}} |
+{{/planned_workflow}}
+
+**Current Step:** {{current_step}}
+**Next Step:** {{next_step}}
+
+**Instructions:**
+
+- This plan was created during initial workflow-status setup
+- Status values: Planned, Optional, Conditional, In Progress, Complete
+- Current/Next steps update as you progress through the workflow
+- Use this as your roadmap to know what comes after each phase
+
 ### Implementation Progress (Phase 4 Only)
 
 **Story Tracking:** {{story_tracking_mode}}
@@ -155,9 +176,10 @@ BACKLOG → TODO → IN PROGRESS → DONE
 
 ### Project Classification
 
-- **Project Type:** {{project_type}}
+- **Project Type:** {{project_type}} ({{project_type_display_name}})
 - **Project Level:** {{project_level}}
 - **Instruction Set:** {{instruction_set}}
+- **Greenfield/Brownfield:** {{field_type}}
 
 ### Scope Summary
 
@@ -168,7 +190,6 @@ BACKLOG → TODO → IN PROGRESS → DONE
 
 ### Context
 
-- **Greenfield/Brownfield:** {{field_type}}
 - **Existing Documentation:** {{existing_docs}}
 - **Team Size:** {{team_size}}
 - **Deployment Intent:** {{deployment_intent}}

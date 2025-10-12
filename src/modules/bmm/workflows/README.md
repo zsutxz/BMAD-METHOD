@@ -60,24 +60,62 @@ The BMM (BMAD Method Module) orchestrates software development through four dist
 └──────────────────────────────────────────────────────────────┘
 ```
 
+## Universal Entry Point: workflow-status
+
+**Before starting any workflow, check your status!**
+
+The `workflow-status` workflow is the **universal entry point** for all BMM workflows:
+
+```bash
+bmad analyst workflow-status
+# or
+bmad pm workflow-status
+```
+
+**What it does:**
+
+- ✅ Checks for existing workflow status file
+- ✅ Displays current phase, progress, and next action
+- ✅ Helps new users plan their workflow approach
+- ✅ Guides brownfield projects to documentation first
+- ✅ Routes to appropriate workflows based on context
+
+**No status file?** It will:
+
+1. Ask about project context (greenfield vs brownfield)
+2. Offer analysis options (full analysis, skip to planning, or quick tech spec)
+3. Guide you to the right first workflow
+
+**Status file exists?** It will:
+
+1. Display current phase and progress
+2. Show Phase 4 implementation state (BACKLOG/TODO/IN PROGRESS/DONE)
+3. Recommend exact next action
+4. Offer to change workflow or display menu
+
+**All agents (bmad-master, analyst, pm) should check workflow-status on load.**
+
+---
+
 ## Phase 1: Analysis (Optional)
 
 Optional workflows for project discovery and requirements gathering. Output feeds into Phase 2 planning.
 
 ### Workflows
 
-| Workflow               | Purpose                                     | Output                 | When to Use           |
-| ---------------------- | ------------------------------------------- | ---------------------- | --------------------- |
-| **brainstorm-game**    | Game concept ideation using 5 methodologies | Concept proposals      | New game projects     |
-| **brainstorm-project** | Software solution exploration               | Architecture proposals | New software projects |
-| **game-brief**         | Structured game design foundation           | Game brief document    | Before GDD creation   |
-| **product-brief**      | Strategic product planning culmination      | Product brief          | End of analysis phase |
-| **research**           | Multi-mode research (market/technical/deep) | Research artifacts     | When evidence needed  |
+| Workflow               | Purpose                                     | Output                    | When to Use            |
+| ---------------------- | ------------------------------------------- | ------------------------- | ---------------------- |
+| **workflow-status**    | Universal entry point and status checker    | Status display + guidance | **Always start here!** |
+| **brainstorm-game**    | Game concept ideation using 5 methodologies | Concept proposals         | New game projects      |
+| **brainstorm-project** | Software solution exploration               | Architecture proposals    | New software projects  |
+| **game-brief**         | Structured game design foundation           | Game brief document       | Before GDD creation    |
+| **product-brief**      | Strategic product planning culmination      | Product brief             | End of analysis phase  |
+| **research**           | Multi-mode research (market/technical/deep) | Research artifacts        | When evidence needed   |
 
 ### Flow
 
 ```
-Brainstorming → Research → Brief → Planning (Phase 2)
+workflow-status (check) → Brainstorming → Research → Brief → Planning (Phase 2)
 ```
 
 ## Phase 2: Planning (Required)
@@ -393,6 +431,9 @@ plan-project (Phase 2)
 ## Quick Reference Commands
 
 ```bash
+# Universal Entry Point (Start Here!)
+bmad analyst workflow-status  # Check status and get recommendations
+
 # Phase 1: Analysis (Optional)
 bmad analyst brainstorm-project
 bmad analyst research
