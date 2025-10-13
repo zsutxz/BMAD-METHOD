@@ -1,6 +1,6 @@
 # Create Story - Workflow Instructions (Spec-compliant, non-interactive by default)
 
-```xml
+````xml
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>This workflow creates or updates the next user story from epics/PRD and architecture context, saving to the configured stories directory and optionally invoking Story Context.</critical>
@@ -120,5 +120,63 @@
     <action>Report created/updated story path</action>
   </step>
 
+  <step n="9" goal="Update status file on completion">
+    <action>Search {output_folder}/ for files matching pattern: project-workflow-status*.md</action>
+    <action>Find the most recent file (by date in filename)</action>
+
+    <check if="status file exists">
+      <action>Load the status file</action>
+
+      <template-output file="{{status_file_path}}">current_step</template-output>
+      <action>Set to: "create-story (Story {{story_id}})"</action>
+
+      <template-output file="{{status_file_path}}">current_workflow</template-output>
+      <action>Set to: "create-story (Story {{story_id}}) - Complete"</action>
+
+      <template-output file="{{status_file_path}}">progress_percentage</template-output>
+      <action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
+      <action>Increment by: {{per_story_weight}} * 2 (create-story weight is ~2% per story)</action>
+
+      <template-output file="{{status_file_path}}">decisions_log</template-output>
+      <action>Add entry:</action>
+      ```
+      - **{{date}}**: Completed create-story for Story {{story_id}} ({{story_title}}). Story file: {{story_file}}. Status: Draft (needs review via story-ready). Next: Review and approve story.
+      ```
+
+      <output>**✅ Story Created Successfully**
+
+**Story Details:**
+- Story ID: {{story_id}}
+- File: {{story_file}}
+- Status: Draft (needs review)
+
+**Status file updated:**
+- Current step: create-story (Story {{story_id}}) ✓
+- Progress: {{new_progress_percentage}}%
+
+**Next Steps:**
+1. Review the drafted story in {{story_file}}
+2. When satisfied, run `story-ready` to approve for development
+3. Or edit the story file and re-run `create-story` to update
+
+Check status anytime with: `workflow-status`
+      </output>
+    </check>
+
+    <check if="status file not found">
+      <output>**✅ Story Created Successfully**
+
+**Story Details:**
+- Story ID: {{story_id}}
+- File: {{story_file}}
+- Status: Draft
+
+Note: Running in standalone mode (no status file).
+
+To track progress across workflows, run `workflow-status` first.
+      </output>
+    </check>
+  </step>
+
 </workflow>
-```
+````

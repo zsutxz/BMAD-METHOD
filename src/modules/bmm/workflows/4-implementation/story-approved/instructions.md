@@ -149,13 +149,26 @@ If BACKLOG had 1 story and is now empty:
 
 </step>
 
-<step n="4" goal="Update Decision Log and Next Action">
+<step n="4" goal="Update Decision Log, Progress, and Next Action">
 
 <action>Add to "## Decision Log" section:</action>
 
 ```
 - **{{date}}**: Story {{current_story_id}} ({{current_story_title}}) approved and marked done by DEV agent. Moved from IN PROGRESS → DONE. {{#if todo_story}}Story {{todo_story_id}} moved from TODO → IN PROGRESS.{{/if}} {{#if next_backlog_story}}Story {{next_backlog_story_id}} moved from BACKLOG → TODO.{{/if}}
 ```
+
+<template-output file="{{status_file_path}}">current_step</template-output>
+<action>Set to: "story-approved (Story {{current_story_id}})"</action>
+
+<template-output file="{{status_file_path}}">current_workflow</template-output>
+<action>Set to: "story-approved (Story {{current_story_id}}) - Complete"</action>
+
+<template-output file="{{status_file_path}}">progress_percentage</template-output>
+<action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
+<action>Increment by: {{per_story_weight}} \* 1 (story-approved weight is ~1% per story)</action>
+<check if="all stories complete">
+<action>Set progress_percentage = 100%</action>
+</check>
 
 <action>Update "### Next Action Required" section:</action>
 

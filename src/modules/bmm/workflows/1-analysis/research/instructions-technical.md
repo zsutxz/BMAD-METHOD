@@ -442,4 +442,65 @@ Select option (1-5):</ask>
 
 </step>
 
+<step n="FINAL" goal="Update status file on completion">
+<action>Search {output_folder}/ for files matching pattern: project-workflow-status*.md</action>
+<action>Find the most recent file (by date in filename)</action>
+
+<check if="status file exists">
+  <action>Load the status file</action>
+
+<template-output file="{{status_file_path}}">current_step</template-output>
+<action>Set to: "research (technical)"</action>
+
+<template-output file="{{status_file_path}}">current_workflow</template-output>
+<action>Set to: "research (technical) - Complete"</action>
+
+<template-output file="{{status_file_path}}">progress_percentage</template-output>
+<action>Increment by: 5% (optional Phase 1 workflow)</action>
+
+<template-output file="{{status_file_path}}">decisions_log</template-output>
+<action>Add entry:</action>
+
+```
+- **{{date}}**: Completed research workflow (technical mode). Technical research report generated and saved. Next: Review findings and consider plan-project workflow.
+```
+
+<output>**✅ Technical Research Complete**
+
+**Research Report:**
+
+- Technical research report generated and saved
+
+**Status file updated:**
+
+- Current step: research (technical) ✓
+- Progress: {{new_progress_percentage}}%
+
+**Next Steps:**
+
+1. Review technical research findings
+2. Share with architecture team
+3. Run `plan-project` to incorporate findings into PRD
+
+Check status anytime with: `workflow-status`
+</output>
+</check>
+
+<check if="status file not found">
+  <output>**✅ Technical Research Complete**
+
+**Research Report:**
+
+- Technical research report generated and saved
+
+Note: Running in standalone mode (no status file).
+
+**Next Steps:**
+
+1. Review technical research findings
+2. Run plan-project workflow
+   </output>
+   </check>
+   </step>
+
 </workflow>

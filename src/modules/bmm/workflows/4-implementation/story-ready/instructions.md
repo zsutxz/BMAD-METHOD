@@ -92,13 +92,23 @@ If BACKLOG had 1 story and is now empty:
 
 </step>
 
-<step n="4" goal="Update Decision Log and Next Action">
+<step n="4" goal="Update Decision Log, Progress, and Next Action">
 
 <action>Add to "## Decision Log" section:</action>
 
 ```
 - **{{date}}**: Story {{todo_story_id}} ({{todo_story_title}}) marked ready for development by SM agent. Moved from TODO → IN PROGRESS. {{#if next_story}}Next story {{next_story_id}} moved from BACKLOG → TODO.{{/if}}
 ```
+
+<template-output file="{{status_file_path}}">current_step</template-output>
+<action>Set to: "story-ready (Story {{todo_story_id}})"</action>
+
+<template-output file="{{status_file_path}}">current_workflow</template-output>
+<action>Set to: "story-ready (Story {{todo_story_id}}) - Complete"</action>
+
+<template-output file="{{status_file_path}}">progress_percentage</template-output>
+<action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
+<action>Increment by: {{per_story_weight}} \* 1 (story-ready weight is ~1% per story)</action>
 
 <action>Update "### Next Action Required" section:</action>
 
