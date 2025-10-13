@@ -252,7 +252,31 @@ Your choice (1-12):</ask>
 
 <action>Set project_type = mapped project_type_id</action>
 
-<output>**Step 4: Understanding Your Workflow**
+<ask>**Step 4: User Interface Components**
+
+Does your project involve user-facing UI components?
+
+a. **Yes** - Project has user interface elements (web pages, mobile screens, desktop UI, game UI)
+b. **No** - Backend-only, API, CLI, or no visual interface
+
+Your choice (a/b):</ask>
+
+<action>Capture has_ui_components</action>
+
+<check if='has_ui_components == "a"'>
+  <action>Set needs_ux_workflow = true</action>
+  <output>**✅ UX Workflow Detected**
+
+Since your project has UI components, we'll include the UX specification workflow in Phase 2.
+This ensures proper UX/UI design happens between PRD and architecture/implementation.
+</output>
+</check>
+
+<check if='has_ui_components == "b"'>
+  <action>Set needs_ux_workflow = false</action>
+</check>
+
+<output>**Step 5: Understanding Your Workflow**
 
 Before we plan your workflow, let's determine the scope and complexity of your project.
 
@@ -267,7 +291,9 @@ The BMad Method uses 5 project levels (0-4) that determine which phases you'll n
 **Optional Phase 1 (Analysis):** Brainstorming, research, and brief creation can precede any level.
 </output>
 
-<ask>**Do you already know your project's approximate size/scope?**
+<ask>**Step 6: Project Scope Assessment**
+
+Do you already know your project's approximate size/scope?
 
 a. **Yes** - I can describe the general scope
 b. **No** - Not sure yet, need help determining it
@@ -309,7 +335,7 @@ We'll determine your project level during Phase 2 (Planning).
 <action>Set estimated_level = "TBD"</action>
 </check>
 
-<ask>**Step 5: Choose Your Starting Point**
+<ask>**Step 7: Choose Your Starting Point**
 
 Now let's determine where you want to begin:
 
@@ -405,6 +431,16 @@ Based on your responses, here's your complete workflow journey:
 - Agent: "PM"
 - Description: "Create PRD/GDD/Tech-Spec (determines final level)"
 - Status: "Planned"
+
+<check if='needs_ux_workflow == true'>
+  <action>Add UX workflow to Phase 2 planning (runs after PRD, before Phase 3)</action>
+  - Phase: "2-Plan"
+  - Step: "ux-spec"
+  - Agent: "PM"
+  - Description: "UX/UI specification (user flows, wireframes, components)"
+  - Status: "Planned"
+  - Note: "Required for projects with UI components"
+</check>
 
 <check if='level_known == true AND estimated_level >= 3'>
   <action>Add Phase 3 (required for Level 3-4)</action>
@@ -609,6 +645,7 @@ Which phase? (1-4)</ask>
 **Phase 2: Planning (Required)**
 
 - `plan-project` - Scale-adaptive planning (PRD, GDD, or Tech-Spec)
+- `ux-spec` - UX/UI specification (for projects with UI components)
 
 **Phase 3: Solutioning (Level 3-4 Only)**
 

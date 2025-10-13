@@ -195,7 +195,7 @@ Examples:
 
 <template-output>special_requirements</template-output>
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
 </step>
 

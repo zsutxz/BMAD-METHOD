@@ -101,7 +101,7 @@ If you have specific options, list them. Otherwise, I'll research current leadin
 - "State of [technical_category] 2025"
   </action>
 
-  <elicit-required/>
+  <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
 <action>Present discovered options (typically 3-5 main candidates)</action>
 <template-output>technology_options</template-output>
@@ -173,8 +173,8 @@ Research and document:
 - Training costs
 - Total cost of ownership estimate
 
-<elicit-required/>
-<template-output>tech_profile_{{option_number}}</template-output>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
+<template-output>tech*profile*{{option_number}}</template-output>
 
 </step>
 
@@ -344,7 +344,7 @@ Research and document:
 - Contingency options if primary choice doesn't work
 - Exit strategy considerations
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
 <template-output>recommendations</template-output>
 

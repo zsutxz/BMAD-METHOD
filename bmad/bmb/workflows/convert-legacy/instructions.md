@@ -190,7 +190,7 @@ For Modules:
 
 2. Convert template sections to instructions.md:
    - Each YAML section → workflow step
-   - `elicit: true` → `<elicit-required/>` tag
+   - `elicit: true` → `<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>` tag
    - Conditional sections → `if="condition"` attribute
    - Repeatable sections → `repeat="for-each"` attribute
    - Section instructions → step content
@@ -258,7 +258,7 @@ For Modules:
    - Preserve execution logic
 
 4. Handle special v4 patterns:
-   - 1-9 elicitation menus → v5 <elicit-required/>
+   - 1-9 elicitation menus → v5 <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
    - Agent permissions → note in instructions
    - YOLO mode → autonomous flag or optional steps
    - Critical notices → workflow.yaml comments

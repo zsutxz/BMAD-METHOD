@@ -76,7 +76,7 @@
 **Deployment Strategy**: How to deploy the change
 <template-output file="tech-spec.md">deployment_strategy</template-output>
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
 </step>
 

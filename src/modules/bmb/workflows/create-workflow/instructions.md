@@ -148,7 +148,7 @@ Generate the instructions.md file following the workflow creation guide:
 
 4. Use proper XML tags from guide:
    - Execution: <action>, <check>, <ask>, <goto>, <invoke-workflow>
-   - Output: <template-output>, <elicit-required/>, <critical>, <example>
+   - Output: <template-output>, <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>, <critical>, <example>
    - Flow: <loop>, <break>, <continue>
 
 5. Best practices from guide:

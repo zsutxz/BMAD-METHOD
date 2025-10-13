@@ -80,7 +80,7 @@ Search queries to execute:
 - "[market_category] market growth rate CAGR forecast"
 - "[market_category] market trends [current_year]"
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 </step>
 
 <step n="3b" title="Regulatory and Government Data">
@@ -204,8 +204,8 @@ For each major segment, research and define:
 - Purchasing frequency
 - Budget allocation
 
-<elicit-required/>
-<template-output>segment_profile_{{segment_number}}</template-output>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
+<template-output>segment*profile*{{segment_number}}</template-output>
 </step>
 
 <step n="5b" title="Jobs-to-be-Done Framework">
@@ -280,8 +280,8 @@ Gather intelligence on:
 - Team and leadership
 - Customer reviews and sentiment
 
-<elicit-required/>
-<template-output>competitor_analysis_{{competitor_number}}</template-output>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
+<template-output>competitor*analysis*{{competitor_number}}</template-output>
 </step>
 
 <step n="6c" title="Competitive Positioning Map">
@@ -404,7 +404,7 @@ For each opportunity:
 - Risk assessment
 - Success criteria
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 <template-output>market_opportunities</template-output>
 </step>
 

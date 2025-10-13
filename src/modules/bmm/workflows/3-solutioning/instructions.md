@@ -282,7 +282,7 @@ Based on your requirements, I need to determine the architecture pattern:
 {{project_type_specific_questions}}
 </ask>
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 <template-output>architecture_pattern</template-output>
 </step>
 
@@ -335,7 +335,7 @@ NOTE: For hybrid projects (e.g., "web + mobile"), load multiple question files
 {{project_type_specific_questions}}
 </ask>
 
-<elicit-required/>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 <template-output>architecture_decisions</template-output>
 </step>
 
@@ -707,12 +707,12 @@ In "### Implementation Progress (Phase 4 Only)" section:
 
 Populate table with ALL stories:
 
-| Epic | Story | ID | Title | File |
-|------|-------|----|-------|------|
-| 1 | 1 | 1.1 | {{story_title}} | story-1.1.md |
-| 1 | 2 | 1.2 | {{story_title}} | story-1.2.md |
-| 1 | 3 | 1.3 | {{story_title}} | story-1.3.md |
-| 2 | 1 | 2.1 | {{story_title}} | story-2.1.md |
+| Epic | Story | ID  | Title           | File         |
+| ---- | ----- | --- | --------------- | ------------ |
+| 1    | 1     | 1.1 | {{story_title}} | story-1.1.md |
+| 1    | 2     | 1.2 | {{story_title}} | story-1.2.md |
+| 1    | 3     | 1.3 | {{story_title}} | story-1.3.md |
+| 2    | 1     | 2.1 | {{story_title}} | story-2.1.md |
 ... (all stories)
 
 **Total in backlog:** {{total_story_count}} stories
@@ -737,9 +737,9 @@ Leave empty initially:
 
 Initialize empty table:
 
-| Story ID | File | Completed Date | Points |
-|----------|------|----------------|--------|
-| (none yet) | | | |
+| Story ID   | File | Completed Date | Points |
+| ---------- | ---- | -------------- | ------ |
+| (none yet) |      |                |        |
 
 **Total completed:** 0 stories
 **Total points completed:** 0 points
