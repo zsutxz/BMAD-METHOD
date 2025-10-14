@@ -51,17 +51,36 @@ The workflow adapts automatically based on project assessment, but key configura
 
 ```
 plan-project/
-├── workflow.yaml              # Configuration and metadata
-├── instructions-router.md     # Initial assessment and routing logic
-├── instructions-sm.md         # Level 0 instructions (tech-spec only)
-├── instructions-med.md        # Level 1-2 instructions (PRD + tech-spec)
-├── instructions-lg.md         # Level 3-4 instructions (full PRD + epics)
-├── analysis-template.md       # Project assessment template
-├── prd-template.md           # Product Requirements Document template
-├── tech-spec-template.md     # Technical Specification template
-├── epics-template.md         # Epic breakdown template
-├── checklist.md              # Validation criteria
-└── README.md                 # This file
+├── README.md                      # Overview and usage details
+├── checklist.md                   # Validation criteria
+├── instructions-router.md         # Initial assessment and routing logic
+├── workflow.yaml                  # Configuration and metadata
+├── gdd/
+│   ├── gdd-template.md            # Game Design Document template
+│   ├── instructions-gdd.md        # Genre-aware GDD instructions
+│   └── workflow.yaml
+├── narrative/
+│   ├── instructions-narrative.md  # Narrative design instructions
+│   ├── narrative-template.md      # Narrative planning template
+│   └── workflow.yaml
+├── prd/
+│   ├── epics-template.md          # Epic breakdown template
+│   ├── instructions-lg.md         # Level 3-4 PRD instructions
+│   ├── instructions-med.md        # Level 1-2 PRD instructions
+│   ├── prd-template.md            # Product Requirements Document template
+│   └── workflow.yaml
+├── tech-spec/
+│   ├── epic-stories-template.md   # Epic-to-story handoff template
+│   ├── instructions-level0-story.md
+│   ├── instructions-level1-stories.md
+│   ├── instructions-sm.md         # Level 0 tech-spec instructions
+│   ├── tech-spec-template.md      # Technical Specification template
+│   ├── user-story-template.md     # Story template for Level 0/1
+│   └── workflow.yaml
+└── ux/
+    ├── instructions-ux.md         # UX specification instructions
+    ├── ux-spec-template.md        # UX specification template
+    └── workflow.yaml
 ```
 
 ## Workflow Process

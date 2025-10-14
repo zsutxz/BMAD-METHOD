@@ -103,7 +103,6 @@ web_bundle:
     - "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
     - "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
     - "bmad/bmm/workflows/2-plan/prd/prd-template.md"
-    - "bmad/bmm/workflows/2-plan/prd/analysis-template.md"
     - "bmad/bmm/workflows/2-plan/prd/epics-template.md"
     - "bmad/bmm/workflows/2-plan/tech-spec/tech-spec-template.md"
     - "bmad/bmm/workflows/2-plan/ux/ux-spec-template.md"
