@@ -1,6 +1,6 @@
 # Product Requirements Document (PRD) Workflow
 name: prd
-description: "Scale-adaptive PRD workflow for project levels 1-4. Level 1-2: focused PRD + solutioning handoff. Level 3-4: full PRD with epics + architect handoff. Automatically adjusts scope based on project complexity."
+description: "Scale-adaptive PRD workflow for project levels 2-4. All levels hand off to solutioning workflow (solution-architecture). Automatically adjusts scope based on project complexity. Note: Level 0-1 use tech-spec workflow."
 author: "BMad"
 
 # Critical variables from config
@@ -13,9 +13,8 @@ date: system-generated
 # Workflow components
 installed_path: "{project-root}/bmad/bmm/workflows/2-plan/prd"
 
-# Instructions - routes to appropriate level-based instructions
-instructions_med: "{installed_path}/instructions-med.md" # Level 1-2
-instructions_lg: "{installed_path}/instructions-lg.md" # Level 3-4
+# Instructions - unified for all levels (2-4) with adaptive logic
+instructions: "{installed_path}/instructions.md" # Level 2-4 (scale-adaptive)
 
 # Templates
 prd_template: "{installed_path}/prd-template.md"
@@ -35,10 +34,9 @@ recommended_inputs:
 
 # Scale parameters - adaptive by project level
 scale_parameters:
-  level_1: "1-10 stories, 1 epic, minimal PRD + solutioning handoff"
   level_2: "5-15 stories, 1-2 epics, focused PRD + solutioning handoff"
-  level_3: "12-40 stories, 2-5 epics, full PRD + architect handoff"
-  level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
+  level_3: "12-40 stories, 2-5 epics, comprehensive PRD + solutioning handoff"
+  level_4: "40+ stories, 5+ epics, enterprise PRD + solutioning handoff"
 
 # Claude Code integration points
 claude_code_enhancements:
@@ -64,24 +62,21 @@ frameworks:
 
 web_bundle:
   name: "prd"
-  description: "Scale-adaptive PRD workflow for project levels 1-4. Level 1-2: focused PRD + solutioning handoff. Level 3-4: full PRD with epics + architect handoff. Automatically adjusts scope based on project complexity."
+  description: "Scale-adaptive PRD workflow for project levels 2-4. All levels hand off to solutioning workflow (solution-architecture). Automatically adjusts scope based on project complexity. Note: Level 0-1 use tech-spec workflow."
   author: "BMad"
-  # Note: Router workflow will load appropriate instructions based on level
-  instructions_med: "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
-  instructions_lg: "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
+  # Single unified instruction file with adaptive logic
+  instructions: "bmad/bmm/workflows/2-plan/prd/instructions.md"
   use_advanced_elicitation: true
   web_bundle_files:
-    - "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
-    - "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
+    - "bmad/bmm/workflows/2-plan/prd/instructions.md"
     - "bmad/bmm/workflows/2-plan/prd/prd-template.md"
     - "bmad/bmm/workflows/_shared/bmm-workflow-status-template.md"
     - "bmad/bmm/workflows/2-plan/prd/epics-template.md"
   # Scale parameters - adaptive by project level
   scale_parameters:
-    level_1: "1-10 stories, 1 epic, minimal PRD + solutioning handoff"
     level_2: "5-15 stories, 1-2 epics, focused PRD + solutioning handoff"
-    level_3: "12-40 stories, 2-5 epics, full PRD + architect handoff"
-    level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
+    level_3: "12-40 stories, 2-5 epics, comprehensive PRD + solutioning handoff"
+    level_4: "40+ stories, 5+ epics, enterprise PRD + solutioning handoff"
   # Product frameworks available
   frameworks:
     - "Jobs-to-be-Done"
