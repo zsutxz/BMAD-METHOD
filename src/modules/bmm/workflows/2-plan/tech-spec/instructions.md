@@ -118,7 +118,7 @@ Run cohesion validation? (y/n)</ask>
 
 <check if="project_level == 1">
   <action>Invoke instructions-level1-stories.md to generate epic and stories</action>
-  <action>Epic and stories will be saved to epic-stories.md</action>
+  <action>Epic and stories will be saved to epics.md
   <action>Stories link to tech-spec.md implementation tasks</action>
 </check>
 
@@ -133,7 +133,7 @@ Run cohesion validation? (y/n)</ask>
 </check>
 
 <check if="project_level == 1">
-  <action>Confirm epic-stories.md generated successfully</action>
+  <action>Confirm epics.md generated successfully</action>
 </check>
 
 ## Summary
@@ -145,7 +145,7 @@ Run cohesion validation? (y/n)</ask>
 </check>
 
 <check if="project_level == 1">
-- **Level 1 Output**: tech-spec.md + epic-stories.md
+- **Level 1 Output**: tech-spec.md + epics.md
 - **No PRD required**
 - **Ready for sprint planning with epic/story breakdown**
 </check>

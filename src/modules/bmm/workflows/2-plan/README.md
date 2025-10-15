@@ -70,10 +70,10 @@ plan-project/
 │   ├── prd-template.md            # Product Requirements Document template
 │   └── workflow.yaml
 ├── tech-spec/
-│   ├── epic-stories-template.md   # Epic-to-story handoff template
+│   ├── epics-template.md          # Epic-to-story handoff template
 │   ├── instructions-level0-story.md
 │   ├── instructions-level1-stories.md
-│   ├── instructions-sm.md         # Level 0 tech-spec instructions
+│   ├── instructions.md         # Level 0 tech-spec instructions
 │   ├── tech-spec-template.md      # Technical Specification template
 │   ├── user-story-template.md     # Story template for Level 0/1
 │   └── workflow.yaml

@@ -58,7 +58,7 @@ scale_parameters:
   level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
 
 #Do not load these directly - instructions-router.md will load the proper file based on project type/level when needed
-instructions_sm: "{installed_path}/tech-spec/instructions-sm.md"
+instructions_sm: "{installed_path}/tech-spec/instructions.md"
 instructions_med: "{installed_path}/prd/instructions-med.md"
 instructions_lg: "{installed_path}/prd/instructions-lg.md"
 instructions_ux: "{installed_path}/ux/instructions-ux.md"
@@ -75,7 +75,7 @@ web_bundle:
   validation: "bmad/bmm/workflows/2-plan/checklist.md"
   use_advanced_elicitation: true
   # Do not load these directly - instructions-router.md will load the proper file based on project type/level when needed
-  instructions_sm: "bmad/bmm/workflows/2-plan/tech-spec/instructions-sm.md"
+  instructions_sm: "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
   instructions_med: "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
   instructions_lg: "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
   instructions_ux: "bmad/bmm/workflows/2-plan/ux/instructions-ux.md"
@@ -99,7 +99,7 @@ web_bundle:
     level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan/instructions-router.md"
-    - "bmad/bmm/workflows/2-plan/tech-spec/instructions-sm.md"
+    - "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
     - "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
     - "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
     - "bmad/bmm/workflows/2-plan/prd/prd-template.md"

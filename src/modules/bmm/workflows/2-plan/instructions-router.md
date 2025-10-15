@@ -91,7 +91,7 @@ After updating your plan, return here if needed.
 <action>Check for existing workflow outputs based on level in status file:</action>
 
 - Level 0: Check for tech-spec.md
-- Level 1-2: Check for PRD.md, epic-stories.md, tech-spec.md
+- Level 1-2: Check for PRD.md, epics.md, tech-spec.md
 - Level 3-4: Check for PRD.md, epics.md
 
   <check if="outputs exist">
