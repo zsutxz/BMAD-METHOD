@@ -204,7 +204,8 @@ If updating existing web bundle:
 - [ ] Instructions communicate in {communication_language} where appropriate
 - [ ] Instructions address {user_name} where appropriate
 - [ ] Instructions write to {output_folder} for file outputs
-- [ ] Template includes {{user_name}}, {{date}} in metadata (if document workflow)
+- [ ] Template optionally includes {{user_name}}, {{date}} in metadata (if document workflow)
+- [ ] Template does NOT use {{communication_language}} in headers (agent-only variable)
 
 **YAML/File Alignment:**
 

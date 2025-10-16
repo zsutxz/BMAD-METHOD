@@ -115,7 +115,27 @@ _None yet_
 
 ## Issues/Notes Log
 
-_Track any anomalies, decisions, or special cases here_
+### 2025-10-16: Created audit-workflow
+
+- **Location:** `/bmad/bmb/workflows/audit-workflow/`
+- **Purpose:** Codifies all Phase 1 and Phase 2 standards into a reusable validation tool
+- **Files Created:**
+  - `workflow.yaml` - Configuration with standard config block
+  - `instructions.md` - 8-step audit process
+  - `checklist.md` - 70-point validation checklist
+- **Validation:** audit-workflow passes 100% of its own validation criteria
+- **Next Use:** Will be used to perform Phase 3 systematic audits
+
+**Audit-Workflow Capabilities:**
+
+1. Standard config block validation
+2. YAML/instruction/template alignment analysis
+3. Config variable usage audit
+4. Web bundle completeness validation
+5. Bloat detection (unused yaml fields)
+6. Template variable mapping verification
+7. Comprehensive audit report generation
+8. Integration with edit-workflow for fixes
 
 ---
 

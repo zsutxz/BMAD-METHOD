@@ -201,15 +201,19 @@ Generate the template.md file following guide conventions:
 1. Document structure with clear sections
 2. Variable syntax: {{variable_name}} using snake_case
 3. Variable names MUST match <template-output> tags exactly from instructions
-4. Include standard metadata header using config variables:
+4. Include standard metadata header (optional - config variables available):
 
    ```markdown
    # Document Title
 
    **Date:** {{date}}
    **Author:** {{user_name}}
-   **Language:** {{communication_language}}
    ```
+
+   Note: {{date}} and {{user_name}} are optional in headers. Primary purpose of these variables:
+   - {{date}} - Gives agent current date awareness (not confused with training cutoff)
+   - {{user_name}} - Optional author attribution
+   - {{communication_language}} - NOT for document output! Tells agent how to communicate during execution
 
 5. Follow naming conventions from guide:
    - Use descriptive names: {{primary_user_journey}} not {{puj}}
@@ -225,11 +229,16 @@ Variable sources as per guide:
 
 <critical>Standard config variables in templates:</critical>
 
-Templates MUST use standard config variables in headers:
+Templates CAN optionally use these config variables:
 
-- {{user_name}} - Document author
-- {{date}} - Generation date
-- {{communication_language}} - Content language (if multilingual)
+- {{user_name}} - Document author (optional)
+- {{date}} - Generation date (optional)
+
+IMPORTANT: {{communication_language}} is NOT for document headers!
+
+- Purpose: Tells agent how to communicate with user during workflow execution
+- NOT for: Document output language or template headers
+- Future: {{document_output_language}} will handle multilingual document generation
 
 These variables are automatically available from workflow.yaml config block.
 
