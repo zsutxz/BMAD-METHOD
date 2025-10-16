@@ -116,7 +116,7 @@ date: system-generated
 3. ✅ design-thinking - Fixed: removed use_advanced_elicitation bloat, removed duplicate design_methods
 4. ✅ innovation-strategy - Fixed: removed use_advanced_elicitation bloat, removed duplicate innovation_frameworks
 
-**BMM Module (10/30 cleaned so far):** 5. ✅ brainstorm-game - Fixed: removed use_advanced_elicitation bloat 6. ✅ brainstorm-project - Fixed: removed use_advanced_elicitation bloat 7. ✅ game-brief - Fixed: removed use_advanced_elicitation bloat 8. ✅ product-brief - Fixed: removed use_advanced_elicitation bloat 9. ✅ research - Fixed: removed use_advanced_elicitation bloat 10. ✅ gdd - Fixed: removed use_advanced_elicitation bloat 11. ✅ narrative - Fixed: removed use_advanced_elicitation bloat 12. ✅ prd - Fixed: removed use_advanced_elicitation bloat 13. ✅ tech-spec (2-plan) - Fixed: removed use_advanced_elicitation bloat 14. ✅ ux - Fixed: removed use_advanced_elicitation bloat
+**BMM Module (2/30 fully audited, 8/30 surface cleaned):** 5. ✅ **brainstorm-game** - FULL AUDIT: removed use_advanced_elicitation bloat, restored existing_workflows (critical), added {communication_language} and {user_name} 6. ✅ **brainstorm-project** - FULL AUDIT: removed use_advanced_elicitation bloat, restored existing_workflows (critical), added {communication_language} and {user_name} 7. ⚠️ game-brief - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 8. ⚠️ product-brief - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 9. ⚠️ research - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 10. ⚠️ gdd - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 11. ⚠️ narrative - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 12. ⚠️ prd - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 13. ⚠️ tech-spec (2-plan) - Surface clean only: removed use_advanced_elicitation bloat (needs full audit) 14. ⚠️ ux - Surface clean only: removed use_advanced_elicitation bloat (needs full audit)
 
 **Common Issues Found:**
 
@@ -150,6 +150,68 @@ date: system-generated
 6. Template variable mapping verification
 7. Comprehensive audit report generation
 8. Integration with edit-workflow for fixes
+
+### 2025-10-16: Added Instruction Style Philosophy to create-workflow
+
+- **Enhancement:** Added comprehensive guidance on intent-based vs prescriptive instruction patterns
+- **Location:** `/src/modules/bmb/workflows/create-workflow/instructions.md` Step 5
+- **Changes:**
+  - Added instruction style choice in Step 3 (intent-based vs prescriptive)
+  - Added 100+ line section in Step 5 with examples and best practices
+  - Documented when to use each style and how to mix both effectively
+  - Provided clear "good" and "bad" examples for each pattern
+  - Emphasized goal-oriented collaboration over rigid prescriptive wording
+
+**Key Philosophy Shift:**
+
+- **Intent-Based (Recommended):** Guide LLM with goals and principles, let it adapt conversations naturally
+  - Better for complex discovery, creative work, iterative refinement
+  - Example: `<action>Guide user to define their target audience with specific demographics and needs</action>`
+
+- **Prescriptive (Selective Use):** Provide exact wording for questions and options
+  - Better for simple data collection, compliance, binary choices
+  - Example: `<ask>What is your target platform? Choose: PC, Console, Mobile, Web</ask>`
+
+**Impact:** Future workflows will be more conversational and adaptive, improving human-AI collaboration quality
+
+### 2025-10-16: Transformed game-brief to Intent-Based Style
+
+- **Transformation:** Converted game-brief from prescriptive to intent-based instructions
+- **Location:** `/src/modules/bmm/workflows/1-analysis/game-brief/instructions.md`
+- **Results:**
+  - **Before:** 617 lines (heavily prescriptive with hardcoded question templates)
+  - **After:** 370 lines (intent-based with goal-oriented guidance)
+  - **Reduction:** 247 lines removed (40% reduction)
+
+**Changes Made:**
+
+- Step 1: Converted hardcoded "What is the working title?" to intent-based "Ask for the working title"
+- Step 1b: Transformed 7 prescriptive bullet points to 5 action-based guidance lines
+- Steps 3-12 (Interactive Mode): Replaced massive <ask> blocks with compact <action> guidance
+  - Step 4 (Target Market): 31 lines → 8 lines
+  - Step 5 (Game Fundamentals): 33 lines → 10 lines
+  - Step 6 (Scope/Constraints): 47 lines → 11 lines
+  - Step 7 (Reference Framework): 33 lines → 8 lines
+  - Step 8 (Content Framework): 32 lines → 9 lines
+  - Step 9 (Art/Audio): 32 lines → 8 lines
+  - Step 10 (Risks): 38 lines → 9 lines
+  - Step 11 (Success): 37 lines → 9 lines
+  - Step 12 (Next Steps): 35 lines → 9 lines
+
+**Pattern Applied:**
+
+- **Old (Prescriptive):** `<ask>Who will play your game? **Primary Audience:** - Age range - Gaming experience level...</ask>`
+- **New (Intent-Based):** `<action>Guide user to define their primary target audience with specific demographics, gaming preferences, and behavioral characteristics</action>`
+
+**Benefits:**
+
+- More conversational and adaptive LLM behavior
+- Cleaner, more maintainable instructions
+- Better human-AI collaboration
+- LLM can adapt questions to user context naturally
+- Demonstrates the philosophy shift documented in create-workflow
+
+**This serves as the reference implementation for converting prescriptive workflows to intent-based style.**
 
 ---
 

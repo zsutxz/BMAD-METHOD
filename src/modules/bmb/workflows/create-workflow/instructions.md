@@ -91,6 +91,27 @@ Work with user to outline the workflow steps:
 - Which steps should repeat?
 - What variables/outputs does each step produce?
 
+<ask>What instruction style should this workflow favor?
+
+**1. Intent-Based (Recommended)** - Guide the LLM with goals and principles, let it adapt conversations naturally
+
+- More flexible and conversational
+- LLM chooses appropriate questions based on context
+- Better for complex discovery and iterative refinement
+- Example: `<action>Guide user to define their target audience with specific demographics and needs</action>`
+
+**2. Prescriptive** - Provide exact wording for questions and options
+
+- More controlled and predictable
+- Ensures consistency across runs
+- Better for simple data collection or specific compliance needs
+- Example: `<ask>What is your target platform? Choose: PC, Console, Mobile, Web</ask>`
+
+Note: Your choice will be the _primary_ style, but we'll use the other when it makes more sense for specific steps.</ask>
+
+<action>Store instruction_style preference (intent-based or prescriptive)</action>
+<action>Explain that both styles have value and will be mixed appropriately</action>
+
 Create a step outline with clear goals and outputs.
 </step>
 
@@ -187,6 +208,122 @@ Example usage in instructions:
 <critical>Communicate all responses in {communication_language}</critical>
 <output>Hello {user_name}, the workflow is complete!</output>
 ```
+
+<critical>Applying instruction style preference:</critical>
+
+Based on the {{instruction_style}} preference from Step 3, generate instructions using these patterns:
+
+**Intent-Based Instructions (Recommended for most workflows):**
+
+Focus on goals, principles, and desired outcomes. Let the LLM adapt the conversation naturally.
+
+✅ **Good Examples:**
+
+```xml
+<!-- Discovery and exploration -->
+<action>Guide user to define their target audience with specific demographics, psychographics, and behavioral characteristics</action>
+<action>Explore the user's vision for the product, asking probing questions to uncover core motivations and success criteria</action>
+<action>Help user identify and prioritize key features based on user value and technical feasibility</action>
+
+<!-- Validation and refinement -->
+<action>Validate that the technical approach aligns with project constraints and team capabilities</action>
+<action>Challenge assumptions about user needs and market fit with thought-provoking questions</action>
+
+<!-- Complex iterative work -->
+<action>Collaborate with user to refine the architecture, iterating until they're satisfied with the design</action>
+```
+
+❌ **Avoid (too prescriptive):**
+
+```xml
+<ask>What is your target audience age range? Choose: 18-24, 25-34, 35-44, 45+</ask>
+<ask>List exactly 3 key features in priority order</ask>
+```
+
+**When to use Intent-Based:**
+
+- Complex discovery processes (user research, requirements gathering)
+- Creative brainstorming and ideation
+- Iterative refinement workflows
+- When user input quality matters more than consistency
+- Workflows requiring adaptation to context
+
+**Prescriptive Instructions (Use selectively):**
+
+Provide exact wording, specific options, and controlled interactions.
+
+✅ **Good Examples:**
+
+```xml
+<!-- Simple data collection -->
+<ask>What is your target platform? Choose: PC, Console, Mobile, Web</ask>
+<ask>Select monetization model: Premium, Free-to-Play, Subscription, Ad-Supported</ask>
+
+<!-- Compliance and standards -->
+<ask>Does this comply with GDPR requirements? [yes/no]</ask>
+<ask>Choose documentation standard: JSDoc, TypeDoc, TSDoc</ask>
+
+<!-- Binary decisions -->
+<ask>Do you want to generate test cases? [yes/no]</ask>
+<ask>Include performance benchmarks? [yes/no]</ask>
+```
+
+❌ **Avoid (too rigid for complex tasks):**
+
+```xml
+<ask>What are your product goals? List exactly 5 goals, each 10-15 words</ask>
+<ask>Describe your user persona in exactly 3 sentences</ask>
+```
+
+**When to use Prescriptive:**
+
+- Simple data collection (platform, format, yes/no choices)
+- Compliance verification and standards adherence
+- Configuration with finite options
+- When consistency is critical across all executions
+- Quick setup wizards
+
+**Mixing Both Styles (Best Practice):**
+
+Even if user chose a primary style, use the other when appropriate:
+
+```xml
+<!-- Intent-based workflow with prescriptive moments -->
+<step n="1" goal="Understand user vision">
+  <action>Explore the user's vision for their game, uncovering their creative intent and target experience</action>
+  <action>Ask probing questions about genre, themes, and emotional tone they want to convey</action>
+</step>
+
+<step n="2" goal="Capture basic metadata">
+  <ask>What is your target platform? Choose: PC, Console, Mobile, Web</ask> <!-- Prescriptive for simple choice -->
+  <ask>Select primary genre: Action, RPG, Strategy, Puzzle, Simulation, Other</ask>
+</step>
+
+<step n="3" goal="Deep dive into gameplay">
+  <action>Guide user to articulate their core gameplay loop, exploring mechanics and player agency</action> <!-- Back to intent-based -->
+  <action>Help them identify what makes their game unique and compelling</action>
+</step>
+```
+
+**Guidelines for the chosen style:**
+
+If user chose **Intent-Based**:
+
+- Default to goal-oriented <action> tags
+- Use open-ended guidance language
+- Save prescriptive <ask> tags for simple data/choices
+- Focus on "guide", "explore", "help user", "validate"
+- Allow LLM to adapt questions to user responses
+
+If user chose **Prescriptive**:
+
+- Default to explicit <ask> tags with clear options
+- Use precise wording for consistency
+- Save intent-based <action> tags for complex discovery
+- Focus on "choose", "select", "specify", "confirm"
+- Provide structured choices when possible
+
+**Remember:** The goal is optimal human-AI collaboration. Use whichever style best serves the user at each step.
 
 <critical>Save location:</critical>
 
