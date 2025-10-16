@@ -37,6 +37,26 @@ Analyze for:
 - **Template variables**: Use snake_case and descriptive names?
 - **Validation criteria**: Are checklist items measurable and specific?
 
+**Standard Config Audit:**
+
+- **workflow.yaml config block**: Check for standard config variables
+  - Is config_source defined?
+  - Are output_folder, user_name, communication_language pulled from config?
+  - Is date set to system-generated?
+- **Instructions usage**: Do instructions use config variables?
+  - Does it communicate in {communication_language}?
+  - Does it address {user_name}?
+  - Does it write to {output_folder}?
+- **Template usage**: Does template.md include config variables in metadata?
+
+**YAML/File Alignment:**
+
+- **Unused yaml fields**: Are there variables in workflow.yaml not used in instructions OR template?
+- **Missing variables**: Are there hardcoded values that should be variables?
+- **Web bundle completeness**: If web_bundle exists, does it include all dependencies?
+  - All referenced files listed?
+  - Called workflows included?
+
 <action>Create a list of identified issues or improvement opportunities</action>
 <action>Prioritize issues by importance (critical, important, nice-to-have)</action>
 </step>
@@ -47,20 +67,39 @@ Present the editing menu to the user:
 **What aspect would you like to edit?**
 
 1. **Fix critical issues** - Address missing headers, broken references
-2. **Update workflow.yaml** - Modify configuration, paths, metadata
-3. **Refine instructions** - Improve steps, add detail, fix flow
-4. **Update template** - Fix variables, improve structure (if applicable)
-5. **Enhance validation** - Make checklist more specific and measurable
-6. **Add new features** - Add steps, optional sections, or capabilities
-7. **Configure web bundle** - Add/update web bundle for deployment
-8. **Optimize for clarity** - Improve descriptions, add examples
-9. **Full review and update** - Comprehensive improvements across all files
+2. **Add/fix standard config** - Ensure standard config block and variable usage
+3. **Update workflow.yaml** - Modify configuration, paths, metadata
+4. **Refine instructions** - Improve steps, add detail, fix flow
+5. **Update template** - Fix variables, improve structure (if applicable)
+6. **Enhance validation** - Make checklist more specific and measurable
+7. **Add new features** - Add steps, optional sections, or capabilities
+8. **Configure web bundle** - Add/update web bundle for deployment
+9. **Remove bloat** - Delete unused yaml fields, duplicate values
+10. **Optimize for clarity** - Improve descriptions, add examples
+11. **Full review and update** - Comprehensive improvements across all files
 
-<ask>Select an option (1-9) or describe a custom edit:</ask>
+<ask>Select an option (1-11) or describe a custom edit:</ask>
 </step>
 
 <step n="4" goal="Load relevant documentation">
 Based on the selected edit type, load appropriate reference materials:
+
+<check>If option 2 (Add/fix standard config):</check>
+<action>Prepare standard config block template:</action>
+
+```yaml
+# Critical variables from config
+config_source: '{project-root}/bmad/{module}/config.yaml'
+output_folder: '{config_source}:output_folder'
+user_name: '{config_source}:user_name'
+communication_language: '{config_source}:communication_language'
+date: system-generated
+```
+
+<action>Check if workflow.yaml has existing config section (don't duplicate)</action>
+<action>Identify missing config variables to add</action>
+<action>Check instructions.md for config variable usage</action>
+<action>Check template.md for config variable usage</action>
 
 <check>If editing instructions or adding features:</check>
 <action>Review the "Writing Instructions" section of the creation guide</action>
@@ -73,10 +112,16 @@ Based on the selected edit type, load appropriate reference materials:
 <check>If editing validation:</check>
 <action>Review the "Validation" section and measurable criteria examples</action>
 
+<check>If option 9 (Remove bloat):</check>
+<action>Cross-reference all workflow.yaml fields against instructions.md and template.md</action>
+<action>Identify yaml fields not used in any file</action>
+<action>Check for duplicate fields in web_bundle section</action>
+
 <check>If configuring web bundle:</check>
 <action>Review the "Web Bundles" section of the creation guide</action>
 <action>Scan all workflow files for referenced resources</action>
 <action>Create inventory of all files that must be included</action>
+<action>Scan instructions for <invoke-workflow> calls - those yamls must be included</action>
 
 <check>If fixing critical issues:</check>
 <action>Load the workflow execution engine documentation</action>
@@ -138,7 +183,7 @@ If updating existing web bundle:
 <step n="6" goal="Validate all changes" optional="true">
 <action>Run a comprehensive validation check:</action>
 
-Validation checks:
+**Basic Validation:**
 
 - [ ] All file paths resolve correctly
 - [ ] Variable names are consistent across files
@@ -151,13 +196,31 @@ Validation checks:
 - [ ] Critical headers are present in instructions
 - [ ] YAML syntax is valid
 
-Web bundle validation (if applicable):
+**Standard Config Validation:**
+
+- [ ] workflow.yaml contains config_source
+- [ ] output_folder, user_name, communication_language pulled from config
+- [ ] date set to system-generated
+- [ ] Instructions communicate in {communication_language} where appropriate
+- [ ] Instructions address {user_name} where appropriate
+- [ ] Instructions write to {output_folder} for file outputs
+- [ ] Template includes {{user_name}}, {{date}} in metadata (if document workflow)
+
+**YAML/File Alignment:**
+
+- [ ] All workflow.yaml variables used in instructions OR template
+- [ ] No unused yaml fields (bloat-free)
+- [ ] No duplicate fields between top-level and web_bundle
+- [ ] Template variables match <template-output> tags in instructions
+
+**Web bundle validation (if applicable):**
 
 - [ ] web_bundle section present if needed
 - [ ] All paths are bmad/-relative (no {project-root})
 - [ ] No {config_source} variables in web bundle
 - [ ] All referenced files listed in web_bundle_files
 - [ ] Instructions, validation, template paths correct
+- [ ] Called workflows (<invoke-workflow>) included in web_bundle_files
 - [ ] Complete file inventory verified
 
 <check>If any validation fails:</check>

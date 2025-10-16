@@ -116,6 +116,19 @@ Include:
 - Required tools if any
 - Recommended inputs if any
 
+<critical>ALWAYS include the standard config block:</critical>
+
+```yaml
+# Critical variables from config
+config_source: '{project-root}/bmad/{{target_module}}/config.yaml'
+output_folder: '{config_source}:output_folder'
+user_name: '{config_source}:user_name'
+communication_language: '{config_source}:communication_language'
+date: system-generated
+```
+
+<critical>This standard config ensures workflows can run autonomously and communicate properly with users</critical>
+
 Follow path conventions from guide:
 
 - Use {project-root} for absolute paths
@@ -158,6 +171,23 @@ Generate the instructions.md file following the workflow creation guide:
    - Set limits ("3-5 items maximum")
    - Save checkpoints with <template-output>
 
+<critical>Standard config variable usage:</critical>
+
+Instructions MUST use the standard config variables where appropriate:
+
+- Communicate in {communication_language} throughout the workflow
+- Address user as {user_name} in greetings and summaries
+- Write all output files to {output_folder} or subdirectories
+- Include {date} in generated document headers
+
+Example usage in instructions:
+
+```xml
+<action>Write document to {output_folder}/output-file.md</action>
+<critical>Communicate all responses in {communication_language}</critical>
+<output>Hello {user_name}, the workflow is complete!</output>
+```
+
 <critical>Save location:</critical>
 
 - Write to {{output_folder}}/instructions.md
@@ -171,9 +201,16 @@ Generate the template.md file following guide conventions:
 1. Document structure with clear sections
 2. Variable syntax: {{variable_name}} using snake_case
 3. Variable names MUST match <template-output> tags exactly from instructions
-4. Include standard metadata:
-   - **Date:** {{date}}
-   - **Author:** {{user_name}} (if applicable)
+4. Include standard metadata header using config variables:
+
+   ```markdown
+   # Document Title
+
+   **Date:** {{date}}
+   **Author:** {{user_name}}
+   **Language:** {{communication_language}}
+   ```
+
 5. Follow naming conventions from guide:
    - Use descriptive names: {{primary_user_journey}} not {{puj}}
    - Snake_case for all variables
@@ -181,10 +218,20 @@ Generate the template.md file following guide conventions:
 
 Variable sources as per guide:
 
-- workflow.yaml config values
+- workflow.yaml config values (user_name, communication_language, date, output_folder)
 - User input runtime values
 - Step outputs via <template-output>
 - System variables (date, paths)
+
+<critical>Standard config variables in templates:</critical>
+
+Templates MUST use standard config variables in headers:
+
+- {{user_name}} - Document author
+- {{date}} - Generation date
+- {{communication_language}} - Content language (if multilingual)
+
+These variables are automatically available from workflow.yaml config block.
 
 <critical>Save location:</critical>
 
@@ -230,11 +277,31 @@ If yes, create placeholder files or copy from templates.
 
 <step n="9" goal="Test and validate workflow">
 Review the created workflow:
+
+**Basic Validation:**
+
 1. Verify all file paths are correct
 2. Check variable names match between files
 3. Ensure step numbering is sequential
 4. Validate YAML syntax
 5. Confirm all placeholders are replaced
+
+**Standard Config Validation:** 6. Verify workflow.yaml contains standard config block:
+
+- config_source defined
+- output_folder, user_name, communication_language pulled from config
+- date set to system-generated
+
+7. Check instructions use config variables where appropriate
+8. Verify template includes config variables in metadata (if document workflow)
+
+**YAML/Instruction/Template Alignment:** 9. Cross-check all workflow.yaml variables against instruction usage:
+
+- Are all yaml variables referenced in instructions.md OR template.md?
+- Are there hardcoded values that should be variables?
+- Do template variables match <template-output> tags in instructions?
+
+10. Identify any unused yaml fields (bloat detection)
 
 Show user a summary of created files and their locations.
 Ask if they want to:
@@ -262,12 +329,24 @@ If yes:
    - Remove {config_source} references (use hardcoded values)
    - Example: "{project-root}/bmad/bmm/workflows/x" → "bmad/bmm/workflows/x"
 
-3. List ALL referenced files:
-   - Scan instructions.md for any file paths
-   - Scan template.md for any includes or references
-   - Include all data files (CSV, JSON, etc.)
-   - Include any sub-workflow YAML files
-   - Include any shared templates
+3. List ALL referenced files by scanning:
+
+   **Scan instructions.md for:**
+   - File paths in <action> tags
+   - Data files (CSV, JSON, YAML, etc.)
+   - Validation/checklist files
+   - Any <invoke-workflow> calls → must include that workflow's yaml file
+   - Any <goto> tags that reference other workflows
+   - Shared templates or includes
+
+   **Scan template.md for:**
+   - Any includes or references to other files
+   - Shared template fragments
+
+   **Critical: Workflow Dependencies**
+   - If instructions call another workflow, that workflow's yaml MUST be in web_bundle_files
+   - Example: `<invoke-workflow>{project-root}/bmad/core/workflows/x/workflow.yaml</invoke-workflow>`
+     → Add "bmad/core/workflows/x/workflow.yaml" to web_bundle_files
 
 4. Create web_bundle_files array with complete list
 
