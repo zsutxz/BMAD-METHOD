@@ -44,7 +44,7 @@
 <action>Set progress_percentage = 40%</action>
 <action>Save bmm-workflow-status.md</action>
 
-<action>Initialize tech-spec.md using tech_spec_template from workflow.yaml</action>
+<action>Initialize and write out tech-spec.md using tech_spec_template</action>
 
 <critical>DEFINITIVE DECISIONS REQUIRED:</critical>
 

@@ -63,10 +63,12 @@ Options:
 2. **Follow planned workflow** - Run {{next_step}} instead
 3. **Update workflow plan** - Run workflow-status to revise plan
 
-Your choice (1-3):</ask>
+Your choice (1-3):
 
-    <check if='choice == "2"'>
-      <output>**Recommended Next Step:**
+</ask>
+
+  <check if='choice == "2"'>
+    <output>**Recommended Next Step:**
 
 Load agent: {{next_step_agent}}
 Run: {{next_step}}
@@ -300,15 +302,9 @@ Increment by 10% (planning started)
   <action>Pass status_file_path and continuation_mode to workflow</action>
 </check>
 
-<check if='project_level == 2 AND project_type != "game"'>
+<check if='project_level >= 2 AND project_type != "game"'>
   <invoke-workflow>{installed_path}/prd/workflow.yaml</invoke-workflow>
-  <action>Pass level=2 context to PRD workflow (loads instructions-med.md)</action>
-  <action>Pass status_file_path and continuation_mode to workflow</action>
-</check>
-
-<check if='project_level >= 3 AND project_type != "game"'>
-  <invoke-workflow>{installed_path}/prd/workflow.yaml</invoke-workflow>
-  <action>Pass level context to PRD workflow (loads instructions-lg.md)</action>
+  <action>Pass project_level context to PRD workflow (loads instructions.md)</action>
   <action>Pass status_file_path and continuation_mode to workflow</action>
 </check>
 

@@ -6,7 +6,9 @@ last-redoc-date: 2025-10-01
 
 This scale-adaptive workflow represents the cornerstone of BMM v6's intelligent project orchestration, automatically determining project complexity (Level 0-4) and routing to specialized planning pathways based on project type, scope, and context. Unlike traditional one-size-fits-all planning approaches, it dynamically adjusts output artifacts—from minimal tech specs for atomic changes to comprehensive PRD suites for enterprise platforms—ensuring planning overhead matches project value. The workflow serves as the critical bridge between Phase 1 analysis outputs and Phase 3 solutioning, establishing the contractual foundation for all subsequent development activities.
 
-The workflow's routing intelligence analyzes project characteristics through multi-dimensional assessment: project type (game, web, mobile, backend), context (greenfield vs. brownfield), scope indicators, and complexity signals. Based on this analysis, it classifies projects into five levels with distinct artifact requirements. Level 0 produces only tech specs for single atomic changes. Levels 1-2 generate focused PRDs with embedded tech specs. Levels 3-4 create comprehensive PRDs with separate epics that hand off to the architect-driven solutioning workflow. This classification isn't merely about document generation—it fundamentally changes how requirements are structured, validated, and communicated to downstream consumers.
+The workflow's routing intelligence analyzes project characteristics through multi-dimensional assessment: project type (game, web, mobile, backend), context (greenfield vs. brownfield), scope indicators, and complexity signals. Based on this analysis, it classifies projects into five levels with distinct artifact requirements. Level 0 produces only tech specs for single atomic changes with a single story.
+
+Levels 1-2 generate focused PRDs with embedded tech specs. Levels 3-4 create comprehensive PRDs with separate epics that hand off to the architect-driven solutioning workflow. This classification isn't merely about document generation—it fundamentally changes how requirements are structured, validated, and communicated to downstream consumers.
 
 Critical to v6's flow improvement is this workflow's integration with the bmm-workflow-status.md tracking document, which maintains project state across sessions, tracks which agents participate in each phase, and provides continuity for multi-session planning efforts. The workflow can resume from any point, intelligently detecting existing artifacts and determining next steps without redundant work. For game projects, it routes to specialized GDD generation with genre-specific templates. For UX-heavy projects, it can generate standalone UX specifications or AI frontend prompts from existing specs.
 
@@ -18,24 +20,6 @@ Critical to v6's flow improvement is this workflow's integration with the bmm-wo
 - **Multi-level outputs** - Supports 5 project levels (0-4) with appropriate artifacts
 - **Input integration** - Leverages product briefs and market research when available
 - **Template-driven** - Uses validated templates for consistent output structure
-
-## Usage
-
-### Basic Invocation
-
-```bash
-workflow plan-project
-```
-
-### With Input Documents
-
-```bash
-# With product brief as input
-workflow plan-project --input /path/to/product-brief.md
-
-# With multiple inputs
-workflow plan-project --input product-brief.md --input market-research.md
-```
 
 ### Configuration
 
@@ -50,7 +34,7 @@ The workflow adapts automatically based on project assessment, but key configura
 ### Files Included
 
 ```
-plan-project/
+2-plan/
 ├── README.md                      # Overview and usage details
 ├── checklist.md                   # Validation criteria
 ├── instructions-router.md         # Initial assessment and routing logic
@@ -64,16 +48,15 @@ plan-project/
 │   ├── narrative-template.md      # Narrative planning template
 │   └── workflow.yaml
 ├── prd/
-│   ├── epics-template.md          # Epic breakdown template
-│   ├── instructions-lg.md         # Level 3-4 PRD instructions
-│   ├── instructions-med.md        # Level 1-2 PRD instructions
+│   ├── epics.md                   # Epic breakdown template
+│   ├── instructions.md            # Level 2-4 PRD instructions
 │   ├── prd-template.md            # Product Requirements Document template
 │   └── workflow.yaml
 ├── tech-spec/
 │   ├── epics-template.md          # Epic-to-story handoff template
 │   ├── instructions-level0-story.md
 │   ├── instructions-level1-stories.md
-│   ├── instructions.md         # Level 0 tech-spec instructions
+│   ├── instructions.md            # Level 0-1 tech-spec instructions
 │   ├── tech-spec-template.md      # Technical Specification template
 │   ├── user-story-template.md     # Story template for Level 0/1
 │   └── workflow.yaml
@@ -124,7 +107,7 @@ plan-project/
 ### Generated Files
 
 - **Primary output**: PRD.md (except Level 0), tech-spec.md, bmm-workflow-status.md
-- **Supporting files**: epics.md (Level 3-4), PRD-validation-report.md (if validation run)
+- **Supporting files**: epics.md (Level 2-4), PRD-validation-report.md (if validation run)
 
 ### Output Structure by Level
 

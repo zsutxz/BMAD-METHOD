@@ -1,184 +1,147 @@
-# PRD Workflow - Unified Instructions (Level 2-4)
+# PRD Workflow Instructions
+
+<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
+<critical>This workflow is for Level 2-4 projects. Level 0-1 use tech-spec workflow.</critical>
+<critical>Produces TWO outputs: PRD.md (strategic) and epics.md (tactical implementation)</critical>
+<critical>TECHNICAL NOTES: If ANY technical details, preferences, or constraints are mentioned during PRD discussions, append them to {technical_decisions_file}. If file doesn't exist, create it from {technical_decisions_template}</critical>
 
 <workflow>
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>This is the UNIFIED instruction set for Level 2-4 projects - scale-adaptive PRD</critical>
-<critical>Level 0-1 use tech-spec workflow - this workflow is ONLY for Level 2-4</critical>
-<critical>Uses prd_template for PRD output, epics_template for epics.md output</critical>
-<critical>NO TECH-SPEC in this workflow - architecture/solutioning handled by specialist workflows</critical>
-<critical>If users mention technical details, append to technical_preferences</critical>
+<step n="1" goal="Initialize and load context">
 
-<!-- TEMPLATE OUTPUT SYNTAX GUIDE -->
-<syntax-guide>
-**Understanding template-output tags:**
+<action>Load status file: {status_file}</action>
+<action>Verify project_level is 2, 3, or 4</action>
 
-`<template-output>section_name</template-output>`
-→ Fills a SECTION within the PRD template (creates/updates PRD.md)
-→ Example: <template-output>goals</template-output> fills the "Goals" section in PRD.md
-
-`<template-output file="filename.md">content_description</template-output>`
-→ Creates a SEPARATE PHYSICAL FILE using the specified template structure
-→ This is NOT optional - you MUST create this file
-→ Example: <template-output file="epics.md">epic_details</template-output> creates a new file called epics.md
-
-**Critical:** When you see `file="filename.md"`, you must physically create that file - it is a required deliverable!
-</syntax-guide>
-
-<step n="1" goal="Load context, determine level, and handle continuation">
-
-<action>Load bmm-workflow-status.md</action>
-<action>Confirm project_level is 2, 3, or 4</action>
-
-<check if="level < 2">
+<check if="project_level < 2">
   <error>This workflow is for Level 2-4 only. Level 0-1 should use tech-spec workflow.</error>
-  <action>Exit and redirect to tech-spec workflow</action>
+  <action>Exit and redirect user to tech-spec workflow</action>
 </check>
 
-<check if="continuation_mode == true">
-  <action>Load existing PRD.md and check completion status</action>
-  <ask>Found existing work. Would you like to:
+<action>Check for existing PRD.md in {output_folder}</action>
 
-1. Review what's done and continue
+<check if="PRD.md exists">
+  <ask>Found existing PRD.md. Would you like to:
+1. Continue where you left off
 2. Modify existing sections
-3. Start fresh
-   </ask>
-   <action>If continuing, skip to first incomplete section</action>
-   </check>
+3. Start fresh (will archive existing file)
+  </ask>
+  <action if="option 1">Load existing PRD and skip to first incomplete section</action>
+  <action if="option 2">Load PRD and ask which section to modify</action>
+  <action if="option 3">Archive existing PRD and start fresh</action>
+</check>
 
-<check if="new or starting fresh">
-  Check `output_folder` for existing docs.
+<action>Load PRD template: {prd_template}</action>
+<action>Load epics template: {epics_template}</action>
 
-  <check if="level >= 3">
-    <critical>Product Brief is STRONGLY recommended for Level 3-4</critical>
-  </check>
+<ask>Do you have a Product Brief? (Strongly recommended for Level 3-4, helpful for Level 2)</ask>
 
-  <check if="level == 2">
-    <action>Ask if they have a Product Brief (optional but helpful)</action>
-  </check>
+<check if="yes">
+  <action>Load and review product brief: {output_folder}/product-brief.md</action>
+  <action>Extract key elements: problem statement, target users, success metrics, MVP scope, constraints</action>
+</check>
 
-<action>Load prd_template from workflow.yaml</action>
-
-  <check if="level == 2">
-    <action>Discuss to get core idea of what they're building</action>
-  </check>
-
-  <check if="level >= 3">
-    <action>Get comprehensive description of the project vision</action>
-  </check>
-
-<template-output>description</template-output>
+<check if="no and level >= 3">
+  <warning>Product Brief is strongly recommended for Level 3-4 projects. Consider running the product-brief workflow first.</warning>
+  <ask>Continue without Product Brief? (y/n)</ask>
+  <action if="no">Exit to allow Product Brief creation</action>
 </check>
 
 </step>
 
-<step n="2" goal="Define deployment intent and goals">
+<step n="2" goal="Goals and Background Context">
 
-<ask>What is the deployment intent?
+**Goals** - What success looks like for this project
 
-<check if="level == 2">
-- Demo/POC
-- MVP for early users
-- Production app
+<check if="product brief exists">
+  <action>Review goals from product brief and refine for PRD context</action>
 </check>
 
-<check if="level >= 3">
-- MVP for early users
-- Production SaaS/application
-- Enterprise system
-- Platform/ecosystem
+<check if="no product brief">
+  <action>Gather goals through discussion with user, use probing questions and converse until you are ready to propose that you have enough information to proceed</action>
 </check>
-</ask>
 
-<template-output>deployment_intent</template-output>
+Create a bullet list of single-line desired outcomes that capture user and project goals.
 
-**Goal Guidelines (scale-adaptive):**
+**Scale guidance:**
 
-- **Level 2:** 2-3 primary goals
-- **Level 3:** 3-5 strategic goals (measurable, outcome-focused)
-- **Level 4:** 5-7 strategic goals (measurable, outcome-focused)
-
-<check if="level >= 3">
-  <critical>Each goal should be measurable and outcome-focused</critical>
-</check>
+- Level 2: 2-3 core goals
+- Level 3: 3-5 strategic goals
+- Level 4: 5-7 comprehensive goals
 
 <template-output>goals</template-output>
 
+**Background Context** - Why this matters now
+
+<check if="product brief exists">
+  <action>Summarize key context from brief without redundancy</action>
+</check>
+
+<check if="no product brief">
+  <action>Gather context through discussion</action>
+</check>
+
+Write 1-2 paragraphs covering:
+
+- What problem this solves and why
+- Current landscape or need
+- Key insights from discovery/brief (if available)
+
+<template-output>background_context</template-output>
+
 </step>
 
-<step n="3" goal="Context - scale-adaptive depth">
+<step n="3" goal="Requirements - Functional and Non-Functional">
 
-<check if="level == 2">
-  **Keep it brief:** 1 paragraph on why this matters now.
-  Focus: Immediate problem and solution value
-</check>
+**Functional Requirements** - What the system must do
 
-<check if="level >= 3">
-  **Comprehensive context:** 1-2 paragraphs on problem, current situation, why now.
-  Focus: Strategic positioning and market context
-</check>
+Draft functional requirements as numbered items with FR prefix.
 
-<template-output>context</template-output>
+**Scale guidance:**
 
-<check if="level >= 3">
-  <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
-</check>
+- Level 2: 8-15 FRs (focused MVP set)
+- Level 3: 12-25 FRs (comprehensive product)
+- Level 4: 20-35 FRs (enterprise platform)
 
-</step>
+**Format:**
 
-<step n="4" goal="Functional requirements - scale-adaptive">
+- FR001: [Clear capability statement]
+- FR002: [Another capability]
 
-**FR Guidelines (scale-adaptive):**
+**Focus on:**
 
-- **Level 2:** 8-15 FRs (focused set - what's essential to launch)
-- **Level 3:** 12-20 FRs (comprehensive - complete product vision)
-- **Level 4:** 20-30 FRs (comprehensive - full platform capabilities)
+- User-facing capabilities
+- Core system behaviors
+- Integration requirements
+- Data management needs
 
-<check if="level == 2">
-  Group related features by capability area.
-  Focus on core functionality needed for MVP.
-</check>
+Group related requirements logically.
 
-<check if="level >= 3">
-  Group features logically across all domains.
-  Cover complete product vision with clear categorization.
-</check>
-
-**Format:** `FR001: [user capability]`
-
-<template-output>functional_requirements</template-output>
 <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
-</step>
+<template-output>functional_requirements</template-output>
 
-<step n="5" goal="Non-functional requirements - scale-adaptive">
+**Non-Functional Requirements** - How the system must perform
 
-**NFR Guidelines (scale-adaptive):**
+Draft non-functional requirements with NFR prefix.
 
-- **Level 2:** 3-5 NFRs (critical only - essential for deployment)
-- **Level 3:** 8-12 NFRs (comprehensive - matched to deployment intent)
-- **Level 4:** 8-12 NFRs (comprehensive - enterprise-grade requirements)
+**Scale guidance:**
 
-<check if="level == 2">
-  Focus on critical NFRs only (performance, security, availability basics).
-</check>
-
-<check if="level >= 3">
-  Match NFRs to deployment intent. Include scalability, monitoring, compliance, etc.
-</check>
+- Level 2: 1-3 NFRs (critical MVP only)
+- Level 3: 2-5 NFRs (production quality)
+- Level 4: 3-7+ NFRs (enterprise grade)
 
 <template-output>non_functional_requirements</template-output>
 
 </step>
 
-<step n="6" goal="User journeys - scale-adaptive" optional="level == 2">
+<step n="4" goal="User Journeys - scale-adaptive" optional="level == 2">
 
 **Journey Guidelines (scale-adaptive):**
 
-- **Level 2:** 0-1 simple journey (optional - primary use case happy path)
-- **Level 3:** 2-3 detailed journeys (required - complete flows with decision points)
-- **Level 4:** 3-5 comprehensive journeys (required - all personas and edge cases)
+- **Level 2:** 1 simple journey (primary use case happy path)
+- **Level 3:** 2-3 detailed journeys (complete flows with decision points)
+- **Level 4:** 3-5 comprehensive journeys (all personas and edge cases)
 
 <check if="level == 2">
   <ask>Would you like to document a user journey for the primary use case? (recommended but optional)</ask>
@@ -188,7 +151,6 @@
 </check>
 
 <check if="level >= 3">
-  <critical>User journeys are REQUIRED for Level 3-4</critical>
   Map complete user flows with decision points, alternatives, and edge cases.
 </check>
 
@@ -200,422 +162,210 @@
 
 </step>
 
-<step n="7" goal="UX principles - scale-adaptive" optional="level == 2">
+<step n="5" goal="UX and UI Vision - high-level overview" optional="level == 2 and minimal UI">
 
-**UX Principles Guidelines (scale-adaptive):**
+**Purpose:** Capture essential UX/UI information needed for epic and story planning. A dedicated UX workflow will provide deeper design detail later.
 
-- **Level 2:** 3-5 key principles (optional - if UI-heavy)
-- **Level 3:** 8-10 principles (required - guiding all interface decisions)
-- **Level 4:** 8-10 principles (required - comprehensive design system guidance)
-
-<check if="level == 2">
-  <ask>Does this project have significant UI components? If so, document 3-5 key UX principles.</ask>
+<check if="level == 2 and minimal UI">
+  <action>For backend-heavy or minimal UI projects, keep this section very brief or skip</action>
 </check>
 
-<check if="level >= 3">
-  <critical>UX principles are REQUIRED for Level 3-4</critical>
-  Document 8-10 comprehensive principles guiding all interface decisions.
-</check>
+**Gather high-level UX/UI information:**
+
+1. **UX Principles** (2-4 key principles that guide design decisions)
+   - What core experience qualities matter most?
+   - Any critical accessibility or usability requirements?
+
+2. **Platform & Screens**
+   - Target platforms (web, mobile, desktop)
+   - Core screens/views users will interact with
+   - Key interaction patterns or navigation approach
+
+3. **Design Constraints**
+   - Existing design systems or brand guidelines
+   - Technical UI constraints (browser support, etc.)
+
+<note>Keep responses high-level. Detailed UX planning happens in the UX workflow after PRD completion.</note>
+
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
 <template-output>ux_principles</template-output>
+<template-output>ui_design_goals</template-output>
 
 </step>
 
-<step n="8" goal="Epic structure summary for PRD">
+<step n="6" goal="Epic List - High-level delivery sequence">
 
-**Epic Guidelines (scale-adaptive):**
+**Epic Structure** - Major delivery milestones
 
-- **Level 2:** 1-2 epics with 5-15 stories total
-- **Level 3:** 2-5 epics with 12-40 stories total
-- **Level 4:** 5+ epics with 40+ stories total
+Create high-level epic list showing logical delivery sequence.
 
-<check if="level == 2">
-  Focus: Get to implementation quickly with simple epic grouping.
-  Create simple epic list showing how work is organized.
-</check>
+**Epic Sequencing Rules:**
 
-<check if="level >= 3">
-  Focus: Comprehensive planning for phased rollout.
-  Each epic should deliver significant value and be independently deployable where possible.
-</check>
+1. **Epic 1 MUST establish foundation**
+   - Project infrastructure (repo, CI/CD, core setup)
+   - Initial deployable functionality
+   - Development workflow established
+   - Exception: If adding to existing app, Epic 1 can be first major feature
 
-**Create epic summary list for PRD:**
+2. **Subsequent Epics:**
+   - Each delivers significant, end-to-end, fully deployable increment
+   - Build upon previous epics (no forward dependencies)
+   - Represent major functional blocks
+   - Prefer fewer, larger epics over fragmentation
 
-- Epic name
-- Epic goal (1-2 sentences)
-- Story count estimate
-- Priority/sequence
+**Scale guidance:**
 
-<template-output>epics</template-output>
+- Level 2: 1-2 epics, 5-15 stories total
+- Level 3: 2-5 epics, 15-40 stories total
+- Level 4: 5-10 epics, 40-100+ stories total
 
-<check if="level >= 3">
-  <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
-</check>
+**For each epic provide:**
 
-<check if="level == 2">
-  <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
-</check>
+- Epic number and title
+- Single-sentence goal statement
+- Estimated story count
 
-</step>
+**Example:**
 
-<step n="9" goal="Generate detailed epic breakdown in epics.md">
+- **Epic 1: Project Foundation & User Authentication**
+- **Epic 2: Core Task Management**
 
-<critical>REQUIRED FOR ALL LEVELS: Create separate epics.md with full story hierarchy</critical>
-<critical>This is a SEPARATE FILE from PRD.md - you MUST physically create this file</critical>
+<ask>Review the epic list. Does the sequence make sense? Any epics to add, remove, or resequence?</ask>
+<action>Refine epic list based on feedback</action>
+<invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
-<action>Load epics_template from workflow.yaml: {installed_path}/epics-template.md</action>
-
-<critical>USE THIS TEMPLATE to create {epics_output_file} (epics.md) with the following structure:
-
-- Header with project metadata (project_name, user_name, date, project_level, target_scale)
-- Epic Overview section (high-level summary of all epics and delivery strategy)
-- Epic Details section (one subsection per epic with full story breakdown)
-  </critical>
-
-**Content Requirements (scale-adaptive):**
-
-<check if="level == 2">
-  **Level 2 - Basic story structure:**
-
-For each epic, include:
-
-- Epic name and goal
-- Story list with: - User story format: "As a [user], I want [goal], so that [benefit]" - Basic acceptance criteria (2-3 per story) - Story dependencies (if any)
-  </check>
-
-<check if="level >= 3">
-  **Level 3-4 - Comprehensive story structure:**
-
-For each epic, include:
-
-- Epic name, goal, and expanded description
-- Success criteria for the epic
-- Story list with: - User story format: "As a [user], I want [goal], so that [benefit]" - Prerequisites and dependencies - Detailed acceptance criteria (3-8 per story) - Technical notes (high-level implementation considerations) - Priority and effort estimate (if known)
-  </check>
-
-<template-output file="epics.md">
-**Structure to use:**
-
-# {{project_name}} - Epic Breakdown
-
-**Author:** {{user_name}}
-**Date:** {{date}}
-**Project Level:** {{project_level}}
-**Target Scale:** {{target_scale}}
-
----
-
-## Epic Overview
-
-[High-level summary of all epics, delivery strategy, and phasing]
-
----
-
-## Epic Details
-
-### Epic 1: [Epic Name]
-
-**Goal:** [Epic goal statement]
-
-<check if="level >= 3">
-**Success Criteria:**
-- [Epic-level success criteria]
-</check>
-
-**Stories:**
-
-#### Story 1.1: [Story Title]
-
-**User Story:** As a [user], I want [goal], so that [benefit]
-
-<check if="level >= 3">
-**Prerequisites:**
-- [Dependencies or setup needed]
-</check>
-
-**Acceptance Criteria:**
-
-- [ ] [Criterion 1]
-- [ ] [Criterion 2]
-- [ ] [Criterion 3]
-
-<check if="level >= 3">
-**Technical Notes:**
-- [High-level implementation considerations]
-
-**Priority:** [High/Medium/Low]
-**Estimated Effort:** [S/M/L/XL or story points]
-</check>
-
-[Repeat for all stories in epic]
-
----
-
-[Repeat Epic Details section for all epics]
-
-</template-output>
-
-<check if="level >= 3">
-  <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
-</check>
-
-<action>Verify epics.md was created in {output_folder}</action>
-
-<ask>Epic breakdown file created at {epics_output_file}.
-
-<check if="level == 2">
-Generated {{epic_count}} epic(s) with approximately {{story_count}} stories.
-</check>
-
-<check if="level >= 3">
-Generated {{epic_count}} epics with approximately {{story_count}} stories across all epics.
-</check>
-
-Would you like to review the epic structure before continuing? (y/n)</ask>
+<template-output>epic_list</template-output>
 
 </step>
 
-<step n="10" goal="Document out of scope" optional="level == 2">
+<step n="7" goal="Out of Scope - Clear boundaries and future additions">
 
-<check if="level == 2">
-  <ask>Any features or ideas to preserve for future phases? (optional but recommended)</ask>
-</check>
+**Out of Scope** - What we're NOT doing (now)
 
-<check if="level >= 3">
-  <critical>Document features/ideas preserved for future phases</critical>
-</check>
+Document what is explicitly excluded from this project:
 
-List features, capabilities, or ideas that are explicitly out of scope for this phase but valuable for future consideration.
+- Features/capabilities deferred to future phases
+- Adjacent problems not being solved
+- Integrations or platforms not supported
+- Scope boundaries that need clarification
+
+This helps prevent scope creep and sets clear expectations.
 
 <template-output>out_of_scope</template-output>
 
 </step>
 
-<step n="11" goal="Document assumptions and dependencies" optional="level == 2">
+<step n="8" goal="Finalize PRD.md">
 
-<check if="level == 2">
-  <action>Only document ACTUAL assumptions that came up in discussion (optional)</action>
-</check>
+<action>Review all PRD sections for completeness and consistency</action>
+<action>Ensure all placeholders are filled</action>
+<action>Save final PRD.md to {default_output_file}</action>
 
-<check if="level >= 3">
-  <critical>Document all assumptions and dependencies</critical>
-  Include:
-  - Technical assumptions
-  - Business assumptions
-  - External dependencies
-  - Resource assumptions
-</check>
+**PRD.md is complete!** Strategic document ready.
 
-<template-output>assumptions_and_dependencies</template-output>
+Now we'll create the tactical implementation guide in epics.md.
 
 </step>
 
-<step n="12" goal="Validate outputs before handoff">
+<step n="9" goal="Epic Details - Full story breakdown in epics.md">
 
-<action>Verify all required files were created:</action>
+<critical>Now we create epics.md - the tactical implementation roadmap</critical>
+<critical>This is a SEPARATE FILE from PRD.md</critical>
 
-- [ ] PRD.md exists at {default_output_file}
-- [ ] epics.md exists at {epics_output_file}
+<action>Load epics template: {epics_template}</action>
+<action>Initialize epics.md with project metadata</action>
 
-<check if="missing files">
-  <error>CRITICAL: Required files missing!</error>
-  <action>Return to appropriate step and create missing files</action>
-</check>
+For each epic from the epic list, expand with full story details:
 
-<ask>All required documents created successfully. Would you like to run a validation check before proceeding to next phase? (y/n)</ask>
+**Epic Expansion Process:**
 
-<check if="yes">
-  <action>Validate PRD completeness:</action>
-  - All required sections filled
-  - Epic count matches project level expectations
-  - Story count aligns with project level scale
-  - Cross-references between PRD and epics.md are consistent
+1. **Expanded Goal** (2-3 sentences)
+   - Describe the epic's objective and value delivery
+   - Explain how it builds on previous work
 
-<action>Generate brief validation summary with any warnings or suggestions</action>
-</check>
+2. **Story Breakdown**
+
+   **Critical Story Requirements:**
+   - **Vertical slices** - Each story delivers complete, testable functionality
+   - **Sequential** - Stories must be logically ordered within epic
+   - **No forward dependencies** - No story depends on work from a later story/epic
+   - **AI-agent sized** - Completable in single focused session (2-4 hours)
+   - **Value-focused** - Minimize pure enabler stories; integrate technical work into value delivery
+
+   **Story Format:**
+
+   ```
+   **Story [EPIC.N]: [Story Title]**
+
+   As a [user type],
+   I want [goal/desire],
+   So that [benefit/value].
+
+   **Acceptance Criteria:**
+   1. [Specific testable criterion]
+   2. [Another specific criterion]
+   3. [etc.]
+
+   **Prerequisites:** [Any dependencies on previous stories]
+   ```
+
+3. **Story Sequencing Within Epic:**
+   - Start with foundational/setup work if needed
+   - Build progressively toward epic goal
+   - Each story should leave system in working state
+   - Final stories complete the epic's value delivery
+
+**Process each epic:**
+
+<repeat for-each="epic in epic_list">
+
+<ask>Ready to break down {{epic_title}}? (y/n)</ask>
+
+<action>Discuss epic scope and story ideas with user</action>
+<action>Draft story list ensuring vertical slices and proper sequencing</action>
+<action>For each story, write user story format and acceptance criteria</action>
+<action>Verify no forward dependencies exist</action>
+
+<template-output file="epics.md">{{epic_title}}\_details</template-output>
+
+<ask>Review {{epic_title}} stories. Any adjustments needed?</ask>
+
+<action if="yes">Refine stories based on feedback</action>
+
+</repeat>
+
+<action>Save complete epics.md to {epics_output_file}</action>
+
+**Epic Details complete!** Implementation roadmap ready.
 
 </step>
 
-<step n="13" goal="Generate handoff and next steps checklist">
+<step n="10" goal="Update workflow status and complete">
 
-## Next Steps for {{project_name}}
+<action>Update {status_file} with completion status</action>
 
-<check if="level == 2">
-Since this is a Level 2 project, you need **solutioning** before implementation.
+<template-output file="bmm-workflow-status.md">prd_completion_update</template-output>
 
-**Start new chat with solutioning workflow and provide:**
+**Workflow Complete!**
 
-1. This PRD: `{{default_output_file}}`
-2. Epic structure: `{{epics_output_file}}`
-3. Input documents: {{input_documents}}
+**Deliverables Created:**
 
-**Ask solutioning workflow to:**
+1. ✅ PRD.md - Strategic product requirements document
+2. ✅ epics.md - Tactical implementation roadmap with story breakdown
 
-- Run `3-solutioning` workflow
-- Generate solution-architecture.md
-- Create per-epic tech specs as needed
+**Next Steps:**
 
-## Complete Next Steps Checklist
+- Review both documents with stakeholders
+- Run solution-architecture workflow for technical design (Level 3-4)
+- Or proceed to implementation using create-story workflow (Level 2)
 
-### Phase 1: Solution Architecture and Design
+<ask>Would you like to:
 
-- [ ] **Run solutioning workflow** (REQUIRED)
-  - Command: `workflow solution-architecture`
-  - Input: PRD.md, epics.md
-  - Output: solution-architecture.md, tech-spec-epic-N.md files (as needed)
-
-<check if="project has significant UX/UI components">
-- [ ] **Run UX specification workflow** (HIGHLY RECOMMENDED for user-facing systems)
-  - Command: `workflow plan-project` then select "UX specification"
-  - Or continue within this workflow if UI-heavy
-  - Input: PRD.md, epics.md, solution-architecture.md (once available)
-  - Output: ux-specification.md
-  - Optional: AI Frontend Prompt for rapid prototyping
-  - Note: Creates comprehensive UX/UI spec including IA, user flows, components
-
-<action>Update workflow status file to mark ux-spec as potential next step</action>
-</check>
-
-### Phase 2: Detailed Planning
-
-- [ ] **Generate detailed user stories** (if not already comprehensive)
-  - Command: `workflow generate-stories`
-  - Input: epics.md + solution-architecture.md
-  - Output: user-stories.md with full acceptance criteria
-
-- [ ] **Create technical design documents**
-  - Database schema
-  - API specifications
-  - Integration points
-
-### Phase 3: Development Preparation
-
-- [ ] **Set up development environment**
-  - Repository structure
-  - CI/CD pipeline
-  - Development tools
-
-- [ ] **Create sprint plan**
-  - Story prioritization
-  - Sprint boundaries
-  - Resource allocation
-
-<ask>Project Planning Complete! Next immediate action:
-
-1. Start solutioning workflow
-2. Create UX specification (if UI-heavy project)
-3. Generate AI Frontend Prompt (if UX complete)
-4. Review all outputs with stakeholders
-5. Begin detailed story generation
-6. Exit workflow
-
-Which would you like to proceed with?</ask>
-
-<check if="user selects option 2">
-  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan/ux/workflow.yaml</invoke-workflow>
-  <action>Pass mode="integrated" with Level 2 context</action>
-</check>
-
-<check if="user selects option 3">
-  <invoke-task>{project-root}/bmad/bmm/tasks/ai-fe-prompt.md</invoke-task>
-</check>
-</check>
-
-<check if="level >= 3">
-Since this is a Level {{project_level}} project, you need **solutioning** before stories.
-
-**Start new chat with solutioning workflow and provide:**
-
-1. This PRD: `{{default_output_file}}`
-2. Epic structure: `{{epics_output_file}}`
-3. Input documents: {{input_documents}}
-
-**Ask solutioning workflow to:**
-
-- Run `solution-architecture` workflow
-- Consider reference architectures and technology patterns
-- Generate solution-architecture.md
-- Create per-epic tech specs
-
-## Complete Next Steps Checklist
-
-### Phase 1: Solution Architecture and Design
-
-- [ ] **Run solutioning workflow** (REQUIRED)
-  - Command: `workflow solution-architecture`
-  - Input: PRD.md, epics.md
-  - Output: solution-architecture.md, tech-spec-epic-N.md files
-
-<check if="project has significant UX/UI components (Level 3-4 typically does)">
-- [ ] **Run UX specification workflow** (HIGHLY RECOMMENDED for user-facing systems)
-  - Command: `workflow plan-project` then select "UX specification"
-  - Or continue within this workflow if UI-heavy
-  - Input: PRD.md, epics.md, solution-architecture.md (once available)
-  - Output: ux-specification.md
-  - Optional: AI Frontend Prompt for rapid prototyping
-  - Note: Creates comprehensive UX/UI spec including IA, user flows, components
-
-<action>Update workflow status file to mark ux-spec as next step</action>
-<action>In status file, set next_action: "Run UX specification workflow"</action>
-<action>In status file, set next_command: "ux-spec"</action>
-<action>In status file, set next_agent: "PM"</action>
-<action>Add to decisions log: "PRD complete. UX workflow required due to UI components."</action>
-</check>
-
-### Phase 2: Detailed Planning
-
-- [ ] **Generate detailed user stories**
-  - Command: `workflow generate-stories`
-  - Input: epics.md + solution-architecture.md
-  - Output: user-stories.md with full acceptance criteria
-
-- [ ] **Create technical design documents**
-  - Database schema
-  - API specifications
-  - Integration points
-
-- [ ] **Define testing strategy**
-  - Unit test approach
-  - Integration test plan
-  - UAT criteria
-
-### Phase 3: Development Preparation
-
-- [ ] **Set up development environment**
-  - Repository structure
-  - CI/CD pipeline
-  - Development tools
-
-- [ ] **Create sprint plan**
-  - Story prioritization
-  - Sprint boundaries
-  - Resource allocation
-
-- [ ] **Establish monitoring and metrics**
-  - Success metrics from PRD
-  - Technical monitoring
-  - User analytics
-
-<ask>Project Planning Complete! Next immediate action:
-
-1. Start solutioning workflow (solution-architecture) in a new context window
-2. Create UX specification (if UI-heavy project)
-3. Generate AI Frontend Prompt (if UX complete)
-4. Review all outputs with stakeholders
-5. Begin detailed story generation
-6. Exit workflow
-
-Which would you like to proceed with?</ask>
-
-<check if="user selects option 2">
-  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan/ux/workflow.yaml</invoke-workflow>
-  <action>Pass mode="integrated" with Level 3-4 context</action>
-</check>
-
-<check if="user selects option 3">
-  <invoke-task>{project-root}/bmad/bmm/tasks/ai-fe-prompt.md</invoke-task>
-</check>
-</check>
+1. Review/refine any section
+2. Proceed to solution-architecture workflow
+3. Exit and review documents
+   </ask>
 
 </step>
 

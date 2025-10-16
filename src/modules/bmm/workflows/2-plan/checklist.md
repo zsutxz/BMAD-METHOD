@@ -2,9 +2,9 @@
 
 **Scope**: This checklist adapts based on project level (0-4) and field type (greenfield/brownfield)
 
-- **Level 0**: Tech-spec only validation
-- **Level 1-2**: PRD + Tech-spec + Epics validation
-- **Level 3-4**: PRD + Epics validation (no tech-spec)
+- **Level 0**: Tech-spec only validation + Story
+- **Level 1**: Tech-spec + Epics validation
+- **Level 2-4**: PRD + Epics validation (no tech-spec)
 - **Greenfield**: Focus on setup sequencing and dependencies
 - **Brownfield**: Focus on integration risks and backward compatibility
 

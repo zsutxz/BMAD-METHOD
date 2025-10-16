@@ -51,16 +51,15 @@ validation_output_file: "{output_folder}/PRD-validation-report.md"
 
 # Scale parameters - adaptive by project level
 scale_parameters:
-  level_0: "Single atomic change, tech-spec only"
+  level_0: "Single atomic change, tech-spec only with linked single story"
   level_1: "1-10 stories, 1 epic, minimal PRD + tech-spec"
   level_2: "5-15 stories, 1-2 epics, focused PRD + tech-spec"
-  level_3: "12-40 stories, 2-5 epics, full PRD + architect handoff"
+  level_3: "12-40 stories, 1-5 epics, full PRD + architect handoff"
   level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
 
 #Do not load these directly - instructions-router.md will load the proper file based on project type/level when needed
-instructions_sm: "{installed_path}/tech-spec/instructions.md"
-instructions_med: "{installed_path}/prd/instructions-med.md"
-instructions_lg: "{installed_path}/prd/instructions-lg.md"
+instructions_tech_spec: "{installed_path}/tech-spec/instructions.md"
+instructions_prd: "{installed_path}/prd/instructions.md"
 instructions_ux: "{installed_path}/ux/instructions-ux.md"
 instructions_gdd: "{installed_path}/gdd/instructions-gdd.md"
 instructions_narrative: "{installed_path}/narrative/instructions-narrative.md"
@@ -75,9 +74,8 @@ web_bundle:
   validation: "bmad/bmm/workflows/2-plan/checklist.md"
   use_advanced_elicitation: true
   # Do not load these directly - instructions-router.md will load the proper file based on project type/level when needed
-  instructions_sm: "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
-  instructions_med: "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
-  instructions_lg: "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
+  instructions_tech_spec: "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
+  instructions_prd: "bmad/bmm/workflows/2-plan/prd/instructions.md"
   instructions_ux: "bmad/bmm/workflows/2-plan/ux/instructions-ux.md"
   instructions_gdd: "bmad/bmm/workflows/2-plan/gdd/instructions-gdd.md"
   instructions_narrative: "bmad/bmm/workflows/2-plan/narrative/instructions-narrative.md"
@@ -92,16 +90,15 @@ web_bundle:
   narrative_template: "{installed_path}/narrative/narrative-template.md"
   # Scale parameters - adaptive by project level
   scale_parameters:
-    level_0: "Single atomic change, tech-spec only"
+    level_0: "Single atomic change, tech-spec only with linked single story"
     level_1: "1-10 stories, 1 epic, minimal PRD + tech-spec"
     level_2: "5-15 stories, 1-2 epics, focused PRD + tech-spec"
-    level_3: "12-40 stories, 2-5 epics, full PRD + architect handoff"
+    level_3: "12-40 stories, 1-5 epics, full PRD + architect handoff"
     level_4: "40+ stories, 5+ epics, enterprise PRD + architect handoff"
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan/instructions-router.md"
     - "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
-    - "bmad/bmm/workflows/2-plan/prd/instructions-med.md"
-    - "bmad/bmm/workflows/2-plan/prd/instructions-lg.md"
+    - "bmad/bmm/workflows/2-plan/prd/instructions.md"
     - "bmad/bmm/workflows/2-plan/prd/prd-template.md"
     - "bmad/bmm/workflows/2-plan/prd/epics-template.md"
     - "bmad/bmm/workflows/2-plan/tech-spec/tech-spec-template.md"
