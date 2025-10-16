@@ -28,7 +28,6 @@ default_output_file: "{output_folder}/product-brief-{{project_name}}-{{date}}.md
 
 # Workflow settings
 autonomous: false # This is an interactive workflow requiring user collaboration
-brief_format: "comprehensive" # Options: "comprehensive" (full detail) or "executive" (3-page limit)
 
 web_bundle:
   name: "product-brief"

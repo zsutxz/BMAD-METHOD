@@ -1,5 +1,9 @@
 # Workflow Status - Master Router and Status Tracker
 
+<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/bmad/bmm/workflows/1-analysis/workflow-status/workflow.yaml</critical>
+<critical>Communicate all responses in {communication_language}</critical>
+
 <workflow>
 
 <critical>This is the UNIVERSAL ENTRY POINT for all BMM workflows</critical>
@@ -158,9 +162,9 @@ Or tell me: "load {{next_agent}} and {{next_command}}"
 
 <step n="3" goal="Initial workflow planning - no status file exists" if="status_file_found == false">
 
-<action>Display welcome message</action>
+<action>Display welcome message in {communication_language}</action>
 
-**🚀 Welcome to BMad Method Workflows!**
+**🚀 Welcome to BMad Method Workflows, {user_name}!**
 
 No workflow status file found. Let's plan your complete workflow journey.
 
@@ -568,7 +572,7 @@ Create status file? (y/n)</ask>
   <action>Set next_agent = planned_workflow[0].agent</action>
   <action>Include complete planned_workflow in status file</action>
 
-<output>**✅ Status file created!**
+<output>**✅ Status file created, {user_name}!**
 
 File: `bmm-workflow-status.md`
 

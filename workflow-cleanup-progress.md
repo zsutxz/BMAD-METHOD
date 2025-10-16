@@ -213,6 +213,69 @@ date: system-generated
 
 **This serves as the reference implementation for converting prescriptive workflows to intent-based style.**
 
+### 2025-10-16: Completed ALL 1-analysis Workflows (7/7 - 100%)
+
+**✅ Phase 1-Analysis Module Complete!**
+
+All 7 workflows in the 1-analysis folder have been audited, cleaned, and optimized:
+
+1. ✅ **brainstorm-game** - FULL AUDIT (earlier session)
+   - Removed use_advanced_elicitation bloat
+   - Restored critical existing_workflows
+   - Added {communication_language} and {user_name}
+
+2. ✅ **brainstorm-project** - FULL AUDIT (earlier session)
+   - Removed use_advanced_elicitation bloat
+   - Restored critical existing_workflows
+   - Added {communication_language} and {user_name}
+
+3. ✅ **game-brief** - INTENT-BASED TRANSFORMATION
+   - **Before:** 617 lines → **After:** 370 lines (40% reduction)
+   - Removed brief_format bloat
+   - Transformed all prescriptive steps to intent-based
+   - Added executive summary option
+   - Added {communication_language} and {user_name}
+
+4. ✅ **product-brief** - INTENT-BASED TRANSFORMATION
+   - **Before:** 444 lines → **After:** 332 lines (25% reduction)
+   - Removed brief_format bloat
+   - Transformed steps 3-12 to intent-based guidance
+   - Added executive summary option
+   - Added {communication_language} and {user_name}
+
+5. ✅ **research** - ROUTER CLEANUP
+   - **YAML Before:** 245 lines → **After:** 46 lines (81% reduction!)
+   - Removed massive bloat: research_types, frameworks, data_sources, claude_code_enhancements (duplicated in web_bundle)
+   - Added {communication_language} to router
+   - Router appropriately deterministic for type selection
+
+6. ✅ **document-project** - ROUTER CLEANUP
+   - **YAML:** Removed runtime_variables, scan_levels, resumability bloat (documentation, not config)
+   - Added {communication_language}
+   - Added {user_name} personalization
+   - Router appropriately deterministic for mode selection
+
+7. ✅ **workflow-status** - DETERMINISTIC VALIDATION
+   - **YAML:** Removed unused variables bloat (status_file_pattern, check_existing_status, display_menu, suggest_next_action)
+   - Added missing critical headers
+   - Added {user_name} personalization
+   - Appropriately deterministic/structured (this is a menu/orchestration workflow)
+
+**Instruction Style Decisions Applied:**
+
+- **Intent-Based:** game-brief, product-brief (conversational, adaptive)
+- **Deterministic/Prescriptive:** workflow-status (menu/orchestration)
+- **Router Pattern:** document-project, research (appropriate for delegation workflows)
+
+**Total Lines Saved:**
+
+- game-brief: 247 lines
+- product-brief: 112 lines
+- research YAML: 199 lines
+- document-project YAML: ~100 lines
+- workflow-status YAML: ~10 lines
+- **Total:** ~668 lines removed across 1-analysis workflows
+
 ---
 
 ## Summary Statistics
