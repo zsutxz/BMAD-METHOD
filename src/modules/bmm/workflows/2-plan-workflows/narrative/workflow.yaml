@@ -10,7 +10,7 @@ user_name: "{config_source}:user_name"
 date: system-generated
 
 # Workflow components
-installed_path: "{project-root}/bmad/bmm/workflows/2-plan/narrative"
+installed_path: "{project-root}/bmad/bmm/workflows/2-plan-workflows/narrative"
 instructions: "{installed_path}/instructions-narrative.md"
 template: "{installed_path}/narrative-template.md"
 
@@ -42,11 +42,11 @@ web_bundle:
   name: "narrative"
   description: "Narrative design workflow for story-driven games and applications. Creates comprehensive narrative documentation including story structure, character arcs, dialogue systems, and narrative implementation guidance."
   author: "BMad"
-  instructions: "bmad/bmm/workflows/2-plan/narrative/instructions-narrative.md"
+  instructions: "bmad/bmm/workflows/2-plan-workflows/narrative/instructions-narrative.md"
   use_advanced_elicitation: true
   web_bundle_files:
-    - "bmad/bmm/workflows/2-plan/narrative/instructions-narrative.md"
-    - "bmad/bmm/workflows/2-plan/narrative/narrative-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/narrative/instructions-narrative.md"
+    - "bmad/bmm/workflows/2-plan-workflows/narrative/narrative-template.md"
   recommended_inputs: "PRD, Product Brief, Brain Storming Report, GDD"
   # Narrative frameworks available
   frameworks:

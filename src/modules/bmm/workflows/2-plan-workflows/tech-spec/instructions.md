@@ -9,9 +9,64 @@
 <critical>Project analysis already completed - proceeding directly to technical specification</critical>
 <critical>NO PRD generated - uses tech_spec_template + story templates</critical>
 
+<step n="0" goal="Check for workflow status file - REQUIRED">
+
+<action>Check if bmm-workflow-status.md exists in {output_folder}/</action>
+
+<check if="not exists">
+  <output>**⚠️ No Workflow Status File Found**
+
+The tech-spec workflow requires an existing workflow status file to understand your project context.
+
+Please run `workflow-status` first to:
+
+- Map out your complete workflow journey
+- Determine project type and level
+- Create the status file with your planned workflow
+
+**To proceed:**
+
+Run: `bmad analyst workflow-status`
+
+After completing workflow planning, you'll be directed back to this workflow.
+</output>
+<action>Exit workflow - cannot proceed without status file</action>
+</check>
+
+<check if="exists">
+  <action>Load status file and proceed to Step 1</action>
+</check>
+
+</step>
+
 <step n="1" goal="Confirm project scope and update tracking">
 
 <action>Load bmm-workflow-status.md from {output_folder}/bmm-workflow-status.md</action>
+<action>Verify project_level is 0 or 1</action>
+
+<check if="project_level >= 2">
+  <error>This workflow is for Level 0-1 only. Level 2-4 should use PRD workflow.</error>
+  <output>**Incorrect Workflow for Your Level**
+
+Your status file indicates Level {{project_level}}.
+
+**Correct workflow:** `prd` (run with PM agent)
+
+Run: `bmad pm prd`
+</output>
+<action>Exit and redirect user to prd workflow</action>
+</check>
+
+<check if="project_type == game">
+  <error>This workflow is for software projects. Game projects should use GDD workflow.</error>
+  <output>**Incorrect Workflow for Game Projects**
+
+**Correct workflow:** `gdd` (run with PM agent)
+
+Run: `bmad pm gdd`
+</output>
+<action>Exit and redirect user to gdd workflow</action>
+</check>
 
 <action>Update Workflow Status Tracker:</action>
 <check if="project_level == 0">

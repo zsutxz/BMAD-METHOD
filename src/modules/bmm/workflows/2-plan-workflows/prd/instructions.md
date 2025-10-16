@@ -8,14 +8,64 @@
 
 <workflow>
 
+<step n="0" goal="Check for workflow status file - REQUIRED">
+
+<action>Check if bmm-workflow-status.md exists in {output_folder}/</action>
+
+<check if="not exists">
+  <output>**⚠️ No Workflow Status File Found**
+
+The PRD workflow requires an existing workflow status file to understand your project context.
+
+Please run `workflow-status` first to:
+
+- Map out your complete workflow journey
+- Determine project type and level
+- Create the status file with your planned workflow
+
+**To proceed:**
+
+Run: `bmad analyst workflow-status`
+
+After completing workflow planning, you'll be directed back to this workflow.
+</output>
+<action>Exit workflow - cannot proceed without status file</action>
+</check>
+
+<check if="exists">
+  <action>Load status file: {status_file}</action>
+  <action>Proceed to Step 1</action>
+</check>
+
+</step>
+
 <step n="1" goal="Initialize and load context">
 
-<action>Load status file: {status_file}</action>
+<action>Extract project context from status file</action>
 <action>Verify project_level is 2, 3, or 4</action>
 
 <check if="project_level < 2">
   <error>This workflow is for Level 2-4 only. Level 0-1 should use tech-spec workflow.</error>
-  <action>Exit and redirect user to tech-spec workflow</action>
+  <output>**Incorrect Workflow for Your Level**
+
+Your status file indicates Level {{project_level}}.
+
+**Correct workflow:** `tech-spec` (run with Architect agent)
+
+Run: `bmad architect tech-spec`
+</output>
+<action>Exit and redirect user to tech-spec workflow</action>
+</check>
+
+<check if="project_type == game">
+  <error>This workflow is for software projects. Game projects should use GDD workflow.</error>
+  <output>**Incorrect Workflow for Game Projects**
+
+**Correct workflow:** `gdd` (run with PM agent)
+
+Run: `bmad pm gdd`
+</output>
+<action>Exit and redirect user to gdd workflow</action>
 </check>
 
 <action>Check for existing PRD.md in {output_folder}</action>
@@ -356,14 +406,22 @@ For each epic from the epic list, expand with full story details:
 
 **Next Steps:**
 
-- Review both documents with stakeholders
-- Run solution-architecture workflow for technical design (Level 3-4)
-- Or proceed to implementation using create-story workflow (Level 2)
+<check if="level == 2">
+  - Review PRD and epics with stakeholders
+  - **Next:** Run tech-spec workflow for lightweight technical planning
+  - Then proceed to implementation (create-story workflow)
+</check>
+
+<check if="level >= 3">
+  - Review PRD and epics with stakeholders
+  - **Next:** Run solution-architecture workflow for full technical design
+  - Then proceed to implementation (create-story workflow)
+</check>
 
 <ask>Would you like to:
 
 1. Review/refine any section
-2. Proceed to solution-architecture workflow
+2. Proceed to next phase (tech-spec for Level 2, solution-architecture for Level 3-4)
 3. Exit and review documents
    </ask>
 

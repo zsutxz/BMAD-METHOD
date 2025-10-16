@@ -11,7 +11,7 @@ user_name: "{config_source}:user_name"
 date: system-generated
 
 # Workflow components
-installed_path: "{project-root}/bmad/bmm/workflows/2-plan/prd"
+installed_path: "{project-root}/bmad/bmm/workflows/2-plan-workflows/prd"
 instructions: "{installed_path}/instructions.md"
 
 # Templates
@@ -35,10 +35,10 @@ web_bundle:
   name: "prd"
   description: "Unified PRD workflow for project levels 2-4. Produces strategic PRD and tactical epic breakdown. Hands off to solution-architecture workflow for technical design. Note: Level 0-1 use tech-spec workflow."
   author: "BMad"
-  instructions: "bmad/bmm/workflows/2-plan/prd/instructions.md"
+  instructions: "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
   use_advanced_elicitation: true
   web_bundle_files:
-    - "bmad/bmm/workflows/2-plan/prd/instructions.md"
-    - "bmad/bmm/workflows/2-plan/prd/prd-template.md"
-    - "bmad/bmm/workflows/2-plan/prd/epics-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/prd-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/epics-template.md"
     - "bmad/bmm/workflows/_shared/bmm-workflow-status-template.md"

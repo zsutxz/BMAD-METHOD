@@ -10,10 +10,60 @@
 <critical>Routes to 3-solutioning for architecture (platform-specific decisions handled there)</critical>
 <critical>If users mention technical details, append to technical_preferences with timestamp</critical>
 
+<step n="0" goal="Check for workflow status file - REQUIRED">
+
+<action>Check if bmm-workflow-status.md exists in {output_folder}/</action>
+
+<check if="not exists">
+  <output>**⚠️ No Workflow Status File Found**
+
+The GDD workflow requires an existing workflow status file to understand your project context.
+
+Please run `workflow-status` first to:
+
+- Map out your complete workflow journey
+- Determine project type and level
+- Create the status file with your planned workflow
+
+**To proceed:**
+
+Run: `bmad analyst workflow-status`
+
+After completing workflow planning, you'll be directed back to this workflow.
+</output>
+<action>Exit workflow - cannot proceed without status file</action>
+</check>
+
+<check if="exists">
+  <action>Load status file and proceed to Step 1</action>
+</check>
+
+</step>
+
 <step n="1" goal="Load context and determine game type">
 
 <action>Load bmm-workflow-status.md</action>
 <action>Confirm project_type == "game"</action>
+
+<check if="project_type != game">
+  <error>This workflow is for game projects only. Software projects should use PRD or tech-spec workflows.</error>
+  <output>**Incorrect Workflow for Software Projects**
+
+Your status file indicates project_type: {{project_type}}
+
+**Correct workflows for software projects:**
+
+- Level 0-1: `tech-spec` (run with Architect agent)
+- Level 2-4: `prd` (run with PM agent)
+
+{{#if project_level <= 1}}
+Run: `bmad architect tech-spec`
+{{else}}
+Run: `bmad pm prd`
+{{/if}}
+</output>
+<action>Exit and redirect user to appropriate software workflow</action>
+</check>
 
 <check if="continuation_mode == true">
   <action>Load existing GDD.md and check completion status</action>
@@ -413,7 +463,7 @@ Your choice:</ask>
 </check>
 
 <check if="user selects option 1 or fuzzy indicates wanting to create the narrative design document">
-  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan/narrative/workflow.yaml</invoke-workflow>
+  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan-workflows/narrative/workflow.yaml</invoke-workflow>
   <action>Pass GDD context to narrative workflow</action>
   <action>Exit current workflow (narrative will hand off to solutioning when done)</action>
 
@@ -505,7 +555,7 @@ Which would you like to proceed with?</ask>
 </check>
 
 <check if="user selects narrative option">
-  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan/narrative/workflow.yaml</invoke-workflow>
+  <invoke-workflow>{project-root}/bmad/bmm/workflows/2-plan-workflows/narrative/workflow.yaml</invoke-workflow>
   <action>Pass GDD context to narrative workflow</action>
 </check>
 

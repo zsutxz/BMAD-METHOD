@@ -11,7 +11,7 @@ user_name: "{config_source}:user_name"
 date: system-generated
 
 # Workflow components
-installed_path: "{project-root}/bmad/bmm/workflows/2-plan/tech-spec"
+installed_path: "{project-root}/bmad/bmm/workflows/2-plan-workflows/tech-spec"
 instructions: "{installed_path}/instructions.md"
 template: "{installed_path}/tech-spec-template.md"
 
@@ -57,15 +57,15 @@ web_bundle:
   name: "tech-spec-sm"
   description: "Technical specification workflow for Level 0-1 projects. Creates focused tech spec with story generation. Level 0: tech-spec + user story. Level 1: tech-spec + epic/stories."
   author: "BMad"
-  instructions: "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
+  instructions: "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions.md"
   use_advanced_elicitation: true
   web_bundle_files:
-    - "bmad/bmm/workflows/2-plan/tech-spec/instructions.md"
-    - "bmad/bmm/workflows/2-plan/tech-spec/instructions-level0-story.md"
-    - "bmad/bmm/workflows/2-plan/tech-spec/instructions-level1-stories.md"
-    - "bmad/bmm/workflows/2-plan/tech-spec/tech-spec-template.md"
-    - "bmad/bmm/workflows/2-plan/tech-spec/user-story-template.md"
-    - "bmad/bmm/workflows/2-plan/tech-spec/epics-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions.md"
+    - "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions-level0-story.md"
+    - "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions-level1-stories.md"
+    - "bmad/bmm/workflows/2-plan-workflows/tech-spec/tech-spec-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/tech-spec/user-story-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/tech-spec/epics-template.md"
   # Technical frameworks available
   frameworks:
     - "Technical Design Patterns"

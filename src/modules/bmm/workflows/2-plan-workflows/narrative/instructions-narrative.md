@@ -27,7 +27,7 @@ Your game type ({{game_type}}) suggests **{{suggested_complexity}}**. Confirm or
 
 <action>Set narrative_complexity</action>
 
-<check if="complexity == "Light"">
+<check if="complexity == Light">
 <ask>Light narrative games usually don't need a full Narrative Design Document. Are you sure you want to continue?
 
 - GDD story sections may be sufficient
