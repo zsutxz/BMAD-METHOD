@@ -124,46 +124,29 @@ Get core game concept and vision.
 
 <step n="2" goal="Define platforms and target audience">
 
-<ask>What platform(s) are you targeting?
-
-- Desktop (Windows/Mac/Linux)
-- Mobile (iOS/Android)
-- Web (Browser-based)
-- Console (which consoles?)
-- Multiple platforms
-
-Your answer:</ask>
+<action>Guide user to specify target platform(s) for their game, exploring considerations like desktop, mobile, web, console, or multi-platform deployment</action>
 
 <template-output>platforms</template-output>
 
-<ask>Who is your target audience?
-
-Consider:
-
-- Age range
-- Gaming experience level (casual, core, hardcore)
-- Genre familiarity
-- Play session length preferences
-
-Your answer:</ask>
+<action>Guide user to define their target audience with specific demographics: age range, gaming experience level (casual/core/hardcore), genre familiarity, and preferred play session lengths</action>
 
 <template-output>target_audience</template-output>
 
 </step>
 
-<step n="3" goal="Define goals and context">
+<step n="3" goal="Define goals, context, and unique selling points">
 
-**Goal Guidelines based on project level:**
-
-- Level 0-1: 1-2 primary goals
-- Level 2: 2-3 primary goals
-- Level 3-4: 3-5 strategic goals
+<action>Guide user to define project goals appropriate for their level (Level 0-1: 1-2 goals, Level 2: 2-3 goals, Level 3-4: 3-5 strategic goals) - what success looks like for this game</action>
 
 <template-output>goals</template-output>
 
-Brief context on why this game matters now.
+<action>Guide user to provide context on why this game matters now - the motivation and rationale behind the project</action>
 
 <template-output>context</template-output>
+
+<action>Guide user to identify the unique selling points (USPs) - what makes this game different from existing games in the market</action>
+
+<template-output>unique_selling_points</template-output>
 
 </step>
 
@@ -171,27 +154,15 @@ Brief context on why this game matters now.
 
 <critical>These are game-defining decisions</critical>
 
-<ask>What are the core game pillars (2-4 fundamental gameplay elements)?
-
-Examples:
-
-- Tight controls + challenging combat + rewarding exploration
-- Strategic depth + replayability + quick sessions
-- Narrative + atmosphere + player agency
-
-Your game pillars:</ask>
+<action>Guide user to identify 2-4 core game pillars - the fundamental gameplay elements that define their game's experience (e.g., tight controls + challenging combat + rewarding exploration, or strategic depth + replayability + quick sessions)</action>
 
 <template-output>game_pillars</template-output>
 
-<ask>Describe the core gameplay loop (what the player does repeatedly):
-
-Example: "Player explores level → encounters enemies → defeats enemies with abilities → collects resources → upgrades abilities → explores deeper"
-
-Your gameplay loop:</ask>
+<action>Guide user to describe the core gameplay loop - what actions the player repeats throughout the game, creating a clear cyclical pattern of player behavior and rewards</action>
 
 <template-output>gameplay_loop</template-output>
 
-<ask>How does the player win? How do they lose?</ask>
+<action>Guide user to define win and loss conditions - how the player succeeds and fails in the game</action>
 
 <template-output>win_loss_conditions</template-output>
 
@@ -199,19 +170,12 @@ Your gameplay loop:</ask>
 
 <step n="5" goal="Game mechanics and controls">
 
-Define the primary game mechanics.
+<action>Guide user to define the primary game mechanics that players will interact with throughout the game</action>
 
 <template-output>primary_mechanics</template-output>
 <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
 
-<ask>Describe the control scheme and input method:
-
-- Keyboard + Mouse
-- Gamepad
-- Touch screen
-- Other
-
-Include key bindings or button layouts if known.</ask>
+<action>Guide user to describe their control scheme and input method (keyboard/mouse, gamepad, touchscreen, etc.), including key bindings or button layouts if known</action>
 
 <template-output>controls</template-output>
 
@@ -233,29 +197,15 @@ For each {{placeholder}} in the fragment, elicit and capture that information.
 
 <step n="7" goal="Progression and balance">
 
-<ask>How does player progression work?
-
-- Skill-based (player gets better)
-- Power-based (character gets stronger)
-- Unlock-based (new abilities/areas)
-- Narrative-based (story progression)
-- Combination
-
-Describe:</ask>
+<action>Guide user to describe how player progression works in their game - whether through skill improvement, power gains, ability unlocking, narrative advancement, or a combination of approaches</action>
 
 <template-output>player_progression</template-output>
 
-<ask>Describe the difficulty curve:
-
-- How does difficulty increase?
-- Pacing (steady, spikes, player-controlled?)
-- Accessibility options?</ask>
+<action>Guide user to define the difficulty curve: how challenge increases over time, pacing rhythm (steady/spikes/player-controlled), and any accessibility options planned</action>
 
 <template-output>difficulty_curve</template-output>
 
-<ask optional="true">Is there an in-game economy or resource system?
-
-Skip if not applicable.</ask>
+<action>Ask if the game includes an in-game economy or resource system, and if so, guide user to describe it (skip if not applicable)</action>
 
 <template-output>economy_resources</template-output>
 
@@ -263,26 +213,11 @@ Skip if not applicable.</ask>
 
 <step n="8" goal="Level design framework">
 
-<ask>What types of levels/stages does your game have?
-
-Examples:
-
-- Tutorial, early levels, mid-game, late-game, boss arenas
-- Biomes/themes
-- Procedural vs. handcrafted
-
-Describe:</ask>
+<action>Guide user to describe the types of levels/stages in their game (e.g., tutorial, themed biomes, boss arenas, procedural vs. handcrafted, etc.)</action>
 
 <template-output>level_types</template-output>
 
-<ask>How do levels progress or unlock?
-
-- Linear sequence
-- Hub-based
-- Open world
-- Player choice
-
-Describe:</ask>
+<action>Guide user to explain how levels progress or unlock - whether through linear sequence, hub-based structure, open world exploration, or player-driven choices</action>
 
 <template-output>level_progression</template-output>
 
@@ -290,23 +225,11 @@ Describe:</ask>
 
 <step n="9" goal="Art and audio direction">
 
-<ask>Describe the art style:
-
-- Visual aesthetic (pixel art, low-poly, realistic, stylized, etc.)
-- Color palette
-- Inspirations or references
-
-Your vision:</ask>
+<action>Guide user to describe their art style vision: visual aesthetic (pixel art, low-poly, realistic, stylized), color palette preferences, and any inspirations or references</action>
 
 <template-output>art_style</template-output>
 
-<ask>Describe audio and music direction:
-
-- Music style/genre
-- Sound effect tone
-- Audio importance to gameplay
-
-Your vision:</ask>
+<action>Guide user to describe their audio and music direction: music style/genre, sound effect tone, and how important audio is to the gameplay experience</action>
 
 <template-output>audio_music</template-output>
 
@@ -314,38 +237,15 @@ Your vision:</ask>
 
 <step n="10" goal="Technical specifications">
 
-<ask>What are the performance requirements?
-
-Consider:
-
-- Target frame rate
-- Resolution
-- Load times
-- Battery life (mobile)
-
-Requirements:</ask>
+<action>Guide user to define performance requirements: target frame rate, resolution, acceptable load times, and mobile battery considerations if applicable</action>
 
 <template-output>performance_requirements</template-output>
 
-<ask>Any platform-specific considerations?
-
-- Mobile: Touch controls, screen sizes
-- PC: Keyboard/mouse, settings
-- Console: Controller, certification
-- Web: Browser compatibility, file size
-
-Platform details:</ask>
+<action>Guide user to identify platform-specific considerations (mobile touch controls/screen sizes, PC keyboard/mouse/settings, console controller/certification, web browser compatibility/file size)</action>
 
 <template-output>platform_details</template-output>
 
-<ask>What are the key asset requirements?
-
-- Art assets (sprites, models, animations)
-- Audio assets (music, SFX, voice)
-- Estimated asset counts/sizes
-- Asset pipeline needs
-
-Asset requirements:</ask>
+<action>Guide user to document key asset requirements: art assets (sprites/models/animations), audio assets (music/SFX/voice), estimated counts/sizes, and asset pipeline needs</action>
 
 <template-output>asset_requirements</template-output>
 
@@ -353,14 +253,7 @@ Asset requirements:</ask>
 
 <step n="11" goal="Epic structure">
 
-<action>Translate game features into development epics</action>
-
-**Epic Guidelines based on project level:**
-
-- Level 1: 1 epic with 1-10 stories
-- Level 2: 1-2 epics with 5-15 stories total
-- Level 3: 2-5 epics with 12-40 stories
-- Level 4: 5+ epics with 40+ stories
+<action>Work with user to translate game features into development epics, following level-appropriate guidelines (Level 1: 1 epic/1-10 stories, Level 2: 1-2 epics/5-15 stories, Level 3: 2-5 epics/12-40 stories, Level 4: 5+ epics/40+ stories)</action>
 
 <template-output>epics</template-output>
 <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
@@ -373,18 +266,15 @@ Asset requirements:</ask>
 
 <critical>Create separate epics.md with full story hierarchy</critical>
 
+<action>Generate epic overview section with all epics listed</action>
+
 <template-output file="epics.md">epic_overview</template-output>
 
+<action>For each epic, generate detailed breakdown with expanded goals, capabilities, and success criteria</action>
+
+<action>For each epic, generate all stories in user story format with prerequisites, acceptance criteria (3-8 per story), and high-level technical notes</action>
+
 <for-each epic="epic_list">
-
-Generate Epic {{epic_number}} with expanded goals, capabilities, success criteria.
-
-Generate all stories with:
-
-- User story format
-- Prerequisites
-- Acceptance criteria (3-8 per story)
-- Technical notes (high-level only)
 
 <template-output file="epics.md">epic\_{{epic_number}}\_details</template-output>
 <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
@@ -394,29 +284,11 @@ Generate all stories with:
 </step>
 <step n="13" goal="Success metrics">
 
-<ask>What technical metrics will you track?
-
-Examples:
-
-- Frame rate consistency
-- Load times
-- Crash rate
-- Memory usage
-
-Your metrics:</ask>
+<action>Guide user to identify technical metrics they'll track (e.g., frame rate consistency, load times, crash rate, memory usage)</action>
 
 <template-output>technical_metrics</template-output>
 
-<ask>What gameplay metrics will you track?
-
-Examples:
-
-- Player completion rate
-- Average session length
-- Difficulty pain points
-- Feature engagement
-
-Your metrics:</ask>
+<action>Guide user to identify gameplay metrics they'll track (e.g., player completion rate, session length, difficulty pain points, feature engagement)</action>
 
 <template-output>gameplay_metrics</template-output>
 
@@ -424,7 +296,11 @@ Your metrics:</ask>
 
 <step n="14" goal="Document out of scope and assumptions">
 
+<action>Guide user to document what is explicitly out of scope for this game - features, platforms, or content that won't be included in this version</action>
+
 <template-output>out_of_scope</template-output>
+
+<action>Guide user to document key assumptions and dependencies - technical assumptions, team capabilities, third-party dependencies, or external factors the project relies on</action>
 
 <template-output>assumptions_and_dependencies</template-output>
 
@@ -432,7 +308,7 @@ Your metrics:</ask>
 
 <step n="15" goal="Generate solutioning handoff and next steps">
 
-<action>Check if game-type fragment contained narrative tags</action>
+<action>Check if game-type fragment contained narrative tags indicating narrative importance</action>
 
 <check if="fragment had <narrative-workflow-critical> or <narrative-workflow-recommended>">
   <action>Set needs_narrative = true</action>
@@ -443,15 +319,9 @@ Your metrics:</ask>
 </check>
 
 <check if="needs_narrative == true">
-  <ask>This game type ({{game_type}}) is **{{narrative_importance}}** for narrative.
+  <action>Inform user that their game type benefits from narrative design, presenting the option to create a Narrative Design Document covering story structure, character arcs, world lore, dialogue framework, and environmental storytelling</action>
 
-Your game would benefit from a Narrative Design Document to detail:
-
-- Story structure and beats
-- Character profiles and arcs
-- World lore and history
-- Dialogue framework
-- Environmental storytelling
+<ask>This game type ({{game_type}}) benefits from narrative design.
 
 Would you like to create a Narrative Design Document now?
 
