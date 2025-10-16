@@ -1,11 +1,12 @@
 # Build Workflow - Workflow Builder Instructions
 
-<workflow>
-
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/create-workflow/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml</critical>
 <critical>You MUST fully understand the workflow creation guide at: {workflow_creation_guide}</critical>
 <critical>Study the guide thoroughly to follow ALL conventions for optimal human-AI collaboration</critical>
+<critical>Communicate in {communication_language} throughout the workflow creation process</critical>
+
+<workflow>
 
 <step n="-1" goal="Optional brainstorming phase" optional="true">
 <ask>Do you want to brainstorm workflow ideas first? [y/n]</ask>
@@ -168,7 +169,7 @@ Load and use the template at: {template_instructions}
 Generate the instructions.md file following the workflow creation guide:
 
 1. ALWAYS include critical headers:
-   - Workflow engine reference: {project_root}/bmad/core/tasks/workflow.xml
+   - Workflow engine reference: {project-root}/bmad/core/tasks/workflow.xml
    - workflow.yaml reference: must be loaded and processed
 
 2. Structure with <workflow> tags containing all steps
@@ -558,21 +559,16 @@ web_bundle:
 </step>
 
 <step n="10" goal="Document and finalize">
-Create a brief README for the workflow folder explaining:
-- Purpose and use case
-- How to invoke: `workflow {workflow_name}`
-- Expected inputs
-- Generated outputs
-- Any special requirements
+<action>Create a brief README for the workflow folder explaining purpose, how to invoke, expected inputs, generated outputs, and any special requirements</action>
 
-Provide user with:
+<action>Provide {user_name} with workflow completion summary in {communication_language}:</action>
 
 - Location of created workflow: {{output_folder}}
-- Command to run it
+- Command to run it: `workflow {workflow_name}`
 - Next steps:
-  - "Run the BMAD Method installer to this project location"
-  - "Select the option 'Compile Agents (Quick rebuild of all agent .md files)' after confirming the folder"
-  - "This will compile your new workflow and make it available for use"
+  - Run the BMAD Method installer to this project location
+  - Select 'Compile Agents (Quick rebuild of all agent .md files)' after confirming the folder
+  - This will compile the new workflow and make it available for use
     </step>
 
 </workflow>

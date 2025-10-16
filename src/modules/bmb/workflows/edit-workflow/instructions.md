@@ -3,6 +3,7 @@
 <critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {project-root}/bmad/bmb/workflows/edit-workflow/workflow.yaml</critical>
 <critical>Study the workflow creation guide thoroughly at: {workflow_creation_guide}</critical>
+<critical>Communicate in {communication_language} throughout the workflow editing process</critical>
 
 <workflow>
 
@@ -236,43 +237,25 @@ If updating existing web bundle:
 </step>
 
 <step n="7" goal="Generate change summary">
-Create a summary of all changes made:
+<action>Create a summary of all changes made for {user_name} in {communication_language}:</action>
 
-## Workflow Edit Summary
+**Summary Structure:**
 
-**Workflow:** {{workflow_name}}
-**Date:** {{date}}
-**Editor:** {{user_name}}
-
-### Changes Made:
-
-<action>List each file that was modified with a brief description of changes</action>
-
-### Improvements:
-
-<action>Summarize how the workflow is now better aligned with best practices</action>
-
-### Files Modified:
-
-<action>List all modified files with their paths</action>
-
-### Next Steps:
-
-<action>Suggest any additional improvements or testing that could be done</action>
+- Workflow name
+- Changes made (file-by-file descriptions)
+- Improvements (how workflow is now better aligned with best practices)
+- Files modified (complete list with paths)
+- Next steps (suggestions for additional improvements or testing)
 
 <ask>Would you like to:
 
-- Save this summary to: {change_log_output}
 - Test the edited workflow
 - Make additional edits
 - Exit
   </ask>
 
-<check>If save summary:</check>
-<action>Write the summary to the change log file</action>
-
 <check>If test workflow:</check>
-<invoke-workflow>{{workflow_name}}</invoke-workflow>
+<action>Invoke the edited workflow for testing</action>
 </step>
 
 </workflow>

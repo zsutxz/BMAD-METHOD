@@ -1,7 +1,8 @@
 # Convert Legacy - v4 to v5 Conversion Instructions
 
-<critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project_root}/bmad/bmb/workflows/convert-legacy/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
+<parameter name="You MUST have already loaded and processed: {project-root}/bmad/bmb/workflows/convert-legacy/workflow.yaml</critical>
+<critical>Communicate in {communication_language} throughout the conversion process</critical>
 
 <workflow>
 
@@ -354,6 +355,7 @@ For Modules:
 - Warnings or notes
 
 <action>Save report to: {output_folder}/conversion-report-{{date}}.md</action>
+<action>Inform {user_name} in {communication_language} that the conversion report has been generated</action>
 </step>
 
 <step n="8" goal="Cleanup and Finalize">
