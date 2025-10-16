@@ -59,7 +59,6 @@ web_bundle:
   description: "Technical specification workflow for Level 0-1 projects. Creates focused tech spec with story generation. Level 0: tech-spec + user story. Level 1: tech-spec + epic/stories."
   author: "BMad"
   instructions: "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions.md"
-  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions.md"
     - "bmad/bmm/workflows/2-plan-workflows/tech-spec/instructions-level0-story.md"

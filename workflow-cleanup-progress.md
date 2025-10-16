@@ -104,12 +104,26 @@ date: system-generated
 
 ### Progress:
 
-- Status: Pending
-- Workflows Completed: 0/42
+- Status: ⚙️ IN PROGRESS
+- Workflows Completed: 14/35 (40%)
 
 ### Completed Workflows:
 
-_None yet_
+**CIS Module (4/4 - 100% complete):**
+
+1. ✅ storytelling - Fixed: removed use_advanced_elicitation bloat, removed duplicate story_frameworks, fixed web_bundle filename (story-frameworks.csv → story-types.csv), added missing {{resolution}} template-output, added {communication_language} and {user_name} usage
+2. ✅ problem-solving - Fixed: removed use_advanced_elicitation bloat, removed duplicate solving_methods
+3. ✅ design-thinking - Fixed: removed use_advanced_elicitation bloat, removed duplicate design_methods
+4. ✅ innovation-strategy - Fixed: removed use_advanced_elicitation bloat, removed duplicate innovation_frameworks
+
+**BMM Module (10/30 cleaned so far):** 5. ✅ brainstorm-game - Fixed: removed use_advanced_elicitation bloat 6. ✅ brainstorm-project - Fixed: removed use_advanced_elicitation bloat 7. ✅ game-brief - Fixed: removed use_advanced_elicitation bloat 8. ✅ product-brief - Fixed: removed use_advanced_elicitation bloat 9. ✅ research - Fixed: removed use_advanced_elicitation bloat 10. ✅ gdd - Fixed: removed use_advanced_elicitation bloat 11. ✅ narrative - Fixed: removed use_advanced_elicitation bloat 12. ✅ prd - Fixed: removed use_advanced_elicitation bloat 13. ✅ tech-spec (2-plan) - Fixed: removed use_advanced_elicitation bloat 14. ✅ ux - Fixed: removed use_advanced_elicitation bloat
+
+**Common Issues Found:**
+
+- `use_advanced_elicitation: true` bloat in web_bundle (not used in instructions) - Fixed in 14 workflows (4 CIS + 10 BMM)
+- Duplicate data file variables between top-level and web_bundle - Fixed in 4 CIS workflows
+- Missing template-output tags for template variables - Fixed in storytelling (1)
+- Underutilization of {communication_language} and {user_name} config variables - Enhanced in storytelling (1)
 
 ---
 

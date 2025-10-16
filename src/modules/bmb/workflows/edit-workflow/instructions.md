@@ -146,7 +146,12 @@ If creating new web bundle:
    - Any included files
 5. Scan template.md for any includes
 6. Create complete web_bundle_files array
-7. Generate web_bundle section
+7. **CRITICAL**: Check for <invoke-workflow> calls in instructions:
+   - If workflow invokes other workflows, add existing_workflows field
+   - Maps workflow variable name to bmad/-relative path
+   - Signals bundler to recursively include invoked workflow's web_bundle
+   - Example: `existing_workflows: - core_brainstorming: "bmad/core/workflows/brainstorming/workflow.yaml"`
+8. Generate web_bundle section
 
 If updating existing web bundle:
 

@@ -52,7 +52,6 @@ web_bundle:
   description: "UX/UI specification workflow for defining user experience and interface design. Creates comprehensive UX documentation including wireframes, user flows, component specifications, and design system guidelines."
   author: "BMad"
   instructions: "bmad/bmm/workflows/2-plan-workflows/ux/instructions-ux.md"
-  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/ux/instructions-ux.md"
     - "bmad/bmm/workflows/2-plan-workflows/ux/ux-spec-template.md"

@@ -56,7 +56,6 @@ web_bundle:
   description: "Game Design Document workflow for all game project levels - from small prototypes to full AAA games. Generates comprehensive GDD with game mechanics, systems, progression, and implementation guidance."
   author: "BMad"
   instructions: "bmad/bmm/workflows/2-plan-workflows/gdd/instructions-gdd.md"
-  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/gdd/instructions-gdd.md"
     - "bmad/bmm/workflows/2-plan-workflows/gdd/gdd-template.md"

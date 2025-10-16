@@ -38,7 +38,6 @@ web_bundle:
   instructions: "bmad/bmm/workflows/1-analysis/product-brief/instructions.md"
   validation: "bmad/bmm/workflows/1-analysis/product-brief/checklist.md"
   template: "bmad/bmm/workflows/1-analysis/game-brief/template.md"
-  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/1-analysis/game-brief/template.md"
     - "bmad/bmm/workflows/1-analysis/game-brief/instructions.md"

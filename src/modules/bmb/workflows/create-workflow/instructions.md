@@ -379,13 +379,43 @@ web_bundle:
     - 'bmad/{module}/workflows/{workflow}/template.md'
     - 'bmad/{module}/workflows/{workflow}/data.csv'
     # Add every single file referenced anywhere
+
+  # CRITICAL: If this workflow invokes other workflows, use existing_workflows
+  # This signals the bundler to recursively include those workflows' web_bundles
+  existing_workflows:
+    - workflow_variable_name: 'bmad/path/to/workflow.yaml'
 ```
+
+**Example with existing_workflows:**
+
+```yaml
+web_bundle:
+  name: 'brainstorm-game'
+  description: 'Game brainstorming with CIS workflow'
+  author: 'BMad'
+  instructions: 'bmad/bmm/workflows/brainstorm-game/instructions.md'
+  template: false
+  web_bundle_files:
+    - 'bmad/bmm/workflows/brainstorm-game/instructions.md'
+    - 'bmad/mmm/workflows/brainstorm-game/game-context.md'
+    - 'bmad/core/workflows/brainstorming/workflow.yaml'
+  existing_workflows:
+    - core_brainstorming: 'bmad/core/workflows/brainstorming/workflow.yaml'
+```
+
+**What existing_workflows does:**
+
+- Tells the bundler this workflow invokes another workflow
+- Bundler recursively includes the invoked workflow's entire web_bundle
+- Essential for meta-workflows that orchestrate other workflows
+- Maps workflow variable names to their bmad/-relative paths
 
 <action>Validate web bundle completeness:</action>
 
 - Ensure no {config_source} variables remain
 - Verify all file paths are listed
 - Check that paths are bmad/-relative
+- If workflow uses <invoke-workflow>, add to existing_workflows
 
 <template-output>web_bundle_config</template-output>
 </step>

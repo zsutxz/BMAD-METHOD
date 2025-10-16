@@ -145,6 +145,11 @@ Display summary:
 <action>Scan instructions.md for <invoke-workflow> tags</action>
 <action>Extract workflow paths from invocations</action>
 <action>Verify each called workflow.yaml is in web_bundle_files</action>
+<action>**CRITICAL**: Check if existing_workflows field is present when workflows are invoked</action>
+<action>If <invoke-workflow> calls exist, existing_workflows MUST map workflow variables to paths</action>
+<action>Example: If instructions use {core_brainstorming}, web_bundle needs:
+existing_workflows: - core_brainstorming: "bmad/core/workflows/brainstorming/workflow.yaml"
+</action>
 
 **File Reference Scan:**
 <action>Scan instructions.md for file references in <action> tags</action>

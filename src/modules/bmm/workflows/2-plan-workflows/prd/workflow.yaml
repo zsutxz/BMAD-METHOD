@@ -37,7 +37,6 @@ web_bundle:
   description: "Unified PRD workflow for project levels 2-4. Produces strategic PRD and tactical epic breakdown. Hands off to solution-architecture workflow for technical design. Note: Level 0-1 use tech-spec workflow."
   author: "BMad"
   instructions: "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
-  use_advanced_elicitation: true
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
     - "bmad/bmm/workflows/2-plan-workflows/prd/prd-template.md"

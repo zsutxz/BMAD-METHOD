@@ -52,6 +52,8 @@
 - [ ] validation/checklist file listed in web_bundle_files (if exists)
 - [ ] All data files (CSV, JSON, YAML) listed in web_bundle_files
 - [ ] All <invoke-workflow> called workflows have their .yaml files in web_bundle_files
+- [ ] **CRITICAL**: If workflow invokes other workflows, existing_workflows field is present
+- [ ] existing_workflows maps workflow variables to bmad/-relative paths correctly
 - [ ] All files referenced in instructions <action> tags listed in web_bundle_files
 - [ ] No files listed in web_bundle_files that don't exist
 - [ ] Web bundle metadata (name, description, author) matches top-level metadata
