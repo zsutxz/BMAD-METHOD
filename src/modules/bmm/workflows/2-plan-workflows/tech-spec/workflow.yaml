@@ -34,26 +34,6 @@ recommended_inputs:
   - bug_report: "Bug description or issue ticket"
   - feature_request: "Brief feature description"
 
-# Claude Code integration points
-claude_code_enhancements:
-  - injection_point: "tech-spec-subagents"
-  - available_subagents:
-      - technical-evaluator: "Technology assessment and feasibility"
-      - codebase-analyzer: "Existing code analysis"
-      - pattern-detector: "Identify coding patterns to follow"
-
-# Workflow configuration
-interactive: true # User checkpoints
-autonomous: false # Requires user input
-allow_parallel: false # Sequential specification
-
-# Technical frameworks available
-frameworks:
-  - "Technical Design Patterns"
-  - "API Design Principles"
-  - "Code Organization Standards"
-  - "Testing Strategies"
-
 web_bundle:
   name: "tech-spec-sm"
   description: "Technical specification workflow for Level 0-1 projects. Creates focused tech spec with story generation. Level 0: tech-spec + user story. Level 1: tech-spec + epic/stories."
@@ -66,13 +46,3 @@ web_bundle:
     - "bmad/bmm/workflows/2-plan-workflows/tech-spec/tech-spec-template.md"
     - "bmad/bmm/workflows/2-plan-workflows/tech-spec/user-story-template.md"
     - "bmad/bmm/workflows/2-plan-workflows/tech-spec/epics-template.md"
-  # Technical frameworks available
-  frameworks:
-    - "Technical Design Patterns"
-    - "API Design Principles"
-    - "Code Organization Standards"
-    - "Testing Strategies"
-  # Workflow configuration
-  interactive: true # User checkpoints
-  autonomous: false # Requires user input
-  allow_parallel: false # Sequential specification

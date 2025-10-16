@@ -2,6 +2,7 @@
 
 <critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
+<critical>Communicate all responses in {communication_language}</critical>
 <critical>This workflow is for Level 2-4 projects. Level 0-1 use tech-spec workflow.</critical>
 <critical>Produces TWO outputs: PRD.md (strategic) and epics.md (tactical implementation)</critical>
 <critical>TECHNICAL NOTES: If ANY technical details, preferences, or constraints are mentioned during PRD discussions, append them to {technical_decisions_file}. If file doesn't exist, create it from {technical_decisions_template}</critical>
@@ -397,7 +398,7 @@ For each epic from the epic list, expand with full story details:
 
 <template-output file="bmm-workflow-status.md">prd_completion_update</template-output>
 
-**Workflow Complete!**
+**✅ PRD Workflow Complete, {user_name}!**
 
 **Deliverables Created:**
 

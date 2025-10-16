@@ -25,28 +25,6 @@ recommended_inputs:
   - product_brief: "{output_folder}/product-brief.md"
   - gdd: "{output_folder}/GDD.md"
 
-# Claude Code integration points
-claude_code_enhancements:
-  - injection_point: "ux-subagents"
-  - available_subagents:
-      - ux-expert: "User experience design and best practices"
-      - user-researcher: "User research and persona development"
-
-# Workflow configuration
-interactive: true # User checkpoints throughout
-autonomous: false # Requires user input
-allow_parallel: false # Sequential UX design process
-
-# UX frameworks available
-frameworks:
-  - "User-Centered Design"
-  - "Design System Principles"
-  - "Accessibility (WCAG)"
-  - "Responsive Design"
-  - "Component-Based Design"
-  - "Atomic Design"
-  - "Material Design / Human Interface Guidelines"
-
 web_bundle:
   name: "ux-spec"
   description: "UX/UI specification workflow for defining user experience and interface design. Creates comprehensive UX documentation including wireframes, user flows, component specifications, and design system guidelines."
@@ -55,17 +33,3 @@ web_bundle:
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/ux/instructions-ux.md"
     - "bmad/bmm/workflows/2-plan-workflows/ux/ux-spec-template.md"
-  recommended_inputs: "PRD, Product Brief, Brain Storming Report, GDD"
-  # UX frameworks available
-  frameworks:
-    - "User-Centered Design"
-    - "Design System Principles"
-    - "Accessibility (WCAG)"
-    - "Responsive Design"
-    - "Component-Based Design"
-    - "Atomic Design"
-    - "Material Design / Human Interface Guidelines"
-  # Workflow configuration
-  interactive: true # User checkpoints throughout
-  autonomous: false # Requires user input
-  allow_parallel: false # Sequential UX design process

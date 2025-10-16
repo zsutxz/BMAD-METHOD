@@ -24,21 +24,6 @@ recommended_inputs:
   - gdd: "{output_folder}/GDD.md"
   - product_brief: "{output_folder}/product-brief.md"
 
-# Workflow configuration
-interactive: true # User checkpoints throughout
-autonomous: false # Requires user input
-allow_parallel: false # Sequential narrative development
-
-# Narrative frameworks available
-frameworks:
-  - "Hero's Journey"
-  - "Three-Act Structure"
-  - "Character Arc Development"
-  - "Branching Narrative Design"
-  - "Environmental Storytelling"
-  - "Dialogue Systems"
-  - "Narrative Pacing"
-
 web_bundle:
   name: "narrative"
   description: "Narrative design workflow for story-driven games and applications. Creates comprehensive narrative documentation including story structure, character arcs, dialogue systems, and narrative implementation guidance."
@@ -47,17 +32,3 @@ web_bundle:
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/narrative/instructions-narrative.md"
     - "bmad/bmm/workflows/2-plan-workflows/narrative/narrative-template.md"
-  recommended_inputs: "PRD, Product Brief, Brain Storming Report, GDD"
-  # Narrative frameworks available
-  frameworks:
-    - "Hero's Journey"
-    - "Three-Act Structure"
-    - "Character Arc Development"
-    - "Branching Narrative Design"
-    - "Environmental Storytelling"
-    - "Dialogue Systems"
-    - "Narrative Pacing"
-  # Workflow configuration
-  interactive: true # User checkpoints throughout
-  autonomous: false # Requires user input
-  allow_parallel: false # Sequential narrative development

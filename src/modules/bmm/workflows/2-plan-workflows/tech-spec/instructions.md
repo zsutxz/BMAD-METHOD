@@ -4,6 +4,7 @@
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
+<critical>Communicate all responses in {communication_language}</critical>
 <critical>This is the SMALL instruction set for Level 0-1 projects - tech-spec with story generation</critical>
 <critical>Level 0: tech-spec + single user story | Level 1: tech-spec + epic/stories</critical>
 <critical>Project analysis already completed - proceeding directly to technical specification</critical>
@@ -233,7 +234,9 @@ Run cohesion validation? (y/n)</ask>
   - Command: `workflow task-generation`
   - Uses: tech-spec.md
 
-<ask>Level 0 planning complete! Next action:
+<ask>**✅ Tech-Spec Complete, {user_name}!**
+
+Next action:
 
 1. Proceed to implementation
 2. Generate development task

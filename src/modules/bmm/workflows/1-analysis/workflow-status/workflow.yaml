@@ -17,20 +17,4 @@ instructions: "{installed_path}/instructions.md"
 # Output configuration - no output file, reads existing status
 default_output_file: ""
 
-required_tools:
-  - list_files
-  - read_file
-  - glob
-
-tags:
-  - workflow-orchestration
-  - status-tracking
-  - master-router
-  - bmad-v6
-
-execution_hints:
-  interactive: true # User interaction required for decisions
-  autonomous: false # Requires user input
-  iterative: false # Single-pass status check and suggestion
-
 web_bundle: false

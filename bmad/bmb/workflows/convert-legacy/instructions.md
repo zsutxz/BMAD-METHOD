@@ -258,10 +258,10 @@ For Modules:
    - Preserve execution logic
 
 4. Handle special v4 patterns:
-   - 1-9 elicitation menus → v5 <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
+   - 1-9 elicitation menus → <invoke-task halt="true">{project-root}/bmad/core/tasks/adv-elicit.xml</invoke-task>
    - Agent permissions → note in instructions
-   - YOLO mode → autonomous flag or optional steps
-   - Critical notices → workflow.yaml comments
+   - YOLO mode → agent will decide how to handle yolo at runtime
+   - Critical notices → workflow.yaml comments or strict action or other tag in instructions as needed
 
 <invoke-workflow>
   workflow: {project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml

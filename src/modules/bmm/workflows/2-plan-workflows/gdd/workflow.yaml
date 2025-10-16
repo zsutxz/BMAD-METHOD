@@ -28,29 +28,6 @@ recommended_inputs:
   - narrative_design: "{output_folder}/narrative-design.md"
   - market_research: "{output_folder}/market-research.md"
 
-# Claude Code integration points
-claude_code_enhancements:
-  - injection_point: "game-design-subagents"
-  - available_subagents:
-      - game-designer: "Core game mechanics and systems design"
-      - game-architect: "Technical architecture for game systems"
-      - user-researcher: "Player experience and engagement"
-
-# Workflow configuration
-interactive: true # User checkpoints throughout
-autonomous: false # Requires user input
-allow_parallel: false # Sequential design process
-
-# Game frameworks available
-frameworks:
-  - "MDA Framework (Mechanics, Dynamics, Aesthetics)"
-  - "Core Loop Design"
-  - "Progression Systems"
-  - "Economy Design"
-  - "Difficulty Curves"
-  - "Player Psychology"
-  - "Game Feel and Juice"
-
 web_bundle:
   name: "gdd"
   description: "Game Design Document workflow for all game project levels - from small prototypes to full AAA games. Generates comprehensive GDD with game mechanics, systems, progression, and implementation guidance."
@@ -84,16 +61,3 @@ web_bundle:
     - "bmad/bmm/workflows/2-plan-workflows/gdd/game-types/tower-defense.md"
     - "bmad/bmm/workflows/2-plan-workflows/gdd/game-types/turn-based-tactics.md"
     - "bmad/bmm/workflows/2-plan-workflows/gdd/game-types/visual-novel.md"
-  # Game frameworks available
-  frameworks:
-    - "MDA Framework (Mechanics, Dynamics, Aesthetics)"
-    - "Core Loop Design"
-    - "Progression Systems"
-    - "Economy Design"
-    - "Difficulty Curves"
-    - "Player Psychology"
-    - "Game Feel and Juice"
-  # Workflow configuration
-  interactive: true # User checkpoints throughout
-  autonomous: false # Requires user input
-  allow_parallel: false # Sequential design process
