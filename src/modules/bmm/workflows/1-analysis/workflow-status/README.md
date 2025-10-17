@@ -1,383 +1,238 @@
-# Workflow Status - Universal Entry Point
+# Workflow Status System
+
+The universal entry point for BMM workflows - answers "what should I do now?" for any agent.
 
 ## Overview
 
-The `workflow-status` workflow is the **universal entry point** for all BMad Method (BMM) workflows. It serves as both a status tracker and master router, helping users understand where they are in their project journey and what to do next.
+The workflow status system provides:
 
-## Purpose
+- **Smart project initialization** - Detects existing work and infers project details
+- **Simple status tracking** - Key-value pairs for instant parsing
+- **Intelligent routing** - Suggests next actions based on current state
+- **Modular workflow paths** - Each project type/level has its own clean definition
 
-**Primary Functions:**
+## Architecture
 
-1. **Status Checking**: Read existing workflow status and display current state
-2. **Next Action Recommendation**: Suggest what the user should do next
-3. **Comprehensive Workflow Planning**: Map out ENTIRE workflow journey before executing anything
-4. **Planned Workflow Documentation**: Create status file with complete phase/step roadmap
-5. **Phase Navigation**: Guide users through the 4-phase methodology
-6. **Agent Coordination**: Can be invoked by any agent (bmad-master, analyst, pm)
-
-## When to Use
-
-### Automatic Invocation
-
-Agents should automatically check workflow status when loaded:
-
-- **bmad-master**: Checks status before displaying main menu
-- **analyst**: Checks status before displaying analysis options
-- **pm**: Checks status before displaying planning options
-
-### Manual Invocation
-
-Users can manually run this workflow anytime:
-
-```bash
-bmad analyst workflow-status
-# or
-bmad pm workflow-status
-# or just tell any agent: "check workflow status"
-```
-
-## Workflow Behavior
-
-### Scenario 1: No Status File Exists (New Project)
-
-**The workflow will map out your ENTIRE workflow journey:**
-
-**Step 1: Project Context**
-
-- Determine greenfield vs brownfield
-- Check if brownfield needs documentation
-- Note if `document-project` should be added to plan
-
-**Step 2: Scope Understanding**
-
-- Ask if user knows project level/scope
-- Options:
-  - **Yes**: Capture estimated level (0-4)
-  - **No**: Defer level determination to Phase 2 (plan-project)
-  - **Want analysis first**: Include Phase 1 in plan
-
-**Step 3: Choose Starting Point**
-
-- **Option A**: Full Analysis Phase (brainstorm → research → brief)
-- **Option B**: Skip to Planning (direct to PRD/GDD)
-- **Option C**: Just Show Menu (I'll decide manually)
-
-**Step 4: Build Complete Planned Workflow**
-The workflow builds a comprehensive plan including:
-
-- Phase 1 (if needed): document-project, brainstorm, research, brief
-- Phase 2 (always required): plan-project
-- Phase 3 (if Level 3-4): solution-architecture, tech-specs
-- Phase 4 (always): Full implementation workflow (create-story → story-ready → dev-story → story-approved)
-
-**Step 5: Create Status File**
-
-- Create `bmm-workflow-status.md`
-- Document complete planned workflow in "Planned Workflow Journey" table
-- Set current step: "Workflow Definition Phase"
-- Set next step: First item from planned workflow
-- Provide command to run next step
-
-**Brownfield Special Handling:**
-
-- Checks if codebase is documented
-- Adds `document-project` to planned workflow if needed
-- Does NOT immediately execute it - documents it in the plan first
-
-**Output:**
-
-- Complete workflow roadmap with phases, steps, agents, and descriptions
-- Status file with planned journey documented
-- Clear command to run first step
-- User can reference plan anytime via workflow-status
-
-### Scenario 2: Status File Exists (Project In Progress)
-
-**The workflow will:**
-
-1. Find most recent `bmm-workflow-status.md` file
-2. Read and parse current state:
-   - Current phase and progress %
-   - Project level and type
-   - Phase completion status
-   - Implementation progress (if Phase 4)
-   - Next recommended action
-3. Display comprehensive status summary
-4. Offer options:
-   - **Option 1**: Proceed with recommended action
-   - **Option 2**: View detailed status
-   - **Option 3**: Change workflow
-   - **Option 4**: Display agent menu
-   - **Option 5**: Exit
-
-**Phase 4 Special Display:**
-If in Implementation phase, shows:
-
-- BACKLOG story count
-- TODO story (ready for drafting)
-- IN PROGRESS story (being implemented)
-- DONE story count and points
-
-## Status File Detection
-
-**Search Pattern:**
+### Core Components
 
 ```
-{output_folder}/bmm-workflow-status.md
+workflow-status/
+├── workflow.yaml              # Main configuration
+├── instructions.md            # Status checker (99 lines)
+├── workflow-status-template.md # Clean key-value template
+├── project-levels.yaml        # Source of truth for scale definitions
+└── paths/                     # Modular workflow definitions
+    ├── greenfield-level-0.yaml through level-4.yaml
+    ├── brownfield-level-0.yaml through level-4.yaml
+    └── game-design.yaml
 ```
 
-**Versioning:**
-
-- Files are named: `bmm-workflow-status.md`
-- Workflow finds most recent by date
-- Old files can be archived
-
-## Recommended Next Actions
-
-The workflow intelligently suggests next steps based on current state:
-
-**Phase 1 (Analysis):**
-
-- Continue with analysis workflows
-- Or move to `plan-project`
-
-**Phase 2 (Planning):**
-
-- If Level 0-1: Move to Phase 4 (`create-story`)
-- If Level 3-4: Move to Phase 3 (`solution-architecture`)
-
-**Phase 3 (Solutioning):**
-
-- Continue with tech-specs (JIT per epic)
-- Or move to Phase 4 (`create-story`)
-
-**Phase 4 (Implementation):**
-
-- Shows current TODO/IN PROGRESS story
-- Suggests exact next workflow (`story-ready`, `dev-story`, `story-approved`)
-
-## Integration with Agents
-
-### bmad-master
+### Related Workflow
 
 ```
-On load:
-1. Run workflow-status check
-2. If status found: Display summary + menu
-3. If no status: Offer to plan workflow
-4. Display master menu with context
+workflow-init/
+├── workflow.yaml              # Initialization configuration
+└── instructions.md            # Smart setup (182 lines)
 ```
 
-### analyst
+## How It Works
 
-```
-On load:
-1. Run workflow-status check
-2. If in Phase 1: Show analysis workflows
-3. If no status: Offer analysis planning
-4. Display analyst menu
-```
+### For New Projects
 
-### pm
+1. User runs `workflow-status`
+2. System finds no status file
+3. Directs to `workflow-init`
+4. Init workflow:
+   - Scans for existing work (PRDs, code, etc.)
+   - Infers project details from what it finds
+   - Asks minimal questions (name + description)
+   - Confirms understanding in one step
+   - Creates status file with workflow path
 
-```
-On load:
-1. Run workflow-status check
-2. If no status: Offer to run plan-project
-3. If status found: Show current phase progress
-4. Display PM menu
-```
+### For Existing Projects
 
-## Example Outputs
+1. User runs `workflow-status`
+2. System reads status file
+3. Shows current state and options:
+   - Continue in-progress work
+   - Next required step
+   - Available optional workflows
+4. User picks action
 
-### No Status File (New User) - Planning Flow
+## Status File Format
 
-```
-🚀 Welcome to BMad Method Workflows!
+Simple key-value pairs for instant parsing:
 
-No workflow status file found. Let's plan your complete workflow journey.
-
-Step 1: Project Context
-
-Is this a new or existing codebase?
-   a. Greenfield - Starting from scratch
-   b. Brownfield - Adding to existing codebase
-
-Your choice (a/b): a
-
-Step 3: Understanding Your Workflow
-
-Before we plan your workflow, let's determine the scope and complexity of your project.
-
-The BMad Method uses 5 project levels (0-4) that determine which phases you'll need:
-- Level 0: Single atomic change (1 story) - Phases 2 → 4
-- Level 1: Small feature (2-3 stories, 1 epic) - Phases 2 → 4
-- Level 2: Medium project (multiple epics) - Phases 2 → 4
-- Level 3: Complex system (subsystems, integrations) - Phases 2 → 3 → 4
-- Level 4: Enterprise scale (multiple products) - Phases 2 → 3 → 4
-
-Do you already know your project's approximate size/scope?
-a. Yes - I can describe the general scope
-b. No - Not sure yet, need help determining it
-c. Want analysis first - Do brainstorming/research before deciding
-
-Your choice (a/b/c): a
-
-Based on the descriptions above, what level best describes your project?
-0. Single atomic change
-1. Small coherent feature
-2. Medium project
-3. Complex system
-4. Enterprise scale
-
-Your estimated level (0-4): 1
-
-Step 4: Choose Your Starting Point
-
-Option A: Full Analysis Phase First
-Option B: Skip to Planning
-Option C: Just Show Menu
-
-Your choice (A/B/C): B
-
-🗺️ Your Planned Workflow
-
-Based on your responses, here's your complete workflow journey:
-
-**2-Plan** - plan-project
-  - Agent: PM
-  - Description: Create PRD/GDD/Tech-Spec (determines final level)
-  - Status: Planned
-
-**3-Solutioning** - TBD - depends on level from Phase 2
-  - Agent: Architect
-  - Description: Required if Level 3-4, skipped if Level 0-2
-  - Status: Conditional
-
-**4-Implementation** - create-story (iterative)
-  - Agent: SM
-  - Description: Draft stories from backlog
-  - Status: Planned
-
-**4-Implementation** - story-ready
-  - Agent: SM
-  - Description: Approve story for dev
-  - Status: Planned
-
-**4-Implementation** - story-context
-  - Agent: SM
-  - Description: Generate context XML
-  - Status: Planned
-
-**4-Implementation** - dev-story (iterative)
-  - Agent: DEV
-  - Description: Implement stories
-  - Status: Planned
-
-**4-Implementation** - story-approved
-  - Agent: DEV
-  - Description: Mark complete, advance queue
-  - Status: Planned
-
----
-
-Current Step: Workflow Definition Phase (this workflow)
-Next Step: plan-project (PM agent)
-
-Ready to create your workflow status file?
-
-This will create: bmm-workflow-status.md
-
-The status file will document:
-- Your complete planned workflow (phases and steps)
-- Current phase: "Workflow Definition"
-- Next action: plan-project
-
-Create status file? (y/n): y
-
-✅ Status file created!
-
-File: bmm-workflow-status.md
-
-To proceed with your first step:
-
-Load PM: bmad pm plan-project
-
-You can always check your status with: workflow-status
+```markdown
+PROJECT_NAME: MyProject
+PROJECT_TYPE: software
+PROJECT_LEVEL: 2
+FIELD_TYPE: greenfield
+CURRENT_PHASE: 2-Planning
+CURRENT_WORKFLOW: prd
+TODO_STORY: story-1.2.md
+IN_PROGRESS_STORY: story-1.1.md
+NEXT_ACTION: Continue PRD
+NEXT_COMMAND: prd
+NEXT_AGENT: pm
 ```
 
-### Status File Found (In Progress)
+Any agent can instantly grep what they need:
+
+- SM: `grep 'TODO_STORY:' status.md`
+- DEV: `grep 'IN_PROGRESS_STORY:' status.md`
+- Any: `grep 'NEXT_ACTION:' status.md`
+
+## Project Levels
+
+Source of truth: `/src/modules/bmm/README.md` lines 77-85
+
+- **Level 0**: Single atomic change (1 story)
+- **Level 1**: Small feature (1-10 stories)
+- **Level 2**: Medium project (5-15 stories)
+- **Level 3**: Complex system (12-40 stories)
+- **Level 4**: Enterprise scale (40+ stories)
+
+## Workflow Paths
+
+Each combination has its own file:
+
+- `greenfield-level-X.yaml` - New projects at each level
+- `brownfield-level-X.yaml` - Existing codebases at each level
+- `game-design.yaml` - Game projects (all levels)
+
+Benefits:
+
+- Load only what's needed (60 lines vs 750+)
+- Easy to maintain individual paths
+- Clear separation of concerns
+
+## Smart Detection
+
+The init workflow intelligently detects:
+
+**Project Type:**
+
+- Finds GDD → game
+- Otherwise → software
+
+**Project Level:**
+
+- Reads PRD epic/story counts
+- Analyzes scope descriptions
+- Makes educated guess
+
+**Field Type:**
+
+- Finds source code → brownfield
+- Only planning docs → greenfield
+- Checks git history age
+
+**Documentation Status:**
+
+- Finds index.md → was undocumented
+- Good README → documented
+- Missing docs → needs documentation
+
+## Usage Examples
+
+### Any Agent Checking Status
 
 ```
-📊 Current Workflow Status
-
-Project: My Web App
-Started: 2025-10-10
-Last Updated: 2025-10-12
-
-Current Phase: 4-Implementation (65% complete)
-Current Workflow: Story implementation in progress
-
-Phase Completion:
-- [x] Phase 1: Analysis
-- [x] Phase 2: Planning
-- [ ] Phase 3: Solutioning (skipped for Level 1)
-- [ ] Phase 4: Implementation
-
-Planned Workflow Journey:
-Current Step: dev-story (DEV agent)
-Next Step: story-approved (DEV agent)
-
-Full planned workflow documented in status file - reference anytime!
-
-Project Details:
-- Level: 1 (Coherent feature, 1-10 stories)
-- Type: web
-- Context: greenfield
-
-Implementation Progress:
-- BACKLOG: 1 stories
-- TODO: (empty)
-- IN PROGRESS: auth-feature-2 (Ready)
-- DONE: 1 stories (5 points)
-
----
-
-🎯 Recommended Next Action:
-
-Implement story auth-feature-2
-
-Command: Run 'dev-story' workflow
-Agent: DEV
-
-Would you like to:
-1. Proceed with recommended action
-2. View detailed status (includes full planned workflow table)
-3. Change workflow
-4. Display agent menu
-5. Exit
+Agent: workflow-status
+Result: "TODO: story-1.2.md, Next: create-story"
 ```
+
+### New Project Setup
+
+```
+Agent: workflow-status
+System: "No status found. Run workflow-init"
+Agent: workflow-init
+System: "Tell me about your project"
+User: "Building a dashboard with user management"
+System: "Level 2 greenfield software project. Correct?"
+User: "Yes"
+System: "Status created! Next: pm agent, run prd"
+```
+
+### Smart Inference
+
+```
+System finds: prd-dashboard.md with 3 epics
+System finds: package.json, src/ directory
+System infers: Level 2 brownfield software
+User confirms or corrects
+```
+
+## Philosophy
+
+**Less Structure, More Intelligence**
+
+Instead of complex if/else logic:
+
+- Trust the LLM to analyze and infer
+- Use natural language for corrections
+- Keep menus simple and contextual
+- Let intelligence emerge from the model
+
+**Result:** A workflow system that feels like talking to a smart assistant, not filling out a form.
+
+## Implementation Details
+
+### workflow-init (6 Steps)
+
+1. **Scan for existing work** - Check for docs, code, git history
+2. **Confirm findings** - Show what was detected (if anything)
+3. **Gather info** - Name, description, confirm type/level/field
+4. **Load path file** - Select appropriate workflow definition
+5. **Generate workflow** - Build from path file
+6. **Create status file** - Save and show next step
+
+### workflow-status (4 Steps)
+
+1. **Check for status file** - Direct to init if missing
+2. **Parse status** - Extract key-value pairs
+3. **Display options** - Show current, required, optional
+4. **Handle selection** - Execute user's choice
+
+## Best Practices
+
+1. **Let the AI guess** - It's usually right, user corrects if needed
+2. **One conversation** - Get all info in Step 3 of init
+3. **Simple parsing** - Key-value pairs, not complex structures
+4. **Modular paths** - Each scenario in its own file
+5. **Trust intelligence** - LLM understands context better than rules
+
+## Integration
+
+Other workflows read the status to coordinate:
+
+- `create-story` reads TODO_STORY
+- `dev-story` reads IN_PROGRESS_STORY
+- Any workflow can check CURRENT_PHASE
+- All agents can ask "what should I do?"
+
+The status file is the single source of truth for project state and the hub that keeps all agents synchronized.
 
 ## Benefits
 
-✅ **Complete Workflow Planning**: Maps out ENTIRE journey before executing anything
-✅ **No More Guessing**: Users always know current step AND what comes next
-✅ **Documented Roadmap**: Status file contains complete planned workflow table
-✅ **Context-Aware**: Recommendations adapt to project state and level
-✅ **Universal Entry Point**: Works with any agent
-✅ **New User Friendly**: Guides comprehensive workflow planning
-✅ **Status Visibility**: Clear progress tracking with current/next step indicators
-✅ **Phase Navigation**: Easy to jump between phases with planned path reference
-✅ **Level-Adaptive**: Plans adjust based on estimated project level (0-4)
-✅ **Brownfield Support**: Includes documentation needs in workflow plan
+✅ **Smart Detection** - Infers from existing work instead of asking everything
+✅ **Minimal Questions** - Just name and description in most cases
+✅ **Clean Status** - Simple key-value pairs for instant parsing
+✅ **Modular Paths** - 60-line files instead of 750+ line monolith
+✅ **Natural Language** - "Tell me about your project" not "Pick 1-12"
+✅ **Intelligent Menus** - Shows only relevant options
+✅ **Fast Parsing** - Grep instead of complex logic
+✅ **Easy Maintenance** - Change one level without affecting others
 
 ## Future Enhancements
 
-- **Progress Dashboards**: Visual progress indicators
-- **Time Tracking**: Estimate time remaining
-- **Multi-Project**: Handle multiple projects
-- **Team Sync**: Show what teammates are working on
+- Visual progress indicators
+- Time tracking and estimates
+- Multi-project support
+- Team synchronization
 
 ---
 
-**This workflow is the front door to BMad Method. Every user should start here or have it checked automatically by their agent.**
+**This workflow is the front door to BMad Method. Start here to know what to do next.**
