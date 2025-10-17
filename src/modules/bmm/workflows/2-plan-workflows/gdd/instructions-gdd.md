@@ -11,60 +11,75 @@
 <critical>Routes to 3-solutioning for architecture (platform-specific decisions handled there)</critical>
 <critical>If users mention technical details, append to technical_preferences with timestamp</critical>
 
-<step n="0" goal="Check for workflow status file - REQUIRED">
+<step n="0" goal="Validate workflow and extract project configuration">
 
-<action>Check if bmm-workflow-status.md exists in {output_folder}/</action>
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+  <param>mode: data</param>
+  <param>data_request: project_config</param>
+</invoke-workflow>
 
-<check if="not exists">
+<check if="status_exists == false">
   <output>**⚠️ No Workflow Status File Found**
 
-The GDD workflow requires an existing workflow status file to understand your project context.
+The GDD workflow requires a status file to understand your project context.
 
-Please run `workflow-status` first to:
+Please run `workflow-init` first to:
 
-- Map out your complete workflow journey
-- Determine project type and level
-- Create the status file with your planned workflow
+- Define your project type and level
+- Map out your workflow journey
+- Create the status file
 
-**To proceed:**
+Run: `workflow-init`
 
-Run: `bmad analyst workflow-status`
-
-After completing workflow planning, you'll be directed back to this workflow.
+After setup, return here to create your GDD.
 </output>
 <action>Exit workflow - cannot proceed without status file</action>
 </check>
 
-<check if="exists">
-  <action>Load status file and proceed to Step 1</action>
-</check>
+<check if="status_exists == true">
+  <action>Store {{status_file_path}} for later updates</action>
 
+  <check if="project_type != 'game'">
+    <output>**Incorrect Workflow for Software Projects**
+
+Your project is type: {{project_type}}
+
+**Correct workflows for software projects:**
+
+- Level 0-1: `tech-spec` (Architect agent)
+- Level 2-4: `prd` (PM agent)
+
+{{#if project_level <= 1}}
+Use: `tech-spec`
+{{else}}
+Use: `prd`
+{{/if}}
+</output>
+<action>Exit and redirect to appropriate workflow</action>
+</check>
+</check>
+</step>
+
+<step n="0.5" goal="Validate workflow sequencing">
+
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+  <param>mode: validate</param>
+  <param>calling_workflow: gdd</param>
+</invoke-workflow>
+
+<check if="warning != ''">
+  <output>{{warning}}</output>
+  <ask>Continue with GDD anyway? (y/n)</ask>
+  <check if="n">
+    <output>{{suggestion}}</output>
+    <action>Exit workflow</action>
+  </check>
+</check>
 </step>
 
 <step n="1" goal="Load context and determine game type">
 
-<action>Load bmm-workflow-status.md</action>
-<action>Confirm project_type == "game"</action>
-
-<check if="project_type != game">
-  <error>This workflow is for game projects only. Software projects should use PRD or tech-spec workflows.</error>
-  <output>**Incorrect Workflow for Software Projects**
-
-Your status file indicates project_type: {{project_type}}
-
-**Correct workflows for software projects:**
-
-- Level 0-1: `tech-spec` (run with Architect agent)
-- Level 2-4: `prd` (run with PM agent)
-
-{{#if project_level <= 1}}
-Run: `bmad architect tech-spec`
-{{else}}
-Run: `bmad pm prd`
-{{/if}}
-</output>
-<action>Exit and redirect user to appropriate software workflow</action>
-</check>
+<action>Use {{project_type}} and {{project_level}} from status data</action>
 
 <check if="continuation_mode == true">
   <action>Load existing GDD.md and check completion status</action>
@@ -306,7 +321,30 @@ For each {{placeholder}} in the fragment, elicit and capture that information.
 
 </step>
 
-<step n="15" goal="Generate solutioning handoff and next steps">
+<step n="15" goal="Update status and populate story sequence">
+
+<action>Load {{status_file_path}}</action>
+
+<template-output file="{{status_file_path}}">current_workflow</template-output>
+<action>Set to: "gdd - Complete"</action>
+
+<template-output file="{{status_file_path}}">phase_2_complete</template-output>
+<action>Set to: true</action>
+
+<template-output file="{{status_file_path}}">progress_percentage</template-output>
+<action>Increment appropriately based on level</action>
+
+<template-output file="{{status_file_path}}">decisions_log</template-output>
+<action>Add entry: "- **{{date}}**: Completed GDD workflow. Created bmm-GDD.md and bmm-epics.md with full story breakdown."</action>
+
+<action>Populate STORIES_SEQUENCE from epics.md story list</action>
+<action>Count total stories and update story counts</action>
+
+<action>Save {{status_file_path}}</action>
+
+</step>
+
+<step n="16" goal="Generate solutioning handoff and next steps">
 
 <action>Check if game-type fragment contained narrative tags indicating narrative importance</action>
 

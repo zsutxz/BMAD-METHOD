@@ -9,6 +9,23 @@
 <critical>Uses ux-spec-template.md for structured output generation</critical>
 <critical>Can optionally generate AI Frontend Prompts for tools like Vercel v0, Lovable.ai</critical>
 
+<step n="0" goal="Check for workflow status">
+
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+  <param>mode: init-check</param>
+</invoke-workflow>
+
+<check if="status_exists == true">
+  <action>Store {{status_file_path}} for later updates</action>
+  <action>Set tracking_mode = true</action>
+</check>
+
+<check if="status_exists == false">
+  <action>Set tracking_mode = false</action>
+  <output>Note: Running without workflow tracking. Run `workflow-init` to enable progress tracking.</output>
+</check>
+</step>
+
 <step n="1" goal="Load context and analyze project requirements">
 
 <action>Determine workflow mode (standalone or integrated)</action>
@@ -365,6 +382,23 @@ Next actions:
 
 Select option (1-3):</ask>
 
+</step>
+
+<step n="12" goal="Update status if tracking enabled">
+
+<check if="tracking_mode == true">
+  <action>Load {{status_file_path}}</action>
+
+<template-output file="{{status_file_path}}">current_workflow</template-output>
+<action>Set to: "ux - Complete"</action>
+
+<template-output file="{{status_file_path}}">decisions_log</template-output>
+<action>Add entry: "- **{{date}}**: Completed UX workflow. Created bmm-ux-spec.md with comprehensive UX/UI specifications."</action>
+
+<action>Save {{status_file_path}}</action>
+
+<output>Status tracking updated.</output>
+</check>
 </step>
 
 </workflow>

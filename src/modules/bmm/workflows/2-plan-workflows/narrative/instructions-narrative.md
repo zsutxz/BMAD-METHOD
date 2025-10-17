@@ -10,6 +10,23 @@
 <critical>If users mention gameplay mechanics, note them but keep focus on narrative</critical>
 <critical>Facilitate good brainstorming techniques throughout with the user, pushing them to come up with much of the narrative you will help weave together. The goal is for the user to feel that they crafted the narrative and story arc unless they push you to do it all or indicate YOLO</critical>
 
+<step n="0" goal="Check for workflow status">
+
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+  <param>mode: init-check</param>
+</invoke-workflow>
+
+<check if="status_exists == true">
+  <action>Store {{status_file_path}} for later updates</action>
+  <action>Set tracking_mode = true</action>
+</check>
+
+<check if="status_exists == false">
+  <action>Set tracking_mode = false</action>
+  <output>Note: Running without workflow tracking. Run `workflow-init` to enable progress tracking.</output>
+</check>
+</step>
+
 <step n="1" goal="Load GDD context and assess narrative complexity">
 
 <action>Load GDD.md from {output_folder}</action>
@@ -520,6 +537,23 @@ Next steps:
 
 Which would you like?</ask>
 
+</step>
+
+<step n="17" goal="Update status if tracking enabled">
+
+<check if="tracking_mode == true">
+  <action>Load {{status_file_path}}</action>
+
+<template-output file="{{status_file_path}}">current_workflow</template-output>
+<action>Set to: "narrative - Complete"</action>
+
+<template-output file="{{status_file_path}}">decisions_log</template-output>
+<action>Add entry: "- **{{date}}**: Completed narrative workflow. Created bmm-narrative-design.md with detailed story and character documentation."</action>
+
+<action>Save {{status_file_path}}</action>
+
+<output>Status tracking updated.</output>
+</check>
 </step>
 
 </workflow>
