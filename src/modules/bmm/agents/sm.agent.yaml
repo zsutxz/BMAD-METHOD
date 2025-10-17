@@ -26,7 +26,7 @@ agent:
       description: Check workflow status and get recommendations
 
     - trigger: assess-project-ready
-      validate-workflow: "{project-root}/bmad/bmm/workflows/3-solutioning/workflow.yaml"
+      workflow: "{project-root}/bmad/bmm/workflows/3-solutioning/implementation-ready-check/workflow.yaml"
       description: Validate solutioning complete, ready for Phase 4 (Level 2-4 only)
 
     - trigger: create-story

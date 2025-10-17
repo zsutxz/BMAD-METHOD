@@ -109,6 +109,15 @@
 - Check "2-Plan" checkbox in Phase Completion Status
 - Set progress_percentage = 40% (planning complete, skipping solutioning)
 
+<action>Update Development Queue section:</action>
+
+- Set STORIES_SEQUENCE = "[{slug}]" (Level 0 has single story)
+- Set TODO_STORY = "{slug}"
+- Set TODO_TITLE = "{{story_title}}"
+- Set IN_PROGRESS_STORY = ""
+- Set IN_PROGRESS_TITLE = ""
+- Set STORIES_DONE = "[]"
+
 <action>Initialize Phase 4 Implementation Progress section:</action>
 
 #### BACKLOG (Not Yet Drafted)

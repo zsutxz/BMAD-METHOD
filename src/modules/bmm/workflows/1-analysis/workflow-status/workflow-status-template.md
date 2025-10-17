@@ -21,13 +21,12 @@ PHASE_4_COMPLETE: {{phase_4_complete}}
 
 ## Development Queue
 
+STORIES_SEQUENCE: {{ordered_story_list}}
 TODO_STORY: {{todo_story}}
 TODO_TITLE: {{todo_title}}
 IN_PROGRESS_STORY: {{in_progress_story}}
 IN_PROGRESS_TITLE: {{in_progress_title}}
-BACKLOG_COUNT: {{backlog_count}}
-DONE_COUNT: {{done_count}}
-TOTAL_STORIES: {{total_stories}}
+STORIES_DONE: {{completed_story_list}}
 
 ## Next Action
 

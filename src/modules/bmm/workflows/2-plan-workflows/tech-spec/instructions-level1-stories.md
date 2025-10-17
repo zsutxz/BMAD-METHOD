@@ -205,6 +205,22 @@ Epic: Icon Reliability
 - Check "2-Plan" checkbox in Phase Completion Status
 - Set progress_percentage = 40% (planning complete, skipping solutioning)
 
+<action>Update Development Queue section:</action>
+
+<action>Generate story sequence list based on story_count:</action>
+{{#if story_count == 2}}
+
+- Set STORIES_SEQUENCE = "[{epic_slug}-1, {epic_slug}-2]"
+  {{/if}}
+  {{#if story_count == 3}}
+- Set STORIES_SEQUENCE = "[{epic_slug}-1, {epic_slug}-2, {epic_slug}-3]"
+  {{/if}}
+- Set TODO_STORY = "{epic_slug}-1"
+- Set TODO_TITLE = "{{story_1_title}}"
+- Set IN_PROGRESS_STORY = ""
+- Set IN_PROGRESS_TITLE = ""
+- Set STORIES_DONE = "[]"
+
 <action>Populate story backlog in "### Implementation Progress (Phase 4 Only)" section:</action>
 
 #### BACKLOG (Not Yet Drafted)
