@@ -2,8 +2,7 @@
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
-<critical>Generate all documents in {document_output_language}</critical>
+<critical>Communicate all responses in {communication_language}</critical>
 
 <workflow>
 
@@ -11,29 +10,32 @@
 <critical>NO SEARCHING - DEV agent reads status file IN PROGRESS section to know which story was being worked on</critical>
 <critical>Workflow: Update story file status, move story IN PROGRESS → DONE, move TODO → IN PROGRESS, move BACKLOG → TODO</critical>
 
-<step n="1" goal="Get story queue from status file">
+<step n="1" goal="Read status file and identify the IN PROGRESS story">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
-  <param>mode: data</param>
-  <param>data_request: all</param>
-</invoke-workflow>
+<action>Read {output_folder}/bmm-workflow-status.md</action>
+<action>Navigate to "### Implementation Progress (Phase 4 Only)" section</action>
+<action>Find "#### IN PROGRESS (Approved for Development)" section</action>
 
-<check if="status_exists == false OR in_progress_story == ''">
-  <output>❌ No status file or no IN PROGRESS story found.
+<action>Extract current story information:</action>
 
-This workflow requires an active status file with an IN PROGRESS story.
+- current_story_id: The story ID (e.g., "1.1", "auth-feature-1", "login-fix")
+- current_story_title: The story title
+- current_story_file: The exact story file path
+- current_story_points: Story points (if tracked)
 
-Run `workflow-status` to check your project state.</output>
-<action>Exit workflow</action>
-</check>
+<action>Read the TODO section to know what's next:</action>
 
-<action>Use extracted story queue:</action>
+- todo_story_id: Next story to move to IN PROGRESS (if exists)
+- todo_story_title: Next story title
+- todo_story_file: Next story file path
 
-- {{in_progress_story}}: Current story to mark done
-- {{todo_story_id}}: Next story (move to IN PROGRESS)
-- {{stories_sequence}}: All stories
-- {{stories_done}}: Completed stories
-- {{status_file_path}}: Status file to update
+<action>Read the BACKLOG section to know what comes after:</action>
+
+- next_backlog_story_id: Story to move to TODO (if exists)
+- next_backlog_story_title
+- next_backlog_story_file
+
+<critical>DO NOT SEARCH for stories - the status file tells you exactly which story is in each state</critical>
 
 </step>
 

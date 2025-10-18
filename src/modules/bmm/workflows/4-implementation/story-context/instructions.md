@@ -3,61 +3,30 @@
 ````xml
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>Communicate all responses in {communication_language}</critical>
+<critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
+<critical>Generate all documents in {document_output_language}</critical>
 <critical>This workflow assembles a Story Context XML for a single user story by extracting ACs, tasks, relevant docs/code, interfaces, constraints, and testing guidance to support implementation.</critical>
 <critical>Default execution mode: #yolo (non-interactive). Only ask if {{non_interactive}} == false. If auto-discovery fails, HALT and request 'story_path' or 'story_dir'.</critical>
 
+<critical>DOCUMENT OUTPUT: Technical XML context file. Concise, structured, project-relative paths only. User skill level ({user_skill_level}) affects conversation style ONLY, not context content.</critical>
+
 <workflow>
-  <step n="1" goal="Check and load workflow status file">
-    <action>Search {output_folder}/ for files matching pattern: bmm-workflow-status.md</action>
-    <action>Find the most recent file (by date in filename: bmm-workflow-status.md)</action>
+  <step n="1" goal="Validate workflow sequence">
+    <invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+      <param>mode: validate</param>
+      <param>calling_workflow: story-context</param>
+    </invoke-workflow>
 
-    <check if="exists">
-      <action>Load the status file</action>
-      <action>Extract key information:</action>
-      - current_step: What workflow was last run
-      - next_step: What workflow should run next
-      - planned_workflow: The complete workflow journey table
-      - progress_percentage: Current progress
-      - IN PROGRESS story: The story being worked on (from Implementation Progress section)
-
-      <action>Set status_file_found = true</action>
-      <action>Store status_file_path for later updates</action>
-
-      <check if='next_step != "story-context" AND current_step != "story-ready"'>
-        <ask>**⚠️ Workflow Sequence Note**
-
-Status file shows:
-- Current step: {{current_step}}
-- Expected next: {{next_step}}
-
-This workflow (story-context) is typically run after story-ready.
-
-Options:
-1. Continue anyway (story-context is optional)
-2. Exit and run the expected workflow: {{next_step}}
-3. Check status with workflow-status
-
-What would you like to do?</ask>
-        <action>If user chooses exit → HALT with message: "Run workflow-status to see current state"</action>
+    <check if="warning != ''">
+      <output>{{warning}}</output>
+      <ask>Continue with story-context anyway? (y/n)</ask>
+      <check if="n">
+        <output>{{suggestion}}</output>
+        <action>Exit workflow</action>
       </check>
     </check>
 
-    <check if="not exists">
-      <ask>**No workflow status file found.**
-
-The status file tracks progress across all workflows and provides context about which story to work on.
-
-Options:
-1. Run workflow-status first to create the status file (recommended)
-2. Continue in standalone mode (no progress tracking)
-3. Exit
-
-What would you like to do?</ask>
-      <action>If user chooses option 1 → HALT with message: "Please run workflow-status first, then return to story-context"</action>
-      <action>If user chooses option 2 → Set standalone_mode = true and continue</action>
-      <action>If user chooses option 3 → HALT</action>
-    </check>
+    <action>Store {{status_file_path}} for later updates</action>
   </step>
 
   <step n="2" goal="Locate story and initialize output">
