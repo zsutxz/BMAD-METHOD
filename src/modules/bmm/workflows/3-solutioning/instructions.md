@@ -6,26 +6,10 @@ This workflow generates scale-adaptive solution architecture documentation that 
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>Communicate all responses in {communication_language}</critical>
+<critical>Communicate all responses in {communication_language} and language MUSt be tailored to {user_skill_level}</critical>
+<critical>Generate all documents in {document_output_language}</critical>
 
-<critical>OUTPUT OPTIMIZATION FOR LLM CONSUMPTION:
-The architecture document will be consumed primarily by LLMs in subsequent workflows, not just humans.
-Therefore, the output MUST be:
-
-- CONCISE: Every word should add value. Avoid verbose explanations.
-- STRUCTURED: Use tables, lists, and clear headers over prose
-- SCANNABLE: Key decisions in obvious places, not buried in paragraphs
-- DEFINITIVE: Specific versions and choices, no ambiguity
-- FOCUSED: Technical decisions over rationale (unless beginner level requested)
-
-Adapt verbosity based on user skill level:
-
-- Beginner: Include explanations, but keep them brief and clear
-- Intermediate: Focus on decisions with minimal explanation
-- Expert: Purely technical specifications, no hand-holding
-
-Remember: Future LLMs need to quickly extract architectural decisions to implement stories consistently.
-</critical>
+<critical>DOCUMENT OUTPUT: Concise, technical, LLM-optimized. Use tables/lists over prose. Specific versions only. User skill level ({user_skill_level}) affects conversation style ONLY, not document content.</critical>
 
 <step n="0" goal="Validate workflow and extract project configuration">
 
@@ -182,19 +166,34 @@ Proceeding with solution architecture workflow...
 
 <action>Engage with the user to understand their technical context and preferences:
 
-- Gauge their experience level with the identified project type
+- Note: User skill level is {user_skill_level} (from config)
 - Learn about any existing technical decisions or constraints
 - Understand team capabilities and preferences
 - Identify any existing infrastructure or systems to integrate with
   </action>
 
-<action>Based on the conversation, determine the appropriate level of detail for the architecture document:
+<action>Based on {user_skill_level}, adapt YOUR CONVERSATIONAL STYLE:
 
-- For beginners: Include brief explanations of architectural choices
-- For intermediate: Balance decisions with key rationale
-- For experts: Focus purely on technical specifications
+<check if="{user_skill_level} == 'beginner'">
+  - Explain architectural concepts as you discuss them
+  - Be patient and educational in your responses
+  - Clarify technical terms when introducing them
+</check>
 
-Remember the OUTPUT OPTIMIZATION critical - even beginner explanations should be concise.
+<check if="{user_skill_level} == 'intermediate'">
+  - Balance explanations with efficiency
+  - Assume familiarity with common concepts
+  - Explain only complex or unusual patterns
+</check>
+
+<check if="{user_skill_level} == 'expert'">
+  - Be direct and technical in discussions
+  - Skip basic explanations
+  - Focus on advanced considerations and edge cases
+</check>
+
+NOTE: This affects only how you TALK to the user, NOT the documents you generate.
+The architecture document itself should always be concise and technical.
 </action>
 
 <template-output>user_context</template-output>
@@ -231,20 +230,27 @@ Remember the OUTPUT OPTIMIZATION critical - even beginner explanations should be
 
 <step n="5" goal="Make project-specific technical decisions">
 
-<critical>This is a crucial step where we ensure comprehensive architectural coverage.</critical>
+<critical>Use intent-based decision making, not prescriptive checklists.</critical>
 
-<action>Load the project type registry from: {{installed_path}}/project-types/project-types.csv</action>
+<action>Based on requirements analysis, identify the project domain(s).
+Note: Projects can be hybrid (e.g., web + mobile, game + backend service).
 
-<action>Identify the closest matching project type(s) based on the requirements analysis. Note that projects may be hybrid (e.g., web + mobile, game + backend service).</action>
+Use the simplified project types mapping:
+{{installed_path}}/project-types/project-types.csv
 
-<action>For each identified project type, load the corresponding questions from: {{installed_path}}/project-types/{{question_file}}</action>
+This contains ~11 core project types that cover 99% of software projects.</action>
 
-<action>IMPORTANT: Use the question files as a STARTING POINT, not a complete checklist. The questions help ensure we don't miss common decisions, but you must also:
+<action>For identified domains, reference the intent-based instructions:
+{{installed_path}}/project-types/{{type}}-instructions.md
 
-- Think deeply about project-specific needs not covered in the standard questions
-- Consider unique architectural requirements from the PRD/GDD
-- Address specific integrations or constraints mentioned in requirements
-- Add decisions for any specialized functionality or quality attributes
+These are guidance files, not prescriptive checklists.</action>
+
+<action>IMPORTANT: Instructions are guidance, not checklists.
+
+- Use your knowledge to identify what matters for THIS project
+- Consider emerging technologies not in any list
+- Address unique requirements from the PRD/GDD
+- Focus on decisions that affect implementation consistency
   </action>
 
 <action>Engage with the user to make all necessary technical decisions:
@@ -263,17 +269,27 @@ Remember the OUTPUT OPTIMIZATION critical - even beginner explanations should be
 
 <step n="6" goal="Generate concise solution architecture document">
 
-<action>Load the template registry from: {{installed_path}}/templates/registry.csv</action>
+<action>Select the appropriate adaptive template:
+{{installed_path}}/project-types/{{type}}-template.md</action>
 
-<action>Select the most appropriate template based on:
+<action>Template selection follows the naming convention:
 
-- The identified project type(s)
-- The chosen architecture style
-- The repository strategy
-- The primary technologies selected
-  </action>
+- Web project → web-template.md
+- Mobile app → mobile-template.md
+- Game project → game-template.md (adapts heavily based on game type)
+- Backend service → backend-template.md
+- Data pipeline → data-template.md
+- CLI tool → cli-template.md
+- Library/SDK → library-template.md
+- Desktop app → desktop-template.md
+- Embedded system → embedded-template.md
+- Extension → extension-template.md
+- Infrastructure → infrastructure-template.md
 
-<action>Load the selected template and any associated guides to understand the document structure needed for this type of project.</action>
+For hybrid projects, choose the primary domain or intelligently merge relevant sections from multiple templates.</action>
+
+<action>Adapt the template heavily based on actual requirements.
+Templates are starting points, not rigid structures.</action>
 
 <action>Generate a comprehensive yet concise architecture document that includes:
 
@@ -293,7 +309,8 @@ The document MUST be optimized for LLM consumption:
 - List specific versions, not generic technology names
 - Include complete source tree structure
 - Define clear interfaces and contracts
-- Avoid lengthy explanations unless absolutely necessary
+- NO verbose explanations (even for beginners - they get help in conversation, not docs)
+- Technical and concise throughout
   </action>
 
 <action>Ensure the document provides enough technical specificity that implementation agents can:

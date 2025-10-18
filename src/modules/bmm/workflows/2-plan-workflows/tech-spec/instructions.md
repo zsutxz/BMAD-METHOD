@@ -4,11 +4,14 @@
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>Communicate all responses in {communication_language}</critical>
+<critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
+<critical>Generate all documents in {document_output_language}</critical>
 <critical>This is the SMALL instruction set for Level 0-1 projects - tech-spec with story generation</critical>
 <critical>Level 0: tech-spec + single user story | Level 1: tech-spec + epic/stories</critical>
 <critical>Project analysis already completed - proceeding directly to technical specification</critical>
 <critical>NO PRD generated - uses tech_spec_template + story templates</critical>
+
+<critical>DOCUMENT OUTPUT: Technical, precise, definitive. Specific versions only. User skill level ({user_skill_level}) affects conversation style ONLY, not document content.</critical>
 
 <step n="0" goal="Validate workflow and extract project configuration">
 

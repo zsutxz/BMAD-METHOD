@@ -4,10 +4,13 @@
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>Communicate all responses in {communication_language}</critical>
+<critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
+<critical>Generate all documents in {document_output_language}</critical>
 <critical>This workflow creates comprehensive UX/UI specifications - can run standalone or as part of plan-project</critical>
 <critical>Uses ux-spec-template.md for structured output generation</critical>
 <critical>Can optionally generate AI Frontend Prompts for tools like Vercel v0, Lovable.ai</critical>
+
+<critical>DOCUMENT OUTPUT: Professional, precise, actionable UX specs. Use tables/lists over prose. User skill level ({user_skill_level}) affects conversation style ONLY, not document content.</critical>
 
 <step n="0" goal="Check for workflow status">
 

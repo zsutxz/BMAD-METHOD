@@ -4,12 +4,15 @@
 
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
-<critical>Communicate all responses in {communication_language}</critical>
+<critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
+<critical>Generate all documents in {document_output_language}</critical>
 <critical>This is the GDD instruction set for GAME projects - replaces PRD with Game Design Document</critical>
 <critical>Project analysis already completed - proceeding with game-specific design</critical>
 <critical>Uses gdd_template for GDD output, game_types.csv for type-specific sections</critical>
 <critical>Routes to 3-solutioning for architecture (platform-specific decisions handled there)</critical>
 <critical>If users mention technical details, append to technical_preferences with timestamp</critical>
+
+<critical>DOCUMENT OUTPUT: Concise, clear, actionable game design specs. Use tables/lists over prose. User skill level ({user_skill_level}) affects conversation style ONLY, not document content.</critical>
 
 <step n="0" goal="Validate workflow and extract project configuration">
 

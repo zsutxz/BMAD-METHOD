@@ -19,6 +19,26 @@ project_name:
   default: "{directory_name}"
   result: "{value}"
 
+user_skill_level:
+  prompt:
+    - "What is your technical experience level?"
+    - "This affects how agents explain concepts to you (NOT document content)."
+    - "Documents are always concise for LLM efficiency."
+  default: "intermediate"
+  result: "{value}"
+  single-select:
+    - value: "beginner"
+      label: "Beginner - New to development, explain concepts clearly"
+    - value: "intermediate"
+      label: "Intermediate - Familiar with development, balance explanation with efficiency"
+    - value: "expert"
+      label: "Expert - Deep technical knowledge, be direct and technical"
+
+document_output_language:
+  prompt: "In which language should project documents be generated?"
+  default: "{communication_language}"
+  result: "{value}"
+
 tech_docs:
   prompt: "Where is Technical Documentation located within the project?"
   default: "docs"
