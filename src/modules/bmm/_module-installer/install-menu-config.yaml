@@ -34,11 +34,6 @@ user_skill_level:
     - value: "expert"
       label: "Expert - Deep technical knowledge, be direct and technical"
 
-document_output_language:
-  prompt: "In which language should project documents be generated?"
-  default: "{communication_language}"
-  result: "{value}"
-
 tech_docs:
   prompt: "Where is Technical Documentation located within the project?"
   default: "docs"
@@ -48,22 +43,21 @@ dev_story_location:
   prompt: "Where should development stories be stored?"
   default: "docs/stories"
   result: "{project-root}/{value}"
+# kb_location:
+#   prompt: "Where should bmad knowledge base articles be stored?"
+#   default: "~/bmad/bmm/kb.md"
+#   result: "{value}"
 
-kb_location:
-  prompt: "Where should bmad knowledge base articles be stored?"
-  default: "~/bmad/bmm/kb.md"
-  result: "{value}"
-
-desired_mcp_tools:
-  prompt:
-    - "Which MCP Tools will you be using? (Select all that apply)"
-    - "Note: You will need to install these separately. Bindings will come post ALPHA along with other choices."
-  result: "{value}"
-  multi-select:
-    - "Chrome Official MCP"
-    - "Playwright"
-    - "Context 7"
-    - "Tavily"
-    - "Perplexity"
-    - "Jira"
-    - "Trello"
+# desired_mcp_tools:
+#   prompt:
+#     - "Which MCP Tools will you be using? (Select all that apply)"
+#     - "Note: You will need to install these separately. Bindings will come post ALPHA along with other choices."
+#   result: "{value}"
+#   multi-select:
+#     - "Chrome Official MCP"
+#     - "Playwright"
+#     - "Context 7"
+#     - "Tavily"
+#     - "Perplexity"
+#     - "Jira"
+#     - "Trello"
