@@ -14,7 +14,7 @@
 
 <step n="0" goal="Check for workflow status">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: init-check</param>
 </invoke-workflow>
 

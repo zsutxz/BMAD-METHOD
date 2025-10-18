@@ -14,12 +14,12 @@ user_skill_level: "{config_source}:user_skill_level"
 date: system-generated
 
 # Workflow components
-installed_path: "{project-root}/bmad/bmm/workflows/1-analysis/workflow-init"
+installed_path: "{project-root}/bmad/bmm/workflows/workflow-status/init"
 instructions: "{installed_path}/instructions.md"
-template: "{project-root}/bmad/bmm/workflows/1-analysis/workflow-status/workflow-status-template.md"
+template: "{project-root}/bmad/bmm/workflows/workflow-status/workflow-status-template.md"
 
 # Path data files
-path_files: "{project-root}/src/modules/bmm/workflows/1-analysis/workflow-status/paths/"
+path_files: "{project-root}/src/modules/bmm/workflows/workflow-status/paths/"
 
 # Output configuration
 default_output_file: "{output_folder}/bmm-workflow-status.md"

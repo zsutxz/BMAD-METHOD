@@ -13,7 +13,7 @@ This workflow generates scale-adaptive solution architecture documentation that 
 
 <step n="0" goal="Validate workflow and extract project configuration">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: project_config</param>
 </invoke-workflow>
@@ -52,7 +52,7 @@ After setup, return here to run solution-architecture.
 
 <step n="0.5" goal="Validate workflow sequencing and prerequisites">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: validate</param>
   <param>calling_workflow: solution-architecture</param>
 </invoke-workflow>

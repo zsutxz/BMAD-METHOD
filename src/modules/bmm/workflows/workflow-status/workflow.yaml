@@ -13,7 +13,7 @@ user_skill_level: "{config_source}:user_skill_level"
 date: system-generated
 
 # Workflow components
-installed_path: "{project-root}/bmad/bmm/workflows/1-analysis/workflow-status"
+installed_path: "{project-root}/bmad/bmm/workflows/workflow-status"
 instructions: "{installed_path}/instructions.md"
 
 # Template for status file creation (used by workflow-init)

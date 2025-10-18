@@ -1,7 +1,7 @@
 # Workflow Status Check - Multi-Mode Service
 
 <critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/bmad/bmm/workflows/1-analysis/workflow-status/workflow.yaml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/bmad/bmm/workflows/workflow-status/workflow.yaml</critical>
 <critical>This workflow operates in multiple modes: interactive (default), validate, data, init-check</critical>
 <critical>Other workflows can call this as a service to avoid duplicating status logic</critical>
 

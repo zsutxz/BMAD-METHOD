@@ -15,7 +15,7 @@
 
 <step n="0" goal="Validate workflow and extract project configuration">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: project_config</param>
 </invoke-workflow>
@@ -65,7 +65,7 @@ Game projects should use GDD workflow instead of tech-spec.
 
 <step n="0.5" goal="Validate workflow sequencing">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: validate</param>
   <param>calling_workflow: tech-spec</param>
 </invoke-workflow>

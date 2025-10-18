@@ -24,7 +24,7 @@ agent:
   # help and exit are auto-injected, don't define them here
   menu:
     - trigger: workflow-status
-      workflow: "{project-root}/bmad/bmm/workflows/1-analysis/workflow-status/workflow.yaml"
+      workflow: "{project-root}/bmad/bmm/workflows/workflow-status/workflow.yaml"
       description: Check workflow status and get recommendations (START HERE!)
 
     - trigger: prd

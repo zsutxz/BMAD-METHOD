@@ -6,7 +6,7 @@
 <workflow>
 
   <step n="1" goal="Validate workflow readiness">
-    <invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+    <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
       <param>mode: validate</param>
       <param>calling_workflow: brainstorm-game</param>
     </invoke-workflow>

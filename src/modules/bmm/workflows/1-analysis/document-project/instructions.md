@@ -10,7 +10,7 @@
 
 <step n="1" goal="Validate workflow and get project info">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: project_config</param>
 </invoke-workflow>
@@ -36,7 +36,7 @@
   </check>
 
   <!-- Now validate sequencing -->
-  <invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
     <param>mode: validate</param>
     <param>calling_workflow: document-project</param>
   </invoke-workflow>

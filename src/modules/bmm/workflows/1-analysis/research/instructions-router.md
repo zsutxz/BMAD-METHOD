@@ -11,7 +11,7 @@
 <critical>This is a ROUTER that directs to specialized research instruction sets</critical>
 
 <step n="1" goal="Validate workflow readiness">
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: validate</param>
   <param>calling_workflow: research</param>
 </invoke-workflow>

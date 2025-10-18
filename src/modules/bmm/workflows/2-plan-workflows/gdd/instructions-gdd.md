@@ -16,7 +16,7 @@
 
 <step n="0" goal="Validate workflow and extract project configuration">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: project_config</param>
 </invoke-workflow>
@@ -65,7 +65,7 @@ Use: `prd`
 
 <step n="0.5" goal="Validate workflow sequencing">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: validate</param>
   <param>calling_workflow: gdd</param>
 </invoke-workflow>

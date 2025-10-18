@@ -20,7 +20,7 @@ With the new service call:
 ```xml
 <!-- NEW WAY - Clean and simple -->
 <step n="0" goal="Validate workflow readiness">
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: validate</param>
   <param>calling_workflow: product-brief</param>
 </invoke-workflow>
@@ -61,7 +61,7 @@ With the new service call:
 ```xml
 <!-- NEW WAY - Let workflow-status handle the complexity -->
 <step n="2.5" goal="Get next story to draft">
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: next_story</param>
 </invoke-workflow>
@@ -83,7 +83,7 @@ With the new service call:
 
 ```xml
 <step n="0" goal="Load project configuration">
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: project_config</param>
 </invoke-workflow>
@@ -104,7 +104,7 @@ With the new service call:
 
 ```xml
 <step n="0" goal="Check if status exists">
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: init-check</param>
 </invoke-workflow>
 

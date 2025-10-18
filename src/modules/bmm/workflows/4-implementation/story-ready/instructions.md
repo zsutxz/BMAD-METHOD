@@ -13,7 +13,7 @@
 
 <step n="1" goal="Get TODO story from status file">
 
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: data</param>
   <param>data_request: next_story</param>
 </invoke-workflow>

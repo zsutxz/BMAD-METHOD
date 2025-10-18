@@ -10,7 +10,7 @@
 <workflow>
 
 <step n="0" goal="Validate workflow readiness">
-<invoke-workflow path="{project-root}/bmad/bmm/workflows/1-analysis/workflow-status">
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
   <param>mode: validate</param>
   <param>calling_workflow: game-brief</param>
 </invoke-workflow>
