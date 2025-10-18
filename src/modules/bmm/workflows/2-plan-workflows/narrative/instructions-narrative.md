@@ -542,17 +542,15 @@ Which would you like?</ask>
 <step n="17" goal="Update status if tracking enabled">
 
 <check if="tracking_mode == true">
-  <action>Load {{status_file_path}}</action>
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: narrative</param>
+  </invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "narrative - Complete"</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed narrative workflow. Created bmm-narrative-design.md with detailed story and character documentation."</action>
-
-<action>Save {{status_file_path}}</action>
-
-<output>Status tracking updated.</output>
+  <check if="success == true">
+    <output>✅ Status updated! Next: {{next_workflow}}</output>
+  </check>
 </check>
 </step>
 

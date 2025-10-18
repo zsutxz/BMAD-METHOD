@@ -126,6 +126,84 @@ With the new service call:
 
 ## Available Modes
 
+### `update` Mode ⭐ NEW - Centralized Status Updates
+
+- **Purpose**: Centralized status file updates - **NO MORE manual template-output hackery!**
+- **Parameters**: `action` + action-specific params
+- **Returns**: `success`, action-specific outputs
+
+#### Available Actions:
+
+**1. complete_workflow** - Mark workflow done, advance to next in path
+
+```xml
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: complete_workflow</param>
+  <param>workflow_name: prd</param>
+  <param>populate_stories_from: {output_folder}/bmm-epics.md</param> <!-- optional -->
+</invoke-workflow>
+
+<check if="success == true">
+  <output>PRD complete! Next: {{next_workflow}} ({{next_agent}} agent)</output>
+</check>
+```
+
+**2. populate_stories** - Load story queue from epics.md
+
+```xml
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: populate_stories</param>
+  <param>epics_file: {output_folder}/bmm-epics.md</param>
+</invoke-workflow>
+
+<check if="success == true">
+  <output>Loaded {{total_stories}} stories. First: {{first_story}}</output>
+</check>
+```
+
+**3. start_story** - Move TODO → IN PROGRESS
+
+```xml
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: start_story</param>
+</invoke-workflow>
+
+<check if="success == true">
+  <output>Started: {{in_progress_story}}. Next TODO: {{next_todo}}</output>
+</check>
+```
+
+**4. complete_story** - Move IN PROGRESS → DONE, advance queue
+
+```xml
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: complete_story</param>
+</invoke-workflow>
+
+<check if="success == true">
+  <output>Completed: {{completed_story}}. {{stories_remaining}} remaining.</output>
+  <check if="all_complete == true">
+    <output>🎉 All stories complete!</output>
+  </check>
+</check>
+```
+
+**5. set_current_workflow** - Manual override (rarely needed)
+
+```xml
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: set_current_workflow</param>
+  <param>workflow_name: tech-spec</param>
+</invoke-workflow>
+```
+
+---
+
 ### `validate` Mode
 
 - **Purpose**: Check if this workflow should run
@@ -167,11 +245,73 @@ With the new service call:
 3. Gradually migrate others as they're updated
 4. Old workflows continue to work unchanged
 
+## Before & After: The Power of Update Mode
+
+### OLD WAY (PRD workflow) - 40+ lines of pollution:
+
+```xml
+<step n="10" goal="Update status and complete">
+  <action>Load {{status_file_path}}</action>
+
+  <template-output file="{{status_file_path}}">current_workflow</template-output>
+  <action>Set to: "prd - Complete"</action>
+
+  <template-output file="{{status_file_path}}">phase_2_complete</template-output>
+  <action>Set to: true</action>
+
+  <template-output file="{{status_file_path}}">decisions_log</template-output>
+  <action>Add entry: "- **{{date}}**: Completed PRD workflow..."</action>
+
+  <action>Populate STORIES_SEQUENCE from epics.md story list</action>
+  <action>Count total stories and update story counts</action>
+
+  <action>Save {{status_file_path}}</action>
+</step>
+```
+
+### NEW WAY - 6 clean lines:
+
+```xml
+<step n="10" goal="Mark PRD complete">
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: prd</param>
+    <param>populate_stories_from: {output_folder}/bmm-epics.md</param>
+  </invoke-workflow>
+
+  <output>PRD complete! Next: {{next_workflow}}</output>
+</step>
+```
+
+**Benefits:**
+
+- ✅ No manual file manipulation
+- ✅ No template-output pollution
+- ✅ Centralized logic handles path navigation
+- ✅ Story population happens automatically
+- ✅ Status file stays clean (just key-value pairs)
+
+---
+
+## Migration Priority
+
+**High Priority (Complex Status Updates):**
+
+1. Phase 2: prd, gdd, tech-spec - populate stories + complete workflow
+2. Phase 4: story-approved, story-ready - complex queue management
+
+**Medium Priority (Simple Completions):** 3. Phase 1: product-brief, brainstorm-project, research 4. Phase 3: solution-architecture, tech-spec
+
+**Low Priority (Minimal/No Updates):** 5. Phase 4: create-story, dev-story - mostly just read status
+
+---
+
 ## Next Steps
 
-To integrate into your workflow:
+To migrate a workflow:
 
-1. Replace your Step 0 with appropriate service call
-2. Remove duplicate status checking logic
-3. Use returned values for workflow decisions
-4. Update status file at completion (if status_exists == true)
+1. **Step 0**: Keep `validate` or `data` mode calls (for reading)
+2. **Final Step**: Replace all `template-output` with single `update` mode call
+3. **Test**: Verify status file stays clean (no prose pollution)
+4. **Delete**: Remove 30-100 lines of status manipulation code 🎉

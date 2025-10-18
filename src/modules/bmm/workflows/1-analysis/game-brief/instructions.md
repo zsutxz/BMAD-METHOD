@@ -310,18 +310,15 @@ This brief will serve as the primary input for creating the Game Design Document
 
 <step n="16" goal="Update status and complete">
 <check if="standalone_mode != true">
-  <action>Load {{status_file_path}}</action>
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: game-brief</param>
+  </invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "game-brief - Complete"</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Increment by: 10% (optional Phase 1 workflow)</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed game-brief workflow. Game brief document generated. Next: Proceed to plan-project workflow to create Game Design Document (GDD)."</action>
-
-<action>Save {{status_file_path}}</action>
+  <check if="success == true">
+    <output>Status updated! Next: {{next_workflow}}</output>
+  </check>
 </check>
 
 <output>**✅ Game Brief Complete, {user_name}!**

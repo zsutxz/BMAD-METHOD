@@ -51,94 +51,28 @@ Run `workflow-status` to check your project state.</output>
 
 </step>
 
-<step n="3" goal="Move story from TODO → IN PROGRESS in status file">
+<step n="3" goal="Update status file - move story TODO → IN PROGRESS">
 
-<action>Open {output_folder}/bmm-workflow-status.md</action>
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: start_story</param>
+</invoke-workflow>
 
-<action>Update "#### TODO (Needs Drafting)" section:</action>
+<check if="success == false">
+  <output>⚠️ Failed to update status: {{error}}</output>
+  <output>Story file was updated, but status file update failed.</output>
+</check>
 
-Read the BACKLOG section to get the next story. If BACKLOG is empty:
-
-#### TODO (Needs Drafting)
-
-(No more stories to draft - all stories are drafted or complete)
-
-If BACKLOG has stories, move the first BACKLOG story to TODO:
-
-#### TODO (Needs Drafting)
-
-- **Story ID:** {{next_backlog_story_id}}
-- **Story Title:** {{next_backlog_story_title}}
-- **Story File:** `{{next_backlog_story_file}}`
-- **Status:** Not created OR Draft (needs review)
-- **Action:** SM should run `create-story` workflow to draft this story
-
-<action>Update "#### IN PROGRESS (Approved for Development)" section:</action>
-
-Move the TODO story here:
-
-#### IN PROGRESS (Approved for Development)
-
-- **Story ID:** {{todo_story_id}}
-- **Story Title:** {{todo_story_title}}
-- **Story File:** `{{todo_story_file}}`
-- **Story Status:** Ready
-- **Context File:** `{{context_file_path}}` (if exists, otherwise note "Context not yet generated")
-- **Action:** DEV should run `dev-story` workflow to implement this story
-
-<action>Update "#### BACKLOG (Not Yet Drafted)" section:</action>
-
-Remove the first story from the BACKLOG table (the one we just moved to TODO).
-
-If BACKLOG had 1 story and is now empty:
-
-| Epic                          | Story | ID  | Title | File |
-| ----------------------------- | ----- | --- | ----- | ---- |
-| (empty - all stories drafted) |       |     |       |      |
-
-**Total in backlog:** 0 stories
-
-<action>Update story counts in "#### Epic/Story Summary" section:</action>
-
-- Decrement backlog_count by 1 (if story was moved from BACKLOG → TODO)
-- Keep in_progress_count = 1
-- Keep todo_count = 1 or 0 (depending on if there's a next story)
+<check if="success == true">
+  <output>Status updated: Story {{in_progress_story}} ready for development.</output>
+  <check if="next_todo != ''">
+    <output>Next TODO: {{next_todo}}</output>
+  </check>
+</check>
 
 </step>
 
-<step n="4" goal="Update Decision Log, Progress, and Next Action">
-
-<action>Add to "## Decision Log" section:</action>
-
-```
-- **{{date}}**: Story {{todo_story_id}} ({{todo_story_title}}) marked ready for development by SM agent. Moved from TODO → IN PROGRESS. {{#if next_story}}Next story {{next_story_id}} moved from BACKLOG → TODO.{{/if}}
-```
-
-<template-output file="{{status_file_path}}">current_step</template-output>
-<action>Set to: "story-ready (Story {{todo_story_id}})"</action>
-
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "story-ready (Story {{todo_story_id}}) - Complete"</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
-<action>Increment by: {{per_story_weight}} \* 1 (story-ready weight is ~1% per story)</action>
-
-<action>Update "### Next Action Required" section:</action>
-
-```
-**What to do next:** Generate context for story {{todo_story_id}}, then implement it
-
-**Command to run:** Run 'story-context' workflow to generate implementation context (or skip to dev-story)
-
-**Agent to load:** bmad/bmm/agents/sm.md (for story-context) OR bmad/bmm/agents/dev.md (for dev-story)
-```
-
-<action>Save bmm-workflow-status.md</action>
-
-</step>
-
-<step n="5" goal="Confirm completion to user">
+<step n="4" goal="Confirm completion to user">
 
 <action>Display summary</action>
 

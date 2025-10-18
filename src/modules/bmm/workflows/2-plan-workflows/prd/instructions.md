@@ -407,21 +407,17 @@ For each epic from the epic list, expand with full story details:
 
 <step n="10" goal="Update status and complete">
 
-<action>Load {{status_file_path}}</action>
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: complete_workflow</param>
+  <param>workflow_name: prd</param>
+  <param>populate_stories_from: {epics_output_file}</param>
+</invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "prd - Complete"</action>
-
-<template-output file="{{status_file_path}}">phase_2_complete</template-output>
-<action>Set to: true</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed PRD workflow. Created PRD.md and epics.md with full story breakdown."</action>
-
-<action>Populate STORIES_SEQUENCE from epics.md story list</action>
-<action>Count total stories and update story counts</action>
-
-<action>Save {{status_file_path}}</action>
+<check if="success == true">
+  <output>Status updated! Next: {{next_workflow}} ({{next_agent}} agent)</output>
+  <output>Loaded {{total_stories}} stories from epics.</output>
+</check>
 
 <output>**✅ PRD Workflow Complete, {user_name}!**
 

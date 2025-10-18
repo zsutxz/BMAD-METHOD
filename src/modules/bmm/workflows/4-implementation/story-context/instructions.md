@@ -1,6 +1,6 @@
 <!-- BMAD BMM Story Context Assembly Instructions (v6) -->
 
-````xml
+```xml
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
@@ -120,23 +120,15 @@
     <action>Find the most recent file (by date in filename)</action>
 
     <check if="status file exists">
-      <action>Load the status file</action>
+      <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+        <param>mode: update</param>
+        <param>action: set_current_workflow</param>
+        <param>workflow_name: story-context</param>
+      </invoke-workflow>
 
-      <template-output file="{{status_file_path}}">current_step</template-output>
-      <action>Set to: "story-context (Story {{story_id}})"</action>
-
-      <template-output file="{{status_file_path}}">current_workflow</template-output>
-      <action>Set to: "story-context (Story {{story_id}}) - Complete"</action>
-
-      <template-output file="{{status_file_path}}">progress_percentage</template-output>
-      <action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
-      <action>Increment by: {{per_story_weight}} * 1 (story-context weight is ~1% per story)</action>
-
-      <template-output file="{{status_file_path}}">decisions_log</template-output>
-      <action>Add entry:</action>
-      ```
-      - **{{date}}**: Completed story-context for Story {{story_id}} ({{story_title}}). Context file: {{default_output_file}}. Next: DEV agent should run dev-story to implement.
-      ```
+      <check if="success == true">
+        <output>✅ Status updated: Context generated for Story {{story_id}}</output>
+      </check>
 
       <output>**✅ Story Context Generated Successfully, {user_name}!**
 
@@ -177,4 +169,4 @@ To track progress across workflows, run `workflow-status` first.
   </step>
 
 </workflow>
-````
+```

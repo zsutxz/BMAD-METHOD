@@ -1,6 +1,6 @@
 # Develop Story - Workflow Instructions
 
-````xml
+```xml
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
@@ -111,23 +111,15 @@
     <action>Find the most recent file (by date in filename)</action>
 
     <check if="status file exists">
-      <action>Load the status file</action>
+      <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+        <param>mode: update</param>
+        <param>action: set_current_workflow</param>
+        <param>workflow_name: dev-story</param>
+      </invoke-workflow>
 
-      <template-output file="{{status_file_path}}">current_step</template-output>
-      <action>Set to: "dev-story (Story {{current_story_id}})"</action>
-
-      <template-output file="{{status_file_path}}">current_workflow</template-output>
-      <action>Set to: "dev-story (Story {{current_story_id}}) - Complete (Ready for Review)"</action>
-
-      <template-output file="{{status_file_path}}">progress_percentage</template-output>
-      <action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
-      <action>Increment by: {{per_story_weight}} * 5 (dev-story weight is ~5% per story - largest weight)</action>
-
-      <template-output file="{{status_file_path}}">decisions_log</template-output>
-      <action>Add entry:</action>
-      ```
-      - **{{date}}**: Completed dev-story for Story {{current_story_id}} ({{current_story_title}}). All tasks complete, tests passing. Story status: Ready for Review. Next: User reviews and runs story-approved when satisfied with implementation.
-      ```
+      <check if="success == true">
+        <output>✅ Status updated: Story {{current_story_id}} ready for review</output>
+      </check>
 
       <output>**✅ Story Implementation Complete, {user_name}!**
 
@@ -167,4 +159,4 @@ To track progress across workflows, run `workflow-status` first.
   </step>
 
 </workflow>
-````
+```

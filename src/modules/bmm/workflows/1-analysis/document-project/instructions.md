@@ -179,18 +179,15 @@ Your choice [1/2/3]:
 <step n="4" goal="Update status and complete">
 
 <check if="status_file_found == true">
-  <action>Load {{status_file_path}}</action>
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: document-project</param>
+  </invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "document-project - Complete"</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Increment by: 10%</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed document-project workflow ({{workflow_mode}} mode). Generated documentation in {output_folder}/."</action>
-
-<action>Save {{status_file_path}}</action>
+  <check if="success == true">
+    <output>Status updated! Next: {{next_workflow}}</output>
+  </check>
 </check>
 
 <output>**✅ Document Project Workflow Complete, {user_name}!**

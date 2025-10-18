@@ -326,24 +326,17 @@ For each {{placeholder}} in the fragment, elicit and capture that information.
 
 <step n="15" goal="Update status and populate story sequence">
 
-<action>Load {{status_file_path}}</action>
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: complete_workflow</param>
+  <param>workflow_name: gdd</param>
+  <param>populate_stories_from: {epics_output_file}</param>
+</invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "gdd - Complete"</action>
-
-<template-output file="{{status_file_path}}">phase_2_complete</template-output>
-<action>Set to: true</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Increment appropriately based on level</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed GDD workflow. Created bmm-GDD.md and bmm-epics.md with full story breakdown."</action>
-
-<action>Populate STORIES_SEQUENCE from epics.md story list</action>
-<action>Count total stories and update story counts</action>
-
-<action>Save {{status_file_path}}</action>
+<check if="success == true">
+  <output>Status updated! Next: {{next_workflow}} ({{next_agent}} agent)</output>
+  <output>Loaded {{total_stories}} stories from epics.</output>
+</check>
 
 </step>
 

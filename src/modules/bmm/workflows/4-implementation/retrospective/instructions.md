@@ -385,23 +385,16 @@ See you at sprint planning once prep work is done!"
 <action>Find the most recent file (by date in filename)</action>
 
 <check if="status file exists">
-  <action>Load the status file</action>
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: retrospective</param>
+  </invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_step</template-output>
-<action>Set to: "retrospective (Epic {{completed_number}})"</action>
-
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "retrospective (Epic {{completed_number}}) - Complete"</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Increment by: 5% (optional epic boundary workflow)</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry:</action>
-
-```
-- **{{date}}**: Completed retrospective for Epic {{completed_number}}. Action items: {{action_count}}. Preparation tasks: {{prep_task_count}}. Critical path items: {{critical_count}}. Next: Execute preparation sprint before beginning Epic {{next_number}}.
-```
+  <check if="success == true">
+    <output>✅ Status updated: Retrospective complete for Epic {{completed_number}}</output>
+  </check>
+</check>
 
 <output>**✅ Retrospective Complete**
 

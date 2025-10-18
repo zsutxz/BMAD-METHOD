@@ -68,18 +68,15 @@
 
   <step n="4" goal="Update status and complete">
     <check if="standalone_mode != true">
-      <action>Load {{status_file_path}}</action>
+      <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+        <param>mode: update</param>
+        <param>action: complete_workflow</param>
+        <param>workflow_name: brainstorm-game</param>
+      </invoke-workflow>
 
-      <template-output file="{{status_file_path}}">current_workflow</template-output>
-      <action>Set to: "brainstorm-game - Complete"</action>
-
-      <template-output file="{{status_file_path}}">progress_percentage</template-output>
-      <action>Increment by: 5% (optional Phase 1 workflow)</action>
-
-      <template-output file="{{status_file_path}}">decisions_log</template-output>
-      <action>Add entry: "- **{{date}}**: Completed brainstorm-game workflow. Generated game brainstorming session results. Next: Review game ideas and consider research or game-brief workflows."</action>
-
-      <action>Save {{status_file_path}}</action>
+      <check if="success == true">
+        <output>Status updated! Next: {{next_workflow}}</output>
+      </check>
     </check>
 
     <output>**✅ Game Brainstorming Session Complete, {user_name}!**

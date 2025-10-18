@@ -417,27 +417,22 @@ The document MUST be optimized for LLM consumption:
 
 <step n="12" goal="Update status and complete">
 
-<action>Load {{status_file_path}}</action>
+<invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+  <param>mode: update</param>
+  <param>action: complete_workflow</param>
+  <param>workflow_name: solution-architecture</param>
+  <param>populate_stories_from: {epics_file}</param>
+</invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "solution-architecture - Complete"</action>
+<check if="success == true">
+  <output>✅ Status updated! Loaded {{total_stories}} stories from epics.</output>
+  <output>Next: {{next_workflow}} ({{next_agent}} agent)</output>
+  <output>Phase 3 complete!</output>
+</check>
 
-<template-output file="{{status_file_path}}">phase_3_complete</template-output>
-<action>Set to: true</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Increment by: 15% (solution-architecture is a major workflow)</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed solution-architecture workflow. Generated bmm-solution-architecture.md, bmm-cohesion-check-report.md, and {{epic_count}} tech-spec files. Populated story backlog with {{total_story_count}} stories. Phase 3 complete."</action>
-
-<template-output file="{{status_file_path}}">STORIES_SEQUENCE</template-output>
-<action>Populate with ordered list of all stories from epics</action>
-
-<template-output file="{{status_file_path}}">TODO_STORY</template-output>
-<action>Set to: "{{first_story_id}}"</action>
-
-<action>Save {{status_file_path}}</action>
+<check if="success == false">
+  <output>⚠️ Status update failed: {{error}}</output>
+</check>
 
 <output>**✅ Solution Architecture Complete, {user_name}!**
 

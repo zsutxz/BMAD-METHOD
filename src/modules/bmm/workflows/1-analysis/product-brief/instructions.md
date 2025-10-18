@@ -274,18 +274,15 @@ This brief will serve as the primary input for creating the Product Requirements
 
 <step n="16" goal="Update status file on completion">
 <check if="standalone_mode != true">
-  <action>Load {{status_file_path}}</action>
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: product-brief</param>
+  </invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "product-brief - Complete"</action>
-
-<template-output file="{{status_file_path}}">progress_percentage</template-output>
-<action>Increment by: 10% (optional Phase 1 workflow)</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed product-brief workflow. Product brief document generated and saved. Next: Proceed to plan-project workflow to create Product Requirements Document (PRD)."</action>
-
-<action>Save {{status_file_path}}</action>
+  <check if="success == true">
+    <output>Status updated! Next: {{next_workflow}}</output>
+  </check>
 </check>
 
 <output>**✅ Product Brief Complete, {user_name}!**

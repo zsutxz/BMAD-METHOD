@@ -1,6 +1,6 @@
 # Senior Developer Review - Workflow Instructions
 
-````xml
+```xml
 <critical>The workflow execution engine is governed by: {project_root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
@@ -196,23 +196,15 @@ Running in standalone mode - no progress tracking.</output>
     <action>Find the most recent file (by date in filename)</action>
 
     <check if="status file exists">
-      <action>Load the status file</action>
+      <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+        <param>mode: update</param>
+        <param>action: set_current_workflow</param>
+        <param>workflow_name: review-story</param>
+      </invoke-workflow>
 
-      <template-output file="{{status_file_path}}">current_step</template-output>
-      <action>Set to: "review-story (Story {{epic_num}}.{{story_num}})"</action>
-
-      <template-output file="{{status_file_path}}">current_workflow</template-output>
-      <action>Set to: "review-story (Story {{epic_num}}.{{story_num}}) - Complete"</action>
-
-      <template-output file="{{status_file_path}}">progress_percentage</template-output>
-      <action>Calculate per-story weight: remaining_40_percent / total_stories / 5</action>
-      <action>Increment by: {{per_story_weight}} * 2 (review-story ~2% per story)</action>
-
-      <template-output file="{{status_file_path}}">decisions_log</template-output>
-      <action>Add entry:</action>
-      ```
-      - **{{date}}**: Completed review-story for Story {{epic_num}}.{{story_num}}. Review outcome: {{outcome}}. Action items: {{action_item_count}}. Next: Address review feedback if needed, then continue with story-approved when ready.
-      ```
+      <check if="success == true">
+        <output>✅ Status updated: Story {{epic_num}}.{{story_num}} reviewed</output>
+      </check>
 
       <output>**✅ Story Review Complete, {user_name}!**
 
@@ -251,4 +243,4 @@ Note: Running in standalone mode (no status file).
   </step>
 
 </workflow>
-````
+```

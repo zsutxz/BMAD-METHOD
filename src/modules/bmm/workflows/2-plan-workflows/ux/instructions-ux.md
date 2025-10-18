@@ -390,17 +390,15 @@ Select option (1-3):</ask>
 <step n="12" goal="Update status if tracking enabled">
 
 <check if="tracking_mode == true">
-  <action>Load {{status_file_path}}</action>
+  <invoke-workflow path="{project-root}/bmad/bmm/workflows/workflow-status">
+    <param>mode: update</param>
+    <param>action: complete_workflow</param>
+    <param>workflow_name: ux</param>
+  </invoke-workflow>
 
-<template-output file="{{status_file_path}}">current_workflow</template-output>
-<action>Set to: "ux - Complete"</action>
-
-<template-output file="{{status_file_path}}">decisions_log</template-output>
-<action>Add entry: "- **{{date}}**: Completed UX workflow. Created bmm-ux-spec.md with comprehensive UX/UI specifications."</action>
-
-<action>Save {{status_file_path}}</action>
-
-<output>Status tracking updated.</output>
+  <check if="success == true">
+    <output>✅ Status updated! Next: {{next_workflow}}</output>
+  </check>
 </check>
 </step>
 
