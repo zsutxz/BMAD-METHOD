@@ -1,0 +1,165 @@
+<task id="bmad/core/tasks/workflow-zh.xml" name="执行工作流">
+  <objective>通过加载配置、遵循指令并生成输出来执行给定的工作流</objective>
+
+  <llm critical="true">
+    <mandate>始终读取完整文件 - 在读取任何工作流相关文件时绝不使用offset/limit</mandate>
+    <mandate>指令是强制性的 - 可以是文件路径、步骤或嵌入在YAML、XML或markdown中的列表</mandate>
+    <mandate>严格按照顺序执行指令中的所有步骤</mandate>
+    <mandate>在每个"template-output"标签之后保存到模板输出文件</mandate>
+    <mandate>绝不委托步骤 - 您负责每个步骤的执行</mandate>
+  </llm>
+
+  <WORKFLOW-RULES critical="true">
+    <rule n="1">步骤按精确数字顺序执行（1, 2, 3...）</rule>
+    <rule n="2">可选步骤：询问用户，除非#yolo模式激活</rule>
+    <rule n="3">模板输出标签：保存内容 → 显示给用户 → 在继续之前获得批准</rule>
+    <rule n="4">启发标签：立即执行，除非#yolo模式（跳过所有启发）</rule>
+    <rule n="5">用户必须在继续之前批准每个主要部分，除非#yolo模式激活</rule>
+  </WORKFLOW-RULES>
+
+  <flow>
+    <step n="1" title="加载和初始化工作流">
+      <substep n="1a" title="加载配置和解析变量">
+        <action>从提供的路径读取workflow.yaml</action>
+        <mandate>加载config_source（所有模块必需）</mandate>
+        <phase n="1">从config_source路径加载外部配置</phase>
+        <phase n="2">使用配置中的值解析所有{config_source}:引用</phase>
+        <phase n="3">解析系统变量（date:system-generated）和路径（{project-root}, {installed_path}）</phase>
+        <phase n="4">询问用户输入任何仍然未知的变量</phase>
+      </substep>
+
+      <substep n="1b" title="加载必需组件">
+        <mandate>指令：从路径读取完整文件或嵌入列表（必需）</mandate>
+        <check>如果是模板路径 → 读取完整模板文件</check>
+        <check>如果是验证路径 → 记下路径供以后需要时加载</check>
+        <check>如果是template: false → 标记为操作工作流（否则为模板工作流）</check>
+        <note>数据文件（csv, json）→ 仅存储路径，在指令引用时按需加载</note>
+      </substep>
+
+      <substep n="1c" title="初始化输出" if="template-workflow">
+        <action>使用所有变量和{{date}}解析default_output_file路径</action>
+        <action>如果不存在则创建输出目录</action>
+        <action>如果是模板工作流 → 将模板写入带有占位符的输出文件</action>
+        <action>如果是操作工作流 → 跳过文件创建</action>
+      </substep>
+    </step>
+
+    <step n="2" title="处理每个指令步骤">
+      <iterate>对于指令中的每个步骤：</iterate>
+
+      <substep n="2a" title="处理步骤属性">
+        <check>如果是optional="true"且不是#yolo → 询问用户是否包含</check>
+        <check>如果是if="condition" → 评估条件</check>
+        <check>如果是for-each="item" → 对每个项目重复步骤</check>
+        <check>如果是repeat="n" → 重复步骤n次</check>
+      </substep>
+
+      <substep n="2b" title="执行步骤内容">
+        <action>处理步骤指令（markdown或XML标签）</action>
+        <action>用值替换{{variables}}（如果未知则询问用户）</action>
+        <execute-tags>
+          <tag>action xml标签 → 执行操作</tag>
+          <tag>check if="condition" xml标签 → 包装操作的条件块（需要关闭&lt;/check&gt;）</tag>
+          <tag>ask xml标签 → 提示用户并等待响应</tag>
+          <tag>invoke-workflow xml标签 → 使用给定输入执行另一个工作流</tag>
+          <tag>invoke-task xml标签 → 执行指定任务</tag>
+          <tag>goto step="x" → 跳转到指定步骤</tag>
+        </execute-tags>
+      </substep>
+
+      <substep n="2c" title="处理特殊输出标签">
+        <if tag="template-output">
+          <mandate>为此部分生成内容</mandate>
+          <mandate>保存到文件（第一次写入，后续编辑）</mandate>
+          <action>显示检查点分隔符：━━━━━━━━━━━━━━━━━━━━━━━</action>
+          <action>显示生成的内容</action>
+          <ask>继续[c]或编辑[e]？等待响应</ask>
+        </if>
+
+        <if tag="elicit-required">
+          <mandate critical="true">在呈现任何启发菜单之前，您必须使用Read工具读取{project-root}/bmad/core/tasks/adv-elicit.xml文件</mandate>
+          <action>使用当前上下文加载并运行任务{project-root}/bmad/core/tasks/adv-elicit.xml</action>
+          <action>显示启发菜单5个相关选项（列出1-5个选项，继续[c]或重新洗牌[r]）</action>
+          <mandate>暂停并等待用户选择</mandate>
+        </if>
+      </substep>
+
+      <substep n="2d" title="步骤完成">
+        <check>如果没有特殊标签且不是#yolo：</check>
+        <ask>继续下一步？（y/n/edit）</ask>
+      </substep>
+    </step>
+
+    <step n="3" title="完成">
+      <check>如果存在检查清单 → 运行验证</check>
+      <check>如果是template: false → 确认操作已完成</check>
+      <check>否则 → 确认文档已保存到输出路径</check>
+      <action>报告工作流完成</action>
+    </step>
+  </flow>
+
+  <execution-modes>
+    <mode name="normal">在所有决策点进行完整的用户交互</mode>
+    <mode name="#yolo">跳过可选部分，跳过所有启发，最小化提示</mode>
+  </execution-modes>
+
+  <supported-tags desc="指令可以使用这些标签">
+    <structural>
+      <tag>step n="X" goal="..." - 定义带有编号和目标的步骤</tag>
+      <tag>optional="true" - 可以跳过的步骤</tag>
+      <tag>if="condition" - 条件执行</tag>
+      <tag>for-each="collection" - 遍历项目</tag>
+      <tag>repeat="n" - 重复n次</tag>
+    </structural>
+    <execution>
+      <tag>action - 需要执行的操作</tag>
+      <tag>action if="condition" - 单个条件操作（内联，不需要关闭标签）</tag>
+      <tag>check if="condition"&gt;...&lt;/check&gt; - 包装多个项目的条件块（需要关闭标签）</tag>
+      <tag>ask - 获取用户输入（等待响应）</tag>
+      <tag>goto - 跳转到另一个步骤</tag>
+      <tag>invoke-workflow - 调用另一个工作流</tag>
+      <tag>invoke-task - 调用任务</tag>
+    </execution>
+    <output>
+      <tag>template-output - 保存内容检查点</tag>
+      <tag>elicit-required - 触发增强</tag>
+      <tag>critical - 不能跳过</tag>
+      <tag>example - 显示示例输出</tag>
+    </output>
+  </supported-tags>
+
+  <conditional-execution-patterns desc="何时使用每种模式">
+    <pattern type="single-action">
+      <use-case>一个带有条件的操作</use-case>
+      <syntax>&lt;action if="condition"&gt;执行某些操作&lt;/action&gt;</syntax>
+      <example>&lt;action if="文件存在"&gt;加载文件&lt;/action&gt;</example>
+      <rationale>对于单个项目更清晰简洁</rationale>
+    </pattern>
+
+    <pattern type="multi-action-block">
+      <use-case>同一条件下的多个操作/标签</use-case>
+      <syntax>&lt;check if="condition"&gt;
+  &lt;action&gt;第一个操作&lt;/action&gt;
+  &lt;action&gt;第二个操作&lt;/action&gt;
+&lt;/check&gt;</syntax>
+      <example>&lt;check if="验证失败"&gt;
+  &lt;action&gt;记录错误&lt;/action&gt;
+  &lt;goto step="1"&gt;重试&lt;/goto&gt;
+&lt;/check&gt;</example>
+      <rationale>明确的范围边界防止歧义</rationale>
+    </pattern>
+
+    <pattern type="nested-conditions">
+      <use-case>Else/替代分支</use-case>
+      <syntax>&lt;check if="条件A"&gt;...&lt;/check&gt;
+&lt;check if="else"&gt;...&lt;/check&gt;</syntax>
+      <rationale>具有明确块的清晰分支逻辑</rationale>
+    </pattern>
+  </conditional-execution-patterns>
+
+  <llm final="true">
+    <mandate>这是完整的工作流执行引擎</mandate>
+    <mandate>您必须严格按照书面说明执行，并在步骤之间维护对话上下文</mandate>
+    <mandate>如果困惑，请重新阅读此任务、工作流yaml以及任何yaml指示的文件</mandate>
+  </llm>
+</task>

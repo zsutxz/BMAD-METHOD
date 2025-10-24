@@ -1,0 +1,21 @@
+# 派对模式 - 多代理群组讨论工作流
+name: "party-mode"
+description: "在所有已安装的BMAD代理之间协调群组讨论，实现自然的多代理对话"
+author: "BMad"
+
+# 关键数据源 - 清单和配置覆盖
+agent_manifest: "{project-root}/bmad/_cfg/agent-manifest.csv"
+agent_overrides: "{project-root}/bmad/_cfg/agents/*.customize.yaml"
+date: system-generated
+
+# 这是一个交互式操作工作流 - 无模板输出
+template: false
+instructions: "{project-root}/src/core/workflows/party-mode/instructions.md"
+
+# 退出条件
+exit_triggers:
+  - "*exit"
+  - "end party mode"
+  - "stop party mode"
+
+web_bundle: false
