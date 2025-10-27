@@ -468,9 +468,11 @@ class ManifestGenerator {
    * Read existing CSV and preserve rows for modules NOT being updated
    * @param {string} csvPath - Path to existing CSV file
    * @param {number} moduleColumnIndex - Which column contains the module name (0-indexed)
-   * @returns {Array} Preserved CSV rows (without header)
+   * @param {Array<string>} expectedColumns - Expected column names in order
+   * @param {Object} defaultValues - Default values for missing columns
+   * @returns {Array} Preserved CSV rows (without header), upgraded to match expected columns
    */
-  async getPreservedCsvRows(csvPath, moduleColumnIndex) {
+  async getPreservedCsvRows(csvPath, moduleColumnIndex, expectedColumns, defaultValues = {}) {
     if (!(await fs.pathExists(csvPath)) || this.preservedModules.length === 0) {
       return [];
     }
@@ -479,7 +481,16 @@ class ManifestGenerator {
       const content = await fs.readFile(csvPath, 'utf8');
       const lines = content.trim().split('\n');
 
-      // Skip header row
+      if (lines.length < 2) {
+        return []; // No data rows
+      }
+
+      // Parse header to understand old schema
+      const header = lines[0];
+      const headerColumns = header.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+      const oldColumns = headerColumns.map((c) => c.replaceAll(/^"|"$/g, ''));
+
+      // Skip header row for data
       const dataRows = lines.slice(1);
       const preservedRows = [];
 
@@ -492,7 +503,9 @@ class ManifestGenerator {
 
         // Keep this row if it belongs to a preserved module
         if (this.preservedModules.includes(moduleValue)) {
-          preservedRows.push(row);
+          // Upgrade row to match expected schema
+          const upgradedRow = this.upgradeRowToSchema(cleanColumns, oldColumns, expectedColumns, defaultValues);
+          preservedRows.push(upgradedRow);
         }
       }
 
@@ -504,14 +517,48 @@ class ManifestGenerator {
   }
 
   /**
+   * Upgrade a CSV row from old schema to new schema
+   * @param {Array<string>} rowValues - Values from old row
+   * @param {Array<string>} oldColumns - Old column names
+   * @param {Array<string>} newColumns - New column names
+   * @param {Object} defaultValues - Default values for missing columns
+   * @returns {string} Upgraded CSV row
+   */
+  upgradeRowToSchema(rowValues, oldColumns, newColumns, defaultValues) {
+    const upgradedValues = [];
+
+    for (const newCol of newColumns) {
+      const oldIndex = oldColumns.indexOf(newCol);
+
+      if (oldIndex !== -1 && oldIndex < rowValues.length) {
+        // Column exists in old schema, use its value
+        upgradedValues.push(rowValues[oldIndex]);
+      } else if (defaultValues[newCol] === undefined) {
+        // Column missing, no default provided
+        upgradedValues.push('');
+      } else {
+        // Column missing, use default value
+        upgradedValues.push(defaultValues[newCol]);
+      }
+    }
+
+    // Properly quote values and join
+    return upgradedValues.map((v) => `"${v}"`).join(',');
+  }
+
+  /**
    * Write workflow manifest CSV
    * @returns {string} Path to the manifest file
    */
   async writeWorkflowManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'workflow-manifest.csv');
 
+    // Define expected columns and defaults for schema upgrade
+    const expectedColumns = ['name', 'description', 'module', 'path', 'standalone'];
+    const defaultValues = { standalone: 'false' };
+
     // Get preserved rows from existing CSV (module is column 2, 0-indexed)
-    const preservedRows = await this.getPreservedCsvRows(csvPath, 2);
+    const preservedRows = await this.getPreservedCsvRows(csvPath, 2, expectedColumns, defaultValues);
 
     // Create CSV header with standalone column
     let csv = 'name,description,module,path,standalone\n';
@@ -537,8 +584,22 @@ class ManifestGenerator {
   async writeAgentManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'agent-manifest.csv');
 
+    // Define expected columns (no schema changes for agents currently)
+    const expectedColumns = [
+      'name',
+      'displayName',
+      'title',
+      'icon',
+      'role',
+      'identity',
+      'communicationStyle',
+      'principles',
+      'module',
+      'path',
+    ];
+
     // Get preserved rows from existing CSV (module is column 8, 0-indexed)
-    const preservedRows = await this.getPreservedCsvRows(csvPath, 8);
+    const preservedRows = await this.getPreservedCsvRows(csvPath, 8, expectedColumns);
 
     // Create CSV header with persona fields
     let csv = 'name,displayName,title,icon,role,identity,communicationStyle,principles,module,path\n';
@@ -564,8 +625,12 @@ class ManifestGenerator {
   async writeTaskManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'task-manifest.csv');
 
+    // Define expected columns and defaults for schema upgrade
+    const expectedColumns = ['name', 'displayName', 'description', 'module', 'path', 'standalone'];
+    const defaultValues = { standalone: 'false' };
+
     // Get preserved rows from existing CSV (module is column 3, 0-indexed)
-    const preservedRows = await this.getPreservedCsvRows(csvPath, 3);
+    const preservedRows = await this.getPreservedCsvRows(csvPath, 3, expectedColumns, defaultValues);
 
     // Create CSV header with standalone column
     let csv = 'name,displayName,description,module,path,standalone\n';
@@ -591,8 +656,12 @@ class ManifestGenerator {
   async writeToolManifest(cfgDir) {
     const csvPath = path.join(cfgDir, 'tool-manifest.csv');
 
+    // Define expected columns and defaults for schema upgrade
+    const expectedColumns = ['name', 'displayName', 'description', 'module', 'path', 'standalone'];
+    const defaultValues = { standalone: 'false' };
+
     // Get preserved rows from existing CSV (module is column 3, 0-indexed)
-    const preservedRows = await this.getPreservedCsvRows(csvPath, 3);
+    const preservedRows = await this.getPreservedCsvRows(csvPath, 3, expectedColumns, defaultValues);
 
     // Create CSV header with standalone column
     let csv = 'name,displayName,description,module,path,standalone\n';
