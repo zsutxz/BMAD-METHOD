@@ -361,6 +361,13 @@ When building agents:
 - Workflows can be incomplete (marked "todo")
 - Workflow paths must be valid or "todo"
 
+**Workflow Interaction Styles** (BMAD v6 default):
+
+- **Intent-based + Interactive**: Workflows adapt to user context and skill level
+- Workflows collaborate with users, not just extract data
+- See workflow-creation-guide.md "Instruction Styles" section for details
+- When creating workflows for your agent, default to intent-based unless you need prescriptive control
+
 ### With Tasks
 
 - Tasks are single operations
