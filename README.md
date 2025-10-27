@@ -151,6 +151,18 @@ Install BMad to your project using npx:
 npx bmad-method install
 ```
 
+> **Version Selection:** When running `npx bmad-method install`, you'll be prompted to choose:
+>
+> - **Stable (v4.x)** - Production-ready version
+> - **Beta (v6.0.0-beta)** - Latest features with early access
+>
+> To install a specific version directly (skip prompt):
+>
+> ```bash
+> npx bmad-method@4 install              # Stable v4.x
+> npx bmad-method@6.0.0-beta.0 install   # Beta v6
+> ```
+
 The interactive installer will guide you through:
 
 1. **Project location** - Where to install BMad
