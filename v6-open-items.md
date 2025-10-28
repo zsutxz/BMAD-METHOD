@@ -4,7 +4,6 @@ Before calling this beta
 
 - ensure sharing and indexed folders can be used in all flows
 - Brief and PRD update to be much more interactive similar to architecture and ux flows
-- Brownfield Guidance
 - level 0 and 1 further streamlined
 - leaner phase 4
 
@@ -22,8 +21,3 @@ Aside from stability and bug fixes found during the alpha period - the main focu
 - MCP Injections based on installation selection
 - sub agent for opencode and claude code optimization
 - TDD Workflow Integration
-
-# Post v0 Roadmap
-
-- Centralized BMad Installer (instead of per project)
--
