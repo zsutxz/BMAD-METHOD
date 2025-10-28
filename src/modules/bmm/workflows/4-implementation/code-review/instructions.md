@@ -1,6 +1,6 @@
 # Senior Developer Review - Workflow Instructions
 
-```xml
+````xml
 <critical>The workflow execution engine is governed by: {project-root}/bmad/core/tasks/workflow.xml</critical>
 <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
@@ -206,9 +206,24 @@ Your input:</ask>
       8. **Security Notes**: Security findings if any
       9. **Best-Practices and References**: With links
       10. **Action Items**:
-          - Imperative phrasing
-          - Map to related ACs or files
+          - CRITICAL: ALL action items requiring code changes MUST have checkboxes for tracking
+          - Format for actionable items: `- [ ] [Severity] Description (AC #X) [file: path:line]`
+          - Format for informational notes: `- Note: Description (no action required)`
+          - Imperative phrasing for action items
+          - Map to related ACs or files with specific line references
           - Include suggested owners if clear
+          - Example format:
+            ```
+            ### Action Items
+
+            **Code Changes Required:**
+            - [ ] [High] Add input validation on login endpoint (AC #1) [file: src/routes/auth.js:23-45]
+            - [ ] [Med] Add unit test for invalid email format [file: tests/unit/auth.test.js]
+
+            **Advisory Notes:**
+            - Note: Consider adding rate limiting for production deployment
+            - Note: Document the JWT expiration policy in README
+            ```
     </action>
 
     <critical>The AC validation checklist and task validation checklist MUST be included in the review - this is the evidence trail</critical>
@@ -257,7 +272,11 @@ Your input:</ask>
         - Architectural Alignment
         - Security Notes
         - Best-Practices and References (with links)
-        - Action Items (with severity and file references)
+        - Action Items:
+          * CRITICAL: Format with checkboxes for tracking resolution
+          * Code changes required: `- [ ] [Severity] Description [file: path:line]`
+          * Advisory notes: `- Note: Description (no action required)`
+          * Group by type: "Code Changes Required" and "Advisory Notes"
       </action>
       <action>Add a Change Log entry with date, version bump if applicable, and description: "Senior Developer Review notes appended".</action>
       <action>If {{update_status_on_result}} is true: update Status to {{status_on_approve}} when approved; to {{status_on_changes_requested}} when changes requested; otherwise leave unchanged.</action>
@@ -369,4 +388,4 @@ Review was saved to story file, but sprint-status.yaml may be out of sync.
   </step>
 
 </workflow>
-```
+````
