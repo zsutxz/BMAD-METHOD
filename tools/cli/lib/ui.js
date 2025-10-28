@@ -36,8 +36,10 @@ class UI {
           message: 'What would you like to do?',
           choices: [
             { name: 'Quick Update (Settings Preserved)', value: 'quick-update' },
-            { name: 'Modify BMAD Installation (Confirm or change each setting)', value: 'install' },
+            { name: 'Modify BMAD Installation (Confirm or change each setting)', value: 'update' },
+            { name: 'Remove BMad Folder and Reinstall (Full clean install - BMad Customization Will Be Lost)', value: 'reinstall' },
             { name: 'Compile Agents (Quick rebuild of all agent .md files)', value: 'compile' },
+            { name: 'Cancel', value: 'cancel' },
           ],
           default: 'quick-update',
         },
@@ -58,7 +60,30 @@ class UI {
           directory: confirmedDirectory,
         };
       }
+
+      // Handle cancel
+      if (actionType === 'cancel') {
+        return {
+          actionType: 'cancel',
+          directory: confirmedDirectory,
+        };
+      }
+
+      // Handle reinstall
+      if (actionType === 'reinstall') {
+        return {
+          actionType: 'reinstall',
+          directory: confirmedDirectory,
+        };
+      }
+
+      // If actionType === 'update', continue with normal flow below
     }
+
+    // Collect IDE tool selection EARLY (before module configuration)
+    // This allows users to make all decisions upfront before file copying begins
+    const toolSelection = await this.promptToolSelection(confirmedDirectory, []);
+
     const { installedModuleIds } = await this.getExistingInstallation(confirmedDirectory);
     const coreConfig = await this.collectCoreConfig(confirmedDirectory);
     const moduleChoices = await this.getModuleChoices(installedModuleIds);
@@ -69,13 +94,13 @@ class UI {
     CLIUtils.displayModuleComplete('core', false); // false = don't clear the screen again
 
     return {
-      actionType: 'install', // Explicitly set action type
+      actionType: 'update', // User chose to update/modify existing installation
       directory: confirmedDirectory,
       installCore: true, // Always install core
       modules: selectedModules,
-      // IDE selection moved to after module configuration
-      ides: [],
-      skipIde: true, // Will be handled later
+      // IDE selection collected early, will be configured later
+      ides: toolSelection.ides,
+      skipIde: toolSelection.skipIde,
       coreConfig: coreConfig, // Pass collected core config to installer
     };
   }

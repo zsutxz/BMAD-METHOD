@@ -37,13 +37,26 @@ class Installer {
    * Collect Tool/IDE configurations after module configuration
    * @param {string} projectDir - Project directory
    * @param {Array} selectedModules - Selected modules from configuration
+   * @param {boolean} isFullReinstall - Whether this is a full reinstall
+   * @param {Array} previousIdes - Previously configured IDEs (for reinstalls)
+   * @param {Array} preSelectedIdes - Pre-selected IDEs from early prompt (optional)
    * @returns {Object} Tool/IDE selection and configurations
    */
-  async collectToolConfigurations(projectDir, selectedModules, isFullReinstall = false, previousIdes = []) {
-    // Prompt for tool selection
-    const { UI } = require('../../../lib/ui');
-    const ui = new UI();
-    const toolConfig = await ui.promptToolSelection(projectDir, selectedModules);
+  async collectToolConfigurations(projectDir, selectedModules, isFullReinstall = false, previousIdes = [], preSelectedIdes = null) {
+    // Use pre-selected IDEs if provided, otherwise prompt
+    let toolConfig;
+    if (preSelectedIdes === null) {
+      // Fallback: prompt for tool selection (backwards compatibility)
+      const { UI } = require('../../../lib/ui');
+      const ui = new UI();
+      toolConfig = await ui.promptToolSelection(projectDir, selectedModules);
+    } else {
+      // IDEs were already selected during initial prompts
+      toolConfig = {
+        ides: preSelectedIdes,
+        skipIde: !preSelectedIdes || preSelectedIdes.length === 0,
+      };
+    }
 
     // Check for already configured IDEs
     const { Detector } = require('./detector');
@@ -221,11 +234,22 @@ class Installer {
       if (existingInstall.installed && !config.force && !config._quickUpdate) {
         spinner.stop();
 
-        console.log(chalk.yellow('\n⚠️  Existing BMAD installation detected'));
-        console.log(chalk.dim(`  Location: ${bmadDir}`));
-        console.log(chalk.dim(`  Version: ${existingInstall.version}`));
+        // Check if user already decided what to do (from early menu in ui.js)
+        let action = null;
+        if (config._requestedReinstall) {
+          action = 'reinstall';
+        } else if (config.actionType === 'update') {
+          action = 'update';
+        } else {
+          // Fallback: Ask the user (backwards compatibility for other code paths)
+          console.log(chalk.yellow('\n⚠️  Existing BMAD installation detected'));
+          console.log(chalk.dim(`  Location: ${bmadDir}`));
+          console.log(chalk.dim(`  Version: ${existingInstall.version}`));
 
-        const { action } = await this.promptUpdateAction();
+          const promptResult = await this.promptUpdateAction();
+          action = promptResult.action;
+        }
+
         if (action === 'cancel') {
           console.log('Installation cancelled.');
           return { success: false, cancelled: true };
@@ -388,11 +412,15 @@ class Installer {
           configurations: preConfiguredIdes,
         };
       } else {
+        // Pass pre-selected IDEs from early prompt (if available)
+        // This allows IDE selection to happen before file copying, improving UX
+        const preSelectedIdes = config.ides && config.ides.length > 0 ? config.ides : null;
         toolSelection = await this.collectToolConfigurations(
           path.resolve(config.directory),
           config.modules,
           config._isFullReinstall || false,
           config._previouslyConfiguredIdes || [],
+          preSelectedIdes,
         );
       }
 
