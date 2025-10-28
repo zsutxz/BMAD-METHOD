@@ -35,7 +35,7 @@ agent:
 
     - trigger: create-module
       workflow: "{project-root}/bmad/bmb/workflows/create-module/workflow.yaml"
-      description: Create a complete BMAD module (brainstorm → brief → build with agents and workflows)
+      description: Create a complete BMAD compatible module (custom agents and workflows)
 
     - trigger: create-workflow
       workflow: "{project-root}/bmad/bmb/workflows/create-workflow/workflow.yaml"
