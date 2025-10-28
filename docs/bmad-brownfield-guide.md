@@ -451,7 +451,7 @@ Phase Transition → sprint-planning
     ┌──────────────────┴──────────────────┐
     │                                      │
     ↓                                      ↓
-create-story → story-context → dev-story → review-story
+create-story → story-context → dev-story → code-review
     │              │               │            │
     ↓              ↓               ↓            ↓
  drafted    ready-for-dev    in-progress     review
@@ -488,7 +488,7 @@ backlog → drafted → ready-for-dev → in-progress → review → done
 | `create-story`      | SM    | Draft individual story          | Story: backlog → drafted                    |
 | `story-context`     | SM    | Generate implementation context | Story: drafted → ready-for-dev              |
 | `dev-story`         | DEV   | Implement story                 | Story: ready-for-dev → in-progress → review |
-| `review-story`      | SM/SR | Quality validation              | Manual state management                     |
+| `code-review`       | SM/SR | Quality validation              | Manual state management                     |
 | `retrospective`     | SM    | Capture epic learnings          | Retrospective: optional → completed         |
 | `correct-course`    | SM    | Handle issues/scope changes     | Adaptive based on situation                 |
 
@@ -832,7 +832,7 @@ Use the Test Architect (TEA) workflows:
 3. `tech-spec` → analyzes bug, plans fix, creates single story
 4. `sprint-planning` → creates sprint status
 5. `dev-story` → implement fix
-6. `review-story` → validate fix + test regression
+6. `code-review` → validate fix + test regression
 
 **Time:** ~2-4 hours total
 
@@ -1006,7 +1006,7 @@ Use the Test Architect (TEA) workflows:
 1. Ensure `document-project` captured existing patterns
 2. Review architecture documentation before Phase 4
 3. Use `story-context` to inject pattern guidance
-4. Include pattern adherence in `review-story` checklist
+4. Include pattern adherence in `code-review` checklist
 5. Run retrospectives to identify pattern deviations
 
 ## Test Architect Integration
@@ -1094,7 +1094,7 @@ bmad sm epic-tech-context      # Create epic context
 bmad sm create-story           # Draft story
 bmad sm story-context          # Create story context
 bmad dev dev-story             # Implement story
-bmad sm review-story           # Review implementation
+bmad sm code-review           # Review implementation
 # (Manually update sprint-status.yaml to 'done')
 bmad sm retrospective          # After epic completion
 bmad sm correct-course         # If issues arise

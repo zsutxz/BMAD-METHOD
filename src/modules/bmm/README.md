@@ -53,7 +53,7 @@ The heart of BMM - structured workflows for the four development phases:
    - `story-context` - Expertise injection (SM agent)
    - `dev-story` - Implementation (DEV agent)
    - `story-done` - Mark story done (DEV agent)
-   - `review-story` - Quality validation (DEV/SR agent)
+   - `code-review` - Quality validation (DEV/SR agent)
    - `correct-course` - Issue resolution
    - `retrospective` - Continuous improvement
 

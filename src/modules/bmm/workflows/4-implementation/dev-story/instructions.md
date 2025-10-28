@@ -188,7 +188,7 @@ Story is marked Ready for Review in file, but sprint-status.yaml may be out of s
       - Review the implemented story yourself and test the changes
       - Verify all acceptance criteria are met
       - Ensure deployment readiness if applicable
-      - Run `review-story` workflow for peer review
+      - Run `code-review` workflow for peer review
       - Check sprint-status.yaml to see project progress
     </action>
     <action>Remain flexible - allow user to choose their own path or ask for other assistance</action>

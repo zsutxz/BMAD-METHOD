@@ -38,6 +38,6 @@ agent:
       workflow: "{project-root}/bmad/bmm/workflows/4-implementation/story-done/workflow.yaml"
       description: Mark story done after DoD complete
 
-    - trigger: review
-      workflow: "{project-root}/bmad/bmm/workflows/4-implementation/review-story/workflow.yaml"
+    - trigger: code-review
+      workflow: "{project-root}/bmad/bmm/workflows/4-implementation/code-review/workflow.yaml"
       description: "Perform a thorough clean context review on a story flagged Ready for Review, and appends review notes to story file"

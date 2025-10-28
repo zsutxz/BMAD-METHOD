@@ -66,7 +66,7 @@ The BMM (BMAD Method Module) orchestrates software development through four dist
 │  │   ↓                                                       │
 │  │   create-story ──→ story-context ──→ dev-story ─┐         │
 │  │                                                 ↓         │
-│  │   retrospective ←── [epic done] ←─── review-story         │
+│  │   retrospective ←── [epic done] ←─── code-review         │
 │  │                                                 ↓         │
 │  └──────────── correct-course ←──[if issues]───────┘         │
 └──────────────────────────────────────────────────────────────┘
@@ -245,7 +245,7 @@ optional ↔ completed
 - **drafted**: Story file created (e.g., `stories/1-3-plant-naming.md`)
 - **ready-for-dev**: Draft approved + story context created
 - **in-progress**: Developer actively working on implementation
-- **review**: Under SM review (via review-story workflow)
+- **review**: Under SM review (via code-review workflow)
 - **done**: Story completed and deployed
 
 **Retrospective Statuses:**
@@ -290,7 +290,7 @@ Phase Transition (Phase 2 or 3 → Phase 4)
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
-│  SM: review-story (validates implementation)     │
+│  DEV: code-review (validates implementation)     │
 │  Reviews: Code changes against DoD               │
 │  Feedback: Iteration or approval                 │
 └───────────────────┬─────────────────────────────┘
@@ -324,7 +324,7 @@ Phase Transition (Phase 2 or 3 → Phase 4)
 | **create-story**      | SM    | Draft individual story files           | Story: backlog → drafted                    |
 | **story-context**     | SM    | Generate implementation context/XML    | Story: drafted → ready-for-dev              |
 | **dev-story**         | DEV   | Implement story                        | Story: ready-for-dev → in-progress → review |
-| **review-story**      | SM/SR | Quality validation and feedback        | (No automatic state change)                 |
+| **code-review**       | SM/SR | Quality validation and feedback        | (No automatic state change)                 |
 | **retrospective**     | SM    | Capture epic learnings                 | Retrospective: optional → completed         |
 | **correct-course**    | SM    | Handle issues/scope changes            | (Adaptive based on situation)               |
 
@@ -380,7 +380,7 @@ workflow-status/workflow-init
 | **1: Analysis**       | Analyst, Game Designer | PM, Researcher       | brainstorm-_, research, _-brief             |
 | **2: Planning**       | PM                     | UX Designer, Analyst | prd, tech-spec, gdd, narrative              |
 | **3: Solutioning**    | Architect              | PM, Tech Lead        | create-architecture, solutioning-gate-check |
-| **4: Implementation** | SM, DEV                | SR (review-story)    | sprint-planning, create-story, dev-story    |
+| **4: Implementation** | SM, DEV                | SR (code-review)     | sprint-planning, create-story, dev-story    |
 
 ## Key Files and Artifacts
 
@@ -509,7 +509,7 @@ bmad sm epic-tech-context    # Create epic context (per epic)
 bmad sm create-story         # Draft story file
 bmad sm story-context        # Create story context
 bmad dev dev-story           # Implement story
-bmad sm review-story         # Quality validation
+bmad sm code-review         # Quality validation
 # (Update sprint-status.yaml to 'done' manually or via workflow)
 bmad sm retrospective        # After epic complete
 bmad sm correct-course       # If issues arise

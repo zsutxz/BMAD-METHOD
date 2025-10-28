@@ -17,9 +17,9 @@ Perform an AI-driven Senior Developer Review on a story flagged "Ready for Revie
 ## How to Invoke
 
 - By workflow name (if supported):
-  - `workflow review-story`
+  - `workflow code-review`
 - By path:
-  - `workflow {project-root}/bmad/bmm/workflows/4-implementation/review-story/workflow.yaml`
+  - `workflow {project-root}/bmad/bmm/workflows/4-implementation/code-review/workflow.yaml`
 
 ## Inputs and Variables
 
