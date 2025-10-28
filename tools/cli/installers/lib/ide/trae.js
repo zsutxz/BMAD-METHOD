@@ -27,52 +27,59 @@ class TraeSetup extends BaseIdeSetup {
 
     await this.ensureDir(rulesDir);
 
+    // Clean up any existing BMAD files before reinstalling
+    await this.cleanup(projectDir);
+
     // Get agents, tasks, tools, and workflows (standalone only)
     const agents = await this.getAgents(bmadDir);
     const tasks = await this.getTasks(bmadDir, true);
     const tools = await this.getTools(bmadDir, true);
     const workflows = await this.getWorkflows(bmadDir, true);
 
-    // Process agents as rules
+    // Process agents as rules with bmad- prefix
     let agentCount = 0;
     for (const agent of agents) {
       const content = await this.readFile(agent.path);
       const processedContent = this.createAgentRule(agent, content, bmadDir, projectDir);
 
-      const targetPath = path.join(rulesDir, `${agent.module}-${agent.name}.md`);
+      // Use bmad- prefix: bmad-agent-{module}-{name}.md
+      const targetPath = path.join(rulesDir, `bmad-agent-${agent.module}-${agent.name}.md`);
       await this.writeFile(targetPath, processedContent);
       agentCount++;
     }
 
-    // Process tasks as rules
+    // Process tasks as rules with bmad- prefix
     let taskCount = 0;
     for (const task of tasks) {
       const content = await this.readFile(task.path);
       const processedContent = this.createTaskRule(task, content);
 
-      const targetPath = path.join(rulesDir, `task-${task.module}-${task.name}.md`);
+      // Use bmad- prefix: bmad-task-{module}-{name}.md
+      const targetPath = path.join(rulesDir, `bmad-task-${task.module}-${task.name}.md`);
       await this.writeFile(targetPath, processedContent);
       taskCount++;
     }
 
-    // Process tools as rules
+    // Process tools as rules with bmad- prefix
     let toolCount = 0;
     for (const tool of tools) {
       const content = await this.readFile(tool.path);
       const processedContent = this.createToolRule(tool, content);
 
-      const targetPath = path.join(rulesDir, `tool-${tool.module}-${tool.name}.md`);
+      // Use bmad- prefix: bmad-tool-{module}-{name}.md
+      const targetPath = path.join(rulesDir, `bmad-tool-${tool.module}-${tool.name}.md`);
       await this.writeFile(targetPath, processedContent);
       toolCount++;
     }
 
-    // Process workflows as rules
+    // Process workflows as rules with bmad- prefix
     let workflowCount = 0;
     for (const workflow of workflows) {
       const content = await this.readFile(workflow.path);
       const processedContent = this.createWorkflowRule(workflow, content);
 
-      const targetPath = path.join(rulesDir, `workflow-${workflow.module}-${workflow.name}.md`);
+      // Use bmad- prefix: bmad-workflow-{module}-{name}.md
+      const targetPath = path.join(rulesDir, `bmad-workflow-${workflow.module}-${workflow.name}.md`);
       await this.writeFile(targetPath, processedContent);
       workflowCount++;
     }
@@ -243,31 +250,27 @@ Part of the BMAD ${workflow.module.toUpperCase()} module.
   }
 
   /**
-   * Cleanup Trae configuration
+   * Cleanup Trae configuration - surgically remove only BMAD files
    */
   async cleanup(projectDir) {
     const fs = require('fs-extra');
     const rulesPath = path.join(projectDir, this.configDir, this.rulesDir);
 
     if (await fs.pathExists(rulesPath)) {
-      // Only remove BMAD rules
+      // Only remove files that start with bmad- prefix
       const files = await fs.readdir(rulesPath);
       let removed = 0;
 
       for (const file of files) {
-        if (file.endsWith('.md')) {
-          const filePath = path.join(rulesPath, file);
-          const content = await fs.readFile(filePath, 'utf8');
-
-          // Check if it's a BMAD rule
-          if (content.includes('BMAD') && content.includes('module')) {
-            await fs.remove(filePath);
-            removed++;
-          }
+        if (file.startsWith('bmad-') && file.endsWith('.md')) {
+          await fs.remove(path.join(rulesPath, file));
+          removed++;
         }
       }
 
-      console.log(chalk.dim(`Removed ${removed} BMAD rules from Trae`));
+      if (removed > 0) {
+        console.log(chalk.dim(`  Cleaned up ${removed} existing BMAD rules`));
+      }
     }
   }
 }

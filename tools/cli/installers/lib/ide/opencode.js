@@ -25,11 +25,16 @@ class OpenCodeSetup extends BaseIdeSetup {
 
     const baseDir = path.join(projectDir, this.configDir);
     const commandsBaseDir = path.join(baseDir, this.commandsDir);
+    const agentsBaseDir = path.join(baseDir, this.agentsDir);
 
     await this.ensureDir(commandsBaseDir);
+    await this.ensureDir(agentsBaseDir);
+
+    // Clean up any existing BMAD files before reinstalling
+    await this.cleanup(projectDir);
 
     // Install primary agents with flat naming: bmad-agent-{module}-{name}.md
-    // OpenCode puts agents in the command folder, not a separate agent folder
+    // OpenCode agents go in the agent folder (not command folder)
     const agents = await getAgentsFromBmad(bmadDir, options.selectedModules || []);
 
     let agentCount = 0;
@@ -40,8 +45,8 @@ class OpenCodeSetup extends BaseIdeSetup {
       });
 
       const agentContent = this.createAgentContent(processed, agent);
-      // Flat structure in command folder: bmad-agent-{module}-{name}.md
-      const targetPath = path.join(commandsBaseDir, `bmad-agent-${agent.module}-${agent.name}.md`);
+      // Flat structure in agent folder: bmad-agent-{module}-{name}.md
+      const targetPath = path.join(agentsBaseDir, `bmad-agent-${agent.module}-${agent.name}.md`);
       await this.writeFile(targetPath, agentContent);
       agentCount++;
     }
@@ -68,7 +73,7 @@ class OpenCodeSetup extends BaseIdeSetup {
     const { tasks, tools } = await this.generateFlatTaskToolCommands(bmadDir, commandsBaseDir);
 
     console.log(chalk.green(`✓ ${this.name} configured:`));
-    console.log(chalk.dim(`  - ${agentCount} agents installed to .opencode/command/`));
+    console.log(chalk.dim(`  - ${agentCount} agents installed to .opencode/agent/`));
     if (workflowCommandCount > 0) {
       console.log(chalk.dim(`  - ${workflowCommandCount} workflows installed to .opencode/command/`));
     }
@@ -167,6 +172,41 @@ class OpenCodeSetup extends BaseIdeSetup {
       .trimEnd();
 
     return `---\n${yamlText}\n---`;
+  }
+
+  /**
+   * Cleanup OpenCode configuration - surgically remove only BMAD files
+   */
+  async cleanup(projectDir) {
+    const agentsDir = path.join(projectDir, this.configDir, this.agentsDir);
+    const commandsDir = path.join(projectDir, this.configDir, this.commandsDir);
+    let removed = 0;
+
+    // Clean up agent folder
+    if (await fs.pathExists(agentsDir)) {
+      const files = await fs.readdir(agentsDir);
+      for (const file of files) {
+        if (file.startsWith('bmad-') && file.endsWith('.md')) {
+          await fs.remove(path.join(agentsDir, file));
+          removed++;
+        }
+      }
+    }
+
+    // Clean up command folder
+    if (await fs.pathExists(commandsDir)) {
+      const files = await fs.readdir(commandsDir);
+      for (const file of files) {
+        if (file.startsWith('bmad-') && file.endsWith('.md')) {
+          await fs.remove(path.join(commandsDir, file));
+          removed++;
+        }
+      }
+    }
+
+    if (removed > 0) {
+      console.log(chalk.dim(`  Cleaned up ${removed} existing BMAD files`));
+    }
   }
 }
 

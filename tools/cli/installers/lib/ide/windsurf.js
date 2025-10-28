@@ -21,11 +21,15 @@ class WindsurfSetup extends BaseIdeSetup {
   async setup(projectDir, bmadDir, options = {}) {
     console.log(chalk.cyan(`Setting up ${this.name}...`));
 
-    // Create .windsurf/workflows directory structure
+    // Create .windsurf/workflows/bmad directory structure
     const windsurfDir = path.join(projectDir, this.configDir);
     const workflowsDir = path.join(windsurfDir, this.workflowsDir);
+    const bmadWorkflowsDir = path.join(workflowsDir, 'bmad');
 
-    await this.ensureDir(workflowsDir);
+    await this.ensureDir(bmadWorkflowsDir);
+
+    // Clean up any existing BMAD workflows before reinstalling
+    await this.cleanup(projectDir);
 
     // Get agents, tasks, tools, and workflows (standalone only)
     const agents = await this.getAgents(bmadDir);
@@ -33,16 +37,16 @@ class WindsurfSetup extends BaseIdeSetup {
     const tools = await this.getTools(bmadDir, true);
     const workflows = await this.getWorkflows(bmadDir, true);
 
-    // Create directories for each module
+    // Create directories for each module under bmad/
     const modules = new Set();
     for (const item of [...agents, ...tasks, ...tools, ...workflows]) modules.add(item.module);
 
     for (const module of modules) {
-      await this.ensureDir(path.join(workflowsDir, module));
-      await this.ensureDir(path.join(workflowsDir, module, 'agents'));
-      await this.ensureDir(path.join(workflowsDir, module, 'tasks'));
-      await this.ensureDir(path.join(workflowsDir, module, 'tools'));
-      await this.ensureDir(path.join(workflowsDir, module, 'workflows'));
+      await this.ensureDir(path.join(bmadWorkflowsDir, module));
+      await this.ensureDir(path.join(bmadWorkflowsDir, module, 'agents'));
+      await this.ensureDir(path.join(bmadWorkflowsDir, module, 'tasks'));
+      await this.ensureDir(path.join(bmadWorkflowsDir, module, 'tools'));
+      await this.ensureDir(path.join(bmadWorkflowsDir, module, 'workflows'));
     }
 
     // Process agents as workflows with organized structure
@@ -51,8 +55,8 @@ class WindsurfSetup extends BaseIdeSetup {
       const content = await this.readFile(agent.path);
       const processedContent = this.createWorkflowContent(agent, content);
 
-      // Organized path: module/agents/agent-name.md
-      const targetPath = path.join(workflowsDir, agent.module, 'agents', `${agent.name}.md`);
+      // Organized path: bmad/module/agents/agent-name.md
+      const targetPath = path.join(bmadWorkflowsDir, agent.module, 'agents', `${agent.name}.md`);
       await this.writeFile(targetPath, processedContent);
       agentCount++;
     }
@@ -63,8 +67,8 @@ class WindsurfSetup extends BaseIdeSetup {
       const content = await this.readFile(task.path);
       const processedContent = this.createTaskWorkflowContent(task, content);
 
-      // Organized path: module/tasks/task-name.md
-      const targetPath = path.join(workflowsDir, task.module, 'tasks', `${task.name}.md`);
+      // Organized path: bmad/module/tasks/task-name.md
+      const targetPath = path.join(bmadWorkflowsDir, task.module, 'tasks', `${task.name}.md`);
       await this.writeFile(targetPath, processedContent);
       taskCount++;
     }
@@ -75,8 +79,8 @@ class WindsurfSetup extends BaseIdeSetup {
       const content = await this.readFile(tool.path);
       const processedContent = this.createToolWorkflowContent(tool, content);
 
-      // Organized path: module/tools/tool-name.md
-      const targetPath = path.join(workflowsDir, tool.module, 'tools', `${tool.name}.md`);
+      // Organized path: bmad/module/tools/tool-name.md
+      const targetPath = path.join(bmadWorkflowsDir, tool.module, 'tools', `${tool.name}.md`);
       await this.writeFile(targetPath, processedContent);
       toolCount++;
     }
@@ -87,8 +91,8 @@ class WindsurfSetup extends BaseIdeSetup {
       const content = await this.readFile(workflow.path);
       const processedContent = this.createWorkflowWorkflowContent(workflow, content);
 
-      // Organized path: module/workflows/workflow-name.md
-      const targetPath = path.join(workflowsDir, workflow.module, 'workflows', `${workflow.name}.md`);
+      // Organized path: bmad/module/workflows/workflow-name.md
+      const targetPath = path.join(bmadWorkflowsDir, workflow.module, 'workflows', `${workflow.name}.md`);
       await this.writeFile(targetPath, processedContent);
       workflowCount++;
     }
@@ -180,31 +184,16 @@ ${content}`;
   }
 
   /**
-   * Cleanup Windsurf configuration
+   * Cleanup Windsurf configuration - surgically remove only BMAD files
    */
   async cleanup(projectDir) {
     const fs = require('fs-extra');
-    const windsurfPath = path.join(projectDir, this.configDir, this.workflowsDir);
+    const bmadPath = path.join(projectDir, this.configDir, this.workflowsDir, 'bmad');
 
-    if (await fs.pathExists(windsurfPath)) {
-      // Only remove BMAD workflows, not all workflows
-      const files = await fs.readdir(windsurfPath);
-      let removed = 0;
-
-      for (const file of files) {
-        if (file.includes('-') && file.endsWith('.md')) {
-          const filePath = path.join(windsurfPath, file);
-          const content = await fs.readFile(filePath, 'utf8');
-
-          // Check if it's a BMAD workflow
-          if (content.includes('tags: [bmad')) {
-            await fs.remove(filePath);
-            removed++;
-          }
-        }
-      }
-
-      console.log(chalk.dim(`Removed ${removed} BMAD workflows from Windsurf`));
+    if (await fs.pathExists(bmadPath)) {
+      // Remove the entire bmad folder - this is our territory
+      await fs.remove(bmadPath);
+      console.log(chalk.dim(`  Cleaned up existing BMAD workflows`));
     }
   }
 }
