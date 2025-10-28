@@ -97,10 +97,10 @@ The BMad Method (BMM) is a complete AI-driven agile development framework that r
 - **PM** - Product planning and requirements
 - **Analyst** - Research and business analysis
 - **Architect** - Technical architecture and design
-- **Game Designer** - Game-specific design and documentation
 - **Scrum Master** - Sprint planning and story management
 - **Developer** - Implementation with senior dev review
-- **And more** - UX, Test Architect, specialized game roles
+- **Game Development** (Optional) - Game Designer, Game Developer, Game Architect
+- **And more** - UX, Test Architect, and other specialized roles
 
 ### Documentation
 
@@ -168,6 +168,7 @@ The interactive installer will guide you through:
 1. **Project location** - Where to install BMad
 2. **Module selection** - Choose which modules you need (BMM, BMB, CIS)
 3. **Configuration** - Set your name, language preferences, and module options
+   - **Game Development (Optional)**: When installing BMM, you can optionally include game development agents and workflow!
 4. **IDE integration** - Configure your development environment
 
 ### What Gets Installed

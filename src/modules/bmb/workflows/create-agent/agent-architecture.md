@@ -230,7 +230,7 @@ Bad:  ../../../relative/paths/
 ```xml
 <item cmd="*standup"
    exec="{project-root}/bmad/bmm/tasks/daily-standup.xml"
-   data="{project-root}/bmad/_cfg/agent-party.xml">
+   data="{project-root}/bmad/_cfg/agent-manifest.csv">
   Run daily standup
 </item>
 ```

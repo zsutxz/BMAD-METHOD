@@ -66,7 +66,7 @@ node tools/cli/bundlers/bundle-web.js agent bmm pm     # One agent
 ```bash
 npm run bmad:status              # Installation status
 npm run validate:bundles         # Validate web bundles
-node tools/cli/regenerate-manifests.js    # Regenerate agent-party.xml files
+node tools/cli/regenerate-manifests.js    # Regenerate agent-manifest.csv files
 ```
 
 ---
@@ -566,10 +566,10 @@ To add a new handler type (e.g., `validate-workflow`):
 ### Regenerating Manifests
 
 ```bash
-# Regenerate agent-party.xml for all modules
+# Regenerate agent-manifest.csv for all modules
 node tools/cli/regenerate-manifests.js
 
-# Location: src/modules/{module}/agents/agent-party.xml
+# Location: src/modules/{module}/agents/agent-manifest.csv
 ```
 
 ---

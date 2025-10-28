@@ -19,6 +19,11 @@ project_name:
   default: "{directory_name}"
   result: "{value}"
 
+include_game_planning:
+  prompt: "Include Game Planning Agents and Workflows?"
+  default: false
+  result: "{value}"
+
 user_skill_level:
   prompt:
     - "What is your technical experience level?"

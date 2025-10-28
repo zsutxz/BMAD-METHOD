@@ -912,6 +912,9 @@ class Installer {
    * @param {Object} moduleFiles - Module files to install
    */
   async installModuleWithDependencies(moduleName, bmadDir, moduleFiles) {
+    // Get module configuration for conditional installation
+    const moduleConfig = this.configCollector.collectedConfig[moduleName] || {};
+
     // Use existing module manager for full installation with file tracking
     // Note: Module-specific installers are called separately after IDE setup
     await this.moduleManager.install(
@@ -922,6 +925,7 @@ class Installer {
       },
       {
         skipModuleInstaller: true, // We'll run it later after IDE setup
+        moduleConfig: moduleConfig, // Pass module config for conditional filtering
       },
     );
 
@@ -1990,7 +1994,7 @@ class Installer {
    * @param {Array} agentDetails - Array of agent details
    */
   async generateAgentManifest(bmadDir, agentDetails) {
-    const manifestPath = path.join(bmadDir, '_cfg', 'agent-party.xml');
+    const manifestPath = path.join(bmadDir, '_cfg', 'agent-manifest.csv');
     await AgentPartyGenerator.writeAgentParty(manifestPath, agentDetails, { forWeb: false });
   }
 

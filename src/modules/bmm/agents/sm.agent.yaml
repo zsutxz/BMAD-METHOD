@@ -47,7 +47,7 @@ agent:
 
     - trigger: retrospective
       workflow: "{project-root}/bmad/bmm/workflows/4-implementation/retrospective/workflow.yaml"
-      data: "{project-root}/bmad/_cfg/agent-party.xml"
+      data: "{project-root}/bmad/_cfg/agent-manifest.csv"
       description: Facilitate team retrospective after epic/sprint
 
     - trigger: correct-course
