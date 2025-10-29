@@ -197,13 +197,13 @@ If you're using:
 After installation:
 
 ```bash
-# In your project have the agent mode run workflow-init, in Claude Code:
-/workflow-init
-# or run the analyst and tell the analyst after it loads
-*workflow-init
+# Start the analyst and tell the analyst after it loads - claude code instructions:
+claude # wait for claude to launch in terminal
+- `/analyst` # wait for analyst greeting and menu
+- `*workflow-init` # v6 now supports much better natural language fuzzy matching - so you could also say `workflow init` or possibly `please init the workflow`
 ```
 
-Select **Level 3 or 4** if you've already completed PRD/architecture in v4.
+Since you are migrating an existing project from v4, its most likely **Level 3 or 4** you will want to suggest when asked - if you've already completed PRD/architecture in v4.
 
 ---
 

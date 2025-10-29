@@ -1,11 +1,21 @@
-# BMad CORE v6 Beta
+# BMad CORE + BMad Method
 
 [![Version](https://img.shields.io/npm/v/bmad-method?color=blue&label=version)](https://www.npmjs.com/package/bmad-method)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/gk8jAdXWmj)
 
-**The Universal Human-AI Collaboration Platform**
+> **🚨 ALPHA VERSION DOCUMENTATION**
+>
+> This README documents **BMad v6 (Alpha)** - currently under active development.
+>
+> **To install v6 Alpha:** `npx bmad-method@alpha install`
+>
+> **Looking for stable v4 documentation?** [View v4 README](https://github.com/bmad-code-org/BMAD-METHOD/tree/v4-stable)
+>
+> **Want the stable version?** `npx bmad-method install` (installs v4.x)
+
+## The Universal Human-AI Collaboration Platform
 
 BMad-CORE (**C**ollaboration **O**ptimized **R**eflection **E**ngine) is a revolutionary framework that amplifies human potential through specialized AI agents. Unlike traditional AI tools that replace human thinking, BMad-CORE guides you through reflective workflows that bring out your best ideas and the AI's full capabilities.
 
@@ -148,20 +158,12 @@ Transform creative and strategic thinking through AI-powered facilitation across
 Install BMad to your project using npx:
 
 ```bash
+# Install v6 Alpha (this version)
+npx bmad-method@alpha install
+
+# Install stable v4 (production-ready)
 npx bmad-method install
 ```
-
-> **Version Selection:** When running `npx bmad-method install`, you'll be prompted to choose:
->
-> - **Stable (v4.x)** - Production-ready version
-> - **Beta (v6.0.0-beta)** - Latest features with early access
->
-> To install a specific version directly (skip prompt):
->
-> ```bash
-> npx bmad-method@4 install              # Stable v4.x
-> npx bmad-method@6.0.0-beta.0 install   # Beta v6
-> ```
 
 The interactive installer will guide you through:
 
