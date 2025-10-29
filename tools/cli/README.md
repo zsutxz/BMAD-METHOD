@@ -130,23 +130,23 @@ The installer supports **15 IDE environments** through a base-derived architectu
 
 **Supported IDEs** (as of v6-alpha):
 
-| Code             | Name              | Artifact Location      |
-| ---------------- | ----------------- | ---------------------- |
-| `codex`          | Claude Code       | `.claude/commands/`    |
-| `claude-code`    | Claude Code (alt) | `.claude/commands/`    |
-| `opencode`       | OpenCode          | `.opencode`            |
-| `windsurf`       | Windsurf          | `.windsurf/workflows/` |
-| `cursor`         | Cursor            | `.cursor/rules/`       |
-| `cline`          | Cline             | `.clinerules/`         |
-| `github-copilot` | GitHub Copilot    | `.github/copilot/`     |
-| `crush`          | Crush             | `.crush/`              |
-| `auggie`         | Auggie            | `.auggie/`             |
-| `gemini`         | Google Gemini     | `.gemini/`             |
-| `qwen`           | Qwen              | `.qwen/`               |
-| `roo`            | Roo               | `.roo/`                |
-| `trae`           | Trae              | `.trae/`               |
-| `iflow`          | iFlow             | `.iflow/`              |
-| `kilo`           | Kilo              | `.kilo/`               |
+| Code             | Name              | Artifact Location        |
+| ---------------- | ----------------- | ------------------------ |
+| `codex`          | Claude Code       | `.claude/commands/`      |
+| `claude-code`    | Claude Code (alt) | `.claude/commands/`      |
+| `opencode`       | OpenCode          | `.opencode`              |
+| `windsurf`       | Windsurf          | `.windsurf/workflows/`   |
+| `cursor`         | Cursor            | `.cursor/rules/`         |
+| `cline`          | Cline             | `.clinerules/workflows/` |
+| `github-copilot` | GitHub Copilot    | `.github/copilot/`       |
+| `crush`          | Crush             | `.crush/`                |
+| `auggie`         | Auggie            | `.auggie/`               |
+| `gemini`         | Google Gemini     | `.gemini/`               |
+| `qwen`           | Qwen              | `.qwen/`                 |
+| `roo`            | Roo               | `.roo/`                  |
+| `trae`           | Trae              | `.trae/`                 |
+| `iflow`          | iFlow             | `.iflow/`                |
+| `kilo`           | Kilo              | `.kilo/`                 |
 
 **Handler Architecture**:
 
