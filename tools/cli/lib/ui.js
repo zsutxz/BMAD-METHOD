@@ -27,9 +27,12 @@ class UI {
     const bmadDir = path.join(confirmedDirectory, 'bmad');
     const hasExistingInstall = await fs.pathExists(bmadDir);
 
+    // Track action type (only set if there's an existing installation)
+    let actionType;
+
     // Only show action menu if there's an existing installation
     if (hasExistingInstall) {
-      const { actionType } = await inquirer.prompt([
+      const promptResult = await inquirer.prompt([
         {
           type: 'list',
           name: 'actionType',
@@ -44,6 +47,9 @@ class UI {
           default: 'quick-update',
         },
       ]);
+
+      // Extract actionType from prompt result
+      actionType = promptResult.actionType;
 
       // Handle quick update separately
       if (actionType === 'quick-update') {
@@ -69,15 +75,11 @@ class UI {
         };
       }
 
-      // Handle reinstall
-      if (actionType === 'reinstall') {
-        return {
-          actionType: 'reinstall',
-          directory: confirmedDirectory,
-        };
-      }
+      // Handle reinstall - DON'T return early, let it flow through configuration collection
+      // The installer will handle deletion when it sees actionType === 'reinstall'
+      // For now, just note that we're in reinstall mode and continue below
 
-      // If actionType === 'update', continue with normal flow below
+      // If actionType === 'update' or 'reinstall', continue with normal flow below
     }
 
     // Collect IDE tool selection EARLY (before module configuration)
@@ -94,7 +96,7 @@ class UI {
     CLIUtils.displayModuleComplete('core', false); // false = don't clear the screen again
 
     return {
-      actionType: 'update', // User chose to update/modify existing installation
+      actionType: actionType || 'update', // Preserve reinstall or update action
       directory: confirmedDirectory,
       installCore: true, // Always install core
       modules: selectedModules,
