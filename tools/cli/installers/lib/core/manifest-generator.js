@@ -83,20 +83,26 @@ class ManifestGenerator {
 
   /**
    * Collect all workflows from core and selected modules
+   * Scans the INSTALLED bmad directory, not the source
    */
   async collectWorkflows(selectedModules) {
     this.workflows = [];
 
-    // Get core workflows
-    const corePath = getModulePath('core');
-    const coreWorkflows = await this.getWorkflowsFromPath(corePath, 'core');
-    this.workflows.push(...coreWorkflows);
+    // Get core workflows from installed bmad directory
+    const corePath = path.join(this.bmadDir, 'core');
+    if (await fs.pathExists(corePath)) {
+      const coreWorkflows = await this.getWorkflowsFromPath(corePath, 'core');
+      this.workflows.push(...coreWorkflows);
+    }
 
-    // Get module workflows
+    // Get module workflows from installed bmad directory
     for (const moduleName of selectedModules) {
-      const modulePath = getSourcePath(`modules/${moduleName}`);
-      const moduleWorkflows = await this.getWorkflowsFromPath(modulePath, moduleName);
-      this.workflows.push(...moduleWorkflows);
+      const modulePath = path.join(this.bmadDir, moduleName);
+
+      if (await fs.pathExists(modulePath)) {
+        const moduleWorkflows = await this.getWorkflowsFromPath(modulePath, moduleName);
+        this.workflows.push(...moduleWorkflows);
+      }
     }
   }
 
