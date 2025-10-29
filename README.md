@@ -11,7 +11,7 @@
 >
 > **To install v6 Alpha:** `npx bmad-method@alpha install`
 >
-> **Looking for stable v4 documentation?** [View v4 README](https://github.com/bmad-code-org/BMAD-METHOD/tree/v4-stable)
+> **Looking for stable v4 documentation?** [View v4 README](https://github.com/bmad-code-org/BMAD-METHOD/tree/V4)
 >
 > **Want the stable version?** `npx bmad-method install` (installs v4.x)
 
