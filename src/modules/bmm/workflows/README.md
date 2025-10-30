@@ -33,7 +33,7 @@ The BMM (BMAD Method Module) orchestrates software development through four dist
 ├──────────────────────────────────────────────────────────────┤
 │  brainstorm-game  ──┐                                        │
 │  brainstorm-project ├──→ research ──→ product-brief  ──┐     │
-│  game-brief ────────┘                          game-brief    │
+│                                       or game-brief    │     │
 └────────────────────────────────────────────────────────┼─────┘
                                                          ↓
 ┌──────────────────────────────────────────────────────────────┐
@@ -277,33 +277,33 @@ optional ↔ completed
 - **optional**: Can be done but not required
 - **completed**: Retrospective has been completed
 
-### The Implementation Loop
+### Phase 4: The Implementation Loop
 
 ```
 Phase Transition (Phase 2 or 3 → Phase 4)
   ↓
 ┌─────────────────────────────────────────────────┐
-│  SM: sprint-planning                             │
+│  SM: sprint-planning                            │
 │  Creates: sprint-status.yaml with all epics/    │
-│           stories set to 'backlog'               │
+│           stories set to 'backlog'              │
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
 │  SM: epic-tech-context (for current epic)       │
-│  Creates: epic-N-context.md                      │
-│  Updates: Epic status to 'contexted'             │
+│  Creates: epic-N-context.md                     │
+│  Updates: Epic status to 'contexted'            │
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
 │  SM: create-story (drafts next backlog story)   │
-│  Creates: story-{key}.md                         │
-│  Updates: Story status to 'drafted'              │
+│  Creates: story-{key}.md                        │
+│  Updates: Story status to 'drafted'             │
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
-│  SM: story-context (creates implementation ctx)  │
-│  Creates: story-{key}-context.md                 │
-│  Updates: Story status to 'ready-for-dev'        │
+│  SM: story-context (creates implementation ctx) │
+│  Creates: story-{key}-context.md                │
+│  Updates: Story status to 'ready-for-dev'       │
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
@@ -314,29 +314,29 @@ Phase Transition (Phase 2 or 3 → Phase 4)
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
-│  DEV: code-review (validates implementation)     │
-│  Reviews: Code changes against DoD               │
-│  Feedback: Iteration or approval                 │
+│  DEV: code-review (validates implementation)    │
+│  Reviews: Code changes against DoD              │
+│  Feedback: Iteration or approval                │
 └───────────────────┬─────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────────────┐
-│  DEV/SM: Updates story status to 'done'          │
-│  Manual update to sprint-status.yaml             │
+│  DEV/SM: Updates story status to 'done'         │
+│  Manual update to sprint-status.yaml            │
 └───────────────────┬─────────────────────────────┘
                     ↓
             ┌───────┴────────┐
-            │  More stories?  │
-            └───────┬─────────┘
+            │  More stories? │
+            └───────┬────────┘
                 ┌───┴───┐
                 ↓       ↓
           [Yes: Loop]  [No: Epic Complete]
                          ↓
-                   ┌─────────────────┐
+                   ┌───────────────────┐
                    │  SM: retrospective│
                    │  Updates: epic-N- │
                    │  retrospective to │
                    │  'completed'      │
-                   └─────────────────┘
+                   └───────────────────┘
 ```
 
 ### Workflow Responsibilities
@@ -348,7 +348,7 @@ Phase Transition (Phase 2 or 3 → Phase 4)
 | **create-story**      | SM    | Draft individual story files           | Story: backlog → drafted                    |
 | **story-context**     | SM    | Generate implementation context/XML    | Story: drafted → ready-for-dev              |
 | **dev-story**         | DEV   | Implement story                        | Story: ready-for-dev → in-progress → review |
-| **code-review**       | SM/SR | Quality validation and feedback        | (No automatic state change)                 |
+| **code-review**       | DEV   | Quality validation and feedback        | (No automatic state change)                 |
 | **retrospective**     | SM    | Capture epic learnings                 | Retrospective: optional → completed         |
 | **correct-course**    | SM    | Handle issues/scope changes            | (Adaptive based on situation)               |
 
