@@ -196,14 +196,16 @@ If you're using:
 
 After installation:
 
-```bash
-# Start the analyst and tell the analyst after it loads - claude code instructions:
-claude # wait for claude to launch in terminal
-- `/analyst` # wait for analyst greeting and menu
-- `*workflow-init` # v6 now supports much better natural language fuzzy matching - so you could also say `workflow init` or possibly `please init the workflow`
-```
+1. **Load the Analyst agent** - See your IDE-specific instructions in [docs/ide-info](./ide-info/) for how to activate agents:
+   - [Claude Code](./ide-info/claude-code.md)
+   - [Cursor](./ide-info/cursor.md)
+   - [VS Code/Windsurf](./ide-info/) - Check your IDE folder
 
-Since you are migrating an existing project from v4, its most likely **Level 3 or 4** you will want to suggest when asked - if you've already completed PRD/architecture in v4.
+2. **Wait for the agent's menu** to appear
+
+3. **Tell the agent**: `*workflow-init` - v6 supports excellent natural language fuzzy matching, so you could also say "workflow init" or "please init the workflow"
+
+Since you are migrating an existing project from v4, it's most likely **Level 3 or 4** you will want to suggest when asked - if you've already completed PRD/architecture in v4.
 
 ---
 
