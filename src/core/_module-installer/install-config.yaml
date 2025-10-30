@@ -1,0 +1,28 @@
+# BMAD™ Core Configuration
+
+prompt:
+  - "Welcome and thank you for choosing BMAD™! This is the Core Configuration."
+  - "This will impact all selected modules, either additions or upgrades."
+
+# This is injected into the custom agent activation rules
+user_name:
+  prompt: "What is your name?"
+  default: "BMad"
+  result: "{value}"
+
+# This is injected into the custom agent activation rules and most workflows
+communication_language:
+  prompt: "Preferred Chat Language?"
+  default: "English"
+  result: "{value}"
+
+document_output_language:
+  prompt: "Preferred Document Output Language?"
+  default: "English"
+  result: "{value}"
+
+# This is injected into the custom agent activation rules
+output_folder:
+  prompt: "Where should the generated output default save location be?"
+  default: "docs"
+  result: "{project-root}/{value}"

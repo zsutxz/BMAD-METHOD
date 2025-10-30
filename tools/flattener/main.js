@@ -68,7 +68,7 @@ const program = new Command();
 
 program
   .name('bmad-flatten')
-  .description('BMAD-METHOD™ codebase flattener tool')
+  .description('BMad-Method codebase flattener tool')
   .version('1.0.0')
   .option('-i, --input <path>', 'Input directory to flatten', process.cwd())
   .option('-o, --output <path>', 'Output file path', 'flattened-codebase.xml')
@@ -78,19 +78,13 @@ program
 
     // Detect if user explicitly provided -i/--input or -o/--output
     const argv = process.argv.slice(2);
-    const userSpecifiedInput = argv.some(
-      (a) => a === '-i' || a === '--input' || a.startsWith('--input='),
-    );
-    const userSpecifiedOutput = argv.some(
-      (a) => a === '-o' || a === '--output' || a.startsWith('--output='),
-    );
+    const userSpecifiedInput = argv.some((a) => a === '-i' || a === '--input' || a.startsWith('--input='));
+    const userSpecifiedOutput = argv.some((a) => a === '-o' || a === '--output' || a.startsWith('--output='));
     const noPathArguments = !userSpecifiedInput && !userSpecifiedOutput;
 
     if (noPathArguments) {
       const detectedRoot = await findProjectRoot(process.cwd());
-      const suggestedOutput = detectedRoot
-        ? path.join(detectedRoot, 'flattened-codebase.xml')
-        : path.resolve('flattened-codebase.xml');
+      const suggestedOutput = detectedRoot ? path.join(detectedRoot, 'flattened-codebase.xml') : path.resolve('flattened-codebase.xml');
 
       if (detectedRoot) {
         const useDefaults = await promptYesNo(
@@ -102,18 +96,12 @@ program
           outputPath = suggestedOutput;
         } else {
           inputDir = await promptPath('Enter input directory path', process.cwd());
-          outputPath = await promptPath(
-            'Enter output file path',
-            path.join(inputDir, 'flattened-codebase.xml'),
-          );
+          outputPath = await promptPath('Enter output file path', path.join(inputDir, 'flattened-codebase.xml'));
         }
       } else {
         console.log('Could not auto-detect a project root.');
         inputDir = await promptPath('Enter input directory path', process.cwd());
-        outputPath = await promptPath(
-          'Enter output file path',
-          path.join(inputDir, 'flattened-codebase.xml'),
-        );
+        outputPath = await promptPath('Enter output file path', path.join(inputDir, 'flattened-codebase.xml'));
       }
     }
 
@@ -139,14 +127,8 @@ program
       // Process files with progress tracking
       console.log('Reading file contents');
       const processingSpinner = ora('📄 Processing files...').start();
-      const aggregatedContent = await aggregateFileContents(
-        filteredFiles,
-        inputDir,
-        processingSpinner,
-      );
-      processingSpinner.succeed(
-        `✅ Processed ${aggregatedContent.processedFiles}/${filteredFiles.length} files`,
-      );
+      const aggregatedContent = await aggregateFileContents(filteredFiles, inputDir, processingSpinner);
+      processingSpinner.succeed(`✅ Processed ${aggregatedContent.processedFiles}/${filteredFiles.length} files`);
       if (aggregatedContent.errors.length > 0) {
         console.log(`Errors: ${aggregatedContent.errors.length}`);
       }
@@ -162,23 +144,16 @@ program
 
       // Display completion summary
       console.log('\n📊 Completion Summary:');
-      console.log(
-        `✅ Successfully processed ${filteredFiles.length} files into ${path.basename(outputPath)}`,
-      );
+      console.log(`✅ Successfully processed ${filteredFiles.length} files into ${path.basename(outputPath)}`);
       console.log(`📁 Output file: ${outputPath}`);
       console.log(`📏 Total source size: ${stats.totalSize}`);
       console.log(`📄 Generated XML size: ${stats.xmlSize}`);
       console.log(`📝 Total lines of code: ${stats.totalLines.toLocaleString()}`);
       console.log(`🔢 Estimated tokens: ${stats.estimatedTokens}`);
-      console.log(
-        `📊 File breakdown: ${stats.textFiles} text, ${stats.binaryFiles} binary, ${stats.errorFiles} errors\n`,
-      );
+      console.log(`📊 File breakdown: ${stats.textFiles} text, ${stats.binaryFiles} binary, ${stats.errorFiles} errors\n`);
 
       // Ask user if they want detailed stats + markdown report
-      const generateDetailed = await promptYesNo(
-        'Generate detailed stats (console + markdown) now?',
-        true,
-      );
+      const generateDetailed = await promptYesNo('Generate detailed stats (console + markdown) now?', true);
 
       if (generateDetailed) {
         // Additional detailed stats
@@ -204,11 +179,7 @@ program
           console.log('\n📦 Top Extensions:');
           for (const e of topExt) {
             const pct = stats.totalBytes ? (e.bytes / stats.totalBytes) * 100 : 0;
-            console.log(
-              `   ${e.ext}: ${e.count} files, ${e.bytes.toLocaleString()} bytes (${pct.toFixed(
-                2,
-              )}%)`,
-            );
+            console.log(`   ${e.ext}: ${e.count} files, ${e.bytes.toLocaleString()} bytes (${pct.toFixed(2)}%)`);
           }
           if (stats.byExtension.length > 2) {
             console.log(`   … and ${stats.byExtension.length - 2} more extensions`);
@@ -220,11 +191,7 @@ program
           console.log('\n📂 Top Directories:');
           for (const d of topDir) {
             const pct = stats.totalBytes ? (d.bytes / stats.totalBytes) * 100 : 0;
-            console.log(
-              `   ${d.dir}: ${d.count} files, ${d.bytes.toLocaleString()} bytes (${pct.toFixed(
-                2,
-              )}%)`,
-            );
+            console.log(`   ${d.dir}: ${d.count} files, ${d.bytes.toLocaleString()} bytes (${pct.toFixed(2)}%)`);
           }
           if (stats.byDirectory.length > 2) {
             console.log(`   … and ${stats.byDirectory.length - 2} more directories`);
@@ -254,14 +221,10 @@ program
         if (stats.temporal) {
           console.log('\n⏱️ Temporal:');
           if (stats.temporal.oldest) {
-            console.log(
-              `   Oldest: ${stats.temporal.oldest.path} (${stats.temporal.oldest.mtime})`,
-            );
+            console.log(`   Oldest: ${stats.temporal.oldest.path} (${stats.temporal.oldest.mtime})`);
           }
           if (stats.temporal.newest) {
-            console.log(
-              `   Newest: ${stats.temporal.newest.path} (${stats.temporal.newest.mtime})`,
-            );
+            console.log(`   Newest: ${stats.temporal.newest.path} (${stats.temporal.newest.mtime})`);
           }
           if (Array.isArray(stats.temporal.ageBuckets)) {
             console.log('   Age buckets:');
@@ -281,13 +244,9 @@ program
           console.log(`   Hidden files: ${stats.quality.hiddenFiles}`);
           console.log(`   Symlinks: ${stats.quality.symlinks}`);
           console.log(
-            `   Large files (>= ${(stats.quality.largeThreshold / (1024 * 1024)).toFixed(
-              0,
-            )} MB): ${stats.quality.largeFilesCount}`,
+            `   Large files (>= ${(stats.quality.largeThreshold / (1024 * 1024)).toFixed(0)} MB): ${stats.quality.largeFilesCount}`,
           );
-          console.log(
-            `   Suspiciously large files (>= 100 MB): ${stats.quality.suspiciousLargeFilesCount}`,
-          );
+          console.log(`   Suspiciously large files (>= 100 MB): ${stats.quality.suspiciousLargeFilesCount}`);
         }
 
         if (Array.isArray(stats.duplicateCandidates) && stats.duplicateCandidates.length > 0) {
@@ -301,21 +260,13 @@ program
         }
 
         if (typeof stats.compressibilityRatio === 'number') {
-          console.log(
-            `\n🗜️ Compressibility ratio (sampled): ${(stats.compressibilityRatio * 100).toFixed(
-              2,
-            )}%`,
-          );
+          console.log(`\n🗜️ Compressibility ratio (sampled): ${(stats.compressibilityRatio * 100).toFixed(2)}%`);
         }
 
         if (stats.git && stats.git.isRepo) {
           console.log('\n🔧 Git:');
-          console.log(
-            `   Tracked: ${stats.git.trackedCount} files, ${stats.git.trackedBytes.toLocaleString()} bytes`,
-          );
-          console.log(
-            `   Untracked: ${stats.git.untrackedCount} files, ${stats.git.untrackedBytes.toLocaleString()} bytes`,
-          );
+          console.log(`   Tracked: ${stats.git.trackedCount} files, ${stats.git.trackedBytes.toLocaleString()} bytes`);
+          console.log(`   Untracked: ${stats.git.untrackedCount} files, ${stats.git.untrackedBytes.toLocaleString()} bytes`);
           if (Array.isArray(stats.git.lfsCandidates) && stats.git.lfsCandidates.length > 0) {
             console.log('   LFS candidates (top 2):');
             for (const f of stats.git.lfsCandidates.slice(0, 2)) {
@@ -338,9 +289,7 @@ program
                 locStr = `, LOC: ${tf.lines.toLocaleString()}`;
               }
             }
-            console.log(
-              `   ${f.path} – ${f.sizeFormatted} (${f.percentOfTotal.toFixed(2)}%)${locStr}`,
-            );
+            console.log(`   ${f.path} – ${f.sizeFormatted} (${f.percentOfTotal.toFixed(2)}%)${locStr}`);
           }
           if (stats.largestFiles.length > 2) {
             console.log(`   … and ${stats.largestFiles.length - 2} more files`);
@@ -349,9 +298,7 @@ program
 
         // Write a comprehensive markdown report next to the XML
         {
-          const mdPath = outputPath.endsWith('.xml')
-            ? outputPath.replace(/\.xml$/i, '.stats.md')
-            : outputPath + '.stats.md';
+          const mdPath = outputPath.endsWith('.xml') ? outputPath.replace(/\.xml$/i, '.stats.md') : outputPath + '.stats.md';
           try {
             const pct = (num, den) => (den ? (num / den) * 100 : 0);
             const md = [];
@@ -374,11 +321,7 @@ program
 
             // Histogram
             if (Array.isArray(stats.histogram) && stats.histogram.length > 0) {
-              md.push(
-                '## 🧮 Size Histogram',
-                '| Bucket | Files | Bytes |',
-                '| --- | ---: | ---: |',
-              );
+              md.push('## 🧮 Size Histogram', '| Bucket | Files | Bytes |', '| --- | ---: | ---: |');
               for (const b of stats.histogram) {
                 md.push(`| ${b.label} | ${b.count} | ${b.bytes.toLocaleString()} |`);
               }
@@ -387,16 +330,10 @@ program
 
             // Top Extensions
             if (Array.isArray(stats.byExtension) && stats.byExtension.length > 0) {
-              md.push(
-                '## 📦 Top Extensions by Bytes (Top 20)',
-                '| Ext | Files | Bytes | % of total |',
-                '| --- | ---: | ---: | ---: |',
-              );
+              md.push('## 📦 Top Extensions by Bytes (Top 20)', '| Ext | Files | Bytes | % of total |', '| --- | ---: | ---: | ---: |');
               for (const e of stats.byExtension.slice(0, 20)) {
                 const p = pct(e.bytes, stats.totalBytes);
-                md.push(
-                  `| ${e.ext} | ${e.count} | ${e.bytes.toLocaleString()} | ${p.toFixed(2)}% |`,
-                );
+                md.push(`| ${e.ext} | ${e.count} | ${e.bytes.toLocaleString()} | ${p.toFixed(2)}% |`);
               }
               md.push('');
             }
@@ -410,9 +347,7 @@ program
               );
               for (const d of stats.byDirectory.slice(0, 20)) {
                 const p = pct(d.bytes, stats.totalBytes);
-                md.push(
-                  `| ${d.dir} | ${d.count} | ${d.bytes.toLocaleString()} | ${p.toFixed(2)}% |`,
-                );
+                md.push(`| ${d.dir} | ${d.count} | ${d.bytes.toLocaleString()} | ${p.toFixed(2)}% |`);
               }
               md.push('');
             }
@@ -428,11 +363,7 @@ program
 
             // Longest paths
             if (Array.isArray(stats.longestPaths) && stats.longestPaths.length > 0) {
-              md.push(
-                '## 🧵 Longest Paths (Top 25)',
-                '| Path | Length | Bytes |',
-                '| --- | ---: | ---: |',
-              );
+              md.push('## 🧵 Longest Paths (Top 25)', '| Path | Length | Bytes |', '| --- | ---: | ---: |');
               for (const pth of stats.longestPaths) {
                 md.push(`| ${pth.path} | ${pth.length} | ${pth.size.toLocaleString()} |`);
               }
@@ -473,20 +404,14 @@ program
 
             // Duplicates
             if (Array.isArray(stats.duplicateCandidates) && stats.duplicateCandidates.length > 0) {
-              md.push(
-                '## 🧬 Duplicate Candidates',
-                '| Reason | Files | Size (bytes) |',
-                '| --- | ---: | ---: |',
-              );
+              md.push('## 🧬 Duplicate Candidates', '| Reason | Files | Size (bytes) |', '| --- | ---: | ---: |');
               for (const d of stats.duplicateCandidates) {
                 md.push(`| ${d.reason} | ${d.count} | ${d.size.toLocaleString()} |`);
               }
               md.push('', '### 🧬 Duplicate Groups Details');
               let dupIndex = 1;
               for (const d of stats.duplicateCandidates) {
-                md.push(
-                  `#### Group ${dupIndex}: ${d.count} files @ ${d.size.toLocaleString()} bytes (${d.reason})`,
-                );
+                md.push(`#### Group ${dupIndex}: ${d.count} files @ ${d.size.toLocaleString()} bytes (${d.reason})`);
                 if (Array.isArray(d.files) && d.files.length > 0) {
                   for (const fp of d.files) {
                     md.push(`- ${fp}`);
@@ -502,11 +427,7 @@ program
 
             // Compressibility
             if (typeof stats.compressibilityRatio === 'number') {
-              md.push(
-                '## 🗜️ Compressibility',
-                `Sampled compressibility ratio: ${(stats.compressibilityRatio * 100).toFixed(2)}%`,
-                '',
-              );
+              md.push('## 🗜️ Compressibility', `Sampled compressibility ratio: ${(stats.compressibilityRatio * 100).toFixed(2)}%`, '');
             }
 
             // Git
@@ -527,11 +448,7 @@ program
 
             // Largest Files
             if (Array.isArray(stats.largestFiles) && stats.largestFiles.length > 0) {
-              md.push(
-                '## 📚 Largest Files (Top 50)',
-                '| Path | Size | % of total | LOC |',
-                '| --- | ---: | ---: | ---: |',
-              );
+              md.push('## 📚 Largest Files (Top 50)', '| Path | Size | % of total | LOC |', '| --- | ---: | ---: | ---: |');
               for (const f of stats.largestFiles) {
                 let loc = '';
                 if (!f.isBinary && Array.isArray(aggregatedContent?.textFiles)) {
@@ -540,9 +457,7 @@ program
                     loc = tf.lines.toLocaleString();
                   }
                 }
-                md.push(
-                  `| ${f.path} | ${f.sizeFormatted} | ${f.percentOfTotal.toFixed(2)}% | ${loc} |`,
-                );
+                md.push(`| ${f.path} | ${f.sizeFormatted} | ${f.percentOfTotal.toFixed(2)}% | ${loc} |`);
               }
               md.push('');
             }

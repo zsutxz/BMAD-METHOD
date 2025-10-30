@@ -131,9 +131,7 @@ function computeDepthAndLongest(allFiles) {
     .sort((a, b) => b.path.length - a.path.length)
     .slice(0, 25)
     .map((f) => ({ path: f.path, length: f.path.length, size: f.size }));
-  const depthDist = [...depthDistribution.entries()]
-    .sort((a, b) => a[0] - b[0])
-    .map(([depth, count]) => ({ depth, count }));
+  const depthDist = [...depthDistribution.entries()].sort((a, b) => a[0] - b[0]).map(([depth, count]) => ({ depth, count }));
   return { depthDist, longestPaths };
 }
 
@@ -161,21 +159,15 @@ function computeTemporal(allFiles, nowMs) {
     if (!newest || f.mtimeMs > newest.mtimeMs) newest = f;
   }
   return {
-    oldest: oldest
-      ? { path: oldest.path, mtime: oldest.mtimeMs ? new Date(oldest.mtimeMs).toISOString() : null }
-      : null,
-    newest: newest
-      ? { path: newest.path, mtime: newest.mtimeMs ? new Date(newest.mtimeMs).toISOString() : null }
-      : null,
+    oldest: oldest ? { path: oldest.path, mtime: oldest.mtimeMs ? new Date(oldest.mtimeMs).toISOString() : null } : null,
+    newest: newest ? { path: newest.path, mtime: newest.mtimeMs ? new Date(newest.mtimeMs).toISOString() : null } : null,
     ageBuckets,
   };
 }
 
 function computeQuality(allFiles, textFiles) {
   const zeroByteFiles = allFiles.filter((f) => f.size === 0).length;
-  const emptyTextFiles = textFiles.filter(
-    (f) => (f.size || 0) === 0 || (f.lines || 0) === 0,
-  ).length;
+  const emptyTextFiles = textFiles.filter((f) => (f.size || 0) === 0 || (f.lines || 0) === 0).length;
   const hiddenFiles = allFiles.filter((f) => f.hidden).length;
   const symlinks = allFiles.filter((f) => f.isSymlink).length;
   const largeThreshold = 50 * MB;
@@ -339,37 +331,18 @@ function buildMarkdownReport(largestFiles, byExtensionArr, byDirectoryArr, total
   md.push(
     '\n### Top Largest Files (Top 50)\n',
     mdTable(
-      largestFiles.map((f) => [
-        f.path,
-        f.sizeFormatted,
-        `${f.percentOfTotal.toFixed(2)}%`,
-        f.ext || '',
-        f.isBinary ? 'binary' : 'text',
-      ]),
+      largestFiles.map((f) => [f.path, f.sizeFormatted, `${f.percentOfTotal.toFixed(2)}%`, f.ext || '', f.isBinary ? 'binary' : 'text']),
       ['Path', 'Size', '% of total', 'Ext', 'Type'],
     ),
     '\n\n### Top Extensions by Bytes (Top 20)\n',
   );
   const topExtRows = byExtensionArr
     .slice(0, 20)
-    .map((e) => [
-      e.ext,
-      String(e.count),
-      formatSize(e.bytes),
-      `${toPct(e.bytes, totalBytes).toFixed(2)}%`,
-    ]);
-  md.push(
-    mdTable(topExtRows, ['Ext', 'Count', 'Bytes', '% of total']),
-    '\n\n### Top Directories by Bytes (Top 20)\n',
-  );
+    .map((e) => [e.ext, String(e.count), formatSize(e.bytes), `${toPct(e.bytes, totalBytes).toFixed(2)}%`]);
+  md.push(mdTable(topExtRows, ['Ext', 'Count', 'Bytes', '% of total']), '\n\n### Top Directories by Bytes (Top 20)\n');
   const topDirRows = byDirectoryArr
     .slice(0, 20)
-    .map((d) => [
-      d.dir,
-      String(d.count),
-      formatSize(d.bytes),
-      `${toPct(d.bytes, totalBytes).toFixed(2)}%`,
-    ]);
+    .map((d) => [d.dir, String(d.count), formatSize(d.bytes), `${toPct(d.bytes, totalBytes).toFixed(2)}%`]);
   md.push(mdTable(topDirRows, ['Directory', 'Files', 'Bytes', '% of total']));
   return md.join('\n');
 }
