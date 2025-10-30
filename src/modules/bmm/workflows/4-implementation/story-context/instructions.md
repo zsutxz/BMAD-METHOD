@@ -178,12 +178,14 @@ You may need to run sprint-planning to refresh tracking.
     <output>✅ Story context generated successfully, {user_name}!
 
 **Story Details:**
+
 - Story: {{epic_id}}.{{story_id}} - {{story_title}}
 - Story Key: {{story_key}}
 - Context File: {default_output_file}
 - Status: drafted → ready-for-dev
 
 **Context Includes:**
+
 - Documentation artifacts and references
 - Existing code and interfaces
 - Dependencies and frameworks
@@ -191,6 +193,7 @@ You may need to run sprint-planning to refresh tracking.
 - Development constraints
 
 **Next Steps:**
+
 1. Review the context file: {default_output_file}
 2. Run `dev-story` to implement the story
 3. Generate context for more drafted stories if needed

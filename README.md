@@ -23,6 +23,14 @@ BMad-CORE (**C**ollaboration **O**ptimized **R**eflection **E**ngine) is a revol
 
 ---
 
+## 🚀 New to v6? Start Here!
+
+**[→ BMad Method V6 Quick Start Guide](./docs/BMad-Method-V6-Quick-Start.md)** - **NEW!** Get up and running with v6 in minutes
+
+Learn how to build your first greenfield project with BMad Method v6 using our brand new quick start guide!
+
+---
+
 ## 🔄 Upgrading from v4?
 
 **[→ v4 to v6 Upgrade Guide](./docs/v4-to-v6-upgrade.md)** - Complete migration instructions for existing v4 users

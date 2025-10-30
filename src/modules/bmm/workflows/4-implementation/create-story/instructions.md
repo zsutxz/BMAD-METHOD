@@ -234,6 +234,7 @@ You may need to run sprint-planning to refresh tracking, or manually set the sto
     <output>**✅ Story Created Successfully, {user_name}!**
 
 **Story Details:**
+
 - Story ID: {{story_id}}
 - Story Key: {{story_key}}
 - File: {{story_file}}
@@ -242,6 +243,7 @@ You may need to run sprint-planning to refresh tracking, or manually set the sto
 **⚠️ Important:** The following workflows are context-intensive. It's recommended to clear context and restart the SM agent before running the next command.
 
 **Next Steps:**
+
 1. Review the drafted story in {{story_file}}
 2. **[RECOMMENDED]** Run `story-context` to generate technical context XML and mark story ready for development (combines context + ready in one step)
 3. Or run `story-ready` to manually mark the story ready without generating technical context

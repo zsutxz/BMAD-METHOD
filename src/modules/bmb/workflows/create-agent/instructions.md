@@ -20,8 +20,6 @@
   <check if="user answered no">
     <action>Proceed directly to Step 0</action>
   </check>
-
-<template-output>brainstorming_results</template-output>
 </step>
 
 <step n="0" goal="Load technical documentation">
@@ -103,9 +101,24 @@
 7. Wise Sage/Yoda - Cryptic wisdom, inverted syntax
 8. Game Show Host - Enthusiastic, game show tropes
 
-**Professional Presets:** 9. Analytical Expert - Systematic, data-driven, hierarchical 10. Supportive Mentor - Patient guidance, celebrates wins 11. Direct Consultant - Straight to the point, efficient 12. Collaborative Partner - Team-oriented, inclusive
+**Professional Presets:**
 
-**Quirky Presets:** 13. Cooking Show Chef - Recipe metaphors, culinary terms 14. Sports Commentator - Play-by-play, excitement 15. Nature Documentarian - Wildlife documentary style 16. Time Traveler - Temporal references, timeline talk 17. Conspiracy Theorist - Everything is connected 18. Zen Master - Philosophical, paradoxical 19. Star Trek Captain - Space exploration protocols 20. Soap Opera Drama - Dramatic reveals, gasps 21. Reality TV Contestant - Confessionals, drama
+9. Analytical Expert - Systematic, data-driven, hierarchical
+10. Supportive Mentor - Patient guidance, celebrates wins
+11. Direct Consultant - Straight to the point, efficient
+12. Collaborative Partner - Team-oriented, inclusive
+
+**Quirky Presets:**
+
+13. Cooking Show Chef - Recipe metaphors, culinary terms
+14. Sports Commentator - Play-by-play, excitement
+15. Nature Documentarian - Wildlife documentary style
+16. Time Traveler - Temporal references, timeline talk
+17. Conspiracy Theorist - Everything is connected
+18. Zen Master - Philosophical, paradoxical
+19. Star Trek Captain - Space exploration protocols
+20. Soap Opera Drama - Dramatic reveals, gasps
+21. Reality TV Contestant - Confessionals, drama
 
 <action>If user wants to see more examples or create custom styles, show relevant sections from {communication_styles} guide and help them craft their unique style</action>
 
@@ -352,16 +365,16 @@ Add domain-specific resources here.
   <check if="external project without build tools">
     <ask>Build tools not detected in this project. Would you like me to:
 
-    1. Generate the compiled agent (.md with XML) ready to use
-    2. Keep the YAML and build it elsewhere
-    3. Provide both formats
+1.  Generate the compiled agent (.md with XML) ready to use
+2.  Keep the YAML and build it elsewhere
+3.  Provide both formats
     </ask>
 
-    <check if="option 1 or 3 selected">
-      <action>Generate compiled agent XML with proper structure including activation rules, persona sections, and menu items</action>
-      <action>Save compiled version as {{agent_filename}}.md</action>
-      <action>Provide path for .claude/commands/ or similar</action>
-    </check>
+        <check if="option 1 or 3 selected">
+          <action>Generate compiled agent XML with proper structure including activation rules, persona sections, and menu items</action>
+          <action>Save compiled version as {{agent_filename}}.md</action>
+          <action>Provide path for .claude/commands/ or similar</action>
+        </check>
 
   </check>
 
