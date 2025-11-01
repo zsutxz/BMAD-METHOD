@@ -39,7 +39,7 @@ Examples:
 
 <ask>Which AI platform will you use for the research?
 
-1. ChatGPT Deep Research (o3/o1)
+1. ChatGPT Deep Research
 2. Gemini Deep Research
 3. Grok DeepSearch
 4. Claude Projects
