@@ -61,7 +61,7 @@ module.exports = {
           chalk.bold(result.path || path.resolve(config.directory, 'bmad')),
         );
         console.log(chalk.yellow('\nThank you for helping test the early release version of the new BMad Core and BMad Method!'));
-        console.log(chalk.cyan('Check docs/alpha-release-notes.md in this repository for important information.'));
+        console.log(chalk.cyan('Stable Beta coming soon - please read the full readme.md and linked documentation to get started!'));
         process.exit(0);
       }
     } catch (error) {
