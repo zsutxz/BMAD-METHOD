@@ -19,14 +19,10 @@ instructions: "{installed_path}/instructions.md"
 
 # Templates
 prd_template: "{installed_path}/prd-template.md"
-epics_template: "{installed_path}/epics-template.md"
 
 # Output files
-status_file: "{output_folder}/bmm-workflow-status.md"
+status_file: "{output_folder}/bmm-workflow-status.yaml"
 default_output_file: "{output_folder}/PRD.md"
-epics_output_file: "{output_folder}/epics.md"
-technical_decisions_file: "{output_folder}/technical-decisions.md"
-technical_decisions_template: "{project-root}/bmad/bmm/_module-installer/assets/technical-decisions.md"
 
 # Recommended input documents
 recommended_inputs:
@@ -40,7 +36,15 @@ web_bundle:
   description: "Unified PRD workflow for project levels 2-4. Produces strategic PRD and tactical epic breakdown. Hands off to architecture workflow for technical design. Note: Level 0-1 use tech-spec workflow."
   author: "BMad"
   instructions: "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
+  validation: "bmad/bmm/workflows/2-plan-workflows/prd/checklist.md"
   web_bundle_files:
     - "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
     - "bmad/bmm/workflows/2-plan-workflows/prd/prd-template.md"
-    - "bmad/bmm/workflows/2-plan-workflows/prd/epics-template.md"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/project-types.csv"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/domain-complexity.csv"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/checklist.md"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/workflow.yaml"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/instructions.md"
+    - "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/epics-template.md"
+  child_workflows:
+    - create-epics-and-stories: "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/workflow.yaml"

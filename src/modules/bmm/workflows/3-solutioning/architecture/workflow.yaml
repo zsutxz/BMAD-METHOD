@@ -19,7 +19,7 @@ recommended_inputs:
   - ux_spec: "UX specification with interface designs and interaction patterns (optional)"
 
 # Input file references (fuzzy matched from output folder)
-prd_file: "{output_folder}/bmm-PRD.md or PRD.md or product-requirements.md"
+prd_file: "{output_folder}/*PRD*, PRD.md, or prd/index.md + files"
 epics_file: "{output_folder}/bmm-epics.md or epics.md or user-stories.md"
 ux_spec_file: "{output_folder}/ux-spec.md or ux-specification.md or user-experience.md"
 

@@ -30,11 +30,11 @@ agent:
       workflow: "{project-root}/bmad/bmm/workflows/1-analysis/brainstorm-game/workflow.yaml"
       description: Guide me through Game Brainstorming
 
-    - trigger: game-brief
+    - trigger: create-game-brief
       workflow: "{project-root}/bmad/bmm/workflows/1-analysis/game-brief/workflow.yaml"
       description: Create Game Brief
 
-    - trigger: gdd
+    - trigger: create-gdd
       workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/gdd/workflow.yaml"
       description: Create Game Design Document (GDD)
 
