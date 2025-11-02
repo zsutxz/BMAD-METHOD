@@ -120,7 +120,8 @@ All stories are either still in backlog or already marked ready/in-progress/done
 
   <step n="2" goal="Collect relevant documentation">
     <action>Scan docs and src module docs for items relevant to this story's domain: search keywords from story title, ACs, and tasks.</action>
-    <action>Prefer authoritative sources: PRD, Architecture, Front-end Spec, Testing standards, module-specific docs.</action>
+    <action>Prefer authoritative sources: PRD, Tech-Spec, Architecture, Front-end Spec, Testing standards, module-specific docs.</action>
+    <action>Note: Tech-Spec is used for Level 0-1 projects (instead of PRD). It contains comprehensive technical context, brownfield analysis, framework details, existing patterns, and implementation guidance.</action>
     <action>For each discovered document: convert absolute paths to project-relative format by removing {project-root} prefix. Store only relative paths (e.g., "docs/prd.md" not "/Users/.../docs/prd.md").</action>
     <template-output file="{default_output_file}">
       Add artifacts.docs entries with {path, title, section, snippet}:

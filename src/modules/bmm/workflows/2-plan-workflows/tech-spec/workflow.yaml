@@ -13,6 +13,13 @@ document_output_language: "{config_source}:document_output_language"
 user_skill_level: "{config_source}:user_skill_level"
 date: system-generated
 
+# Runtime variables (captured during workflow execution)
+project_level: runtime-captured
+project_type: runtime-captured
+development_context: runtime-captured
+change_type: runtime-captured
+field_type: runtime-captured
+
 # Workflow components
 installed_path: "{project-root}/bmad/bmm/workflows/2-plan-workflows/tech-spec"
 instructions: "{installed_path}/instructions.md"

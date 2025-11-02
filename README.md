@@ -19,21 +19,58 @@ BMad-CORE (**C**ollaboration **O**ptimized **R**eflection **E**ngine) amplifies 
 
 ## Table of Contents
 
-- [Quick Start](#quick-start)
-- [What is BMad-CORE?](#what-is-bmad-core)
-- [Modules](#modules)
-  - [BMad Method (BMM)](#bmad-method-bmm---agile-ai-development)
-  - [BMad Builder (BMB)](#bmad-builder-bmb---create-custom-solutions)
-  - [Creative Intelligence Suite (CIS)](#creative-intelligence-suite-cis---innovation--creativity)
-- [Installation](#installation)
-- [Key Features](#key-features)
-- [Documentation](#documentation)
-- [Community & Support](#community--support)
+- [BMad CORE + BMad Method](#bmad-core--bmad-method)
+  - [Universal Human-AI Collaboration Platform](#universal-human-ai-collaboration-platform)
+  - [Table of Contents](#table-of-contents)
+  - [Quick Start](#quick-start)
+    - [⚡ NEW: Quick Spec Flow for Rapid Development](#-new-quick-spec-flow-for-rapid-development)
+  - [What is BMad-CORE?](#what-is-bmad-core)
+    - [v6 Core Enhancements](#v6-core-enhancements)
+    - [C.O.R.E. Philosophy](#core-philosophy)
+  - [Modules](#modules)
+    - [BMad Method (BMM) - Agile AI Development](#bmad-method-bmm---agile-ai-development)
+      - [v6 Highlights](#v6-highlights)
+    - [BMad Builder (BMB) - Create Custom Solutions](#bmad-builder-bmb---create-custom-solutions)
+    - [Creative Intelligence Suite (CIS) - Innovation \& Creativity](#creative-intelligence-suite-cis---innovation--creativity)
+  - [Installation](#installation)
+    - [Project Structure](#project-structure)
+    - [Getting Started](#getting-started)
+  - [Key Features](#key-features)
+    - [🎨 Update-Safe Customization](#-update-safe-customization)
+    - [🚀 Intelligent Installation](#-intelligent-installation)
+    - [📁 Unified Architecture](#-unified-architecture)
+    - [📄 Document Sharding](#-document-sharding)
+  - [Documentation](#documentation)
+  - [Community \& Support](#community--support)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Quick Start
 
 - **New to v6?** [→ BMad Method V6 Quick Start Guide](./docs/BMad-Method-V6-Quick-Start.md)
+- **Need a quick bug fix or small feature?** ⚡ [→ BMad Quick Spec Flow](./docs/quick-spec-flow.md) - Go from idea to implementation in minutes!
 - **Upgrading?** [→ v4 to v6 Upgrade Guide](./docs/v4-to-v6-upgrade.md)
+
+### ⚡ NEW: Quick Spec Flow for Rapid Development
+
+**Perfect for:** Bug fixes, small features, rapid prototyping
+
+Skip the full planning docs and go **straight to implementation** with auto-detected stack, brownfield analysis, and context-rich technical specs. Ideal for Level 0-1 projects that don't need Product Briefs or PRDs.
+
+📚 **Learn about project levels:** [BMad Method Scale Adaptive System](./docs/scale-adaptive-system.md) - Automatically adapts from Level 0 (bug fixes) to Level 4 (enterprise systems)
+
+**When to use Quick Spec Flow:**
+
+- 🐛 **Bug fixes** - Single file changes, isolated improvements
+- ✨ **Small features** - 2-3 related changes, coherent functionality
+- 🚀 **Rapid prototyping** - Quick experiments and validation
+- 🔧 **Brownfield enhancements** - Adding to existing codebases
+
+**Not sure which flow to use?** Run `workflow-init` - it will analyze your project goal and recommend either Quick Spec Flow (Level 0-1) or Full BMM Flow (Level 2-4).
+
+[**→ Read the complete Quick Spec Flow guide**](./docs/quick-spec-flow.md)
+
+---
 
 ## What is BMad-CORE?
 

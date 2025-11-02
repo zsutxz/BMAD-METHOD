@@ -31,6 +31,9 @@ input_file_patterns:
     whole: "{output_folder}/*prd*.md"
     sharded: "{output_folder}/*prd*/index.md"
 
+  tech_spec:
+    whole: "{output_folder}/tech-spec.md"
+
   architecture:
     whole: "{output_folder}/*architecture*.md"
     sharded: "{output_folder}/*architecture*/index.md"
