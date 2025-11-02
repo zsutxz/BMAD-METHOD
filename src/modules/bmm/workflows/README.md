@@ -23,6 +23,7 @@ Master guide for BMM's four-phase methodology that adapts to project scale (Leve
 - **Just-In-Time Design** - Tech specs created per epic during implementation
 - **Dynamic Expertise Injection** - Story-specific technical guidance
 - **Continuous Learning Loop** - Retrospectives improve each cycle
+- **Document Sharding Support** - All workflows handle whole or sharded documents for efficiency
 
 ## Universal Entry Point
 
@@ -209,6 +210,46 @@ document-project (if needed) → Phase 1 (optional) → Phase 2 → Phase 3 (L2-
 2. **Respect scale** - Don't over-document small projects
 3. **Use status tracking** - Always know where you are
 4. **Iterate and learn** - Each epic improves the next
+5. **Consider sharding** - Split large documents (PRD, epics, architecture) for efficiency
+
+## Document Sharding
+
+For large multi-epic projects, consider sharding planning documents to improve workflow efficiency.
+
+### What is Sharding?
+
+Splits large markdown files into smaller section-based files:
+
+- PRD with 15 epics → `prd/epic-1.md`, `prd/epic-2.md`, etc.
+- Large epics file → Individual epic files
+- Architecture layers → Separate layer files
+
+### Benefits
+
+**Phase 1-3 Workflows:**
+
+- Workflows load entire sharded documents (transparent to user)
+- Better organization for large projects
+
+**Phase 4 Workflows:**
+
+- **Selective loading** - Only load the epic/section needed
+- **Massive efficiency** - 90%+ token reduction for 10+ epic projects
+- Examples: `epic-tech-context`, `create-story`, `story-context`, `code-review`
+
+### Usage
+
+```
+Load bmad-master or analyst agent:
+/shard-doc
+
+Source: docs/PRD.md
+Destination: docs/prd/
+```
+
+**All BMM workflows automatically support both whole and sharded documents.**
+
+**[→ Complete Sharding Guide](../../../docs/document-sharding-guide.md)**
 
 ---
 

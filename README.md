@@ -180,6 +180,17 @@ This initializes the workflow system and helps choose your starting point.
 
 Single `bmad/` folder - clean, organized, maintainable.
 
+### 📄 Document Sharding
+
+Optional efficiency optimization for large projects:
+
+- **Automatic Support** - All workflows handle whole or sharded documents
+- **Selective Loading** - Phase 4 workflows load only needed sections (90%+ token savings)
+- **Easy Sharding** - Built-in tool splits documents by headings
+- **Smart Discovery** - Workflows auto-detect format
+
+**[→ Document Sharding Guide](./docs/document-sharding-guide.md)**
+
 ## Documentation
 
 - **[📚 Documentation Index](./docs/index.md)** - Complete documentation map

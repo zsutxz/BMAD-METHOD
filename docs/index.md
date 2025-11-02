@@ -99,6 +99,10 @@ Instructions for loading agents and running workflows in your development enviro
 - [Installers & Platforms Reference](./installers-bundlers/installers-modules-platforms-reference.md) - CLI tool and platform support
 - [Web Bundler Usage](./installers-bundlers/web-bundler-usage.md) - Creating web-compatible bundles
 
+### Optimization & Efficiency
+
+- **[Document Sharding Guide](./document-sharding-guide.md)** - Split large documents for 90%+ token savings in Phase 4 workflows
+
 ---
 
 ## 📊 Documentation Map
