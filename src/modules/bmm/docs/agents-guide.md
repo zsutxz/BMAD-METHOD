@@ -144,11 +144,7 @@ The BMad Method Module (BMM) provides a comprehensive team of specialized AI age
 **Workflows:**
 
 - `workflow-status` - Check what to do next
-- `create-architecture` - Decision-focused architecture with:
-  - Starter template intelligence
-  - Novel pattern design
-  - Implementation patterns for agent consistency
-  - Adaptive facilitation (beginner/expert)
+- `create-architecture` - Decision-focused architecture with
 - `validate-architecture` - Validate architecture document
 - `solutioning-gate-check` - Validate readiness for Phase 4
 - `correct-course` - Handle technical changes

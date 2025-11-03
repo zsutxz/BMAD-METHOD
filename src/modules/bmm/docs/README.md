@@ -23,12 +23,12 @@ Complete guides for the BMad Method Module (BMM) - AI-powered agile development 
 Understanding how BMM adapts to your needs:
 
 - **[Scale Adaptive System](./scale-adaptive-system.md)** - How BMM adapts to project size and complexity (42 min read)
-  - The five complexity levels (0-4)
-  - Automatic level detection
-  - Documentation requirements per level
+  - Three planning tracks (Quick Flow, BMad Method, Enterprise Method)
+  - Automatic track recommendation
+  - Documentation requirements per track
   - Planning workflow routing
 
-- **[Quick Spec Flow](./quick-spec-flow.md)** - Fast-track workflow for Level 0-1 projects (26 min read)
+- **[Quick Spec Flow](./quick-spec-flow.md)** - Fast-track workflow for Quick Flow track (26 min read)
   - Bug fixes and small features
   - Rapid prototyping approach
   - Auto-detection of stack and patterns
@@ -62,7 +62,7 @@ Comprehensive guide for brownfield development:
 
 - **[Brownfield Development Guide](./brownfield-guide.md)** - Complete guide for existing codebases (53 min read)
   - Documentation phase strategies
-  - Level detection for brownfield
+  - Track selection for brownfield
   - Integration with existing patterns
   - Phase-by-phase workflow guidance
   - Common scenarios and troubleshooting
@@ -86,7 +86,7 @@ Essential reference materials:
 
 **Build something new (greenfield)**
 → Start with [Quick Start Guide](./quick-start.md)
-→ Then review [Scale Adaptive System](./scale-adaptive-system.md) to understand levels
+→ Then review [Scale Adaptive System](./scale-adaptive-system.md) to understand tracks
 
 **Fix a bug or add small feature**
 → Go directly to [Quick Spec Flow](./quick-spec-flow.md)
@@ -95,7 +95,7 @@ Essential reference materials:
 → Read [Brownfield Development Guide](./brownfield-guide.md)
 → Pay special attention to Phase 0 documentation requirements
 
-**Understand project complexity levels**
+**Understand planning tracks and methodology**
 → See [Scale Adaptive System](./scale-adaptive-system.md)
 
 **Find specific commands or answers**
@@ -114,12 +114,12 @@ Comprehensive documentation for all BMM workflows organized by phase:
 
 - **[Phase 2: Planning Workflows](./workflows-planning.md)** - Scale-adaptive planning (967 lines)
   - prd, tech-spec, gdd, narrative, ux
-  - Level 0-4 planning approach
+  - Track-based planning approach (Quick Flow, BMad Method, Enterprise Method)
   - Which planning workflow to use
 
 - **[Phase 3: Solutioning Workflows](./workflows-solutioning.md)** - Architecture and validation (638 lines)
   - architecture, solutioning-gate-check
-  - Required for Level 3-4 projects
+  - Required for BMad Method and Enterprise Method tracks
   - Preventing agent conflicts
 
 - **[Phase 4: Implementation Workflows](./workflows-implementation.md)** - Sprint-based development (1,634 lines)

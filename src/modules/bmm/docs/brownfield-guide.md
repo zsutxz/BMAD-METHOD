@@ -35,21 +35,21 @@ Brownfield projects involve working within existing codebases rather than starti
 
 ## Getting Started
 
-### Understanding Project Levels
+### Understanding Planning Tracks
 
-For complete level details, see [Scale Adaptive System](./scale-adaptive-system.md).
+For complete track details, see [Scale Adaptive System](./scale-adaptive-system.md).
 
-**Brownfield levels at a glance:**
+**Brownfield tracks at a glance:**
 
-| Level | Scope                | Stories | Key Difference                     |
-| ----- | -------------------- | ------- | ---------------------------------- |
-| **0** | Bug fix              | 1       | Must understand affected code      |
-| **1** | Small feature        | 1-10    | Respect existing patterns          |
-| **2** | Feature set          | 5-15    | Integrate with architecture        |
-| **3** | Complex integration  | 12-40   | Review existing architecture first |
-| **4** | Enterprise expansion | 40+     | Full system documentation required |
+| Track                 | Scope                      | Typical Stories | Key Difference                                  |
+| --------------------- | -------------------------- | --------------- | ----------------------------------------------- |
+| **Quick Flow**        | Bug fixes, small features  | 1-15            | Must understand affected code and patterns      |
+| **BMad Method**       | Feature sets, integrations | 10-50+          | Integrate with existing architecture            |
+| **Enterprise Method** | Enterprise expansions      | 30+             | Full system documentation + compliance required |
 
-### Level Detection for Brownfield
+**Note:** Story counts are guidance, not definitions. Tracks are chosen based on planning needs.
+
+### Track Selection for Brownfield
 
 When you run `workflow-init`, it handles brownfield intelligently:
 
@@ -69,23 +69,23 @@ When you run `workflow-init`, it handles brownfield intelligently:
 
 **Step 3: Analyzes your description**
 
-- Keywords: "fix" → Level 0, "add feature" → Level 1, "dashboard" → Level 2
-- Story count estimation
-- Confirms suggested level with you
+- Keywords: "fix", "bug" → Quick Flow, "dashboard", "platform" → BMad Method, "enterprise", "multi-tenant" → Enterprise Method
+- Complexity assessment
+- Confirms suggested track with you
 
 **Key Principle:** System asks about YOUR current work first, uses old artifacts as context only.
 
-**Example: Old Level 3 PRD, New Level 0 Work**
+**Example: Old Complex PRD, New Simple Work**
 
 ```
-System: "Found PRD.md (Level 3, 30 stories, 6 months old)"
+System: "Found PRD.md (BMad Method track, 30 stories, 6 months old)"
 System: "Is this work in progress or previous effort?"
 You: "Previous effort - I'm just fixing a bug now"
 System: "Tell me about your current work"
 You: "Update payment method enums"
-System: "Level 0 brownfield. Correct?"
+System: "Quick Flow track (tech-spec approach). Correct?"
 You: "Yes"
-✅ Creates Level 0 workflow
+✅ Creates Quick Flow workflow
 ```
 
 ---
@@ -140,14 +140,14 @@ If `docs/index.md` exists with comprehensive content, skip to Phase 1 or 2.
 
 Without it, workflows lack context:
 
-- **tech-spec** (Level 0-1) can't auto-detect stack/patterns
-- **PRD** (Level 2-4) can't reference existing code
-- **architecture** (Level 3-4) can't build on existing structure
+- **tech-spec** (Quick Flow) can't auto-detect stack/patterns
+- **PRD** (BMad Method/Enterprise) can't reference existing code
+- **architecture** (BMad Method/Enterprise) can't build on existing structure
 - **story-context** can't inject pattern-specific guidance
 
 ---
 
-## Workflow Phases by Level
+## Workflow Phases by Track
 
 ### Phase 1: Analysis (Optional)
 
@@ -155,7 +155,7 @@ Without it, workflows lack context:
 
 - `brainstorm-project` - Solution exploration
 - `research` - Technical/market research
-- `product-brief` - Strategic planning
+- `product-brief` - Strategic planning (BMad Method/Enterprise tracks only)
 
 **When to use:** Complex features, technical decisions, strategic additions
 
@@ -165,24 +165,24 @@ See [Workflows Guide](../workflows/README.md) for details.
 
 ### Phase 2: Planning (Required)
 
-**Planning approach adapts by level:**
+**Planning approach adapts by track:**
 
-**Level 0-1:** Use `tech-spec` workflow
+**Quick Flow:** Use `tech-spec` workflow
 
 - Creates tech-spec.md
 - Auto-detects existing stack (brownfield)
 - Confirms conventions with you
 - Generates implementation-ready stories
 
-**Level 2-4:** Use `prd` workflow
+**BMad Method/Enterprise:** Use `prd` workflow
 
-- Creates PRD.md + epics.md
+- Creates PRD.md + epic breakdown
 - References existing architecture
 - Plans integration points
 
-**Brownfield-specific:** See [Scale Adaptive System](./scale-adaptive-system.md) for complete workflow paths by level.
+**Brownfield-specific:** See [Scale Adaptive System](./scale-adaptive-system.md) for complete workflow paths by track.
 
-### Phase 3: Solutioning (Level 2-4 Only)
+### Phase 3: Solutioning (BMad Method/Enterprise Only)
 
 **Critical for brownfield:**
 
@@ -193,12 +193,10 @@ See [Workflows Guide](../workflows/README.md) for details.
 
 **Workflows:**
 
-- `architecture-review` - Understand existing (Level 3-4)
-- `integration-planning` - Plan integration approach (Level 3-4)
-- `create-architecture` - Extend architecture docs (Level 2-4)
-- `solutioning-gate-check` - Validate before implementation (Level 3-4)
+- `create-architecture` - Extend architecture docs (BMad Method/Enterprise)
+- `solutioning-gate-check` - Validate before implementation (BMad Method/Enterprise)
 
-### Phase 4: Implementation (All Levels)
+### Phase 4: Implementation (All Tracks)
 
 **Sprint-based development through story iteration:**
 
@@ -307,9 +305,11 @@ Document in tech-spec/architecture:
 
 ## Common Scenarios
 
-### Scenario 1: Bug Fix (Level 0)
+### Scenario 1: Bug Fix (Quick Flow)
 
 **Situation:** Authentication token expiration causing logout issues
+
+**Track:** Quick Flow
 
 **Workflow:**
 
@@ -326,9 +326,11 @@ Document in tech-spec/architecture:
 
 ---
 
-### Scenario 2: Small Feature (Level 1)
+### Scenario 2: Small Feature (Quick Flow)
 
 **Situation:** Add "forgot password" to existing auth system
+
+**Track:** Quick Flow
 
 **Workflow:**
 
@@ -346,28 +348,33 @@ Document in tech-spec/architecture:
 
 ---
 
-### Scenario 3: Feature Set (Level 2)
+### Scenario 3: Feature Set (BMad Method)
 
 **Situation:** Add user dashboard with analytics, preferences, activity
+
+**Track:** BMad Method
 
 **Workflow:**
 
 1. **Document:** Run `document-project` (Deep scan) - Critical for understanding existing UI patterns
 2. **Analyze:** Load Analyst → `research` (if evaluating analytics libraries)
 3. **Plan:** Load PM → `prd`
-4. **Implement:** Sprint-based (10-15 stories)
+4. **Solution:** Load Architect → `create-architecture` → `solutioning-gate-check`
+5. **Implement:** Sprint-based (10-15 stories)
    - Load SM → `sprint-planning`
    - Per epic: `epic-tech-context` → stories
    - Load DEV → `dev-story` per story
-5. **Review:** Per story completion
+6. **Review:** Per story completion
 
 **Time:** 1-2 weeks
 
 ---
 
-### Scenario 4: Complex Integration (Level 3)
+### Scenario 4: Complex Integration (BMad Method)
 
 **Situation:** Add real-time collaboration to document editor
+
+**Track:** BMad Method
 
 **Workflow:**
 
@@ -375,8 +382,6 @@ Document in tech-spec/architecture:
 2. **Analyze:** Load Analyst → `research` (WebSocket vs WebRTC vs CRDT)
 3. **Plan:** Load PM → `prd`
 4. **Solution:**
-   - Load Architect → `architecture-review` (understand existing editor)
-   - Load Architect → `integration-planning` (WebSocket integration strategy)
    - Load Architect → `create-architecture` (extend for real-time layer)
    - Load Architect → `solutioning-gate-check`
 5. **Implement:** Sprint-based (20-30 stories)
@@ -385,9 +390,11 @@ Document in tech-spec/architecture:
 
 ---
 
-### Scenario 5: Enterprise Expansion (Level 4)
+### Scenario 5: Enterprise Expansion (Enterprise Method)
 
 **Situation:** Add multi-tenancy to single-tenant SaaS platform
+
+**Track:** Enterprise Method
 
 **Workflow:**
 
@@ -398,7 +405,7 @@ Document in tech-spec/architecture:
    - `product-brief` - Strategic document
 3. **Plan:** Load PM → `prd` (comprehensive)
 4. **Solution:**
-   - `architecture-review` - Full system review
+   - `create-architecture` - Full system architecture
    - `integration-planning` - Phased migration strategy
    - `create-architecture` - Multi-tenancy architecture
    - `validate-architecture` - External review
@@ -456,7 +463,7 @@ For complete troubleshooting, see [Troubleshooting Guide](./troubleshooting.md).
    - Which existing modules to modify
    - What APIs/services to integrate with
    - Data flow between new and existing code
-4. Run `integration-planning` workflow (Level 3-4)
+4. Review architecture document for integration guidance
 
 ### Existing Tests Breaking
 
@@ -504,21 +511,19 @@ document-project        # Create comprehensive docs (10-30min)
 # Analyst agent:
 brainstorm-project      # Explore solutions
 research                # Gather data
-product-brief           # Strategic planning
+product-brief           # Strategic planning (BMad Method/Enterprise only)
 
 # Phase 2: Planning (Required)
 # PM agent:
-tech-spec               # Level 0-1
-prd                     # Level 2-4
+tech-spec               # Quick Flow track
+prd                     # BMad Method/Enterprise tracks
 
-# Phase 3: Solutioning (Level 2-4)
+# Phase 3: Solutioning (BMad Method/Enterprise)
 # Architect agent:
-architecture-review          # Review existing (L3-4)
-integration-planning         # Plan integration (L3-4)
-create-architecture          # Extend architecture (L2-4)
-solutioning-gate-check       # Final approval (L3-4)
+create-architecture          # Extend architecture
+solutioning-gate-check       # Final validation
 
-# Phase 4: Implementation (All Levels)
+# Phase 4: Implementation (All Tracks)
 # SM agent:
 sprint-planning              # Initialize tracking
 epic-tech-context            # Epic context
@@ -545,17 +550,17 @@ correct-course               # If issues
 
 **Phase 1-3 Tracking:**
 
-- `docs/bmm-workflow-status.md` - Progress tracker
+- `docs/bmm-workflow-status.yaml` - Progress tracker
 
 **Phase 2 Planning:**
 
-- `docs/tech-spec.md` (Level 0-1)
-- `docs/PRD.md` (Level 2-4)
-- `docs/epics.md` (Level 2-4)
+- `docs/tech-spec.md` (Quick Flow track)
+- `docs/PRD.md` (BMad Method/Enterprise tracks)
+- Epic breakdown
 
 **Phase 3 Architecture:**
 
-- `docs/architecture.md` (Level 2-4)
+- `docs/architecture.md` (BMad Method/Enterprise tracks)
 
 **Phase 4 Implementation:**
 
@@ -573,13 +578,13 @@ flowchart TD
 
     START --> CHECK
     CHECK -->|No| DOC[document-project<br/>Deep scan]
-    CHECK -->|Yes| LEVEL{What Level?}
+    CHECK -->|Yes| TRACK{What Track?}
 
-    DOC --> LEVEL
+    DOC --> TRACK
 
-    LEVEL -->|0-1| TS[tech-spec]
-    LEVEL -->|2| PRD[prd]
-    LEVEL -->|3-4| PRD2[prd → architecture]
+    TRACK -->|Quick Flow| TS[tech-spec]
+    TRACK -->|BMad Method| PRD[prd → architecture]
+    TRACK -->|Enterprise| PRD2[prd → arch + security/devops]
 
     TS --> IMPL[Phase 4<br/>Implementation]
     PRD --> IMPL
@@ -600,7 +605,7 @@ flowchart TD
 2. ✅ **Use fresh chats for complex workflows** - Prevents hallucinations
 3. ✅ **Verify files exist before workflows** - Check PRD, epics, stories present
 4. ✅ **Read agent menu first** - Confirm agent has the workflow
-5. ✅ **Start with smaller level if unsure** - Easy to upgrade (L1 → L2)
+5. ✅ **Start with simpler track if unsure** - Easy to upgrade (Quick Flow → BMad Method)
 6. ✅ **Keep status files updated** - Manual updates when needed
 7. ✅ **Run retrospectives after epics** - Catch issues early
 8. ✅ **Follow phase sequence** - Don't skip required phases
@@ -609,8 +614,8 @@ flowchart TD
 
 ## Related Documentation
 
-- **[Scale Adaptive System](./scale-adaptive-system.md)** - Understanding levels and complexity
-- **[Quick Spec Flow](./quick-spec-flow.md)** - Fast-track for Level 0-1
+- **[Scale Adaptive System](./scale-adaptive-system.md)** - Understanding tracks and complexity
+- **[Quick Spec Flow](./quick-spec-flow.md)** - Fast-track for Quick Flow
 - **[Quick Start Guide](./quick-start.md)** - Getting started with BMM
 - **[Glossary](./glossary.md)** - Key terminology
 - **[FAQ](./faq.md)** - Common questions
