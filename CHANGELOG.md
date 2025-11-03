@@ -2,6 +2,245 @@
 
 ## [Unreleased]
 
+## [6.0.0-alpha.4]
+
+**Release: November 2, 2025**
+
+This alpha release represents a major leap forward in documentation, workflow intelligence, and usability. The BMM module now features professional documentation, context-aware planning workflows, and universal document management capabilities.
+
+### 📚 Complete Documentation Overhaul
+
+**New Documentation Hub** (`src/modules/bmm/docs/`)
+
+- Created centralized documentation system with 18 comprehensive guides (7000+ lines)
+- Clear learning paths for greenfield, brownfield, and quick spec flows
+- Professional technical writing standards throughout all documentation
+- Reading time estimates and cross-referenced navigation
+
+**New Documentation Files:**
+
+- `README.md` - Complete documentation hub with topic navigation
+- `quick-start.md` - 15-minute getting started guide
+- `agents-guide.md` - Comprehensive 12-agent reference (45 min read)
+- `party-mode.md` - Multi-agent collaboration guide (20 min read)
+- `scale-adaptive-system.md` - Deep dive on Levels 0-4 (42 min read)
+- `brownfield-guide.md` - Existing codebase development (53 min read)
+- `quick-spec-flow.md` - Rapid Level 0-1 development (26 min read)
+- `workflows-analysis.md` - Phase 1 workflows deep-dive (12 min read)
+- `workflows-planning.md` - Phase 2 workflows deep-dive (19 min read)
+- `workflows-solutioning.md` - Phase 3 workflows deep-dive (13 min read)
+- `workflows-implementation.md` - Phase 4 workflows deep-dive (33 min read)
+- `workflows-testing.md` - Testing & QA workflows (29 min read)
+- `workflow-architecture-reference.md` - Architecture workflow technical reference
+- `workflow-document-project-reference.md` - Document-project workflow technical reference
+- `enterprise-agentic-development.md` - Team collaboration patterns
+- `faq.md` - Comprehensive Q&A covering all common questions
+- `glossary.md` - Complete BMM terminology reference
+- `troubleshooting.md` - Common issues and solutions guide
+
+**Documentation Improvements:**
+
+- Removed version/date footers (git handles versioning automatically)
+- Agent customization docs now include full rebuild process
+- Consistent professional formatting and structure across all docs
+- Better separation of user documentation vs developer reference
+
+### 🤖 New Agent: Paige (Documentation Guide)
+
+Introduced Paige, a specialized technical documentation agent:
+
+- **Expertise:** Professional technical writing, information architecture, documentation structure
+- **Integration:** Available across all BMM phases for continuous documentation support
+- **Customizable:** Like all BMM agents, can be customized via sidecar files
+- **Status:** Work in progress - will evolve as documentation needs grow
+
+### 🚀 Quick Spec Flow - Intelligent Level 0-1 Planning
+
+**Major Tech-Spec Workflow Transformation:**
+
+- Transformed from template-filling into context-aware intelligent planning system
+- Ideal for bug fixes, single endpoint additions, and small isolated changes
+- Auto-detects project stack (package.json, requirements.txt, etc.)
+- Analyzes brownfield codebases for conventions and patterns
+- Integrates WebSearch for current framework versions and best practices
+
+**Context-Aware Intelligence:**
+
+- Interactive level detection (Level 0 vs Level 1)
+- Brownfield convention detection with user confirmation
+- Comprehensive context discovery (stack, patterns, dependencies, test frameworks)
+- Auto-validation with quality scoring (no manual checklist needed)
+- UX/UI considerations capture for user-facing changes
+
+**Enhanced Tech-Spec Template:**
+
+- Expanded from 8 to 23 sections for complete planning context
+- New sections: Development Context, UX/UI Considerations, Integration Points
+- Developer Resources section with file paths and testing guidance
+- All sections populated via template-output tags during workflow
+
+**Story Generation Improvements:**
+
+- Level 0: Extract single story from comprehensive tech-spec
+- Level 1: Story sequence validation with acceptance criteria quality checks
+- User Story Template includes Dev Agent Record sections for implementation tracking
+- Complete epic template rewrite with proper variable structure
+
+**Phase 4 Integration:**
+
+- Story Context and Create Story workflows now recognize tech-spec as authoritative source
+- Seamless integration between Quick Spec Flow and traditional BMM workflows
+- Tech-spec provides brownfield analysis, framework details, and existing patterns
+
+### 📦 Universal Document Sharding
+
+**New Capability: Shard-Doc Workflow**
+
+- Split large markdown documents into organized, smaller files based on sections
+- Dual-strategy loading: include individual shards OR single large document
+- Configurable section level (default: level 2 headings)
+- Automatic index.md generation with navigation links
+- Ideal for large guides, API documentation, and knowledge bases
+
+**Use Cases:**
+
+- Breaking down massive planning documents for better context management
+- Creating navigable documentation hierarchies
+- Managing agent knowledge bases efficiently
+- Optimizing context window usage during development
+
+**Integration:**
+
+- Available as BMad Core workflow: `/bmad:core:tools:shard-doc`
+- Works with any markdown document in your project
+- Preserves original file with automatic backups
+- Generated shards maintain formatting and structure
+
+### 🔧 Planning Workflow Enhancements
+
+**Intent-Driven Discovery (Product Brief & PRD):**
+
+- Transformed from rigid template-filling to natural conversational discovery
+- Adaptive questioning based on project context (hobby/startup/enterprise)
+- Real-time document building instead of end-of-session generation
+- Skill-level aware facilitation (expert/intermediate/beginner)
+- Context detection from user responses to guide exploration depth
+
+**Product Brief Workflow (96% BMAD v6 compliance):**
+
+- Intent-driven facilitation with context-appropriate probing
+- Living document approach with continuous template updates
+- Enhanced discovery areas: problem exploration, solution vision, user understanding
+- Ruthless MVP scope management with feature prioritization
+- Template improvements with context-aware conditional sections
+
+**PRD Workflow (improved from 65% to 85%+ compliance):**
+
+- Fixed critical config issues (missing date variable, status file extension mismatch)
+- Scale-adaptive intelligence with project type detection (API/Web App/Mobile/SaaS)
+- Domain complexity mapping (14 domain types with specialized considerations)
+- Enhanced requirements coverage: project-type specific sections, domain considerations
+- Separated epic planning into dedicated create-epics-and-stories child workflow
+
+**Architecture Workflow:**
+
+- Better integration with PRD outputs
+- Domain complexity context support
+- Enhanced technical decision capture framework
+
+### 🛠️ Research Workflow Improvements
+
+**Enhanced Research Capabilities:**
+
+- Updated to use web search more frequently for current information
+- Better understanding of current date context for finding latest documentation
+- Improved deep research prompt generation options
+- More accurate and up-to-date research results
+
+### 🎨 User Experience Improvements
+
+**Installer Updates:**
+
+- Improved installation notes and guidance
+- Better command examples (shard-doc uses npx command pattern)
+
+**Workflow Cleanup:**
+
+- Removed unused voice hooks functionality
+- Cleaned up backup and temporary files
+- Better workflow naming consistency
+
+### 📋 Infrastructure & Quality
+
+**Agent & Workflow Manifests:**
+
+- Added Paige to agent manifest
+- Updated workflow manifest with new and restructured workflows
+- Better workflow-to-agent mappings across all documentation
+- Updated files manifest with all new documentation
+
+**Module Organization:**
+
+- Streamlined BMM README to lean signpost format
+- Polished root README with better hierarchy and clear CTAs
+- Moved documentation from root `docs/` to module-specific locations
+- Better separation of user docs vs developer reference
+
+**Data Infrastructure:**
+
+- New CSV data files for project types and domain complexity
+- Enhanced workflow configuration with runtime variables
+- Better template variable mapping and tracking
+
+### 🔄 Breaking Changes
+
+**File Removals:**
+
+- Removed `src/modules/bmm/workflows/2-plan-workflows/prd/epics-template.md` (replaced by create-epics-and-stories child workflow)
+
+**Workflow Trigger Changes:**
+
+- PM agent: `prd` → `create-prd`
+- New workflow triggers: `create-epics-and-stories`, `validate-prd`
+- Game Designer agent triggers renamed for consistency
+
+### 📖 What's Next (Beta Roadmap)
+
+- Knowledge base integration for enhanced context management
+- Web bundle functionality completion
+- Additional specialized agents based on community feedback
+- Enhanced multi-agent collaboration patterns
+- Performance optimizations for large projects
+
+---
+
+### Installation
+
+```bash
+npx bmad-method@6.0.0-alpha.4 install
+```
+
+For upgrading from alpha.3:
+
+```bash
+# Backup your customizations first
+npx bmad-method@6.0.0-alpha.4 install
+```
+
+### Migration Notes
+
+If upgrading from v6.0.0-alpha.3:
+
+1. New documentation is available in `bmad/bmm/docs/` - review the README.md for navigation
+2. Tech-spec workflow now has enhanced capabilities - review `docs/quick-spec-flow.md`
+3. Product Brief and PRD workflows have new conversational approaches
+4. Paige agent is now available for documentation tasks
+5. No breaking changes to existing project structures
+
+---
+
+## [6.0.0-alpha.3]
+
 ### Codex Installer
 
 - Codex installer uses custom prompts in `.codex/prompts/`, instead of `AGENTS.md`
