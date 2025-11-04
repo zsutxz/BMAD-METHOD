@@ -70,7 +70,7 @@ Phase 3 (Solutioning) workflows translate **what** to build (from Planning) into
 **Level 3-4 (Required Solutioning):**
 
 - Planning: Standard/Comprehensive PRD
-- Solutioning: **Required** architecture + epic tech-spec
+- Solutioning: **Required** architecture + epic-tech-context
 - Gate Check: **Required** solutioning-gate-check
 - Implementation: dev-story guided by architecture
 

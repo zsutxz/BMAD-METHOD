@@ -37,7 +37,7 @@
 - Path: `bmad/bmm/workflows/2-plan-workflows/prd/workflow.yaml`
 - Unified PRD workflow for project levels 2-4. Produces strategic PRD and tactical epic breakdown. Hands off to architecture workflow for technical design. Note: Level 0-1 use tech-spec workflow.
 
-**tech-spec-sm**
+**tech-spec**
 
 - Path: `bmad/bmm/workflows/2-plan-workflows/tech-spec/workflow.yaml`
 - Technical specification workflow for Level 0 projects (single atomic changes). Creates focused tech spec for bug fixes, single endpoint additions, or small isolated changes. Tech-spec only - no PRD needed.

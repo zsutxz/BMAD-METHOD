@@ -10,18 +10,18 @@ Phase 4 (Implementation) workflows manage the iterative sprint-based development
 
 ## Quick Reference
 
-| Workflow              | Agent     | Duration       | Purpose                              |
-| --------------------- | --------- | -------------- | ------------------------------------ |
-| **sprint-planning**   | SM        | 30-60 min      | Initialize sprint tracking file      |
-| **epic-tech-context** | Architect | 15-30 min/epic | Epic-specific technical guidance     |
-| **create-story**      | SM        | 10-20 min      | Create next story from epics         |
-| **story-context**     | PM        | 10-15 min      | Assemble dynamic story context       |
-| **dev-story**         | DEV       | 2-8 hours      | Implement story with tests           |
-| **code-review**       | DEV       | 30-60 min      | Senior dev review of completed story |
-| **correct-course**    | SM        | 30-90 min      | Handle mid-sprint changes            |
-| **retrospective**     | SM        | 60-90 min      | Post-epic review and lessons         |
-| **workflow-status**   | All       | 2-5 min        | Check "what should I do now?"        |
-| **document-project**  | Analyst   | 1-3 hours      | Document brownfield projects         |
+| Workflow              | Agent   | Duration       | Purpose                              |
+| --------------------- | ------- | -------------- | ------------------------------------ |
+| **sprint-planning**   | SM      | 30-60 min      | Initialize sprint tracking file      |
+| **epic-tech-context** | SM      | 15-30 min/epic | Epic-specific technical guidance     |
+| **create-story**      | SM      | 10-20 min      | Create next story from epics         |
+| **story-context**     | PM      | 10-15 min      | Assemble dynamic story context       |
+| **dev-story**         | DEV     | 2-8 hours      | Implement story with tests           |
+| **code-review**       | DEV     | 30-60 min      | Senior dev review of completed story |
+| **correct-course**    | SM      | 30-90 min      | Handle mid-sprint changes            |
+| **retrospective**     | SM      | 60-90 min      | Post-epic review and lessons         |
+| **workflow-status**   | All     | 2-5 min        | Check "what should I do now?"        |
+| **document-project**  | Analyst | 1-3 hours      | Document brownfield projects         |
 
 ---
 
@@ -69,13 +69,12 @@ Every story moves through this lifecycle:
 
 Phase 4 involves coordination between agents:
 
-| Agent         | Primary Workflows                                            | Role                        |
-| ------------- | ------------------------------------------------------------ | --------------------------- |
-| **SM**        | sprint-planning, create-story, correct-course, retrospective | Orchestration, tracking     |
-| **Architect** | epic-tech-context                                            | Technical guidance per epic |
-| **PM**        | story-context                                                | Context assembly            |
-| **DEV**       | dev-story, code-review                                       | Implementation, quality     |
-| **Analyst**   | document-project                                             | Documentation (brownfield)  |
+| Agent       | Primary Workflows                                                               | Role                       |
+| ----------- | ------------------------------------------------------------------------------- | -------------------------- |
+| **SM**      | sprint-planning, epic-tech-context, create-story, correct-course, retrospective | Orchestration, tracking    |
+| **PM**      | story-context                                                                   | Context assembly           |
+| **DEV**     | dev-story, code-review                                                          | Implementation, quality    |
+| **Analyst** | document-project                                                                | Documentation (brownfield) |
 
 ---
 
@@ -256,7 +255,7 @@ epics:
 
 Generate epic-specific technical context document that provides implementation guidance, patterns, and technical decisions for a single epic. Bridges architecture and story implementation.
 
-**Agent:** Architect
+**Agent:** SM (Scrum Master)
 **Phase:** 4 (Implementation)
 **Required:** Optional (recommended for Level 3-4)
 **Typical Duration:** 15-30 minutes per epic
@@ -974,7 +973,7 @@ Tests Added:
 
 ### Purpose
 
-Perform a Senior Developer code review on a completed story flagged Ready for Review, leveraging story-context, epic tech-spec, repo docs, MCP servers for latest best-practices, and web search as fallback.
+Perform a Senior Developer code review on a completed story flagged Ready for Review, leveraging story-context, epic-tech-context, repo docs, MCP servers for latest best-practices, and web search as fallback.
 
 **Agent:** DEV (Senior Developer persona)
 **Phase:** 4 (Implementation)

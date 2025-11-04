@@ -69,11 +69,11 @@ The methodology path (Quick Flow, BMad Method, or Enterprise Method) chosen for 
 
 **Quick Flow track only.** Comprehensive technical plan created upfront that serves as the primary planning document for small changes or features. Contains problem statement, solution approach, file-level changes, stack detection (brownfield), testing strategy, and developer resources.
 
-### Epic-Tech-Spec (Epic Technical Specification)
+### Epic-Tech-Context (Epic Technical Context)
 
 **BMad Method/Enterprise tracks only.** Detailed technical planning document created during implementation (just-in-time) for each epic. Supplements PRD + Architecture with epic-specific implementation details, code-level design decisions, and integration points.
 
-**Key Difference:** Tech-spec (Quick Flow) is created upfront and is the only planning doc. Epic-tech-spec (BMad Method/Enterprise) is created per epic during implementation and supplements PRD + Architecture.
+**Key Difference:** Tech-spec (Quick Flow) is created upfront and is the only planning doc. Epic-tech-context (BMad Method/Enterprise) is created per epic during implementation and supplements PRD + Architecture.
 
 ### PRD (Product Requirements Document)
 
@@ -127,7 +127,7 @@ Fast-track workflow system for Quick Flow track projects that goes straight from
 
 ### Just-In-Time Design
 
-Pattern where epic-tech-specs are created during implementation (Phase 4) right before working on each epic, rather than all upfront. Enables learning and adaptation.
+Pattern where epic-tech-context is created during implementation (Phase 4) right before working on each epic, rather than all upfront. Enables learning and adaptation.
 
 ### Context Injection
 
@@ -161,9 +161,9 @@ Agent that implements stories, writes code, runs tests, and performs code review
 
 Agent responsible for test strategy, quality gates, NFR assessment, and comprehensive quality assurance. Integrates throughout all phases.
 
-### Paige (Documentation Guide)
+### Technical Writer
 
-Agent specialized in creating and maintaining high-quality technical documentation. Expert in documentation standards, information architecture, and professional technical writing.
+Agent specialized in creating and maintaining high-quality technical documentation. Expert in documentation standards, information architecture, and professional technical writing. The agent's internal name is "paige" but is presented as "Technical Writer" to users.
 
 ### UX Designer
 

@@ -1,6 +1,6 @@
 # Technical Documentation Standards for BMAD
 
-**For Agent: Paige (Documentation Guide)**
+**For Agent: Technical Writer**
 **Purpose: Concise reference for documentation creation and review**
 
 ---

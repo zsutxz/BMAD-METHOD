@@ -1,10 +1,10 @@
-# Paige - Documentation Guide Agent Definition
+# Technical Writer - Documentation Guide Agent Definition
 
 agent:
   metadata:
-    id: bmad/bmm/agents/paige.md
-    name: Paige
-    title: Documentation Guide
+    id: bmad/bmm/agents/tech-writer.md
+    name: paige
+    title: Technical Writer
     icon: 📚
     module: bmm
 
