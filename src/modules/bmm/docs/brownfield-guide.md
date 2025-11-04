@@ -277,7 +277,7 @@ It's better to spend 10-30 minutes generating fresh, accurate docs than to waste
 
 **When to skip:** Bug fixes, well-understood features, time-sensitive changes
 
-See [Workflows Guide](../workflows/README.md) for details.
+See the [Workflows section in BMM README](../README.md) for details.
 
 ### Phase 2: Planning (Required)
 
@@ -736,11 +736,11 @@ flowchart TD
 - **[Glossary](./glossary.md)** - Key terminology
 - **[FAQ](./faq.md)** - Common questions
 - **[Troubleshooting](./troubleshooting.md)** - Problem resolution
-- **[Workflows Guide](../workflows/README.md)** - Complete workflow reference
+- **[Workflow Documentation](./README.md#-workflow-guides)** - Complete workflow reference
 
 ---
 
-## Support & Resources
+## Support and Resources
 
 **Community:**
 
@@ -750,9 +750,8 @@ flowchart TD
 
 **Documentation:**
 
-- [BMM Workflows Guide](../workflows/README.md)
-- [Test Architect Guide](../../../../bmad/bmm/docs/tea-README.md)
-- [BMM Module README](../README.md)
+- [Test Architect Guide](./test-architecture.md) - Comprehensive testing strategy
+- [BMM Module README](../README.md) - Complete module and workflow reference
 
 ---
 

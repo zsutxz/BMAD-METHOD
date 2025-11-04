@@ -545,7 +545,7 @@ To change locations, edit config.yaml then re-run workflows.
    - Read docs/architecture.md (from document-project)
    - Understand current system design
 3. **For Level 3-4**:
-   - Run architecture-review workflow before planning
+   - Run validate-architecture workflow before planning
    - Use integration-planning workflow
 4. **Explicitly document integration strategy** in architecture:
    - How new components fit existing structure

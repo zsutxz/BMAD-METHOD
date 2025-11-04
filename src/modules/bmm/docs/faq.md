@@ -8,11 +8,11 @@ Quick answers to common questions about the BMad Method Module.
 
 - [Getting Started](#getting-started)
 - [Choosing the Right Level](#choosing-the-right-level)
-- [Workflows & Phases](#workflows--phases)
+- [Workflows and Phases](#workflows-and-phases)
 - [Planning Documents](#planning-documents)
 - [Implementation](#implementation)
 - [Brownfield Development](#brownfield-development)
-- [Tools & Technical](#tools--technical)
+- [Tools and Technical](#tools-and-technical)
 
 ---
 
@@ -26,7 +26,7 @@ Quick answers to common questions about the BMad Method Module.
 - Creates the tracking status file
 - Routes you to the correct starting workflow
 
-For experienced users: use the [Quick Reference](./quick-start.md#quick-reference-agent--document-mapping) to go directly to the right agent/workflow.
+For experienced users: use the [Quick Reference](./quick-start.md#quick-reference-agent-document-mapping) to go directly to the right agent/workflow.
 
 ### Q: Why do I need fresh chats for each workflow?
 
@@ -108,7 +108,7 @@ The overlap (5-10 stories) is intentional. Choose based on:
 
 ---
 
-## Workflows & Phases
+## Workflows and Phases
 
 ### Q: What's the difference between workflow-status and workflow-init?
 
@@ -339,7 +339,7 @@ BMM respects your choice - it won't force modernization, but it will offer it.
 
 ---
 
-## Tools & Technical
+## Tools and Technical
 
 ### Q: Why are my Mermaid diagrams not rendering?
 
@@ -399,7 +399,7 @@ Use them together for best results.
 
 **Why model quality matters:** BMM workflows require LLMs that can follow multi-step processes, maintain context across phases, and implement code that adheres to specifications. Tools with weaker models will struggle with workflow adherence and code quality.
 
-See [IDE Setup Guides](../../../docs/ide-info/) for configuration specifics.
+See [IDE Setup Guides](https://github.com/bmad-code-org/BMAD-METHOD/tree/main/docs/ide-info) for configuration specifics.
 
 ### Q: Can I customize agents?
 

@@ -9,7 +9,7 @@
 ## Table of Contents
 
 - [The Paradigm Shift](#the-paradigm-shift)
-- [The Evolving Role of Product Managers & UX Designers](#the-evolving-role-of-product-managers--ux-designers)
+- [The Evolving Role of Product Managers and UX Designers](#the-evolving-role-of-product-managers-and-ux-designers)
 - [How BMad Method Enables PM/UX Technical Evolution](#how-bmad-method-enables-pmux-technical-evolution)
 - [Team Collaboration Patterns](#team-collaboration-patterns)
 - [Work Distribution Strategies](#work-distribution-strategies)
@@ -59,7 +59,7 @@
 
 ---
 
-## The Evolving Role of Product Managers & UX Designers
+## The Evolving Role of Product Managers and UX Designers
 
 ### The Future is Now
 
@@ -672,7 +672,7 @@ PMs write BMad PRDs → Stories auto-fed to cloud AI agents → Parallel impleme
 - [FAQ](./faq.md) - Common questions
 - [Scale Adaptive System](./scale-adaptive-system.md) - Project levels explained
 - [Quick Start Guide](./quick-start.md) - Getting started
-- [Workflows Guide](../workflows/README.md) - Complete workflow reference
+- [Workflow Documentation](./README.md#-workflow-guides) - Complete workflow reference
 - [Agents Guide](./agents-guide.md) - Understanding BMad agents
 
 ---

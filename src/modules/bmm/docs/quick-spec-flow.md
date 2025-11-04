@@ -277,7 +277,7 @@ For user-facing changes, Quick Spec Flow captures:
 
 ---
 
-## Auto-Validation & Quality Assurance
+## Auto-Validation and Quality Assurance
 
 Quick Spec Flow **automatically validates** everything:
 
@@ -543,7 +543,7 @@ Quick Spec Flow is **fully standalone**:
 
 ---
 
-## Tips & Best Practices
+## Tips and Best Practices
 
 ### 1. **Be Specific in Discovery**
 
@@ -643,7 +643,7 @@ Quick Spec Flow is your **fast path from idea to implementation** for:
 ## Next Steps
 
 - **Try it now:** Load PM agent and describe a small change
-- **Learn more:** See `src/modules/bmm/workflows/README.md` for full BMM workflow guide
+- **Learn more:** See the [BMM Workflow Guides](./README.md#-workflow-guides) for comprehensive workflow documentation
 - **Need help deciding?** Run `workflow-init` to get a recommendation
 - **Have questions?** Join us on Discord: https://discord.gg/gk8jAdXWmj
 
