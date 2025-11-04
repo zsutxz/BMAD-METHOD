@@ -1,6 +1,6 @@
 # Technical Documentation Standards for BMAD
 
-**For Agent: Paige (Documentation Guide)**
+**For Agent: Technical Writer**
 **Purpose: Concise reference for documentation creation and review**
 
 ---
@@ -122,6 +122,7 @@ Apply in this hierarchy:
 - Alt text for diagrams: Describe what it shows
 - Semantic heading hierarchy (don't skip levels)
 - Tables have headers
+- Emojis are acceptable if user preferences allow (modern accessibility tools support emojis well)
 
 ---
 

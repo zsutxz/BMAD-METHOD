@@ -8,60 +8,67 @@
 
 ## What is Quick Spec Flow?
 
-Quick Spec Flow is a **streamlined alternative** to the full BMad Method for Level 0-1 projects. Instead of going through Product Brief → PRD → Architecture, you go **straight to a context-aware technical specification** and start coding.
+Quick Spec Flow is a **streamlined alternative** to the full BMad Method for Quick Flow track projects. Instead of going through Product Brief → PRD → Architecture, you go **straight to a context-aware technical specification** and start coding.
 
 ### When to Use Quick Spec Flow
 
-✅ **Use Quick Spec Flow (Level 0-1) when:**
+✅ **Use Quick Flow track when:**
 
-- Single bug fix or small enhancement (Level 0)
-- Small feature with 2-3 related changes (Level 1)
+- Single bug fix or small enhancement
+- Small feature with clear scope (typically 1-15 stories)
 - Rapid prototyping or experimentation
 - Adding to existing brownfield codebase
 - You know exactly what you want to build
 
-❌ **Use Full BMM Flow (Level 2-4) when:**
+❌ **Use BMad Method or Enterprise tracks when:**
 
-- Building new products or major features (Level 2-4)
+- Building new products or major features
 - Need stakeholder alignment
 - Complex multi-team coordination
 - Requires extensive planning and architecture
 
-💡 **Not sure?** Run `workflow-init` to get a recommendation based on your project's size and complexity!
+💡 **Not sure?** Run `workflow-init` to get a recommendation based on your project's needs!
 
 ---
 
 ## Quick Spec Flow Overview
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    QUICK SPEC FLOW                          │
-│                   (Level 0-1 Projects)                      │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    START[Step 1: Run Tech-Spec Workflow]
+    DETECT[Detects project stack<br/>package.json, requirements.txt, etc.]
+    ANALYZE[Analyzes brownfield codebase<br/>if exists]
+    TEST[Detects test frameworks<br/>and conventions]
+    CONFIRM[Confirms conventions<br/>with you]
+    GENERATE[Generates context-rich<br/>tech-spec]
+    STORIES[Creates ready-to-implement<br/>stories]
 
-Step 1: Run Tech-Spec Workflow
-    │
-    ├─► Detects your project stack (package.json, requirements.txt, etc.)
-    ├─► Analyzes brownfield codebase (if exists)
-    ├─► Detects test frameworks and conventions
-    ├─► Confirms conventions with you
-    ├─► Generates context-rich tech-spec
-    └─► Creates ready-to-implement stories
+    OPTIONAL[Step 2: Optional<br/>Generate Story Context<br/>SM Agent<br/>For complex scenarios only]
 
-Step 2: Optional - Generate Story Context (SM Agent)
-    │
-    └─► For complex scenarios only
+    IMPL[Step 3: Implement<br/>DEV Agent<br/>Code, test, commit]
 
-Step 3: Implement (DEV Agent)
-    │
-    └─► Code, test, commit
+    DONE[DONE! 🚀]
 
-DONE! 🚀
+    START --> DETECT
+    DETECT --> ANALYZE
+    ANALYZE --> TEST
+    TEST --> CONFIRM
+    CONFIRM --> GENERATE
+    GENERATE --> STORIES
+    STORIES --> OPTIONAL
+    OPTIONAL -.->|Optional| IMPL
+    STORIES --> IMPL
+    IMPL --> DONE
+
+    style START fill:#bfb,stroke:#333,stroke-width:2px
+    style OPTIONAL fill:#ffb,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+    style IMPL fill:#bbf,stroke:#333,stroke-width:2px
+    style DONE fill:#f9f,stroke:#333,stroke-width:3px
 ```
 
 ---
 
-## Level 0: Single Atomic Change
+## Single Atomic Change
 
 **Best for:** Bug fixes, single file changes, isolated improvements
 
@@ -97,7 +104,7 @@ DONE! 🚀
 - ✅ Auto-validates quality
 - ✅ Story context optional (tech-spec is comprehensive!)
 
-### Example Level 0 Scenarios
+### Example Single Change Scenarios
 
 - "Fix the login validation bug"
 - "Add email field to user registration form"
@@ -106,13 +113,13 @@ DONE! 🚀
 
 ---
 
-## Level 1: Coherent Small Feature
+## Coherent Small Feature
 
 **Best for:** Small features with 2-3 related user stories
 
 ### What You Get
 
-1. **tech-spec.md** - Same comprehensive spec as Level 0
+1. **tech-spec.md** - Same comprehensive spec as single change projects
 2. **epics.md** - Epic organization with story breakdown
 3. **story-[epic-slug]-1.md** - First story
 4. **story-[epic-slug]-2.md** - Second story
@@ -140,7 +147,7 @@ Stories are **automatically validated** to ensure proper sequence:
 - ✅ Infrastructure → Features → Polish order
 - ✅ Backend → Frontend flow
 
-### Example Level 1 Scenarios
+### Example Small Feature Scenarios
 
 - "Add OAuth social login (Google, GitHub, Twitter)"
 - "Build user profile page with avatar upload"
@@ -295,7 +302,7 @@ Generates scores:
 - Implementation Readiness: ✅ Ready
 ```
 
-### Story Validation (Level 1 Only)
+### Story Validation (Multi-Story Features)
 
 Checks:
 
@@ -310,7 +317,7 @@ Checks:
 
 ## Complete User Journey
 
-### Scenario 1: Bug Fix (Level 0)
+### Scenario 1: Bug Fix (Single Change)
 
 **Goal:** Fix login validation bug
 
@@ -335,7 +342,7 @@ Checks:
 
 ---
 
-### Scenario 2: Small Feature (Level 1)
+### Scenario 2: Small Feature (Multi-Story)
 
 **Goal:** Add OAuth social login (Google, GitHub)
 
@@ -385,7 +392,7 @@ Quick Spec Flow works seamlessly with all Phase 4 implementation workflows:
 ### sprint-planning (SM Agent)
 
 - ✅ Works with epics.md from tech-spec
-- ✅ Organizes Level 1 stories for coordinated implementation
+- ✅ Organizes multi-story features for coordinated implementation
 - ✅ Tracks progress through sprint-status.yaml
 
 ### dev-story (DEV Agent)
@@ -398,7 +405,7 @@ Quick Spec Flow works seamlessly with all Phase 4 implementation workflows:
 
 ## Comparison: Quick Spec vs Full BMM
 
-| Aspect                | Quick Spec Flow (Level 0-1)  | Full BMM Flow (Level 2-4)          |
+| Aspect                | Quick Flow Track             | BMad Method/Enterprise Tracks      |
 | --------------------- | ---------------------------- | ---------------------------------- |
 | **Setup**             | None (standalone)            | workflow-init recommended          |
 | **Planning Docs**     | tech-spec.md only            | Product Brief → PRD → Architecture |
@@ -412,18 +419,18 @@ Quick Spec Flow works seamlessly with all Phase 4 implementation workflows:
 
 ---
 
-## When to Graduate from Quick Spec to Full BMM
+## When to Graduate from Quick Flow to BMad Method
 
-Start with Quick Spec, but switch to Full BMM when:
+Start with Quick Flow, but switch to BMad Method when:
 
-- ❌ Project grows beyond 3-5 stories
+- ❌ Project grows beyond initial scope
 - ❌ Multiple teams need coordination
 - ❌ Stakeholders need formal documentation
 - ❌ Product vision is unclear
 - ❌ Architectural decisions need deep analysis
 - ❌ Compliance/regulatory requirements exist
 
-💡 **Tip:** You can always run `workflow-init` later to transition from Quick Spec to Full BMM!
+💡 **Tip:** You can always run `workflow-init` later to transition from Quick Flow to BMad Method!
 
 ---
 
@@ -459,8 +466,8 @@ Start with Quick Spec, but switch to Full BMM when:
 
 ### 🎯 **Focus**
 
-- Level 0: Single atomic change
-- Level 1: Coherent small feature
+- Single atomic changes
+- Coherent small features
 - No scope creep
 - Fast iteration
 
@@ -493,7 +500,7 @@ Start with Quick Spec, but switch to Full BMM when:
 
 Quick Spec Flow is **fully standalone**:
 
-- Detects if you're Level 0 or Level 1
+- Detects if it's a single change or multi-story feature
 - Asks for greenfield vs brownfield
 - Works without status file tracking
 - Perfect for rapid prototyping
@@ -518,13 +525,13 @@ Quick Spec Flow is **fully standalone**:
 
 **A:** Absolutely! Quick Spec Flow captures UX/UI considerations, component changes, and accessibility requirements.
 
-### Q: What if my Level 0 project grows?
+### Q: What if my Quick Flow project grows?
 
-**A:** No problem! You can always transition to Full BMM by running workflow-init and create-prd. Your tech-spec becomes input for the PRD.
+**A:** No problem! You can always transition to BMad Method by running workflow-init and create-prd. Your tech-spec becomes input for the PRD.
 
 ### Q: Do I need story-context for every story?
 
-**A:** Usually no! Tech-spec is comprehensive enough for most Level 0-1 projects. Only use story-context for complex edge cases.
+**A:** Usually no! Tech-spec is comprehensive enough for most Quick Flow projects. Only use story-context for complex edge cases.
 
 ### Q: Can I skip validation?
 
@@ -559,13 +566,13 @@ When validation runs, read the scores. They tell you if your spec is production-
 
 ### 5. **Story Context is Optional**
 
-For Level 0, try going directly to dev-story first. Only add story-context if you hit complexity.
+For single changes, try going directly to dev-story first. Only add story-context if you hit complexity.
 
-### 6. **Keep Level 0 Truly Atomic**
+### 6. **Keep Single Changes Truly Atomic**
 
-If your "single change" needs 3+ files, it might be Level 1. Let the workflow guide you.
+If your "single change" needs 3+ files, it might be a multi-story feature. Let the workflow guide you.
 
-### 7. **Validate Story Sequence for Level 1**
+### 7. **Validate Story Sequence for Multi-Story Features**
 
 When you get multiple stories, check the dependency validation output. Proper sequence matters!
 
@@ -573,7 +580,7 @@ When you get multiple stories, check the dependency validation output. Proper se
 
 ## Real-World Examples
 
-### Example 1: Adding Logging (Level 0)
+### Example 1: Adding Logging (Single Change)
 
 **Input:** "Add structured logging to payment processing"
 
@@ -589,7 +596,7 @@ When you get multiple stories, check the dependency validation output. Proper se
 
 ---
 
-### Example 2: Search Feature (Level 1)
+### Example 2: Search Feature (Multi-Story)
 
 **Input:** "Add search to product catalog with filters"
 

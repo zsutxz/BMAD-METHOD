@@ -19,7 +19,7 @@ BMad Method (BMM) helps you build software through guided workflows with special
 
 1. **Phase 1: Analysis** (Optional) - Brainstorming, Research, Product Brief
 2. **Phase 2: Planning** (Required) - Create your requirements (tech-spec or PRD)
-3. **Phase 3: Architecture** (Conditional) - Design the architecture for complex projects (10+ stories)
+3. **Phase 3: Solutioning** (Track-dependent) - Design the architecture for BMad Method and Enterprise tracks
 4. **Phase 4: Implementation** (Required) - Build your software Epic by Epic, Story by Story
 
 ## Installation
@@ -54,28 +54,28 @@ During workflow-init, you'll describe:
 - Whether there's an existing codebase or this is a new project
 - The general size and complexity (you can adjust this later)
 
-#### Project Scale Levels
+#### Planning Tracks
 
-Based on your description, the workflow will suggest a level and let you choose from:
+Based on your description, the workflow will suggest a track and let you choose from:
 
-**Greenfield Project Levels:**
+**Three Planning Tracks:**
 
-- **Level 0** - Single atomic change (1 story) - bug fixes, typos, minor updates, single file changes
-- **Level 1** - Small feature (1-10 stories) - simple additions, isolated features, one module
-- **Level 2** - Medium feature set (5-15 stories) - dashboards, multiple related features, several modules
-- **Level 3** - Complex integration (12-40 stories) - platform features, major integrations, architectural changes
-- **Level 4** - Enterprise expansion (40+ stories) - multi-tenant, ecosystem changes, system-wide initiatives
+- **Quick Flow** - Fast implementation (tech-spec only) - bug fixes, simple features, clear scope (typically 1-15 stories)
+- **BMad Method** - Full planning (PRD + Architecture + UX) - products, platforms, complex features (typically 10-50+ stories)
+- **Enterprise Method** - Extended planning (BMad Method + Security/DevOps/Test) - enterprise requirements, compliance, multi-tenant (typically 30+ stories)
+
+**Note**: Story counts are guidance, not definitions. Tracks are chosen based on planning needs, not story math.
 
 #### What gets created?
 
-Once you confirm your level, the `bmm-workflow-status.md` file will be created in your project's docs folder (assuming default install location). This file tracks your progress through all phases.
+Once you confirm your track, the `bmm-workflow-status.yaml` file will be created in your project's docs folder (assuming default install location). This file tracks your progress through all phases.
 
 **Important notes:**
 
-- Every level has different paths through the phases
+- Every track has different paths through the phases
 - Story counts can still change based on overall complexity as you work
-- For this guide, we'll assume a Level 2 project
-- This workflow will guide you through Phase 1 (optional), Phase 2 (required), and Phase 3 (required for Level 2+ complexity)
+- For this guide, we'll assume a BMad Method track project
+- This workflow will guide you through Phase 1 (optional), Phase 2 (required), and Phase 3 (required for BMad Method and Enterprise tracks)
 
 ### Step 2: Work Through Phases 1-3
 
@@ -100,12 +100,12 @@ Phase 1 (Analysis) is entirely optional. All workflows are optional or recommend
 The next TRULY REQUIRED step is:
   - PRD (Product Requirements Document) in Phase 2 - Planning
   - Agent: pm
-  - Command: /bmad:bmm:workflows:prd
+  - Command: prd
 ```
 
 #### How to Run Workflows in Phases 1-3
 
-When an agent tells you to run a workflow (like `/bmad:bmm:workflows:prd`):
+When an agent tells you to run a workflow (like `prd`):
 
 1. **Start a new chat** with the specified agent (e.g., PM) - See [docs/ide-info](../docs/ide-info/) for your IDE's specific instructions
 2. **Wait for the menu** to appear
@@ -121,21 +121,21 @@ The agents in V6 are very good with fuzzy menu matching!
 For v4 users or those who prefer to skip workflow-status guidance:
 
 - **Analyst** → Brainstorming, Product Brief
-- **PM** → PRD (10+ stories) OR tech-spec (1-10 stories)
+- **PM** → PRD (BMad Method/Enterprise tracks) OR tech-spec (Quick Flow track)
 - **UX-Designer** → UX Design Document (if UI-heavy)
-- **Architect** → Architecture (10+ stories)
+- **Architect** → Architecture (BMad Method/Enterprise tracks)
 
 #### Phase 2: Planning - Creating the PRD
 
-**For Level 2+ projects (10+ stories):**
+**For BMad Method and Enterprise tracks:**
 
 1. Load the **PM agent** in a new chat
 2. Tell it to run the PRD workflow
-3. Once complete, you'll have two files:
+3. Once complete, you'll have:
    - **PRD.md** - Your Product Requirements Document
-   - **Epics.md** - High-level epics with stories
+   - Epic breakdown
 
-**For smaller projects (Levels 0-1):**
+**For Quick Flow track:**
 
 - Use **tech-spec** instead of PRD (no architecture needed)
 
@@ -149,7 +149,7 @@ If your project has a user interface:
 
 #### Phase 3: Architecture
 
-**For Level 2+ projects only:**
+**For BMad Method and Enterprise tracks:**
 
 1. Load the **Architect agent** in a new chat
 2. Tell it to run the create-architecture workflow
@@ -261,7 +261,7 @@ The agent creates documents, asks questions, and helps you make decisions throug
 
 BMad creates two files to track your progress:
 
-**1. bmm-workflow-status.md**
+**1. bmm-workflow-status.yaml**
 
 - Shows which phase you're in and what's next
 - Created by workflow-init
@@ -280,28 +280,59 @@ BMad creates two files to track your progress:
 
 ## The Complete Flow Visualized
 
-```
-Phase 1 (Optional)          Phase 2 (Required)         Phase 3 (Conditional)        Phase 4 (Required)
-┌─────────────────┐        ┌─────────────────┐        ┌─────────────────┐         ┌──────────────────┐
-│ Analysis        │        │ Planning        │        │ Architecture    │         │ Implementation   │
-│                 │        │                 │        │                 │         │                  │
-│ • Brainstorm    │        │ Level 0-1:      │        │ Level 2+:       │         │ Per Epic:        │
-│ • Research      │───────▶│  • tech-spec    │───────▶│  • architecture │────────▶│  • epic context  │
-│ • Brief         │        │                 │        │  • gate-check   │         │                  │
-│                 │        │ Level 2+:       │        │                 │         │ Per Story:       │
-│ (Analyst)       │        │  • PRD          │        │ (Architect)     │         │  • create-story  │
-│                 │        │  • UX (opt)     │        │                 │         │  • story-context │
-│                 │        │                 │        │                 │         │  • dev-story     │
-│                 │        │ (PM, UX)        │        │                 │         │  • code-review   │
-│                 │        │                 │        │                 │         │                  │
-│                 │        │                 │        │                 │         │ (SM, DEV)        │
-└─────────────────┘        └─────────────────┘        └─────────────────┘         └──────────────────┘
+```mermaid
+flowchart LR
+    subgraph P1["Phase 1 (Optional)<br/>Analysis"]
+        direction TB
+        A1[Brainstorm]
+        A2[Research]
+        A3[Brief]
+        A4[Analyst]
+        A1 ~~~ A2 ~~~ A3 ~~~ A4
+    end
+
+    subgraph P2["Phase 2 (Required)<br/>Planning"]
+        direction TB
+        B1[Quick Flow:<br/>tech-spec]
+        B2[Method/Enterprise:<br/>PRD]
+        B3[UX opt]
+        B4[PM, UX]
+        B1 ~~~ B2 ~~~ B3 ~~~ B4
+    end
+
+    subgraph P3["Phase 3 (Track-dependent)<br/>Solutioning"]
+        direction TB
+        C1[Method/Enterprise:<br/>architecture]
+        C2[gate-check]
+        C3[Architect]
+        C1 ~~~ C2 ~~~ C3
+    end
+
+    subgraph P4["Phase 4 (Required)<br/>Implementation"]
+        direction TB
+        D1[Per Epic:<br/>epic context]
+        D2[Per Story:<br/>create-story]
+        D3[story-context]
+        D4[dev-story]
+        D5[code-review]
+        D6[SM, DEV]
+        D1 ~~~ D2 ~~~ D3 ~~~ D4 ~~~ D5 ~~~ D6
+    end
+
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+
+    style P1 fill:#bbf,stroke:#333,stroke-width:2px
+    style P2 fill:#bfb,stroke:#333,stroke-width:2px
+    style P3 fill:#ffb,stroke:#333,stroke-width:2px
+    style P4 fill:#fbf,stroke:#333,stroke-width:2px
 ```
 
 ## Common Questions
 
 **Q: Do I always need architecture?**
-A: Only for larger projects (10+ stories). Small projects can skip straight from tech-spec to implementation.
+A: Only for BMad Method and Enterprise tracks. Quick Flow projects skip straight from tech-spec to implementation.
 
 **Q: Can I change my plan later?**
 A: Yes! The SM agent has a "correct-course" workflow for handling scope changes.
@@ -328,14 +359,8 @@ A: Yes, once you learn the flow. Use the Quick Reference in Step 2 to go directl
 
 ✅ **Always use fresh chats** - Load agents in new chats for each workflow to avoid context issues
 ✅ **Let workflow-status guide you** - Load any agent and ask for status when unsure what's next
-✅ **Level matters** - Small projects (0-1) use tech-spec, larger projects (2+) need PRD and architecture
+✅ **Track matters** - Quick Flow uses tech-spec, BMad Method/Enterprise need PRD and architecture
 ✅ **Tracking is automatic** - The status files update themselves, no manual editing needed
 ✅ **Agents are flexible** - Use menu numbers, shortcuts (\*prd), or natural language
 
 **Ready to start building?** Install BMad, load the Analyst, run workflow-init, and let the agents guide you!
-
----
-
-**Version**: v6-alpha
-**Last Updated**: 2025-01
-**For detailed documentation**: [Complete BMM Workflows Guide](../src/modules/bmm/workflows/README.md)

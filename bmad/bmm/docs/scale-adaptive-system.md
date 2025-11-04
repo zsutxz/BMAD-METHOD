@@ -1,823 +1,468 @@
 # BMad Method Scale Adaptive System
 
-**Automatically adapts workflows to project complexity - from bug fixes to enterprise systems**
+**Automatically adapts workflows to project complexity - from quick fixes to enterprise systems**
 
 ---
 
 ## Overview
 
-The **Scale Adaptive System** is BMad Method's intelligent workflow orchestration that automatically adjusts planning depth, documentation requirements, and implementation processes based on project size and complexity.
+The **Scale Adaptive System** intelligently routes projects to the right planning methodology based on complexity, not arbitrary story counts.
 
-### The Problem It Solves
+### The Problem
 
 Traditional methodologies apply the same process to every project:
 
-- ❌ **Overkill:** Bug fix requires full design docs
-- ❌ **Insufficient:** Enterprise system built with minimal planning
-- ❌ **One-Size-Fits-None:** Same process for 1 story and 100 stories
+- Bug fix requires full design docs
+- Enterprise system built with minimal planning
+- One-size-fits-none approach
 
 ### The Solution
 
-BMad Method **adapts workflows to match project scale**:
+BMad Method adapts to three distinct planning tracks:
 
-- ✅ **Level 0 (1 story):** Tech-spec only, implement immediately
-- ✅ **Level 2 (10 stories):** PRD + Architecture, structured approach
-- ✅ **Level 4 (100+ stories):** Full enterprise planning, comprehensive docs
+- **Quick Flow**: Tech-spec only, implement immediately
+- **BMad Method**: PRD + Architecture, structured approach
+- **Enterprise Method**: Full planning with security/devops/test
 
-**Result:** Right amount of planning for every project - no more, no less.
-
----
-
-## Key Terminology
-
-### Analysis Phase
-
-**What it is:** Discovery and research phase that informs planning decisions.
-
-**Activities:**
-
-- **Brainstorming:** Ideation and creative exploration
-- **Research:** Market analysis, technical investigation, user research
-- **Product Brief:** High-level vision and requirements capture
-
-**When used:**
-
-- Optional for Level 0-1 (quick changes)
-- Recommended for Level 2 (provides context)
-- Required for Level 3-4 (critical for complex systems)
+**Result**: Right planning depth for every project.
 
 ---
 
-### Tech-Spec (Technical Specification)
+## Quick Reference
 
-**What it is:** Comprehensive technical plan for implementing changes or features. Serves as the **primary planning document** for Level 0-1 projects.
+### Three Tracks at a Glance
 
-**Contents:**
+| Track                 | Planning Depth        | Time Investment | Best For                                   |
+| --------------------- | --------------------- | --------------- | ------------------------------------------ |
+| **Quick Flow**        | Tech-spec only        | Hours to 1 day  | Simple features, bug fixes, clear scope    |
+| **BMad Method**       | PRD + Arch + UX       | 1-3 days        | Products, platforms, complex features      |
+| **Enterprise Method** | Method + Test/Sec/Ops | 3-7 days        | Enterprise needs, compliance, multi-tenant |
 
-- Problem statement and solution approach
-- Source tree changes (specific files)
+### Decision Tree
+
+```mermaid
+flowchart TD
+    START{Describe your project}
+
+    START -->|Bug fix, simple feature| Q1{Scope crystal clear?}
+    START -->|Product, platform, complex| M[BMad Method<br/>PRD + Architecture]
+    START -->|Enterprise, compliance| E[Enterprise Method<br/>Extended Planning]
+
+    Q1 -->|Yes| QF[Quick Flow<br/>Tech-spec only]
+    Q1 -->|Uncertain| M
+
+    style QF fill:#bfb,stroke:#333,stroke-width:2px
+    style M fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+```
+
+### Quick Keywords
+
+- **Quick Flow**: fix, bug, simple, add, clear scope
+- **BMad Method**: product, platform, dashboard, complex, multiple features
+- **Enterprise Method**: enterprise, multi-tenant, compliance, security, audit
+
+---
+
+## How Track Selection Works
+
+When you run `workflow-init`, it guides you through an educational choice:
+
+### 1. Description Analysis
+
+Analyzes your project description for complexity indicators and suggests an appropriate track.
+
+### 2. Educational Presentation
+
+Shows all three tracks with:
+
+- Time investment
+- Planning approach
+- Benefits and trade-offs
+- AI agent support level
+- Concrete examples
+
+### 3. Honest Recommendation
+
+Provides tailored recommendation based on:
+
+- Complexity keywords
+- Greenfield vs brownfield
+- User's description
+
+### 4. User Choice
+
+You choose the track that fits your situation. The system guides but never forces.
+
+**Example:**
+
+```
+workflow-init: "Based on 'Add user dashboard with analytics', I recommend BMad Method.
+               This involves multiple features and system design. The PRD + Architecture
+               gives AI agents complete context for better code generation."
+
+You: "Actually, this is simpler than it sounds. Quick Flow."
+
+workflow-init: "Got it! Using Quick Flow with tech-spec."
+```
+
+---
+
+## The Three Tracks
+
+### Track 1: Quick Flow
+
+**Definition**: Fast implementation with tech-spec planning.
+
+**Time**: Hours to 1 day of planning
+
+**Planning Docs**:
+
+- Tech-spec.md (implementation-focused)
+- Story files (1-15 typically, auto-detects epic structure)
+
+**Workflow Path**:
+
+```
+(Brownfield: document-project first if needed)
+↓
+Tech-Spec → Implement
+```
+
+**Use For**:
+
+- Bug fixes
+- Simple features
+- Enhancements with clear scope
+- Quick additions
+
+**Story Count**: Typically 1-15 stories (guidance, not rule)
+
+**Example**: "Fix authentication token expiration bug"
+
+**AI Agent Support**: Basic - minimal context provided
+
+**Trade-off**: Less planning = higher rework risk if complexity emerges
+
+---
+
+### Track 2: BMad Method (RECOMMENDED)
+
+**Definition**: Full product + system design planning.
+
+**Time**: 1-3 days of planning
+
+**Planning Docs**:
+
+- PRD.md (product requirements)
+- Architecture.md (system design)
+- UX Design (if UI components)
+- Epic breakdown with stories
+
+**Workflow Path**:
+
+```
+(Brownfield: document-project first if needed)
+↓
+(Optional: Analysis phase - brainstorm, research, product brief)
+↓
+PRD → (Optional UX) → Architecture → Gate Check → Implement
+```
+
+**Use For**:
+
+**Greenfield**:
+
+- Products
+- Platforms
+- Multi-feature initiatives
+
+**Brownfield**:
+
+- Complex additions (new UIs + APIs)
+- Major refactors
+- New modules
+
+**Story Count**: Typically 10-50+ stories (guidance, not rule)
+
+**Examples**:
+
+- "User dashboard with analytics and preferences"
+- "Add real-time collaboration to existing document editor"
+- "Payment integration system"
+
+**AI Agent Support**: Exceptional - complete context for coding partnership
+
+**Why Architecture for Brownfield?**
+
+Your brownfield documentation might be huge. Architecture workflow distills massive codebase context into a focused solution design specific to YOUR project. This keeps AI agents focused without getting lost in existing code.
+
+**Benefits**:
+
+- Complete AI agent context
+- Prevents architectural drift
+- Fewer surprises during implementation
+- Better code quality
+- Faster overall delivery (planning pays off)
+
+---
+
+### Track 3: Enterprise Method
+
+**Definition**: Extended planning with security, devops, and test strategy.
+
+**Time**: 3-7 days of planning
+
+**Planning Docs**:
+
+- All BMad Method docs PLUS:
+- Security Architecture
+- DevOps Strategy
+- Test Strategy
+- Compliance documentation
+
+**Workflow Path**:
+
+```
+(Brownfield: document-project nearly mandatory)
+↓
+Analysis (recommended/required) → PRD → UX → Architecture
+↓
+Security Architecture → DevOps Strategy → Test Strategy
+↓
+Gate Check → Implement
+```
+
+**Use For**:
+
+- Enterprise requirements
+- Multi-tenant systems
+- Compliance needs (HIPAA, SOC2, etc.)
+- Mission-critical systems
+- Security-sensitive applications
+
+**Story Count**: Typically 30+ stories (but defined by enterprise needs, not count)
+
+**Examples**:
+
+- "Multi-tenant SaaS platform"
+- "HIPAA-compliant patient portal"
+- "Add SOC2 audit logging to enterprise app"
+
+**AI Agent Support**: Elite - comprehensive enterprise planning
+
+**Critical for Enterprise**:
+
+- Security architecture and threat modeling
+- DevOps pipeline planning
+- Comprehensive test strategy
+- Risk assessment
+- Compliance mapping
+
+---
+
+## Planning Documents by Track
+
+### Quick Flow Documents
+
+**Created**: Upfront in Planning Phase
+
+**Tech-Spec**:
+
+- Problem statement and solution
+- Source tree changes
 - Technical implementation details
 - Detected stack and conventions (brownfield)
 - UX/UI considerations (if user-facing)
 - Testing strategy
-- Developer resources
 
-**When used:**
-
-- **Level 0:** Single story technical plan
-- **Level 1:** Feature technical plan with epic
-- **Level 2-4:** Not used (PRD + Architecture instead)
-
-**Replacement at Level 2+:** Tech-spec is **replaced by PRD + Architecture** for proper product and system planning.
+**Serves as**: Complete planning document (replaces PRD + Architecture)
 
 ---
 
-### Epic-Tech-Spec (Epic Technical Specification)
+### BMad Method Documents
 
-**What it is:** Detailed technical planning document created **during implementation** for each epic in Level 2-4 projects.
+**Created**: Upfront in Planning and Solutioning Phases
 
-**Difference from Tech-Spec:**
+**PRD (Product Requirements Document)**:
 
-- **Tech-spec (Level 0-1):** Created upfront, serves as primary planning doc
-- **Epic-tech-spec (Level 2-4):** Created just-before-implementation per epic, supplements PRD + Architecture
+- Product vision and goals
+- Feature requirements
+- Epic breakdown with stories
+- Success criteria
+- User experience considerations
+- Business context
 
-**Contents:**
+**Architecture Document**:
 
-- Epic-specific technical details
-- Detailed implementation approach for this epic
-- Code-level design decisions
-- Epic-scoped testing strategy
-- Integration points with other epics
-
-**When used:**
-
-- **Recommended** for Level 2-4 during implementation phase
-- Created as each epic is worked on
-- Particularly important for:
-  - Complex epics with many stories
-  - Novel technical approaches
-  - Integration-heavy epics
-  - Performance-critical features
-
----
-
-### Architecture Document
-
-**What it is:** System-wide design document that defines structure, components, and interactions.
-
-**Scale-Adaptive:**
-
-- **Level 0-1:** Not used
-- **Level 2:** Optional - lightweight architecture if needed
-- **Level 3:** Required - comprehensive system architecture
-- **Level 4:** Required - enterprise-grade architecture
-
-**Contents:**
-
-- System components and their responsibilities
+- System components and responsibilities
 - Data models and schemas
 - Integration patterns
 - Security architecture
 - Performance considerations
 - Deployment architecture
-- **Scales in complexity** with project level
 
-**Note:** Architecture document takes the place of tech-spec for system-level planning in Level 2-4 projects.
-
----
-
-### Document-Project Workflow
-
-**What it is:** Brownfield codebase analysis workflow that creates comprehensive documentation of existing code.
-
-**Output:** `docs/index.md` with sharded sections covering:
-
-- Project structure
-- Key modules and services
-- Existing patterns
-- Dependencies
-- Configuration
-
-**Critical for Brownfield:**
-🚨 **Run document-project BEFORE starting any brownfield project (Level 0-4)**
-
-**Why it matters:**
-
-- Tech-spec workflow uses this for brownfield analysis
-- PRD workflow references it for context
-- Architecture workflow builds on existing structure
-- Epic-tech-specs reference existing code
-
-**When to run:**
-
-- Before workflow-init for brownfield projects
-- When joining an existing codebase
-- After major refactors (to update docs)
+**For Brownfield**: Acts as focused "solution design" that distills existing codebase into integration plan
 
 ---
 
-## The Five Levels
+### Enterprise Method Documents
 
-### Level 0: Single Atomic Change
+**Created**: Extended planning across multiple phases
 
-**Examples:** Bug fixes, typos, single-file changes
+Includes all BMad Method documents PLUS:
 
-| Aspect              | Details                                          |
-| ------------------- | ------------------------------------------------ |
-| **Stories**         | 1 story                                          |
-| **Planning Docs**   | Tech-spec only                                   |
-| **Architecture**    | None                                             |
-| **Best For**        | Bug fixes, small patches, quick updates          |
-| **Brownfield Prep** | Run document-project first (if not already done) |
+**Security Architecture**:
 
-**Workflow:**
+- Threat modeling
+- Authentication/authorization design
+- Data protection strategy
+- Audit requirements
 
-```
-(Brownfield: document-project first)
-↓
-Analysis (optional) → Tech-Spec → Implement
-```
+**DevOps Strategy**:
 
-**Keywords:** fix, bug, typo, small change, quick update, patch
+- CI/CD pipeline design
+- Infrastructure architecture
+- Monitoring and alerting
+- Disaster recovery
 
----
+**Test Strategy**:
 
-### Level 1: Small Feature
-
-**Examples:** OAuth login, search feature, user profile page
-
-| Aspect              | Details                                             |
-| ------------------- | --------------------------------------------------- |
-| **Stories**         | 1-10 stories (typically 2-3)                        |
-| **Planning Docs**   | Tech-spec with epic                                 |
-| **Architecture**    | None                                                |
-| **UX Design**       | Optional - can be included in tech-spec or separate |
-| **Best For**        | Small coherent features, rapid prototyping          |
-| **Brownfield Prep** | Run document-project first (if not already done)    |
-
-**Workflow:**
-
-```
-(Brownfield: document-project first)
-↓
-Analysis (optional) → Tech-Spec + Epic → (Optional UX Design) → Implement
-```
-
-**UX Note:** Level 1 tech-spec can include UX/UI considerations inline, or you can optionally run separate UX Design workflow if the UI is complex.
-
-**Keywords:** simple, basic, small feature, add, minor
-
----
-
-### Level 2: Medium Project
-
-**Examples:** Admin dashboard, customer portal, reporting system
-
-| Aspect              | Details                                                     |
-| ------------------- | ----------------------------------------------------------- |
-| **Stories**         | 5-15 stories across multiple epics                          |
-| **Planning Docs**   | PRD + Epics                                                 |
-| **Architecture**    | Optional - lightweight architecture if system design needed |
-| **UX Design**       | Optional - recommended for UI-heavy projects                |
-| **Epic-Tech-Specs** | Recommended during implementation per epic                  |
-| **Best For**        | Multiple related features, focused products                 |
-| **Brownfield Prep** | Run document-project first (if not already done)            |
-
-**Workflow:**
-
-```
-(Brownfield: document-project first)
-↓
-Analysis (recommended) → PRD + Epics → (Optional) UX Design → (Optional) Architecture → Implement
-                                                                                            ↓
-                                                                           Epic-Tech-Spec per epic (recommended)
-                                                                                            ↓
-                                                                           Retrospective after each epic (if >1 epic)
-```
-
-**Architecture Note:** Level 2 uses optional **Architecture document** (not tech-spec) if system design is needed. For projects that don't need architecture, PRD + Epics are sufficient.
-
-**Epic-Tech-Specs:** As you implement each epic, create epic-tech-spec for detailed technical guidance. If you have 3 epics, you'll create 3 epic-tech-specs during implementation.
-
-**Retrospectives:** After completing each epic (when there are multiple), run retrospective to capture learnings before starting the next epic.
-
-**Keywords:** dashboard, several features, admin panel, medium
-
----
-
-### Level 3: Complex System
-
-**Examples:** E-commerce platform, SaaS product, multi-module system
-
-| Aspect              | Details                                            |
-| ------------------- | -------------------------------------------------- |
-| **Stories**         | 12-40 stories with subsystems                      |
-| **Planning Docs**   | PRD + Epics + System Architecture                  |
-| **Architecture**    | Required - comprehensive system design             |
-| **UX Design**       | Recommended for user-facing systems                |
-| **Epic-Tech-Specs** | Recommended during implementation per epic         |
-| **Gate Checks**     | Required - validate cohesion before implementation |
-| **Best For**        | Complex integrations, multi-subsystem products     |
-| **Brownfield Prep** | Run document-project first (if not already done)   |
-
-**Workflow:**
-
-```
-(Brownfield: document-project first)
-↓
-Analysis + Research → PRD + Epics → (Recommended) UX Design → Architecture (required) → Gate Check → Implement
-                                                                                                      ↓
-                                                                                     Epic-Tech-Spec per epic (recommended)
-                                                                                                      ↓
-                                                                                     Retrospective after each epic
-```
-
-**Gate Check:** Validates PRD + UX + Architecture cohesion before starting implementation. Prevents costly rework.
-
-**Epic-Tech-Specs:** For complex epics, create detailed epic-tech-spec before implementation. These provide code-level design decisions that Architecture doesn't cover.
-
-**Additional Detail Docs:** For very novel or complex subsystems, you may create additional technical design documents beyond epic-tech-specs. These are created as-needed, not upfront.
-
-**Keywords:** platform, integration, complex, system, architecture
-
----
-
-### Level 4: Enterprise Scale
-
-**Examples:** Multi-product suite, enterprise ecosystem, platform with multiple apps
-
-| Aspect              | Details                                                        |
-| ------------------- | -------------------------------------------------------------- |
-| **Stories**         | 40+ stories across products                                    |
-| **Planning Docs**   | Comprehensive PRD + Epics + Enterprise Architecture            |
-| **Architecture**    | Required - enterprise-grade system design                      |
-| **UX Design**       | Recommended - design system and patterns                       |
-| **Epic-Tech-Specs** | Recommended during implementation per epic                     |
-| **Gate Checks**     | Required - multiple validation gates                           |
-| **Best For**        | Multi-tenant systems, product ecosystems, enterprise platforms |
-| **Brownfield Prep** | Run document-project first (if not already done)               |
-
-**Workflow:**
-
-```
-(Brownfield: document-project first)
-↓
-Analysis + Research → PRD + Epics → UX Design → Enterprise Architecture → Gate Check → Implement
-                                                                                          ↓
-                                                                         Epic-Tech-Spec per epic (recommended)
-                                                                                          ↓
-                                                                         Additional design docs for complex subsystems
-                                                                                          ↓
-                                                                         Retrospective after each epic
-```
-
-**Enterprise Architecture:** More comprehensive than Level 3, includes:
-
-- Multi-tenancy design
-- Security architecture
-- Scalability planning
-- Integration architecture
-- Data architecture
-- Deployment architecture
-
-**Additional Design Documents:** For enterprise complexity, you may need supplementary technical documents:
-
-- Detailed subsystem designs
-- Integration specifications
-- Performance optimization plans
-- Security implementation guides
-
-These are created **during implementation** as needed, not all upfront.
-
-**Keywords:** enterprise, multi-tenant, multiple products, ecosystem, scale
+- Test approach and coverage
+- Automation strategy
+- Quality gates
+- Performance testing
 
 ---
 
 ## Workflow Comparison
 
-| Level | Analysis    | Planning         | Architecture | Epic-Tech-Specs   | Stories | Retrospectives          |
-| ----- | ----------- | ---------------- | ------------ | ----------------- | ------- | ----------------------- |
-| **0** | Optional    | Tech-spec        | None         | N/A (no epics)    | 1       | N/A                     |
-| **1** | Optional    | Tech-spec + Epic | None         | N/A (single epic) | 2-3     | N/A                     |
-| **2** | Recommended | PRD              | Optional     | Recommended       | 5-15    | After each epic (if >1) |
-| **3** | Required    | PRD              | Required     | Recommended       | 12-40   | After each epic         |
-| **4** | Required    | PRD              | Required     | Recommended       | 40+     | After each epic         |
+| Track           | Analysis    | Planning  | Architecture | Security/Ops | Typical Stories |
+| --------------- | ----------- | --------- | ------------ | ------------ | --------------- |
+| **Quick Flow**  | Optional    | Tech-spec | None         | None         | 1-15            |
+| **BMad Method** | Recommended | PRD + UX  | Required     | None         | 10-50+          |
+| **Enterprise**  | Required    | PRD + UX  | Required     | Required     | 30+             |
+
+**Note**: Story counts are GUIDANCE based on typical usage, NOT definitions of tracks.
 
 ---
 
-## Documentation Progression
+## Brownfield Projects
 
-### Level 0-1: Tech-Spec as Primary Doc
+### Critical First Step
 
-**Why tech-spec for Level 0-1?**
+For ALL brownfield projects: Run `document-project` BEFORE planning workflows.
 
-- Changes are focused and atomic
-- Context is specific to implementation
-- Speed is priority
-- Full product planning is overkill
+### Why document-project is Critical
 
-**Tech-spec contents:**
+**Quick Flow** uses it for:
 
-- Technical approach
-- File-level changes
-- Implementation guide
-- Testing strategy
-- **Includes UX considerations** if user-facing
+- Auto-detecting existing patterns
+- Understanding codebase structure
+- Confirming conventions
 
-**Created:** Upfront, serves as complete planning doc
+**BMad Method** uses it for:
 
----
+- Architecture inputs (existing structure)
+- Integration design
+- Pattern consistency
 
-### Level 2: PRD + Optional Architecture
+**Enterprise Method** uses it for:
 
-**Why PRD instead of tech-spec?**
-
-- Multiple features need coordination
-- Product vision and requirements matter
-- Stakeholder alignment needed
-- Feature interdependencies exist
-
-**PRD contents:**
-
-- Product vision and goals
-- Feature requirements
-- Epics and story breakdown
-- Success criteria
-- User experience considerations
-
-**Architecture (optional):**
-
-- Only if system design needed
-- Lightweight architectural decisions
-- Component interactions
-- Data models
-
-**Epic-tech-specs (recommended during implementation):**
-
-- Created as each epic is worked on
-- Detailed technical guidance per epic
-- Supplements PRD with implementation details
-
-**Created:** PRD upfront, epic-tech-specs during implementation
-
----
-
-### Level 3-4: PRD + Architecture + Epic-Tech-Specs
-
-**Why comprehensive planning?**
-
-- Complex integrations
-- Multiple subsystems
-- Long-term maintainability
-- Risk management
-- Team coordination
-
-**PRD contents:**
-
-- Comprehensive product vision
-- Detailed requirements
-- Business objectives
-- Market considerations
-- Complete epic breakdown
-
-**Architecture (required):**
-
-- System design
-- Component architecture
-- Data models
-- Integration patterns
-- Security design
-- Performance requirements
-- **Scales with complexity** (Level 3 vs Level 4)
-
-**Epic-tech-specs (recommended during implementation):**
-
-- Created before implementing each epic
-- Code-level design decisions
-- Epic-specific implementation approach
-- Detailed testing strategy
-
-**Additional design docs (as-needed):**
-
-- For novel or complex subsystems
-- Created during implementation
-- Not all created upfront
-- Examples: detailed integration specs, performance optimization plans
-
-**Created:** PRD + Architecture upfront, epic-tech-specs and detail docs during implementation
-
----
-
-## Brownfield Projects: Document-Project First
-
-### Critical Workflow Step
-
-🚨 **For ALL brownfield projects (Level 0-4):**
-
-**BEFORE running any workflow:**
-
-1. Run `document-project` workflow
-2. This analyzes your codebase and creates `docs/index.md`
-3. Output includes sharded documentation of:
-   - Project structure
-   - Key modules
-   - Existing patterns
-   - Dependencies
-   - Configuration
-
-**Why it's critical:**
-
-- **Tech-spec workflow** (Level 0-1) uses this for auto-detection
-- **PRD workflow** (Level 2-4) references existing code
-- **Architecture workflow** (Level 3-4) builds on existing structure
-- **Epic-tech-specs** reference existing implementations
+- Security analysis
+- Integration architecture
+- Risk assessment
 
 ### Brownfield Workflow Pattern
 
+```mermaid
+flowchart TD
+    START([Brownfield Project])
+    CHECK{Has docs/<br/>index.md?}
+
+    START --> CHECK
+    CHECK -->|No| DOC[document-project workflow<br/>10-30 min]
+    CHECK -->|Yes| TRACK[Choose Track]
+
+    DOC --> TRACK
+    TRACK -->|Quick| QF[Tech-Spec]
+    TRACK -->|Method| M[PRD + Arch]
+    TRACK -->|Enterprise| E[PRD + Arch + Sec/Ops]
+
+    style DOC fill:#ffb,stroke:#333,stroke-width:2px
+    style TRACK fill:#bfb,stroke:#333,stroke-width:2px
 ```
-Step 1: document-project (FIRST!)
-         ↓
-         Creates docs/index.md with codebase analysis
-         ↓
-Step 2: workflow-init OR tech-spec directly
-         ↓
-         Uses docs/index.md for context
-         ↓
-Step 3: Continue with level-appropriate workflows
-```
-
-**Without document-project:**
-
-- Workflows can't detect existing patterns
-- Convention analysis won't work
-- Integration planning is incomplete
-- You'll miss existing code to reuse
-
----
-
-## Tech-Spec vs Epic-Tech-Spec
-
-### When to Use Each
-
-| Document           | Level | Created When             | Purpose                                         |
-| ------------------ | ----- | ------------------------ | ----------------------------------------------- |
-| **Tech-Spec**      | 0-1   | Upfront (Planning Phase) | Primary planning doc for small changes/features |
-| **Epic-Tech-Spec** | 2-4   | During Implementation    | Detailed technical guidance per epic            |
-
-### Tech-Spec (Level 0-1)
-
-**Characteristics:**
-
-- Created in Planning Phase
-- Serves as primary/only planning document
-- Comprehensive for the entire change/feature
-- Includes all context needed for implementation
-- Can include UX considerations inline
-
-**Workflow context:**
-
-```
-Planning Phase: Tech-Spec created here
-                     ↓
-Implementation Phase: Stories implemented using tech-spec
-```
-
-### Epic-Tech-Spec (Level 2-4)
-
-**Characteristics:**
-
-- Created in Implementation Phase
-- Supplements PRD + Architecture
-- Focused on single epic
-- Detailed code-level design
-- References architecture decisions
-
-**Workflow context:**
-
-```
-Planning Phase: PRD + Architecture created here
-                     ↓
-Implementation Phase:
-  - Epic 1 starts
-  - Create epic-tech-spec-1 (just-before-implementation)
-  - Implement stories for epic 1
-  - Retrospective
-  - Epic 2 starts
-  - Create epic-tech-spec-2
-  - Implement stories for epic 2
-  - Retrospective
-  - ...
-```
-
-**Why not created upfront?**
-
-- Implementation learnings inform later epic-tech-specs
-- Avoids over-planning details that may change
-- Keeps specs fresh and relevant
-- Retrospectives provide input for next epic-tech-spec
-
----
-
-## Level 2 Architecture vs Tech-Spec
-
-### The Question
-
-"What takes the place of architecture with Level 2 since there is no tech-spec?"
-
-### The Answer
-
-Level 2 uses **Architecture document (optional)** instead of tech-spec for system-level planning.
-
-**Comparison:**
-
-| Aspect       | Tech-Spec (Level 0-1)                | Architecture (Level 2)             |
-| ------------ | ------------------------------------ | ---------------------------------- |
-| **Purpose**  | Implementation plan for small change | System design for medium project   |
-| **Scope**    | Single change or small feature       | Multiple epics and features        |
-| **Focus**    | Code-level details                   | System-level design                |
-| **When**     | Replaces need for PRD+Arch           | Supplements PRD                    |
-| **Required** | Yes (primary doc)                    | Optional (if system design needed) |
-
-**Level 2 Documentation Options:**
-
-**Option A: PRD Only (no architecture)**
-
-- For projects that don't need system design
-- Features are independent
-- No complex integrations
-- Example: Admin dashboard with CRUD screens
-
-**Option B: PRD + Architecture**
-
-- For projects needing system design
-- Components interact
-- Integrations exist
-- Example: Customer portal with notifications, webhooks, reporting
-
-**Plus Epic-Tech-Specs (recommended):**
-
-- Created during implementation
-- One per epic
-- Detailed technical guidance
-- References Architecture decisions (if architecture exists)
-
----
-
-## Retrospectives in Multi-Epic Projects
-
-### When to Run Retrospectives
-
-**Trigger:** After completing each epic in Level 2-4 projects **when there are multiple epics**
-
-**Example:**
-
-- Level 2 project with 3 epics
-- Complete Epic 1 → Retrospective
-- Complete Epic 2 → Retrospective
-- Complete Epic 3 → Final retrospective
-
-**Purpose:**
-
-- Capture learnings from completed epic
-- Identify improvements for next epic
-- Adjust approach based on what worked/didn't
-- Feed insights into next epic-tech-spec
-
-### Retrospective Contents
-
-- What went well?
-- What could be improved?
-- Technical insights gained
-- Process adjustments needed
-- Input for next epic planning
-
-**Output feeds into:**
-
-- Next epic-tech-spec
-- Architecture refinements
-- Team process improvements
-
----
-
-## How Level Detection Works
-
-### Automatic Detection (workflow-init)
-
-When you run `workflow-init`, it analyzes your project description using:
-
-#### 1. **Keyword Analysis**
-
-Scans for level-specific keywords:
-
-**Level 0 Keywords:**
-
-- fix, bug, typo, small change, quick update, patch
-
-**Level 1 Keywords:**
-
-- simple, basic, small feature, add, minor
-
-**Level 2 Keywords:**
-
-- dashboard, several features, admin panel, medium
-
-**Level 3 Keywords:**
-
-- platform, integration, complex, system, architecture
-
-**Level 4 Keywords:**
-
-- enterprise, multi-tenant, multiple products, ecosystem, scale
-
-#### 2. **Story Count Estimation**
-
-Asks about expected scope:
-
-| Level   | Story Range   |
-| ------- | ------------- |
-| Level 0 | 1 story       |
-| Level 1 | 1-10 stories  |
-| Level 2 | 5-15 stories  |
-| Level 3 | 12-40 stories |
-| Level 4 | 40+ stories   |
-
-#### 3. **Complexity Indicators**
-
-- Multiple teams involved?
-- External integrations?
-- Compliance requirements?
-- Multi-tenant needs?
-- Existing system modifications? (triggers brownfield)
-
-### Manual Override
-
-You can always override the detected level if workflow-init gets it wrong. The system is a guide, not a constraint.
-
----
-
-## Field Types: Greenfield vs Brownfield
-
-Each level has **two workflow paths**:
-
-### Greenfield (New Project)
-
-- Starting from scratch
-- No existing codebase
-- Establishing new patterns
-- Freedom to choose stack
-
-**Special Features:**
-
-- Starter template recommendations
-- Modern best practices via WebSearch
-- Convention establishment
-
-**Workflow:**
-
-```
-workflow-init → Level detection → Greenfield path
-```
-
-### Brownfield (Existing Project)
-
-- Adding to existing code
-- Working with established patterns
-- Integration with current systems
-- Stack already chosen
-
-**Special Features:**
-
-- Auto-detects existing conventions
-- Analyzes current patterns
-- Confirms before deviating
-- Respects established standards
-
-**Workflow:**
-
-```
-document-project (FIRST!) → workflow-init → Level detection → Brownfield path
-```
-
-**Critical difference:** Brownfield requires document-project BEFORE any other workflow.
 
 ---
 
 ## Common Scenarios
 
-### Scenario 1: Bug Fix (Level 0)
+### Scenario 1: Bug Fix (Quick Flow)
 
-**Input:** "Fix email validation bug in login form"
+**Input**: "Fix email validation bug in login form"
 
-**Detection:**
+**Detection**: Keywords "fix", "bug"
 
-- Keywords: "fix", "bug"
-- Estimated stories: 1
+**Track**: Quick Flow
 
-**Result:** Level 0 → Greenfield-level-0.yaml
-
-**Workflow:**
+**Workflow**:
 
 1. (Optional) Brief analysis
 2. Tech-spec with single story
 3. Implement immediately
 
+**Time**: 2-4 hours total
+
 ---
 
-### Scenario 2: Small Feature (Level 1)
+### Scenario 2: Small Feature (Quick Flow)
 
-**Input:** "Add OAuth social login (Google, GitHub, Facebook)"
+**Input**: "Add OAuth social login (Google, GitHub, Facebook)"
 
-**Detection:**
+**Detection**: Keywords "add", "feature", clear scope
 
-- Keywords: "add", "feature"
-- Estimated stories: 2-3
+**Track**: Quick Flow
 
-**Result:** Level 1 → Greenfield-level-1.yaml
-
-**Workflow:**
+**Workflow**:
 
 1. (Optional) Research OAuth providers
-2. Tech-spec with epic + 3 stories
-3. (Optional) UX Design if UI is complex
-4. Implement story-by-story
+2. Tech-spec with 3 stories
+3. Implement story-by-story
+
+**Time**: 1-3 days
 
 ---
 
-### Scenario 3: Customer Portal (Level 2)
+### Scenario 3: Customer Portal (BMad Method)
 
-**Input:** "Build customer portal with dashboard, tickets, billing"
+**Input**: "Build customer portal with dashboard, tickets, billing"
 
-**Detection:**
+**Detection**: Keywords "portal", "dashboard", multiple features
 
-- Keywords: "portal", "dashboard"
-- Estimated stories: 10-12
+**Track**: BMad Method
 
-**Result:** Level 2 → Greenfield-level-2.yaml
+**Workflow**:
 
-**Workflow:**
-
-1. Product Brief (recommended)
+1. (Recommended) Product Brief
 2. PRD with epics
-3. (Optional) UX Design
-4. (Optional) Architecture if system design needed
-5. Implement with sprint planning
-6. Create epic-tech-spec for each epic as you implement
-7. Run retrospective after each epic
+3. (If UI) UX Design
+4. Architecture (system design)
+5. Gate Check
+6. Implement with sprint planning
+
+**Time**: 1-2 weeks
 
 ---
 
-### Scenario 4: E-commerce Platform (Level 3)
+### Scenario 4: E-commerce Platform (BMad Method)
 
-**Input:** "Build full e-commerce platform with products, cart, checkout, admin, analytics"
+**Input**: "Build e-commerce platform with products, cart, checkout, admin, analytics"
 
-**Detection:**
+**Detection**: Keywords "platform", multiple subsystems
 
-- Keywords: "platform", "full"
-- Estimated stories: 30-35
+**Track**: BMad Method
 
-**Result:** Level 3 → Greenfield-level-3.yaml
-
-**Workflow:**
+**Workflow**:
 
 1. Research + Product Brief
 2. Comprehensive PRD
@@ -825,221 +470,130 @@ document-project (FIRST!) → workflow-init → Level detection → Brownfield p
 4. System Architecture (required)
 5. Gate check
 6. Implement with phased approach
-7. Create epic-tech-spec per epic before implementing
-8. Run retrospective after each epic
-9. Create additional design docs as needed for complex subsystems
+
+**Time**: 3-6 weeks
 
 ---
 
-### Scenario 5: Adding Feature to Existing App (Brownfield)
+### Scenario 5: Brownfield Addition (BMad Method)
 
-**Input:** "Add search functionality to existing product catalog"
+**Input**: "Add search functionality to existing product catalog"
 
-**Detection:**
+**Detection**: Brownfield + moderate complexity
 
-- Keywords: "add", "existing"
-- Estimated stories: 3-4
-- Field type: Brownfield
+**Track**: BMad Method (not Quick Flow)
 
-**Result:** Level 1 → Brownfield-level-1.yaml
-
-**Critical First Step:**
+**Critical First Step**:
 
 1. **Run document-project** to analyze existing codebase
 
-**Then Workflow:** 2. Tech-spec (uses document-project output for analysis) 3. Auto-detects existing patterns 4. Confirms conventions 5. Implement following existing patterns
+**Then Workflow**: 2. PRD for search feature 3. Architecture (integration design - highly recommended) 4. Implement following existing patterns
+
+**Time**: 1-2 weeks
+
+**Why Method not Quick Flow?**: Integration with existing catalog system benefits from architecture planning to ensure consistency.
 
 ---
 
-## Workflow Paths Configuration
+### Scenario 6: Multi-tenant Platform (Enterprise Method)
 
-BMad Method stores workflow paths in YAML configuration files:
+**Input**: "Add multi-tenancy to existing single-tenant SaaS platform"
 
-### Path File Structure
+**Detection**: Keywords "multi-tenant", enterprise scale
 
-```
-src/modules/bmm/workflows/workflow-status/paths/
-├── greenfield-level-0.yaml
-├── greenfield-level-1.yaml
-├── greenfield-level-2.yaml
-├── greenfield-level-3.yaml
-├── greenfield-level-4.yaml
-├── brownfield-level-0.yaml
-├── brownfield-level-1.yaml
-├── brownfield-level-2.yaml
-├── brownfield-level-3.yaml
-├── brownfield-level-4.yaml
-├── game-design.yaml
-└── project-levels.yaml (source of truth)
-```
+**Track**: Enterprise Method
 
-### Path File Format
+**Workflow**:
 
-Each path file defines:
+1. Document-project (mandatory)
+2. Research (compliance, security)
+3. PRD (multi-tenancy requirements)
+4. Architecture (tenant isolation design)
+5. Security Architecture (data isolation, auth)
+6. DevOps Strategy (tenant provisioning, monitoring)
+7. Test Strategy (tenant isolation testing)
+8. Gate check
+9. Phased implementation
 
-```yaml
-project_type: 'software'
-level: 2
-field_type: 'greenfield'
-description: 'Medium project - multiple epics'
-
-phases:
-  - phase: 1
-    name: 'Analysis'
-    optional: true
-    workflows:
-      - id: 'brainstorm-project'
-        optional: true
-        agent: 'analyst'
-        command: 'brainstorm-project'
-
-  - phase: 2
-    name: 'Planning'
-    required: true
-    workflows:
-      - id: 'prd'
-        required: true
-        agent: 'pm'
-        command: 'prd'
-        output: 'Creates PRD with epics and stories'
-```
-
-### Phase Structure
-
-Each level defines **4 phases**:
-
-1. **Analysis Phase**
-   - Brainstorming
-   - Research
-   - Product Brief
-   - Complexity: Increases with level
-
-2. **Planning Phase**
-   - Level 0-1: Tech-spec
-   - Level 2-4: PRD + (optional/required) Architecture
-
-3. **Solutioning Phase**
-   - Level 0-2: Skipped or optional architecture
-   - Level 3-4: Required architecture + gate checks
-
-4. **Implementation Phase**
-   - Sprint planning
-   - Story-by-story development
-   - Epic-tech-specs created per epic (Level 2-4)
-   - Retrospectives after each epic (Level 2-4)
+**Time**: 3-6 months
 
 ---
 
 ## Best Practices
 
-### 1. **Document-Project First for Brownfield**
+### 1. Document-Project First for Brownfield
 
-Always run document-project before starting any brownfield workflow. This is critical for context.
+Always run `document-project` before starting brownfield planning. AI agents need existing codebase context.
 
-### 2. **Trust the Detection**
+### 2. Trust the Recommendation
 
-If workflow-init suggests Level 2, there's probably complexity you haven't considered. Review before overriding.
+If `workflow-init` suggests BMad Method, there's probably complexity you haven't considered. Review carefully before overriding.
 
-### 3. **Start Small, Upgrade Later**
+### 3. Start Smaller if Uncertain
 
-Uncertain between Level 1 and 2? Start with Level 1. You can always run PRD creation later if needed.
+Uncertain between Quick Flow and Method? Start with Quick Flow. You can create PRD later if needed.
 
-### 4. **Don't Skip Gate Checks**
+### 4. Don't Skip Gate Checks
 
-For Level 3-4, gate checks prevent costly mistakes. Invest the time upfront.
+For BMad Method and Enterprise, gate checks prevent costly mistakes. Invest the time.
 
-### 5. **Create Epic-Tech-Specs Just-Before-Implementation**
+### 5. Architecture is Optional but Recommended for Brownfield
 
-For Level 2-4, create epic-tech-spec right before implementing each epic. Don't create all upfront.
+Brownfield BMad Method makes architecture optional, but it's highly recommended. It distills complex codebase into focused solution design.
 
-### 6. **Run Retrospectives Between Epics**
+### 6. Discovery Phase Based on Need
 
-Capture learnings after each epic. Feed insights into next epic-tech-spec.
+Brainstorming and research are offered regardless of track. Use them when you need to think through the problem space.
 
-### 7. **Optional UX for Level 1**
+### 7. Product Brief for Greenfield Method
 
-If your Level 1 feature has complex UI, run separate UX Design. Otherwise, include UX notes in tech-spec.
-
-### 8. **Architecture Scales**
-
-Level 2 architecture is lighter than Level 3, which is lighter than Level 4. Don't over-architect.
+Product Brief is only offered for greenfield BMad Method and Enterprise. It's optional but helps with strategic thinking.
 
 ---
 
-## FAQ
+## Key Differences from Legacy System
 
-### Q: What's the difference between tech-spec and epic-tech-spec?
+### Old System (Levels 0-4)
 
-**A:**
+- Arbitrary story count thresholds
+- Level 2 vs Level 3 based on story count
+- Confusing overlap zones (5-10 stories, 12-40 stories)
+- Tech-spec and PRD shown as conflicting options
 
-- **Tech-spec (Level 0-1):** Created upfront in Planning Phase, serves as primary planning doc
-- **Epic-tech-spec (Level 2-4):** Created during Implementation Phase per epic, supplements PRD + Architecture
+### New System (3 Tracks)
 
-### Q: Why no tech-spec at Level 2+?
-
-**A:** At Level 2+, you need product-level planning (PRD) and optionally system-level design (Architecture). Tech-spec is too narrow. Instead, use epic-tech-specs during implementation for detailed technical guidance per epic.
-
-### Q: Do I always need Architecture at Level 2?
-
-**A:** No, it's optional. Only create Architecture if you need system-level design. Many Level 2 projects can work with just PRD + epic-tech-specs.
-
-### Q: What if I forget to run document-project on brownfield?
-
-**A:** Workflows will lack context about existing code. Run document-project and restart your workflow to get proper brownfield analysis.
-
-### Q: Can Level 1 include UX Design?
-
-**A:** Yes! You can either:
-
-- Include UX considerations in the tech-spec (simpler)
-- Run separate UX Design workflow (complex UI)
-
-### Q: When do I create additional design documents?
-
-**A:** Create them during implementation as-needed for:
-
-- Very novel technical approaches
-- Complex subsystems needing detailed design
-- Integration specifications
-- Performance optimization plans
-
-Don't create them all upfront - create just-before-needed.
-
-### Q: Can I change levels mid-project?
-
-**A:** Yes! If you started at Level 1 but realize it's Level 2, you can run `create-prd` to add proper planning docs. The system is flexible.
+- Methodology-based distinction (not story counts)
+- Story counts as guidance, not definitions
+- Clear track purposes:
+  - Quick Flow = Implementation-focused
+  - BMad Method = Product + system design
+  - Enterprise = Extended with security/ops
+- Mutually exclusive paths chosen upfront
+- Educational decision-making
 
 ---
 
-## Summary
+## Migration from Old System
 
-The Scale Adaptive System ensures:
+If you have existing projects using the old level system:
 
-✅ **Level 0-1:** Fast, lean, tech-spec only → Quick Spec Flow
-✅ **Level 2:** Structured, PRD-driven, optional architecture, epic-tech-specs during implementation
-✅ **Level 3-4:** Comprehensive, PRD + Architecture required, epic-tech-specs per epic, gate checks
+- **Level 0-1** → Quick Flow
+- **Level 2-3** → BMad Method
+- **Level 4** → Enterprise Method
 
-**Key Principles:**
-
-- Match planning depth to project complexity
-- Tech-spec for Level 0-1, PRD + Architecture for Level 2-4
-- Epic-tech-specs supplement Level 2-4 during implementation
-- Document-project FIRST for all brownfield projects
-- Create detailed docs just-before-needed, not all upfront
-
-**Result:** Right amount of ceremony for every project, maximum efficiency at every scale.
+Run `workflow-init` on existing projects to migrate to new tracking system. It detects existing planning artifacts and creates appropriate workflow tracking.
 
 ---
 
-## Learn More
+## Related Documentation
 
-- **Quick Spec Flow (Level 0-1):** [quick-spec-flow.md](./quick-spec-flow.md)
-- **Full BMM Workflows (Level 2-4):** [../workflows/README.md](../workflows/README.md)
-- **Document-Project Workflow:** Ask SM agent to run document-project
-- **Run workflow-init:** Load PM agent and ask to run workflow-init
-- **Path Configuration:** `../workflows/workflow-status/paths/`
-- **Level Definitions:** `../workflows/workflow-status/project-levels.yaml`
+- **[Quick Start Guide](./quick-start.md)** - Get started with BMM
+- **[Quick Spec Flow](./quick-spec-flow.md)** - Details on Quick Flow track
+- **[Brownfield Guide](./brownfield-guide.md)** - Existing codebase workflows
+- **[Glossary](./glossary.md)** - Complete terminology
+- **[FAQ](./faq.md)** - Common questions
+- **[Workflows Guide](../workflows/README.md)** - Complete workflow reference
 
 ---
 
-_Scale Adaptive System - Because one size doesn't fit all._
+_Scale Adaptive System - Right planning depth for every project._
