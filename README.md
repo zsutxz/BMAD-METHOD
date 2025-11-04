@@ -1,6 +1,7 @@
 # BMad CORE + BMad Method
 
-[![Version](https://img.shields.io/npm/v/bmad-method?color=blue&label=version)](https://www.npmjs.com/package/bmad-method)
+[![Stable Version](https://img.shields.io/npm/v/bmad-method?color=blue&label=stable)](https://www.npmjs.com/package/bmad-method)
+[![Alpha Version](https://img.shields.io/npm/v/bmad-method/alpha?color=orange&label=alpha)](https://www.npmjs.com/package/bmad-method)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white)](https://discord.gg/gk8jAdXWmj)
@@ -33,20 +34,17 @@ The **BMad-CORE** powers the **BMad Method** (probably why you're here!), but yo
     - [v6 Core Enhancements](#v6-core-enhancements)
     - [C.O.R.E. Philosophy](#core-philosophy)
   - [Modules](#modules)
-    - [BMad Method (BMM) - Agile AI Development](#bmad-method-bmm---agile-ai-development)
-      - [v6 Highlights](#v6-highlights)
-    - [Quick Start](#quick-start)
-      - [⚡ NEW: Quick Spec Flow for Rapid Development](#-new-quick-spec-flow-for-rapid-development)
+    - [BMad Method (BMM) - AI-Driven Agile Development](#bmad-method-bmm---ai-driven-agile-development)
     - [BMad Builder (BMB) - Create Custom Solutions](#bmad-builder-bmb---create-custom-solutions)
     - [Creative Intelligence Suite (CIS) - Innovation \& Creativity](#creative-intelligence-suite-cis---innovation--creativity)
+  - [🚀 Quick Start](#-quick-start)
   - [Installation](#installation)
-    - [Project Structure](#project-structure)
-    - [Getting Started](#getting-started)
+  - [🎯 Working with Agents \& Commands](#-working-with-agents--commands)
   - [Key Features](#key-features)
     - [🎨 Update-Safe Customization](#-update-safe-customization)
     - [🚀 Intelligent Installation](#-intelligent-installation)
-    - [📁 Unified Architecture](#-unified-architecture)
-    - [📄 Document Sharding](#-document-sharding)
+    - [📁 Clean Architecture](#-clean-architecture)
+    - [📄 Document Sharding (Advanced)](#-document-sharding-advanced)
   - [Documentation](#documentation)
   - [Community \& Support](#community--support)
   - [Contributing](#contributing)
@@ -89,26 +87,24 @@ Revolutionary AI-driven agile framework for software and game development. Autom
 
 #### v6 Highlights
 
-**🎯 Scale-Adaptive Intelligence (Levels 0-4)**
+**🎯 Scale-Adaptive Intelligence (3 Planning Tracks)**
 
-Automatically adjusts planning depth and documentation based on project complexity:
+Automatically adjusts planning depth and documentation based on project needs:
 
-- **Level 0:** Bug fixes (hours)
-- **Level 1:** Small features (1-10 stories)
-- **Level 2:** Medium projects (5-15 stories)
-- **Level 3:** Complex integration (12-40 stories)
-- **Level 4:** Enterprise scale (40+ stories)
+- **Quick Flow Track:** Fast implementation (tech-spec only) - bug fixes, small features, clear scope
+- **BMad Method Track:** Full planning (PRD + Architecture + UX) - products, platforms, complex features
+- **Enterprise Method Track:** Extended planning (BMad Method + Security/DevOps/Test) - enterprise requirements, compliance
 
 **🏗️ Four-Phase Methodology**
 
 1. **Phase 1: Analysis** (Optional) - Brainstorming, research, product briefs
 2. **Phase 2: Planning** (Required) - Scale-adaptive PRD/tech-spec/GDD
-3. **Phase 3: Solutioning** (Level 3-4) - Architecture and design decisions
+3. **Phase 3: Solutioning** (Track-dependent) - Architecture, (Coming soon: security, DevOps, test strategy)
 4. **Phase 4: Implementation** (Iterative) - Story-centric development with just-in-time context
 
 **🤖 12 Specialized Agents**
 
-PM • Analyst • Architect • Scrum Master • Developer • Test Architect (TEA) • UX Designer • Paige (Documentation) • Game Designer • Game Developer • Game Architect • BMad Master (Orchestrator)
+PM • Analyst • Architect • Scrum Master • Developer • Test Architect (TEA) • UX Designer • Technical Writer • Game Designer • Game Developer • Game Architect • BMad Master (Orchestrator)
 
 **📚 Documentation**
 
@@ -122,22 +118,17 @@ PM • Analyst • Architect • Scrum Master • Developer • Test Architect (
 
 ## 🚀 Quick Start
 
-**First Time?**
+**After installation** (see [Installation](#installation) below), choose your path:
 
-```bash
-npx bmad-method@alpha install
-# Load Analyst agent → *workflow-init
-```
+**Three Planning Tracks:**
 
-**Three Paths to Choose From:**
-
-1. **⚡ Quick Spec Flow** - Bug fixes and small features (Level 0-1)
+1. **⚡ Quick Flow Track** - Bug fixes and small features
    - 🐛 Bug fixes in minutes
    - ✨ Small features (2-3 related changes)
    - 🚀 Rapid prototyping
    - **[→ Quick Spec Flow Guide](./src/modules/bmm/docs/quick-spec-flow.md)**
 
-2. **📋 Full BMM Flow** - Medium to enterprise projects (Level 2-4)
+2. **📋 BMad Method Track** - Products and platforms
    - Complete planning (PRD/GDD)
    - Architecture decisions
    - Story-centric implementation
@@ -145,12 +136,12 @@ npx bmad-method@alpha install
 
 3. **🏢 Brownfield Projects** - Add to existing codebases
    - Document existing code first
-   - Then choose Quick Spec or Full BMM
+   - Then choose Quick Flow or BMad Method
    - **[→ Brownfield Guide](./src/modules/bmm/docs/brownfield-guide.md)**
 
-**Not sure which path?** Run `*workflow-init` and let BMM analyze your project goal and recommend the right approach.
+**Not sure which path?** Run `*workflow-init` and let BMM analyze your project goal and recommend the right track.
 
-**[📚 Learn More: Scale Adaptive System](./src/modules/bmm/docs/scale-adaptive-system.md)** - How BMM adapts from Level 0 to Level 4
+**[📚 Learn More: Scale Adaptive System](./src/modules/bmm/docs/scale-adaptive-system.md)** - How BMM adapts across three planning tracks
 
 ---
 
@@ -209,14 +200,13 @@ npx bmad-method@alpha install
 npx bmad-method install
 ```
 
-**Interactive Setup:** The installer walks you through:
+The installer provides:
 
-1. **Project Location** - Where to install (defaults to current directory)
-2. **Module Selection** - Choose BMM, BMB, CIS (or all)
-3. **Configuration** - Your name, language, game dev options
-4. **IDE Integration** - Automatic environment setup
+1. **Module Selection** - Choose BMM, BMB, CIS (or all)
+2. **Configuration** - Your name, language preferences, game dev options
+3. **IDE Integration** - Automatic setup for your IDE
 
-**Result:** Clean, unified `bmad/` folder structure:
+**Installation creates:**
 
 ```
 your-project/
@@ -229,9 +219,68 @@ your-project/
         └── agents/   # Agent customization files
 ```
 
-**First Steps After Install:**
+**Next Steps:**
 
-Load any agent in your IDE and run `*workflow-init` to set up your project workflow path.
+1. Load any agent in your IDE
+2. Run `*workflow-init` to set up your project workflow path
+3. Follow the [Quick Start](#-quick-start) guide above to choose your planning track
+
+---
+
+## 🎯 Working with Agents & Commands
+
+**Multiple Ways to Execute Workflows:**
+
+BMad is flexible - you can execute workflows in several ways depending on your preference and IDE:
+
+### Method 1: Agent Menu (Recommended for Beginners)
+
+1. **Load an agent** in your IDE (see [IDE-specific instructions](./docs/ide-info/))
+2. **Wait for the menu** to appear showing available workflows
+3. **Tell the agent** what to run using natural language or shortcuts:
+   - Natural: "Run workflow-init"
+   - Shortcut: `*workflow-init`
+   - Menu number: "Run option 2"
+
+### Method 2: Direct Slash Commands
+
+**Execute workflows directly** using slash commands:
+
+```
+/bmad:bmm:workflows:workflow-init
+/bmad:bmm:workflows:prd
+/bmad:bmm:workflows:dev-story
+```
+
+**Tip:** While you can run these without loading an agent first, **loading an agent is still recommended** - it can make a difference with certain workflows.
+
+**Benefits:**
+
+- ✅ Mix and match any agent with any workflow
+- ✅ Run workflows not in the loaded agent's menu
+- ✅ Faster access for experienced users who know the command names
+
+### Method 3: Party Mode Execution
+
+**Run workflows with multi-agent collaboration:**
+
+1. Start party mode: `/bmad:core:workflows:party-mode`
+2. Execute any workflow - **the entire team collaborates on it**
+3. Get diverse perspectives from multiple specialized agents
+
+**Perfect for:** Strategic decisions, complex workflows, cross-functional tasks
+
+---
+
+> **📌 IDE-Specific Note:**
+>
+> Slash command format varies by IDE:
+>
+> - **Claude Code:** `/bmad:bmm:workflows:prd`
+> - **Cursor/Windsurf:** May use different syntax - check your IDE's [documentation](./docs/ide-info/)
+> - **VS Code with Copilot Chat:** Syntax may differ
+>
+> See **[IDE Integration Guides](./docs/ide-info/)** for your specific IDE's command format.
 
 ---
 
@@ -266,7 +315,7 @@ Everything in one place:
 
 ### 📄 Document Sharding (Advanced)
 
-Optional optimization for large projects (Level 3-4):
+Optional optimization for large projects (BMad Method and Enterprise tracks):
 
 - **Massive Token Savings** - Phase 4 workflows load only needed sections (90%+ reduction)
 - **Automatic Support** - All workflows handle whole or sharded documents seamlessly
