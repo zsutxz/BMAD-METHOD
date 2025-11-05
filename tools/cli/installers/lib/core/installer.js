@@ -906,8 +906,9 @@ class Installer {
           }
         }
 
-        // Write the clean config file
-        await fs.writeFile(configPath, header + yamlContent, 'utf8');
+        // Write the clean config file with POSIX-compliant final newline
+        const content = header + yamlContent;
+        await fs.writeFile(configPath, content.endsWith('\n') ? content : content + '\n', 'utf8');
 
         // Track the config file in installedFiles
         this.installedFiles.push(configPath);
@@ -1195,8 +1196,9 @@ class Installer {
         // DO NOT replace {project-root} - LLMs understand this placeholder at runtime
         // const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
-        // Write the built .md file to bmad/{module}/agents/
-        await fs.writeFile(mdPath, xmlContent, 'utf8');
+        // Write the built .md file to bmad/{module}/agents/ with POSIX-compliant final newline
+        const content = xmlContent.endsWith('\n') ? xmlContent : xmlContent + '\n';
+        await fs.writeFile(mdPath, content, 'utf8');
         this.installedFiles.push(mdPath);
 
         // Remove the source YAML file - we can regenerate from installer source if needed
@@ -1213,7 +1215,9 @@ class Installer {
         if (content.includes('<agent') && !content.includes('<activation')) {
           // Inject the activation block using XML handler
           content = this.xmlHandler.injectActivationSimple(content);
-          await fs.writeFile(agentPath, content, 'utf8');
+          // Ensure POSIX-compliant final newline
+          const finalContent = content.endsWith('\n') ? content : content + '\n';
+          await fs.writeFile(agentPath, finalContent, 'utf8');
         }
       }
     }
@@ -1294,8 +1298,9 @@ class Installer {
       // DO NOT replace {project-root} - LLMs understand this placeholder at runtime
       // const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
-      // Write the built .md file
-      await fs.writeFile(targetMdPath, xmlContent, 'utf8');
+      // Write the built .md file with POSIX-compliant final newline
+      const content = xmlContent.endsWith('\n') ? xmlContent : xmlContent + '\n';
+      await fs.writeFile(targetMdPath, content, 'utf8');
 
       // Display result
       if (customizedFields.length > 0) {
@@ -1387,8 +1392,9 @@ class Installer {
         // DO NOT replace {project-root} - LLMs understand this placeholder at runtime
         // const processedContent = xmlContent.replaceAll('{project-root}', projectDir);
 
-        // Write the rebuilt .md file
-        await fs.writeFile(targetMdPath, xmlContent, 'utf8');
+        // Write the rebuilt .md file with POSIX-compliant final newline
+        const content = xmlContent.endsWith('\n') ? xmlContent : xmlContent + '\n';
+        await fs.writeFile(targetMdPath, content, 'utf8');
 
         // Display result with customizations if any
         if (customizedFields.length > 0) {
@@ -2004,6 +2010,11 @@ class Installer {
       }
 
       configContent += processedTemplate;
+
+      // Ensure POSIX-compliant final newline
+      if (!configContent.endsWith('\n')) {
+        configContent += '\n';
+      }
 
       await fs.writeFile(configPath, configContent, 'utf8');
       this.installedFiles.push(configPath); // Track agent config files

@@ -469,7 +469,9 @@ class ManifestGenerator {
       sortKeys: false,
     });
 
-    await fs.writeFile(manifestPath, yamlStr);
+    // Ensure POSIX-compliant final newline
+    const content = yamlStr.endsWith('\n') ? yamlStr : yamlStr + '\n';
+    await fs.writeFile(manifestPath, content);
     return manifestPath;
   }
 
