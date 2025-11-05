@@ -86,24 +86,12 @@ Please propose small, granular changes! For large or significant changes, discus
 
 ### Which Branch?
 
-**Submit to `next` branch** (most contributions):
-
-- ✨ New features or agents
-- 🎨 Enhancements to existing features
-- 📚 Documentation updates
-- ♻️ Code refactoring
-- ⚡ Performance improvements
-- 🧪 New tests
-- 🎁 New bmad modules
-
-**Submit to `main` branch** (critical only):
+**Submit PR's to `main` branch** (critical only):
 
 - 🚨 Critical bug fixes that break basic functionality
 - 🔒 Security patches
 - 📚 Fixing dangerously incorrect documentation
 - 🐛 Bugs preventing installation or basic usage
-
-**When in doubt, submit to `next`**. We'd rather test changes thoroughly before they hit stable.
 
 ### PR Size Guidelines
 
