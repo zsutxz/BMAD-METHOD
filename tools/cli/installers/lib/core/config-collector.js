@@ -491,21 +491,49 @@ class ConfigCollector {
     // Handle different question types
     if (item['single-select']) {
       questionType = 'list';
-      choices = item['single-select'];
-      if (existingValue && choices.includes(existingValue)) {
+      choices = item['single-select'].map((choice) => {
+        // If choice is an object with label and value
+        if (typeof choice === 'object' && choice.label && choice.value !== undefined) {
+          return {
+            name: choice.label,
+            value: choice.value,
+          };
+        }
+        // Otherwise it's a simple string choice
+        return {
+          name: choice,
+          value: choice,
+        };
+      });
+      if (existingValue) {
         defaultValue = existingValue;
       }
     } else if (item['multi-select']) {
       questionType = 'checkbox';
-      choices = item['multi-select'].map((choice) => ({
-        name: choice,
-        value: choice,
-        checked: existingValue
-          ? existingValue.includes(choice)
-          : item.default && Array.isArray(item.default)
-            ? item.default.includes(choice)
-            : false,
-      }));
+      choices = item['multi-select'].map((choice) => {
+        // If choice is an object with label and value
+        if (typeof choice === 'object' && choice.label && choice.value !== undefined) {
+          return {
+            name: choice.label,
+            value: choice.value,
+            checked: existingValue
+              ? existingValue.includes(choice.value)
+              : item.default && Array.isArray(item.default)
+                ? item.default.includes(choice.value)
+                : false,
+          };
+        }
+        // Otherwise it's a simple string choice
+        return {
+          name: choice,
+          value: choice,
+          checked: existingValue
+            ? existingValue.includes(choice)
+            : item.default && Array.isArray(item.default)
+              ? item.default.includes(choice)
+              : false,
+        };
+      });
     } else if (typeof defaultValue === 'boolean') {
       questionType = 'confirm';
     }

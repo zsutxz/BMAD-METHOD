@@ -267,6 +267,12 @@ class ModuleManager {
         continue;
       }
 
+      // Skip user documentation if install_user_docs is false
+      if (moduleConfig.install_user_docs === false && (file.startsWith('docs/') || file.startsWith('docs\\'))) {
+        console.log(chalk.dim(`  Skipping user documentation: ${file}`));
+        continue;
+      }
+
       // Skip game development content if include_game_planning is false
       if (moduleConfig.include_game_planning === false) {
         const shouldSkipGameDev = gameDevFiles.some((gamePath) => {
