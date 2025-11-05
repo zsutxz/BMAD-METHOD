@@ -14,44 +14,62 @@ last-redoc-date: 2025-10-14
 
 TEA integrates across the entire BMad development lifecycle, providing quality assurance at every phase:
 
-```
-┌──────────────────────────────────────────────────────────┐
-│             BMM Phase 2: PLANNING                        │
-│                                                          │
-│  PM: *prd                                       │
-│       ↓                                                  │
-│  TEA: *framework ──→ *ci ──→ *test-design                │
-│       └─────────┬─────────────┘                          │
-│                 │ (Setup once per project)               │
-└─────────────────┼──────────────────────────────────────────┘
-                  ↓
-┌──────────────────────────────────────────────────────────┐
-│            BMM Phase 4: IMPLEMENTATION                   │
-│                  (Per Story Cycle)                       │
-│                                                          │
-│  ┌─→ SM: *create-story                                  │
-│  │        ↓                                              │
-│  │   TEA: *atdd (optional, before dev)                  │
-│  │        ↓                                              │
-│  │   DEV: implements story                               │
-│  │        ↓                                              │
-│  │   TEA: *automate ──→ *test-review (optional)         │
-│  │        ↓                                              │
-│  │   TEA: *trace (refresh coverage)                     │
-│  │        ↓                                              │
-│  └───[next story]                                        │
-└─────────────────┼──────────────────────────────────────────┘
-                  ↓
-┌──────────────────────────────────────────────────────────┐
-│                EPIC/RELEASE GATE                         │
-│                                                          │
-│  TEA: *nfr-assess (if not done earlier)                 │
-│       ↓                                                  │
-│  TEA: *test-review (final audit, optional)              │
-│       ↓                                                  │
-│  TEA: *trace (Phase 2: Gate) ──→ PASS | CONCERNS | FAIL | WAIVED │
-│                                                          │
-└──────────────────────────────────────────────────────────┘
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#fff','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000','secondaryColor':'#fff','tertiaryColor':'#fff','fontSize':'16px','fontFamily':'arial'}}}%%
+graph TB
+    subgraph Phase2["<b>Phase 2: PLANNING</b>"]
+        PM["<b>PM: *prd</b>"]
+        Framework["<b>TEA: *framework</b>"]
+        CI["<b>TEA: *ci</b>"]
+        TestDesign["<b>TEA: *test-design</b>"]
+        PM --> Framework
+        Framework --> CI
+        CI --> TestDesign
+        SetupNote["<b>Setup once per project</b>"]
+        TestDesign -.-> SetupNote
+    end
+
+    subgraph Phase4["<b>Phase 4: IMPLEMENTATION - Per Story Cycle</b>"]
+        CreateStory["<b>SM: *create-story</b>"]
+        ATDD["<b>TEA: *atdd (optional, before dev)</b>"]
+        DevImpl["<b>DEV: implements story</b>"]
+        Automate["<b>TEA: *automate</b>"]
+        TestReview1["<b>TEA: *test-review (optional)</b>"]
+        Trace1["<b>TEA: *trace (refresh coverage)</b>"]
+
+        CreateStory --> ATDD
+        ATDD --> DevImpl
+        DevImpl --> Automate
+        Automate --> TestReview1
+        TestReview1 --> Trace1
+        Trace1 -.->|next story| CreateStory
+    end
+
+    subgraph Gate["<b>EPIC/RELEASE GATE</b>"]
+        NFR["<b>TEA: *nfr-assess (if not done earlier)</b>"]
+        TestReview2["<b>TEA: *test-review (final audit, optional)</b>"]
+        TraceGate["<b>TEA: *trace - Phase 2: Gate</b>"]
+        GateDecision{"<b>Gate Decision</b>"}
+
+        NFR --> TestReview2
+        TestReview2 --> TraceGate
+        TraceGate --> GateDecision
+        GateDecision -->|PASS| Pass["<b>PASS ✅</b>"]
+        GateDecision -->|CONCERNS| Concerns["<b>CONCERNS ⚠️</b>"]
+        GateDecision -->|FAIL| Fail["<b>FAIL ❌</b>"]
+        GateDecision -->|WAIVED| Waived["<b>WAIVED ⏭️</b>"]
+    end
+
+    Phase2 --> Phase4
+    Phase4 --> Gate
+
+    style Phase2 fill:#bbdefb,stroke:#0d47a1,stroke-width:3px,color:#000
+    style Phase4 fill:#e1bee7,stroke:#4a148c,stroke-width:3px,color:#000
+    style Gate fill:#ffe082,stroke:#f57c00,stroke-width:3px,color:#000
+    style Pass fill:#4caf50,stroke:#1b5e20,stroke-width:3px,color:#000
+    style Concerns fill:#ffc107,stroke:#f57f17,stroke-width:3px,color:#000
+    style Fail fill:#f44336,stroke:#b71c1c,stroke-width:3px,color:#000
+    style Waived fill:#9c27b0,stroke:#4a148c,stroke-width:3px,color:#000
 ```
 
 ### TEA Integration with BMad v6 Workflow

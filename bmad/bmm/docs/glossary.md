@@ -7,11 +7,11 @@ Comprehensive terminology reference for the BMad Method Module.
 ## Navigation
 
 - [Core Concepts](#core-concepts)
-- [Scale & Complexity](#scale--complexity)
+- [Scale and Complexity](#scale-and-complexity)
 - [Planning Documents](#planning-documents)
-- [Workflow & Phases](#workflow--phases)
-- [Agents & Roles](#agents--roles)
-- [Status & Tracking](#status--tracking)
+- [Workflow and Phases](#workflow-and-phases)
+- [Agents and Roles](#agents-and-roles)
+- [Status and Tracking](#status-and-tracking)
 - [Project Types](#project-types)
 - [Implementation Terms](#implementation-terms)
 
@@ -41,7 +41,7 @@ A multi-step guided process that orchestrates AI agent activities to produce spe
 
 ---
 
-## Scale & Complexity
+## Scale and Complexity
 
 ### Quick Flow Track
 
@@ -99,7 +99,7 @@ Game development equivalent of PRD, created by Game Designer agent for game proj
 
 ---
 
-## Workflow & Phases
+## Workflow and Phases
 
 ### Phase 0: Documentation (Prerequisite)
 
@@ -135,7 +135,7 @@ Dynamic technical guidance generated for each story via epic-tech-context and st
 
 ---
 
-## Agents & Roles
+## Agents and Roles
 
 ### PM (Product Manager)
 
@@ -183,7 +183,7 @@ Multi-agent collaboration feature where all installed agents (19+ from BMM, CIS,
 
 ---
 
-## Status & Tracking
+## Status and Tracking
 
 ### bmm-workflow-status.yaml
 

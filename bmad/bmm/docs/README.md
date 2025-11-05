@@ -36,7 +36,7 @@ Understanding how BMM adapts to your needs:
 
 ---
 
-## 🤖 Agents & Collaboration
+## 🤖 Agents and Collaboration
 
 Complete guide to BMM's AI agent team:
 
@@ -127,7 +127,7 @@ Comprehensive documentation for all BMM workflows organized by phase:
   - Complete story lifecycle
   - One-story-at-a-time discipline
 
-- **[Testing & QA Workflows](./workflows-testing.md)** - Comprehensive quality assurance (1,420 lines)
+- **[Testing & QA Workflows](./test-architecture.md)** - Comprehensive quality assurance (1,420 lines)
   - Test strategy, automation, quality gates
   - TEA agent and test healing
   - BMad-integrated vs standalone modes
@@ -152,15 +152,16 @@ For detailed technical documentation on specific complex workflows:
 
 ---
 
-## 🧪 Testing & Quality
+## 🧪 Testing and Quality
 
 Quality assurance guidance:
 
-- **[Test Architect Guide](./tea-README.md)** - Comprehensive testing strategy
-  - Test design workflows
-  - Quality gates
-  - Risk assessment
-  - NFR validation
+<!-- Test Architect documentation to be added -->
+
+- Test design workflows
+- Quality gates
+- Risk assessment
+- NFR validation
 
 ---
 
@@ -178,7 +179,7 @@ Understanding BMM components:
 
 ## 🌐 External Resources
 
-### Community & Support
+### Community and Support
 
 - **[Discord Community](https://discord.gg/gk8jAdXWmj)** - Get help from the community (#general-dev, #bugs-issues)
 - **[GitHub Issues](https://github.com/bmad-code-org/BMAD-METHOD/issues)** - Report bugs or request features

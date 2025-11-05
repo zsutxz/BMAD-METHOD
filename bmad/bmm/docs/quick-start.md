@@ -37,9 +37,9 @@ The interactive installer will guide you through setup and create a `bmad/` fold
 
 ### Step 1: Initialize Your Workflow
 
-1. **Load the Analyst agent** in your IDE - See your IDE-specific instructions in [docs/ide-info](../docs/ide-info/) for how to activate agents:
-   - [Claude Code](../docs/ide-info/claude-code.md)
-   - [VS Code/Cursor/Windsurf](../docs/ide-info/) - Check your IDE folder
+1. **Load the Analyst agent** in your IDE - See your IDE-specific instructions in [docs/ide-info](https://github.com/bmad-code-org/BMAD-METHOD/tree/main/docs/ide-info) for how to activate agents:
+   - [Claude Code](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/docs/ide-info/claude-code.md)
+   - [VS Code/Cursor/Windsurf](https://github.com/bmad-code-org/BMAD-METHOD/tree/main/docs/ide-info) - Check your IDE folder
    - Other IDEs also supported
 2. **Wait for the agent's menu** to appear
 3. **Tell the agent**: "Run workflow-init" or type "\*workflow-init" or select the menu item number
@@ -107,7 +107,7 @@ The next TRULY REQUIRED step is:
 
 When an agent tells you to run a workflow (like `prd`):
 
-1. **Start a new chat** with the specified agent (e.g., PM) - See [docs/ide-info](../docs/ide-info/) for your IDE's specific instructions
+1. **Start a new chat** with the specified agent (e.g., PM) - See [docs/ide-info](https://github.com/bmad-code-org/BMAD-METHOD/tree/main/docs/ide-info) for your IDE's specific instructions
 2. **Wait for the menu** to appear
 3. **Tell the agent** to run it using any of these formats:
    - Type the shorthand: `*prd`
@@ -350,7 +350,7 @@ A: Yes, once you learn the flow. Use the Quick Reference in Step 2 to go directl
 
 - **During workflows**: Agents guide you with questions and explanations
 - **Community**: [Discord](https://discord.gg/gk8jAdXWmj) - #general-dev, #bugs-issues
-- **Complete guide**: [BMM Workflows README](../src/modules/bmm/workflows/README.md)
+- **Complete guide**: [BMM Workflow Documentation](./README.md#-workflow-guides)
 - **YouTube tutorials**: [BMad Code Channel](https://www.youtube.com/@BMadCode)
 
 ---
