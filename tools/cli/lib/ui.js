@@ -82,14 +82,14 @@ class UI {
       // If actionType === 'update' or 'reinstall', continue with normal flow below
     }
 
-    // Collect IDE tool selection EARLY (before module configuration)
-    // This allows users to make all decisions upfront before file copying begins
-    const toolSelection = await this.promptToolSelection(confirmedDirectory, []);
-
     const { installedModuleIds } = await this.getExistingInstallation(confirmedDirectory);
     const coreConfig = await this.collectCoreConfig(confirmedDirectory);
     const moduleChoices = await this.getModuleChoices(installedModuleIds);
     const selectedModules = await this.selectModules(moduleChoices);
+
+    // Collect IDE tool selection AFTER configuration prompts (fixes Windows/PowerShell hang)
+    // This allows text-based prompts to complete before the checkbox prompt
+    const toolSelection = await this.promptToolSelection(confirmedDirectory, selectedModules);
 
     console.clear();
     CLIUtils.displayLogo();
@@ -100,7 +100,7 @@ class UI {
       directory: confirmedDirectory,
       installCore: true, // Always install core
       modules: selectedModules,
-      // IDE selection collected early, will be configured later
+      // IDE selection collected after config, will be configured later
       ides: toolSelection.ides,
       skipIde: toolSelection.skipIde,
       coreConfig: coreConfig, // Pass collected core config to installer
