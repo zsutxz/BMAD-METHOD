@@ -1549,7 +1549,10 @@ class WebBundler {
     }
 
     // Display warnings summary
-    if (this.stats.warnings.length > 0) {
+    // Check if there are actually any warnings with content
+    const hasActualWarnings = this.stats.warnings.some((w) => w && w.warnings && w.warnings.length > 0);
+
+    if (hasActualWarnings) {
       console.log(chalk.yellow('\n⚠ Missing Dependencies by Agent:'));
 
       // Group and display warnings by agent
@@ -1563,6 +1566,8 @@ class WebBundler {
           }
         }
       }
+    } else {
+      console.log(chalk.green('\n✓ No missing dependencies'));
     }
 
     // Final status
