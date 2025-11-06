@@ -52,6 +52,10 @@ web_bundle:
   validation: "bmad/bmm/workflows/1-analysis/product-brief/checklist.md"
   template: "bmad/bmm/workflows/1-analysis/product-brief/template.md"
   web_bundle_files:
+    # Core workflow files
     - "bmad/bmm/workflows/1-analysis/product-brief/template.md"
     - "bmad/bmm/workflows/1-analysis/product-brief/instructions.md"
     - "bmad/bmm/workflows/1-analysis/product-brief/checklist.md"
+
+    # Task dependencies (referenced in instructions.md)
+    - "bmad/core/tasks/workflow.xml"

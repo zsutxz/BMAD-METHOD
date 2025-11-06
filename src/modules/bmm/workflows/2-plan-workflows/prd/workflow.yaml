@@ -52,13 +52,20 @@ web_bundle:
   instructions: "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
   validation: "bmad/bmm/workflows/2-plan-workflows/prd/checklist.md"
   web_bundle_files:
+    # Core workflow files
     - "bmad/bmm/workflows/2-plan-workflows/prd/instructions.md"
     - "bmad/bmm/workflows/2-plan-workflows/prd/prd-template.md"
     - "bmad/bmm/workflows/2-plan-workflows/prd/project-types.csv"
     - "bmad/bmm/workflows/2-plan-workflows/prd/domain-complexity.csv"
     - "bmad/bmm/workflows/2-plan-workflows/prd/checklist.md"
+
+    # Child workflow and its files
     - "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/workflow.yaml"
     - "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/instructions.md"
     - "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/epics-template.md"
+
+    # Task dependencies (referenced in instructions.md)
+    - "bmad/core/tasks/workflow.xml"
+    - "bmad/core/tasks/adv-elicit.xml"
   child_workflows:
     - create-epics-and-stories: "bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/workflow.yaml"

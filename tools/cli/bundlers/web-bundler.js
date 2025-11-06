@@ -1005,8 +1005,11 @@ class WebBundler {
           processed.add(bundleFilePath);
 
           // Read the file content
-          const fileContent = await fs.readFile(bundleActualPath, 'utf8');
+          let fileContent = await fs.readFile(bundleActualPath, 'utf8');
           const fileExt = path.extname(bundleActualPath).toLowerCase().replace('.', '');
+
+          // Process {project-root} references before wrapping
+          fileContent = this.processProjectRootReferences(fileContent);
 
           // Wrap in XML with proper escaping
           const wrappedContent = this.wrapContentInXml(fileContent, bundleFilePath, fileExt);
