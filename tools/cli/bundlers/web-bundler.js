@@ -697,16 +697,25 @@ class WebBundler {
   removeSkippedWorkflowCommands(agentXml, skippedWorkflows) {
     let modifiedXml = agentXml;
 
-    // For each skipped workflow, find and remove the corresponding <c> command
+    // For each skipped workflow, find and remove menu items and commands
     for (const workflowPath of skippedWorkflows) {
-      // Match: <c cmd="..." run-workflow="workflowPath">...</c>
       // Need to escape special regex characters in the path
       const escapedPath = workflowPath.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
 
-      // Pattern to match the command line with this workflow
-      const pattern = new RegExp(`\\s*<c\\s+cmd="[^"]*"\\s+run-workflow="[^"]*${escapedPath}"[^>]*>.*?</c>\\s*`, 'gs');
+      // Pattern 1: Remove <item> tags with workflow attribute
+      // Match: <item cmd="..." workflow="workflowPath">...</item>
+      const itemWorkflowPattern = new RegExp(`\\s*<item\\s+[^>]*workflow="[^"]*${escapedPath}"[^>]*>.*?</item>\\s*`, 'gs');
+      modifiedXml = modifiedXml.replace(itemWorkflowPattern, '');
 
-      modifiedXml = modifiedXml.replace(pattern, '');
+      // Pattern 2: Remove <item> tags with run-workflow attribute
+      // Match: <item cmd="..." run-workflow="workflowPath">...</item>
+      const itemRunWorkflowPattern = new RegExp(`\\s*<item\\s+[^>]*run-workflow="[^"]*${escapedPath}"[^>]*>.*?</item>\\s*`, 'gs');
+      modifiedXml = modifiedXml.replace(itemRunWorkflowPattern, '');
+
+      // Pattern 3: Remove <c> tags with run-workflow attribute (legacy)
+      // Match: <c cmd="..." run-workflow="workflowPath">...</c>
+      const cPattern = new RegExp(`\\s*<c\\s+[^>]*run-workflow="[^"]*${escapedPath}"[^>]*>.*?</c>\\s*`, 'gs');
+      modifiedXml = modifiedXml.replace(cPattern, '');
     }
 
     return modifiedXml;
