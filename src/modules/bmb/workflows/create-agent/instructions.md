@@ -193,8 +193,22 @@ menu:
   - trigger: [emerging from conversation]
     workflow: [path based on capability]
     description: [user's words refined]
-```
+
+# For cross-module workflow references (advanced):
+
+- trigger: [another capability]
+  workflow: "{project-root}/bmad/SOURCE_MODULE/workflows/path/to/workflow.yaml"
+  workflow-install: "{project-root}/bmad/THIS_MODULE/workflows/vendored/path/workflow.yaml"
+  description: [description]
+
+`````
 </example>
+
+<note>**Workflow Vendoring (Advanced):**
+When an agent needs workflows from another module, use both `workflow` (source) and `workflow-install` (destination).
+During installation, the workflow will be copied and configured for this module, making it standalone.
+This is typically used when creating specialized modules that reuse common workflows with different configurations.
+</note>
 
 <template-output>agent_commands</template-output>
 </step>
@@ -298,14 +312,16 @@ menu: {{The capabilities built}}
 
 **Folder Structure:**
 
-```
+`````
+
 {{agent_filename}}-sidecar/
-├── memories.md         # Persistent memory
-├── instructions.md     # Private directives
-├── knowledge/         # Knowledge base
-│   └── README.md
-└── sessions/          # Session notes
-```
+├── memories.md # Persistent memory
+├── instructions.md # Private directives
+├── knowledge/ # Knowledge base
+│ └── README.md
+└── sessions/ # Session notes
+
+````
 
 **File: memories.md**
 
@@ -323,7 +339,7 @@ menu: {{The capabilities built}}
 ## Personal Notes
 
 <!-- My observations and insights -->
-```
+````
 
 **File: instructions.md**
 

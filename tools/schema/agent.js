@@ -170,6 +170,7 @@ function buildMenuItemSchema() {
       trigger: createNonEmptyString('agent.menu[].trigger'),
       description: createNonEmptyString('agent.menu[].description'),
       workflow: createNonEmptyString('agent.menu[].workflow').optional(),
+      'workflow-install': createNonEmptyString('agent.menu[].workflow-install').optional(),
       'validate-workflow': createNonEmptyString('agent.menu[].validate-workflow').optional(),
       exec: createNonEmptyString('agent.menu[].exec').optional(),
       action: createNonEmptyString('agent.menu[].action').optional(),

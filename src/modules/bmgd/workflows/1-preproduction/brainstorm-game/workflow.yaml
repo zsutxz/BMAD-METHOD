@@ -4,16 +4,16 @@ description: "Facilitate game brainstorming sessions by orchestrating the CIS br
 author: "BMad"
 
 # Critical variables from config
-config_source: "{project-root}/bmad/bmm/config.yaml"
+config_source: "{project-root}/bmad/bmgd/config.yaml"
 output_folder: "{config_source}:output_folder"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 document_output_language: "{config_source}:document_output_language"
-user_skill_level: "{config_source}:user_skill_level"
+game_dev_experience: "{config_source}:game_dev_experience"
 date: system-generated
 
 # Module path and component files
-installed_path: "{project-root}/bmad/bmm/workflows/1-analysis/brainstorm-game"
+installed_path: "{project-root}/bmad/bmgd/workflows/1-preproduction/brainstorm-game"
 template: false
 instructions: "{installed_path}/instructions.md"
 
@@ -30,12 +30,12 @@ web_bundle:
   name: "brainstorm-game"
   description: "Facilitate game brainstorming sessions by orchestrating the CIS brainstorming workflow with game-specific context, guidance, and additional game design techniques."
   author: "BMad"
-  instructions: "bmad/bmm/workflows/1-analysis/brainstorm-game/instructions.md"
+  instructions: "bmad/bmgd/workflows/1-preproduction/brainstorm-game/instructions.md"
   template: false
   web_bundle_files:
-    - "bmad/bmm/workflows/1-analysis/brainstorm-game/instructions.md"
-    - "bmad/bmm/workflows/1-analysis/brainstorm-game/game-context.md"
-    - "bmad/bmm/workflows/1-analysis/brainstorm-game/game-brain-methods.csv"
+    - "bmad/bmgd/workflows/1-preproduction/brainstorm-game/instructions.md"
+    - "bmad/bmgd/workflows/1-preproduction/brainstorm-game/game-context.md"
+    - "bmad/bmgd/workflows/1-preproduction/brainstorm-game/game-brain-methods.csv"
     - "bmad/core/workflows/brainstorming/workflow.yaml"
   existing_workflows:
     - core_brainstorming: "bmad/core/workflows/brainstorming/workflow.yaml"

@@ -311,6 +311,66 @@ bmad status -v      # Detailed status
 - Agent references (cross-module)
 - Template dependencies
 - Partial module installation (only required files)
+- Workflow vendoring for standalone module operation
+
+## Workflow Vendoring
+
+**Problem**: Modules that reference workflows from other modules create dependencies, forcing users to install multiple modules even when they only need one.
+
+**Solution**: Workflow vendoring allows modules to copy workflows from other modules during installation, making them fully standalone.
+
+### How It Works
+
+Agents can specify both `workflow` (source location) and `workflow-install` (destination location) in their menu items:
+
+```yaml
+menu:
+  - trigger: create-story
+    workflow: '{project-root}/bmad/bmm/workflows/4-implementation/create-story/workflow.yaml'
+    workflow-install: '{project-root}/bmad/bmgd/workflows/4-production/create-story/workflow.yaml'
+    description: 'Create a game feature story'
+```
+
+**During Installation:**
+
+1. **Vendoring Phase**: Before copying module files, the installer:
+   - Scans source agent YAML files for `workflow-install` attributes
+   - Copies entire workflow folders from `workflow` path to `workflow-install` path
+   - Updates vendored `workflow.yaml` files to reference target module's config
+
+2. **Compilation Phase**: When compiling agents:
+   - If `workflow-install` exists, uses its value for the `workflow` attribute
+   - `workflow-install` is build-time metadata only, never appears in final XML
+   - Compiled agent references vendored workflow location
+
+3. **Config Update**: Vendored workflows get their `config_source` updated:
+
+   ```yaml
+   # Source workflow (in bmm):
+   config_source: "{project-root}/bmad/bmm/config.yaml"
+
+   # Vendored workflow (in bmgd):
+   config_source: "{project-root}/bmad/bmgd/config.yaml"
+   ```
+
+**Result**: Modules become completely standalone with their own copies of needed workflows, configured for their specific use case.
+
+### Example Use Case: BMGD Module
+
+The BMad Game Development module vendors implementation workflows from BMM:
+
+- Game Dev Scrum Master agent references BMM workflows
+- During installation, workflows are copied to `bmgd/workflows/4-production/`
+- Vendored workflows use BMGD's config (with game-specific settings)
+- BMGD can be installed without BMM dependency
+
+### Benefits
+
+✅ **Module Independence** - No forced dependencies
+✅ **Clean Namespace** - Workflows live in their module
+✅ **Config Isolation** - Each module uses its own configuration
+✅ **Customization Ready** - Vendored workflows can be modified independently
+✅ **No User Confusion** - Avoid partial module installations
 
 ### File Processing
 
@@ -318,6 +378,7 @@ bmad status -v      # Detailed status
 - Excludes `_module-installer/` directories
 - Replaces path placeholders at runtime
 - Injects activation blocks
+- Vendors cross-module workflows (see Workflow Vendoring below)
 
 ### Web Bundling
 

@@ -311,7 +311,15 @@ class YamlXmlBuilder {
         const attrs = [`cmd="${trigger}"`];
 
         // Add handler attributes
-        if (item.workflow) attrs.push(`workflow="${item.workflow}"`);
+        // If workflow-install exists, use its value for workflow attribute (vendoring)
+        // workflow-install is build-time metadata - tells installer where to copy workflows
+        // The final XML should only have workflow pointing to the install location
+        if (item['workflow-install']) {
+          attrs.push(`workflow="${item['workflow-install']}"`);
+        } else if (item.workflow) {
+          attrs.push(`workflow="${item.workflow}"`);
+        }
+
         if (item['validate-workflow']) attrs.push(`validate-workflow="${item['validate-workflow']}"`);
         if (item.exec) attrs.push(`exec="${item.exec}"`);
         if (item.tmpl) attrs.push(`tmpl="${item.tmpl}"`);

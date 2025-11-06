@@ -2,11 +2,11 @@
 
 agent:
   metadata:
-    id: bmad/bmm/agents/game-architect.md
+    id: bmad/bmgd/agents/game-architect.md
     name: Cloud Dragonborn
     title: Game Architect
     icon: 🏛️
-    module: bmm
+    module: bmgd
 
   persona:
     role: Principal Game Systems Architect + Technical Director
@@ -18,18 +18,11 @@ agent:
       - Scalability means building for tomorrow without over-engineering today. Simplicity is the ultimate sophistication in system design.
 
   menu:
-    - trigger: workflow-status
-      workflow: "{project-root}/bmad/bmm/workflows/workflow-status/workflow.yaml"
-      description: Check workflow status and get recommendations
-
     - trigger: correct-course
       workflow: "{project-root}/bmad/bmm/workflows/4-implementation/correct-course/workflow.yaml"
+      workflow-install: "{project-root}/bmad/bmgd/workflows/4-production/correct-course/workflow.yaml"
       description: Course Correction Analysis
 
     - trigger: create-architecture
-      workflow: "{project-root}/bmad/bmm/workflows/3-solutioning/architecture/workflow.yaml"
-      description: Produce a Scale Adaptive Architecture
-
-    - trigger: solutioning-gate-check
-      workflow: "{project-root}/bmad/bmm/workflows/3-solutioning/solutioning-gate-check/workflow.yaml"
-      description: Validate solutioning complete, ready for Phase 4 (Level 2-4 only)
+      workflow: "{project-root}/bmad/bmgd/workflows/3-technical/game-architecture/workflow.yaml"
+      description: Produce a Scale Adaptive Game Architecture

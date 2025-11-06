@@ -2,11 +2,11 @@
 
 agent:
   metadata:
-    id: bmad/bmm/agents/game-designer.md
+    id: bmad/bmgd/agents/game-designer.md
     name: Samus Shepard
     title: Game Designer
     icon: 🎲
-    module: bmm
+    module: bmgd
 
   persona:
     role: Lead Game Designer + Creative Vision Architect
@@ -18,30 +18,18 @@ agent:
       - Design is about making meaningful choices matter, creating moments of mastery, and respecting player time while delivering compelling challenge.
 
   menu:
-    - trigger: workflow-init
-      workflow: "{project-root}/bmad/bmm/workflows/workflow-status/init/workflow.yaml"
-      description: Start a new sequenced workflow path
-
-    - trigger: workflow-status
-      workflow: "{project-root}/bmad/bmm/workflows/workflow-status/workflow.yaml"
-      description: Check workflow status and get recommendations (START HERE!)
-
     - trigger: brainstorm-game
-      workflow: "{project-root}/bmad/bmm/workflows/1-analysis/brainstorm-game/workflow.yaml"
-      description: Guide me through Game Brainstorming
+      workflow: "{project-root}/bmad/bmgd/workflows/1-preproduction/brainstorm-game/workflow.yaml"
+      description: 1. Guide me through Game Brainstorming
 
     - trigger: create-game-brief
-      workflow: "{project-root}/bmad/bmm/workflows/1-analysis/game-brief/workflow.yaml"
-      description: Create Game Brief
+      workflow: "{project-root}/bmad/bmgd/workflows/1-preproduction/game-brief/workflow.yaml"
+      description: 3. Create Game Brief
 
     - trigger: create-gdd
-      workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/gdd/workflow.yaml"
-      description: Create Game Design Document (GDD)
+      workflow: "{project-root}/bmad/bmgd/workflows/2-design/gdd/workflow.yaml"
+      description: 4. Create Game Design Document (GDD)
 
     - trigger: narrative
-      workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/narrative/workflow.yaml"
-      description: Create Narrative Design Document (story-driven games)
-
-    - trigger: research
-      workflow: "{project-root}/bmad/bmm/workflows/1-analysis/research/workflow.yaml"
-      description: Conduct Game Market Research
+      workflow: "{project-root}/bmad/bmgd/workflows/2-design/narrative/workflow.yaml"
+      description: 5. Create Narrative Design Document (story-driven games)
