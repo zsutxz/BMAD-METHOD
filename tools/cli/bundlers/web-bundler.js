@@ -51,8 +51,13 @@ class WebBundler {
     console.log(chalk.cyan.bold('═══════════════════════════════════════════════\n'));
 
     try {
-      // Pre-discover all modules to generate complete manifests
+      // Vendor cross-module workflows FIRST
       const modules = await this.discoverModules();
+      for (const module of modules) {
+        await this.vendorCrossModuleWorkflows(module);
+      }
+
+      // Pre-discover all modules to generate complete manifests
       for (const module of modules) {
         await this.preDiscoverModule(module);
       }
@@ -91,6 +96,9 @@ class WebBundler {
       agents: [],
       teams: [],
     };
+
+    // Vendor cross-module workflows first (if not already done by bundleAll)
+    await this.vendorCrossModuleWorkflows(moduleName);
 
     // Pre-discover all agents and teams for manifest generation
     await this.preDiscoverModule(moduleName);
@@ -133,6 +141,9 @@ class WebBundler {
     this.stats.totalAgents++;
 
     console.log(chalk.dim(`  → Processing: ${agentName}`));
+
+    // Vendor cross-module workflows first (if not already done)
+    await this.vendorCrossModuleWorkflows(moduleName);
 
     const agentPath = path.join(this.modulesPath, moduleName, 'agents', agentFile);
 
@@ -431,6 +442,97 @@ class WebBundler {
     parts.push('</team-bundle>');
 
     return parts.join('\n');
+  }
+
+  /**
+   * Vendor cross-module workflows for a module
+   * Scans source agent YAML files for workflow-install attributes and copies workflows
+   */
+  async vendorCrossModuleWorkflows(moduleName) {
+    const modulePath = path.join(this.modulesPath, moduleName);
+    const agentsPath = path.join(modulePath, 'agents');
+
+    if (!(await fs.pathExists(agentsPath))) {
+      return;
+    }
+
+    // Find all agent YAML files
+    const files = await fs.readdir(agentsPath);
+    const yamlFiles = files.filter((f) => f.endsWith('.agent.yaml'));
+
+    for (const agentFile of yamlFiles) {
+      const agentPath = path.join(agentsPath, agentFile);
+      const agentYaml = yaml.load(await fs.readFile(agentPath, 'utf8'));
+
+      const menuItems = agentYaml?.agent?.menu || [];
+      const workflowInstallItems = menuItems.filter((item) => item['workflow-install']);
+
+      for (const item of workflowInstallItems) {
+        const sourceWorkflowPath = item.workflow;
+        const installWorkflowPath = item['workflow-install'];
+
+        if (!sourceWorkflowPath || !installWorkflowPath) {
+          continue;
+        }
+
+        // Parse paths to extract module and workflow location
+        const sourceMatch = sourceWorkflowPath.match(/\{project-root\}\/bmad\/([^/]+)\/workflows\/(.+)/);
+        const installMatch = installWorkflowPath.match(/\{project-root\}\/bmad\/([^/]+)\/workflows\/(.+)/);
+
+        if (!sourceMatch || !installMatch) {
+          continue;
+        }
+
+        const sourceModule = sourceMatch[1];
+        const sourceWorkflowRelPath = sourceMatch[2];
+        const installModule = installMatch[1];
+        const installWorkflowRelPath = installMatch[2];
+
+        // Build actual filesystem paths
+        const actualSourceWorkflowPath = path.join(this.modulesPath, sourceModule, 'workflows', sourceWorkflowRelPath);
+        const actualDestWorkflowPath = path.join(this.modulesPath, installModule, 'workflows', installWorkflowRelPath);
+
+        // Check if source workflow exists
+        if (!(await fs.pathExists(actualSourceWorkflowPath))) {
+          console.log(chalk.yellow(`    ⚠ Source workflow not found for vendoring: ${sourceWorkflowPath}`));
+          continue;
+        }
+
+        // Check if destination already exists (skip if already vendored)
+        if (await fs.pathExists(actualDestWorkflowPath)) {
+          continue;
+        }
+
+        // Get workflow directory (workflow.yaml is in a directory with other files)
+        const sourceWorkflowDir = path.dirname(actualSourceWorkflowPath);
+        const destWorkflowDir = path.dirname(actualDestWorkflowPath);
+
+        // Copy entire workflow directory
+        await fs.copy(sourceWorkflowDir, destWorkflowDir, { overwrite: false });
+
+        // Update config_source in the vendored workflow.yaml
+        const workflowYamlPath = actualDestWorkflowPath;
+        if (await fs.pathExists(workflowYamlPath)) {
+          await this.updateWorkflowConfigSource(workflowYamlPath, installModule);
+        }
+
+        console.log(chalk.dim(`    → Vendored workflow: ${sourceWorkflowRelPath} → ${installModule}/workflows/${installWorkflowRelPath}`));
+      }
+    }
+  }
+
+  /**
+   * Update config_source in a vendored workflow YAML file
+   */
+  async updateWorkflowConfigSource(workflowYamlPath, newModuleName) {
+    let yamlContent = await fs.readFile(workflowYamlPath, 'utf8');
+
+    // Replace config_source with new module reference
+    const configSourcePattern = /config_source:\s*["']?\{project-root\}\/bmad\/[^/]+\/config\.yaml["']?/g;
+    const newConfigSource = `config_source: "{project-root}/bmad/${newModuleName}/config.yaml"`;
+
+    const updatedYaml = yamlContent.replaceAll(configSourcePattern, newConfigSource);
+    await fs.writeFile(workflowYamlPath, updatedYaml, 'utf8');
   }
 
   /**
