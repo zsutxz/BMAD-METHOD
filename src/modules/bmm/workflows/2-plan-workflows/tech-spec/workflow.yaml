@@ -76,3 +76,4 @@ web_bundle:
     # Task dependencies (referenced in instructions.md)
     - "bmad/core/tasks/workflow.xml"
     - "bmad/core/tasks/adv-elicit.xml"
+    - "bmad/core/tasks/adv-elicit-methods.csv"
