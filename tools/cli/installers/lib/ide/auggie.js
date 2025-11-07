@@ -83,6 +83,9 @@ class AuggieSetup extends BaseIdeSetup {
       return { success: false, reason: 'no-locations' };
     }
 
+    // Clean up old BMAD installation first
+    await this.cleanup(projectDir);
+
     // Get agents, tasks, tools, and workflows (standalone only)
     const agents = await this.getAgents(bmadDir);
     const tasks = await this.getTasks(bmadDir, true);
@@ -305,31 +308,17 @@ BMAD ${workflow.module.toUpperCase()} module
   async cleanup(projectDir) {
     const fs = require('fs-extra');
 
-    // Check common locations
+    // Check common locations - bmad folder structure
     const locations = [path.join(os.homedir(), '.augment', 'commands'), path.join(projectDir, '.augment', 'commands')];
 
     for (const location of locations) {
-      const agentsDir = path.join(location, 'agents');
-      const tasksDir = path.join(location, 'tasks');
-      const toolsDir = path.join(location, 'tools');
-      const workflowsDir = path.join(location, 'workflows');
+      const bmadDir = path.join(location, 'bmad');
 
-      const dirs = [agentsDir, tasksDir, toolsDir, workflowsDir];
-
-      for (const dir of dirs) {
-        if (await fs.pathExists(dir)) {
-          // Remove only BMAD files (those with module prefix)
-          const files = await fs.readdir(dir);
-          for (const file of files) {
-            if (file.includes('-') && file.endsWith('.md')) {
-              await fs.remove(path.join(dir, file));
-            }
-          }
-        }
+      if (await fs.pathExists(bmadDir)) {
+        await fs.remove(bmadDir);
+        console.log(chalk.dim(`  Removed old BMAD commands from ${location}`));
       }
     }
-
-    console.log(chalk.dim('Cleaned up Auggie CLI configurations'));
   }
 }
 

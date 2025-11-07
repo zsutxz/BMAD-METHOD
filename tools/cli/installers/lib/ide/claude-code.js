@@ -82,6 +82,20 @@ class ClaudeCodeSetup extends BaseIdeSetup {
   }
 
   /**
+   * Cleanup old BMAD installation before reinstalling
+   * @param {string} projectDir - Project directory
+   */
+  async cleanup(projectDir) {
+    const fs = require('fs-extra');
+    const bmadCommandsDir = path.join(projectDir, this.configDir, this.commandsDir, 'bmad');
+
+    if (await fs.pathExists(bmadCommandsDir)) {
+      await fs.remove(bmadCommandsDir);
+      console.log(chalk.dim(`  Removed old BMAD commands from ${this.name}`));
+    }
+  }
+
+  /**
    * Setup Claude Code IDE configuration
    * @param {string} projectDir - Project directory
    * @param {string} bmadDir - BMAD installation directory
@@ -92,6 +106,9 @@ class ClaudeCodeSetup extends BaseIdeSetup {
     this.projectDir = projectDir;
 
     console.log(chalk.cyan(`Setting up ${this.name}...`));
+
+    // Clean up old BMAD installation first
+    await this.cleanup(projectDir);
 
     // Create .claude/commands directory structure
     const claudeDir = path.join(projectDir, this.configDir);
@@ -145,7 +162,20 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
     // Generate workflow commands from manifest (if it exists)
     const workflowGen = new WorkflowCommandGenerator();
-    const workflowResult = await workflowGen.generateWorkflowCommands(projectDir, bmadDir);
+    const { artifacts: workflowArtifacts } = await workflowGen.collectWorkflowArtifacts(bmadDir);
+
+    // Write only workflow-command artifacts, skip workflow-launcher READMEs
+    let workflowCommandCount = 0;
+    for (const artifact of workflowArtifacts) {
+      if (artifact.type === 'workflow-command') {
+        const moduleWorkflowsDir = path.join(bmadCommandsDir, artifact.module, 'workflows');
+        await this.ensureDir(moduleWorkflowsDir);
+        const commandPath = path.join(moduleWorkflowsDir, path.basename(artifact.relativePath));
+        await this.writeFile(commandPath, artifact.content);
+        workflowCommandCount++;
+      }
+      // Skip workflow-launcher READMEs as they would be treated as slash commands
+    }
 
     // Generate task and tool commands from manifests (if they exist)
     const taskToolGen = new TaskToolCommandGenerator();
@@ -153,8 +183,8 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
     console.log(chalk.green(`✓ ${this.name} configured:`));
     console.log(chalk.dim(`  - ${agentCount} agents installed`));
-    if (workflowResult.generated > 0) {
-      console.log(chalk.dim(`  - ${workflowResult.generated} workflow commands generated`));
+    if (workflowCommandCount > 0) {
+      console.log(chalk.dim(`  - ${workflowCommandCount} workflow commands generated`));
     }
     if (taskToolResult.generated > 0) {
       console.log(
