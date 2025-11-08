@@ -31,9 +31,19 @@ agent:
       workflow: "{project-root}/bmad/bmm/workflows/workflow-status/workflow.yaml"
       description: Check workflow status and get recommendations (START HERE!)
 
-    - trigger: prd
+    - trigger: create-prd
       workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/prd/workflow.yaml"
       description: Create Product Requirements Document (PRD) for Level 2-4 projects
+
+    - trigger: create-epics-and-stories
+      workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/prd/create-epics-and-stories/workflow.yaml"
+      description: Break PRD requirements into implementable epics and stories
+
+    - trigger: validate-prd
+      validate-workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/prd/workflow.yaml"
+      checklist: "{project-root}/bmad/bmm/workflows/2-plan-workflows/prd/checklist.md"
+      document: "{output_folder}/PRD.md"
+      description: Validate PRD + Epics + Stories completeness and quality
 
     - trigger: tech-spec
       workflow: "{project-root}/bmad/bmm/workflows/2-plan-workflows/tech-spec/workflow.yaml"

@@ -33,7 +33,9 @@ class Config {
     });
 
     await fs.ensureDir(path.dirname(configPath));
-    await fs.writeFile(configPath, yamlContent, 'utf8');
+    // Ensure POSIX-compliant final newline
+    const content = yamlContent.endsWith('\n') ? yamlContent : yamlContent + '\n';
+    await fs.writeFile(configPath, content, 'utf8');
   }
 
   /**

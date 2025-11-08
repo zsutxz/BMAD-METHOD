@@ -35,7 +35,9 @@ class Manifest {
       sortKeys: false,
     });
 
-    await fs.writeFile(manifestPath, yamlContent, 'utf8');
+    // Ensure POSIX-compliant final newline
+    const content = yamlContent.endsWith('\n') ? yamlContent : yamlContent + '\n';
+    await fs.writeFile(manifestPath, content, 'utf8');
     return { success: true, path: manifestPath, filesTracked: 0 };
   }
 
@@ -104,7 +106,9 @@ class Manifest {
       sortKeys: false,
     });
 
-    await fs.writeFile(manifestPath, yamlContent, 'utf8');
+    // Ensure POSIX-compliant final newline
+    const content = yamlContent.endsWith('\n') ? yamlContent : yamlContent + '\n';
+    await fs.writeFile(manifestPath, content, 'utf8');
 
     return manifest;
   }

@@ -112,6 +112,10 @@ class ModuleManager {
       await fs.remove(targetPath);
     }
 
+    // Vendor cross-module workflows BEFORE copying
+    // This reads source agent.yaml files and copies referenced workflows
+    await this.vendorCrossModuleWorkflows(sourcePath, targetPath, moduleName);
+
     // Copy module files with filtering
     await this.copyModuleWithFiltering(sourcePath, targetPath, fileTrackingCallback, options.moduleConfig);
 
@@ -264,6 +268,12 @@ class ModuleManager {
 
       // Skip config.yaml templates - we'll generate clean ones with actual values
       if (file === 'config.yaml' || file.endsWith('/config.yaml')) {
+        continue;
+      }
+
+      // Skip user documentation if install_user_docs is false
+      if (moduleConfig.install_user_docs === false && (file.startsWith('docs/') || file.startsWith('docs\\'))) {
+        console.log(chalk.dim(`  Skipping user documentation: ${file}`));
         continue;
       }
 
@@ -426,6 +436,130 @@ class ModuleManager {
         content = this.xmlHandler.injectActivationSimple(content);
         await fs.writeFile(agentPath, content, 'utf8');
       }
+    }
+  }
+
+  /**
+   * Vendor cross-module workflows referenced in agent files
+   * Scans SOURCE agent.yaml files for workflow-install and copies workflows to destination
+   * @param {string} sourcePath - Source module path
+   * @param {string} targetPath - Target module path (destination)
+   * @param {string} moduleName - Module name being installed
+   */
+  async vendorCrossModuleWorkflows(sourcePath, targetPath, moduleName) {
+    const sourceAgentsPath = path.join(sourcePath, 'agents');
+
+    // Check if source agents directory exists
+    if (!(await fs.pathExists(sourceAgentsPath))) {
+      return; // No agents to process
+    }
+
+    // Get all agent YAML files from source
+    const agentFiles = await fs.readdir(sourceAgentsPath);
+    const yamlFiles = agentFiles.filter((f) => f.endsWith('.agent.yaml') || f.endsWith('.yaml'));
+
+    if (yamlFiles.length === 0) {
+      return; // No YAML agent files
+    }
+
+    let workflowsVendored = false;
+
+    for (const agentFile of yamlFiles) {
+      const agentPath = path.join(sourceAgentsPath, agentFile);
+      const agentYaml = yaml.load(await fs.readFile(agentPath, 'utf8'));
+
+      // Check if agent has menu items with workflow-install
+      const menuItems = agentYaml?.agent?.menu || [];
+      const workflowInstallItems = menuItems.filter((item) => item['workflow-install']);
+
+      if (workflowInstallItems.length === 0) {
+        continue; // No workflow-install in this agent
+      }
+
+      if (!workflowsVendored) {
+        console.log(chalk.cyan(`\n  Vendoring cross-module workflows for ${moduleName}...`));
+        workflowsVendored = true;
+      }
+
+      console.log(chalk.dim(`    Processing: ${agentFile}`));
+
+      for (const item of workflowInstallItems) {
+        const sourceWorkflowPath = item.workflow; // Where to copy FROM
+        const installWorkflowPath = item['workflow-install']; // Where to copy TO
+
+        // Parse SOURCE workflow path
+        // Example: {project-root}/bmad/bmm/workflows/4-implementation/create-story/workflow.yaml
+        const sourceMatch = sourceWorkflowPath.match(/\{project-root\}\/bmad\/([^/]+)\/workflows\/(.+)/);
+        if (!sourceMatch) {
+          console.warn(chalk.yellow(`      Could not parse workflow path: ${sourceWorkflowPath}`));
+          continue;
+        }
+
+        const [, sourceModule, sourceWorkflowSubPath] = sourceMatch;
+
+        // Parse INSTALL workflow path
+        // Example: {project-root}/bmad/bmgd/workflows/4-production/create-story/workflow.yaml
+        const installMatch = installWorkflowPath.match(/\{project-root\}\/bmad\/([^/]+)\/workflows\/(.+)/);
+        if (!installMatch) {
+          console.warn(chalk.yellow(`      Could not parse workflow-install path: ${installWorkflowPath}`));
+          continue;
+        }
+
+        const installWorkflowSubPath = installMatch[2];
+
+        // Determine actual filesystem paths
+        const sourceModulePath = path.join(this.modulesSourcePath, sourceModule);
+        const actualSourceWorkflowPath = path.join(sourceModulePath, 'workflows', sourceWorkflowSubPath.replace(/\/workflow\.yaml$/, ''));
+
+        const actualDestWorkflowPath = path.join(targetPath, 'workflows', installWorkflowSubPath.replace(/\/workflow\.yaml$/, ''));
+
+        // Check if source workflow exists
+        if (!(await fs.pathExists(actualSourceWorkflowPath))) {
+          console.warn(chalk.yellow(`      Source workflow not found: ${actualSourceWorkflowPath}`));
+          continue;
+        }
+
+        // Copy the entire workflow folder
+        console.log(
+          chalk.dim(
+            `      Vendoring: ${sourceModule}/workflows/${sourceWorkflowSubPath.replace(/\/workflow\.yaml$/, '')} → ${moduleName}/workflows/${installWorkflowSubPath.replace(/\/workflow\.yaml$/, '')}`,
+          ),
+        );
+
+        await fs.ensureDir(path.dirname(actualDestWorkflowPath));
+        await fs.copy(actualSourceWorkflowPath, actualDestWorkflowPath, { overwrite: true });
+
+        // Update the workflow.yaml config_source reference
+        const workflowYamlPath = path.join(actualDestWorkflowPath, 'workflow.yaml');
+        if (await fs.pathExists(workflowYamlPath)) {
+          await this.updateWorkflowConfigSource(workflowYamlPath, moduleName);
+        }
+      }
+    }
+
+    if (workflowsVendored) {
+      console.log(chalk.green(`  ✓ Workflow vendoring complete\n`));
+    }
+  }
+
+  /**
+   * Update workflow.yaml config_source to point to new module
+   * @param {string} workflowYamlPath - Path to workflow.yaml file
+   * @param {string} newModuleName - New module name to reference
+   */
+  async updateWorkflowConfigSource(workflowYamlPath, newModuleName) {
+    let yamlContent = await fs.readFile(workflowYamlPath, 'utf8');
+
+    // Replace config_source: "{project-root}/bmad/OLD_MODULE/config.yaml"
+    // with config_source: "{project-root}/bmad/NEW_MODULE/config.yaml"
+    const configSourcePattern = /config_source:\s*["']?\{project-root\}\/bmad\/[^/]+\/config\.yaml["']?/g;
+    const newConfigSource = `config_source: "{project-root}/bmad/${newModuleName}/config.yaml"`;
+
+    const updatedYaml = yamlContent.replaceAll(configSourcePattern, newConfigSource);
+
+    if (updatedYaml !== yamlContent) {
+      await fs.writeFile(workflowYamlPath, updatedYaml, 'utf8');
+      console.log(chalk.dim(`      Updated config_source to: bmad/${newModuleName}/config.yaml`));
     }
   }
 

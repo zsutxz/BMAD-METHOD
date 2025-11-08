@@ -49,6 +49,11 @@ dev_story_location:
   default: "docs/stories"
   result: "{project-root}/{value}"
 
+install_user_docs:
+  prompt: "Install user documentation to project directory?"
+  default: true
+  result: "{value}"
+
 # TEA Agent Configuration
 tea_use_mcp_enhancements:
   prompt: "Enable Playwright MCP capabilities (healing, exploratory, verification)?"

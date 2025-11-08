@@ -4,6 +4,9 @@ const yaml = require('js-yaml');
 const crypto = require('node:crypto');
 const { getSourcePath, getModulePath } = require('../../../lib/project-root');
 
+// Load package.json for version info
+const packageJson = require('../../../../../package.json');
+
 /**
  * Generates manifest files for installed workflows, agents, and tasks
  */
@@ -451,7 +454,7 @@ class ManifestGenerator {
 
     const manifest = {
       installation: {
-        version: '6.0.0-alpha.0',
+        version: packageJson.version,
         installDate: new Date().toISOString(),
         lastUpdated: new Date().toISOString(),
       },
@@ -466,7 +469,9 @@ class ManifestGenerator {
       sortKeys: false,
     });
 
-    await fs.writeFile(manifestPath, yamlStr);
+    // Ensure POSIX-compliant final newline
+    const content = yamlStr.endsWith('\n') ? yamlStr : yamlStr + '\n';
+    await fs.writeFile(manifestPath, content);
     return manifestPath;
   }
 

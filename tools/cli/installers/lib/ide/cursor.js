@@ -13,6 +13,20 @@ class CursorSetup extends BaseIdeSetup {
   }
 
   /**
+   * Cleanup old BMAD installation before reinstalling
+   * @param {string} projectDir - Project directory
+   */
+  async cleanup(projectDir) {
+    const fs = require('fs-extra');
+    const bmadRulesDir = path.join(projectDir, this.configDir, this.rulesDir, 'bmad');
+
+    if (await fs.pathExists(bmadRulesDir)) {
+      await fs.remove(bmadRulesDir);
+      console.log(chalk.dim(`  Removed old BMAD rules from ${this.name}`));
+    }
+  }
+
+  /**
    * Setup Cursor IDE configuration
    * @param {string} projectDir - Project directory
    * @param {string} bmadDir - BMAD installation directory
@@ -20,6 +34,9 @@ class CursorSetup extends BaseIdeSetup {
    */
   async setup(projectDir, bmadDir, options = {}) {
     console.log(chalk.cyan(`Setting up ${this.name}...`));
+
+    // Clean up old BMAD installation first
+    await this.cleanup(projectDir);
 
     // Create .cursor/rules directory structure
     const cursorDir = path.join(projectDir, this.configDir);
