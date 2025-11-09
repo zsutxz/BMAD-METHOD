@@ -1,0 +1,422 @@
+<!DOCTYPE html><html><head>
+      <title>README_zh</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\tanxz\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.20\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="bmad-core--bmad-方法">BMad CORE + BMad 方法 </h1>
+<p><a href="https://www.npmjs.com/package/bmad-method"><img src="https://img.shields.io/npm/v/bmad-method?color=blue&amp;label=stable" alt="稳定版本"></a><br>
+<a href="https://www.npmjs.com/package/bmad-method"><img src="https://img.shields.io/npm/v/bmad-method/alpha?color=orange&amp;label=alpha" alt="Alpha版本"></a><br>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="许可证: MIT"></a><br>
+<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen" alt="Node.js版本"></a><br>
+<a href="https://discord.gg/gk8jAdXWmj"><img src="https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&amp;logoColor=white" alt="Discord"></a></p>
+<blockquote>
+<p><strong>🚨 Alpha版本通知</strong></p>
+<p>v6-alpha版本接近测试版质量——稳定且相比v4版本有了大幅改进，但文档仍在完善中。新视频即将发布到<a href="https://www.youtube.com/@BMadCode">BMadCode YouTube频道</a>——订阅获取更新！</p>
+<p><strong>快速入门：</strong></p>
+<ul>
+<li><strong>安装v6 Alpha：</strong> <code>npx bmad-method@alpha install</code></li>
+<li><strong>安装稳定v4：</strong> <code>npx bmad-method install</code></li>
+<li><strong>不确定该做什么？</strong> 加载任意代理并运行<code>*workflow-init</code>获取指导设置</li>
+<li><strong>v4用户：</strong> <a href="https://github.com/bmad-code-org/BMAD-METHOD/tree/V4">查看v4文档</a>或<a href="./docs/v4-to-v6-upgrade.md">升级指南</a></li>
+</ul>
+</blockquote>
+<h2 id="通用人机协作平台">通用人机协作平台 </h2>
+<p><strong>BMad-CORE</strong>（<strong>C</strong>ollaboration <strong>O</strong>ptimized <strong>R</strong>eflection <strong>E</strong>ngine，协作优化反思引擎）通过专业化AI代理放大人类潜能。与替代思考的工具不同，BMad-CORE引导反思性工作流程，激发您的最佳想法和AI的完整能力。</p>
+<p><strong>BMad-CORE</strong>驱动<strong>BMad方法</strong>（可能就是您来这里的原因！），但您也可以使用<strong>BMad Builder</strong>创建任意领域的自定义代理、工作流程和模块——软件开发、商业策略、创意、学习等。</p>
+<p><strong>🎯 人类增强</strong> • <strong>🎨 领域无关</strong> • <strong>⚡ 代理驱动</strong></p>
+<h2 id="目录">目录 </h2>
+<ul>
+<li><a href="#bmad-core--bmad%E6%96%B9%E6%B3%95">BMad CORE + BMad方法</a>
+<ul>
+<li><a href="#%E9%80%9A%E7%94%A8%E4%BA%BA%E6%9C%BA%E5%8D%8F%E4%BD%9C%E5%B9%B3%E5%8F%B0">通用人机协作平台</a></li>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFbmad-core">什么是BMad-CORE？</a>
+<ul>
+<li><a href="#v6%E6%A0%B8%E5%BF%83%E5%A2%9E%E5%BC%BA">v6核心增强</a></li>
+<li><a href="#core%E7%90%86%E5%BF%B5">C.O.R.E.理念</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A8%A1%E5%9D%97">模块</a>
+<ul>
+<li><a href="#bmad%E6%96%B9%E6%B3%95bmm---ai%E9%A9%B1%E5%8A%A8%E7%9A%84%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91">BMad方法(BMM) - AI驱动的敏捷开发</a>
+<ul>
+<li><a href="#v6%E4%BA%AE%E7%82%B9">v6亮点</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8">🚀快速入门</a>
+<ul>
+<li><a href="#bmad-builderbmb---%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">BMad Builder(BMB) - 创建自定义解决方案</a></li>
+<li><a href="#creative-intelligence-suitecis---%E5%88%9B%E6%96%B0%E4%B8%8E%E5%88%9B%E6%84%8F">Creative Intelligence Suite(CIS) - 创新与创意</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#-%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86%E5%92%8C%E5%91%BD%E4%BB%A4">🎯 使用代理和命令</a>
+<ul>
+<li><a href="#%E6%96%B9%E6%B3%951%E4%BB%A3%E7%90%86%E8%8F%9C%E5%8D%95%E6%8E%A8%E8%8D%90%E5%88%9D%E5%AD%A6%E8%80%85">方法1：代理菜单（推荐初学者）</a></li>
+<li><a href="#%E6%96%B9%E6%B3%952%E7%9B%B4%E6%8E%A5%E6%96%9C%E6%9D%A0%E5%91%BD%E4%BB%A4">方法2：直接斜杠命令</a></li>
+<li><a href="#%E6%96%B9%E6%B3%953%E6%B4%BE%E5%AF%B9%E6%A8%A1%E5%BC%8F%E6%89%A7%E8%A1%8C">方法3：派对模式执行</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7">关键特性</a>
+<ul>
+<li><a href="#-%E6%9B%B4%E6%96%B0%E5%AE%89%E5%85%A8%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89">🎨 更新安全的自定义</a></li>
+<li><a href="#-%E6%99%BA%E8%83%BD%E5%AE%89%E8%A3%85">🚀 智能安装</a></li>
+<li><a href="#-%E6%B8%85%E6%B4%81%E6%9E%B6%E6%9E%84">📁 清洁架构</a></li>
+<li><a href="#-%E6%96%87%E6%A1%A3%E5%88%86%E7%89%87%E9%AB%98%E7%BA%A7">📄 文档分片（高级）</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%87%E6%A1%A3">文档</a></li>
+<li><a href="#%E7%A4%BE%E5%8C%BA%E4%B8%8E%E6%94%AF%E6%8C%81">社区与支持</a></li>
+<li><a href="#%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5">开发与质量检查</a>
+<ul>
+<li><a href="#%E6%B5%8B%E8%AF%95%E4%B8%8E%E9%AA%8C%E8%AF%81">测试与验证</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F">代码质量</a></li>
+<li><a href="#%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%BC%80%E5%8F%91">构建与开发</a></li>
+</ul>
+</li>
+<li><a href="#%E8%B4%A1%E7%8C%AE">贡献</a></li>
+<li><a href="#%E8%AE%B8%E5%8F%AF%E8%AF%81">许可证</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="什么是bmad-core">什么是BMad-CORE？ </h2>
+<p>驱动所有BMad模块的基础框架：</p>
+<ul>
+<li><strong>代理编排</strong> - 具有领域专业知识的专业化AI角色</li>
+<li><strong>工作流引擎</strong> - 具有内置最佳实践的引导性多步骤流程</li>
+<li><strong>模块化架构</strong> - 通过领域特定模块扩展（BMM、BMB、CIS、自定义）</li>
+<li><strong>IDE集成</strong> - 适用于Claude Code、Cursor、Windsurf、VS Code等</li>
+<li><strong>更新安全自定义</strong> - 您的配置在所有更新中保持持久</li>
+</ul>
+<h3 id="v6核心增强">v6核心增强 </h3>
+<ul>
+<li><strong>🎨 代理自定义</strong> - 通过<code>bmad/_cfg/agents/</code>修改名称、角色、个性</li>
+<li><strong>🌐 多语言</strong> - 交流和输出的独立语言设置</li>
+<li><strong>👤 个性化</strong> - 代理适应您的姓名、技能水平和偏好</li>
+<li><strong>🔄 持久配置</strong> - 自定义在模块更新中保持存在</li>
+<li><strong>⚙️ 灵活设置</strong> - 每模块或全局配置</li>
+</ul>
+<h3 id="core理念">C.O.R.E.理念 </h3>
+<ul>
+<li><strong>C</strong>ollaboration（协作）：利用互补优势的人机伙伴关系</li>
+<li><strong>O</strong>ptimized（优化）：为最大效果而经过实战验证的流程</li>
+<li><strong>R</strong>eflection（反思）：解锁突破性解决方案的策略性提问</li>
+<li><strong>E</strong>ngine（引擎）：编排19+专业代理和50+工作流程的框架</li>
+</ul>
+<p>BMad-CORE不直接给您答案——它通过引导反思帮助您<strong>发现更好的解决方案</strong>。</p>
+<h2 id="模块">模块 </h2>
+<h3 id="bmad方法bmm---ai驱动的敏捷开发">BMad方法(BMM) - AI驱动的敏捷开发 </h3>
+<p>革命性的AI驱动敏捷框架，用于软件和游戏开发。自动适应从单个错误修复到企业级系统的各种规模。</p>
+<h4 id="v6亮点">v6亮点 </h4>
+<p><strong>🎯 规模自适应智能（3个规划轨道）</strong></p>
+<p>根据项目需求自动调整规划深度和文档：</p>
+<ul>
+<li><strong>快速流程轨道：</strong> 快速实现（仅需技术规范）- 错误修复、小功能、明确范围</li>
+<li><strong>BMad方法轨道：</strong> 完整规划（PRD + 架构 + UX）- 产品、平台、复杂功能</li>
+<li><strong>企业方法轨道：</strong> 扩展规划（BMad方法 + 安全/DevOps/测试）- 企业需求、合规</li>
+</ul>
+<p><strong>🏗️ 四阶段方法论</strong></p>
+<ol>
+<li><strong>阶段1：分析</strong>（可选）- 头脑风暴、研究、产品简介</li>
+<li><strong>阶段2：规划</strong>（必需）- 规模自适应PRD/技术规范/GDD</li>
+<li><strong>阶段3：解决方案</strong>（轨道依赖）- 架构，（即将推出：安全、DevOps、测试策略）</li>
+<li><strong>阶段4：实现</strong>（迭代）- 以故事为中心的即时上下文开发</li>
+</ol>
+<p><strong>🤖 12个专业代理</strong></p>
+<p>项目经理（PM）• 分析师 • 架构师 • Scrum主管 • 开发人员 • 测试架构师（TEA）• UX设计师 • 技术写作者 • 游戏设计师 • 游戏开发人员 • 游戏架构师 • BMad主控（编排者）</p>
+<p><strong>📚 文档</strong></p>
+<ul>
+<li><strong><a href="./src/modules/bmm/docs/README.md">完整文档中心</a></strong> - 所有BMM指南的起点</li>
+<li><strong><a href="./src/modules/bmm/docs/quick-start.md">快速入门指南</a></strong> - 15分钟内开始构建</li>
+<li><strong><a href="./src/modules/bmm/docs/agents-guide.md">代理指南</a></strong> - 认识所有12个代理（45分钟阅读）</li>
+<li><strong><a href="./src/modules/bmm/docs/README.md#-workflow-guides">34个工作流指南</a></strong> - 完整分阶段参考</li>
+<li><strong><a href="./src/modules/bmm/README.md">BMM模块概述</a></strong> - 模块结构和快速链接</li>
+</ul>
+<hr>
+<h2 id="-快速入门">🚀 快速入门 </h2>
+<p><strong>安装后</strong>（见下方<a href="#%E5%AE%89%E8%A3%85">安装</a>），选择您的路径：</p>
+<p><strong>三个规划轨道：</strong></p>
+<ol>
+<li>
+<p><strong>⚡ 快速流程轨道</strong> - 错误修复和小功能</p>
+<ul>
+<li>🐛 几分钟内修复错误</li>
+<li>✨ 小功能（2-3个相关更改）</li>
+<li>🚀 快速原型制作</li>
+<li><strong><a href="./src/modules/bmm/docs/quick-spec-flow.md">→ 快速规范流程指南</a></strong></li>
+</ul>
+</li>
+<li>
+<p><strong>📋 BMad方法轨道</strong> - 产品和平台</p>
+<ul>
+<li>完整规划（PRD/GDD）</li>
+<li>架构决策</li>
+<li>以故事为中心的实现</li>
+<li><strong><a href="./src/modules/bmm/docs/quick-start.md">→ 完整快速入门指南</a></strong></li>
+</ul>
+</li>
+<li>
+<p><strong>🏢 棕地项目</strong> - 添加到现有代码库</p>
+<ul>
+<li>首先记录现有代码</li>
+<li>然后选择快速流程或BMad方法</li>
+<li><strong><a href="./src/modules/bmm/docs/brownfield-guide.md">→ 棕地指南</a></strong></li>
+</ul>
+</li>
+</ol>
+<p><strong>不确定选择哪个路径？</strong> 运行<code>*workflow-init</code>让BMM分析您的项目目标并推荐正确的轨道。</p>
+<p><strong><a href="./src/modules/bmm/docs/scale-adaptive-system.md">📚 了解更多：规模自适应系统</a></strong> - BMM如何在三个规划轨道中自适应</p>
+<hr>
+<h3 id="bmad-builderbmb---创建自定义解决方案">BMad Builder(BMB) - 创建自定义解决方案 </h3>
+<p>使用BMad-CORE框架构建您自己的代理、工作流程和模块。</p>
+<p><strong>您可以构建什么：</strong></p>
+<ul>
+<li><strong>自定义代理</strong> - 具有专业知识的专业领域专家</li>
+<li><strong>引导工作流程</strong> - 任何任务的多步骤流程</li>
+<li><strong>完整模块</strong> - 特定领域的完整解决方案</li>
+<li><strong>三种代理类型</strong> - 完整模块、混合或独立</li>
+</ul>
+<p><strong>完美适用于：</strong> 创建领域特定解决方案（法律、医疗、金融、教育、创意等）或使用自定义开发工作流程扩展BMM。</p>
+<p><strong>文档：</strong></p>
+<ul>
+<li><strong><a href="./src/modules/bmb/README.md">BMB模块概述</a></strong> - 完整参考</li>
+<li><strong><a href="./src/modules/bmb/workflows/create-agent/README.md">创建代理工作流程</a></strong> - 构建自定义代理</li>
+<li><strong><a href="./src/modules/bmb/workflows/create-workflow/README.md">创建工作流程</a></strong> - 设计引导流程</li>
+<li><strong><a href="./src/modules/bmb/workflows/create-module/README.md">创建模块</a></strong> - 打包完整解决方案</li>
+</ul>
+<h3 id="creative-intelligence-suitecis---创新与创意">Creative Intelligence Suite(CIS) - 创新与创意 </h3>
+<p>使用经过验证的方法论和技术进行AI驱动的创意促进。</p>
+<p><strong>5个交互式工作流程：</strong></p>
+<ul>
+<li><strong>头脑风暴</strong> - 使用30+技术生成和完善想法</li>
+<li><strong>设计思维</strong> - 以人为中心的问题解决</li>
+<li><strong>问题解决</strong> - 系统性突破技术</li>
+<li><strong>创新策略</strong> - 颠覆性商业模式思维</li>
+<li><strong>叙事</strong> - 引人入胜的叙事框架</li>
+</ul>
+<p><strong>5个专业代理：</strong> 每个都有独特的促进风格和领域专业知识</p>
+<p><strong>共享资源：</strong> CIS工作流程被其他模块使用（BMM的<code>brainstorm-project</code>使用CIS头脑风暴）</p>
+<p><strong>文档：</strong></p>
+<ul>
+<li><strong><a href="./src/modules/cis/README.md">CIS模块概述</a></strong> - 完整参考</li>
+<li><strong><a href="./src/modules/cis/workflows/README.md">CIS工作流程指南</a></strong> - 所有5个创意工作流程</li>
+</ul>
+<hr>
+<h2 id="安装">安装 </h2>
+<p><strong>先决条件：</strong> Node.js v20+（<a href="https://nodejs.org">下载</a>）</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># v6 Alpha（推荐新项目）</span>
+npx bmad-method@alpha <span class="token function">install</span>
+
+<span class="token comment"># 稳定v4（生产环境）</span>
+npx bmad-method <span class="token function">install</span>
+</code></pre><p>安装程序提供：</p>
+<ol>
+<li><strong>模块选择</strong> - 选择BMM、BMB、CIS（或全部）</li>
+<li><strong>配置</strong> - 您的姓名、语言偏好、游戏开发选项</li>
+<li><strong>IDE集成</strong> - 自动为您的IDE设置</li>
+</ol>
+<p><strong>安装创建：</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>your-project/
+└── bmad/
+    ├── core/         # 核心框架 + BMad主控代理
+    ├── bmm/          # BMad方法（12个代理，34个工作流程）
+    ├── bmb/          # BMad Builder（1个代理，7个工作流程）
+    ├── cis/          # 创意智能（5个代理，5个工作流程）
+    └── _cfg/         # 您的自定义（在更新中保持存在）
+        └── agents/   # 代理自定义文件
+</code></pre><p><strong>下一步：</strong></p>
+<ol>
+<li>在IDE中加载任意代理</li>
+<li>运行<code>*workflow-init</code>设置您的工作流程路径</li>
+<li>按照上面的<a href="#-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8">快速入门</a>指南选择您的规划轨道</li>
+</ol>
+<hr>
+<h2 id="-使用代理和命令">🎯 使用代理和命令 </h2>
+<p><strong>多种执行工作流程的方式：</strong></p>
+<p>BMad很灵活——您可以根据偏好和IDE以几种方式执行工作流程：</p>
+<h3 id="方法1代理菜单推荐初学者">方法1：代理菜单（推荐初学者） </h3>
+<ol>
+<li>在IDE中<strong>加载代理</strong>（见<a href="./docs/ide-info/">IDE特定说明</a>）</li>
+<li><strong>等待菜单</strong>出现显示可用工作流程</li>
+<li><strong>告知代理</strong>要运行什么，使用自然语言或快捷方式：
+<ul>
+<li>自然语言："运行workflow-init"</li>
+<li>快捷方式：<code>*workflow-init</code></li>
+<li>菜单编号："运行选项2"</li>
+</ul>
+</li>
+</ol>
+<h3 id="方法2直接斜杠命令">方法2：直接斜杠命令 </h3>
+<p><strong>直接执行工作流程</strong>使用斜杠命令：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>/bmad:bmm:workflows:workflow-init
+/bmad:bmm:workflows:prd
+/bmad:bmm:workflows:dev-story
+</code></pre><p><strong>提示：</strong> 虽然您可以先不加载代理就运行这些，<strong>仍然建议先加载代理</strong> - 某些工作流程可能会有差异。</p>
+<p><strong>优势：</strong></p>
+<ul>
+<li>✅ 将任意代理与任意工作流程混合匹配</li>
+<li>✅ 运行不在已加载代理菜单中的工作流程</li>
+<li>✅ 知道命令名称的经验丰富的用户可以更快访问</li>
+</ul>
+<h3 id="方法3派对模式执行">方法3：派对模式执行 </h3>
+<p><strong>运行多代理协作的工作流程：</strong></p>
+<ol>
+<li>启动派对模式：<code>/bmad:core:workflows:party-mode</code></li>
+<li>执行任意工作流程——<strong>整个团队协作完成</strong></li>
+<li>从多个专业代理获得不同视角</li>
+</ol>
+<p><strong>完美适用于：</strong> 战略决策、复杂工作流程、跨职能任务</p>
+<hr>
+<blockquote>
+<p><strong>📌 IDE特定注意：</strong></p>
+<p>斜杠命令格式因IDE而异：</p>
+<ul>
+<li><strong>Claude Code：</strong> <code>/bmad:bmm:workflows:prd</code></li>
+<li><strong>Cursor/Windsurf：</strong> 可能使用不同语法 - 检查您的IDE<a href="./docs/ide-info/">文档</a></li>
+<li><strong>VS Code with Copilot Chat：</strong> 语法可能不同</li>
+</ul>
+<p>参见**<a href="./docs/ide-info/">IDE集成指南</a>**了解您特定IDE的命令格式。</p>
+</blockquote>
+<hr>
+<h2 id="关键特性">关键特性 </h2>
+<h3 id="-更新安全的自定义">🎨 更新安全的自定义 </h3>
+<p>修改代理而不触及核心文件：</p>
+<ul>
+<li>通过<code>bmad/_cfg/agents/</code>覆盖代理名称、个性、专业知识</li>
+<li>自定义在所有更新中持续存在</li>
+<li>多语言支持（交流 + 输出）</li>
+<li>模块级别或全局配置</li>
+</ul>
+<h3 id="-智能安装">🚀 智能安装 </h3>
+<p>适应您环境的智能设置：</p>
+<ul>
+<li>自动检测v4安装以实现平滑升级</li>
+<li>配置IDE集成（Claude Code、Cursor、Windsurf、VS Code）</li>
+<li>解决跨模块依赖</li>
+<li>生成统一的代理/工作流程清单</li>
+</ul>
+<h3 id="-清洁架构">📁 清洁架构 </h3>
+<p>所有内容都在一个地方：</p>
+<ul>
+<li>单一<code>bmad/</code>文件夹（无分散文件）</li>
+<li>模块并存（core、bmm、bmb、cis）</li>
+<li>您的配置在<code>_cfg/</code>中（在更新中保持存在）</li>
+<li>易于版本控制或排除</li>
+</ul>
+<h3 id="-文档分片高级">📄 文档分片（高级） </h3>
+<p>大型项目的可选优化（BMad方法和企业轨道）：</p>
+<ul>
+<li><strong>大幅节省令牌</strong> - 阶段4工作流程仅加载所需部分（减少90%+）</li>
+<li><strong>自动支持</strong> - 所有工作流程无缝处理完整或分片文档</li>
+<li><strong>简单设置</strong> - 内置工具按标题分割文档</li>
+<li><strong>智能发现</strong> - 工作流程自动检测格式</li>
+</ul>
+<p><strong><a href="./docs/document-sharding-guide.md">→ 文档分片指南</a></strong></p>
+<hr>
+<h2 id="文档">文档 </h2>
+<p><strong>模块文档：</strong></p>
+<ul>
+<li><strong><a href="./src/modules/bmm/docs/README.md">BMM完整文档中心</a></strong> - 所有BMM指南、常见问题、故障排除</li>
+<li><strong><a href="./src/modules/bmb/README.md">BMB模块参考</a></strong> - 构建自定义代理和工作流程</li>
+<li><strong><a href="./src/modules/cis/workflows/README.md">CIS工作流程指南</a></strong> - 创意促进工作流程</li>
+</ul>
+<p><strong>其他资源：</strong></p>
+<ul>
+<li><strong><a href="./docs/index.md">文档索引</a></strong> - 所有项目文档</li>
+<li><strong><a href="./docs/v4-to-v6-upgrade.md">v4到v6升级指南</a></strong> - 迁移说明</li>
+<li><strong><a href="./tools/cli/README.md">CLI工具指南</a></strong> - 安装程序和构建工具参考</li>
+<li><strong><a href="./CONTRIBUTING.md">贡献指南</a></strong> - 如何贡献</li>
+</ul>
+<hr>
+<h2 id="社区与支持">社区与支持 </h2>
+<ul>
+<li>💬 <strong><a href="https://discord.gg/gk8jAdXWmj">Discord社区</a></strong> - 获取帮助、分享项目（#general-dev、#bugs-issues）</li>
+<li>🐛 <strong><a href="https://github.com/bmad-code-org/BMAD-METHOD/issues">GitHub Issues</a></strong> - 报告错误、请求功能</li>
+<li>🎥 <strong><a href="https://www.youtube.com/@BMadCode">YouTube频道</a></strong> - 视频教程和演示</li>
+<li>⭐ <strong><a href="https://github.com/bmad-code-org/BMAD-METHOD">Star此仓库</a></strong> - 保持版本更新</li>
+</ul>
+<hr>
+<h2 id="开发与质量检查">开发与质量检查 </h2>
+<p><strong>适用于处理BMAD代码库的贡献者：</strong></p>
+<p><strong>要求：</strong> Node.js 22+（见<code>.nvmrc</code>）。运行<code>nvm use</code>切换到正确版本。</p>
+<h3 id="测试与验证">测试与验证 </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># 运行所有质量检查（全面 - 推送前使用）</span>
+<span class="token function">npm</span> <span class="token builtin class-name">test</span>
+
+<span class="token comment"># 个别测试套件</span>
+<span class="token function">npm</span> run test:schemas     <span class="token comment"># 代理模式验证（基于设备）</span>
+<span class="token function">npm</span> run test:install     <span class="token comment"># 安装组件测试（编译）</span>
+<span class="token function">npm</span> run validate:schemas <span class="token comment"># YAML模式验证</span>
+<span class="token function">npm</span> run validate:bundles <span class="token comment"># Web包完整性</span>
+</code></pre><h3 id="代码质量">代码质量 </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># 代码检查</span>
+<span class="token function">npm</span> run lint
+
+<span class="token comment"># 自动修复代码检查问题</span>
+<span class="token function">npm</span> run lint:fix
+
+<span class="token comment"># 格式检查</span>
+<span class="token function">npm</span> run format:check
+
+<span class="token comment"># 自动格式化所有文件</span>
+<span class="token function">npm</span> run format:fix
+</code></pre><h3 id="构建与开发">构建与开发 </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># 为Web部署打包</span>
+<span class="token function">npm</span> run bundle
+
+<span class="token comment"># 测试本地安装</span>
+<span class="token function">npm</span> run install:bmad
+</code></pre><p><strong>预提交钩子：</strong> 自动修复更改文件（lint-staged）+ 验证所有内容（npm test）<br>
+<strong>CI：</strong> GitHub Actions在每个PR上并行运行所有质量检查</p>
+<hr>
+<h2 id="贡献">贡献 </h2>
+<p>我们欢迎贡献！参见**<a href="CONTRIBUTING.md">CONTRIBUTING.md</a>**了解：</p>
+<ul>
+<li>代码贡献指南</li>
+<li>文档改进</li>
+<li>模块开发</li>
+<li>问题报告</li>
+</ul>
+<hr>
+<h2 id="许可证">许可证 </h2>
+<p><strong>MIT许可证</strong> - 详见<a href="LICENSE">LICENSE</a></p>
+<p><strong>商标：</strong> BMAD™和BMAD-METHOD™是BMad Code, LLC的商标。</p>
+<hr>
+<p><a href="https://github.com/bmad-code-org/BMAD-METHOD/graphs/contributors"><img src="https://contrib.rocks/image?repo=bmad-code-org/BMAD-METHOD" alt="贡献者"></a></p>
+<p><sub>为人机协作社区用❤️构建</sub></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
